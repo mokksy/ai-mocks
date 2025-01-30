@@ -1,8 +1,8 @@
-# Mokksy anf AI-Mocks
+# Mokksy and AI-Mocks
 
 ![mokksy-mascot-256.png](mokksy/docs/mokksy-mascot-256.png)
 
-Mock LLM implementations, inspired by wiremock, but with response streaming and SSE.
+Mock LLM implementations inspired by WireMock, with support for response streaming and SSE. Build, test, and mock OpenAI API responses for development purposes.
 
 [![Kotlin CI with Maven](https://github.com/kpavlov/ai-mocks/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/kpavlov/ai-mocks/actions/workflows/maven.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/372f7af6be2144c686b670f5b8708222)](https://app.codacy.com/gh/kpavlov/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
@@ -11,18 +11,17 @@ Mock LLM implementations, inspired by wiremock, but with response streaming and 
 
 ## Overview
 
-Mokksy and AI-Mocks is a project that provides mock LLM implementations, inspired by wiremock and mockito. It allows users to mock OpenAI API responses for testing and development purposes.
+**[Mokksy](mokksy/README.md)**: Mock HTTP Server built using [Kotlin](https://kotlinlang.org/) and [Ktor](Ktor](https://ktor.io/).
 
-[Mokksy](mokksy/README.md) is Mock HTTP Server, built with [Kotlin](https://kotlinlang.org/) and [Ktor](https://ktor.io/).
-
-AI-Mocks is specific Mock server implementations, like ai-mocks-openai, built with Mokksy.
+**AI-Mocks**: Specialized mock server implementation (e.g., mocking OpenAI API) built using Mokksy.
 
 ## Mocking OpenAI API
 
-First, yu need to create a mock server and setup mock response, similar to how you do it for Wiremock:
+Set up a mock server and define mock responses:
 ```kotlin
 val openai = MockOpenai(verbose = true)
 
+// Define mock response
 openai.completion {
   temperature = temperatureValue
   seed = seedValue
@@ -32,10 +31,8 @@ openai.completion {
   textContent = "Hello"
   finishReason = "stop"
 }
-```
 
-Then you need an openai client, e.g. official OpenAI client:
-```kotlin
+// OpenAI client setup
 val client: OpenAIClient =
   OpenAIOkHttpClient
     .builder()
@@ -43,9 +40,8 @@ val client: OpenAIClient =
     .baseUrl("http://127.0.0.1:${openai.port()}/v1") // connect to mock OpenAI
     .responseValidation(true)
     .build()
-```
-Now, you may call the OpenAI mock endpoint:
-```kotlin
+
+// Use the mock endpoint
 val params =
   ChatCompletionCreateParams
     .builder()
@@ -102,7 +98,9 @@ val result =
 
 println(result)
 ```
-You may also test streaming response:
+
+### Stream Responses
+Mock streaming responses easily with flow support:
 ```kotlin
 // configure mock openai
 openai.completion {
