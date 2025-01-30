@@ -4,7 +4,7 @@
 
     <groupId>me.kpavlov.aimocks</groupId>
     <artifactId>root</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>AI Mocks</name>
     <description>AI Mocks</description>
@@ -39,7 +39,7 @@
     <scm>
         <connection>scm:git:git://github.com/kpavlov/ai-mocks.git</connection>
         <developerConnection>scm:git:ssh://github.com/kpavlov/ai-mocks.git</developerConnection>
-        <tag>v0.1.0</tag>
+        <tag>HEAD</tag>
         <url>https://github.com/kpavlov/ai-mocks/tree/main</url>
     </scm>
 
