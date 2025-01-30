@@ -16,7 +16,9 @@ import java.util.concurrent.atomic.AtomicInteger
 internal data class Mapping<T>(
     val requestSpecification: RequestSpecification,
     val responseDefinition: AbstractResponseDefinition<T>,
-) {
+) : Comparable<Mapping<*>> {
+    override fun compareTo(other: Mapping<*>): Int = MappingComparator.compare(this, other)
+
     private val matchCount = AtomicInteger(0)
 
     suspend fun respond(call: ApplicationCall) {
@@ -47,4 +49,11 @@ internal data class Mapping<T>(
     }
 
     fun matchCount(): Int = matchCount.toInt()
+}
+
+internal object MappingComparator : Comparator<Mapping<*>> {
+    override fun compare(
+        o1: Mapping<*>,
+        o2: Mapping<*>,
+    ): Int = o1.requestSpecification.priority.compareTo(o2.requestSpecification.priority)
 }

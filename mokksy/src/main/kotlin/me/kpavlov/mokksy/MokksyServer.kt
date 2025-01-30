@@ -51,7 +51,7 @@ public open class MokksyServer(
             configurer(this)
         }
 
-    internal val mappings: MutableCollection<Mapping<*>> = ConcurrentLinkedQueue()
+    private val mappings = ConcurrentLinkedQueue<Mapping<*>>()
 
     init {
         server.start(wait = wait)
