@@ -1,5 +1,7 @@
 # Mokksy
 
+[![Maven Central](https://img.shields.io/maven-central/v/me.kpavlov.mokksy/mokksy)](https://repo1.maven.org/maven2/me/kpavlov/mokksy/mokksy/)
+
 _Mokksy_ - Mock HTTP Server, built with [Kotlin](https://kotlinlang.org/) and [Ktor](https://ktor.io/).
 
 ![mokksy-mascot-256.png](docs/mokksy-mascot-256.png)
