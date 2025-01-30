@@ -30,13 +30,21 @@ internal data class Mapping<T>(
         }
         call.response.status(responseDefinition.httpStatus)
 
-        if (responseDefinition is StreamResponseDefinition) {
-            respondWithStream(responseDefinition, call)
-        } else if (responseDefinition is ResponseDefinition<T>) {
-            call.respond(
-                status = responseDefinition.httpStatus,
-                message = responseDefinition.body as Any,
-            )
+        when (responseDefinition) {
+            is SseStreamResponseDefinition -> {
+                respondWithSseStream(responseDefinition, call)
+            }
+
+            is StreamResponseDefinition -> {
+                respondWithStream(responseDefinition, call)
+            }
+
+            is ResponseDefinition<T> -> {
+                call.respond(
+                    status = responseDefinition.httpStatus,
+                    message = responseDefinition.body as Any,
+                )
+            }
         }
     }
 
@@ -51,6 +59,15 @@ internal data class Mapping<T>(
     fun matchCount(): Int = matchCount.toInt()
 }
 
+/**
+ * Comparator implementation for `Mapping` objects.
+ *
+ * This comparator is used to compare `Mapping` instances based on the priority
+ * defined in their `requestSpecification`. Higher priority values are considered greater.
+ *
+ * Used internally for sorting or ordering `Mapping` objects when multiple mappings need
+ * to be evaluated or prioritized.
+ */
 internal object MappingComparator : Comparator<Mapping<*>> {
     override fun compare(
         o1: Mapping<*>,
