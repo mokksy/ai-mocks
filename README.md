@@ -6,13 +6,13 @@ Mock LLM implementations inspired by WireMock, with support for response streami
 
 [![Maven Central](https://img.shields.io/maven-central/v/me.kpavlov.aimocks/ai-mocks-openai)](https://repo1.maven.org/maven2/me/kpavlov/aimocks/ai-mocks-openai/)
 [![Kotlin CI with Maven](https://github.com/kpavlov/ai-mocks/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/kpavlov/ai-mocks/actions/workflows/maven.yml)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/372f7af6be2144c686b670f5b8708222)](https://app.codacy.com/gh/kpavlov/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![Codacy Coverage](https://app.codacy.com/project/badge/Coverage/372f7af6be2144c686b670f5b8708222)](https://app.codacy.com/gh/kpavlov/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/4887b8978534404dbc62c4894b630501)](https://app.codacy.com/gh/kpavlov/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Codacy Coverage](https://app.codacy.com/project/badge/Coverage/4887b8978534404dbc62c4894b630501)](https://app.codacy.com/gh/kpavlov/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 [![Api Docs](https://img.shields.io/badge/api-docs-blue)](https://kpavlov.github.io/ai-mocks/api/)
 
 ## Overview
 
-**[Mokksy](mokksy/README.md)**: Mock HTTP Server built using [Kotlin](https://kotlinlang.org/) and [Ktor](Ktor](https://ktor.io/).
+**[Mokksy](mokksy/README.md)**: Mock HTTP Server built using [Kotlin](https://kotlinlang.org/) and [Ktor](https://ktor.io/).
 
 **AI-Mocks**: Specialized mock server implementation (e.g., mocking OpenAI API) built using Mokksy.
 
