@@ -1,0 +1,6 @@
+---
+engines:
+  documentation:
+    enabled: true
+    exclude_paths:
+      - '**/test/**'
