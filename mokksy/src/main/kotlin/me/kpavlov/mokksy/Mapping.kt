@@ -72,5 +72,5 @@ internal object MappingComparator : Comparator<Mapping<*>> {
     override fun compare(
         o1: Mapping<*>,
         o2: Mapping<*>,
-    ): Int = o1.requestSpecification.priority.compareTo(o2.requestSpecification.priority)
+    ): Int = o1.requestSpecification.priority().compareTo(o2.requestSpecification.priority())
 }
