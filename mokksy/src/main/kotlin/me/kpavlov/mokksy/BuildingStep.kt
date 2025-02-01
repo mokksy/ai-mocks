@@ -9,11 +9,11 @@ import io.ktor.sse.ServerSentEvent
  * and their respective responses.
  *
  * @param R The type of the request specification.
- * @property mappings A mutable collection of mappings that associate request specifications with response definitions.
+ * @property stubs A mutable collection of mappings that associate request specifications with response definitions.
  * @property requestSpecification The request specification currently being processed.
  */
 public open class BuildingStep<R : RequestSpecification> internal constructor(
-    private val mappings: MutableCollection<Mapping<*>>,
+    private val stubs: MutableCollection<Stub<*>>,
     protected val requestSpecification: R,
 ) {
     /**
@@ -26,12 +26,12 @@ public open class BuildingStep<R : RequestSpecification> internal constructor(
      */
     public open infix fun <T> respondsWith(block: ResponseDefinitionBuilder<T>.() -> Unit) {
         val responseDefinition = ResponseDefinitionBuilder<T>().apply(block).build()
-        val mapping =
-            Mapping(
+        val stub =
+            Stub(
                 requestSpecification,
                 responseDefinition,
             )
-        mappings += mapping
+        stubs += stub
     }
 
     /**
@@ -46,12 +46,12 @@ public open class BuildingStep<R : RequestSpecification> internal constructor(
         block: StreamingResponseDefinitionBuilder<T>.() -> Unit,
     ) {
         val responseDefinition = StreamingResponseDefinitionBuilder<T>().apply(block).build()
-        val mapping =
-            Mapping(
+        val stub =
+            Stub(
                 requestSpecification,
                 responseDefinition,
             )
-        mappings += mapping
+        stubs += stub
     }
 
     /**

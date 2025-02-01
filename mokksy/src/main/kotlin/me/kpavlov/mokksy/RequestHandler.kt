@@ -14,25 +14,25 @@ import io.ktor.server.routing.RoutingContext
  *
  * @param context The routing context containing the request and response handlers.
  * @param application The Ktor application instance used for logging and other application-level operations.
- * @param mappings A collection of mappings that specify how incoming requests should be processed and responded to.
+ * @param stubs A collection of mappings that specify how incoming requests should be processed and responded to.
  */
 internal suspend fun handleRequest(
     context: RoutingContext,
     application: Application,
-    mappings: Collection<Mapping<*>>,
+    stubs: Collection<Stub<*>>,
 ) {
     val request = context.call.request
     application.log.info(
         "Request: ${request.httpMethod.value.uppercase()} ${request.uri}",
     )
-    val matchedMapping: Mapping<*>? =
-        mappings
+    val matchedStub: Stub<*>? =
+        stubs
             .filter {
                 it.requestSpecification.matches(request)
-            }.minWithOrNull(MappingComparator)
+            }.minWithOrNull(StubComparator)
 
-    if (matchedMapping != null) {
-        matchedMapping.apply {
+    if (matchedStub != null) {
+        matchedStub.apply {
             application.log.info(
                 "Request matched: {}",
                 requestSpecification.toDescription(),

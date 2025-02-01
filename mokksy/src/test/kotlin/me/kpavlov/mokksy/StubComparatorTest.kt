@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
 
-internal class MappingComparatorTest {
+internal class StubComparatorTest {
     lateinit var request1: RequestSpecification
     lateinit var request2: RequestSpecification
     lateinit var response: AbstractResponseDefinition<String>
@@ -23,10 +23,10 @@ internal class MappingComparatorTest {
         request1 = RequestSpecification(priority = 1)
         request2 = RequestSpecification(priority = 1)
 
-        val mapping1 = Mapping(request1, response)
-        val mapping2 = Mapping(request2, response)
+        val stub1 = Stub(request1, response)
+        val stub2 = Stub(request2, response)
 
-        val result = MappingComparator.compare(mapping1, mapping2)
+        val result = StubComparator.compare(stub1, stub2)
 
         assertThat(result).isZero()
     }
@@ -36,10 +36,10 @@ internal class MappingComparatorTest {
         request1 = RequestSpecification(priority = 1)
         request2 = RequestSpecification(priority = 2)
 
-        val mapping1 = Mapping(request1, response)
-        val mapping2 = Mapping(request2, response)
+        val stub1 = Stub(request1, response)
+        val stub2 = Stub(request2, response)
 
-        val result = MappingComparator.compare(mapping1, mapping2)
+        val result = StubComparator.compare(stub1, stub2)
 
         assertThat(result).isNegative()
     }
@@ -49,10 +49,10 @@ internal class MappingComparatorTest {
         request1 = RequestSpecification(priority = 2)
         request2 = RequestSpecification(priority = 1)
 
-        val mapping1 = Mapping(request1, response)
-        val mapping2 = Mapping(request2, response)
+        val stub1 = Stub(request1, response)
+        val stub2 = Stub(request2, response)
 
-        val result = MappingComparator.compare(mapping1, mapping2)
+        val result = StubComparator.compare(stub1, stub2)
 
         assertThat(result).isPositive()
     }
