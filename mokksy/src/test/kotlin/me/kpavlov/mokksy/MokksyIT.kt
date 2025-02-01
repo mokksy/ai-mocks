@@ -17,6 +17,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import kotlin.random.Random
 
+@Suppress("UastIncorrectHttpHeaderInspection")
 internal class MokksyIT : AbstractIT() {
     @ParameterizedTest()
     @ValueSource(
@@ -81,6 +82,7 @@ internal class MokksyIT : AbstractIT() {
             """.trimIndent()
         val configurer: RequestSpecificationBuilder<*>.() -> Unit = {
             path = beEqual("/method-$method")
+            containsHeader("X-Seed", "$seed")
         }
         block.invoke {
             configurer(this)
@@ -92,6 +94,7 @@ internal class MokksyIT : AbstractIT() {
         val result =
             client.request("/method-$method") {
                 this.method = method
+                this.headers.append("X-Seed", "$seed")
             }
 
         // then
@@ -110,6 +113,24 @@ internal class MokksyIT : AbstractIT() {
         runTest {
             // when
             val result = client.get("/unknown")
+
+            // then
+            assertThat(result.status).isEqualTo(HttpStatusCode.NotFound)
+        }
+
+    @Test
+    fun `Should respond 404 to unmatched headers`() =
+        runTest {
+            val uri = "/unmatched-headers"
+            mokksy.get {
+                path = beEqual(uri)
+                containsHeader("Foo", "bar")
+            } respondsWith {
+                httpStatus = HttpStatusCode.OK
+                body = "Hello"
+            }
+            // when
+            val result = client.get(uri)
 
             // then
             assertThat(result.status).isEqualTo(HttpStatusCode.NotFound)

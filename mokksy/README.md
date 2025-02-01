@@ -37,12 +37,15 @@ val expectedResponse =
 
 mokksy.get {
     path = beEqual("/ping")
+    containsHeader("Foo", "bar")
 } respondsWith {
     body = expectedResponse
 }
 
 // when
-val result = client.get("/ping")
+val result = client.get("/ping") { 
+    headers.append("Foo", "bar")
+}
 
 // then
 assertThat(result.status).isEqualTo(HttpStatusCode.OK)

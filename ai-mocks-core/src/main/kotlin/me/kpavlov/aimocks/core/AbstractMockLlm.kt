@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.core
 
+import io.ktor.server.application.log
 import me.kpavlov.mokksy.MokksyServer
 import java.util.function.Consumer
 
@@ -11,7 +12,10 @@ public abstract class AbstractMockLlm<
     port: Int = 0,
     verbose: Boolean = true,
 ) {
-    protected val mokksy: MokksyServer = MokksyServer(port = port, verbose = verbose)
+    protected val mokksy: MokksyServer =
+        MokksyServer(port = port, verbose = verbose) {
+            it.log.info("Running Mokksy with ${it.engine} engine")
+        }
 
     public fun port(): Int = mokksy.port()
 
