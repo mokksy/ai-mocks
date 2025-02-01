@@ -165,7 +165,7 @@
         <!-- Test Dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
+            <artifactId>junit-jupiter-params</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -253,17 +253,17 @@
                         <!-- optional: limit format enforcement to just the files changed by this feature branch -->
                         <ratchetFrom>origin/main</ratchetFrom>
                         <java>
-                            <palantirJavaFormat />
+                            <palantirJavaFormat/>
                         </java>
                         <kotlin>
-                            <ktlint />
+                            <ktlint/>
                         </kotlin>
                         <markdown>
                             <includes>
                                 <!-- You have to set the target manually -->
                                 <include>**/*.md</include>
                             </includes>
-                            <flexmark />
+                            <flexmark/>
                         </markdown>
                         <pom>
                             <includes>

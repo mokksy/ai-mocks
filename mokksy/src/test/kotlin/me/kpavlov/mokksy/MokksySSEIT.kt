@@ -3,11 +3,6 @@ package me.kpavlov.mokksy
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.kotest.matchers.equals.beEqual
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.java.Java
-import io.ktor.client.plugins.DefaultRequest
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.sse.SSE
 import io.ktor.client.request.post
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
@@ -18,42 +13,10 @@ import io.ktor.sse.ServerSentEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
-import kotlinx.serialization.json.Json
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 
-internal fun createKtorSSEClient(port: Int): HttpClient =
-    HttpClient(Java) {
-        install(ContentNegotiation) {
-            Json {
-                prettyPrint = true
-                isLenient = true
-                ignoreUnknownKeys = true
-            }
-        }
-        install(SSE) {
-            showRetryEvents()
-            showCommentEvents()
-        }
-        install(DefaultRequest) {
-            url("http://127.0.0.1:$port") // Set the base URL
-        }
-    }
-
-internal class MokksySSETest {
-    private val mokksy =
-        MokksyServer(verbose = true) {
-            println("Running server with ${it.engine} engine")
-        }
-
-    private val client = createKtorSSEClient(mokksy.port())
-
-    @AfterEach
-    fun afterEach() {
-        mokksy.checkForUnmatchedRequests()
-    }
-
+internal class MokksySSEIT : AbstractIT({ createKtorSSEClient(it) }) {
     @Test
     fun `Should respond to SSE GET`() =
         runTest {

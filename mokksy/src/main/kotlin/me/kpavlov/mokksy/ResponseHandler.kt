@@ -30,6 +30,7 @@ internal suspend fun <T> respondWithStream(
                 }
             processSSE(call, sseContent)
         }
+
         chunkFlow != null -> {
             call.response.cacheControl(CacheControl.NoCache(null))
             call.respondTextWriter(
@@ -39,6 +40,7 @@ internal suspend fun <T> respondWithStream(
                 responseDefinition.writeChunksFromFlow(writer = this)
             }
         }
+
         else -> {
             call.response.cacheControl(CacheControl.NoCache(null))
             call.respondTextWriter(
@@ -49,6 +51,20 @@ internal suspend fun <T> respondWithStream(
             }
         }
     }
+}
+
+internal suspend fun respondWithSseStream(
+    responseDefinition: SseStreamResponseDefinition,
+    call: ApplicationCall,
+) {
+    val chunkFlow = responseDefinition.chunkFlow ?: emptyFlow()
+    val sseContent =
+        SSEServerContent(call) {
+            chunkFlow.collect {
+                send(it)
+            }
+        }
+    processSSE(call, sseContent)
 }
 
 @Suppress("unused")

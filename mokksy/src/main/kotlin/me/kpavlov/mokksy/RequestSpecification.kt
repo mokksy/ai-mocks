@@ -9,13 +9,16 @@ import io.ktor.server.request.path
 import io.ktor.server.request.receive
 
 /**
- * Represents the default priority assigned to a mapping or configuration.
+ * The default priority value assigned to a stub when no explicit priority is specified.
  *
- * This constant is commonly used to define the priority level of a specific process, mapping, or
- * configuration when no explicit priority is provided. Lower numerical values generally indicate
- * higher priority.
+ * This constant is used in the context of mapping and comparing inbound request specifications
+ * (such as stubs or routes) to determine their evaluation order. Lower numerical values generally indicate
+ *  * higher priority.
+ *
+ * By default, a stub with `DEFAULT_STUB_PRIORITY` has the lowest possible priority,
+ * as it is equal to the maximum value of an `Int`.
  */
-public const val DEFAULT_PRIORITY: Int = 0
+public const val DEFAULT_STUB_PRIORITY: Int = Int.MAX_VALUE
 
 /**
  * Represents a specification for matching incoming HTTP requests based on defined criteria,
@@ -35,8 +38,10 @@ public open class RequestSpecification(
     public val method: Matcher<HttpMethod>? = null,
     public val path: Matcher<String>? = null,
     public val body: List<Matcher<String>> = listOf<Matcher<String>>(),
-    public val priority: Int = DEFAULT_PRIORITY,
-) : Comparable<RequestSpecification> {
+    public val priority: Int?,
+) {
+    internal fun priority(): Int = priority ?: DEFAULT_STUB_PRIORITY
+
     public suspend fun matches(request: ApplicationRequest): Boolean =
         (method == null || method.test(request.httpMethod).passed()) &&
             (path == null || path.test(request.path()).passed()) &&
@@ -62,9 +67,6 @@ public open class RequestSpecification(
         }
     }
 
-    override fun compareTo(other: RequestSpecification): Int =
-        this.priority.compareTo(other.priority)
-
     internal fun toDescription(): String = "method: $method, path: $path, body: $body"
 }
 
@@ -72,7 +74,7 @@ public open class RequestSpecificationBuilder<B : RequestSpecificationBuilder<B>
     protected var method: Matcher<HttpMethod>? = null
     public var path: Matcher<String>? = null
     public val body: MutableList<Matcher<String>> = mutableListOf<Matcher<String>>()
-    protected var priority: Int = DEFAULT_PRIORITY
+    public var priority: Int? = DEFAULT_STUB_PRIORITY
 
     public fun method(matcher: Matcher<HttpMethod>): RequestSpecificationBuilder<B> {
         this.method = matcher
@@ -104,6 +106,6 @@ public open class RequestSpecificationBuilder<B : RequestSpecificationBuilder<B>
             method = method,
             path = path,
             body = body,
-            priority = priority,
+            priority = priority ?: DEFAULT_STUB_PRIORITY,
         )
 }

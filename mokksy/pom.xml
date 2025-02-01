@@ -27,6 +27,10 @@
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
+            <artifactId>ktor-server-double-receive-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
             <artifactId>ktor-server-sse-jvm</artifactId>
         </dependency>
         <dependency>

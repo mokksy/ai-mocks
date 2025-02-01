@@ -29,7 +29,7 @@ internal suspend fun handleRequest(
         mappings
             .filter {
                 it.requestSpecification.matches(request)
-            }.minByOrNull { it.requestSpecification.priority }
+            }.minWithOrNull(MappingComparator)
 
     if (matchedMapping != null) {
         matchedMapping.apply {

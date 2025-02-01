@@ -15,6 +15,7 @@ import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.calllogging.CallLogging
+import io.ktor.server.plugins.doublereceive.DoubleReceive
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.ktor.server.sse.SSE
@@ -41,6 +42,9 @@ public open class MokksyServer(
                     this.level = Level.INFO
                 }
             }
+
+            install(DoubleReceive)
+
             routing {
                 route("{...}") {
                     handle {
@@ -51,7 +55,7 @@ public open class MokksyServer(
             configurer(this)
         }
 
-    internal val mappings: MutableCollection<Mapping<*>> = ConcurrentLinkedQueue()
+    private val mappings = ConcurrentLinkedQueue<Mapping<*>>()
 
     init {
         server.start(wait = wait)
@@ -220,10 +224,12 @@ public open class MokksyServer(
         val unmatchedRequests = findAllUnmatchedRequests()
         if (unmatchedRequests.isNotEmpty()) {
             failure(
-                "The following requests were not matched: ${unmatchedRequests.joinToString {
-                    it
-                        .toDescription()
-                }}",
+                "The following requests were not matched: ${
+                    unmatchedRequests.joinToString {
+                        it
+                            .toDescription()
+                    }
+                }",
             )
         }
     }
