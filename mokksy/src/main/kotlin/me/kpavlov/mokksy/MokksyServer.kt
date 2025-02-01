@@ -21,7 +21,7 @@ import io.ktor.server.routing.routing
 import io.ktor.server.sse.SSE
 import kotlinx.coroutines.runBlocking
 import org.slf4j.event.Level
-import java.util.concurrent.ConcurrentLinkedQueue
+import java.util.concurrent.ConcurrentSkipListSet
 
 @Suppress("TooManyFunctions")
 public open class MokksyServer(
@@ -48,14 +48,14 @@ public open class MokksyServer(
             routing {
                 route("{...}") {
                     handle {
-                        handleRequest(this@handle, this@embeddedServer, mappings)
+                        handleRequest(this@handle, this@embeddedServer, stubs)
                     }
                 }
             }
             configurer(this)
         }
 
-    private val mappings = ConcurrentLinkedQueue<Mapping<*>>()
+    private val stubs = ConcurrentSkipListSet<Stub<*>>()
 
     init {
         server.start(wait = wait)
@@ -93,7 +93,7 @@ public open class MokksyServer(
                 .method(equalityMatcher(httpMethod))
                 .build()
         return BuildingStep(
-            mappings = mappings,
+            stubs = stubs,
             requestSpecification = requestSpec,
         )
     }
@@ -188,7 +188,7 @@ public open class MokksyServer(
      * @return A list of unmatched request specifications.
      */
     public fun findAllUnmatchedRequests(): List<RequestSpecification> =
-        mappings
+        stubs
             .filter {
                 it.matchCount() == 0
             }.map { it.requestSpecification }
@@ -202,7 +202,7 @@ public open class MokksyServer(
      * testing scenarios.
      */
     public fun resetMatchCounts() {
-        mappings
+        stubs
             .forEach {
                 it.resetMatchCount()
             }
