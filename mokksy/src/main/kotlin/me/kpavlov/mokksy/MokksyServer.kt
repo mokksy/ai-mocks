@@ -28,7 +28,7 @@ public open class MokksyServer(
     private val port: Int = 0,
     private val verbose: Boolean = false,
     wait: Boolean = false,
-    configurer: (Application) -> Unit = {},
+    configurer: (Application) -> Unit = { },
 ) {
     private var resolvedPort: Int
 
