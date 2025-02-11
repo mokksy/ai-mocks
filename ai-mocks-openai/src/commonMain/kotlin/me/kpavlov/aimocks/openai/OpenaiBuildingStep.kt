@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.encodeToJsonElement
 import me.kpavlov.aimocks.core.LlmBuildingStep
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
@@ -80,7 +81,7 @@ public class OpenaiBuildingStep(
                             "message": {
                                 "role": "assistant",
                                 "content": ${
-                    Json.encodeToString<String?>(assistantContent) // Escapes and wraps it in quotes
+                    Json.encodeToJsonElement(assistantContent) // Escapes and wraps it in quotes
                 }
                             },
                             "logprobs": null,
@@ -131,7 +132,7 @@ public class OpenaiBuildingStep(
                     id = id,
                     chunksFlow = chunkFlow,
                     finishReason = responseSpec.finishReason,
-                    sendDone = responseSpec.sendDone ?: false,
+                    sendDone = responseSpec.sendDone,
                 )
         }
     }
@@ -200,7 +201,7 @@ public class OpenaiBuildingStep(
                 created = created,
                 systemFingerprint = "fp_44709d6fcb",
             )
-        val string = Json.encodeToString(chunk)
+        val string = Json.encodeToJsonElement(chunk).toString()
         return string
     }
 }

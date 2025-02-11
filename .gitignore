@@ -88,9 +88,6 @@ buildNumber.properties
 # CMake
 cmake-build-*/
 
-# Mongo Explorer plugin
-.idea/**/mongoSettings.xml
-
 # File-based aimocks format
 *.iws
 
@@ -193,3 +190,20 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+### Gradle template
+.kotlin/
+.gradle
+**/build/
+!src/**/build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Avoid ignore Gradle wrappper properties
+!gradle-wrapper.properties
+
+# Cache of project
+.gradletasknamecache

@@ -16,7 +16,7 @@ import kotlinx.coroutines.test.runTest
 import me.kpavlov.langchain4j.kotlin.model.chat.StreamingChatLanguageModelReply.CompleteResponse
 import me.kpavlov.langchain4j.kotlin.model.chat.StreamingChatLanguageModelReply.PartialResponse
 import me.kpavlov.langchain4j.kotlin.model.chat.chatFlow
-import org.awaitility.Awaitility.await
+import org.awaitility.kotlin.await
 import org.junit.jupiter.api.Test
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.atomic.AtomicReference
@@ -103,7 +103,7 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
                 }
             },
         )
-        await().untilAsserted {
+        await.untilAsserted {
             result.joinToString("") shouldBeEqual expectedResponse
         }
         assertThat(finishReason.get()).isEqualTo(FinishReason.STOP)
@@ -142,7 +142,7 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
                 }
             }
 
-        await().untilAsserted {
+        await.untilAsserted {
             result.joinToString("") shouldBeEqual expectedResponse
         }
         assertThat(finishReason.get()).isEqualTo(FinishReason.STOP)

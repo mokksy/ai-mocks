@@ -6,7 +6,7 @@ import assertk.assertions.isPositive
 import assertk.assertions.isZero
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.mock
+import org.mockito.kotlin.mock
 
 internal class StubComparatorTest {
     lateinit var request1: RequestSpecification
