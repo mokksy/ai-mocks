@@ -6,6 +6,7 @@ import io.ktor.server.application.log
 import io.ktor.server.request.httpMethod
 import io.ktor.server.request.uri
 import io.ktor.server.routing.RoutingContext
+import io.ktor.server.routing.RoutingRequest
 
 /**
  * Handles an incoming HTTP request by identifying the appropriate mapping based on the request
@@ -23,7 +24,7 @@ internal suspend fun handleRequest(
 ) {
     val request = context.call.request
     application.log.info(
-        "Request: ${request.httpMethod.value.uppercase()} ${request.uri}",
+        "Request: ${printRequest(request)}",
     )
     val matchedStub: Stub<*>? =
         stubs
@@ -41,6 +42,12 @@ internal suspend fun handleRequest(
             this.respond(context.call)
         }
     } else {
-        failure("No matched mapping for request: $request")
+        application.log.warn(
+            "No matched mapping for request: ${printRequest(request)}",
+        )
+        failure("No matched mapping for request: ${printRequest(request)}")
     }
 }
+
+private fun printRequest(request: RoutingRequest) =
+    "${request.httpMethod.value.uppercase()} ${request.uri}"
