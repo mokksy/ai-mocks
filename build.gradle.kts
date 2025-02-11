@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.kover)
     kotlin("multiplatform") version "2.1.10" apply false
+    kotlin("plugin.serialization") version "2.1.10" apply false
+
     `maven-publish`
     signing
     alias(libs.plugins.nexusPublish) // https://github.com/gradle-nexus/publish-plugin

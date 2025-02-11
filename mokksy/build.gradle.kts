@@ -5,10 +5,6 @@ plugins {
 
 group = "me.kpavlov.mokksy"
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
 kotlin {
 
     jvmToolchain(17)
@@ -18,6 +14,9 @@ kotlin {
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "17"
+        }
+        testRuns["test"].executionTask.configure {
+            useJUnitPlatform()
         }
     }
 
@@ -34,6 +33,7 @@ kotlin {
 
         commonTest {
             dependencies {
+                implementation(kotlin("test"))
                 implementation(libs.ktor.client.core)
                 implementation(libs.assertk)
                 implementation(libs.kotlinx.coroutines.test)
@@ -41,7 +41,6 @@ kotlin {
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
             }
-            withSourcesJar()
         }
 
         val jvmMain by getting {
@@ -53,10 +52,7 @@ kotlin {
         }
         val jvmTest by getting {
             dependencies {
-//                implementation(libs.slf4j.simple)
                 implementation(libs.ktor.client.java)
-
-                implementation(libs.junit.jupiter.engine)
                 implementation(libs.junit.jupiter.params)
             }
         }

@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform")
+    kotlin("plugin.serialization") apply true
     alias(libs.plugins.kover) apply true
 }
 
@@ -13,13 +14,16 @@ kotlin {
         compilations.all {
             kotlinOptions.jvmTarget = "17"
         }
+        testRuns["test"].executionTask.configure {
+            useJUnitPlatform()
+        }
     }
 
     sourceSets {
         commonMain {
             dependencies {
                 api(project(":ai-mocks-core"))
-                implementation(libs.ktor.serialization.kotlinx.json)
+                api(libs.ktor.serialization.kotlinx.json)
             }
         }
 
@@ -38,9 +42,10 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
+                implementation(kotlin("test"))
                 implementation(libs.openai.java)
                 implementation(libs.awaitility.kotlin)
-//                implementation(libs.ktor.client.java)
+                runtimeOnly(libs.slf4j.simple)
                 implementation(libs.langchain4j.openai)
                 implementation(libs.langchain4j.kotlin)
                 implementation(libs.junit.jupiter.params)
