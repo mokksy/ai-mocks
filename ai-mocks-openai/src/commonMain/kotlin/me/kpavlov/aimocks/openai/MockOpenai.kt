@@ -31,6 +31,10 @@ public open class MockOpenai(
                     body += containJsonKeyValue("max_completion_tokens", it)
                 }
 
+                chatRequest.seed?.let {
+                    body += containJsonKeyValue("seed", it)
+                }
+
                 chatRequest.model?.let {
                     body += containJsonKeyValue("model", it)
                 }
