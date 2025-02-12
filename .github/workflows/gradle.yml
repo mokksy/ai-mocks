@@ -45,7 +45,7 @@ jobs:
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: "ai-mocks/build/reports/kover/report.xml"
+          coverage-reports: "/home/runner/work/ai-mocks/ai-mocks/build/reports/kover/report.xml"
           # or a comma-separated list for multiple reports
           # coverage-reports: <PATH_TO_REPORT>, <PATH_TO_REPORT>
 
