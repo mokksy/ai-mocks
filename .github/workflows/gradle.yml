@@ -36,13 +36,13 @@ jobs:
           gradle-version: current
 
       - name: Build with Gradle Wrapper
-        run: gradle build koverXmlReportJvm
+        run: gradle build koverXmlReport
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: "../reports/kover/report.xml"
+          coverage-reports: "../build/reports/kover/report.xml"
           # or a comma-separated list for multiple reports
           # coverage-reports: <PATH_TO_REPORT>, <PATH_TO_REPORT>
 
