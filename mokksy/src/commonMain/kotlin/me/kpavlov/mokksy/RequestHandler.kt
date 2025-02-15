@@ -3,7 +3,9 @@ package me.kpavlov.mokksy
 import io.kotest.assertions.failure
 import io.ktor.server.application.Application
 import io.ktor.server.application.log
+import io.ktor.server.logging.toLogString
 import io.ktor.server.request.httpMethod
+import io.ktor.server.request.receive
 import io.ktor.server.request.uri
 import io.ktor.server.routing.RoutingContext
 import io.ktor.server.routing.RoutingRequest
@@ -24,7 +26,7 @@ internal suspend fun handleRequest(
 ) {
     val request = context.call.request
     application.log.info(
-        "Request: ${printRequest(request)}",
+        "Request: ${request.toLogString()}",
     )
     val matchedStub: Stub<*>? =
         stubs
@@ -39,15 +41,21 @@ internal suspend fun handleRequest(
                 requestSpecification.toDescription(),
             )
             incrementMatchCount()
-            this.respond(context.call)
+            respond(context.call)
         }
     } else {
         application.log.warn(
-            "No matched mapping for request: ${printRequest(request)}",
+            "No matched mapping for request:\n---\n${printRequest(request)}\n---",
         )
         failure("No matched mapping for request: ${printRequest(request)}")
     }
 }
 
-private fun printRequest(request: RoutingRequest) =
-    "${request.httpMethod.value.uppercase()} ${request.uri}"
+private suspend fun printRequest(request: RoutingRequest): String {
+    val body = request.call.receive(String::class)
+    return """
+        |${request.httpMethod} ${request.uri}
+        |${request.headers.entries().joinToString("\n") { "${it.key}: ${it.value}" }}
+        |$body
+        """.trimMargin()
+}
