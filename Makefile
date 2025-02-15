@@ -1,8 +1,8 @@
 build:
-	  mvn clean verify dokka:dokka site
+	  gradle clean assemble koverXmlReport
 
 test:
-	  mvn clean verify
+	  gradle check
 
 apidocs:
 	  mvn clean compile dokka:dokka -pl !reports && \

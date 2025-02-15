@@ -19,6 +19,12 @@ allprojects {
     }
 }
 
+tasks {
+    withType<Jar> {
+        archiveClassifier.set("sources")
+    }
+}
+
 // Common configuration for subprojects
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.multiplatform")

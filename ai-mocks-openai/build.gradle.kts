@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization") apply true
@@ -10,9 +12,11 @@ kotlin {
 
     explicitApi()
 
+    withSourcesJar()
+
     jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "17"
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
         }
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()

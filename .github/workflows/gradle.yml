@@ -36,10 +36,7 @@ jobs:
           gradle-version: current
 
       - name: Build with Gradle Wrapper
-        run: gradle --no-daemon koverXmlReport
-
-      - name: list reports
-        run: find . | grep report.xml
+        run: gradle --no-daemon assemble koverXmlReport
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
