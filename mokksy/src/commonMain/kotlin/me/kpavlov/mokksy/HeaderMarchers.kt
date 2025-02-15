@@ -9,7 +9,7 @@ import io.ktor.http.Headers
 /**
  * Custom matcher to verify that the Ktor [Headers] object contains a header with the specified name and value.
  */
-internal fun haveHeader(
+internal fun containsHeader(
     name: String,
     value: String,
 ): Matcher<Headers> =
@@ -30,12 +30,12 @@ internal fun haveHeader(
  * Extension function for easier usage.
  */
 public infix fun Headers.shouldHaveHeader(header: Pair<String, String>) {
-    this should haveHeader(header.first, header.second)
+    this should containsHeader(header.first, header.second)
 }
 
 /**
  * Extension function to assert that the headers should not contain a specific header.
  */
 public infix fun Headers.shouldNotHaveHeader(header: Pair<String, String>) {
-    this shouldNot haveHeader(header.first, header.second)
+    this shouldNot containsHeader(header.first, header.second)
 }

@@ -82,7 +82,7 @@ internal class MokksyIT : AbstractIT() {
             """.trimIndent()
         val configurer: RequestSpecificationBuilder<*>.() -> Unit = {
             path = beEqual("/method-$method")
-            containsHeader("X-Seed", "$seed")
+            this.containsHeader("X-Seed", "$seed")
         }
         block.invoke {
             configurer(this)
@@ -124,7 +124,7 @@ internal class MokksyIT : AbstractIT() {
             val uri = "/unmatched-headers"
             mokksy.get {
                 path = beEqual(uri)
-                containsHeader("Foo", "bar")
+                this.containsHeader("Foo", "bar")
             } respondsWith {
                 httpStatus = HttpStatusCode.OK
                 body = "Hello"

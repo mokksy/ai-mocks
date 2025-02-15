@@ -118,7 +118,7 @@ public open class RequestSpecificationBuilder<B : RequestSpecificationBuilder<B>
         headerName: String,
         headerValue: String,
     ): RequestSpecificationBuilder<B> {
-        headers += haveHeader(headerName, headerValue)
+        headers += me.kpavlov.mokksy.containsHeader(headerName, headerValue)
         return this
     }
 
