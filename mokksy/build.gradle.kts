@@ -40,6 +40,7 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(libs.ktor.client.core)
                 implementation(libs.assertk)
+                implementation(libs.mockk)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.mockito.kotlin)
                 implementation(libs.ktor.client.content.negotiation)
