@@ -12,43 +12,56 @@ import io.ktor.http.HttpMethod.Companion.Post
 import io.ktor.http.HttpMethod.Companion.Put
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.netty.Netty
-import io.ktor.server.plugins.calllogging.CallLogging
+import io.ktor.server.engine.ApplicationEngine
+import io.ktor.server.engine.EmbeddedServer
 import io.ktor.server.plugins.doublereceive.DoubleReceive
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.ktor.server.sse.SSE
 import kotlinx.coroutines.runBlocking
-import org.slf4j.event.Level
 import java.util.concurrent.ConcurrentSkipListSet
 
+internal expect fun createEmbeddedServer(
+    host: String = "0.0.0.0",
+    port: Int,
+    verbose: Boolean = false,
+    module: Application.() -> Unit,
+): EmbeddedServer<ApplicationEngine, ApplicationEngine.Configuration>
+
+/**
+ * Represents an embedded mock server capable of handling various HTTP requests and responses for testing purposes.
+ * Provides functionality to configure request specifications for different HTTP methods and manage request matching.
+ *
+ * @constructor Initializes the server with the specified parameters and starts it.
+ * @param port The port number on which the server will run. Defaults to 0 (randomly assigned port).
+ * @param verbose A flag indicating whether detailed logs should be printed. Defaults to false.
+ * @param wait Determines whether the server startup process should block the current thread. Defaults to false.
+ * @param configurer A lambda function for setting custom configurations for the server's application module.
+ */
 @Suppress("TooManyFunctions")
 public open class MokksyServer(
-    private val port: Int = 0,
-    private val verbose: Boolean = false,
+    port: Int = 0,
+    host: String = "0.0.0.0",
+    verbose: Boolean = false,
     wait: Boolean = false,
     configurer: (Application) -> Unit = { },
 ) {
     private var resolvedPort: Int
 
     private val server =
-        embeddedServer(Netty, port = port) {
+        createEmbeddedServer(
+            host = host,
+            port = port,
+            verbose = verbose,
+        ) {
             install(SSE)
-            install(CallLogging) {
-                if (verbose) {
-                    this.level = Level.DEBUG
-                } else {
-                    this.level = Level.INFO
-                }
-            }
 
             install(DoubleReceive)
 
             routing {
                 route("{...}") {
                     handle {
-                        handleRequest(this@handle, this@embeddedServer, stubs)
+                        handleRequest(this@handle, this@createEmbeddedServer, stubs)
                     }
                 }
             }
