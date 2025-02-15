@@ -19,6 +19,7 @@ Mock LLM implementations inspired by WireMock, with support for response streami
 ## Mocking OpenAI API
 
 Set up a mock server and define mock responses:
+
 ```kotlin
 val openai = MockOpenai(verbose = true)
 
@@ -77,6 +78,7 @@ println(result)
 ## How to run with LangChain4j/Kotlin
 
 You may use also LangChain4J Kotlin Extensions:
+
 ```kotlin
 val model: OpenAiChatModel =
   OpenAiChatModel
@@ -101,7 +103,9 @@ println(result)
 ```
 
 ### Stream Responses
+
 Mock streaming responses easily with flow support:
+
 ```kotlin
 // configure mock openai
 openai.completion {

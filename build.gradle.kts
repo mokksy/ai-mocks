@@ -1,15 +1,14 @@
-import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
+import org.jetbrains.dokka.gradle.DokkaTaskPartial
 
 plugins {
-    alias(libs.plugins.dokka)
-    alias(libs.plugins.detekt)
-    alias(libs.plugins.kover)
-    kotlin("multiplatform") version "2.1.10" apply false
-    kotlin("plugin.serialization") version "2.1.10" apply false
-
     `maven-publish`
-    signing
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.kover)
     alias(libs.plugins.nexusPublish) // https://github.com/gradle-nexus/publish-plugin
+    kotlin("multiplatform") version libs.versions.kotlin apply false
+    kotlin("plugin.serialization") version libs.versions.kotlin apply false
+    signing
 }
 
 allprojects {
@@ -27,13 +26,6 @@ tasks {
     }
 }
 
-val dokkaHtmlMultiModule by tasks.getting(DokkaMultiModuleTask::class)
-
-val generateDocs by tasks.creating(Copy::class) {
-    from(dokkaHtmlMultiModule.outputDirectory)
-    into("docs")
-}
-
 // Common configuration for subprojects
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.multiplatform")
@@ -41,28 +33,12 @@ subprojects {
     apply(plugin = "signing")
     apply(plugin = "org.jetbrains.dokka")
 
-//    kotlin {
-//        // Add JVM as the primary target for all modules
-//        jvm {
-//            compilations.all {
-//                kotlinOptions.jvmTarget = "17" // Or 17 as needed
-//            }
-//            withJava()
-//        }
-//
-//        sourceSets {
-//            val commonMain by getting {
-//                dependencies {
-//                    implementation(kotlin("stdlib"))
-//                }
-//            }
-//            val commonTest by getting {
-//                dependencies {
-//                    implementation(kotlin("test"))
-//                }
-//            }
-//        }
-//    }
+    // configure all format tasks at once
+    tasks.withType<DokkaTaskPartial>().configureEach {
+        dokkaSourceSets.configureEach {
+            includes.from("README.md")
+        }
+    }
 
     publishing {
         publications {
@@ -133,24 +109,21 @@ dependencies {
 
 kover {
     reports {
-        filters {
-//        excludes.classes("kotlinx.kover.examples.merged.utils.*", "kotlinx.kover.examples.merged.subproject.utils.*")
-//        includes.classes("kotlinx.kover.examples.merged.*")
-        }
 
         total {
             xml
         }
 
         verify {
-            /*
             rule {
                 bound {
-                    minValue.set(50)
-                    maxValue.set(75)
+                    minValue = 65
                 }
             }
-             */
         }
     }
+}
+
+tasks.dokkaHtmlMultiModule {
+    moduleName.set("AI-Mocks")
 }

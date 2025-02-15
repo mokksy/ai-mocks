@@ -1,11 +1,8 @@
 [versions]
-assertj = "3.27.3"
 assertk = "0.28.1"
 awaitility = "4.2.2"
-commonsLang3 = "3.17.0"
 detekt = "1.23.7"
 dokka = "2.0.0"
-findbugs = "3.0.2"
 junitJupiter = "5.11.4"
 kotest = "5.9.1"
 kotlin = "2.1.10"
@@ -19,12 +16,11 @@ netty = "4.1.118.Final"
 nexusPublish = "2.0.0"
 slf4j = "2.0.16"
 spring = "6.2.2"
-openai= "0.22.0"
-langchain4jKotlin="0.1.7"
-langchain4j="1.0.0-alpha1"
+openai = "0.22.0"
+langchain4jKotlin = "0.1.7"
+langchain4j = "1.0.0-alpha1"
 
 [libraries]
-assertj = { group = "org.assertj", name = "assertj-core", version.ref = "assertj" }
 assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }
 awaitility-kotlin = { group = "org.awaitility", name = "awaitility-kotlin", version.ref = "awaitility" }
 junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junitJupiter" }
@@ -43,14 +39,13 @@ ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-double-receive = { module = "io.ktor:ktor-server-double-receive", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 ktor-server-sse = { module = "io.ktor:ktor-server-sse", version.ref = "ktor" }
-langchain4j-bom = { group = "dev.langchain4j", name = "langchain4j-bom" , version.ref = "langchain4j" }
-langchain4j-kotlin = { group = "me.kpavlov.langchain4j.kotlin", name = "langchain4j-kotlin"  , version.ref = "langchain4jKotlin"}
-langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai"  , version.ref = "langchain4j"}
+langchain4j-bom = { group = "dev.langchain4j", name = "langchain4j-bom", version.ref = "langchain4j" }
+langchain4j-kotlin = { group = "me.kpavlov.langchain4j.kotlin", name = "langchain4j-kotlin", version.ref = "langchain4jKotlin" }
+langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai", version.ref = "langchain4j" }
 mockito = { group = "org.mockito", name = "mockito-junit-jupiter", version.ref = "mockito" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 netty = { group = "io.netty", name = "netty-handler", version.ref = "netty" }
-openai-java = { group = "com.openai", name = "openai-java" , version.ref = "openai" }
-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+openai-java = { group = "com.openai", name = "openai-java", version.ref = "openai" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 spring-bom = { group = "org.springframework", name = "spring-framework-bom", version.ref = "spring" }
 spring-context = { group = "org.springframework", name = "spring-context" }
@@ -59,6 +54,5 @@ spring-test = { group = "org.springframework", name = "spring-test" }
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 nexusPublish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexusPublish" }

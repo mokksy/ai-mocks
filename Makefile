@@ -1,13 +1,12 @@
+##
 build:
-	  gradle clean assemble koverXmlReport
+	  ./gradlew clean build koverXmlReport
 
 test:
-	  gradle check
+	  ./gradlew check
 
 apidocs:
-	  mvn clean compile dokka:dokka -pl !reports && \
-    mkdir -p target/docs && \
-		cp -R core/target/dokka target/docs/api
+	  ./gradlew build dokkaHtmlMultiModule
 
 lint:prepare
 	  ktlint && \
