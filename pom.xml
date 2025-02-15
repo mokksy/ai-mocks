@@ -62,7 +62,7 @@
         <ktor.version>3.1.0</ktor.version>
         <openai.version>0.23.1</openai.version>
         <logback.version>1.4.11</logback.version>
-        <lc4j-kotlin.version>0.1.7</lc4j-kotlin.version>
+        <lc4j-kotlin.version>0.1.8</lc4j-kotlin.version>
         <lc4j.version>1.0.0-alpha1</lc4j.version>
         <assertj.version>3.27.3</assertj.version>
         <kotlinx-serialization.version>1.8.0</kotlinx-serialization.version>
