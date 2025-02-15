@@ -1,3 +1,5 @@
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
+
 plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.detekt)
@@ -23,6 +25,13 @@ tasks {
     withType<Jar> {
         archiveClassifier.set("sources")
     }
+}
+
+val dokkaHtmlMultiModule by tasks.getting(DokkaMultiModuleTask::class)
+
+val generateDocs by tasks.creating(Copy::class) {
+    from(dokkaHtmlMultiModule.outputDirectory)
+    into("docs")
 }
 
 // Common configuration for subprojects
