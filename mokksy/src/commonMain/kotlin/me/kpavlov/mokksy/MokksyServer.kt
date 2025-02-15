@@ -26,7 +26,10 @@ internal expect fun createEmbeddedServer(
     port: Int,
     verbose: Boolean = false,
     module: Application.() -> Unit,
-): EmbeddedServer<ApplicationEngine, ApplicationEngine.Configuration>
+): EmbeddedServer<
+    out ApplicationEngine,
+    out ApplicationEngine.Configuration,
+>
 
 /**
  * Represents an embedded mock server capable of handling various HTTP requests and responses for testing purposes.

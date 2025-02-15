@@ -61,9 +61,6 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
                         emit(" submarine")
                     }
                 finishReason = "stop"
-
-                // send "[DONE]" as last message to finish the stream in openai4j
-                sendDone = true
             }
 
             verifyLC4JStreamingCall("What is in the sea?", "Yellow submarine")

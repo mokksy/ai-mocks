@@ -14,7 +14,10 @@ internal actual fun createEmbeddedServer(
     port: Int,
     verbose: Boolean,
     module: Application.() -> Unit,
-): EmbeddedServer<ApplicationEngine, ApplicationEngine.Configuration> =
+): EmbeddedServer<
+    out ApplicationEngine,
+    out ApplicationEngine.Configuration,
+> =
     embeddedServer(
         factory = Netty,
         host = host,
@@ -28,4 +31,4 @@ internal actual fun createEmbeddedServer(
                 this.level = Level.INFO
             }
         }
-    } as EmbeddedServer<ApplicationEngine, ApplicationEngine.Configuration>
+    }
