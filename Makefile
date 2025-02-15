@@ -1,13 +1,14 @@
+##
 build:
-	  mvn clean verify dokka:dokka site
+	./gradlew clean build koverXmlReport
 
 test:
-	  mvn clean verify
+	./gradlew check
 
 apidocs:
-	  mvn clean compile dokka:dokka -pl !reports && \
-    mkdir -p target/docs && \
-		cp -R core/target/dokka target/docs/api
+	./gradlew clean dokkaGenerate dokkaHtmlMultiModule && \
+	mkdir -p build/docs && \
+	cp -R mokksy/build/dokka/html build/docs/api
 
 lint:prepare
 	  ktlint && \

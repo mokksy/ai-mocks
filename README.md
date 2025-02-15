@@ -5,7 +5,7 @@
 Mock LLM implementations inspired by WireMock, with support for response streaming and SSE. Build, test, and mock OpenAI API responses for development purposes.
 
 [![Maven Central](https://img.shields.io/maven-central/v/me.kpavlov.aimocks/ai-mocks-openai)](https://repo1.maven.org/maven2/me/kpavlov/aimocks/ai-mocks-openai/)
-[![Kotlin CI with Maven](https://github.com/kpavlov/ai-mocks/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/kpavlov/ai-mocks/actions/workflows/maven.yml)
+[![Kotlin CI](https://github.com/kpavlov/ai-mocks/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/kpavlov/ai-mocks/actions/workflows/gradle.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/4887b8978534404dbc62c4894b630501)](https://app.codacy.com/gh/kpavlov/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Codacy Coverage](https://app.codacy.com/project/badge/Coverage/4887b8978534404dbc62c4894b630501)](https://app.codacy.com/gh/kpavlov/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 [![Api Docs](https://img.shields.io/badge/api-docs-blue)](https://kpavlov.github.io/ai-mocks/api/)
@@ -19,6 +19,7 @@ Mock LLM implementations inspired by WireMock, with support for response streami
 ## Mocking OpenAI API
 
 Set up a mock server and define mock responses:
+
 ```kotlin
 val openai = MockOpenai(verbose = true)
 
@@ -77,6 +78,7 @@ println(result)
 ## How to run with LangChain4j/Kotlin
 
 You may use also LangChain4J Kotlin Extensions:
+
 ```kotlin
 val model: OpenAiChatModel =
   OpenAiChatModel
@@ -101,7 +103,9 @@ println(result)
 ```
 
 ### Stream Responses
+
 Mock streaming responses easily with flow support:
+
 ```kotlin
 // configure mock openai
 openai.completion {

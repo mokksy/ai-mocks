@@ -28,18 +28,23 @@ jobs:
         with:
           java-version: '23'
           distribution: 'temurin'
-          cache: maven
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+        with:
+          gradle-version: current
 
       - name: Generate Dokka Site
         run: |-
-          mvn clean compile dokka:dokka -pl !reports && \
-          mkdir -p target/docs && \
-          cp -R mokksy/target/dokka target/docs/api
+          gradle clean dokkaGenerate dokkaHtmlMultiModule && \
+          mkdir -p build/docs && \
+          cp -R mokksy/build/dokka/html build/docs/api
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: target/docs/
+          path: build/docs/
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
