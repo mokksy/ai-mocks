@@ -3,6 +3,9 @@ package me.kpavlov.mokksy
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.response.respond
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicLong
+
+private val counter = AtomicLong()
 
 /**
  * Represents a mapping between an inbound request specification and an outbound response definition.
@@ -19,6 +22,15 @@ internal data class Stub<T>(
     val requestSpecification: RequestSpecification,
     val responseDefinition: AbstractResponseDefinition<T>,
 ) : Comparable<Stub<*>> {
+    /**
+     * Represents the order of creation for an instance of the containing class.
+     * This property is initialized with an incrementing value to ensure each instance
+     * can be distinctly ordered based on the sequence of their creation.
+     *
+     * Used for by [StubComparator].
+     */
+    internal val creationOrder = counter.incrementAndGet()
+
     override fun compareTo(other: Stub<*>): Int = StubComparator.compare(this, other)
 
     private val matchCount = AtomicInteger(0)
@@ -59,13 +71,19 @@ internal data class Stub<T>(
     }
 
     fun matchCount(): Int = matchCount.toInt()
+
+    fun toLogString(): String =
+        "Stub[requestSpec=$requestSpecification, responseDef=$responseDefinition]"
 }
 
 /**
  * Comparator implementation for `Stub` objects.
  *
  * This comparator is used to compare `Stub` instances based on the priority
- * defined in their `requestSpecification`. Higher priority values are considered greater.
+ * defined in their `requestSpecification`.
+ * Higher priority values are considered greater.
+ *
+ * If priorities are equal, then [Stub]s are compared by [Stub.creationOrder].
  *
  * Used internally for sorting or ordering `Stub` objects when multiple mappings need
  * to be evaluated or prioritized.
@@ -74,5 +92,15 @@ internal object StubComparator : Comparator<Stub<*>> {
     override fun compare(
         o1: Stub<*>,
         o2: Stub<*>,
-    ): Int = o1.requestSpecification.priority().compareTo(o2.requestSpecification.priority())
+    ): Int {
+        val result =
+            o1.requestSpecification.priority().compareTo(
+                o2.requestSpecification.priority(),
+            )
+        return if (result != 0) {
+            result
+        } else {
+            compareValues(o1.creationOrder, o2.creationOrder)
+        }
+    }
 }
