@@ -63,6 +63,7 @@ public open class RequestSpecification(
         bodyMatchers: List<Matcher<String>>,
         request: ApplicationRequest,
     ): Boolean {
+        if (bodyMatchers.isEmpty()) return true
         val bodyString = request.call.receive(type = String::class)
         return bodyMatchers.all {
             it
