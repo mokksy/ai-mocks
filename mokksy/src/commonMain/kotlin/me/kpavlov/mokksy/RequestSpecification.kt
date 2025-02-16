@@ -34,14 +34,14 @@ public const val DEFAULT_STUB_PRIORITY: Int = Int.MAX_VALUE
  * @property headers List of matchers for Ktor [Headers] object. All matchers must pass for a match to succeed.
  * @property body List of matchers for the request body as a string. All matchers must pass for a match to succeed.
  * @property priority The priority value used for comparing different specifications.
- * Lower values indicate higher priority.
+ * Lower values indicate higher priority. Default value is [DEFAULT_STUB_PRIORITY]
  */
 public open class RequestSpecification(
     public val method: Matcher<HttpMethod>? = null,
     public val path: Matcher<String>? = null,
     public val headers: List<Matcher<Headers>> = listOf(),
     public val body: List<Matcher<String>> = listOf(),
-    public val priority: Int?,
+    public val priority: Int? = DEFAULT_STUB_PRIORITY,
 ) {
     internal fun priority(): Int = priority ?: DEFAULT_STUB_PRIORITY
 
@@ -63,7 +63,7 @@ public open class RequestSpecification(
         bodyMatchers: List<Matcher<String>>,
         request: ApplicationRequest,
     ): Boolean {
-        val bodyString = request.call.receive(String::class)
+        val bodyString = request.call.receive(type = String::class)
         return bodyMatchers.all {
             it
                 .test(bodyString)
@@ -118,7 +118,7 @@ public open class RequestSpecificationBuilder<B : RequestSpecificationBuilder<B>
         headerName: String,
         headerValue: String,
     ): RequestSpecificationBuilder<B> {
-        headers += haveHeader(headerName, headerValue)
+        headers += me.kpavlov.mokksy.containsHeader(headerName, headerValue)
         return this
     }
 

@@ -5,16 +5,16 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import kotlin.random.Random
 
+val mokksy: MokksyServer =
+    MokksyServer(verbose = true) {
+        println("Running Mokksy server with ${it.engine} engine")
+    }
+
 internal abstract class AbstractIT(
     clientSupplier: (Int) -> HttpClient = {
         createKtorClient(it)
     },
 ) {
-    protected val mokksy: MokksyServer =
-        MokksyServer(verbose = true) {
-            println("Running server with ${it.engine} engine")
-        }
-
     protected val client: HttpClient = clientSupplier(mokksy.port())
 
     /**

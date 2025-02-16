@@ -9,6 +9,7 @@ plugins {
     kotlin("multiplatform") version libs.versions.kotlin apply false
     kotlin("plugin.serialization") version libs.versions.kotlin apply false
     signing
+    id("com.diffplug.spotless") version "7.0.2"
 }
 
 allprojects {
@@ -32,6 +33,7 @@ subprojects {
     apply(plugin = "maven-publish")
     apply(plugin = "signing")
     apply(plugin = "org.jetbrains.dokka")
+    apply(plugin = "com.diffplug.spotless")
 
     // configure all format tasks at once
     tasks.withType<DokkaTaskPartial>().configureEach {
@@ -99,12 +101,30 @@ subprojects {
         )
         sign(publishing.publications["maven"])
     }
+
+    spotless {
+        kotlin {
+            ktlint()
+        }
+    }
 }
 
 dependencies {
     kover(project(":mokksy"))
     kover(project(":ai-mocks-core"))
     kover(project(":ai-mocks-openai"))
+}
+
+spotless {
+    ratchetFrom("origin/main")
+
+    kotlinGradle {
+        ktlint()
+    }
+    format("misc") {
+        target("*.md", ".gitignore")
+        trimTrailingWhitespace()
+    }
 }
 
 kover {

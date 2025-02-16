@@ -6,6 +6,7 @@ dokka = "2.0.0"
 junitJupiter = "5.11.4"
 kotest = "5.9.1"
 kotlin = "2.1.10"
+mockk = "1.13.16"
 kotlinLogging = "7.0.4"
 kotlinx = "1.10.1"
 kover = "0.9.1"
@@ -44,6 +45,7 @@ langchain4j-kotlin = { group = "me.kpavlov.langchain4j.kotlin", name = "langchai
 langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai", version.ref = "langchain4j" }
 mockito = { group = "org.mockito", name = "mockito-junit-jupiter", version.ref = "mockito" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 netty = { group = "io.netty", name = "netty-handler", version.ref = "netty" }
 openai-java = { group = "com.openai", name = "openai-java", version.ref = "openai" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }

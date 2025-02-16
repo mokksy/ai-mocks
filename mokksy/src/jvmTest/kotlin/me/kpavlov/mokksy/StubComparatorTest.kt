@@ -19,7 +19,7 @@ internal class StubComparatorTest {
     }
 
     @Test
-    fun `compare should return zero when priorities are equal`() {
+    fun `compare should compare by creationOrder when priorities are equal`() {
         request1 = RequestSpecification(priority = 1)
         request2 = RequestSpecification(priority = 1)
 
@@ -28,7 +28,7 @@ internal class StubComparatorTest {
 
         val result = StubComparator.compare(stub1, stub2)
 
-        assertThat(result).isZero()
+        assertThat(result).isNegative()
     }
 
     @Test
@@ -55,5 +55,16 @@ internal class StubComparatorTest {
         val result = StubComparator.compare(stub1, stub2)
 
         assertThat(result).isPositive()
+    }
+
+    @Test
+    fun `compare should return zero when stubs are same`() {
+        request1 = RequestSpecification()
+
+        val stub1 = Stub(request1, response)
+
+        val result = StubComparator.compare(stub1, stub1)
+
+        assertThat(result).isZero()
     }
 }

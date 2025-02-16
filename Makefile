@@ -1,4 +1,5 @@
-##
+.PHONY: build test lint format all # always run
+
 build:
 	./gradlew clean build koverXmlReport
 
@@ -11,18 +12,18 @@ apidocs:
 	cp -R mokksy/build/dokka/html build/docs/api
 
 lint:prepare
-	  ktlint && \
-    mvn spotless:check
+	ktlint "!**/generated-sources/**" && \
+  ./gradlew detekt spotlessCheck
 
 # https://docs.openrewrite.org/recipes/maven/bestpractices
 format:prepare
-	  ktlint --format && \
-  	mvn spotless:apply && \
-	  mvn -U org.openrewrite.maven:rewrite-maven-plugin:run \
+	ktlint --format "!**/generated-sources/**" && \
+  ./gradlew spotlessApply && \
+	mvn -U org.openrewrite.maven:rewrite-maven-plugin:run \
 				-Drewrite.activeRecipes=org.openrewrite.maven.BestPractices \
 				-Drewrite.exportDatatables=true
 
 prepare:
-	  brew install ktlint --quiet
+	command -v ktlint >/dev/null 2>&1 || brew install ktlint --quiet
 
 all: format lint build
