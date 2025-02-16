@@ -31,7 +31,7 @@ public open class BuildingStep<R : RequestSpecification> internal constructor(
                 requestSpecification,
                 responseDefinition,
             )
-        stubs += stub
+        addStub(stub)
     }
 
     /**
@@ -51,7 +51,7 @@ public open class BuildingStep<R : RequestSpecification> internal constructor(
                 requestSpecification,
                 responseDefinition,
             )
-        stubs += stub
+        addStub(stub)
     }
 
     /**
@@ -67,4 +67,9 @@ public open class BuildingStep<R : RequestSpecification> internal constructor(
         respondsWithStream<ServerSentEvent>(
             block,
         )
+
+    private fun addStub(stub: Stub<*>) {
+        val added = stubs.add(stub)
+        assert(added) { "Duplicate stub detected: $stub" }
+    }
 }
