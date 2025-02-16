@@ -18,6 +18,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtendWith
 import kotlin.test.Test
 
@@ -26,101 +27,104 @@ class RequestSpecificationTest {
     @MockK
     lateinit var request: ApplicationRequest
 
-    @Test
-    fun matches() =
-        runTest {
-            every { request.httpMethod } returns HttpMethod.Get
-            every { request.path() } returns "/test"
-            coEvery { request.call.receive(String::class) } returns "The body problem"
-            coEvery { request.headers } returns
-                Headers.build {
-                    append("X-Request-ID", "RequestID")
-                }
-            val headersMatcher = mockk<Matcher<Headers>>(relaxed = true)
-            every { headersMatcher.test(any()).passed() } returns true
+    @Nested
+    inner class SuccessfulMatches {
+        @Test
+        fun `should match when all conditions are satisfied`() =
+            runTest {
+                every { request.httpMethod } returns HttpMethod.Get
+                every { request.path() } returns "/test"
+                coEvery { request.call.receive(String::class) } returns "The body problem"
+                coEvery { request.headers } returns
+                    Headers.build {
+                        append("X-Request-ID", "RequestID")
+                    }
+                val headersMatcher = mockk<Matcher<Headers>>(relaxed = true)
+                every { headersMatcher.test(any()).passed() } returns true
 
-            val spec =
-                RequestSpecification(
-                    method = beEqual(HttpMethod.Get),
-                    path = contain("test"),
-                    headers = listOf(headersMatcher),
-                    body = listOf(contain("body")),
-                )
+                val spec =
+                    RequestSpecification(
+                        method = beEqual(HttpMethod.Get),
+                        path = contain("test"),
+                        headers = listOf(headersMatcher),
+                        body = listOf(contain("body")),
+                    )
 
-            assertThat(spec.matches(request)).isTrue()
-        }
+                assertThat(spec.matches(request)).isTrue()
+            }
 
-    @Test
-    fun mismatchedMethod() =
-        runTest {
-            every { request.httpMethod } returns HttpMethod.Get
-            val spec =
-                RequestSpecification(
-                    method = beEqual(HttpMethod.Post),
-                    path = contain("test"),
-                )
+        @Test
+        fun `should match when only headers are specified`() =
+            runTest {
+                coEvery { request.headers } returns
+                    Headers.build {
+                        append("X-Request-ID", "RequestID")
+                    }
 
-            assertThat(spec.matches(request)).isFalse()
-        }
+                val headersMatcher = mockk<Matcher<Headers>>(relaxed = true)
+                val spec = RequestSpecification(headers = listOf(headersMatcher))
 
-    @Test
-    fun mismatchedPath() =
-        runTest {
-            every { request.httpMethod } returns HttpMethod.Get
-            every { request.path() } returns "/test"
+                every { headersMatcher.test(any()).passed() } returns true
 
-            val spec =
-                RequestSpecification(
-                    method = beEqual(HttpMethod.Get),
-                    path = contain("differentPath"),
-                )
+                assertThat(spec.matches(request)).isTrue()
+            }
+    }
 
-            assertThat(spec.matches(request)).isFalse()
-        }
+    @Nested
+    inner class FailedMatches {
+        @Test
+        fun mismatchedMethod() =
+            runTest {
+                every { request.httpMethod } returns HttpMethod.Get
+                val spec =
+                    RequestSpecification(
+                        method = beEqual(HttpMethod.Post),
+                        path = contain("test"),
+                    )
 
-    @Test
-    fun matchingHeaders() =
-        runTest {
-            every { request.httpMethod } returns HttpMethod.Get
-            every { request.path() } returns "/test"
-            coEvery { request.call.receive(String::class) } returns "The body problem"
-            coEvery { request.headers } returns
-                Headers.build {
-                    append("X-Request-ID", "RequestID")
-                }
+                assertThat(spec.matches(request)).isFalse()
+            }
 
-            val headersMatcher = mockk<Matcher<Headers>>(relaxed = true)
-            val spec = RequestSpecification(headers = listOf(headersMatcher))
+        @Test
+        fun mismatchedPath() =
+            runTest {
+                every { request.httpMethod } returns HttpMethod.Get
+                every { request.path() } returns "/test"
 
-            every { headersMatcher.test(any()).passed() } returns true
+                val spec =
+                    RequestSpecification(
+                        method = beEqual(HttpMethod.Get),
+                        path = contain("differentPath"),
+                    )
 
-            assertThat(spec.matches(request)).isTrue()
-        }
+                assertThat(spec.matches(request)).isFalse()
+            }
 
-    @Test
-    fun mismatchedHeaders() =
-        runTest {
-            coEvery { request.headers } returns
-                Headers.build {
-                    append("X-Request-ID", "RequestID")
-                }
+        @Test
+        fun mismatchedHeaders() =
+            runTest {
+                coEvery { request.headers } returns
+                    Headers.build {
+                        append("X-Request-ID", "RequestID")
+                    }
 
-            val headersMatcher = mockk<Matcher<Headers>>(relaxed = true)
-            val spec = RequestSpecification(headers = listOf(headersMatcher))
+                val headersMatcher = mockk<Matcher<Headers>>(relaxed = true)
+                val spec = RequestSpecification(headers = listOf(headersMatcher))
 
-            every { headersMatcher.test(any()).passed() } returns false
+                every { headersMatcher.test(any()).passed() } returns false
 
-            assertThat(spec.matches(request)).isFalse()
-        }
+                assertThat(spec.matches(request)).isFalse()
+            }
 
-    @Test
-    fun mismatchedBody() =
-        runTest {
-            coEvery { request.call.receive(String::class) } returns "Another body"
+        @Test
+        fun `should not match when body differs`() =
+            runTest {
+                coEvery { request.call.receive(String::class) } returns "Another body"
 
-            val bodyMatcher = contain("expectedBody")
-            val spec = RequestSpecification(body = listOf(bodyMatcher))
+                val bodyMatcher = contain("expectedBody")
+                val spec = RequestSpecification(body = listOf(bodyMatcher))
 
-            assertThat(spec.matches(request)).isFalse()
-        }
+                assertThat(spec.matches(request)).isFalse()
+            }
+    }
 }
