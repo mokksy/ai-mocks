@@ -3,13 +3,12 @@ package me.kpavlov.aimocks.openai
 import assertk.assertThat
 import assertk.assertions.hasValue
 import com.openai.core.JsonValue
-import com.openai.models.ChatCompletion
 import com.openai.models.ChatCompletionCreateParams
 import com.openai.models.ChatCompletionMessageParam
 import com.openai.models.ChatCompletionUserMessageParam
 import com.openai.models.ChatModel
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 
 internal class MockOpenaiTest : AbstractOpenaiTest() {
     @Test
@@ -46,7 +45,7 @@ internal class MockOpenaiTest : AbstractOpenaiTest() {
                         ),
                     ).model(ChatModel.GPT_4O_MINI)
                     .build()
-            val result: ChatCompletion =
+            val result =
                 client
                     .chat()
                     .completions()

@@ -7,12 +7,14 @@ import dev.langchain4j.model.chat.request.ChatRequest
 import dev.langchain4j.model.chat.request.ChatRequestParameters
 import dev.langchain4j.model.chat.response.ChatResponse
 import dev.langchain4j.model.chat.response.StreamingChatResponseHandler
+import dev.langchain4j.model.openai.OpenAiChatRequestParameters
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel
 import dev.langchain4j.model.output.FinishReason
 import io.kotest.assertions.failure
 import io.kotest.matchers.equals.shouldBeEqual
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
+import me.kpavlov.langchain4j.kotlin.model.chat.StreamingChatLanguageModelReply
 import me.kpavlov.langchain4j.kotlin.model.chat.StreamingChatLanguageModelReply.CompleteResponse
 import me.kpavlov.langchain4j.kotlin.model.chat.StreamingChatLanguageModelReply.PartialResponse
 import me.kpavlov.langchain4j.kotlin.model.chat.chatFlow
@@ -35,7 +37,9 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
             openai.completion {
                 temperature = temperature
                 model = "gpt-4o-mini"
-                userMessage("What do we need?")
+                seed = seedValue
+                requestBodyContains("What do we need?")
+//                userMessage("What do we need?")
             } respondsStream {
                 responseChunks = listOf("All", " we", " need", " is", " Love")
                 finishReason = "stop"
@@ -53,7 +57,8 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
             openai.completion {
                 temperature = temperature
                 model = "gpt-4o-mini"
-                userMessage("What is in the sea?")
+//                seed = seedValue
+                requestBodyContains("What is in the sea?")
             } respondsStream {
                 responseFlow =
                     flow {
@@ -115,10 +120,11 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
         model
             .chatFlow {
                 parameters =
-                    ChatRequestParameters
+                    OpenAiChatRequestParameters
                         .builder()
                         .temperature(temperature)
                         .modelName("gpt-4o-mini")
+                        .seed(seedValue)
                         .build()
                 messages += userMessage(userMessage)
             }.collect {
@@ -133,8 +139,9 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
                         finishReason.set(it.response.finishReason())
                     }
 
-                    else -> {
-                        println("Something else = $it")
+                    is StreamingChatLanguageModelReply.Error -> {
+                        println("Error: $it")
+                        it.cause.printStackTrace()
                     }
                 }
             }

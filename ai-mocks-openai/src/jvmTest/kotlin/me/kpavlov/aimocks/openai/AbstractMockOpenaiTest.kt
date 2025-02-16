@@ -4,9 +4,9 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import kotlin.random.Random
 
-internal abstract class AbstractMockOpenaiTest {
-    protected val openai = MockOpenai(verbose = true)
+val openai = MockOpenai(verbose = true)
 
+internal abstract class AbstractMockOpenaiTest {
     protected var temperature: Double = -1.0
     protected var seedValue: Int = -1
     protected var maxCompletionTokens: Long = -1
