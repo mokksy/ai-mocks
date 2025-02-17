@@ -15,9 +15,12 @@ public open class MockOpenai(
         port = port,
         verbose = verbose,
     ) {
-    override fun completion(block: OpenaiChatRequestSpecification.() -> Unit): OpenaiBuildingStep {
+    override fun completion(
+        name: String?,
+        block: OpenaiChatRequestSpecification.() -> Unit,
+    ): OpenaiBuildingStep {
         val requestStep =
-            mokksy.post {
+            mokksy.post(name = name) {
                 val chatRequest = OpenaiChatRequestSpecification()
                 block(chatRequest)
 

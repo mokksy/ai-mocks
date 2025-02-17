@@ -2,19 +2,22 @@ package me.kpavlov.aimocks.openai
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.EncodeDefault
+import kotlinx.serialization.EncodeDefault.Mode.ALWAYS
 import kotlinx.serialization.EncodeDefault.Mode.NEVER
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+@OptIn(ExperimentalSerializationApi::class)
 internal data class Chunk(
     val id: String,
     /**
      * Always "chat.completion.chunk"
      */
     @SerialName("object")
-    val objectType: String,
+    @EncodeDefault(ALWAYS)
+    val objectType: String = "chat.completion.chunk",
     val created: Long,
     val model: String,
     @SerialName("service_tier")
@@ -31,11 +34,11 @@ internal data class Choice(
     val index: Int,
     @EncodeDefault(NEVER)
     val delta: Delta? = null,
+    @EncodeDefault(ALWAYS)
     val logprobs: String? = null,
+    @EncodeDefault(ALWAYS)
     @SerialName("finish_reason")
     val finishReason: String? = null,
-    @SerialName("reasoning_tokens")
-    val reasoningTokens: Int? = null,
 )
 
 @Serializable

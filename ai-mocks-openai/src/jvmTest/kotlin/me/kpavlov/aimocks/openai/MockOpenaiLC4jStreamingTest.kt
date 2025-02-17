@@ -4,7 +4,6 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import dev.langchain4j.data.message.UserMessage.userMessage
 import dev.langchain4j.model.chat.request.ChatRequest
-import dev.langchain4j.model.chat.request.ChatRequestParameters
 import dev.langchain4j.model.chat.response.ChatResponse
 import dev.langchain4j.model.chat.response.StreamingChatResponseHandler
 import dev.langchain4j.model.openai.OpenAiChatRequestParameters
@@ -34,8 +33,8 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
     @Test
     fun `Should respond to Streaming Chat Completion`() =
         runTest {
-            openai.completion {
-                temperature = temperature
+            openai.completion("lc4j-openai-completion-list") {
+                temperature = temperatureValue
                 model = "gpt-4o-mini"
                 seed = seedValue
                 requestBodyContains("What do we need?")
@@ -54,10 +53,10 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
     @Test
     fun `Should respond to Streaming Chat Completion with Flow`() =
         runTest {
-            openai.completion {
-                temperature = temperature
+            openai.completion("lc4j-openai-completion-flow") {
+                temperature = temperatureValue
                 model = "gpt-4o-mini"
-//                seed = seedValue
+                seed = seedValue
                 requestBodyContains("What is in the sea?")
             } respondsStream {
                 responseFlow =
@@ -81,10 +80,11 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
             ChatRequest
                 .builder()
                 .parameters(
-                    ChatRequestParameters
+                    OpenAiChatRequestParameters
                         .builder()
-                        .temperature(temperature)
+                        .temperature(temperatureValue)
                         .modelName("gpt-4o-mini")
+                        .seed(seedValue)
                         .build(),
                 ).messages(userMessage(userMessage))
                 .build(),
@@ -122,7 +122,7 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
                 parameters =
                     OpenAiChatRequestParameters
                         .builder()
-                        .temperature(temperature)
+                        .temperature(temperatureValue)
                         .modelName("gpt-4o-mini")
                         .seed(seedValue)
                         .build()

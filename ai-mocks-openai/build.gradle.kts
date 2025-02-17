@@ -21,6 +21,7 @@ kotlin {
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
         }
+        withJava()
     }
 
     sourceSets {
@@ -48,6 +49,8 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(libs.openai.java)
+                implementation(libs.assertk)
+                implementation(libs.assertj.core)
                 implementation(libs.awaitility.kotlin)
                 runtimeOnly(libs.slf4j.simple)
                 implementation(libs.langchain4j.openai)

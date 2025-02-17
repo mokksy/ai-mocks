@@ -25,7 +25,7 @@ internal class MokksySSEIT : AbstractIT({ createKtorSSEClient(it) }) {
             } respondsWithSseStream {
                 flow =
                     flow {
-                        delay(200.milliseconds)
+                        delay(100.milliseconds)
                         emit(
                             ServerSentEvent(
                                 data = "One",
@@ -51,7 +51,7 @@ internal class MokksySSEIT : AbstractIT({ createKtorSSEClient(it) }) {
         }
 }
 
-public suspend fun main() {
+suspend fun main() {
     val mokksy =
         MokksyServer(verbose = true, port = 8080) {
             println("Running server with ${it.engine} engine")

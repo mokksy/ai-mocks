@@ -19,9 +19,7 @@ lint:prepare
 format:prepare
 	ktlint --format "!**/generated-sources/**" && \
   ./gradlew spotlessApply && \
-	mvn -U org.openrewrite.maven:rewrite-maven-plugin:run \
-				-Drewrite.activeRecipes=org.openrewrite.maven.BestPractices \
-				-Drewrite.exportDatatables=true
+	./gradlew rewriteRun
 
 prepare:
 	command -v ktlint >/dev/null 2>&1 || brew install ktlint --quiet

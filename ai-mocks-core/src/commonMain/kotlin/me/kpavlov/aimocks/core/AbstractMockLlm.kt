@@ -23,18 +23,32 @@ public abstract class AbstractMockLlm<
         mokksy.shutdown()
     }
 
-    public abstract fun completion(requestSpecification: R.() -> Unit): S
+    public fun completion(requestSpecification: R.() -> Unit): S =
+        completion(
+            name = null,
+            requestSpecification = requestSpecification,
+        )
+
+    public abstract fun completion(
+        name: String? = null,
+        requestSpecification: R.() -> Unit,
+    ): S
 
     /**
      * Creates a completion request based on the specified request configuration.
      *
      * Note: This is Java-friendly API
      *
+     * @param name An optional name assigned to the Stub for identification or debugging purposes.
      * @param requestSpecification a Consumer that specifies the configuration for the chat request,
      *                              which is applied to an instance of the request specification.
      * @return a building step that can be used to define the expected response for the completion request.
      */
-    public open fun completion(requestSpecification: Consumer<R>): S =
+    @JvmOverloads
+    public open fun completion(
+        name: String? = null,
+        requestSpecification: Consumer<R>,
+    ): S =
         completion {
             requestSpecification.accept(this)
         }

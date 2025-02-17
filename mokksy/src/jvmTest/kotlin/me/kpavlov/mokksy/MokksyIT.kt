@@ -16,9 +16,20 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import kotlin.random.Random
+import kotlin.test.BeforeTest
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 @Suppress("UastIncorrectHttpHeaderInspection")
 internal class MokksyIT : AbstractIT() {
+    private lateinit var name: String
+
+    @OptIn(ExperimentalUuidApi::class)
+    @BeforeTest
+    fun before() {
+        name = Uuid.random().toString()
+    }
+
     @ParameterizedTest()
     @ValueSource(
         strings = [
@@ -29,44 +40,44 @@ internal class MokksyIT : AbstractIT() {
         runTest {
             val method = HttpMethod.parse(methodName)
             doTestCallMethod(method) {
-                mokksy.method(method, it)
+                mokksy.method(name, method, it)
             }
         }
 
     @Test
     fun `Should respond to GET`() =
         runTest {
-            doTestCallMethod(HttpMethod.Get) { mokksy.get(it) }
+            doTestCallMethod(HttpMethod.Get) { mokksy.get(name, it) }
         }
 
     @Test
     fun `Should respond to OPTIONS`() =
         runTest {
-            doTestCallMethod(HttpMethod.Options) { mokksy.options(it) }
+            doTestCallMethod(HttpMethod.Options) { mokksy.options(name, it) }
         }
 
     @Test
     fun `Should respond to PUT`() =
         runTest {
-            doTestCallMethod(HttpMethod.Put) { mokksy.put(it) }
+            doTestCallMethod(HttpMethod.Put) { mokksy.put(name, it) }
         }
 
     @Test
     fun `Should respond to PATCH`() =
         runTest {
-            doTestCallMethod(HttpMethod.Patch) { mokksy.patch(it) }
+            doTestCallMethod(HttpMethod.Patch) { mokksy.patch(name, it) }
         }
 
     @Test
     fun `Should respond to DELETE`() =
         runTest {
-            doTestCallMethod(HttpMethod.Delete) { mokksy.delete(it) }
+            doTestCallMethod(HttpMethod.Delete) { mokksy.delete(name, it) }
         }
 
     @Test
     fun `Should respond to HEAD`() =
         runTest {
-            doTestCallMethod(HttpMethod.Head) { mokksy.head(it) }
+            doTestCallMethod(HttpMethod.Head) { mokksy.head(name, it) }
         }
 
     private suspend fun doTestCallMethod(
