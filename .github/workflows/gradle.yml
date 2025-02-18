@@ -51,6 +51,12 @@ jobs:
           # or a comma-separated list for multiple reports
           # coverage-reports: <PATH_TO_REPORT>, <PATH_TO_REPORT>
 
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: kpavlov/ai-mocks
+
   dependency-submission:
 
     runs-on: ubuntu-latest
