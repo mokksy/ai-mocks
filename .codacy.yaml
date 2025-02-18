@@ -4,3 +4,4 @@ engines:
     enabled: true
     exclude_paths:
       - '**/test/**'
+      - '**/*Test/**'
