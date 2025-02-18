@@ -27,7 +27,7 @@ internal class MockOpenaiTest : AbstractOpenaiTest() {
             val params =
                 ChatCompletionCreateParams
                     .builder()
-                    .temperature(temperature)
+                    .temperature(temperatureValue)
                     .maxCompletionTokens(maxCompletionTokens)
                     .seed(seedValue.toLong())
                     .messages(

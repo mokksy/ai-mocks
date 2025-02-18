@@ -17,8 +17,8 @@ internal class MockOpenaiStreamingTest : AbstractOpenaiTest() {
     @Test
     fun `Should respond to Streaming Chat Completion`() =
         runTest {
-            openai.completion {
-                temperature = temperature
+            openai.completion("openai-completion-list") {
+                temperature = temperatureValue
                 model = "gpt-4o-mini"
             } respondsStream {
                 responseChunks = listOf("All", " we", " need", " is", " Love")
@@ -32,8 +32,8 @@ internal class MockOpenaiStreamingTest : AbstractOpenaiTest() {
     @Test
     fun `Should respond to Streaming Chat Completion with Flow`() =
         runTest {
-            openai.completion {
-                temperature = temperature
+            openai.completion("openai-completion-flow") {
+                temperature = temperatureValue
                 model = "gpt-4o-mini"
             } respondsStream {
                 responseFlow =
@@ -57,8 +57,8 @@ internal class MockOpenaiStreamingTest : AbstractOpenaiTest() {
                 .builder()
                 .streamOptions(
                     ChatCompletionStreamOptions.builder().includeUsage(true).build(),
-                ).temperature(temperature)
-                .seed(1)
+                ).temperature(temperatureValue)
+                .seed(seedValue.toLong())
                 .messages(
                     listOf(
                         ChatCompletionMessageParam.ofUser(
@@ -75,21 +75,27 @@ internal class MockOpenaiStreamingTest : AbstractOpenaiTest() {
                 ).model(ChatModel.GPT_4O_MINI)
                 .build()
 
+        // when
         val result = StringBuffer()
-        client.chat().completions().createStreaming(params).use { messageStreamResponse ->
-            messageStreamResponse
-                .stream()
-                .peek { println("Received: $it") }
-                .flatMap { completion: ChatCompletionChunk ->
-                    completion.choices().stream()
-                }.flatMap { choice: ChatCompletionChunk.Choice ->
-                    choice.delta().content().stream()
-                }.forEach {
-                    result.append(it)
-                    print(it)
-                }
-        }
+        client
+            .chat()
+            .completions()
+            .createStreaming(params)
+            .use { messageStreamResponse ->
+                messageStreamResponse
+                    .stream()
+                    .peek { println("Received: $it") }
+                    .flatMap { completion: ChatCompletionChunk ->
+                        completion.choices().stream()
+                    }.flatMap { choice: ChatCompletionChunk.Choice ->
+                        choice.delta().content().stream()
+                    }.forEach {
+                        result.append(it)
+                        print(it)
+                    }
+            }
 
+        // then
         assertThat(result.toString()).isEqualTo("All we need is Love")
     }
 }

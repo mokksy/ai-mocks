@@ -23,6 +23,7 @@ internal suspend fun handleRequest(
     context: RoutingContext,
     application: Application,
     stubs: Collection<Stub<*>>,
+    verbose: Boolean,
 ) {
     val request = context.call.request
     application.log.info(
@@ -36,12 +37,14 @@ internal suspend fun handleRequest(
 
     if (matchedStub != null) {
         matchedStub.apply {
-            application.log.info(
-                "Request matched: {}",
-                requestSpecification.toDescription(),
-            )
+            if (verbose) {
+                application.log.info(
+                    "Request matched:\n---\n${printRequest(request)}\n---\nStub: {}",
+                    this.toLogString(),
+                )
+            }
             incrementMatchCount()
-            respond(context.call)
+            respond(context.call, verbose)
         }
     } else {
         application.log.warn(

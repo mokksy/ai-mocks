@@ -90,7 +90,7 @@ public open class RequestSpecification(
                 .passed()
         }
 
-    internal fun toDescription(): String = "method: $method, path: $path, body: $body"
+    internal fun toLogString(): String = "method: $method, path: $path, body: $body"
 }
 
 public open class RequestSpecificationBuilder<B : RequestSpecificationBuilder<B>> {

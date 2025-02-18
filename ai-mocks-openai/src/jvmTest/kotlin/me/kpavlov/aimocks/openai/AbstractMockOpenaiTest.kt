@@ -7,14 +7,14 @@ import kotlin.random.Random
 val openai = MockOpenai(verbose = true)
 
 internal abstract class AbstractMockOpenaiTest {
-    protected var temperature: Double = -1.0
+    protected var temperatureValue: Double = -1.0
     protected var seedValue: Int = -1
     protected var maxCompletionTokens: Long = -1
 
     @BeforeEach
     fun beforeEach() {
         seedValue = Random.nextInt(1, 100500)
-        temperature = Random.nextDouble(0.0, 1.0)
+        temperatureValue = Random.nextDouble(0.0, 1.0)
         maxCompletionTokens = Random.nextLong(100, 500)
     }
 

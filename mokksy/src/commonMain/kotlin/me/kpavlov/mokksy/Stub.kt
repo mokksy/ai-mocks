@@ -15,10 +15,12 @@ private val counter = AtomicLong()
  * Resembles the [WireMock Stub](https://wiremock.org/docs/stubbing/) abstraction.
  *
  * @param T The type of the response data.
+ * @param name An optional name assigned to the Stub for identification or debugging purposes.
  * @property requestSpecification Defines the criteria used to match incoming requests.
  * @property responseDefinition Specifies the response to send for matched requests.
  */
 internal data class Stub<T>(
+    val name: String? = null,
     val requestSpecification: RequestSpecification,
     val responseDefinition: AbstractResponseDefinition<T>,
 ) : Comparable<Stub<*>> {
@@ -35,7 +37,10 @@ internal data class Stub<T>(
 
     private val matchCount = AtomicInteger(0)
 
-    suspend fun respond(call: ApplicationCall) {
+    suspend fun respond(
+        call: ApplicationCall,
+        verbose: Boolean,
+    ) {
         call.response.headers.let {
             responseDefinition.headers?.invoke(it)
             it.apply {
@@ -46,11 +51,11 @@ internal data class Stub<T>(
 
         when (responseDefinition) {
             is SseStreamResponseDefinition -> {
-                respondWithSseStream(responseDefinition, call)
+                respondWithSseStream(responseDefinition, call, verbose)
             }
 
             is StreamResponseDefinition -> {
-                respondWithStream(responseDefinition, call)
+                respondWithStream(responseDefinition, call, verbose)
             }
 
             is ResponseDefinition<T> -> {
@@ -73,7 +78,11 @@ internal data class Stub<T>(
     fun matchCount(): Int = matchCount.toInt()
 
     fun toLogString(): String =
-        "Stub[requestSpec=$requestSpecification, responseDef=$responseDefinition]"
+        if (name?.isNotBlank() == true) {
+            "Stub('$name')[requestSpec=${requestSpecification.toLogString()}, responseDef=$responseDefinition]"
+        } else {
+            "Stub[requestSpec=${requestSpecification.toLogString()}, responseDef=$responseDefinition]"
+        }
 }
 
 /**

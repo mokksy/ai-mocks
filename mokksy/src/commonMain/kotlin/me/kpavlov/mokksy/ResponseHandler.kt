@@ -1,7 +1,6 @@
 package me.kpavlov.mokksy
 
 import io.ktor.http.CacheControl
-import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
@@ -26,6 +25,7 @@ import kotlinx.coroutines.flow.emptyFlow
 internal suspend fun <T> respondWithStream(
     responseDefinition: StreamResponseDefinition<T>,
     call: ApplicationCall,
+    verbose: Boolean,
 ) {
     val chunkFlow = responseDefinition.chunkFlow
     when {
@@ -34,10 +34,13 @@ internal suspend fun <T> respondWithStream(
             val sseContent =
                 SSEServerContent(call) {
                     chunkFlow.collect {
+                        if (verbose) {
+                            println("Sending: $it")
+                        }
                         send(it)
                     }
                 }
-            processSSE(call, sseContent)
+            processSSE(call, sseContent, verbose)
         }
 
         chunkFlow != null -> {
@@ -46,7 +49,7 @@ internal suspend fun <T> respondWithStream(
                 status = responseDefinition.httpStatus,
                 contentType = responseDefinition.contentType,
             ) {
-                responseDefinition.writeChunksFromFlow(writer = this)
+                responseDefinition.writeChunksFromFlow(writer = this, verbose)
             }
         }
 
@@ -56,7 +59,7 @@ internal suspend fun <T> respondWithStream(
                 status = responseDefinition.httpStatus,
                 contentType = responseDefinition.contentType,
             ) {
-                responseDefinition.writeChunksFromList(this)
+                responseDefinition.writeChunksFromList(this, verbose)
             }
         }
     }
@@ -75,6 +78,7 @@ internal suspend fun <T> respondWithStream(
 internal suspend fun respondWithSseStream(
     responseDefinition: SseStreamResponseDefinition,
     call: ApplicationCall,
+    verbose: Boolean,
 ) {
     val chunkFlow = responseDefinition.chunkFlow ?: emptyFlow()
     val sseContent =
@@ -83,7 +87,7 @@ internal suspend fun respondWithSseStream(
                 send(it)
             }
         }
-    processSSE(call, sseContent)
+    processSSE(call, sseContent, verbose)
 }
 
 /**
@@ -97,8 +101,9 @@ internal suspend fun respondWithSseStream(
 private suspend fun processSSE(
     call: ApplicationCall,
     content: SSEServerContent,
+    verbose: Boolean,
 ) {
-    call.response.header(HttpHeaders.ContentType, ContentType.Text.EventStream.toString())
+//    call.response.header(HttpHeaders.ContentType, ContentType.Text.EventStream.toString())
     call.response.header(HttpHeaders.CacheControl, "no-store")
     call.response.header(HttpHeaders.Connection, "keep-alive")
     call.response.header("X-Accel-Buffering", "no")

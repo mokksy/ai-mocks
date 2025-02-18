@@ -4,7 +4,6 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import dev.langchain4j.data.message.UserMessage.userMessage
 import dev.langchain4j.model.chat.request.ChatRequest
-import dev.langchain4j.model.chat.request.ChatRequestParameters
 import dev.langchain4j.model.chat.response.ChatResponse
 import dev.langchain4j.model.chat.response.StreamingChatResponseHandler
 import dev.langchain4j.model.openai.OpenAiChatRequestParameters
@@ -12,6 +11,8 @@ import dev.langchain4j.model.openai.OpenAiStreamingChatModel
 import dev.langchain4j.model.output.FinishReason
 import io.kotest.assertions.failure
 import io.kotest.matchers.equals.shouldBeEqual
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import me.kpavlov.langchain4j.kotlin.model.chat.StreamingChatLanguageModelReply
@@ -34,8 +35,8 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
     @Test
     fun `Should respond to Streaming Chat Completion`() =
         runTest {
-            openai.completion {
-                temperature = temperature
+            openai.completion("lc4j-openai-completion-list") {
+                temperature = temperatureValue
                 model = "gpt-4o-mini"
                 seed = seedValue
                 requestBodyContains("What do we need?")
@@ -54,10 +55,10 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
     @Test
     fun `Should respond to Streaming Chat Completion with Flow`() =
         runTest {
-            openai.completion {
-                temperature = temperature
+            openai.completion("lc4j-openai-completion-flow") {
+                temperature = temperatureValue
                 model = "gpt-4o-mini"
-//                seed = seedValue
+                seed = seedValue
                 requestBodyContains("What is in the sea?")
             } respondsStream {
                 responseFlow =
@@ -75,28 +76,29 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
         userMessage: String,
         expectedResponse: String,
     ) {
-        val result = ConcurrentLinkedQueue<String>()
-        val finishReason = AtomicReference<FinishReason>()
+        val partialResults = ConcurrentLinkedQueue<String>()
+        val responseRef = AtomicReference<ChatResponse>()
         model.chat(
             ChatRequest
                 .builder()
                 .parameters(
-                    ChatRequestParameters
+                    OpenAiChatRequestParameters
                         .builder()
-                        .temperature(temperature)
+                        .temperature(temperatureValue)
                         .modelName("gpt-4o-mini")
+                        .seed(seedValue)
                         .build(),
                 ).messages(userMessage(userMessage))
                 .build(),
             object : StreamingChatResponseHandler {
                 override fun onCompleteResponse(completeResponse: ChatResponse) {
-                    println("Received: $completeResponse")
-                    finishReason.set(completeResponse.finishReason())
+                    println("Received CompleteResponse: $completeResponse")
+                    responseRef.set(completeResponse)
                 }
 
                 override fun onPartialResponse(partialResponse: String) {
-                    println("Received: $partialResponse")
-                    result.add(partialResponse)
+                    println("Received partial response: $partialResponse")
+                    partialResults.add(partialResponse)
                 }
 
                 override fun onError(error: Throwable) {
@@ -105,10 +107,14 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
                 }
             },
         )
+
         await.untilAsserted {
-            result.joinToString("") shouldBeEqual expectedResponse
+            responseRef.get().shouldNotBeNull()
+//          partialResults.joinToString("") shouldBeEqual expectedResponse
         }
-        assertThat(finishReason.get()).isEqualTo(FinishReason.STOP)
+        val chatResponse = responseRef.get()
+        chatResponse.finishReason() shouldBe FinishReason.STOP
+        chatResponse.aiMessage().text() shouldBeEqual expectedResponse
     }
 
     private suspend fun verifyStreamingKotlinFlow(
@@ -122,7 +128,7 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
                 parameters =
                     OpenAiChatRequestParameters
                         .builder()
-                        .temperature(temperature)
+                        .temperature(temperatureValue)
                         .modelName("gpt-4o-mini")
                         .seed(seedValue)
                         .build()

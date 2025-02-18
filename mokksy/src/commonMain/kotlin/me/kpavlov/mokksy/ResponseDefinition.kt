@@ -28,9 +28,7 @@ public abstract class AbstractResponseDefinition<T>(
     public val httpStatus: HttpStatusCode = HttpStatusCode.OK,
     public val headers: (ResponseHeaders.() -> Unit)? = null,
     public val headerList: List<Pair<String, String>> = emptyList<Pair<String, String>>(),
-) {
-    protected abstract fun isChunkedResponse(): Boolean
-}
+)
 
 /**
  * Represents a concrete implementation of an HTTP response definition with a specific response body.
@@ -55,9 +53,7 @@ public open class ResponseDefinition<T>(
         httpStatus,
         headers,
         headerList,
-    ) {
-    override fun isChunkedResponse(): Boolean = false
-}
+    )
 
 /**
  * Represents a definition for streaming responses, supporting chunked data and flow-based content streaming.
@@ -90,20 +86,25 @@ public open class StreamResponseDefinition<T>(
         headers,
         headerList,
     ) {
-    override fun isChunkedResponse(): Boolean = true
-
-    internal suspend fun writeChunksFromFlow(writer: Writer) {
+    internal suspend fun writeChunksFromFlow(
+        writer: Writer,
+        verbose: Boolean,
+    ) {
         chunkFlow
             ?.filterNotNull()
             ?.collect {
-                writeChunk(writer, it)
+                writeChunk(writer, it, verbose)
             }
     }
 
     private suspend fun writeChunk(
         writer: Writer,
         value: T,
+        verbose: Boolean,
     ) {
+        if (verbose) {
+            print("$value")
+        }
         writer.write("$value")
         writer.flush()
         yield()
@@ -128,9 +129,12 @@ public open class StreamResponseDefinition<T>(
             }
     }
 
-    internal suspend fun writeChunksFromList(writer: Writer) {
+    internal suspend fun writeChunksFromList(
+        writer: Writer,
+        verbose: Boolean,
+    ) {
         chunks?.forEach {
-            writeChunk(writer, it)
+            writeChunk(writer, it, verbose)
         }
     }
 }

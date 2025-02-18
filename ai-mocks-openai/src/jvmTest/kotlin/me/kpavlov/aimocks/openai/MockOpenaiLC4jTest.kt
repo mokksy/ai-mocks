@@ -21,7 +21,7 @@ internal class MockOpenaiLC4jTest : AbstractMockOpenaiTest() {
     fun `Should respond to Chat Completion`() =
         runTest {
             openai.completion {
-                temperature = temperature
+                temperature = temperatureValue
                 seed = seedValue
                 model = "gpt-4o-mini"
                 maxCompletionTokens = maxCompletionTokens
@@ -35,7 +35,7 @@ internal class MockOpenaiLC4jTest : AbstractMockOpenaiTest() {
                     parameters =
                         OpenAiChatRequestParameters
                             .builder()
-                            .temperature(temperature)
+                            .temperature(temperatureValue)
                             .modelName("gpt-4o-mini")
                             .seed(seedValue)
                             .build()

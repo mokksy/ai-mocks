@@ -23,8 +23,8 @@ internal class StubComparatorTest {
         request1 = RequestSpecification(priority = 1)
         request2 = RequestSpecification(priority = 1)
 
-        val stub1 = Stub(request1, response)
-        val stub2 = Stub(request2, response)
+        val stub1 = Stub(requestSpecification = request1, responseDefinition = response)
+        val stub2 = Stub(requestSpecification = request2, responseDefinition = response)
 
         val result = StubComparator.compare(stub1, stub2)
 
@@ -36,8 +36,8 @@ internal class StubComparatorTest {
         request1 = RequestSpecification(priority = 1)
         request2 = RequestSpecification(priority = 2)
 
-        val stub1 = Stub(request1, response)
-        val stub2 = Stub(request2, response)
+        val stub1 = Stub(requestSpecification = request1, responseDefinition = response)
+        val stub2 = Stub(requestSpecification = request2, responseDefinition = response)
 
         val result = StubComparator.compare(stub1, stub2)
 
@@ -49,8 +49,8 @@ internal class StubComparatorTest {
         request1 = RequestSpecification(priority = 2)
         request2 = RequestSpecification(priority = 1)
 
-        val stub1 = Stub(request1, response)
-        val stub2 = Stub(request2, response)
+        val stub1 = Stub(requestSpecification = request1, responseDefinition = response)
+        val stub2 = Stub(requestSpecification = request2, responseDefinition = response)
 
         val result = StubComparator.compare(stub1, stub2)
 
@@ -61,7 +61,7 @@ internal class StubComparatorTest {
     fun `compare should return zero when stubs are same`() {
         request1 = RequestSpecification()
 
-        val stub1 = Stub(request1, response)
+        val stub1 = Stub(requestSpecification = request1, responseDefinition = response)
 
         val result = StubComparator.compare(stub1, stub1)
 
