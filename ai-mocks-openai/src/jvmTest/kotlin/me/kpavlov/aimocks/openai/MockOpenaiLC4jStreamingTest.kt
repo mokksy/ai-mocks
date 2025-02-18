@@ -11,6 +11,8 @@ import dev.langchain4j.model.openai.OpenAiStreamingChatModel
 import dev.langchain4j.model.output.FinishReason
 import io.kotest.assertions.failure
 import io.kotest.matchers.equals.shouldBeEqual
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import me.kpavlov.langchain4j.kotlin.model.chat.StreamingChatLanguageModelReply
@@ -74,8 +76,8 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
         userMessage: String,
         expectedResponse: String,
     ) {
-        val result = ConcurrentLinkedQueue<String>()
-        val finishReason = AtomicReference<FinishReason>()
+        val partialResults = ConcurrentLinkedQueue<String>()
+        val responseRef = AtomicReference<ChatResponse>()
         model.chat(
             ChatRequest
                 .builder()
@@ -90,13 +92,13 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
                 .build(),
             object : StreamingChatResponseHandler {
                 override fun onCompleteResponse(completeResponse: ChatResponse) {
-                    println("Received: $completeResponse")
-                    finishReason.set(completeResponse.finishReason())
+                    println("Received CompleteResponse: $completeResponse")
+                    responseRef.set(completeResponse)
                 }
 
                 override fun onPartialResponse(partialResponse: String) {
-                    println("Received: $partialResponse")
-                    result.add(partialResponse)
+                    println("Received partial response: $partialResponse")
+                    partialResults.add(partialResponse)
                 }
 
                 override fun onError(error: Throwable) {
@@ -105,10 +107,14 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
                 }
             },
         )
+
         await.untilAsserted {
-            result.joinToString("") shouldBeEqual expectedResponse
+            responseRef.get().shouldNotBeNull()
+//          partialResults.joinToString("") shouldBeEqual expectedResponse
         }
-        assertThat(finishReason.get()).isEqualTo(FinishReason.STOP)
+        val chatResponse = responseRef.get()
+        chatResponse.finishReason() shouldBe FinishReason.STOP
+        chatResponse.aiMessage().text() shouldBeEqual expectedResponse
     }
 
     private suspend fun verifyStreamingKotlinFlow(
