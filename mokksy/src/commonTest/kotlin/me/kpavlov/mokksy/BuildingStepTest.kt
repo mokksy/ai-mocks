@@ -16,7 +16,7 @@ internal class BuildingStepTest {
 
     private lateinit var request: RequestSpecification<Input>
 
-    private lateinit var stubs: MutableList<Stub<*>>
+    private lateinit var stubs: MutableList<Stub<*, *>>
 
     @OptIn(ExperimentalUuidApi::class)
     @BeforeTest
@@ -52,7 +52,7 @@ internal class BuildingStepTest {
 
     @Test
     fun `Should handle respondsWithSseStream`() {
-        subject.respondsWithSseStream {}
+        subject.respondsWithSseStream<Any> {}
         assertThat(stubs).hasSize(
             1,
         )

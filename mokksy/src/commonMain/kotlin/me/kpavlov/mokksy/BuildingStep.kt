@@ -1,6 +1,6 @@
 package me.kpavlov.mokksy
 
-import io.ktor.sse.ServerSentEvent
+import io.ktor.sse.ServerSentEventMetadata
 
 /**
  * Defines the building step for associating an inbound request specification with its corresponding
@@ -9,14 +9,13 @@ import io.ktor.sse.ServerSentEvent
  * and their respective responses.
  *
  * @param P The type of the request payload.
- * @param R The type of the request specification.
  * @param name An optional name assigned to the Stub for identification or debugging purposes.
  * @property stubs A mutable collection of mappings that associate request specifications with response definitions.
  * @property requestSpecification The request specification currently being processed.
  */
 public open class BuildingStep<P> internal constructor(
     private val name: String? = null,
-    private val stubs: MutableCollection<Stub<*>>,
+    private val stubs: MutableCollection<Stub<*, *>>,
     protected val requestSpecification: RequestSpecification<P>,
 ) {
     /**
@@ -63,17 +62,18 @@ public open class BuildingStep<P> internal constructor(
      * Associates the current request specification with a server-sent events (SSE) streaming response definition.
      * This method is part of a fluent API for defining mappings between requests and SSE streaming responses.
      *
+     * @param T The type of `data` field in the [ServerSentEventMetadata].
      * @param block A lambda function applied to a [StreamingResponseDefinitionBuilder] specifically for
      * configuring the response as a stream of server-sent events.
      */
-    public open infix fun respondsWithSseStream(
-        block: StreamingResponseDefinitionBuilder<ServerSentEvent>.() -> Unit,
+    public open infix fun <T : Any> respondsWithSseStream(
+        block: StreamingResponseDefinitionBuilder<ServerSentEventMetadata<T>>.() -> Unit,
     ): Unit =
-        respondsWithStream<ServerSentEvent>(
+        respondsWithStream<ServerSentEventMetadata<T>>(
             block,
         )
 
-    private fun addStub(stub: Stub<*>) {
+    private fun addStub(stub: Stub<*, *>) {
         val added = stubs.add(stub)
         assert(added) { "Duplicate stub detected: $stub" }
     }

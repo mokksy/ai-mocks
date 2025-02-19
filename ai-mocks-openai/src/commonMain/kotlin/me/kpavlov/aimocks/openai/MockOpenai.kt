@@ -3,20 +3,26 @@ package me.kpavlov.aimocks.openai
 import io.kotest.assertions.json.containJsonKeyValue
 import io.kotest.matchers.equals.beEqual
 import me.kpavlov.aimocks.core.AbstractMockLlm
+import java.util.function.Consumer
 
 public open class MockOpenai(
     port: Int = 0,
     verbose: Boolean = true,
-) : AbstractMockLlm<
-        OpenaiBuildingStep,
-        OpenaiChatRequestSpecification,
-        OpenaiChatResponseSpecification,
-    >(
+) : AbstractMockLlm(
         port = port,
         verbose = verbose,
     ) {
-    override fun completion(
-        name: String?,
+    /**
+     * Java-friendly overload that accepts a Consumer for configuring the chat request.
+     */
+    @JvmOverloads
+    public fun completion(
+        name: String? = null,
+        block: Consumer<OpenaiChatRequestSpecification>,
+    ): OpenaiBuildingStep = completion(name) { block.accept(this) }
+
+    public fun completion(
+        name: String? = null,
         block: OpenaiChatRequestSpecification.() -> Unit,
     ): OpenaiBuildingStep {
         val requestStep =
@@ -42,7 +48,7 @@ public open class MockOpenai(
                     bodyString += containJsonKeyValue("model", it)
                 }
 
-                chatRequest.requestBody.forEach {
+                chatRequest.requestBodyString.forEach {
                     bodyString += it
                 }
             }

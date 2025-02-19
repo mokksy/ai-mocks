@@ -1,0 +1,56 @@
+# Ignore build and dependency directories
+build/
+.gradle/
+node_modules/
+
+# IDE-specific files
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Compiled files
+*.class
+*.jar
+*.war
+*.ear
+*.dll
+*.so
+*.dylib
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Test coverage reports
+coverage/
+.coverage
+htmlcov/
+
+# Generated documentation
+docs/_build/
+javadoc/
+kdoc/
+
+# Local configuration
+local.properties
+*.env
+.env.*
+
+# Package files
+*.tar.gz
+*.zip
+*.rar
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~

@@ -22,14 +22,14 @@ import io.ktor.server.routing.RoutingRequest
 internal suspend fun handleRequest(
     context: RoutingContext,
     application: Application,
-    stubs: Collection<Stub<*>>,
+    stubs: Collection<Stub<*, *>>,
     verbose: Boolean,
 ) {
     val request = context.call.request
     application.log.info(
         "Request: ${request.toLogString()}",
     )
-    val matchedStub: Stub<*>? =
+    val matchedStub: Stub<*, *>? =
         stubs
             .filter {
                 it.requestSpecification.matches(request)
