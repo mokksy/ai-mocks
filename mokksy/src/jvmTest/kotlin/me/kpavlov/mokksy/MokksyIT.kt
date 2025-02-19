@@ -197,9 +197,9 @@ internal class MokksyIT : AbstractIT() {
                 }
                 """.trimIndent()
 
-            mokksy.post {
+            mokksy.post<Input>(name = "post") {
                 path = beEqual("/things")
-                bodyContains("\"$id\"")
+                bodyContains("$id")
             } respondsWith {
                 body = expectedResponse
                 httpStatus = HttpStatusCode.Created
@@ -218,7 +218,7 @@ internal class MokksyIT : AbstractIT() {
                         // language=json
                         """
                         {
-                            "id": "$id"
+                            "name": "the thing: $id"
                         }
                         """.trimIndent(),
                     )
@@ -229,5 +229,11 @@ internal class MokksyIT : AbstractIT() {
             assertThat(result.bodyAsText()).isEqualTo(expectedResponse)
             assertThat(result.headers["Location"]).isEqualTo("/things/$id")
             assertThat(result.headers["Foo"]).isEqualTo("bar")
+        }
+
+    @Test
+    fun `Should respond to shortcut POST`() =
+        runTest {
+            doTestCallMethod(HttpMethod.Post) { mokksy.post(it) }
         }
 }
