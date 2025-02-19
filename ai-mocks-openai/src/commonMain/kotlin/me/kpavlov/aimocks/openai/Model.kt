@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalSerializationApi::class)
+
 package me.kpavlov.aimocks.openai
 
 import kotlinx.serialization.Contextual
@@ -30,10 +32,12 @@ internal data class Chunk(
 
 @Serializable
 @OptIn(ExperimentalSerializationApi::class)
-internal data class Choice(
+public data class Choice(
     val index: Int,
     @EncodeDefault(NEVER)
     val delta: Delta? = null,
+    @EncodeDefault(NEVER)
+    val message: Message? = null,
     @EncodeDefault(ALWAYS)
     val logprobs: String? = null,
     @EncodeDefault(ALWAYS)
@@ -42,14 +46,15 @@ internal data class Choice(
 )
 
 @Serializable
-internal data class Delta(
+public data class Delta(
     val role: String? = null,
     val content: String? = null,
 )
 
 @Serializable
-internal data class ChatResponse(
+public data class ChatResponse(
     val id: String,
+    @EncodeDefault(ALWAYS)
     @SerialName("object")
     val objectType: String = "chat.completion",
     val created: Long,
@@ -63,7 +68,7 @@ internal data class ChatResponse(
 )
 
 @Serializable
-internal data class Usage(
+public data class Usage(
     @SerialName("prompt_tokens")
     val promptTokens: Int,
     @SerialName("completion_tokens")
@@ -77,7 +82,7 @@ internal data class Usage(
 )
 
 @Serializable
-internal data class CompletionTokensDetails(
+public data class CompletionTokensDetails(
     @SerialName("reasoning_tokens")
     val reasoningTokens: Int,
     @SerialName("accepted_prediction_tokens")
@@ -87,7 +92,7 @@ internal data class CompletionTokensDetails(
 )
 
 @Serializable
-internal data class TokenDetails(
+public data class TokenDetails(
     @SerialName("cached_tokens")
     val cachedTokens: Int? = null,
 )
@@ -115,7 +120,7 @@ internal data class ChatCompletionRequest(
 )
 
 @Serializable
-internal data class Message(
+public data class Message(
     val role: String,
     val content: String,
 )

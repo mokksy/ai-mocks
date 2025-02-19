@@ -33,64 +33,40 @@ public class OpenaiBuildingStep(
             block.invoke(chatResponseSpecification)
             val assistantContent = chatResponseSpecification.textContent
             val finishReason = chatResponseSpecification.finishReason
-            /*
-            val response = ChatResponse(
-                id = "chatcmpl-abc${counter.addAndGet(1)}",
-                created = 1677858242L,
-                model = "gpt-4o-mini",
-                usage = Usage(
-                    promptTokens = 13,
-                    completionTokens = 7,
-                    totalTokens = 20,
-                    completionTokensDetails = CompletionTokensDetails(
-                        reasoningTokens = 0,
-                        acceptedPredictionTokens = 0,
-                        rejectedPredictionTokens = 0,
-                    )
-                ),
-                choices = listOf<>(
-                    Choice(
-                        index = 0,
-                        message = Delta(
-                            role = "assistant",
-                            content = assistantContent
-                        )
-                    )
+
+            val response =
+                ChatResponse(
+                    id = "chatcmpl-abc${counter.addAndGet(1)}",
+                    created = Instant.now().epochSecond,
+                    model = "gpt-4o-mini",
+                    usage =
+                        Usage(
+                            promptTokens = 13,
+                            completionTokens = 7,
+                            totalTokens = 20,
+                            completionTokensDetails =
+                                CompletionTokensDetails(
+                                    reasoningTokens = 0,
+                                    acceptedPredictionTokens = 0,
+                                    rejectedPredictionTokens = 0,
+                                ),
+                        ),
+                    choices =
+                        listOf<Choice>(
+                            Choice(
+                                index = 0,
+                                message =
+                                    Message(
+                                        role = "assistant",
+                                        content = assistantContent,
+                                    ),
+                                finishReason = finishReason,
+                            ),
+                        ),
+                    systemFingerprint = "fp_44709d6fcb",
                 )
-            )
-             */
-            body =
-                """
-                {
-                    "id": "chatcmpl-abc${counter.addAndGet(1)}",
-                    "object": "chat.completion",
-                    "created": 1677858242,
-                    "model": "gpt-4o-mini",
-                    "usage": {
-                        "prompt_tokens": 13,
-                        "completion_tokens": 7,
-                        "total_tokens": 20,
-                        "completion_tokens_details": {
-                            "reasoning_tokens": 0,
-                            "accepted_prediction_tokens": 0,
-                            "rejected_prediction_tokens": 0
-                        }
-                    },
-                    "choices": [
-                        {
-                            "message": {
-                                "role": "assistant",
-                                "content": ${
-                    Json.encodeToJsonElement(assistantContent) // Escapes and wraps it in quotes
-                }
-                            },
-                            "logprobs": null,
-                            "finish_reason": "$finishReason",
-                            "index": 0
-                        }
-                    ]
-                }
-                """.trimIndent()
+
+            body = Json.encodeToString(response)
         }
     }
 
