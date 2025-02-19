@@ -76,7 +76,7 @@ public open class MokksyServer(
             configurer(this)
         }
 
-    private val stubs = ConcurrentSkipListSet<Stub<*>>()
+    private val stubs = ConcurrentSkipListSet<Stub<*, *>>()
 
     init {
         server.start(wait = wait)

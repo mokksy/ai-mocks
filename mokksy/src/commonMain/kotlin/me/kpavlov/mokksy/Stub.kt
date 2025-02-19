@@ -14,16 +14,17 @@ private val counter = AtomicLong()
  * matching request specifications, sending responses, and handling response data of various types.
  * Resembles the [WireMock Stub](https://wiremock.org/docs/stubbing/) abstraction.
  *
+ * @param P The type of the request payload.
  * @param T The type of the response data.
  * @param name An optional name assigned to the Stub for identification or debugging purposes.
  * @property requestSpecification Defines the criteria used to match incoming requests.
  * @property responseDefinition Specifies the response to send for matched requests.
  */
-internal data class Stub<T>(
+internal data class Stub<P, T>(
     val name: String? = null,
-    val requestSpecification: RequestSpecification<*>,
+    val requestSpecification: RequestSpecification<P>,
     val responseDefinition: AbstractResponseDefinition<T>,
-) : Comparable<Stub<*>> {
+) : Comparable<Stub<*, *>> {
     /**
      * Represents the order of creation for an instance of the containing class.
      * This property is initialized with an incrementing value to ensure each instance
@@ -33,9 +34,24 @@ internal data class Stub<T>(
      */
     internal val creationOrder = counter.incrementAndGet()
 
-    override fun compareTo(other: Stub<*>): Int = StubComparator.compare(this, other)
-
+    /**
+     * Tracks the number of times a particular stub has been matched with incoming requests.
+     * This counter is used to record the match frequency and can be incremented or reset
+     * through corresponding methods in the class.
+     */
     private val matchCount = AtomicInteger(0)
+
+    /**
+     * Compares this Stub instance to another Stub instance for order.
+     *
+     * The comparison is based primarily on the priority of the request specification.
+     * If the priorities are equal, the creation order of the stubs is used as a tiebreaker.
+     *
+     * @param other The Stub instance to compare with this one.
+     * @return A negative integer, zero, or a positive integer if this Stub is less than,
+     * equal to, or greater than the specified Stub, respectively.
+     */
+    override fun compareTo(other: Stub<*, *>): Int = StubComparator.compare(this, other)
 
     suspend fun respond(
         call: ApplicationCall,
@@ -97,10 +113,10 @@ internal data class Stub<T>(
  * Used internally for sorting or ordering `Stub` objects when multiple mappings need
  * to be evaluated or prioritized.
  */
-internal object StubComparator : Comparator<Stub<*>> {
+internal object StubComparator : Comparator<Stub<*, *>> {
     override fun compare(
-        o1: Stub<*>,
-        o2: Stub<*>,
+        o1: Stub<*, *>,
+        o2: Stub<*, *>,
     ): Int {
         val result =
             o1.requestSpecification.priority().compareTo(

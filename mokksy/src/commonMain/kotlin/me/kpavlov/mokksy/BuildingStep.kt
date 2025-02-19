@@ -16,7 +16,7 @@ import io.ktor.sse.ServerSentEvent
  */
 public open class BuildingStep<P> internal constructor(
     private val name: String? = null,
-    private val stubs: MutableCollection<Stub<*>>,
+    private val stubs: MutableCollection<Stub<*, *>>,
     protected val requestSpecification: RequestSpecification<P>,
 ) {
     /**
@@ -73,7 +73,7 @@ public open class BuildingStep<P> internal constructor(
             block,
         )
 
-    private fun addStub(stub: Stub<*>) {
+    private fun addStub(stub: Stub<*, *>) {
         val added = stubs.add(stub)
         assert(added) { "Duplicate stub detected: $stub" }
     }
