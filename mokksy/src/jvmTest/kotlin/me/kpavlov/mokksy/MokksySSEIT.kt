@@ -10,6 +10,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.http.withCharsetIfNeeded
 import io.ktor.sse.ServerSentEvent
+import io.ktor.sse.TypedServerSentEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
@@ -64,7 +65,7 @@ suspend fun main() {
             flow {
                 repeat(10) {
                     emit(
-                        ServerSentEvent(
+                        TypedServerSentEvent(
                             data = "Event $it",
                         ),
                     )

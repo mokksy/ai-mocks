@@ -52,7 +52,7 @@ internal class BuildingStepTest {
 
     @Test
     fun `Should handle respondsWithSseStream`() {
-        subject.respondsWithSseStream {}
+        subject.respondsWithSseStream<Any> {}
         assertThat(stubs).hasSize(
             1,
         )

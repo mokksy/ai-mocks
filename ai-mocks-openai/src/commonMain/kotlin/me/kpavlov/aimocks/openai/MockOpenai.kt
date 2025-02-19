@@ -13,7 +13,7 @@ public open class MockOpenai(
         verbose = verbose,
     ) {
     /**
-     *
+     * Java-friendly overload that accepts a Consumer for configuring the chat request.
      */
     @JvmOverloads
     public fun completion(
@@ -21,7 +21,6 @@ public open class MockOpenai(
         block: Consumer<OpenaiChatRequestSpecification>,
     ): OpenaiBuildingStep = completion(name) { block.accept(this) }
 
-    @JvmOverloads
     public fun completion(
         name: String? = null,
         block: OpenaiChatRequestSpecification.() -> Unit,
@@ -49,7 +48,7 @@ public open class MockOpenai(
                     bodyString += containJsonKeyValue("model", it)
                 }
 
-                chatRequest.requestBody.forEach {
+                chatRequest.requestBodyString.forEach {
                     bodyString += it
                 }
             }

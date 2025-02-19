@@ -7,7 +7,8 @@ public open class ChatRequestSpecification<P>(
     public var temperature: Double? = null,
     public var maxCompletionTokens: Long? = null,
     public var model: String? = null,
-    public val requestBody: MutableList<Matcher<String?>> = mutableListOf(),
+    public val requestBody: MutableList<Matcher<P?>> = mutableListOf(),
+    public val requestBodyString: MutableList<Matcher<String?>> = mutableListOf(),
 ) {
     public fun temperature(temperature: Double): ChatRequestSpecification<P> =
         apply { this.temperature = temperature }
@@ -19,6 +20,6 @@ public open class ChatRequestSpecification<P>(
 
     public fun requestBodyContains(s: String): ChatRequestSpecification<P> =
         apply {
-            requestBody += contain(s)
+            requestBodyString += contain(s)
         }
 }
