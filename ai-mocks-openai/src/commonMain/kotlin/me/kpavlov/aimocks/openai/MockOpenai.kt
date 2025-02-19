@@ -3,20 +3,27 @@ package me.kpavlov.aimocks.openai
 import io.kotest.assertions.json.containJsonKeyValue
 import io.kotest.matchers.equals.beEqual
 import me.kpavlov.aimocks.core.AbstractMockLlm
+import java.util.function.Consumer
 
 public open class MockOpenai(
     port: Int = 0,
     verbose: Boolean = true,
-) : AbstractMockLlm<
-        OpenaiBuildingStep,
-        OpenaiChatRequestSpecification,
-        OpenaiChatResponseSpecification,
-    >(
+) : AbstractMockLlm(
         port = port,
         verbose = verbose,
     ) {
-    override fun completion(
-        name: String?,
+    /**
+     *
+     */
+    @JvmOverloads
+    public fun completion(
+        name: String? = null,
+        block: Consumer<OpenaiChatRequestSpecification>,
+    ): OpenaiBuildingStep = completion(name) { block.accept(this) }
+
+    @JvmOverloads
+    public fun completion(
+        name: String? = null,
         block: OpenaiChatRequestSpecification.() -> Unit,
     ): OpenaiBuildingStep {
         val requestStep =
