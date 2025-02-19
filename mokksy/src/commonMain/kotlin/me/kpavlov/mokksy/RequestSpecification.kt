@@ -29,18 +29,22 @@ public const val DEFAULT_STUB_PRIORITY: Int = Int.MAX_VALUE
  * It provides functionality for checking whether a given request satisfies the specified
  * conditions and supports prioritization for defining matching order.
  *
+ * @param P type of the request payload
  * @property method Matcher for the HTTP method of the request. If null, the method is not validated.
  * @property path Matcher for the request path. If null, the path is not validated.
  * @property headers List of matchers for Ktor [Headers] object. All matchers must pass for a match to succeed.
- * @property body List of matchers for the request body as a string. All matchers must pass for a match to succeed.
+ * @property body List of matchers for the request body as a [P]. All matchers must pass for a match to succeed.
+ * @property bodyString List of matchers for the request body as a String.
+ *                      All matchers must pass for a match to succeed.
  * @property priority The priority value used for comparing different specifications.
  * Lower values indicate higher priority. Default value is [DEFAULT_STUB_PRIORITY]
  */
-public open class RequestSpecification(
+public open class RequestSpecification<P>(
     public val method: Matcher<HttpMethod>? = null,
     public val path: Matcher<String>? = null,
     public val headers: List<Matcher<Headers>> = listOf(),
-    public val body: List<Matcher<String>> = listOf(),
+    public val body: List<Matcher<P?>> = listOf(),
+    public val bodyString: List<Matcher<String?>> = listOf(),
     public val priority: Int? = DEFAULT_STUB_PRIORITY,
 ) {
     internal fun priority(): Int = priority ?: DEFAULT_STUB_PRIORITY
@@ -49,23 +53,37 @@ public open class RequestSpecification(
         (method == null || method.test(request.httpMethod).passed()) &&
             (path == null || path.test(request.path()).passed()) &&
             matchHeaders(headers, request) &&
-            matchBodyString(body, request)
+            matchBody(body, request) &&
+            matchBodyString(bodyString, request)
+
+    protected suspend fun matchBody(
+        matchers: List<Matcher<P>>,
+        request: ApplicationRequest,
+    ): Boolean {
+        if (matchers.isEmpty()) return true
+        val body: P = request.call.receive()
+        return matchers.all {
+            it
+                .test(body)
+                .passed()
+        }
+    }
 
     /**
-     * Matches the body content of an HTTP request against a provided list of matchers.
+     * Matches the body (string) content of an HTTP request against a provided list of matchers.
      *
-     * @param bodyMatchers A list of matchers used to evaluate the HTTP request body as a string.
+     * @param matchers A list of matchers used to evaluate the HTTP request body as a string.
      *                      All matchers must pass for the method to return true.
      * @param request The HTTP request to be evaluated.
      * @return True if all matchers successfully match the request body, false otherwise.
      */
     protected suspend fun matchBodyString(
-        bodyMatchers: List<Matcher<String>>,
+        matchers: List<Matcher<String>>,
         request: ApplicationRequest,
     ): Boolean {
-        if (bodyMatchers.isEmpty()) return true
+        if (matchers.isEmpty()) return true
         val bodyString = request.call.receive(type = String::class)
-        return bodyMatchers.all {
+        return matchers.all {
             it
                 .test(bodyString)
                 .passed()
@@ -90,55 +108,57 @@ public open class RequestSpecification(
                 .passed()
         }
 
-    internal fun toLogString(): String = "method: $method, path: $path, body: $body"
+    internal fun toLogString(): String = "method: $method, path: $path, body: $bodyString"
 }
 
-public open class RequestSpecificationBuilder<B : RequestSpecificationBuilder<B>> {
+public open class RequestSpecificationBuilder<P> {
     protected var method: Matcher<HttpMethod>? = null
     public var path: Matcher<String>? = null
     public var headers: MutableList<Matcher<Headers>> = mutableListOf()
-    public val body: MutableList<Matcher<String>> = mutableListOf()
+    public val body: MutableList<Matcher<P?>> = mutableListOf()
+    public val bodyString: MutableList<Matcher<String?>> = mutableListOf()
     public var priority: Int? = DEFAULT_STUB_PRIORITY
 
-    public fun method(matcher: Matcher<HttpMethod>): RequestSpecificationBuilder<B> {
+    public fun method(matcher: Matcher<HttpMethod>): RequestSpecificationBuilder<P> {
         this.method = matcher
         return this
     }
 
-    public fun path(matcher: Matcher<String>): RequestSpecificationBuilder<B> {
+    public fun path(matcher: Matcher<String>): RequestSpecificationBuilder<P> {
         this.path = matcher
         return this
     }
 
-    public fun bodyContains(vararg strings: String): RequestSpecificationBuilder<B> {
-        strings.forEach { this.body += contain(it) }
+    public fun bodyContains(vararg strings: String): RequestSpecificationBuilder<P> {
+        strings.forEach { this.bodyString += contain(it) }
         return this
     }
 
     public fun containsHeader(
         headerName: String,
         headerValue: String,
-    ): RequestSpecificationBuilder<B> {
+    ): RequestSpecificationBuilder<P> {
         headers += me.kpavlov.mokksy.containsHeader(headerName, headerValue)
         return this
     }
 
-    public fun body(matcher: Matcher<String>): RequestSpecificationBuilder<B> {
-        this.body += matcher
+    public fun bodyString(matcher: Matcher<String?>): RequestSpecificationBuilder<P> {
+        this.bodyString += matcher
         return this
     }
 
-    public fun priority(value: Int): RequestSpecificationBuilder<B> {
+    public fun priority(value: Int): RequestSpecificationBuilder<P> {
         this.priority = value
         return this
     }
 
-    internal fun build(): RequestSpecification =
-        RequestSpecification(
+    internal fun build(): RequestSpecification<P> =
+        RequestSpecification<P>(
             method = method,
             path = path,
             headers = headers,
             body = body,
+            bodyString = bodyString,
             priority = priority ?: DEFAULT_STUB_PRIORITY,
         )
 }

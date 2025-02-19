@@ -10,11 +10,11 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 internal class BuildingStepTest {
-    private lateinit var subject: BuildingStep<*>
+    private lateinit var subject: BuildingStep<Input>
 
     private lateinit var name: String
 
-    private lateinit var request: RequestSpecification
+    private lateinit var request: RequestSpecification<Input>
 
     private lateinit var stubs: MutableList<Stub<*>>
 
@@ -22,7 +22,7 @@ internal class BuildingStepTest {
     @BeforeTest
     fun before() {
         name = Uuid.random().toString()
-        request = mockk<RequestSpecification>()
+        request = mockk()
         stubs = mutableListOf()
 
         subject = BuildingStep(name, stubs, request)
@@ -30,7 +30,7 @@ internal class BuildingStepTest {
 
     @Test
     fun `Should handle respondsWith`() {
-        subject.respondsWith<Any> {}
+        subject.respondsWith<Output> {}
         assertThat(stubs).hasSize(
             1,
         )
@@ -41,7 +41,7 @@ internal class BuildingStepTest {
 
     @Test
     fun `Should handle respondsWithStream`() {
-        subject.respondsWithStream<Any> {}
+        subject.respondsWithStream<OutputChunk> {}
         assertThat(stubs).hasSize(
             1,
         )

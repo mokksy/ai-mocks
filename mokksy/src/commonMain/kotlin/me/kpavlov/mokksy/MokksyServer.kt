@@ -105,13 +105,13 @@ public open class MokksyServer(
      * @param block A lambda used to configure the `RequestSpecificationBuilder`.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun method(
+    public fun <P> method(
         name: String? = null,
         httpMethod: HttpMethod,
-        block: RequestSpecificationBuilder<*>.() -> Unit,
-    ): BuildingStep<RequestSpecification> {
+        block: RequestSpecificationBuilder<P?>.() -> Unit,
+    ): BuildingStep<P?> {
         val requestSpec =
-            RequestSpecificationBuilder()
+            RequestSpecificationBuilder<P?>()
                 .apply(block)
                 .method(equalityMatcher(httpMethod))
                 .build()
@@ -126,91 +126,168 @@ public open class MokksyServer(
      * Configures a HTTP GET request specification using the provided block and returns a `BuildingStep`
      * instance for further customization.
      *
+     * @param P type of the request payload
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun get(
+    public fun <P : Any> get(
         name: String? = null,
-        block: RequestSpecificationBuilder<*>.() -> Unit,
-    ): BuildingStep<RequestSpecification> = method(name, Get, block)
+        block: RequestSpecificationBuilder<P?>.() -> Unit,
+    ): BuildingStep<P?> = method(name, Get, block)
+
+    /**
+     * Configures a HTTP GET request specification using the provided block and returns a `BuildingStep`
+     * for further customization. This method serves as a convenience shortcut.
+     *
+     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
+     * @return A `BuildingStep` instance initialized with the generated request specification.
+     */
+    public fun get(block: RequestSpecificationBuilder<Any?>.() -> Unit): BuildingStep<Any?> =
+        this.get(null, block)
 
     /**
      * Configures an HTTP POST request specification using the provided block and returns a `BuildingStep`
      * instance for further customization. This method utilizes the HTTP POST method to define the request
      * specification within the provided lambda.
      *
+     * @param P type of the request payload.
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the POST request.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun post(
+    public fun <P : Any> post(
         name: String? = null,
-        block: RequestSpecificationBuilder<*>.() -> Unit,
-    ): BuildingStep<RequestSpecification> = method(name, Post, block)
+        block: RequestSpecificationBuilder<P?>.() -> Unit,
+    ): BuildingStep<P?> = method(name, Post, block)
+
+    /**
+     * Configures a HTTP POST request specification using the provided block and returns a `BuildingStep`
+     * for further customization. This method serves as a convenience shortcut.
+     *
+     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
+     * @return A `BuildingStep` instance initialized with the generated request specification.
+     */
+    public fun post(block: RequestSpecificationBuilder<Any?>.() -> Unit): BuildingStep<Any?> =
+        this.post(null, block)
 
     /**
      * Configures an HTTP DELETE request specification using the provided block and returns a `BuildingStep`
      * instance for further customization. This method utilizes the HTTP DELETE method to define the request
      * specification within the provided lambda.
      *
+     * @param P type of the request payload.
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the DELETE request.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun delete(
+    public fun <P : Any> delete(
         name: String? = null,
-        block: RequestSpecificationBuilder<*>.() -> Unit,
-    ): BuildingStep<RequestSpecification> = method(name, Delete, block)
+        block: RequestSpecificationBuilder<P?>.() -> Unit,
+    ): BuildingStep<P?> = method(name, Delete, block)
+
+    /**
+     * Configures a HTTP DELETE request specification using the provided block and returns a `BuildingStep`
+     * for further customization. This method serves as a convenience shortcut.
+     *
+     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
+     * @return A `BuildingStep` instance initialized with the generated request specification.
+     */
+    public fun delete(block: RequestSpecificationBuilder<Any?>.() -> Unit): BuildingStep<Any?> =
+        this.delete(null, block)
 
     /**
      * Configures an HTTP PATCH request specification using the provided block and returns a `BuildingStep`
      * instance for further customization. This method uses the HTTP PATCH method to define the request
      * specification within the provided lambda.
      *
+     * @param P type of the request payload.
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the PATCH request.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun patch(
+    public fun <P : Any> patch(
         name: String? = null,
-        block: RequestSpecificationBuilder<*>.() -> Unit,
-    ): BuildingStep<RequestSpecification> = method(name, Patch, block)
+        block: RequestSpecificationBuilder<P?>.() -> Unit,
+    ): BuildingStep<P?> = method(name, Patch, block)
+
+    /**
+     * Configures a HTTP PATCH request specification using the provided block and returns a `BuildingStep`
+     * for further customization. This method serves as a convenience shortcut.
+     *
+     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
+     * @return A `BuildingStep` instance initialized with the generated request specification.
+     */
+    public fun patch(block: RequestSpecificationBuilder<Any?>.() -> Unit): BuildingStep<Any?> =
+        this.patch(null, block)
 
     /**
      * Configures an HTTP PUT request specification using the provided block and returns a `BuildingStep`
      * instance for further customization. This method utilizes the HTTP PUT method to define the request
      * specification within the provided lambda.
      *
+     * @param P type of the request payload
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the PUT request.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun put(
+    public fun <P : Any> put(
         name: String? = null,
-        block: RequestSpecificationBuilder<*>.() -> Unit,
-    ): BuildingStep<RequestSpecification> = method(name, Put, block)
+        block: RequestSpecificationBuilder<P?>.() -> Unit,
+    ): BuildingStep<P?> = method(name, Put, block)
+
+    /**
+     * Configures a HTTP PUT request specification using the provided block and returns a `BuildingStep`
+     * for further customization. This method serves as a convenience shortcut.
+     *
+     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
+     * @return A `BuildingStep` instance initialized with the generated request specification.
+     */
+    public fun put(block: RequestSpecificationBuilder<Any?>.() -> Unit): BuildingStep<Any?> =
+        this.put(null, block)
 
     /**
      * Configures an HTTP HEAD request specification using the provided block and returns a `BuildingStep`
      * instance for further customization. This method utilizes the HTTP HEAD method to define the request
      * specification within the provided lambda.
      *
+     * @param P type of the request payload
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the HEAD request.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun head(
+    public fun <P : Any> head(
         name: String? = null,
-        block: RequestSpecificationBuilder<*>.() -> Unit,
-    ): BuildingStep<RequestSpecification> = method(name, Head, block)
+        block: RequestSpecificationBuilder<P?>.() -> Unit,
+    ): BuildingStep<P?> = method(name, Head, block)
+
+    /**
+     * Configures a HTTP HEAD request specification using the provided block and returns a `BuildingStep`
+     * for further customization. This method serves as a convenience shortcut.
+     *
+     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
+     * @return A `BuildingStep` instance initialized with the generated request specification.
+     */
+    public fun head(block: RequestSpecificationBuilder<Any?>.() -> Unit): BuildingStep<Any?> =
+        this.head(null, block)
 
     /**
      * Configures an HTTP OPTIONS request specification using the provided block and returns a `BuildingStep`
      * instance for further customization. This method uses the HTTP OPTIONS method to define the request
      * specification within the provided lambda.
      *
+     * @param P type of the request payload
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the OPTIONS request.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun options(
+    public fun <P : Any> options(
         name: String? = null,
-        block: RequestSpecificationBuilder<*>.() -> Unit,
-    ): BuildingStep<RequestSpecification> = method(name, Options, block)
+        block: RequestSpecificationBuilder<P?>.() -> Unit,
+    ): BuildingStep<P?> = method(name, Options, block)
+
+    /**
+     * Configures a HTTP HEAD request specification using the provided block and returns a `BuildingStep`
+     * for further customization. This method serves as a convenience shortcut.
+     *
+     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
+     * @return A `BuildingStep` instance initialized with the generated request specification.
+     */
+    public fun options(block: RequestSpecificationBuilder<Any?>.() -> Unit): BuildingStep<Any?> =
+        this.options(null, block)
 
     /**
      * Retrieves a list of all request specifications that have not been matched to any incoming requests.
@@ -218,7 +295,7 @@ public open class MokksyServer(
      *
      * @return A list of unmatched request specifications.
      */
-    public fun findAllUnmatchedRequests(): List<RequestSpecification> =
+    public fun findAllUnmatchedRequests(): List<RequestSpecification<*>> =
         stubs
             .filter {
                 it.matchCount() == 0

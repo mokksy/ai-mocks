@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
 
 internal class StubComparatorTest {
-    lateinit var request1: RequestSpecification
-    lateinit var request2: RequestSpecification
+    lateinit var request1: RequestSpecification<Int>
+    lateinit var request2: RequestSpecification<Int>
     lateinit var response: AbstractResponseDefinition<String>
 
     @BeforeEach

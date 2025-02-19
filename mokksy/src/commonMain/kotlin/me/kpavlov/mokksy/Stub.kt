@@ -21,7 +21,7 @@ private val counter = AtomicLong()
  */
 internal data class Stub<T>(
     val name: String? = null,
-    val requestSpecification: RequestSpecification,
+    val requestSpecification: RequestSpecification<*>,
     val responseDefinition: AbstractResponseDefinition<T>,
 ) : Comparable<Stub<*>> {
     /**

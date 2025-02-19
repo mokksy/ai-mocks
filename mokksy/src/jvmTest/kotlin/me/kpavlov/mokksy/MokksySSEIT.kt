@@ -3,7 +3,7 @@ package me.kpavlov.mokksy
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.kotest.matchers.equals.beEqual
-import io.ktor.client.request.post
+import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
@@ -20,7 +20,7 @@ internal class MokksySSEIT : AbstractIT({ createKtorSSEClient(it) }) {
     @Test
     fun `Should respond to SSE GET`() =
         runTest {
-            mokksy.post {
+            mokksy.get<Any>(name = "sse-get") {
                 path = beEqual("/sse")
             } respondsWithSseStream {
                 flow =
@@ -41,7 +41,7 @@ internal class MokksySSEIT : AbstractIT({ createKtorSSEClient(it) }) {
             }
 
             // when
-            val result = client.post("/sse")
+            val result = client.get("/sse")
 
             // then
             assertThat(result.status).isEqualTo(HttpStatusCode.OK)

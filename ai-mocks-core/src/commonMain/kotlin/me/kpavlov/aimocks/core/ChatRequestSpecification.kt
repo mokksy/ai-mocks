@@ -7,7 +7,7 @@ public open class ChatRequestSpecification(
     public var temperature: Double? = null,
     public var maxCompletionTokens: Long? = null,
     public var model: String? = null,
-    public val requestBody: MutableList<Matcher<String>> = mutableListOf<Matcher<String>>(),
+    public val requestBody: MutableList<Matcher<String?>> = mutableListOf(),
 ) {
     public fun temperature(temperature: Double): ChatRequestSpecification =
         apply { this.temperature = temperature }
