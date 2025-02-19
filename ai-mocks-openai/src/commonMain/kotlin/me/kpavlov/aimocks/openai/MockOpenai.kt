@@ -20,30 +20,30 @@ public open class MockOpenai(
         block: OpenaiChatRequestSpecification.() -> Unit,
     ): OpenaiBuildingStep {
         val requestStep =
-            mokksy.post(name = name) {
+            mokksy.post<ChatCompletionRequest>(name = name) {
                 val chatRequest = OpenaiChatRequestSpecification()
                 block(chatRequest)
 
                 path = beEqual("/v1/chat/completions")
 
                 chatRequest.temperature?.let {
-                    body += containJsonKeyValue("temperature", it)
+                    bodyString += containJsonKeyValue("temperature", it)
                 }
 
                 chatRequest.maxCompletionTokens?.let {
-                    body += containJsonKeyValue("max_completion_tokens", it)
+                    bodyString += containJsonKeyValue("max_completion_tokens", it)
                 }
 
                 chatRequest.seed?.let {
-                    body += containJsonKeyValue("seed", it)
+                    bodyString += containJsonKeyValue("seed", it)
                 }
 
                 chatRequest.model?.let {
-                    body += containJsonKeyValue("model", it)
+                    bodyString += containJsonKeyValue("model", it)
                 }
 
                 chatRequest.requestBody.forEach {
-                    body += it
+                    bodyString += it
                 }
             }
 

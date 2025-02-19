@@ -8,15 +8,16 @@ import io.ktor.sse.ServerSentEvent
  * This class is part of a fluent API used to define mappings between request specifications
  * and their respective responses.
  *
+ * @param P The type of the request payload.
  * @param R The type of the request specification.
  * @param name An optional name assigned to the Stub for identification or debugging purposes.
  * @property stubs A mutable collection of mappings that associate request specifications with response definitions.
  * @property requestSpecification The request specification currently being processed.
  */
-public open class BuildingStep<R : RequestSpecification> internal constructor(
+public open class BuildingStep<P> internal constructor(
     private val name: String? = null,
     private val stubs: MutableCollection<Stub<*>>,
-    protected val requestSpecification: R,
+    protected val requestSpecification: RequestSpecification<P>,
 ) {
     /**
      * Associates the current request specification with a response definition.

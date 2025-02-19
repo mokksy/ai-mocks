@@ -40,49 +40,85 @@ internal class MokksyIT : AbstractIT() {
         runTest {
             val method = HttpMethod.parse(methodName)
             doTestCallMethod(method) {
-                mokksy.method(name, method, it)
+                mokksy.method<Any>(name, method, it)
             }
         }
 
     @Test
     fun `Should respond to GET`() =
         runTest {
-            doTestCallMethod(HttpMethod.Get) { mokksy.get(name, it) }
+            doTestCallMethod(HttpMethod.Get) { mokksy.get<Any>(name, it) }
+        }
+
+    @Test
+    fun `Should respond to shortcut GET`() =
+        runTest {
+            doTestCallMethod(HttpMethod.Get) { mokksy.get(it) }
         }
 
     @Test
     fun `Should respond to OPTIONS`() =
         runTest {
-            doTestCallMethod(HttpMethod.Options) { mokksy.options(name, it) }
+            doTestCallMethod(HttpMethod.Options) { mokksy.options<Any>(name, it) }
+        }
+
+    @Test
+    fun `Should respond to shortcut OPTIONS`() =
+        runTest {
+            doTestCallMethod(HttpMethod.Options) { mokksy.options(it) }
         }
 
     @Test
     fun `Should respond to PUT`() =
         runTest {
-            doTestCallMethod(HttpMethod.Put) { mokksy.put(name, it) }
+            doTestCallMethod(HttpMethod.Put) { mokksy.put<Any>(name, it) }
+        }
+
+    @Test
+    fun `Should respond to shortcut PUT`() =
+        runTest {
+            doTestCallMethod(HttpMethod.Put) { mokksy.put(it) }
         }
 
     @Test
     fun `Should respond to PATCH`() =
         runTest {
-            doTestCallMethod(HttpMethod.Patch) { mokksy.patch(name, it) }
+            doTestCallMethod(HttpMethod.Patch) { mokksy.patch<Any>(name, it) }
+        }
+
+    @Test
+    fun `Should respond to shortcut PATCH`() =
+        runTest {
+            doTestCallMethod(HttpMethod.Patch) { mokksy.patch(it) }
         }
 
     @Test
     fun `Should respond to DELETE`() =
         runTest {
-            doTestCallMethod(HttpMethod.Delete) { mokksy.delete(name, it) }
+            doTestCallMethod(HttpMethod.Delete) { mokksy.delete<Any>(name, it) }
+        }
+
+    @Test
+    fun `Should respond to shortcut DELETE`() =
+        runTest {
+            doTestCallMethod(HttpMethod.Delete) { mokksy.delete(it) }
         }
 
     @Test
     fun `Should respond to HEAD`() =
         runTest {
-            doTestCallMethod(HttpMethod.Head) { mokksy.head(name, it) }
+            doTestCallMethod(HttpMethod.Head) { mokksy.head<Any>(name, it) }
+        }
+
+    @Test
+    fun `Should respond to shortcut HEAD`() =
+        runTest {
+            doTestCallMethod(HttpMethod.Head) { mokksy.head(it) }
         }
 
     private suspend fun doTestCallMethod(
         method: HttpMethod,
-        block: (RequestSpecificationBuilder<*>.() -> Unit) -> BuildingStep<RequestSpecification>,
+        block: (RequestSpecificationBuilder<*>.() -> Unit) -> BuildingStep<*>,
     ) {
         val expectedResponse =
             // language=json
@@ -133,7 +169,7 @@ internal class MokksyIT : AbstractIT() {
     fun `Should respond 404 to unmatched headers`() =
         runTest {
             val uri = "/unmatched-headers"
-            mokksy.get {
+            mokksy.get<Any> {
                 path = beEqual(uri)
                 this.containsHeader("Foo", "bar")
             } respondsWith {
