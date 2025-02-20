@@ -10,13 +10,13 @@ import io.ktor.sse.ServerSentEventMetadata
  *
  * @param P The type of the request payload.
  * @param name An optional name assigned to the Stub for identification or debugging purposes.
- * @property stubs A mutable collection of mappings that associate request specifications with response definitions.
+ * @property addStub Callback function to be called to add Stub to [MokksyServer]
  * @property requestSpecification The request specification currently being processed.
  */
 public open class BuildingStep<P> internal constructor(
     private val name: String? = null,
-    private val stubs: MutableCollection<Stub<*, *>>,
-    protected val requestSpecification: RequestSpecification<P>,
+    private val addStub: (Stub<P, *>) -> Unit,
+    private val requestSpecification: RequestSpecification<P>,
 ) {
     /**
      * Associates the current request specification with a response definition.
@@ -72,9 +72,4 @@ public open class BuildingStep<P> internal constructor(
         respondsWithStream<ServerSentEventMetadata<T>>(
             block,
         )
-
-    private fun addStub(stub: Stub<*, *>) {
-        val added = stubs.add(stub)
-        assert(added) { "Duplicate stub detected: $stub" }
-    }
 }
