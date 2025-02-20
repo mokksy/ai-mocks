@@ -115,11 +115,17 @@ public open class MokksyServer(
                 .apply(block)
                 .method(equalityMatcher(httpMethod))
                 .build()
+
         return BuildingStep(
             name = name,
-            stubs = stubs,
+            addStub = this::addStub,
             requestSpecification = requestSpec,
         )
+    }
+
+    private fun addStub(stub: Stub<*, *>) {
+        val added = stubs.add(stub)
+        assert(added) { "Duplicate stub detected: $stub" }
     }
 
     /**
