@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.nexusPublish) // https://github.com/gradle-nexus/publish-plugin
     kotlin("multiplatform") version libs.versions.kotlin apply false
     kotlin("plugin.serialization") version libs.versions.kotlin apply false
-    id("org.openrewrite.rewrite") version "7.1.4"
+    id("org.openrewrite.rewrite") version "7.1.5"
     signing
     id("com.diffplug.spotless") version "7.0.2"
 }
