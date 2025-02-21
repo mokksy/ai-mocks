@@ -1,7 +1,7 @@
 [versions]
 assertj = "3.27.3"
 assertk = "0.28.1"
-awaitility = "4.2.2"
+awaitility = "4.3.0"
 detekt = "1.23.8"
 dokka = "2.0.0"
 junitJupiter = "5.12.0"
