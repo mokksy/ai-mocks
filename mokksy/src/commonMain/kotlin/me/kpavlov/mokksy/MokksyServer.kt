@@ -19,6 +19,9 @@ import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.ktor.server.sse.SSE
 import kotlinx.coroutines.runBlocking
+import me.kpavlov.mokksy.request.RequestSpecification
+import me.kpavlov.mokksy.request.RequestSpecificationBuilder
+import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import java.util.concurrent.ConcurrentSkipListSet
 
 internal expect fun createEmbeddedServer(
@@ -118,12 +121,22 @@ public open class MokksyServer(
 
         return BuildingStep(
             name = name,
-            addStub = this::addStub,
+            registerStub = this::registerStub,
             requestSpecification = requestSpec,
         )
     }
 
-    private fun addStub(stub: Stub<*, *>) {
+    private fun <P> registerStub(
+        name: String? = null,
+        requestSpecification: RequestSpecification<P>,
+        responseDefinition: AbstractResponseDefinition<*>,
+    ) {
+        val stub =
+            Stub(
+                name = name,
+                requestSpecification = requestSpecification,
+                responseDefinition = responseDefinition,
+            )
         val added = stubs.add(stub)
         assert(added) { "Duplicate stub detected: $stub" }
     }

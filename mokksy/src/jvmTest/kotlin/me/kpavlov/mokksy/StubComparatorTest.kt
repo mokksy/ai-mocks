@@ -4,6 +4,8 @@ import assertk.assertThat
 import assertk.assertions.isNegative
 import assertk.assertions.isPositive
 import assertk.assertions.isZero
+import me.kpavlov.mokksy.request.RequestSpecification
+import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock

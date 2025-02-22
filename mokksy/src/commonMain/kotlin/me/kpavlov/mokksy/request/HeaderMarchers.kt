@@ -1,4 +1,4 @@
-package me.kpavlov.mokksy
+package me.kpavlov.mokksy.request
 
 import io.kotest.matchers.Matcher
 import io.kotest.matchers.MatcherResult

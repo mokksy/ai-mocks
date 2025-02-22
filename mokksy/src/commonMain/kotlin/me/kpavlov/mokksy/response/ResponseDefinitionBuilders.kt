@@ -1,4 +1,4 @@
-package me.kpavlov.mokksy
+package me.kpavlov.mokksy.response
 
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode

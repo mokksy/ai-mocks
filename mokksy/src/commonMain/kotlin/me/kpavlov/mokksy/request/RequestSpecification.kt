@@ -1,4 +1,4 @@
-package me.kpavlov.mokksy
+package me.kpavlov.mokksy.request
 
 import io.kotest.matchers.Matcher
 import io.kotest.matchers.string.contain
@@ -138,7 +138,9 @@ public open class RequestSpecificationBuilder<P> {
         headerName: String,
         headerValue: String,
     ): RequestSpecificationBuilder<P> {
-        headers += me.kpavlov.mokksy.containsHeader(headerName, headerValue)
+        headers +=
+            me.kpavlov.mokksy.request
+                .containsHeader(headerName, headerValue)
         return this
     }
 

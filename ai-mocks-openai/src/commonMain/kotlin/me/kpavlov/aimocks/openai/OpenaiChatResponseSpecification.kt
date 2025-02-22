@@ -2,7 +2,7 @@ package me.kpavlov.aimocks.openai
 
 import kotlinx.coroutines.flow.Flow
 import me.kpavlov.aimocks.core.ChatResponseSpecification
-import me.kpavlov.mokksy.AbstractResponseDefinition
+import me.kpavlov.mokksy.response.AbstractResponseDefinition
 
 public class OpenaiChatResponseSpecification(
     response: AbstractResponseDefinition<String>,
