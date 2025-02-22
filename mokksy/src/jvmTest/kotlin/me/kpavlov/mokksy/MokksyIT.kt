@@ -3,21 +3,27 @@ package me.kpavlov.mokksy
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.kotest.matchers.equals.beEqual
+import io.kotest.matchers.shouldBe
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
+import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.contentType
 import kotlinx.coroutines.test.runTest
+import kotlinx.serialization.json.Json
 import me.kpavlov.mokksy.request.RequestSpecificationBuilder
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import java.util.concurrent.atomic.AtomicReference
 import kotlin.random.Random
 import kotlin.test.BeforeTest
+import kotlin.test.fail
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -25,10 +31,14 @@ import kotlin.uuid.Uuid
 internal class MokksyIT : AbstractIT() {
     private lateinit var name: String
 
+    private lateinit var requestPayload: TestPerson
+
     @OptIn(ExperimentalUuidApi::class)
     @BeforeTest
     fun before() {
         name = Uuid.random().toString()
+
+        requestPayload = TestPerson.random()
     }
 
     @ParameterizedTest()
@@ -121,39 +131,47 @@ internal class MokksyIT : AbstractIT() {
         method: HttpMethod,
         block: (RequestSpecificationBuilder<*>.() -> Unit) -> BuildingStep<*>,
     ) {
-        val expectedResponse =
-            // language=json
-            """
-            {
-                "response": "Pong"
-            }
-            """.trimIndent()
         val configurer: RequestSpecificationBuilder<*>.() -> Unit = {
             path = beEqual("/method-$method")
             this.containsHeader("X-Seed", "$seed")
         }
+
+        val expectedResponseRef = AtomicReference<String>()
+        val requestAsString = Json.encodeToString(requestPayload)
+
         block.invoke {
             configurer(this)
         } respondsWith {
-            body = expectedResponse
+            try {
+                this.request.bodyAsString shouldBe requestAsString
+            } catch (e: AssertionError) {
+                logger.error(e) { "Request bodyAsString does not match." }
+                throw e
+            }
+
+            val responsePayload = TestOrder.random(person = requestPayload)
+            body = Json.encodeToString(responsePayload)
+            expectedResponseRef.set(body) // safely store the response for verification
         }
 
         // when
         val result =
             client.request("/method-$method") {
                 this.method = method
-                this.headers.append("X-Seed", "$seed")
+                headers.append("X-Seed", "$seed")
+                contentType(ContentType.Application.Json)
+                setBody(requestAsString)
             }
 
         // then
-        assertThat(result.status).isEqualTo(HttpStatusCode.OK)
-        assertThat(result.bodyAsText()).isEqualTo(
-            if (method != HttpMethod.Head) {
-                expectedResponse
-            } else {
-                ""
-            },
-        )
+        result.status shouldBe HttpStatusCode.OK
+        result.status shouldBe HttpStatusCode.OK
+
+        if (method != HttpMethod.Head) {
+            result.bodyAsText() shouldBe expectedResponseRef.get()
+        } else {
+            result.bodyAsText() shouldBe ""
+        }
     }
 
     @Test
@@ -174,6 +192,7 @@ internal class MokksyIT : AbstractIT() {
                 path = beEqual(uri)
                 this.containsHeader("Foo", "bar")
             } respondsWith {
+                fail("✋🛑 Should not be called")
                 httpStatus = HttpStatusCode.OK
                 body = "Hello"
             }

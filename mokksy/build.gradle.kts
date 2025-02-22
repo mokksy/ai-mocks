@@ -39,13 +39,16 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(kotlin("test"))
-                implementation(libs.ktor.client.core)
                 implementation(libs.assertk)
-                implementation(libs.mockk)
+                implementation(libs.datafaker)
                 implementation(libs.kotlinx.coroutines.test)
-                implementation(libs.mockito.kotlin)
                 implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.client.core)
                 implementation(libs.ktor.serialization.kotlinx.json)
+                implementation(libs.mockito.kotlin)
+                implementation(libs.mockk)
+                implementation(libs.mockk.dsl)
+                implementation(libs.kotlinLogging)
             }
         }
 
@@ -60,6 +63,7 @@ kotlin {
             dependencies {
                 implementation(libs.ktor.client.java)
                 implementation(libs.junit.jupiter.params)
+                runtimeOnly(libs.slf4j.simple)
             }
         }
     }

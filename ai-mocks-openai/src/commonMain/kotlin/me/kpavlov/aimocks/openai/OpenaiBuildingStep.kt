@@ -86,7 +86,8 @@ public class OpenaiBuildingStep(
     @OptIn(ExperimentalCoroutinesApi::class)
     public infix fun respondsStream(block: OpenaiStreamingChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWithStream<String> {
-            val responseDefinition: StreamResponseDefinition<String> = this.build()
+            val responseDefinition: StreamResponseDefinition<*, String> =
+                this.build()
             val responseSpec =
                 OpenaiStreamingChatResponseSpecification(
                     responseDefinition,

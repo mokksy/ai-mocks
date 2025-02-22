@@ -22,8 +22,8 @@ import kotlinx.coroutines.flow.emptyFlow
  * @param responseDefinition Defines the streaming response, including the data chunks and content type.
  * @param call The `ApplicationCall` instance associated with the current HTTP request.
  */
-internal suspend fun <T> respondWithStream(
-    responseDefinition: StreamResponseDefinition<T>,
+internal suspend fun <P, T> respondWithStream(
+    responseDefinition: StreamResponseDefinition<P, T>,
     call: ApplicationCall,
     verbose: Boolean,
 ) {
@@ -75,8 +75,8 @@ internal suspend fun <T> respondWithStream(
  * @param responseDefinition Defines the SSE stream response, including the flow of server-sent events to be sent.
  * @param call The `ApplicationCall` representing the current HTTP request and response context.
  */
-internal suspend fun respondWithSseStream(
-    responseDefinition: SseStreamResponseDefinition,
+internal suspend fun <T> respondWithSseStream(
+    responseDefinition: SseStreamResponseDefinition<T>,
     call: ApplicationCall,
     verbose: Boolean,
 ) {

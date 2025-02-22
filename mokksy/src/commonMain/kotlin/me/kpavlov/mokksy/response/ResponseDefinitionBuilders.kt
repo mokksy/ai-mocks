@@ -4,6 +4,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.response.ResponseHeaders
 import kotlinx.coroutines.flow.Flow
+import me.kpavlov.mokksy.CapturedRequest
 import java.util.Collections
 
 /**
@@ -11,21 +12,36 @@ import java.util.Collections
  * request-to-response mappings. This class allows customization of the HTTP status code and headers
  * and provides a mechanism for building concrete response definitions.
  *
- * @param T The type of the response data.
+ * @param P The type of the request body. This determines the input type for which the response is being defined.
+ * @param T The type of the response data, which is returned to the client.
  * @property httpStatus The HTTP status code to be associated with the response.
  * @property headers A mutable list of header key-value pairs to be included in the response.
  */
-public abstract class AbstractResponseDefinitionBuilder<T>(
+public abstract class AbstractResponseDefinitionBuilder<P, T>(
     public var httpStatus: HttpStatusCode,
     public val headers: MutableList<Pair<String, String>>,
 ) {
+    /**
+     * A lambda function for configuring additional response headers.
+     * This function can define custom headers or override existing ones.
+     */
     protected var headersLambda: (ResponseHeaders.() -> Unit)? = null
 
+    /**
+     * Configures additional headers for the response using the specified lambda block.
+     *
+     * @param block A lambda function applied to the [ResponseHeaders] object to configure headers.
+     */
     public fun headers(block: ResponseHeaders.() -> Unit) {
         this.headersLambda = block
     }
 
-    protected abstract fun build(): AbstractResponseDefinition<T>
+    /**
+     * Abstract method to build a concrete response definition.
+     *
+     * @return An instance of [AbstractResponseDefinition].
+     */
+    protected abstract fun build(): AbstractResponseDefinition<P, T>
 }
 
 /**
@@ -41,14 +57,15 @@ public abstract class AbstractResponseDefinitionBuilder<T>(
  * Inherits functionality from [AbstractResponseDefinitionBuilder] to allow additional header manipulations
  * and provides a concrete implementation of the response building process.
  */
-public open class ResponseDefinitionBuilder<T>(
+public open class ResponseDefinitionBuilder<P, T>(
+    public val request: CapturedRequest<P>,
     public var contentType: ContentType? = null,
     public var body: T? = null,
     httpStatus: HttpStatusCode = HttpStatusCode.OK,
     headers: MutableList<Pair<String, String>> = mutableListOf(),
-) : AbstractResponseDefinitionBuilder<T>(httpStatus = httpStatus, headers = headers) {
-    public override fun build(): ResponseDefinition<T> =
-        ResponseDefinition<T>(
+) : AbstractResponseDefinitionBuilder<P, T>(httpStatus = httpStatus, headers = headers) {
+    public override fun build(): ResponseDefinition<P, T> =
+        ResponseDefinition<P, T>(
             body = body,
             contentType = contentType ?: ContentType.Application.Json,
             httpStatus = httpStatus,
@@ -63,15 +80,16 @@ public open class ResponseDefinitionBuilder<T>(
  * This class is responsible for building instances of `StreamResponseDefinition`,
  * which define responses capable of streaming data either as chunks or via a flow.
  *
+ * @param P The type of the request body.
  * @param T The type of data being streamed.
  * @property flow A `Flow` representing streaming data content.
  * @property chunks A mutable list of data chunks to be sent as part of the*/
-public open class StreamingResponseDefinitionBuilder<T>(
+public open class StreamingResponseDefinitionBuilder<P, T>(
     public var flow: Flow<T>? = null,
     public var chunks: MutableList<T> = mutableListOf(),
     httpStatus: HttpStatusCode = HttpStatusCode.OK,
     headers: MutableList<Pair<String, String>> = mutableListOf(),
-) : AbstractResponseDefinitionBuilder<T>(httpStatus = httpStatus, headers = headers) {
+) : AbstractResponseDefinitionBuilder<P, T>(httpStatus = httpStatus, headers = headers) {
     /**
      * Builds an instance of `StreamResponseDefinition`.
      *
@@ -80,10 +98,12 @@ public open class StreamingResponseDefinitionBuilder<T>(
      * of the builder. The resulting `StreamResponseDefinition` can then be used to represent
      * a streaming response.
      *
+     * @param P The type of the request body.
+     * @param T The type of data being streamed.
      * @return A fully constructed `StreamResponseDefinition` instance containing the configured response details.
      */
-    public override fun build(): StreamResponseDefinition<T> =
-        StreamResponseDefinition<T>(
+    public override fun build(): StreamResponseDefinition<P, T> =
+        StreamResponseDefinition<P, T>(
             chunkFlow = flow,
             chunks = chunks.toList(),
             httpStatus = httpStatus,

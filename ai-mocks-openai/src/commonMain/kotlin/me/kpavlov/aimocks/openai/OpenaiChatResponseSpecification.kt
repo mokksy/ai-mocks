@@ -5,7 +5,7 @@ import me.kpavlov.aimocks.core.ChatResponseSpecification
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 
 public class OpenaiChatResponseSpecification(
-    response: AbstractResponseDefinition<String>,
+    response: AbstractResponseDefinition<*, String>,
     public var textContent: String = "",
     public var responseFlow: Flow<String>? = null,
     public var responseChunks: List<String>? = null,
@@ -20,7 +20,7 @@ public class OpenaiChatResponseSpecification(
 }
 
 public class OpenaiStreamingChatResponseSpecification(
-    response: AbstractResponseDefinition<String>,
+    response: AbstractResponseDefinition<*, String>,
     public var responseFlow: Flow<String>? = null,
     public var responseChunks: List<String>? = null,
     public var delayBetweenChunksMs: Long = 0,
