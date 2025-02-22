@@ -10,12 +10,16 @@ import io.ktor.sse.ServerSentEventMetadata
  *
  * @param P The type of the request payload.
  * @param name An optional name assigned to the Stub for identification or debugging purposes.
- * @property addStub Callback function to be called to add Stub to [MokksyServer]
+ * @property registerStub Callback function to be called to register new [Stub] to [MokksyServer]
  * @property requestSpecification The request specification currently being processed.
  */
-public open class BuildingStep<P> internal constructor(
+public class BuildingStep<P> internal constructor(
     private val name: String? = null,
-    private val addStub: (Stub<P, *>) -> Unit,
+    private val registerStub: (
+        name: String?,
+        requestSpecification: RequestSpecification<P>,
+        responseDefinition: AbstractResponseDefinition<*>,
+    ) -> Unit,
     private val requestSpecification: RequestSpecification<P>,
 ) {
     /**
@@ -26,15 +30,13 @@ public open class BuildingStep<P> internal constructor(
      * @param block A lambda function applied to a [ResponseDefinitionBuilder],
      * used to configure the response definition.
      */
-    public open infix fun <T> respondsWith(block: ResponseDefinitionBuilder<T>.() -> Unit) {
+    public infix fun <T> respondsWith(block: ResponseDefinitionBuilder<T>.() -> Unit) {
         val responseDefinition = ResponseDefinitionBuilder<T>().apply(block).build()
-        val stub =
-            Stub(
-                name,
-                requestSpecification,
-                responseDefinition,
-            )
-        addStub(stub)
+        registerStub(
+            name,
+            requestSpecification,
+            responseDefinition,
+        )
     }
 
     /**
@@ -45,17 +47,15 @@ public open class BuildingStep<P> internal constructor(
      * @param block A lambda function applied to a [StreamingResponseDefinitionBuilder],
      * used to configure the streaming response definition.
      */
-    public open infix fun <T> respondsWithStream(
+    public infix fun <T> respondsWithStream(
         block: StreamingResponseDefinitionBuilder<T>.() -> Unit,
     ) {
         val responseDefinition = StreamingResponseDefinitionBuilder<T>().apply(block).build()
-        val stub =
-            Stub(
-                name,
-                requestSpecification,
-                responseDefinition,
-            )
-        addStub(stub)
+        registerStub(
+            name,
+            requestSpecification,
+            responseDefinition,
+        )
     }
 
     /**
@@ -66,7 +66,7 @@ public open class BuildingStep<P> internal constructor(
      * @param block A lambda function applied to a [StreamingResponseDefinitionBuilder] specifically for
      * configuring the response as a stream of server-sent events.
      */
-    public open infix fun <T : Any> respondsWithSseStream(
+    public infix fun <T : Any> respondsWithSseStream(
         block: StreamingResponseDefinitionBuilder<ServerSentEventMetadata<T>>.() -> Unit,
     ): Unit =
         respondsWithStream<ServerSentEventMetadata<T>>(
