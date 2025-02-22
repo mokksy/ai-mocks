@@ -2,30 +2,32 @@
 assertj = "3.27.3"
 assertk = "0.28.1"
 awaitility = "4.3.0"
+datafaker="2.4.2"
 detekt = "1.23.8"
 dokka = "2.0.0"
 junitJupiter = "5.12.0"
 kotest = "5.9.1"
 kotlin = "2.1.10"
-mockk = "1.13.16"
 kotlinLogging = "7.0.4"
 kotlinx = "1.10.1"
 kover = "0.9.1"
 ktor = "3.1.0"
+langchain4j = "1.0.0-beta1"
+langchain4jKotlin = "0.1.8"
 mockito = "5.15.2"
 mockito-kotlin = "5.4.0"
+mockk = "1.13.16"
 netty = "4.1.118.Final"
 nexusPublish = "2.0.0"
+openai = "0.26.1"
 slf4j = "2.0.16"
 spring = "6.2.3"
-openai = "0.26.1"
-langchain4jKotlin = "0.1.8"
-langchain4j = "1.0.0-beta1"
 
 [libraries]
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }
 awaitility-kotlin = { group = "org.awaitility", name = "awaitility-kotlin", version.ref = "awaitility" }
+datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
 junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junitJupiter" }
 junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junitJupiter" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
@@ -48,6 +50,7 @@ langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai", 
 mockito = { group = "org.mockito", name = "mockito-junit-jupiter", version.ref = "mockito" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockk-dsl = { module = "io.mockk:mockk-dsl", version.ref = "mockk" }
 netty = { group = "io.netty", name = "netty-handler", version.ref = "netty" }
 openai-java = { group = "com.openai", name = "openai-java", version.ref = "openai" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }

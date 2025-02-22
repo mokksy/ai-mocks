@@ -1,5 +1,6 @@
 package me.kpavlov.mokksy
 
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.ktor.http.HttpStatusCode
 import io.mockk.CapturingSlot
@@ -7,8 +8,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import me.kpavlov.mokksy.request.RequestSpecification
-import me.kpavlov.mokksy.response.AbstractResponseDefinition
-import kotlin.ranges.IntRange
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.uuid.ExperimentalUuidApi
@@ -22,14 +21,11 @@ internal class BuildingStepTest {
     private lateinit var request: RequestSpecification<Input>
     private lateinit var expectedHttpStatus: HttpStatusCode
 
-    private lateinit var stubName: CapturingSlot<String?>
+    private lateinit var stub: CapturingSlot<Stub<*, *>>
     private lateinit var requestSpecification: CapturingSlot<RequestSpecification<*>>
-    private lateinit var responseDefinition: CapturingSlot<AbstractResponseDefinition<*>>
 
-    private lateinit var registerStubCallback: (
-        name: String?,
-        requestSpecification: RequestSpecification<*>,
-        responseDefinition: AbstractResponseDefinition<*>,
+    private lateinit var addStubCallback: (
+        stub: Stub<*, *>,
     ) -> Unit
 
     @OptIn(ExperimentalUuidApi::class)
@@ -37,23 +33,23 @@ internal class BuildingStepTest {
     fun before() {
         name = Uuid.random().toString()
         request = mockk()
-        registerStubCallback = mockk()
+        addStubCallback = mockk()
         expectedHttpStatus = HttpStatusCode.fromValue(IntRange(100, 500).random())
 
-        stubName = slot<String?>()
+        stub = slot<Stub<*, *>>()
         requestSpecification = slot<RequestSpecification<*>>()
-        responseDefinition = slot<AbstractResponseDefinition<*>>()
 
         every {
-            registerStubCallback(
-                captureNullable(stubName),
-                capture(requestSpecification),
-                capture(responseDefinition),
-            )
+            addStubCallback(capture(stub))
         } returns
             Unit
 
-        subject = BuildingStep(name, registerStubCallback, request)
+        subject =
+            BuildingStep(
+                name = name,
+                requestSpecification = request,
+                registerStub = addStubCallback,
+            )
     }
 
     @Test
@@ -63,12 +59,6 @@ internal class BuildingStepTest {
         }
 
         verifyStub()
-    }
-
-    private fun verifyStub() {
-        stubName.captured shouldBe name
-        requestSpecification.captured shouldBe request
-        responseDefinition.captured.httpStatus shouldBe expectedHttpStatus
     }
 
     @Test
@@ -85,5 +75,13 @@ internal class BuildingStepTest {
             httpStatus = expectedHttpStatus
         }
         verifyStub()
+    }
+
+    private fun verifyStub() {
+        stub.captured.apply {
+            this.name shouldBe name
+            this.requestSpecification shouldBe request
+            this.responseDefinitionSupplier shouldNotBeNull { }
+        }
     }
 }

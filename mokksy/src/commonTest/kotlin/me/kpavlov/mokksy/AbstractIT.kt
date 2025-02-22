@@ -1,5 +1,6 @@
 package me.kpavlov.mokksy
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.HttpClient
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -16,6 +17,8 @@ internal abstract class AbstractIT(
     },
 ) {
     protected val client: HttpClient = clientSupplier(mokksy.port())
+
+    protected val logger = KotlinLogging.logger(name = this::class.simpleName!!)
 
     /**
      * Represents a seed value that is used for random number generation in tests.

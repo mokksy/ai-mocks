@@ -3,8 +3,8 @@ package me.kpavlov.mokksy
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.response.respond
 import me.kpavlov.mokksy.request.RequestSpecification
-import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import me.kpavlov.mokksy.response.ResponseDefinition
+import me.kpavlov.mokksy.response.ResponseDefinitionSupplier
 import me.kpavlov.mokksy.response.SseStreamResponseDefinition
 import me.kpavlov.mokksy.response.StreamResponseDefinition
 import me.kpavlov.mokksy.response.respondWithSseStream
@@ -26,11 +26,12 @@ private val counter = AtomicLong()
  * @param name An optional name assigned to the Stub for identification or debugging purposes.
  * @property requestSpecification Defines the criteria used to match incoming requests.
  * @property responseDefinition Specifies the response to send for matched requests.
+ * @property responseDefinitionSupplier Function providing responseDefinition.
  */
 internal data class Stub<P, T>(
     val name: String? = null,
     val requestSpecification: RequestSpecification<P>,
-    val responseDefinition: AbstractResponseDefinition<T>,
+    val responseDefinitionSupplier: ResponseDefinitionSupplier<P, T>,
 ) : Comparable<Stub<*, *>> {
     /**
      * Represents the order of creation for an instance of the containing class.
@@ -64,6 +65,7 @@ internal data class Stub<P, T>(
         call: ApplicationCall,
         verbose: Boolean,
     ) {
+        val responseDefinition = responseDefinitionSupplier.invoke(call)
         call.response.headers.let {
             responseDefinition.headers?.invoke(it)
             it.apply {
@@ -81,7 +83,7 @@ internal data class Stub<P, T>(
                 respondWithStream(responseDefinition, call, verbose)
             }
 
-            is ResponseDefinition<T> -> {
+            is ResponseDefinition<P, T> -> {
                 call.respond(
                     status = responseDefinition.httpStatus,
                     message = responseDefinition.body as Any,
@@ -102,9 +104,9 @@ internal data class Stub<P, T>(
 
     fun toLogString(): String =
         if (name?.isNotBlank() == true) {
-            "Stub('$name')[requestSpec=${requestSpecification.toLogString()}, responseDef=$responseDefinition]"
+            "Stub('$name')[requestSpec=${requestSpecification.toLogString()}]"
         } else {
-            "Stub[requestSpec=${requestSpecification.toLogString()}, responseDef=$responseDefinition]"
+            "Stub[requestSpec=${requestSpecification.toLogString()}]"
         }
 }
 
