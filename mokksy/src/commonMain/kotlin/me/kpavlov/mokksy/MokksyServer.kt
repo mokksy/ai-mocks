@@ -10,10 +10,12 @@ import io.ktor.http.HttpMethod.Companion.Options
 import io.ktor.http.HttpMethod.Companion.Patch
 import io.ktor.http.HttpMethod.Companion.Post
 import io.ktor.http.HttpMethod.Companion.Put
+import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.engine.ApplicationEngine
 import io.ktor.server.engine.EmbeddedServer
+import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.doublereceive.DoubleReceive
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
@@ -22,6 +24,7 @@ import kotlinx.coroutines.runBlocking
 import me.kpavlov.mokksy.request.RequestSpecification
 import me.kpavlov.mokksy.request.RequestSpecificationBuilder
 import java.util.concurrent.ConcurrentSkipListSet
+import kotlin.reflect.KClass
 
 internal expect fun createEmbeddedServer(
     host: String = "0.0.0.0",
@@ -62,6 +65,10 @@ public open class MokksyServer(
             install(SSE)
 
             install(DoubleReceive)
+
+            install(ContentNegotiation) {
+                json()
+            }
 
             routing {
                 route("{...}") {
@@ -107,21 +114,23 @@ public open class MokksyServer(
      * @param block A lambda used to configure the `RequestSpecificationBuilder`.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun <P> method(
+    public fun <P : Any> method(
         name: String? = null,
         httpMethod: HttpMethod,
-        block: RequestSpecificationBuilder<P?>.() -> Unit,
-    ): BuildingStep<P?> {
+        requestType: KClass<P>,
+        block: RequestSpecificationBuilder<P>.() -> Unit,
+    ): BuildingStep<P> {
         val requestSpec =
-            RequestSpecificationBuilder<P?>()
+            RequestSpecificationBuilder<P>()
                 .apply(block)
                 .method(equalityMatcher(httpMethod))
                 .build()
 
-        return BuildingStep(
+        return BuildingStep<P>(
             name = name,
             requestSpecification = requestSpec,
             registerStub = this::registerStub,
+            requestType = requestType,
         )
     }
 
@@ -140,18 +149,29 @@ public open class MokksyServer(
      */
     public fun <P : Any> get(
         name: String? = null,
-        block: RequestSpecificationBuilder<P?>.() -> Unit,
-    ): BuildingStep<P?> = method(name, Get, block)
+        requestType: KClass<P>,
+        block: RequestSpecificationBuilder<P>.() -> Unit,
+    ): BuildingStep<P> =
+        method(
+            name = name,
+            httpMethod = Get,
+            requestType = requestType,
+            block = block,
+        )
 
     /**
-     * Configures a HTTP GET request specification using the provided block and returns a `BuildingStep`
+     * Configures HTTP GET request specification using the provided block and returns a `BuildingStep`
      * for further customization. This method serves as a convenience shortcut.
      *
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun get(block: RequestSpecificationBuilder<Any?>.() -> Unit): BuildingStep<Any?> =
-        this.get(null, block)
+    public fun get(block: RequestSpecificationBuilder<String>.() -> Unit): BuildingStep<String> =
+        this.get<String>(
+            name = null,
+            requestType = String::class,
+            block = block,
+        )
 
     /**
      * Configures an HTTP POST request specification using the provided block and returns a `BuildingStep`
@@ -164,8 +184,15 @@ public open class MokksyServer(
      */
     public fun <P : Any> post(
         name: String? = null,
-        block: RequestSpecificationBuilder<P?>.() -> Unit,
-    ): BuildingStep<P?> = method(name, Post, block)
+        requestType: KClass<P>,
+        block: RequestSpecificationBuilder<P>.() -> Unit,
+    ): BuildingStep<P> =
+        method(
+            name = name,
+            httpMethod = Post,
+            requestType = requestType,
+            block = block,
+        )
 
     /**
      * Configures a HTTP POST request specification using the provided block and returns a `BuildingStep`
@@ -174,8 +201,8 @@ public open class MokksyServer(
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun post(block: RequestSpecificationBuilder<Any?>.() -> Unit): BuildingStep<Any?> =
-        this.post(null, block)
+    public fun post(block: RequestSpecificationBuilder<String>.() -> Unit): BuildingStep<String> =
+        this.post(name = null, requestType = String::class, block = block)
 
     /**
      * Configures an HTTP DELETE request specification using the provided block and returns a `BuildingStep`
@@ -188,8 +215,15 @@ public open class MokksyServer(
      */
     public fun <P : Any> delete(
         name: String? = null,
-        block: RequestSpecificationBuilder<P?>.() -> Unit,
-    ): BuildingStep<P?> = method(name, Delete, block)
+        requestType: KClass<P>,
+        block: RequestSpecificationBuilder<P>.() -> Unit,
+    ): BuildingStep<P> =
+        method(
+            name = name,
+            httpMethod = Delete,
+            requestType = requestType,
+            block = block,
+        )
 
     /**
      * Configures a HTTP DELETE request specification using the provided block and returns a `BuildingStep`
@@ -198,8 +232,8 @@ public open class MokksyServer(
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun delete(block: RequestSpecificationBuilder<Any?>.() -> Unit): BuildingStep<Any?> =
-        this.delete(null, block)
+    public fun delete(block: RequestSpecificationBuilder<String>.() -> Unit): BuildingStep<String> =
+        this.delete(name = null, requestType = String::class, block = block)
 
     /**
      * Configures an HTTP PATCH request specification using the provided block and returns a `BuildingStep`
@@ -212,8 +246,15 @@ public open class MokksyServer(
      */
     public fun <P : Any> patch(
         name: String? = null,
-        block: RequestSpecificationBuilder<P?>.() -> Unit,
-    ): BuildingStep<P?> = method(name, Patch, block)
+        requestType: KClass<P>,
+        block: RequestSpecificationBuilder<P>.() -> Unit,
+    ): BuildingStep<P> =
+        method(
+            name = name,
+            httpMethod = Patch,
+            requestType = requestType,
+            block = block,
+        )
 
     /**
      * Configures a HTTP PATCH request specification using the provided block and returns a `BuildingStep`
@@ -222,8 +263,8 @@ public open class MokksyServer(
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun patch(block: RequestSpecificationBuilder<Any?>.() -> Unit): BuildingStep<Any?> =
-        this.patch(null, block)
+    public fun patch(block: RequestSpecificationBuilder<String>.() -> Unit): BuildingStep<String> =
+        this.patch(name = null, requestType = String::class, block = block)
 
     /**
      * Configures an HTTP PUT request specification using the provided block and returns a `BuildingStep`
@@ -236,8 +277,15 @@ public open class MokksyServer(
      */
     public fun <P : Any> put(
         name: String? = null,
-        block: RequestSpecificationBuilder<P?>.() -> Unit,
-    ): BuildingStep<P?> = method(name, Put, block)
+        requestType: KClass<P>,
+        block: RequestSpecificationBuilder<P>.() -> Unit,
+    ): BuildingStep<P> =
+        method(
+            name = name,
+            httpMethod = Put,
+            requestType = requestType,
+            block = block,
+        )
 
     /**
      * Configures a HTTP PUT request specification using the provided block and returns a `BuildingStep`
@@ -246,8 +294,8 @@ public open class MokksyServer(
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun put(block: RequestSpecificationBuilder<Any?>.() -> Unit): BuildingStep<Any?> =
-        this.put(null, block)
+    public fun put(block: RequestSpecificationBuilder<String>.() -> Unit): BuildingStep<String> =
+        this.put(name = null, requestType = String::class, block = block)
 
     /**
      * Configures an HTTP HEAD request specification using the provided block and returns a `BuildingStep`
@@ -260,8 +308,15 @@ public open class MokksyServer(
      */
     public fun <P : Any> head(
         name: String? = null,
-        block: RequestSpecificationBuilder<P?>.() -> Unit,
-    ): BuildingStep<P?> = method(name, Head, block)
+        requestType: KClass<P>,
+        block: RequestSpecificationBuilder<P>.() -> Unit,
+    ): BuildingStep<P> =
+        method(
+            name = name,
+            httpMethod = Head,
+            requestType = requestType,
+            block = block,
+        )
 
     /**
      * Configures a HTTP HEAD request specification using the provided block and returns a `BuildingStep`
@@ -270,8 +325,8 @@ public open class MokksyServer(
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun head(block: RequestSpecificationBuilder<Any?>.() -> Unit): BuildingStep<Any?> =
-        this.head(null, block)
+    public fun head(block: RequestSpecificationBuilder<String>.() -> Unit): BuildingStep<String> =
+        this.head(name = null, requestType = String::class, block = block)
 
     /**
      * Configures an HTTP OPTIONS request specification using the provided block and returns a `BuildingStep`
@@ -284,8 +339,15 @@ public open class MokksyServer(
      */
     public fun <P : Any> options(
         name: String? = null,
-        block: RequestSpecificationBuilder<P?>.() -> Unit,
-    ): BuildingStep<P?> = method(name, Options, block)
+        requestType: KClass<P>,
+        block: RequestSpecificationBuilder<P>.() -> Unit,
+    ): BuildingStep<P> =
+        method(
+            name = name,
+            httpMethod = Options,
+            requestType = requestType,
+            block = block,
+        )
 
     /**
      * Configures a HTTP HEAD request specification using the provided block and returns a `BuildingStep`
@@ -294,8 +356,9 @@ public open class MokksyServer(
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
      * @return A `BuildingStep` instance initialized with the generated request specification.
      */
-    public fun options(block: RequestSpecificationBuilder<Any?>.() -> Unit): BuildingStep<Any?> =
-        this.options(null, block)
+    public fun options(
+        block: RequestSpecificationBuilder<String>.() -> Unit,
+    ): BuildingStep<String> = this.options(name = null, requestType = String::class, block = block)
 
     /**
      * Retrieves a list of all request specifications that have not been matched to any incoming requests.

@@ -42,6 +42,7 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor" }
 ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-double-receive = { module = "io.ktor:ktor-server-double-receive", version.ref = "ktor" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 ktor-server-sse = { module = "io.ktor:ktor-server-sse", version.ref = "ktor" }
 langchain4j-bom = { group = "dev.langchain4j", name = "langchain4j-bom", version.ref = "langchain4j" }

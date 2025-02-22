@@ -4,6 +4,7 @@ import io.ktor.sse.ServerSentEventMetadata
 import me.kpavlov.mokksy.request.RequestSpecification
 import me.kpavlov.mokksy.response.ResponseDefinitionBuilder
 import me.kpavlov.mokksy.response.StreamingResponseDefinitionBuilder
+import kotlin.reflect.KClass
 
 /**
  * Defines the building step for associating an inbound request specification with its corresponding
@@ -16,7 +17,8 @@ import me.kpavlov.mokksy.response.StreamingResponseDefinitionBuilder
  * @property registerStub Callback function to be called to register new [Stub] to [MokksyServer]
  * @property requestSpecification The request specification currently being processed.
  */
-public class BuildingStep<P> internal constructor(
+public class BuildingStep<P : Any> internal constructor(
+    private val requestType: KClass<P>,
     private val name: String? = null,
     private val requestSpecification: RequestSpecification<P>,
     private val registerStub: (Stub<*, *>) -> Unit,
@@ -35,7 +37,7 @@ public class BuildingStep<P> internal constructor(
                 name = name,
                 requestSpecification = requestSpecification,
             ) { call ->
-                val req = CapturedRequest<P>(call.request)
+                val req = CapturedRequest<P>(call.request, requestType)
                 ResponseDefinitionBuilder<P, T>(request = req)
                     .apply(block)
                     .build()
@@ -59,7 +61,7 @@ public class BuildingStep<P> internal constructor(
                 name = name,
                 requestSpecification = requestSpecification,
             ) { call ->
-                val req = CapturedRequest<P>(call.request)
+                val req = CapturedRequest<P>(call.request, requestType)
                 StreamingResponseDefinitionBuilder<P, T>()
                     .apply(block)
                     .build()

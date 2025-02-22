@@ -49,6 +49,7 @@ internal class BuildingStepTest {
                 name = name,
                 requestSpecification = request,
                 registerStub = addStubCallback,
+                requestType = Input::class,
             )
     }
 
