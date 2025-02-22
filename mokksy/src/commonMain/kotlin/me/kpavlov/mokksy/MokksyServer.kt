@@ -19,6 +19,9 @@ import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.ktor.server.sse.SSE
 import kotlinx.coroutines.runBlocking
+import me.kpavlov.mokksy.request.RequestSpecification
+import me.kpavlov.mokksy.request.RequestSpecificationBuilder
+import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import java.util.concurrent.ConcurrentSkipListSet
 
 internal expect fun createEmbeddedServer(

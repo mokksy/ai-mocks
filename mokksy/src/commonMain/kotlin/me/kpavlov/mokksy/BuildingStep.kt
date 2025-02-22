@@ -1,6 +1,10 @@
 package me.kpavlov.mokksy
 
 import io.ktor.sse.ServerSentEventMetadata
+import me.kpavlov.mokksy.request.RequestSpecification
+import me.kpavlov.mokksy.response.AbstractResponseDefinition
+import me.kpavlov.mokksy.response.ResponseDefinitionBuilder
+import me.kpavlov.mokksy.response.StreamingResponseDefinitionBuilder
 
 /**
  * Defines the building step for associating an inbound request specification with its corresponding
@@ -27,7 +31,7 @@ public class BuildingStep<P> internal constructor(
      * This method is part of a fluent API for defining mappings between requests and responses.
      *
      * @param T The type of the response body.
-     * @param block A lambda function applied to a [ResponseDefinitionBuilder],
+     * @param block A lambda function applied to a [me.kpavlov.mokksy.response.ResponseDefinitionBuilder],
      * used to configure the response definition.
      */
     public infix fun <T> respondsWith(block: ResponseDefinitionBuilder<T>.() -> Unit) {
@@ -44,7 +48,7 @@ public class BuildingStep<P> internal constructor(
      * This method is part of a fluent API for defining mappings between requests and streaming responses.
      *
      * @param T The type of the elements in the streaming response data.
-     * @param block A lambda function applied to a [StreamingResponseDefinitionBuilder],
+     * @param block A lambda function applied to a [me.kpavlov.mokksy.response.StreamingResponseDefinitionBuilder],
      * used to configure the streaming response definition.
      */
     public infix fun <T> respondsWithStream(

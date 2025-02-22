@@ -11,7 +11,7 @@ import kotlinx.serialization.json.encodeToJsonElement
 import me.kpavlov.aimocks.core.LlmBuildingStep
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
-import me.kpavlov.mokksy.StreamResponseDefinition
+import me.kpavlov.mokksy.response.StreamResponseDefinition
 import java.time.Instant
 import java.util.concurrent.atomic.AtomicInteger
 

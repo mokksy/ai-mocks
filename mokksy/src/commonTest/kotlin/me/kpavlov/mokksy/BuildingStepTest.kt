@@ -6,6 +6,8 @@ import io.mockk.CapturingSlot
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
+import me.kpavlov.mokksy.request.RequestSpecification
+import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.ranges.IntRange
 import kotlin.test.BeforeTest
 import kotlin.test.Test
