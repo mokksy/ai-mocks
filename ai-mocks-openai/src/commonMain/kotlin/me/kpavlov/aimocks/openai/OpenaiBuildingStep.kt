@@ -32,7 +32,7 @@ public class OpenaiBuildingStep(
             val responseDefinition = this.build()
             val chatResponseSpecification = OpenaiChatResponseSpecification(responseDefinition)
             block.invoke(chatResponseSpecification)
-            val assistantContent = chatResponseSpecification.textContent
+            val assistantContent = chatResponseSpecification.assistantContent
             val finishReason = chatResponseSpecification.finishReason
 
             val response =

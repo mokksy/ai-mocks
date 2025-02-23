@@ -155,5 +155,5 @@ rewrite {
         "org.openrewrite.gradle.MigrateToGradle8",
         "org.openrewrite.gradle.RemoveRedundantDependencyVersions",
     )
-    setExportDatatables(true)
+    isExportDatatables = true
 }

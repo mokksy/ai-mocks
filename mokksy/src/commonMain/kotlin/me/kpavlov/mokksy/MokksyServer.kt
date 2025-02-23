@@ -30,7 +30,7 @@ import kotlin.reflect.KClass
 internal expect fun createEmbeddedServer(
     host: String = "0.0.0.0",
     port: Int,
-    verbose: Boolean = false,
+    configuration: ServerConfiguration,
     module: Application.() -> Unit,
 ): EmbeddedServer<
     out ApplicationEngine,
@@ -81,7 +81,7 @@ public open class MokksyServer(
         createEmbeddedServer(
             host = host,
             port = port,
-            verbose = configuration.verbose,
+            configuration = configuration,
         ) {
             install(SSE)
 
@@ -158,7 +158,7 @@ public open class MokksyServer(
         block: RequestSpecificationBuilder<P>.() -> Unit,
     ): BuildingStep<P> {
         val requestSpec =
-            RequestSpecificationBuilder<P>()
+            RequestSpecificationBuilder<P>(requestType)
                 .apply(block)
                 .method(equalityMatcher(httpMethod))
                 .build()
@@ -194,7 +194,7 @@ public open class MokksyServer(
         )
 
     /**
-     * Configures a HTTP GET request specification using the provided block and returns a `BuildingStep`
+     * Configures an HTTP GET request specification using the provided block and returns a `BuildingStep`
      * instance for further customization.
      *
      * @param P type of the request payload
@@ -215,7 +215,7 @@ public open class MokksyServer(
         )
 
     /**
-     * Configures a HTTP GET request specification using the provided block and returns a `BuildingStep`
+     * Configures an HTTP GET request specification using the provided block and returns a `BuildingStep`
      * instance for further customization.
      *
      * @param P type of the request payload
@@ -311,7 +311,7 @@ public open class MokksyServer(
         )
 
     /**
-     * Configures a HTTP POST request specification using the provided block and returns a `BuildingStep`
+     * Configures an HTTP POST request specification using the provided block and returns a `BuildingStep`
      * for further customization. This method serves as a convenience shortcut.
      *
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
@@ -363,7 +363,7 @@ public open class MokksyServer(
         )
 
     /**
-     * Configures a HTTP DELETE request specification using the provided block and returns a `BuildingStep`
+     * Configures an HTTP DELETE request specification using the provided block and returns a `BuildingStep`
      * for further customization. This method serves as a convenience shortcut.
      *
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
@@ -416,7 +416,7 @@ public open class MokksyServer(
         )
 
     /**
-     * Configures a HTTP PATCH request specification using the provided block and returns a `BuildingStep`
+     * Configures an HTTP PATCH request specification using the provided block and returns a `BuildingStep`
      * for further customization. This method serves as a convenience shortcut.
      *
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
@@ -467,7 +467,7 @@ public open class MokksyServer(
         )
 
     /**
-     * Configures a HTTP PUT request specification using the provided block and returns a `BuildingStep`
+     * Configures an HTTP PUT request specification using the provided block and returns a `BuildingStep`
      * for further customization. This method serves as a convenience shortcut.
      *
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
@@ -519,7 +519,7 @@ public open class MokksyServer(
         )
 
     /**
-     * Configures a HTTP HEAD request specification using the provided block and returns a `BuildingStep`
+     * Configures an HTTP HEAD request specification using the provided block and returns a `BuildingStep`
      * for further customization. This method serves as a convenience shortcut.
      *
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
@@ -571,7 +571,7 @@ public open class MokksyServer(
         )
 
     /**
-     * Configures a HTTP HEAD request specification using the provided block and returns a `BuildingStep`
+     * Configures an HTTP HEAD request specification using the provided block and returns a `BuildingStep`
      * for further customization. This method serves as a convenience shortcut.
      *
      * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.

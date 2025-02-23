@@ -26,7 +26,7 @@ internal class MockOpenaiLC4jTest : AbstractMockOpenaiTest() {
                 model = modelName
                 maxCompletionTokens = maxCompletionTokens
             } responds {
-                textContent = "Hello"
+                assistantContent = "Hello"
                 finishReason = "stop"
             }
 

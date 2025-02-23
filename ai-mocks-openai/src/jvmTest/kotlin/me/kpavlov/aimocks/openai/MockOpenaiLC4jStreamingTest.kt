@@ -39,8 +39,7 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
                 temperature = temperatureValue
                 model = modelName
                 seed = seedValue
-                requestBodyContains("What do we need?")
-//                userMessage("What do we need?")
+                userMessageContains("What do we need?")
             } respondsStream {
                 responseChunks = listOf("All", " we", " need", " is", " Love")
                 finishReason = "stop"
@@ -59,7 +58,7 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
                 temperature = temperatureValue
                 model = modelName
                 seed = seedValue
-                requestBodyContains("What is in the sea?")
+                userMessageContains("What is in the sea?")
             } respondsStream {
                 responseFlow =
                     flow {

@@ -154,8 +154,10 @@ openai.completion {
   seed = seedValue
   model = "gpt-4o-mini"
   maxCompletionTokens = maxCompletionTokens
+  systemMessageContains("helpful assistant")
+  userMessageContains("say 'Hello!'")
 } responds {
-  textContent = "Hello"
+  assistantContent = "Hello"
   finishReason = "stop"
 }
 
@@ -177,15 +179,18 @@ val params =
     .seed(seedValue.toLong())
     .messages(
       listOf(
+        ChatCompletionMessageParam.ofSystem(
+          ChatCompletionSystemMessageParam
+            .builder()
+            .content(
+              "You are a helpful assistant.",
+            ).build(),
+        ),
         ChatCompletionMessageParam.ofUser(
           ChatCompletionUserMessageParam
             .builder()
-            .role(JsonValue.from("user"))
-            .content(
-              ChatCompletionUserMessageParam.Content.ofText(
-                "Just say and nothing else but 'Hello!'",
-              ),
-            ).build(),
+            .content("Just say 'Hello!' and nothing else")
+            .build(),
         ),
       ),
     ).model(ChatModel.GPT_4O_MINI)
@@ -236,7 +241,7 @@ Mock streaming responses easily with flow support:
 openai.completion {
     temperature = temperature
     model = "gpt-4o-mini"
-    userMessage("What is in the sea?")
+    userMessageContains("What is in the sea?")
 } respondsStream {
     responseFlow =
         flow {

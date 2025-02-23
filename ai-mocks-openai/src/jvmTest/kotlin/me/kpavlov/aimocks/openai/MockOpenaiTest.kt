@@ -2,9 +2,9 @@ package me.kpavlov.aimocks.openai
 
 import assertk.assertThat
 import assertk.assertions.hasValue
-import com.openai.core.JsonValue
 import com.openai.models.ChatCompletionCreateParams
 import com.openai.models.ChatCompletionMessageParam
+import com.openai.models.ChatCompletionSystemMessageParam
 import com.openai.models.ChatCompletionUserMessageParam
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -18,8 +18,10 @@ internal class MockOpenaiTest : AbstractOpenaiTest() {
                 seed = seedValue
                 model = modelName
                 maxCompletionTokens = maxCompletionTokens
+                systemMessageContains("helpful assistant")
+                userMessageContains("say 'Hello!'")
             } responds {
-                textContent = "Hello"
+                assistantContent = "Hello"
                 finishReason = "stop"
             }
 
@@ -31,19 +33,23 @@ internal class MockOpenaiTest : AbstractOpenaiTest() {
                     .seed(seedValue.toLong())
                     .messages(
                         listOf(
+                            ChatCompletionMessageParam.ofSystem(
+                                ChatCompletionSystemMessageParam
+                                    .builder()
+                                    .content(
+                                        "You are a helpful assistant.",
+                                    ).build(),
+                            ),
                             ChatCompletionMessageParam.ofUser(
                                 ChatCompletionUserMessageParam
                                     .builder()
-                                    .role(JsonValue.from("user"))
-                                    .content(
-                                        ChatCompletionUserMessageParam.Content.ofText(
-                                            "Just say and nothing else but 'Hello!'",
-                                        ),
-                                    ).build(),
+                                    .content("Just say 'Hello!' and nothing else")
+                                    .build(),
                             ),
                         ),
                     ).model(modelName)
                     .build()
+
             val result =
                 client
                     .chat()
