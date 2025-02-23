@@ -23,7 +23,7 @@ internal class MockOpenaiLC4jTest : AbstractMockOpenaiTest() {
             openai.completion {
                 temperature = temperatureValue
                 seed = seedValue
-                model = "gpt-4o-mini"
+                model = modelName
                 maxCompletionTokens = maxCompletionTokens
             } responds {
                 textContent = "Hello"
@@ -36,7 +36,7 @@ internal class MockOpenaiLC4jTest : AbstractMockOpenaiTest() {
                         OpenAiChatRequestParameters
                             .builder()
                             .temperature(temperatureValue)
-                            .modelName("gpt-4o-mini")
+                            .modelName(modelName)
                             .seed(seedValue)
                             .build()
                     messages += userMessage("Say Hello")

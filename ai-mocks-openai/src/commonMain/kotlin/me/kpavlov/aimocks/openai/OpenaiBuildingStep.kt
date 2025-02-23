@@ -19,8 +19,8 @@ private const val LINE_SEPARATOR = "\n\n"
 
 public class OpenaiBuildingStep(
     mokksy: MokksyServer,
-    buildingStep: BuildingStep<*>,
-) : LlmBuildingStep<OpenaiChatResponseSpecification>(
+    buildingStep: BuildingStep<ChatCompletionRequest>,
+) : LlmBuildingStep<ChatCompletionRequest, OpenaiChatResponseSpecification>(
         mokksy,
         buildingStep,
     ) {
@@ -28,6 +28,7 @@ public class OpenaiBuildingStep(
 
     override infix fun responds(block: OpenaiChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
+            val request = this.request.body
             val responseDefinition = this.build()
             val chatResponseSpecification = OpenaiChatResponseSpecification(responseDefinition)
             block.invoke(chatResponseSpecification)
@@ -38,7 +39,7 @@ public class OpenaiBuildingStep(
                 ChatResponse(
                     id = "chatcmpl-abc${counter.addAndGet(1)}",
                     created = Instant.now().epochSecond,
-                    model = "gpt-4o-mini",
+                    model = request.model,
                     usage =
                         Usage(
                             promptTokens = 13,
@@ -86,7 +87,7 @@ public class OpenaiBuildingStep(
     @OptIn(ExperimentalCoroutinesApi::class)
     public infix fun respondsStream(block: OpenaiStreamingChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWithStream<String> {
-            val responseDefinition: StreamResponseDefinition<*, String> =
+            val responseDefinition: StreamResponseDefinition<ChatCompletionRequest, String> =
                 this.build()
             val responseSpec =
                 OpenaiStreamingChatResponseSpecification(
@@ -104,9 +105,11 @@ public class OpenaiBuildingStep(
             if (chunkFlow == null) {
                 error("Either responseChunks or responseFlow must be defined")
             }
+            val request = this.request.body
             flow =
                 prepareFlow(
                     id = id,
+                    model = request.model,
                     chunksFlow = chunkFlow,
                     finishReason = responseSpec.finishReason,
                     sendDone = responseSpec.sendDone,
@@ -116,6 +119,7 @@ public class OpenaiBuildingStep(
 
     private fun prepareFlow(
         id: Int,
+        model: String,
         chunksFlow: Flow<String>,
         finishReason: String,
         sendDone: Boolean,
@@ -126,6 +130,7 @@ public class OpenaiBuildingStep(
                 createChunk(
                     id = id,
                     created = timestamp,
+                    model = model,
                     role = "assistant",
                     content = "",
                 ),
@@ -135,6 +140,7 @@ public class OpenaiBuildingStep(
                     createChunk(
                         id = id,
                         created = timestamp,
+                        model = model,
                         content = it,
                     )
                 },
@@ -143,6 +149,7 @@ public class OpenaiBuildingStep(
                 createChunk(
                     id = id,
                     created = timestamp,
+                    model = model,
                     finishReason = finishReason,
                 ),
             )
@@ -158,7 +165,7 @@ public class OpenaiBuildingStep(
         created: Long,
         content: String? = null,
         role: String? = null,
-        model: String = "gpt-4o-mini",
+        model: String,
         finishReason: String? = null,
     ): String {
         val chunk =

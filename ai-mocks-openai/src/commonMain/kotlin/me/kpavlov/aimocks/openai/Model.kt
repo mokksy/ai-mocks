@@ -11,7 +11,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-@OptIn(ExperimentalSerializationApi::class)
 internal data class Chunk(
     val id: String,
     /**
@@ -31,7 +30,6 @@ internal data class Chunk(
 )
 
 @Serializable
-@OptIn(ExperimentalSerializationApi::class)
 public data class Choice(
     val index: Int,
     @EncodeDefault(NEVER)
@@ -119,6 +117,7 @@ public data class Metadata(
  * @property frequencyPenalty The penalty value for repetitive token usage in the response.
  * @property responseFormat Defines the response format, including optional JSON schema support.
  * @property temperature A value between 0.0 and 1.0 that controls the randomness of the generated response.
+ * @property seed Can be used to produce deterministic responses in testing.
  */
 @Serializable
 public data class ChatCompletionRequest(
@@ -135,6 +134,7 @@ public data class ChatCompletionRequest(
     @SerialName("response_format")
     val responseFormat: ResponseFormat? = null,
     val temperature: Double = 1.0,
+    val seed: Int? = null,
 )
 
 @Serializable

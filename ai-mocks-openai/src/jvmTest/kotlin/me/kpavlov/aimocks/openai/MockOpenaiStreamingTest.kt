@@ -8,7 +8,7 @@ import com.openai.models.ChatCompletionCreateParams
 import com.openai.models.ChatCompletionMessageParam
 import com.openai.models.ChatCompletionStreamOptions
 import com.openai.models.ChatCompletionUserMessageParam
-import com.openai.models.ChatModel
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
@@ -19,7 +19,7 @@ internal class MockOpenaiStreamingTest : AbstractOpenaiTest() {
         runTest {
             openai.completion("openai-completion-list") {
                 temperature = temperatureValue
-                model = "gpt-4o-mini"
+                model = modelName
             } respondsStream {
                 responseChunks = listOf("All", " we", " need", " is", " Love")
                 delayBetweenChunksMs = 50
@@ -34,7 +34,7 @@ internal class MockOpenaiStreamingTest : AbstractOpenaiTest() {
         runTest {
             openai.completion("openai-completion-flow") {
                 temperature = temperatureValue
-                model = "gpt-4o-mini"
+                model = modelName
             } respondsStream {
                 responseFlow =
                     flow {
@@ -72,7 +72,7 @@ internal class MockOpenaiStreamingTest : AbstractOpenaiTest() {
                                 ).build(),
                         ),
                     ),
-                ).model(ChatModel.GPT_4O_MINI)
+                ).model(modelName)
                 .build()
 
         // when
@@ -85,7 +85,10 @@ internal class MockOpenaiStreamingTest : AbstractOpenaiTest() {
                 messageStreamResponse
                     .stream()
                     .peek { println("Received: $it") }
-                    .flatMap { completion: ChatCompletionChunk ->
+                    .peek {
+                        // validation
+                        it.model() shouldBe modelName
+                    }.flatMap { completion: ChatCompletionChunk ->
                         completion.choices().stream()
                     }.flatMap { choice: ChatCompletionChunk.Choice ->
                         choice.delta().content().stream()

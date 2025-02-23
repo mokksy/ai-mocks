@@ -47,6 +47,7 @@ public abstract class AbstractResponseDefinitionBuilder<P, T>(
 /**
  * Builder for constructing a definition of an HTTP response with configurable attributes.
  *
+ * @param P The type of the request body.
  * @param T The type of the response body.
  * @property contentType Optional MIME type of the response.
  * Defaults to `ContentType.Application.Json` if not specified.
@@ -82,9 +83,12 @@ public open class ResponseDefinitionBuilder<P : Any, T : Any>(
  *
  * @param P The type of the request body.
  * @param T The type of data being streamed.
- * @property flow A `Flow` representing streaming data content.
- * @property chunks A mutable list of data chunks to be sent as part of the*/
-public open class StreamingResponseDefinitionBuilder<P, T>(
+ * @property flow A [Flow] representing streaming data content.
+ * @property chunks A list of data chunks to be sent as part of the stream,
+ *          if [flow] is not provided.
+ */
+public open class StreamingResponseDefinitionBuilder<P : Any, T>(
+    public val request: CapturedRequest<P>,
     public var flow: Flow<T>? = null,
     public var chunks: MutableList<T> = mutableListOf(),
     httpStatus: HttpStatusCode = HttpStatusCode.OK,

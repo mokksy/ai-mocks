@@ -21,6 +21,7 @@ import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.ktor.server.sse.SSE
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
 import me.kpavlov.mokksy.request.RequestSpecification
 import me.kpavlov.mokksy.request.RequestSpecificationBuilder
 import java.util.concurrent.ConcurrentSkipListSet
@@ -67,7 +68,11 @@ public open class MokksyServer(
             install(DoubleReceive)
 
             install(ContentNegotiation) {
-                json()
+                json(
+                    Json {
+                        ignoreUnknownKeys = true
+                    },
+                )
             }
 
             routing {

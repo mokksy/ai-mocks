@@ -37,7 +37,7 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
         runTest {
             openai.completion("lc4j-openai-completion-list") {
                 temperature = temperatureValue
-                model = "gpt-4o-mini"
+                model = modelName
                 seed = seedValue
                 requestBodyContains("What do we need?")
 //                userMessage("What do we need?")
@@ -57,7 +57,7 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
         runTest {
             openai.completion("lc4j-openai-completion-flow") {
                 temperature = temperatureValue
-                model = "gpt-4o-mini"
+                model = modelName
                 seed = seedValue
                 requestBodyContains("What is in the sea?")
             } respondsStream {
@@ -85,7 +85,7 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
                     OpenAiChatRequestParameters
                         .builder()
                         .temperature(temperatureValue)
-                        .modelName("gpt-4o-mini")
+                        .modelName(modelName)
                         .seed(seedValue)
                         .build(),
                 ).messages(userMessage(userMessage))
@@ -129,7 +129,7 @@ internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
                     OpenAiChatRequestParameters
                         .builder()
                         .temperature(temperatureValue)
-                        .modelName("gpt-4o-mini")
+                        .modelName(modelName)
                         .seed(seedValue)
                         .build()
                 messages += userMessage(userMessage)

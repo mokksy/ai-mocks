@@ -6,7 +6,6 @@ import com.openai.core.JsonValue
 import com.openai.models.ChatCompletionCreateParams
 import com.openai.models.ChatCompletionMessageParam
 import com.openai.models.ChatCompletionUserMessageParam
-import com.openai.models.ChatModel
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
@@ -17,7 +16,7 @@ internal class MockOpenaiTest : AbstractOpenaiTest() {
             openai.completion {
                 temperature = temperature
                 seed = seedValue
-                model = "gpt-4o-mini"
+                model = modelName
                 maxCompletionTokens = maxCompletionTokens
             } responds {
                 textContent = "Hello"
@@ -43,7 +42,7 @@ internal class MockOpenaiTest : AbstractOpenaiTest() {
                                     ).build(),
                             ),
                         ),
-                    ).model(ChatModel.GPT_4O_MINI)
+                    ).model(modelName)
                     .build()
             val result =
                 client
