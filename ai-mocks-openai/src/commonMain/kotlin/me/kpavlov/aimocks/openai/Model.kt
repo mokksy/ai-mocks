@@ -117,6 +117,7 @@ public data class Metadata(
  * @property frequencyPenalty The penalty value for repetitive token usage in the response.
  * @property responseFormat Defines the response format, including optional JSON schema support.
  * @property temperature A value between 0.0 and 1.0 that controls the randomness of the generated response.
+ * @property seed Can be used to produce deterministic responses in testing.
  */
 @Serializable
 public data class ChatCompletionRequest(

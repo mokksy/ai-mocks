@@ -4,6 +4,10 @@ import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 import java.util.function.Consumer
 
+/**
+ * @param P The type of the request body.
+ * @param R The type of the ChatResponseSpecification, which in turn specifies request and response types.
+ */
 public abstract class LlmBuildingStep<P : Any, R : ChatResponseSpecification<P, *>>(
     protected val mokksy: MokksyServer,
     protected val buildingStep: BuildingStep<P>,
