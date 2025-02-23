@@ -4,9 +4,9 @@ import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 import java.util.function.Consumer
 
-public abstract class LlmBuildingStep<R : ChatResponseSpecification<*>>(
+public abstract class LlmBuildingStep<P : Any, R : ChatResponseSpecification<P, *>>(
     protected val mokksy: MokksyServer,
-    protected val buildingStep: BuildingStep<*>,
+    protected val buildingStep: BuildingStep<P>,
 ) {
     public abstract infix fun responds(block: R.() -> Unit)
 

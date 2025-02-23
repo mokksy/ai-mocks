@@ -5,13 +5,13 @@ import me.kpavlov.aimocks.core.ChatResponseSpecification
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 
 public class OpenaiChatResponseSpecification(
-    response: AbstractResponseDefinition<*, String>,
+    response: AbstractResponseDefinition<ChatCompletionRequest, String>,
     public var textContent: String = "",
     public var responseFlow: Flow<String>? = null,
     public var responseChunks: List<String>? = null,
     public var delayBetweenChunksMs: Long = 0,
     public var finishReason: String = "stop",
-) : ChatResponseSpecification<String>(response = response) {
+) : ChatResponseSpecification<ChatCompletionRequest, String>(response = response) {
     public fun textContent(textContent: String): OpenaiChatResponseSpecification =
         apply {
             this.textContent =
@@ -20,7 +20,7 @@ public class OpenaiChatResponseSpecification(
 }
 
 public class OpenaiStreamingChatResponseSpecification(
-    response: AbstractResponseDefinition<*, String>,
+    response: AbstractResponseDefinition<ChatCompletionRequest, String>,
     public var responseFlow: Flow<String>? = null,
     public var responseChunks: List<String>? = null,
     public var delayBetweenChunksMs: Long = 0,
@@ -29,4 +29,4 @@ public class OpenaiStreamingChatResponseSpecification(
      * Should send `[DONE]` at the end.
      */
     public var sendDone: Boolean = false,
-) : ChatResponseSpecification<String>(response = response)
+) : ChatResponseSpecification<ChatCompletionRequest, String>(response = response)

@@ -62,7 +62,7 @@ public class BuildingStep<P : Any> internal constructor(
                 requestSpecification = requestSpecification,
             ) { call ->
                 val req = CapturedRequest<P>(call.request, requestType)
-                StreamingResponseDefinitionBuilder<P, T>()
+                StreamingResponseDefinitionBuilder<P, T>(request = req)
                     .apply(block)
                     .build()
             }

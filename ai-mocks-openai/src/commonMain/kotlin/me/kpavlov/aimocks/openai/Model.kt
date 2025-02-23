@@ -11,7 +11,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-@OptIn(ExperimentalSerializationApi::class)
 internal data class Chunk(
     val id: String,
     /**
@@ -31,7 +30,6 @@ internal data class Chunk(
 )
 
 @Serializable
-@OptIn(ExperimentalSerializationApi::class)
 public data class Choice(
     val index: Int,
     @EncodeDefault(NEVER)
@@ -135,6 +133,7 @@ public data class ChatCompletionRequest(
     @SerialName("response_format")
     val responseFormat: ResponseFormat? = null,
     val temperature: Double = 1.0,
+    val seed: Int? = null,
 )
 
 @Serializable
