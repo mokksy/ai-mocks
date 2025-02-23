@@ -29,7 +29,7 @@ private val counter = AtomicLong()
  * @property responseDefinitionSupplier Function providing responseDefinition.
  */
 internal data class Stub<P, T>(
-    val name: String? = null,
+    val configuration: StubConfiguration,
     val requestSpecification: RequestSpecification<P>,
     val responseDefinitionSupplier: ResponseDefinitionSupplier<P, T>,
 ) : Comparable<Stub<*, *>> {
@@ -103,10 +103,10 @@ internal data class Stub<P, T>(
     fun matchCount(): Int = matchCount.toInt()
 
     fun toLogString(): String =
-        if (name?.isNotBlank() == true) {
-            "Stub('$name')[requestSpec=${requestSpecification.toLogString()}]"
+        if (configuration.name?.isNotBlank() == true) {
+            "Stub('${configuration.name}')[config=$configuration requestSpec=${requestSpecification.toLogString()}]"
         } else {
-            "Stub[requestSpec=${requestSpecification.toLogString()}]"
+            "Stub[config=$configuration requestSpec=${requestSpecification.toLogString()}]"
         }
 }
 

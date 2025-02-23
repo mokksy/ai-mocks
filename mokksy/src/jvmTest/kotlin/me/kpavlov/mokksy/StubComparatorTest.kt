@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isNegative
 import assertk.assertions.isPositive
 import assertk.assertions.isZero
+import io.mockk.mockk
 import me.kpavlov.mokksy.request.RequestSpecification
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import me.kpavlov.mokksy.response.ResponseDefinitionSupplier
@@ -14,12 +15,14 @@ import org.mockito.kotlin.mock
 internal class StubComparatorTest {
     lateinit var request1: RequestSpecification<Int>
     lateinit var request2: RequestSpecification<Int>
+    lateinit var config: StubConfiguration
     lateinit var response: AbstractResponseDefinition<Any, String>
     lateinit var responseDefinitionSupplier: ResponseDefinitionSupplier<Int, String>
 
     @BeforeEach
     fun beforeEach() {
         response = mock()
+        config = mockk()
         responseDefinitionSupplier = mock()
     }
 
@@ -30,11 +33,13 @@ internal class StubComparatorTest {
 
         val stub1 =
             Stub<Int, String>(
+                configuration = config,
                 requestSpecification = request1,
                 responseDefinitionSupplier = responseDefinitionSupplier,
             )
         val stub2 =
             Stub(
+                configuration = config,
                 requestSpecification = request2,
                 responseDefinitionSupplier = responseDefinitionSupplier,
             )
@@ -51,11 +56,13 @@ internal class StubComparatorTest {
 
         val stub1 =
             Stub(
+                configuration = config,
                 requestSpecification = request1,
                 responseDefinitionSupplier = responseDefinitionSupplier,
             )
         val stub2 =
             Stub(
+                configuration = config,
                 requestSpecification = request2,
                 responseDefinitionSupplier = responseDefinitionSupplier,
             )
@@ -72,11 +79,13 @@ internal class StubComparatorTest {
 
         val stub1 =
             Stub(
+                configuration = config,
                 requestSpecification = request1,
                 responseDefinitionSupplier = responseDefinitionSupplier,
             )
         val stub2 =
             Stub(
+                configuration = config,
                 requestSpecification = request2,
                 responseDefinitionSupplier = responseDefinitionSupplier,
             )
@@ -92,6 +101,7 @@ internal class StubComparatorTest {
 
         val stub1 =
             Stub(
+                configuration = config,
                 requestSpecification = request1,
                 responseDefinitionSupplier = responseDefinitionSupplier,
             )
