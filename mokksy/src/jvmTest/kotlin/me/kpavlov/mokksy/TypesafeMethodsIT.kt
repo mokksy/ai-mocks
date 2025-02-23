@@ -28,7 +28,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @Suppress("UastIncorrectHttpHeaderInspection")
-internal class MokksyIT : AbstractIT() {
+internal class TypesafeMethodsIT : AbstractIT() {
     private lateinit var name: String
 
     private lateinit var requestPayload: TestPerson
@@ -50,88 +50,80 @@ internal class MokksyIT : AbstractIT() {
     fun `Should respond to Method`(methodName: String) =
         runTest {
             val method = HttpMethod.parse(methodName)
-            doTestCallMethod(method) {
-                mokksy.method<Any>(name, method, it)
+            doTestCallMethod<TestPerson>(method) {
+                mokksy.method<TestPerson>(name, method, TestPerson::class, it)
             }
         }
 
     @Test
     fun `Should respond to GET`() =
         runTest {
-            doTestCallMethod(HttpMethod.Get) { mokksy.get<Any>(name, it) }
-        }
-
-    @Test
-    fun `Should respond to shortcut GET`() =
-        runTest {
-            doTestCallMethod(HttpMethod.Get) { mokksy.get(it) }
+            doTestCallMethod<TestPerson>(
+                HttpMethod.Get,
+            ) { mokksy.get<TestPerson>(name, TestPerson::class, it) }
         }
 
     @Test
     fun `Should respond to OPTIONS`() =
         runTest {
-            doTestCallMethod(HttpMethod.Options) { mokksy.options<Any>(name, it) }
-        }
-
-    @Test
-    fun `Should respond to shortcut OPTIONS`() =
-        runTest {
-            doTestCallMethod(HttpMethod.Options) { mokksy.options(it) }
+            doTestCallMethod<TestPerson>(
+                HttpMethod.Options,
+            ) { mokksy.options<TestPerson>(name, TestPerson::class, it) }
         }
 
     @Test
     fun `Should respond to PUT`() =
         runTest {
-            doTestCallMethod(HttpMethod.Put) { mokksy.put<Any>(name, it) }
-        }
-
-    @Test
-    fun `Should respond to shortcut PUT`() =
-        runTest {
-            doTestCallMethod(HttpMethod.Put) { mokksy.put(it) }
+            doTestCallMethod<TestPerson>(HttpMethod.Put) {
+                mokksy.put<TestPerson>(
+                    name,
+                    TestPerson::class,
+                    it,
+                )
+            }
         }
 
     @Test
     fun `Should respond to PATCH`() =
         runTest {
-            doTestCallMethod(HttpMethod.Patch) { mokksy.patch<Any>(name, it) }
-        }
-
-    @Test
-    fun `Should respond to shortcut PATCH`() =
-        runTest {
-            doTestCallMethod(HttpMethod.Patch) { mokksy.patch(it) }
+            doTestCallMethod<TestPerson>(HttpMethod.Patch) {
+                mokksy.patch<TestPerson>(
+                    name,
+                    TestPerson::class,
+                    it,
+                )
+            }
         }
 
     @Test
     fun `Should respond to DELETE`() =
         runTest {
-            doTestCallMethod(HttpMethod.Delete) { mokksy.delete<Any>(name, it) }
-        }
-
-    @Test
-    fun `Should respond to shortcut DELETE`() =
-        runTest {
-            doTestCallMethod(HttpMethod.Delete) { mokksy.delete(it) }
+            doTestCallMethod<TestPerson>(HttpMethod.Delete) {
+                mokksy.delete<TestPerson>(
+                    name,
+                    TestPerson::class,
+                    it,
+                )
+            }
         }
 
     @Test
     fun `Should respond to HEAD`() =
         runTest {
-            doTestCallMethod(HttpMethod.Head) { mokksy.head<Any>(name, it) }
+            doTestCallMethod<TestPerson>(HttpMethod.Head) {
+                mokksy.head<TestPerson>(
+                    name,
+                    TestPerson::class,
+                    it,
+                )
+            }
         }
 
-    @Test
-    fun `Should respond to shortcut HEAD`() =
-        runTest {
-            doTestCallMethod(HttpMethod.Head) { mokksy.head(it) }
-        }
-
-    private suspend fun doTestCallMethod(
+    private suspend fun <P> doTestCallMethod(
         method: HttpMethod,
-        block: (RequestSpecificationBuilder<*>.() -> Unit) -> BuildingStep<*>,
+        block: (RequestSpecificationBuilder<P>.() -> Unit) -> BuildingStep<*>,
     ) {
-        val configurer: RequestSpecificationBuilder<*>.() -> Unit = {
+        val configurer: RequestSpecificationBuilder<P>.() -> Unit = {
             path = beEqual("/method-$method")
             this.containsHeader("X-Seed", "$seed")
         }
@@ -144,6 +136,13 @@ internal class MokksyIT : AbstractIT() {
         } respondsWith {
             try {
                 this.request.bodyAsString shouldBe requestAsString
+            } catch (e: AssertionError) {
+                logger.error(e) { "Request bodyAsString does not match." }
+                throw e
+            }
+
+            try {
+                this.request.body shouldBe requestPayload
             } catch (e: AssertionError) {
                 logger.error(e) { "Request bodyAsString does not match." }
                 throw e
@@ -164,7 +163,6 @@ internal class MokksyIT : AbstractIT() {
             }
 
         // then
-        result.status shouldBe HttpStatusCode.OK
         result.status shouldBe HttpStatusCode.OK
 
         if (method != HttpMethod.Head) {
@@ -188,7 +186,7 @@ internal class MokksyIT : AbstractIT() {
     fun `Should respond 404 to unmatched headers`() =
         runTest {
             val uri = "/unmatched-headers"
-            mokksy.get<Any> {
+            mokksy.get {
                 path = beEqual(uri)
                 this.containsHeader("Foo", "bar")
             } respondsWith {
@@ -217,7 +215,7 @@ internal class MokksyIT : AbstractIT() {
                 }
                 """.trimIndent()
 
-            mokksy.post<Input>(name = "post") {
+            mokksy.post<Input>(name = "post", Input::class) {
                 path = beEqual("/things")
                 bodyContains("$id")
             } respondsWith {
@@ -233,7 +231,7 @@ internal class MokksyIT : AbstractIT() {
             // when
             val result =
                 client.post("/things") {
-                    headers.append("Content-Type", "application/json")
+                    contentType(ContentType.Application.Json)
                     setBody(
                         // language=json
                         """
@@ -245,15 +243,9 @@ internal class MokksyIT : AbstractIT() {
                 }
 
             // then
-            assertThat(result.status).isEqualTo(HttpStatusCode.Created)
-            assertThat(result.bodyAsText()).isEqualTo(expectedResponse)
-            assertThat(result.headers["Location"]).isEqualTo("/things/$id")
-            assertThat(result.headers["Foo"]).isEqualTo("bar")
-        }
-
-    @Test
-    fun `Should respond to shortcut POST`() =
-        runTest {
-            doTestCallMethod(HttpMethod.Post) { mokksy.post(it) }
+            result.status shouldBe HttpStatusCode.Created
+            result.bodyAsText() shouldBe expectedResponse
+            result.headers["Location"] shouldBe "/things/$id"
+            result.headers["Foo"] shouldBe "bar"
         }
 }

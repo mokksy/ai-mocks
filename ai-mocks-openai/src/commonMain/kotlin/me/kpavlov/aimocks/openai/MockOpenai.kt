@@ -26,7 +26,7 @@ public open class MockOpenai(
         block: OpenaiChatRequestSpecification.() -> Unit,
     ): OpenaiBuildingStep {
         val requestStep =
-            mokksy.post<ChatCompletionRequest>(name = name) {
+            mokksy.post<ChatCompletionRequest>(name = name, ChatCompletionRequest::class) {
                 val chatRequest = OpenaiChatRequestSpecification()
                 block(chatRequest)
 

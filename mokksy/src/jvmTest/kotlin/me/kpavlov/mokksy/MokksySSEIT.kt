@@ -21,7 +21,7 @@ internal class MokksySSEIT : AbstractIT({ createKtorSSEClient(it) }) {
     @Test
     fun `Should respond to SSE GET`() =
         runTest {
-            mokksy.get<Any>(name = "sse-get") {
+            mokksy.get<Any>(name = "sse-get", requestType = Any::class) {
                 path = beEqual("/sse")
             } respondsWithSseStream {
                 flow =
