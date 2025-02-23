@@ -13,16 +13,35 @@ import kotlin.reflect.KClass
  * and their respective responses.
  *
  * @param P The type of the request payload.
- * @param name An optional name assigned to the Stub for identification or debugging purposes.
- * @property registerStub Callback function to be called to register new [Stub] to [MokksyServer]
- * @property requestSpecification The request specification currently being processed.
+ * @property requestType The type of the request that this step is processing.
+ * @property configuration Configuration options for the stub, such as name and behavior flags.
+ * @property requestSpecification Specification of the request criteria that this step handles.
+ * @property registerStub A callback for registering the stub with the main server or system.
  */
 public class BuildingStep<P : Any> internal constructor(
     private val requestType: KClass<P>,
-    private val name: String? = null,
+    private val configuration: StubConfiguration,
     private val requestSpecification: RequestSpecification<P>,
     private val registerStub: (Stub<*, *>) -> Unit,
 ) {
+    /**
+     * @param P The type of the request payload.
+     * @param name An optional name assigned to the Stub for identification or debugging purposes.
+     * @property registerStub Callback function to be called to register new [Stub] to [MokksyServer]
+     * @property requestSpecification The request specification currently being processed.
+     */
+    internal constructor(
+        requestType: KClass<P>,
+        name: String?,
+        requestSpecification: RequestSpecification<P>,
+        registerStub: (Stub<*, *>) -> Unit,
+    ) : this(
+        requestType = requestType,
+        configuration = StubConfiguration(name),
+        requestSpecification = requestSpecification,
+        registerStub = registerStub,
+    )
+
     /**
      * Associates the current request specification with a response definition.
      * This method is part of a fluent API for defining mappings between requests and responses.
@@ -34,7 +53,7 @@ public class BuildingStep<P : Any> internal constructor(
     public infix fun <T : Any> respondsWith(block: ResponseDefinitionBuilder<P, T>.() -> Unit) {
         val stub =
             Stub<P, T>(
-                name = name,
+                configuration = configuration,
                 requestSpecification = requestSpecification,
             ) { call ->
                 val req = CapturedRequest<P>(call.request, requestType)
@@ -58,7 +77,7 @@ public class BuildingStep<P : Any> internal constructor(
     ) {
         val stub =
             Stub<P, T>(
-                name = name,
+                configuration = configuration,
                 requestSpecification = requestSpecification,
             ) { call ->
                 val req = CapturedRequest<P>(call.request, requestType)

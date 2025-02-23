@@ -22,6 +22,7 @@ internal class BuildingStepTest {
     private lateinit var expectedHttpStatus: HttpStatusCode
 
     private lateinit var stub: CapturingSlot<Stub<*, *>>
+    private lateinit var configuration: CapturingSlot<StubConfiguration>
     private lateinit var requestSpecification: CapturingSlot<RequestSpecification<*>>
 
     private lateinit var addStubCallback: (
@@ -34,6 +35,7 @@ internal class BuildingStepTest {
         name = Uuid.random().toString()
         request = mockk()
         addStubCallback = mockk()
+        configuration = mockk()
         expectedHttpStatus = HttpStatusCode.fromValue(IntRange(100, 500).random())
 
         stub = slot<Stub<*, *>>()
@@ -80,7 +82,7 @@ internal class BuildingStepTest {
 
     private fun verifyStub() {
         stub.captured.apply {
-            this.name shouldBe name
+            this.configuration.name shouldBe name
             this.requestSpecification shouldBe request
             this.responseDefinitionSupplier shouldNotBeNull { }
         }

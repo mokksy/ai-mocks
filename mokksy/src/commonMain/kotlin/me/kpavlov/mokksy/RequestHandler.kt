@@ -22,8 +22,8 @@ import io.ktor.server.routing.RoutingRequest
 internal suspend fun handleRequest(
     context: RoutingContext,
     application: Application,
-    stubs: Collection<Stub<*, *>>,
-    verbose: Boolean,
+    stubs: MutableSet<Stub<*, *>>,
+    configuration: ServerConfiguration,
 ) {
     val request = context.call.request
     application.log.info(
@@ -36,21 +36,53 @@ internal suspend fun handleRequest(
             }.minWithOrNull(StubComparator)
 
     if (matchedStub != null) {
-        matchedStub.apply {
-            if (verbose) {
-                application.log.info(
-                    "Request matched:\n---\n${printRequest(request)}\n---\nStub: {}",
-                    this.toLogString(),
-                )
-            }
-            incrementMatchCount()
-            respond(context.call, verbose)
-        }
+        handleMatchedStub(
+            matchedStub = matchedStub,
+            serverConfig = configuration,
+            application = application,
+            request = request,
+            context = context,
+            stubs = stubs,
+        )
     } else {
         application.log.warn(
             "No matched mapping for request:\n---\n${printRequest(request)}\n---",
         )
         failure("No matched mapping for request: ${printRequest(request)}")
+    }
+}
+
+@Suppress("LongParameterList")
+private suspend fun handleMatchedStub(
+    matchedStub: Stub<*, *>,
+    serverConfig: ServerConfiguration,
+    application: Application,
+    request: RoutingRequest,
+    context: RoutingContext,
+    stubs: MutableSet<Stub<*, *>>,
+) {
+    val config = matchedStub.configuration
+    val verbose = serverConfig.verbose || config.verbose
+
+    matchedStub.apply {
+        if (verbose) {
+            application.log.info(
+                "Request matched:\n---\n${printRequest(request)}\n---\nStub: {}",
+                this.toLogString(),
+            )
+        }
+        incrementMatchCount()
+        respond(context.call, verbose)
+    }
+
+    if (config.removeAfterMatch) {
+        if (verbose) {
+            application.log.info(
+                "Removing used stub: {}",
+                matchedStub.toLogString(),
+            )
+        }
+        stubs.remove(matchedStub)
     }
 }
 
