@@ -7,14 +7,18 @@ plugins {
 }
 
 group = "me.kpavlov.mokksy"
+description = "Mokksy is a mock HTTP server built with Kotlin and Ktor"
 
 kotlin {
 
     jvmToolchain(17)
-
+    withSourcesJar()
     explicitApi()
 
-    withSourcesJar()
+    dokka {
+        dokkaPublications.html
+        dokkaPublications.javadoc
+    }
 
     jvm {
         compilerOptions {
@@ -58,8 +62,8 @@ kotlin {
                 implementation(libs.ktor.server.netty)
                 implementation(libs.ktor.server.call.logging)
             }
-            withSourcesJar()
         }
+
         val jvmTest by getting {
             dependencies {
                 implementation(libs.ktor.client.java)

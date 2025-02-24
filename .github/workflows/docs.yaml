@@ -33,11 +33,11 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@94baf225fe0a508e581a564467443d0e2379123b # v4.3.0
         with:
-          gradle-version: current
+          gradle-version: 8.12.1
 
       - name: Generate Dokka Site
         run: |-
-          gradle clean dokkaGenerate dokkaHtmlMultiModule && \
+          gradle clean dokkaGenerate && \
           mkdir -p build/docs && \
           cp -R mokksy/build/dokka/html build/docs/api
 

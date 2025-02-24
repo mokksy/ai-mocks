@@ -1,7 +1,10 @@
 .PHONY: build test lint format all # always run
 
+# Publish version - update as needed
+PUBLISH_VERSION := 0.0.42-SNAPSHOT
+
 build:
-	./gradlew clean build koverXmlReport
+	./gradlew clean build dokkaJavadocJar koverXmlReport
 
 test:
 	./gradlew check
@@ -25,3 +28,9 @@ prepare:
 	command -v ktlint >/dev/null 2>&1 || brew install ktlint --quiet
 
 all: format lint build
+
+publish:
+	./gradlew -Pversion=$(PUBLISH_VERSION) clean build check publishToMavenLocal
+	echo "Publishing 📢"
+	## https://github.com/gradle-nexus/publish-plugin/
+	# ./gradlew -Pversion=$(PUBLISH_VERSION) publishToSonatype
