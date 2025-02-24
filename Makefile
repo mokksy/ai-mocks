@@ -4,7 +4,7 @@
 PUBLISH_VERSION := 0.0.42-SNAPSHOT
 
 build:
-	./gradlew clean build dokkaGenerate javadocJar koverXmlReport
+	./gradlew clean build dokkaJavadocJar koverXmlReport
 
 test:
 	./gradlew check
