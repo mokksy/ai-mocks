@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.kover) apply true
 }
 
+description = "Mock server for OpenAI API"
+
 kotlin {
 
     jvmToolchain(17)
@@ -13,6 +15,11 @@ kotlin {
     explicitApi()
 
     withSourcesJar()
+
+    dokka {
+        dokkaPublications.html
+        dokkaPublications.javadoc
+    }
 
     jvm {
         compilerOptions {
@@ -48,14 +55,14 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation(libs.openai.java)
-                implementation(libs.assertk)
                 implementation(libs.assertj.core)
+                implementation(libs.assertk)
                 implementation(libs.awaitility.kotlin)
-                runtimeOnly(libs.slf4j.simple)
-                implementation(libs.langchain4j.openai)
-                implementation(libs.langchain4j.kotlin)
                 implementation(libs.junit.jupiter.params)
+                implementation(libs.langchain4j.kotlin)
+                implementation(libs.langchain4j.openai)
+                implementation(libs.openai.java)
+                runtimeOnly(libs.slf4j.simple)
             }
         }
     }

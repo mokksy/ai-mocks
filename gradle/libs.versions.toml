@@ -2,7 +2,7 @@
 assertj = "3.27.3"
 assertk = "0.28.1"
 awaitility = "4.3.0"
-datafaker="2.4.2"
+datafaker = "2.4.2"
 detekt = "1.23.8"
 dokka = "2.0.0"
 junitJupiter = "5.12.0"
@@ -19,7 +19,9 @@ mockk = "1.13.16"
 netty = "4.1.118.Final"
 nexusPublish = "2.0.0"
 openai = "0.26.1"
+openrewrite = "7.1.5"
 slf4j = "2.0.16"
+spotless = "7.0.2"
 spring = "6.2.3"
 
 [libraries]
@@ -37,9 +39,9 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
 ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-double-receive = { module = "io.ktor:ktor-server-double-receive", version.ref = "ktor" }
-ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 ktor-server-sse = { module = "io.ktor:ktor-server-sse", version.ref = "ktor" }
 langchain4j-bom = { group = "dev.langchain4j", name = "langchain4j-bom", version.ref = "langchain4j" }
@@ -58,5 +60,8 @@ spring-test = { group = "org.springframework", name = "spring-test" }
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+dokka-javadoc = { id = "org.jetbrains.dokka-javadoc", version.ref = "dokka" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 nexusPublish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexusPublish" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+openrewrite = { id = "org.openrewrite.rewrite", version.ref = "openrewrite" }

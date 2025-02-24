@@ -1,30 +1,20 @@
-import org.jetbrains.dokka.gradle.DokkaTaskPartial
-
 plugins {
     `maven-publish`
     alias(libs.plugins.detekt)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.dokka.javadoc)
     alias(libs.plugins.kover)
     alias(libs.plugins.nexusPublish) // https://github.com/gradle-nexus/publish-plugin
+    alias(libs.plugins.openrewrite)
+    alias(libs.plugins.spotless)
     kotlin("multiplatform") version libs.versions.kotlin apply false
     kotlin("plugin.serialization") version libs.versions.kotlin apply false
-    id("org.openrewrite.rewrite") version "7.1.5"
     signing
-    id("com.diffplug.spotless") version "7.0.2"
 }
 
 allprojects {
-    group = "me.kpavlov.aimocks" // Replace with your groupId
-    version = "0.1.2-SNAPSHOT" // Replace as needed
-
     repositories {
         mavenCentral()
-    }
-}
-
-tasks {
-    withType<Jar> {
-        archiveClassifier.set("sources")
     }
 }
 
@@ -34,72 +24,52 @@ subprojects {
     apply(plugin = "maven-publish")
     apply(plugin = "signing")
     apply(plugin = "org.jetbrains.dokka")
+    apply(plugin = "org.jetbrains.dokka-javadoc")
     apply(plugin = "com.diffplug.spotless")
 
-    // configure all format tasks at once
-    tasks.withType<DokkaTaskPartial>().configureEach {
-        dokkaSourceSets.configureEach {
-            includes.from("README.md")
-        }
+    tasks.register<Jar>("dokkaJavadocJar", Jar::class) {
+        dependsOn(tasks.dokkaGenerate)
+        from("build/dokka/javadoc")
+        archiveClassifier.set("javadoc")
     }
 
     publishing {
         publications {
             create<MavenPublication>("maven") {
                 from(components["kotlin"])
+                artifact(tasks["dokkaJavadocJar"])
 
                 // Use project-level name
                 artifactId = project.name
 
                 pom {
-                    name.set("AI Mocks - ${project.name.capitalize()}")
-                    description.set("Description for ${project.name}")
-                    url.set("https://github.com/kpavlov/ai-mocks")
+                    name = project.name
+                    description = project.description
+                    url = "https://github.com/kpavlov/ai-mocks"
                     licenses {
                         license {
-                            name.set("MIT License")
-                            url.set("https://opensource.org/licenses/MIT")
+                            name = "MIT License"
+                            url = "https://opensource.org/licenses/MIT"
                         }
                     }
                     developers {
                         developer {
-                            id.set("kpavlov")
-                            name.set("Konstantin Pavlov")
+                            id = "kpavlov"
+                            name = "Konstantin Pavlov"
+                            url = "https://github.com/kpavlov"
                         }
                     }
                     scm {
-                        connection.set("scm:git:git://github.com/kpavlov/ai-mocks.git")
-                        developerConnection.set("scm:git:ssh://github.com/kpavlov/ai-mocks.git")
-                        url.set("https://github.com/kpavlov/ai-mocks/tree/main")
+                        connection = "scm:git:git://github.com/kpavlov/ai-mocks.git"
+                        developerConnection = "scm:git:ssh://github.com/kpavlov/ai-mocks.git"
+                        url = "https://github.com/kpavlov/ai-mocks"
                     }
-                }
-            }
-        }
-
-        repositories {
-            maven {
-                name = "SonatypeOSSRH"
-                url =
-                    if (version.toString().endsWith("SNAPSHOT")) {
-                        uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-                    } else {
-                        uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-                    }
-
-                credentials {
-                    username = project.findProperty("ossrhUsername") as String?
-                    password = project.findProperty("ossrhPassword") as String?
                 }
             }
         }
     }
 
     signing {
-        useInMemoryPgpKeys(
-            project.findProperty("signing.keyId") as String?,
-            project.findProperty("signing.secretKey") as String?,
-            project.findProperty("signing.password") as String?,
-        )
         sign(publishing.publications["maven"])
     }
 
@@ -141,6 +111,20 @@ kover {
                     minValue = 65
                 }
             }
+        }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        //  https://github.com/gradle-nexus/publish-plugin?tab=readme-ov-file#publishing-to-maven-central-via-sonatype-ossrh
+        sonatype {
+            nexusUrl.set(uri("https://central.sonatype.com/api/v1/publisher/upload"))
+            snapshotRepositoryUrl.set(
+                uri("https://central.sonatype.com/repository/maven-snapshots/"),
+            )
+            username.set(project.findProperty("sonatypeUsername") as String?)
+            password.set(project.findProperty("sonatypePassword") as String?)
         }
     }
 }
