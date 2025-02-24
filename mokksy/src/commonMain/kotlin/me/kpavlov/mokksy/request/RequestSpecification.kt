@@ -8,6 +8,7 @@ import io.ktor.server.request.ApplicationRequest
 import io.ktor.server.request.httpMethod
 import io.ktor.server.request.path
 import io.ktor.server.request.receive
+import kotlin.reflect.KClass
 
 /**
  * The default priority value assigned to a stub when no explicit priority is specified.
@@ -39,13 +40,15 @@ public const val DEFAULT_STUB_PRIORITY: Int = Int.MAX_VALUE
  * @property priority The priority value used for comparing different specifications.
  * Lower values indicate higher priority. Default value is [DEFAULT_STUB_PRIORITY]
  */
-public open class RequestSpecification<P>(
+@Suppress("LongParameterList")
+public open class RequestSpecification<P : Any>(
     public val method: Matcher<HttpMethod>? = null,
     public val path: Matcher<String>? = null,
     public val headers: List<Matcher<Headers>> = listOf(),
     public val body: List<Matcher<P?>> = listOf(),
     public val bodyString: List<Matcher<String?>> = listOf(),
     public val priority: Int? = DEFAULT_STUB_PRIORITY,
+    private val requestType: KClass<P>,
 ) {
     internal fun priority(): Int = priority ?: DEFAULT_STUB_PRIORITY
 
@@ -57,11 +60,11 @@ public open class RequestSpecification<P>(
             matchBodyString(bodyString, request)
 
     protected suspend fun matchBody(
-        matchers: List<Matcher<P>>,
+        matchers: List<Matcher<P?>>,
         request: ApplicationRequest,
     ): Boolean {
         if (matchers.isEmpty()) return true
-        val body: P = request.call.receive()
+        val body: P? = request.call.receive(requestType)
         return matchers.all {
             it
                 .test(body)
@@ -111,7 +114,9 @@ public open class RequestSpecification<P>(
     internal fun toLogString(): String = "method: $method, path: $path, body: $bodyString"
 }
 
-public open class RequestSpecificationBuilder<P> {
+public open class RequestSpecificationBuilder<P : Any>(
+    protected val requestType: KClass<P>,
+) {
     protected var method: Matcher<HttpMethod>? = null
     public var path: Matcher<String>? = null
     public var headers: MutableList<Matcher<Headers>> = mutableListOf()
@@ -159,6 +164,7 @@ public open class RequestSpecificationBuilder<P> {
             method = method,
             path = path,
             headers = headers,
+            requestType = requestType,
             body = body,
             bodyString = bodyString,
             priority = priority ?: DEFAULT_STUB_PRIORITY,

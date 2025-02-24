@@ -6,16 +6,22 @@ import me.kpavlov.mokksy.response.AbstractResponseDefinition
 
 public class OpenaiChatResponseSpecification(
     response: AbstractResponseDefinition<ChatCompletionRequest, String>,
-    public var textContent: String = "",
+    public var assistantContent: String = "",
     public var responseFlow: Flow<String>? = null,
     public var responseChunks: List<String>? = null,
     public var delayBetweenChunksMs: Long = 0,
     public var finishReason: String = "stop",
 ) : ChatResponseSpecification<ChatCompletionRequest, String>(response = response) {
-    public fun textContent(textContent: String): OpenaiChatResponseSpecification =
+    public fun assistantContent(content: String): OpenaiChatResponseSpecification =
         apply {
-            this.textContent =
-                textContent
+            this.assistantContent =
+                content
+        }
+
+    public fun finishReason(finishReason: String): OpenaiChatResponseSpecification =
+        apply {
+            this.finishReason =
+                finishReason
         }
 }
 

@@ -119,7 +119,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
             }
         }
 
-    private suspend fun <P> doTestCallMethod(
+    private suspend fun <P : Any> doTestCallMethod(
         method: HttpMethod,
         block: (RequestSpecificationBuilder<P>.() -> Unit) -> BuildingStep<*>,
     ) {

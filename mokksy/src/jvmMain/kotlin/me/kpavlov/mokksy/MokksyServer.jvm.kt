@@ -12,7 +12,7 @@ import org.slf4j.event.Level
 internal actual fun createEmbeddedServer(
     host: String,
     port: Int,
-    verbose: Boolean,
+    configuration: ServerConfiguration,
     module: Application.() -> Unit,
 ): EmbeddedServer<
     out ApplicationEngine,
@@ -25,10 +25,6 @@ internal actual fun createEmbeddedServer(
     ) {
         module()
         install(CallLogging) {
-            if (verbose) {
-                this.level = Level.DEBUG
-            } else {
-                this.level = Level.INFO
-            }
+            this.level = if (configuration.verbose) Level.DEBUG else Level.INFO
         }
     }

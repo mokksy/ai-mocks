@@ -39,8 +39,8 @@ class MockOpenaiJavaTest {
             req.maxCompletionTokens(maxTokens);
             req.requestBodyContains("say 'Hello!'");
         }).responds(response -> {
-            response.textContent("Hello");
-            response.setFinishReason("stop");
+            response.assistantContent("Hello");
+            response.finishReason("stop");
         });
 
         final var params = ChatCompletionCreateParams.builder()

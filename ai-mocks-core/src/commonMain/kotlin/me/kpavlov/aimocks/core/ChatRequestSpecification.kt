@@ -3,7 +3,7 @@ package me.kpavlov.aimocks.core
 import io.kotest.matchers.Matcher
 import io.kotest.matchers.string.contain
 
-public open class ChatRequestSpecification<P>(
+public abstract class ChatRequestSpecification<P>(
     public var temperature: Double? = null,
     public var maxCompletionTokens: Long? = null,
     public var model: String? = null,
@@ -18,8 +18,28 @@ public open class ChatRequestSpecification<P>(
     public fun maxCompletionTokens(value: Long): ChatRequestSpecification<P> =
         apply { this.maxCompletionTokens = value }
 
-    public fun requestBodyContains(s: String): ChatRequestSpecification<P> =
+    /**
+     * Adds a condition to ensure the request body contains the specified substring.
+     *
+     * @param substring The substring that the request body should contain.
+     * @return The current instance of ChatRequestSpecification with the updated condition.
+     */
+    public fun requestBodyContains(substring: String): ChatRequestSpecification<P> =
         apply {
-            requestBodyString += contain(s)
+            requestBodyString += contain(substring)
         }
+
+    /**
+     * Specifies that the system/developer message must contain the provided string.
+     *
+     * @param substring The substring that the system message should contain.
+     */
+    public abstract fun systemMessageContains(substring: String)
+
+    /**
+     * Specifies that the user's message must contain the provided substring.
+     *
+     * @param substring The substring that the user's message should contain.
+     */
+    public abstract fun userMessageContains(substring: String)
 }

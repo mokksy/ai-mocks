@@ -97,7 +97,6 @@ internal suspend fun <T> respondWithSseStream(
  * @param call The [ApplicationCall] representing the current client-server interaction.
  * @param content The [SSEServerContent] that represents the server-sent events to be delivered.
  */
-@Suppress("unused")
 private suspend fun processSSE(
     call: ApplicationCall,
     content: SSEServerContent,

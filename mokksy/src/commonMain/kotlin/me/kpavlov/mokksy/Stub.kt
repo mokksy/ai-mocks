@@ -23,12 +23,13 @@ private val counter = AtomicLong()
  *
  * @param P The type of the request payload.
  * @param T The type of the response data.
- * @param name An optional name assigned to the Stub for identification or debugging purposes.
+ * @param configuration Defines the behavior and attributes of the stub, including its name
+ *          and logging verbosity settings.
  * @property requestSpecification Defines the criteria used to match incoming requests.
- * @property responseDefinition Specifies the response to send for matched requests.
- * @property responseDefinitionSupplier Function providing responseDefinition.
+ * @property responseDefinitionSupplier Supplies the response details for a matched request.
+ *          This includes headers, body, and HTTP status code, which are applied to the HTTP response.
  */
-internal data class Stub<P, T>(
+internal data class Stub<P : Any, T : Any>(
     val configuration: StubConfiguration,
     val requestSpecification: RequestSpecification<P>,
     val responseDefinitionSupplier: ResponseDefinitionSupplier<P, T>,

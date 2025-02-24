@@ -55,6 +55,7 @@ class RequestSpecificationTest {
                         headers = listOf(headersMatcher),
                         body = listOf(beEqual(Input("Alice"))),
                         bodyString = listOf(contain("Alice")),
+                        requestType = Input::class,
                     )
 
                 assertThat(spec.matches(request)).isTrue()
@@ -69,7 +70,11 @@ class RequestSpecificationTest {
                     }
 
                 val headersMatcher = mockk<Matcher<Headers>>(relaxed = true)
-                val spec = RequestSpecification<Input>(headers = listOf(headersMatcher))
+                val spec =
+                    RequestSpecification<Input>(
+                        headers = listOf(headersMatcher),
+                        requestType = Input::class,
+                    )
 
                 every { headersMatcher.test(any()).passed() } returns true
 
@@ -87,6 +92,7 @@ class RequestSpecificationTest {
                     RequestSpecification<Input>(
                         method = beEqual(HttpMethod.Post),
                         path = contain("test"),
+                        requestType = Input::class,
                     )
 
                 assertThat(spec.matches(request)).isFalse()
@@ -99,9 +105,10 @@ class RequestSpecificationTest {
                 every { request.path() } returns "/test"
 
                 val spec =
-                    RequestSpecification<Any>(
+                    RequestSpecification<Input>(
                         method = beEqual(HttpMethod.Get),
                         path = contain("differentPath"),
+                        requestType = Input::class,
                     )
 
                 assertThat(spec.matches(request)).isFalse()
@@ -116,7 +123,11 @@ class RequestSpecificationTest {
                     }
 
                 val headersMatcher = mockk<Matcher<Headers>>(relaxed = true)
-                val spec = RequestSpecification<Any>(headers = listOf(headersMatcher))
+                val spec =
+                    RequestSpecification<Input>(
+                        headers = listOf(headersMatcher),
+                        requestType = Input::class,
+                    )
 
                 every { headersMatcher.test(any()).passed() } returns false
 
@@ -129,7 +140,11 @@ class RequestSpecificationTest {
                 coEvery { request.call.receive(String::class) } returns "Another body"
 
                 val bodyMatcher = contain("expectedBody")
-                val spec = RequestSpecification<Any>(bodyString = listOf(bodyMatcher))
+                val spec =
+                    RequestSpecification<String>(
+                        bodyString = listOf(bodyMatcher),
+                        requestType = String::class,
+                    )
 
                 assertThat(spec.matches(request)).isFalse()
             }
@@ -142,7 +157,11 @@ class RequestSpecificationTest {
                 coEvery<Input?> { request.call.receiveNullable(any<TypeInfo>()) } returns input
 
                 val bodyMatcher: Matcher<Input?> = beEqual(Input("Bob"))
-                val spec = RequestSpecification<Input>(body = listOf(bodyMatcher))
+                val spec =
+                    RequestSpecification<Input>(
+                        body = listOf(bodyMatcher),
+                        requestType = Input::class,
+                    )
 
                 assertThat(spec.matches(request)).isFalse()
             }
