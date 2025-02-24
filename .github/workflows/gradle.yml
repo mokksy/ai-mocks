@@ -41,7 +41,7 @@ jobs:
           gradle-version: 8.12.1
 
       - name: Build with Gradle
-        run: gradle --no-daemon build dokkaJavadocJar koverXmlReport
+        run: gradle --no-daemon build dokkaGenerate koverXmlReport
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
