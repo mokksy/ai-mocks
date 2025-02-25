@@ -4,6 +4,7 @@ import io.ktor.http.CacheControl
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.log
 import io.ktor.server.response.cacheControl
 import io.ktor.server.response.header
 import io.ktor.server.response.respond
@@ -35,12 +36,12 @@ internal suspend fun <P, T> respondWithStream(
                 SSEServerContent(call) {
                     chunkFlow.collect {
                         if (verbose) {
-                            println("Sending: $it")
+                            call.application.log.debug("Sending: {}", it)
                         }
                         send(it)
                     }
                 }
-            processSSE(call, sseContent, verbose)
+            processSSE(call, sseContent)
         }
 
         chunkFlow != null -> {
@@ -84,10 +85,13 @@ internal suspend fun <T> respondWithSseStream(
     val sseContent =
         SSEServerContent(call) {
             chunkFlow.collect {
+                if (verbose) {
+                    call.application.log.debug("Sending chunk: {}", it)
+                }
                 send(it)
             }
         }
-    processSSE(call, sseContent, verbose)
+    processSSE(call, sseContent)
 }
 
 /**
@@ -100,9 +104,7 @@ internal suspend fun <T> respondWithSseStream(
 private suspend fun processSSE(
     call: ApplicationCall,
     content: SSEServerContent,
-    verbose: Boolean,
 ) {
-//    call.response.header(HttpHeaders.ContentType, ContentType.Text.EventStream.toString())
     call.response.header(HttpHeaders.CacheControl, "no-store")
     call.response.header(HttpHeaders.Connection, "keep-alive")
     call.response.header("X-Accel-Buffering", "no")

@@ -1,28 +1,28 @@
 package me.kpavlov.mokksy
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
 import io.kotest.matchers.equals.beEqual
+import io.kotest.matchers.shouldBe
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import io.ktor.http.withCharsetIfNeeded
+import io.ktor.http.withCharset
 import io.ktor.sse.ServerSentEvent
 import io.ktor.sse.TypedServerSentEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
+import kotlin.text.Charsets.UTF_8
 import kotlin.time.Duration.Companion.milliseconds
 
-internal class MokksySSEIT : AbstractIT({ createKtorSSEClient(it) }) {
+internal class MokksySseIT : AbstractIT({ createKtorSSEClient(it) }) {
     @Test
-    fun `Should respond to SSE GET`() =
+    fun `Should respond to SSE (flow)`() =
         runTest {
-            mokksy.get<Any>(name = "sse-get", requestType = Any::class) {
-                path = beEqual("/sse")
+            mokksy.get<Any>(name = "sse-get-flow", requestType = Any::class) {
+                path = beEqual("/sse-flow")
             } respondsWithSseStream {
                 flow =
                     flow {
@@ -42,14 +42,31 @@ internal class MokksySSEIT : AbstractIT({ createKtorSSEClient(it) }) {
             }
 
             // when
-            val result = client.get("/sse")
-
-            // then
-            assertThat(result.status).isEqualTo(HttpStatusCode.OK)
-            assertThat(result.contentType())
-                .isEqualTo(ContentType.Text.EventStream.withCharsetIfNeeded(Charsets.UTF_8))
-            assertThat(result.bodyAsText()).isEqualTo("data: One\r\ndata: Two\r\n")
+            verifySseStream("/sse-flow")
         }
+
+    @Test
+    fun `Should respond to SSE (chunks)`() =
+        runTest {
+            mokksy.get<Any>(name = "sse-get-chunks", requestType = Any::class) {
+                path = beEqual("/sse-chunks")
+            } respondsWithSseStream {
+                chunks += ServerSentEvent(data = "One")
+                chunks += ServerSentEvent(data = "Two")
+            }
+
+            // when
+            verifySseStream("/sse-chunks")
+        }
+
+    private suspend fun verifySseStream(uri: String) {
+        val result = client.get(uri)
+
+        // then
+        result.status shouldBe HttpStatusCode.OK
+        result.contentType() shouldBe ContentType.Text.EventStream.withCharset(UTF_8)
+        result.bodyAsText() shouldBe "data: One\r\ndata: Two\r\n"
+    }
 }
 
 suspend fun main() {

@@ -46,6 +46,7 @@ public class BuildingStep<P : Any> internal constructor(
      * Associates the current request specification with a response definition.
      * This method is part of a fluent API for defining mappings between requests and responses.
      *
+     * @param P The type of the request payload.
      * @param T The type of the response body.
      * @param block A lambda function applied to a [me.kpavlov.mokksy.response.ResponseDefinitionBuilder],
      * used to configure the response definition.
@@ -68,6 +69,7 @@ public class BuildingStep<P : Any> internal constructor(
      * Associates the current request specification with a streaming response definition.
      * This method is part of a fluent API for defining mappings between requests and streaming responses.
      *
+     * @param P The type of the request payload.
      * @param T The type of the elements in the streaming response data.
      * @param block A lambda function applied to a [me.kpavlov.mokksy.response.StreamingResponseDefinitionBuilder],
      * used to configure the streaming response definition.
@@ -93,6 +95,7 @@ public class BuildingStep<P : Any> internal constructor(
      * Associates the current request specification with a server-sent events (SSE) streaming response definition.
      * This method is part of a fluent API for defining mappings between requests and SSE streaming responses.
      *
+     * @param P The type of the request payload.
      * @param T The type of `data` field in the [ServerSentEventMetadata].
      * @param block A lambda function applied to a [StreamingResponseDefinitionBuilder] specifically for
      * configuring the response as a stream of server-sent events.

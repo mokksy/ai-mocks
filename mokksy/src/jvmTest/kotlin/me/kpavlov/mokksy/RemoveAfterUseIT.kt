@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldBe
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 
 internal class RemoveAfterUseIT : AbstractIT() {
     @Test

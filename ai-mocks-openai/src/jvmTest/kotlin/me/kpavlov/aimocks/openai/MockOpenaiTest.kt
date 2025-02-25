@@ -14,7 +14,7 @@ internal class MockOpenaiTest : AbstractOpenaiTest() {
     fun `Should respond to Chat Completion`() =
         runTest {
             openai.completion {
-                temperature = temperature
+                temperature = temperatureValue
                 seed = seedValue
                 model = modelName
                 maxCompletionTokens = maxCompletionTokens
@@ -29,7 +29,7 @@ internal class MockOpenaiTest : AbstractOpenaiTest() {
                 ChatCompletionCreateParams
                     .builder()
                     .temperature(temperatureValue)
-                    .maxCompletionTokens(maxCompletionTokens)
+                    .maxCompletionTokens(maxCompletionTokensValue)
                     .seed(seedValue.toLong())
                     .messages(
                         listOf(

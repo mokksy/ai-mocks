@@ -28,21 +28,20 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.client.core)
-                implementation(libs.mockito.kotlin)
                 implementation(libs.mockk)
                 implementation(libs.mockk.dsl)
                 implementation(libs.kotlinLogging)
             }
         }
 
-        val jvmMain by getting {
+        jvmMain {
             dependencies {
                 implementation(libs.ktor.server.netty)
                 implementation(libs.ktor.server.call.logging)
             }
         }
 
-        val jvmTest by getting {
+        jvmTest {
             dependencies {
                 implementation(libs.ktor.client.java)
                 implementation(libs.junit.jupiter.params)
