@@ -19,7 +19,7 @@ netty = "4.1.118.Final"
 nexusPublish = "2.0.0"
 openai = "0.28.0"
 openrewrite = "7.1.6"
-slf4j = "2.0.16"
+slf4j = "2.0.17"
 spotless = "7.0.2"
 spring = "6.2.3"
 
