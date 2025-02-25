@@ -1,33 +1,11 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
-    kotlin("multiplatform")
     kotlin("plugin.serialization") apply true
     alias(libs.plugins.kover) apply true
+    `kotlin-convention`
+    `publish-convention`
 }
 
-group = "me.kpavlov.mokksy"
-description = "Mokksy is a mock HTTP server built with Kotlin and Ktor"
-
 kotlin {
-
-    jvmToolchain(17)
-    withSourcesJar()
-    explicitApi()
-
-    dokka {
-        dokkaPublications.html
-        dokkaPublications.javadoc
-    }
-
-    jvm {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
-        }
-        testRuns["test"].executionTask.configure {
-            useJUnitPlatform()
-        }
-    }
 
     sourceSets {
         commonMain {

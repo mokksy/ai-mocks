@@ -1,13 +1,11 @@
 plugins {
-    `maven-publish`
+    base
     alias(libs.plugins.detekt)
     alias(libs.plugins.dokka)
     alias(libs.plugins.dokka.javadoc)
     alias(libs.plugins.kover)
     alias(libs.plugins.nexusPublish) // https://github.com/gradle-nexus/publish-plugin
     alias(libs.plugins.openrewrite)
-    alias(libs.plugins.spotless)
-    kotlin("multiplatform") version libs.versions.kotlin apply false
     kotlin("plugin.serialization") version libs.versions.kotlin apply false
     signing
 }
@@ -20,9 +18,6 @@ allprojects {
 
 // Common configuration for subprojects
 subprojects {
-    apply(plugin = "org.jetbrains.kotlin.multiplatform")
-    apply(plugin = "maven-publish")
-    apply(plugin = "signing")
     apply(plugin = "org.jetbrains.dokka")
     apply(plugin = "org.jetbrains.dokka-javadoc")
     apply(plugin = "com.diffplug.spotless")
@@ -32,70 +27,12 @@ subprojects {
         from("build/dokka/javadoc")
         archiveClassifier.set("javadoc")
     }
-
-    publishing {
-        publications {
-            create<MavenPublication>("maven") {
-                from(components["kotlin"])
-                artifact(tasks["dokkaJavadocJar"])
-
-                // Use project-level name
-                artifactId = project.name
-
-                pom {
-                    name = project.name
-                    description = project.description
-                    url = "https://github.com/kpavlov/ai-mocks"
-                    licenses {
-                        license {
-                            name = "MIT License"
-                            url = "https://opensource.org/licenses/MIT"
-                        }
-                    }
-                    developers {
-                        developer {
-                            id = "kpavlov"
-                            name = "Konstantin Pavlov"
-                            url = "https://github.com/kpavlov"
-                        }
-                    }
-                    scm {
-                        connection = "scm:git:git://github.com/kpavlov/ai-mocks.git"
-                        developerConnection = "scm:git:ssh://github.com/kpavlov/ai-mocks.git"
-                        url = "https://github.com/kpavlov/ai-mocks"
-                    }
-                }
-            }
-        }
-    }
-
-    signing {
-        sign(publishing.publications["maven"])
-    }
-
-    spotless {
-        kotlin {
-            ktlint()
-        }
-    }
 }
 
 dependencies {
     kover(project(":mokksy"))
     kover(project(":ai-mocks-core"))
     kover(project(":ai-mocks-openai"))
-}
-
-spotless {
-    ratchetFrom("origin/main")
-
-    kotlinGradle {
-        ktlint()
-    }
-    format("misc") {
-        target("*.md", ".gitignore")
-        trimTrailingWhitespace()
-    }
 }
 
 kover {
@@ -111,20 +48,6 @@ kover {
                     minValue = 65
                 }
             }
-        }
-    }
-}
-
-nexusPublishing {
-    repositories {
-        //  https://github.com/gradle-nexus/publish-plugin?tab=readme-ov-file#publishing-to-maven-central-via-sonatype-ossrh
-        sonatype {
-            nexusUrl.set(uri("https://central.sonatype.com/api/v1/publisher/upload"))
-            snapshotRepositoryUrl.set(
-                uri("https://central.sonatype.com/repository/maven-snapshots/"),
-            )
-            username.set(project.findProperty("sonatypeUsername") as String?)
-            password.set(project.findProperty("sonatypePassword") as String?)
         }
     }
 }
