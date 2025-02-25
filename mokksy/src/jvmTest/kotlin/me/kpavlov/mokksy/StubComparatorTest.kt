@@ -4,27 +4,23 @@ import assertk.assertThat
 import assertk.assertions.isNegative
 import assertk.assertions.isPositive
 import assertk.assertions.isZero
-import io.mockk.mockk
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
 import me.kpavlov.mokksy.request.RequestSpecification
-import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import me.kpavlov.mokksy.response.ResponseDefinitionSupplier
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.mock
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MockKExtension::class)
 internal class StubComparatorTest {
     lateinit var request1: RequestSpecification<Int>
     lateinit var request2: RequestSpecification<Int>
-    lateinit var config: StubConfiguration
-    lateinit var response: AbstractResponseDefinition<Any, String>
-    lateinit var responseDefinitionSupplier: ResponseDefinitionSupplier<Int, String>
 
-    @BeforeEach
-    fun beforeEach() {
-        response = mock()
-        config = mockk()
-        responseDefinitionSupplier = mock()
-    }
+    @MockK
+    lateinit var config: StubConfiguration
+
+    @MockK
+    lateinit var responseDefinitionSupplier: ResponseDefinitionSupplier<Int, String>
 
     @Test
     fun `compare should compare by creationOrder when priorities are equal`() {
