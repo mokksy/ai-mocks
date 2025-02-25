@@ -1,6 +1,5 @@
 plugins {
     `kotlin-dsl`
-//    kotlin("multiplatform") version "2.1.10"
     id("com.vanniktech.maven.publish") version "0.30.0"
 }
 

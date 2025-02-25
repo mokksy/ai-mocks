@@ -13,6 +13,7 @@ repositories {
     mavenCentral()
 }
 
+// https://vanniktech.github.io/gradle-maven-publish-plugin/
 configure<MavenPublishBaseExtension> {
     signAllPublications()
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
