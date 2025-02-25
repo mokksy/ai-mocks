@@ -239,7 +239,7 @@ Mock streaming responses easily with flow support:
 ```kotlin
 // configure mock openai
 openai.completion {
-    temperature = temperature
+    temperature = temperatureValue
     model = "gpt-4o-mini"
     userMessageContains("What is in the sea?")
 } respondsStream {
@@ -268,7 +268,7 @@ model
     parameters =
       ChatRequestParameters
         .builder()
-        .temperature(temperature)
+        .temperature(temperatureValue)
         .modelName("gpt-4o-mini")
         .build()
     messages += userMessage(userMessage)
