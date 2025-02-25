@@ -2,9 +2,9 @@ package me.kpavlov.mokksy
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.HttpClient
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import kotlin.random.Random
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 
 val mokksy: MokksyServer =
     MokksyServer(verbose = true) {
@@ -27,12 +27,12 @@ internal abstract class AbstractIT(
      */
     protected var seed: Int = -1
 
-    @BeforeEach
+    @BeforeTest
     fun beforeEach() {
         seed = Random.nextInt(42, 100500)
     }
 
-    @AfterEach
+    @AfterTest
     fun afterEach() {
         mokksy.checkForUnmatchedRequests()
     }
