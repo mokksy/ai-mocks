@@ -4,8 +4,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
-//    id("org.jetbrains.dokka")
-//    id("org.jetbrains.dokka-javadoc")
 }
 
 kotlin {
@@ -53,10 +51,7 @@ tasks.withType<KotlinCompile>().configureEach {
         freeCompilerArgs =
             listOf(
                 "-Xjvm-default=all",
-                // Suppress deprecation warnings because we may still reference and test deprecated members.
-//                "-Xsuppress-warning=DEPRECATION",
             )
-        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 
