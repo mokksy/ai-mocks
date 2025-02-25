@@ -22,13 +22,13 @@ kotlin {
             }
         }
 
-        val jvmMain by getting {
+        jvmMain {
             dependencies {
                 implementation(libs.ktor.server.netty)
             }
         }
 
-        val jvmTest by getting {
+        jvmTest {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(libs.assertj.core)

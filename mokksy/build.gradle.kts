@@ -34,14 +34,14 @@ kotlin {
             }
         }
 
-        val jvmMain by getting {
+        jvmMain {
             dependencies {
                 implementation(libs.ktor.server.netty)
                 implementation(libs.ktor.server.call.logging)
             }
         }
 
-        val jvmTest by getting {
+        jvmTest {
             dependencies {
                 implementation(libs.ktor.client.java)
                 implementation(libs.junit.jupiter.params)
