@@ -85,6 +85,9 @@ internal suspend fun <T> respondWithSseStream(
     val sseContent =
         SSEServerContent(call) {
             chunkFlow.collect {
+                if (verbose) {
+                    call.application.log.debug("Sending chunk: {}", it)
+                }
                 send(it)
             }
         }
