@@ -1,35 +1,11 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
-    kotlin("multiplatform")
     kotlin("plugin.serialization") apply true
     alias(libs.plugins.kover) apply true
+    `kotlin-convention`
+    `publish-convention`
 }
 
-description = "Mock server for OpenAI API"
-
 kotlin {
-
-    jvmToolchain(17)
-
-    explicitApi()
-
-    withSourcesJar()
-
-    dokka {
-        dokkaPublications.html
-        dokkaPublications.javadoc
-    }
-
-    jvm {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
-        }
-        testRuns["test"].executionTask.configure {
-            useJUnitPlatform()
-        }
-        withJava()
-    }
 
     sourceSets {
         commonMain {
