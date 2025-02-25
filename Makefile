@@ -30,5 +30,7 @@ publish:
 	rm -rf ~/.m2/repository/me/kpavlov/aimocks  ~/.m2/repository/me/kpavlov/mokksy
 	./gradlew clean build sourcesJar check publishToMavenLocal
 	echo "Publishing 📢"
-	## https://github.com/gradle-nexus/publish-plugin/
-	# ./gradlew -Pversion=$(PUBLISH_VERSION) publishToMavenLocal
+	## https://vanniktech.github.io/gradle-maven-publish-plugin/central/#configuring-maven-central
+	# ./gradlew publishToMavenCentral \
+	# -PmavenCentralUsername="$SONATYPE_USERNAME" \
+  # -PmavenCentralPassword="$SONATYPE_PASSWORD"
