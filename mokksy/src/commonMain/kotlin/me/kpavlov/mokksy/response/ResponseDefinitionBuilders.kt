@@ -109,7 +109,7 @@ public open class StreamingResponseDefinitionBuilder<P : Any, T>(
     public override fun build(): StreamResponseDefinition<P, T> =
         StreamResponseDefinition<P, T>(
             chunkFlow = flow,
-            chunks = chunks.toList(),
+            chunks = chunks?.toList(),
             httpStatus = httpStatus,
             headers = headersLambda,
             headerList = Collections.unmodifiableList(headers),
