@@ -20,7 +20,8 @@ _Mokksy_ and _AI-Mocks_ are mock HTTP and LLM (Large Language Model) servers ins
 - Flexibility to control server response directly via ApplicationCall object.
 - Built with Kotest Assertions.
 - Fluent modern Kotlin DSL API.
-- Support for simulating streamed responses and Server-Side Events (SSE).
+- Support for simulating streamed responses and Server-Side Events (SSE) with delays between chunks.
+- Support for simulating response delays.
 
 ## Example Usages
 
