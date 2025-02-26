@@ -236,7 +236,7 @@ openai.completion {
 }
 ```
 
-## How to run with LangChain4j/Kotlin
+## How to test LangChain4j/Kotlin
 
 You may use also LangChain4J Kotlin Extensions:
 
@@ -319,6 +319,70 @@ model
     }
   }
 ```
+
+## How to test Spring-AI
+
+To test Spring-AI integration run:
+
+```kotlin
+// create mock server
+val openai = MockOpenai(verbose = true)
+
+// create Spring-AI client
+val chatClient =
+  ChatClient
+    .builder(
+      org.springframework.ai.openai.OpenAiChatModel
+        .builder()
+        .openAiApi(
+          OpenAiApi
+            .builder()
+            .apiKey("demo-key")
+            .baseUrl("http://127.0.0.1:${openai.port()}")
+            .build(),
+        ).build(),
+    ).build()
+
+// Set up a mock for the LLM call
+openai.completion {
+    temperature = temperatureValue
+    seed = seedValue
+    model = modelName
+    maxCompletionTokens = maxCompletionTokensValue
+    systemMessageContains("helpful pirate")
+    userMessageContains("say 'Hello!'")
+} responds {
+    assistantContent = "Ahoy there, matey! Hello!"
+    finishReason = "stop"
+}
+
+// Configure Spring-AI client call
+val response =
+    chatClient
+      .prompt()
+      .system("You are a helpful pirate")
+      .user("Just say 'Hello!'")
+      .options<OpenAiChatOptions>(
+        OpenAiChatOptions
+          .builder()
+          .maxCompletionTokens(maxCompletionTokensValue.toInt())
+          .temperature(temperatureValue)
+          .model(modelName)
+          .seed(seedValue)
+          .build(),
+      )
+      // Make a call
+      .call()
+      .chatResponse() 
+
+// Verify the response
+response?.result shouldNotBe null
+response?.result?.apply {
+metadata.finishReason shouldBe "STOP"
+output?.text shouldBe "Ahoy there, matey! Hello!"
+}
+```
+Check for examples in the [integration tests](https://github.com/kpavlov/ai-mocks/tree/main/ai-mocks-openai/src/jvmTest/kotlin/me/kpavlov/aimocks/openai/springai).
 
 ## How to build
 

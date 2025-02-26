@@ -10,50 +10,47 @@ import com.openai.models.ChatCompletionStreamOptions
 import com.openai.models.ChatCompletionUserMessageParam
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runTest
 import me.kpavlov.aimocks.openai.openai
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
     @Test
-    fun `Should respond to Streaming Chat Completion`() =
-        runTest {
-            openai.completion("openai-completion-list") {
-                temperature = temperatureValue
-                model = modelName
-            } respondsStream {
-                responseChunks = listOf("All", " we", " need", " is", " Love")
-                delay = 50.milliseconds
-                delayBetweenChunks = 10.milliseconds
-                finishReason = "stop"
-            }
-
-            verifyStreamingCall()
+    fun `Should respond to Streaming Chat Completion`() {
+        openai.completion("openai-completion-list") {
+            temperature = temperatureValue
+            model = modelName
+        } respondsStream {
+            responseChunks = listOf("All", " we", " need", " is", " Love")
+            delay = 50.milliseconds
+            delayBetweenChunks = 10.milliseconds
+            finishReason = "stop"
         }
+
+        verifyStreamingCall()
+    }
 
     @Test
-    fun `Should respond to Streaming Chat Completion with Flow`() =
-        runTest {
-            openai.completion("openai-completion-flow") {
-                temperature = temperatureValue
-                model = modelName
-            } respondsStream {
-                responseFlow =
-                    flow {
-                        emit("All")
-                        emit(" we")
-                        emit(" need")
-                        emit(" is")
-                        emit(" Love")
-                    }
-                delay = 60.milliseconds
-                delayBetweenChunks = 15.milliseconds
-                finishReason = "stop"
-            }
-
-            verifyStreamingCall()
+    fun `Should respond to Streaming Chat Completion with Flow`() {
+        openai.completion("openai-completion-flow") {
+            temperature = temperatureValue
+            model = modelName
+        } respondsStream {
+            responseFlow =
+                flow {
+                    emit("All")
+                    emit(" we")
+                    emit(" need")
+                    emit(" is")
+                    emit(" Love")
+                }
+            delay = 60.milliseconds
+            delayBetweenChunks = 15.milliseconds
+            finishReason = "stop"
         }
+
+        verifyStreamingCall()
+    }
 
     private fun verifyStreamingCall() {
         val params =
