@@ -2,7 +2,6 @@ package me.kpavlov.mokksy.response
 
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
-import io.ktor.http.headers
 import io.ktor.server.response.ResponseHeaders
 import kotlinx.coroutines.flow.Flow
 import me.kpavlov.mokksy.CapturedRequest
