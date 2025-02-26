@@ -9,8 +9,6 @@
 
 _Mokksy_ and _AI-Mocks_ are mock HTTP and LLM (Large Language Model) servers inspired by WireMock, with support for response streaming and Server-Side Events (SSE). They are designed to build, test, and mock OpenAI API responses for development purposes.
 
-[![Buy me a Coffee](https://cdn.buymeacoffee.com/buttons/default-orange.png)](https://buymeacoffee.com/mailsk)
-
 # Mokksy
 
 ![mokksy-mascot-256.png](mokksy/docs/mokksy-mascot-256.png)
@@ -146,6 +144,10 @@ assertThat(result.bodyAsText())
 **AI-Mocks** is a specialized mock server implementations (e.g., mocking OpenAI API) built using Mokksy.
 
 ## Mocking OpenAI API
+
+`MockOpenai` is tested against official [openai-java SDK](https://github.com/openai/openai-java) and popular JVM AI frameworks: [LangChain4j](https://github.com/langchain4j/langchain4j) and [Spring AI](https://docs.spring.io/spring-ai/reference/api/chatclient.html).
+
+Currently, it only supports [ChatCompletion](https://platform.openai.com/docs/api-reference/chat/create) and [Streaming ChatCompletion](https://platform.openai.com/docs/api-reference/chat/streaming) requests.
 
 Set up a mock server and define mock responses:
 
@@ -332,4 +334,7 @@ make
 
 ## Contributing
 
-We welcome contributions! Please see the [Contributing Guidelines](CONTRIBUTING.md) for details.
+I do welcome contributions! Please see the [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+## Enjoying LLM integration testing? :heart:
+[![Buy me a Coffee](https://cdn.buymeacoffee.com/buttons/default-orange.png)](https://buymeacoffee.com/mailsk)

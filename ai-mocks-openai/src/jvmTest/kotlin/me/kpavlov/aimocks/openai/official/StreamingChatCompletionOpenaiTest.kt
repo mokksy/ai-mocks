@@ -1,4 +1,4 @@
-package me.kpavlov.aimocks.openai
+package me.kpavlov.aimocks.openai.official
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
@@ -11,10 +11,11 @@ import com.openai.models.ChatCompletionUserMessageParam
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
+import me.kpavlov.aimocks.openai.openai
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 
-internal class MockOpenaiStreamingTest : AbstractOpenaiTest() {
+internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
     @Test
     fun `Should respond to Streaming Chat Completion`() =
         runTest {

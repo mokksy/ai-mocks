@@ -1,4 +1,4 @@
-package me.kpavlov.aimocks.openai
+package me.kpavlov.aimocks.openai.official
 
 import com.openai.errors.UnexpectedStatusCodeException
 import com.openai.models.ChatCompletionCreateParams
@@ -10,12 +10,13 @@ import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.test.runTest
+import me.kpavlov.aimocks.openai.openai
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.measureTimedValue
 
-internal class MockOpenaiTest : AbstractOpenaiTest() {
+internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
     @Test
     fun `Should respond to Chat Completion`() =
         runTest {
