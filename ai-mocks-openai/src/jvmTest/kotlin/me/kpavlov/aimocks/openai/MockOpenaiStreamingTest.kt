@@ -12,6 +12,7 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
+import kotlin.time.Duration.Companion.milliseconds
 
 internal class MockOpenaiStreamingTest : AbstractOpenaiTest() {
     @Test
@@ -22,7 +23,8 @@ internal class MockOpenaiStreamingTest : AbstractOpenaiTest() {
                 model = modelName
             } respondsStream {
                 responseChunks = listOf("All", " we", " need", " is", " Love")
-                delayBetweenChunksMs = 50
+                delay = 50.milliseconds
+                delayBetweenChunks = 10.milliseconds
                 finishReason = "stop"
             }
 
@@ -44,7 +46,8 @@ internal class MockOpenaiStreamingTest : AbstractOpenaiTest() {
                         emit(" is")
                         emit(" Love")
                     }
-                delayBetweenChunksMs = 50
+                delay = 60.milliseconds
+                delayBetweenChunks = 15.milliseconds
                 finishReason = "stop"
             }
 

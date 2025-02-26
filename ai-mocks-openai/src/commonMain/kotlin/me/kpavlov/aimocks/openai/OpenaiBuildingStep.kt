@@ -34,6 +34,7 @@ public class OpenaiBuildingStep(
             block.invoke(chatResponseSpecification)
             val assistantContent = chatResponseSpecification.assistantContent
             val finishReason = chatResponseSpecification.finishReason
+            delay = chatResponseSpecification.delay
 
             val response =
                 ChatResponse(

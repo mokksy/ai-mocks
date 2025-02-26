@@ -1,7 +1,6 @@
 package me.kpavlov.mokksy
 
 import io.ktor.server.application.ApplicationCall
-import io.ktor.server.response.respond
 import me.kpavlov.mokksy.request.RequestSpecification
 import me.kpavlov.mokksy.response.ResponseDefinition
 import me.kpavlov.mokksy.response.ResponseDefinitionSupplier
@@ -85,10 +84,7 @@ internal data class Stub<P : Any, T : Any>(
             }
 
             is ResponseDefinition<P, T> -> {
-                call.respond(
-                    status = responseDefinition.httpStatus,
-                    message = responseDefinition.body as Any,
-                )
+                responseDefinition.writeResponse(call, verbose)
             }
         }
     }

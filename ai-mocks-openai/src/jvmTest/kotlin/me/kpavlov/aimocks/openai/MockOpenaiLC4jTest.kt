@@ -1,13 +1,14 @@
 package me.kpavlov.aimocks.openai
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
 import dev.langchain4j.data.message.UserMessage.userMessage
 import dev.langchain4j.model.openai.OpenAiChatModel
 import dev.langchain4j.model.openai.OpenAiChatRequestParameters
+import dev.langchain4j.model.output.FinishReason
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.test.runTest
 import me.kpavlov.langchain4j.kotlin.model.chat.chatAsync
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 
 internal class MockOpenaiLC4jTest : AbstractMockOpenaiTest() {
     private val model: OpenAiChatModel =
@@ -24,7 +25,7 @@ internal class MockOpenaiLC4jTest : AbstractMockOpenaiTest() {
                 temperature = temperatureValue
                 seed = seedValue
                 model = modelName
-                maxCompletionTokens = maxCompletionTokens
+                maxCompletionTokens = maxCompletionTokensValue
             } responds {
                 assistantContent = "Hello"
                 finishReason = "stop"
@@ -35,6 +36,7 @@ internal class MockOpenaiLC4jTest : AbstractMockOpenaiTest() {
                     parameters =
                         OpenAiChatRequestParameters
                             .builder()
+                            .maxCompletionTokens(maxCompletionTokensValue.toInt())
                             .temperature(temperatureValue)
                             .modelName(modelName)
                             .seed(seedValue)
@@ -42,9 +44,10 @@ internal class MockOpenaiLC4jTest : AbstractMockOpenaiTest() {
                     messages += userMessage("Say Hello")
                 }
 
-            println(result)
-            assertThat(
-                result.aiMessage().text(),
-            ).isEqualTo("Hello")
+            result.apply {
+                finishReason() shouldBe FinishReason.STOP
+                tokenUsage() shouldNotBe null
+                aiMessage().text() shouldBe "Hello"
+            }
         }
 }

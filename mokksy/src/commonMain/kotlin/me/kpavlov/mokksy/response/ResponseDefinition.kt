@@ -4,7 +4,9 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.withCharset
 import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.log
 import io.ktor.server.response.ResponseHeaders
+import io.ktor.server.response.respond
 import io.ktor.server.sse.ServerSSESession
 import io.ktor.sse.ServerSentEvent
 import kotlinx.coroutines.delay
@@ -12,6 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.yield
 import java.io.Writer
+import kotlin.time.Duration
 
 internal typealias ResponseDefinitionSupplier<P, T> = (
     ApplicationCall,
@@ -33,6 +36,7 @@ public abstract class AbstractResponseDefinition<P, T>(
     public val httpStatus: HttpStatusCode = HttpStatusCode.OK,
     public val headers: (ResponseHeaders.() -> Unit)? = null,
     public val headerList: List<Pair<String, String>> = emptyList<Pair<String, String>>(),
+    public val delay: Duration = Duration.ZERO,
 )
 
 /**
@@ -47,6 +51,7 @@ public abstract class AbstractResponseDefinition<P, T>(
  * @property headers A lambda function for configuring additional response headers using `ResponseHeaders`.
  * Defaults to null.
  * @property headerList A list of additional header key-value pairs. Defaults to an empty list.
+ * @property delay Delay before response is sent. Default value is zero.
  */
 public open class ResponseDefinition<P, T>(
     contentType: ContentType? = ContentType.Application.Json,
@@ -54,12 +59,30 @@ public open class ResponseDefinition<P, T>(
     httpStatus: HttpStatusCode = HttpStatusCode.OK,
     headers: (ResponseHeaders.() -> Unit)? = null,
     headerList: List<Pair<String, String>> = emptyList<Pair<String, String>>(),
+    delay: Duration,
 ) : AbstractResponseDefinition<P, T>(
         contentType,
         httpStatus,
         headers,
         headerList,
-    )
+        delay,
+    ) {
+    internal suspend fun writeResponse(
+        call: ApplicationCall,
+        verbose: Boolean,
+    ) {
+        if (this.delay.isPositive()) {
+            delay(delay)
+        }
+        if (verbose) {
+            call.application.log.debug("Sending: {}", body)
+        }
+        call.respond(
+            status = httpStatus,
+            message = body as Any,
+        )
+    }
+}
 
 /**
  * Represents a definition for streaming responses, supporting chunked data and flow-based content streaming.
@@ -71,7 +94,7 @@ public open class ResponseDefinition<P, T>(
  * @param T The type of the response data being streamed.
  * @property chunkFlow A `Flow` of chunks to be streamed as part of the response.
  * @property chunks A list of chunks representing the response data to be sent.
- * @property delayBetweenChunksMs Delay in milliseconds between the transmission of each chunk.
+ * @property delayBetweenChunks Delay between the transmission of each chunk.
  * @constructor Initializes a streaming response definition with the specified flow, chunk list, content type,
  *              HTTP status code, and headers.
  *
@@ -82,21 +105,26 @@ public open class ResponseDefinition<P, T>(
 public open class StreamResponseDefinition<P, T>(
     public open val chunkFlow: Flow<T>? = null,
     public val chunks: List<T>? = null,
-    public val delayBetweenChunksMs: Long = 0L,
+    public val delayBetweenChunks: Duration = Duration.ZERO,
     contentType: ContentType = ContentType.Text.EventStream.withCharset(Charsets.UTF_8),
     httpStatus: HttpStatusCode = HttpStatusCode.OK,
     headers: (ResponseHeaders.() -> Unit)? = null,
     headerList: List<Pair<String, String>> = emptyList<Pair<String, String>>(),
+    delay: Duration,
 ) : AbstractResponseDefinition<P, T>(
         contentType,
         httpStatus,
         headers,
         headerList,
+        delay,
     ) {
     internal suspend fun writeChunksFromFlow(
         writer: Writer,
         verbose: Boolean,
     ) {
+        if (this.delay.isPositive()) {
+            delay(delay)
+        }
         chunkFlow
             ?.filterNotNull()
             ?.collect {
@@ -115,13 +143,16 @@ public open class StreamResponseDefinition<P, T>(
         writer.write("$value")
         writer.flush()
         yield()
-        if (delayBetweenChunksMs > 0) {
-            delay(delayBetweenChunksMs)
+        if (delayBetweenChunks.isPositive()) {
+            delay(delayBetweenChunks)
         }
     }
 
     @Suppress("unused")
     internal suspend fun writeChunksFromFlow(session: ServerSSESession) {
+        if (this.delay.isPositive()) {
+            delay(delay)
+        }
         chunkFlow
             ?.filterNotNull()
             ?.collect {
@@ -130,8 +161,8 @@ public open class StreamResponseDefinition<P, T>(
                     data = chunk,
                 )
                 yield()
-                if (delayBetweenChunksMs > 0) {
-                    delay(delayBetweenChunksMs)
+                if (delayBetweenChunks.isPositive()) {
+                    delay(delayBetweenChunks)
                 }
             }
     }
@@ -140,6 +171,9 @@ public open class StreamResponseDefinition<P, T>(
         writer: Writer,
         verbose: Boolean,
     ) {
+        if (this.delay.isPositive()) {
+            delay(delay)
+        }
         chunks?.forEach {
             writeChunk(writer, it, verbose)
         }
@@ -148,4 +182,5 @@ public open class StreamResponseDefinition<P, T>(
 
 public open class SseStreamResponseDefinition<P>(
     override val chunkFlow: Flow<ServerSentEvent>? = null,
-) : StreamResponseDefinition<P, ServerSentEvent>()
+    delay: Duration,
+) : StreamResponseDefinition<P, ServerSentEvent>(delay = delay)

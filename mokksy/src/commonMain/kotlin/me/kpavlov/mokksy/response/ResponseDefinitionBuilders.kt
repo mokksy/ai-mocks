@@ -6,6 +6,7 @@ import io.ktor.server.response.ResponseHeaders
 import kotlinx.coroutines.flow.Flow
 import me.kpavlov.mokksy.CapturedRequest
 import java.util.Collections
+import kotlin.time.Duration
 
 /**
  * Represents a base abstraction for defining the attributes of an HTTP response in the context of
@@ -62,6 +63,7 @@ public open class ResponseDefinitionBuilder<P : Any, T : Any>(
     public val request: CapturedRequest<P>,
     public var contentType: ContentType? = null,
     public var body: T? = null,
+    public var delay: Duration = Duration.ZERO,
     httpStatus: HttpStatusCode = HttpStatusCode.OK,
     headers: MutableList<Pair<String, String>> = mutableListOf(),
 ) : AbstractResponseDefinitionBuilder<P, T>(httpStatus = httpStatus, headers = headers) {
@@ -72,6 +74,7 @@ public open class ResponseDefinitionBuilder<P : Any, T : Any>(
             httpStatus = httpStatus,
             headers = headersLambda,
             headerList = Collections.unmodifiableList(headers),
+            delay = delay,
         )
 }
 
@@ -87,10 +90,13 @@ public open class ResponseDefinitionBuilder<P : Any, T : Any>(
  * @property chunks A list of data chunks to be sent as part of the stream,
  *          if [flow] is not provided.
  */
+@Suppress("LongParameterList")
 public open class StreamingResponseDefinitionBuilder<P : Any, T>(
     public val request: CapturedRequest<P>,
     public var flow: Flow<T>? = null,
     public var chunks: MutableList<T> = mutableListOf(),
+    public var delayBetweenChunks: Duration = Duration.ZERO,
+    public var delay: Duration = Duration.ZERO,
     httpStatus: HttpStatusCode = HttpStatusCode.OK,
     headers: MutableList<Pair<String, String>> = mutableListOf(),
 ) : AbstractResponseDefinitionBuilder<P, T>(httpStatus = httpStatus, headers = headers) {
@@ -113,5 +119,7 @@ public open class StreamingResponseDefinitionBuilder<P : Any, T>(
             httpStatus = httpStatus,
             headers = headersLambda,
             headerList = Collections.unmodifiableList(headers),
+            delayBetweenChunks = delayBetweenChunks,
+            delay = delay,
         )
 }
