@@ -7,5 +7,5 @@ import me.kpavlov.mokksy.response.AbstractResponseDefinition
  * @param T The type of the response body.
  */
 public open class ChatResponseSpecification<P : Any, T : Any>(
-    protected val response: AbstractResponseDefinition<P, T>,
+    protected val response: AbstractResponseDefinition<T>,
 )

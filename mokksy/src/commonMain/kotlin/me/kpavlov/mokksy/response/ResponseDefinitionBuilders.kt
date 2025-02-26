@@ -42,7 +42,7 @@ public abstract class AbstractResponseDefinitionBuilder<P, T>(
      *
      * @return An instance of [AbstractResponseDefinition].
      */
-    protected abstract fun build(): AbstractResponseDefinition<P, T>
+    protected abstract fun build(): AbstractResponseDefinition<T>
 }
 
 /**

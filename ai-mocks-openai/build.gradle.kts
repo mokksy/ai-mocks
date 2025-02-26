@@ -38,6 +38,9 @@ kotlin {
                 implementation(libs.langchain4j.kotlin)
                 implementation(libs.langchain4j.openai)
                 implementation(libs.openai.java)
+                implementation(project.dependencies.platform(libs.spring.bom))
+                implementation(project.dependencies.platform(libs.spring.ai.bom))
+                implementation(libs.spring.ai.openai)
                 runtimeOnly(libs.slf4j.simple)
             }
         }

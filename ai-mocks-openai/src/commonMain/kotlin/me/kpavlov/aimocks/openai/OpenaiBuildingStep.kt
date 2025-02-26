@@ -14,6 +14,7 @@ import me.kpavlov.mokksy.MokksyServer
 import me.kpavlov.mokksy.response.StreamResponseDefinition
 import java.time.Instant
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.random.Random.Default.nextInt
 
 private const val LINE_SEPARATOR = "\n\n"
 
@@ -26,6 +27,7 @@ public class OpenaiBuildingStep(
     ) {
     private var counter: AtomicInteger = AtomicInteger(1)
 
+    @Suppress("MagicNumber")
     override infix fun responds(block: OpenaiChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val request = this.request.body
@@ -36,6 +38,13 @@ public class OpenaiBuildingStep(
             val finishReason = chatResponseSpecification.finishReason
             delay = chatResponseSpecification.delay
 
+            val promptTokens = nextInt(1, 200)
+            val completionTokens = nextInt(1, request.maxCompletionTokens ?: 500)
+            val reasoningTokens = completionTokens / 3
+            val acceptedPredictionTokens = (completionTokens - reasoningTokens) / 2
+            val rejectedPredictionTokens =
+                completionTokens - reasoningTokens - acceptedPredictionTokens
+
             val response =
                 ChatResponse(
                     id = "chatcmpl-abc${counter.addAndGet(1)}",
@@ -43,14 +52,14 @@ public class OpenaiBuildingStep(
                     model = request.model,
                     usage =
                         Usage(
-                            promptTokens = 13,
-                            completionTokens = 7,
-                            totalTokens = 20,
+                            promptTokens = promptTokens,
+                            completionTokens = completionTokens,
+                            totalTokens = promptTokens + completionTokens,
                             completionTokensDetails =
                                 CompletionTokensDetails(
-                                    reasoningTokens = 0,
-                                    acceptedPredictionTokens = 0,
-                                    rejectedPredictionTokens = 0,
+                                    reasoningTokens = reasoningTokens,
+                                    acceptedPredictionTokens = acceptedPredictionTokens,
+                                    rejectedPredictionTokens = rejectedPredictionTokens,
                                 ),
                         ),
                     choices =
@@ -68,7 +77,7 @@ public class OpenaiBuildingStep(
                     systemFingerprint = "fp_44709d6fcb",
                 )
 
-            body = Json.encodeToString(response)
+            body = response
         }
     }
 
