@@ -153,7 +153,7 @@ openai.completion {
   temperature = temperatureValue
   seed = seedValue
   model = "gpt-4o-mini"
-  maxCompletionTokens = maxCompletionTokens
+  maxCompletionTokens = maxCompletionTokensValue
   systemMessageContains("helpful assistant")
   userMessageContains("say 'Hello!'")
 } responds {
@@ -175,7 +175,7 @@ val params =
   ChatCompletionCreateParams
     .builder()
     .temperature(temperatureValue)
-    .maxCompletionTokens(maxCompletionTokens)
+    .maxCompletionTokens(maxCompletionTokensValue)
     .seed(seedValue.toLong())
     .messages(
       listOf(

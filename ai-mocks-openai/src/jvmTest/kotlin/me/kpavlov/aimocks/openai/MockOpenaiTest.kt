@@ -1,11 +1,10 @@
 package me.kpavlov.aimocks.openai
 
-import assertk.assertThat
-import assertk.assertions.hasValue
 import com.openai.models.ChatCompletionCreateParams
 import com.openai.models.ChatCompletionMessageParam
 import com.openai.models.ChatCompletionSystemMessageParam
 import com.openai.models.ChatCompletionUserMessageParam
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
@@ -17,7 +16,7 @@ internal class MockOpenaiTest : AbstractOpenaiTest() {
                 temperature = temperatureValue
                 seed = seedValue
                 model = modelName
-                maxCompletionTokens = maxCompletionTokens
+                maxCompletionTokens = maxCompletionTokensValue
                 systemMessageContains("helpful assistant")
                 userMessageContains("say 'Hello!'")
             } responds {
@@ -56,13 +55,14 @@ internal class MockOpenaiTest : AbstractOpenaiTest() {
                     .completions()
                     .create(params)
 
-            println(result)
-            assertThat(
-                result
-                    .choices()
-                    .first()
-                    .message()
-                    .content(),
-            ).hasValue("Hello")
+            result.validate()
+
+            result.model() shouldBe modelName
+            result
+                .choices()
+                .first()
+                .message()
+                .content()
+                .orElseThrow() shouldBe "Hello"
         }
 }
