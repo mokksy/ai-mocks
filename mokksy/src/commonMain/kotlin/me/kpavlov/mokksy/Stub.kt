@@ -2,12 +2,7 @@ package me.kpavlov.mokksy
 
 import io.ktor.server.application.ApplicationCall
 import me.kpavlov.mokksy.request.RequestSpecification
-import me.kpavlov.mokksy.response.ResponseDefinition
 import me.kpavlov.mokksy.response.ResponseDefinitionSupplier
-import me.kpavlov.mokksy.response.SseStreamResponseDefinition
-import me.kpavlov.mokksy.response.StreamResponseDefinition
-import me.kpavlov.mokksy.response.respondWithSseStream
-import me.kpavlov.mokksy.response.respondWithStream
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 
@@ -74,19 +69,7 @@ internal data class Stub<P : Any, T : Any>(
         }
         call.response.status(responseDefinition.httpStatus)
 
-        when (responseDefinition) {
-            is SseStreamResponseDefinition -> {
-                respondWithSseStream(responseDefinition, call, verbose)
-            }
-
-            is StreamResponseDefinition -> {
-                respondWithStream(responseDefinition, call, verbose)
-            }
-
-            is ResponseDefinition<P, T> -> {
-                responseDefinition.writeResponse(call, verbose)
-            }
-        }
+        responseDefinition.writeResponse(call, verbose)
     }
 
     fun incrementMatchCount() {

@@ -1,4 +1,4 @@
-package me.kpavlov.aimocks.openai
+package me.kpavlov.aimocks.openai.lc4j
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
@@ -15,6 +15,8 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
+import me.kpavlov.aimocks.openai.AbstractMockOpenaiTest
+import me.kpavlov.aimocks.openai.openai
 import me.kpavlov.langchain4j.kotlin.model.chat.StreamingChatLanguageModelReply
 import me.kpavlov.langchain4j.kotlin.model.chat.StreamingChatLanguageModelReply.CompleteResponse
 import me.kpavlov.langchain4j.kotlin.model.chat.StreamingChatLanguageModelReply.PartialResponse
@@ -24,7 +26,7 @@ import org.junit.jupiter.api.Test
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.atomic.AtomicReference
 
-internal class MockOpenaiLC4jStreamingTest : AbstractMockOpenaiTest() {
+internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
     private val model: OpenAiStreamingChatModel =
         OpenAiStreamingChatModel
             .builder()

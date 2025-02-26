@@ -1,4 +1,4 @@
-package me.kpavlov.aimocks.openai
+package me.kpavlov.aimocks.openai.lc4j
 
 import dev.langchain4j.data.message.UserMessage.userMessage
 import dev.langchain4j.model.openai.OpenAiChatModel
@@ -7,10 +7,12 @@ import dev.langchain4j.model.output.FinishReason
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.test.runTest
+import me.kpavlov.aimocks.openai.AbstractMockOpenaiTest
+import me.kpavlov.aimocks.openai.openai
 import me.kpavlov.langchain4j.kotlin.model.chat.chatAsync
 import kotlin.test.Test
 
-internal class MockOpenaiLC4jTest : AbstractMockOpenaiTest() {
+internal class ChatCompletionLc4jTest : AbstractMockOpenaiTest() {
     private val model: OpenAiChatModel =
         OpenAiChatModel
             .builder()

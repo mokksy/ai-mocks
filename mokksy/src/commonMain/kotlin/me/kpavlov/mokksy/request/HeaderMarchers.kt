@@ -17,7 +17,7 @@ internal fun containsHeader(
         override fun test(valueUnderTest: Headers): MatcherResult {
             val actualValue = valueUnderTest[name]
             return MatcherResult(
-                actualValue == value, // Check if the actual header value matches the expected value
+                actualValue contentEquals value,
                 {
                     "Headers should contain a header '$name' with value '$value', but was '$actualValue'."
                 },
