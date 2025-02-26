@@ -2,6 +2,7 @@ package me.kpavlov.aimocks.core
 
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
+import me.kpavlov.mokksy.response.ResponseDefinitionBuilder
 import java.util.function.Consumer
 
 /**
@@ -25,6 +26,14 @@ public abstract class LlmBuildingStep<P : Any, R : ChatResponseSpecification<P, 
     public open infix fun responds(block: Consumer<R>) {
         responds {
             block.accept(this)
+        }
+    }
+
+    public open infix fun <T : Any> respondsError(
+        block: ResponseDefinitionBuilder<P, T>.() -> Unit,
+    ) {
+        buildingStep.respondsWith {
+            block(this)
         }
     }
 }

@@ -54,6 +54,7 @@ assertThat(result.bodyAsText()).isEqualTo(expectedResponse)
 ```
 
 ### POST Request
+
 ```kotlin
 // given
 val id = Random.nextInt()
@@ -203,6 +204,31 @@ val result: ChatCompletion =
     .create(params)
 
 println(result)
+```
+
+## Mocking negative scenarios
+
+With AI-Mocks it is possible to test negative scenarios, such as erroneous responses and delays.
+
+```kotlin
+openai.completion {
+  temperature = temperatureValue
+  seed = seedValue
+  model = modelName
+  maxCompletionTokens = maxCompletionTokensValue
+  systemMessageContains("helpful assistant")
+  userMessageContains("say 'Hello!'")
+} respondsError {
+  body =
+    // language=json
+    """
+    {
+      "caramba": "Arrr, blast me barnacles! This be not what ye expect! 🏴‍☠️"
+    }
+    """.trimIndent()
+  delay = 1.seconds
+  httpStatus = HttpStatusCode.PaymentRequired
+}
 ```
 
 ## How to run with LangChain4j/Kotlin
