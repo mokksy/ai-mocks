@@ -10,6 +10,8 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+// Full OpenAPI Spec is here: https://raw.githubusercontent.com/openai/openai-openapi/refs/heads/master/openapi.yaml
+
 @Serializable
 internal data class Chunk(
     val id: String,
@@ -135,6 +137,7 @@ public data class ChatCompletionRequest(
     val responseFormat: ResponseFormat? = null,
     val temperature: Double = 1.0,
     val seed: Int? = null,
+    val stream: Boolean = false,
 )
 
 @Serializable
