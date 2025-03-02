@@ -42,8 +42,10 @@ internal class KotlinxFirstContentConverter(
                 )
             println("💚SUCCESS KOTLINX serialize: $value with $typeInfo result: $result")
             return result
-        } catch (_: SerializationException) {
-            println("💔🔵TRY JACKSON serialize: $value with $typeInfo")
+        } catch (e: SerializationException) {
+            println(
+                "💔🔵TRY JACKSON serialize: $value with $typeInfo. Exception was: $e",
+            )
             val result = fallbackConverter.serialize(contentType, charset, typeInfo, value)
             println("🟢SUCCESS JACKSON serialize: $value with $typeInfo result: $result")
             return result
