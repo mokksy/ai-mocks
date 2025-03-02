@@ -10,7 +10,7 @@ import io.ktor.utils.io.charsets.Charset
 import kotlinx.serialization.SerializationException
 
 /**
- * A []ContentConverter] implementation that delegates to a primary converter (KotlinX Serialization)
+ * A [ContentConverter] implementation that delegates to a primary converter (KotlinX Serialization)
  * and falls back to a secondary converter when the primary one fails.
  *
  * This class is used to handle content serialization and deserialization
@@ -21,7 +21,7 @@ import kotlinx.serialization.SerializationException
  * @param fallbackConverter The secondary fallback content converter used
  * when the primary converter fails to serialize or deserialize the content.
  */
-internal data class KotlinxFirstContentConverter(
+internal class KotlinxFirstContentConverter(
     private val kotlinxSerializationConverter: KotlinxSerializationConverter,
     private val fallbackConverter: ContentConverter,
 ) : ContentConverter {
@@ -30,23 +30,21 @@ internal data class KotlinxFirstContentConverter(
         charset: Charset,
         typeInfo: TypeInfo,
         value: Any?,
-    ): OutgoingContent? {
+    ): OutgoingContent? =
         try {
-            return kotlinxSerializationConverter.serialize(contentType, charset, typeInfo, value)
+            kotlinxSerializationConverter.serialize(contentType, charset, typeInfo, value)
         } catch (_: SerializationException) {
-            return fallbackConverter.serialize(contentType, charset, typeInfo, value)
+            fallbackConverter.serialize(contentType, charset, typeInfo, value)
         }
-    }
 
     override suspend fun deserialize(
         charset: Charset,
         typeInfo: TypeInfo,
         content: ByteReadChannel,
-    ): Any? {
+    ): Any? =
         try {
-            return kotlinxSerializationConverter.deserialize(charset, typeInfo, content)
+            kotlinxSerializationConverter.deserialize(charset, typeInfo, content)
         } catch (_: Exception) {
-            return fallbackConverter.deserialize(charset, typeInfo, content)
+            fallbackConverter.deserialize(charset, typeInfo, content)
         }
-    }
 }
