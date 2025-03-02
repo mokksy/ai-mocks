@@ -30,12 +30,25 @@ internal class KotlinxFirstContentConverter(
         charset: Charset,
         typeInfo: TypeInfo,
         value: Any?,
-    ): OutgoingContent? =
-        try {
-            kotlinxSerializationConverter.serialize(contentType, charset, typeInfo, value)
+    ): OutgoingContent? {
+        return try {
+            println("💙TRY KOTLINX serialize: $value with $typeInfo")
+            val result =
+                kotlinxSerializationConverter.serialize(
+                    contentType,
+                    charset,
+                    typeInfo,
+                    value,
+                )
+            println("💚SUCCESS KOTLINX serialize: $value with $typeInfo result: $result")
+            return result
         } catch (_: SerializationException) {
-            fallbackConverter.serialize(contentType, charset, typeInfo, value)
+            println("💔🔵TRY JACKSON serialize: $value with $typeInfo")
+            val result = fallbackConverter.serialize(contentType, charset, typeInfo, value)
+            println("🟢SUCCESS KOTLINX serialize: $value with $typeInfo result: $result")
+            return result
         }
+    }
 
     override suspend fun deserialize(
         charset: Charset,
