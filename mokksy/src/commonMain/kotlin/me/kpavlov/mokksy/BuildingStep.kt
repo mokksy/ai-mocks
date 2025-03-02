@@ -58,9 +58,11 @@ public class BuildingStep<P : Any> internal constructor(
                 requestSpecification = requestSpecification,
             ) { call ->
                 val req = CapturedRequest<P>(call.request, requestType)
-                ResponseDefinitionBuilder<P, T>(request = req)
-                    .apply(block)
-                    .build()
+                val responseDefinition =
+                    ResponseDefinitionBuilder<P, T>(request = req)
+                        .apply(block)
+                        .build()
+                responseDefinition
             }
         registerStub(stub)
     }

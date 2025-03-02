@@ -1,6 +1,7 @@
 package me.kpavlov.mokksy.response
 
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.log
@@ -50,7 +51,12 @@ public open class ResponseDefinition<P, T : Any>(
         if (this.delay.isPositive()) {
             delay(delay)
         }
-
+        contentType?.let {
+            call.response.headers.append(
+                HttpHeaders.ContentType,
+                it.toString(),
+            )
+        }
         if (body == null) {
             if (verbose) {
                 call.application.log.debug("Sending {} with empty response", httpStatus)

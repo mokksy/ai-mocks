@@ -1,13 +1,14 @@
 package me.kpavlov.aimocks.openai
 
+import io.ktor.http.ContentType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.encodeToJsonElement
 import me.kpavlov.aimocks.core.LlmBuildingStep
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
@@ -32,7 +33,8 @@ public class OpenaiBuildingStep(
         buildingStep.respondsWith {
             val request = this.request.body
             val responseDefinition = this.build()
-            val chatResponseSpecification = OpenaiChatResponseSpecification(responseDefinition)
+            val chatResponseSpecification =
+                OpenaiChatResponseSpecification(responseDefinition)
             block.invoke(chatResponseSpecification)
             val assistantContent = chatResponseSpecification.assistantContent
             val finishReason = chatResponseSpecification.finishReason
@@ -45,8 +47,8 @@ public class OpenaiBuildingStep(
             val rejectedPredictionTokens =
                 completionTokens - reasoningTokens - acceptedPredictionTokens
 
-            responseType = ChatResponse::class
-            body =
+            responseType = String::class
+            val response =
                 ChatResponse(
                     id = "chatcmpl-abc${counter.addAndGet(1)}",
                     created = Instant.now().epochSecond,
@@ -77,6 +79,8 @@ public class OpenaiBuildingStep(
                         ),
                     systemFingerprint = "fp_44709d6fcb",
                 )
+            body = Json.encodeToString(response)
+            contentType = ContentType.Application.Json
         }
     }
 
@@ -194,7 +198,6 @@ public class OpenaiBuildingStep(
                 created = created,
                 systemFingerprint = "fp_44709d6fcb",
             )
-        val string = Json.encodeToJsonElement(chunk).toString()
-        return string
+        return Json.encodeToString(chunk)
     }
 }
