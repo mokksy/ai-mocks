@@ -7,14 +7,14 @@ import kotlin.time.Duration
 
 @Suppress("LongParameterList")
 public class OpenaiChatResponseSpecification(
-    response: AbstractResponseDefinition<String>,
+    response: AbstractResponseDefinition<ChatResponse>,
     public var assistantContent: String = "",
     public var responseFlow: Flow<String>? = null,
     public var responseChunks: List<String>? = null,
     public var delayBetweenChunks: Duration = Duration.ZERO,
     public var delay: Duration = Duration.ZERO,
     public var finishReason: String = "stop",
-) : ChatResponseSpecification<ChatCompletionRequest, String>(response = response) {
+) : ChatResponseSpecification<ChatCompletionRequest, ChatResponse>(response = response) {
     public fun assistantContent(content: String): OpenaiChatResponseSpecification =
         apply {
             this.assistantContent =

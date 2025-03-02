@@ -1,6 +1,5 @@
 package me.kpavlov.aimocks.openai
 
-import io.ktor.http.ContentType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -47,8 +46,8 @@ public class OpenaiBuildingStep(
             val rejectedPredictionTokens =
                 completionTokens - reasoningTokens - acceptedPredictionTokens
 
-            responseType = String::class
-            val response =
+            responseType = ChatResponse::class
+            body =
                 ChatResponse(
                     id = "chatcmpl-abc${counter.addAndGet(1)}",
                     created = Instant.now().epochSecond,
@@ -79,8 +78,6 @@ public class OpenaiBuildingStep(
                         ),
                     systemFingerprint = "fp_44709d6fcb",
                 )
-            body = Json.encodeToString(response)
-            contentType = ContentType.Application.Json
         }
     }
 

@@ -2,7 +2,10 @@ package me.kpavlov.aimocks.openai
 
 import io.kotest.assertions.json.containJsonKeyValue
 import io.kotest.matchers.equals.beEqual
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.core.AbstractMockLlm
+import me.kpavlov.mokksy.ServerConfiguration
 import java.util.function.Consumer
 
 public open class MockOpenai(
@@ -10,7 +13,14 @@ public open class MockOpenai(
     verbose: Boolean = true,
 ) : AbstractMockLlm(
         port = port,
-        verbose = verbose,
+        configuration =
+            ServerConfiguration(
+                verbose = verbose,
+            ) { config ->
+                config.json(
+                    Json { ignoreUnknownKeys = true },
+                )
+            },
     ) {
     /**
      * Java-friendly overload that accepts a Consumer for configuring the chat request.

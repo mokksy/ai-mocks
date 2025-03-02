@@ -39,9 +39,9 @@ kotlin {
             dependencies {
                 implementation(project.dependencies.platform(libs.jackson.bom))
                 implementation(project.dependencies.platform(libs.netty.bom))
-                api(libs.ktor.serialization.jackson)
-                api(libs.ktor.server.netty)
-                api(libs.ktor.server.call.logging)
+                implementation(libs.ktor.serialization.jackson)
+                implementation(libs.ktor.server.netty)
+                implementation(libs.ktor.server.call.logging)
             }
         }
 

@@ -6,12 +6,12 @@ import me.kpavlov.mokksy.ServerConfiguration
 
 public abstract class AbstractMockLlm(
     port: Int = 0,
-    verbose: Boolean = true,
+    configuration: ServerConfiguration,
 ) {
     protected val mokksy: MokksyServer =
         MokksyServer(
             port = port,
-            configuration = ServerConfiguration(verbose),
+            configuration = configuration,
         ) {
             it.log.info("Running Mokksy with ${it.engine} engine")
         }
