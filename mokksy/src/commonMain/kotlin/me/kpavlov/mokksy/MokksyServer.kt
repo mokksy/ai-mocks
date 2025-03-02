@@ -10,18 +10,17 @@ import io.ktor.http.HttpMethod.Companion.Options
 import io.ktor.http.HttpMethod.Companion.Patch
 import io.ktor.http.HttpMethod.Companion.Post
 import io.ktor.http.HttpMethod.Companion.Put
-import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.engine.ApplicationEngine
 import io.ktor.server.engine.EmbeddedServer
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.server.plugins.contentnegotiation.ContentNegotiationConfig
 import io.ktor.server.plugins.doublereceive.DoubleReceive
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.ktor.server.sse.SSE
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.json.Json
 import me.kpavlov.mokksy.request.RequestSpecification
 import me.kpavlov.mokksy.request.RequestSpecificationBuilder
 import java.util.concurrent.ConcurrentSkipListSet
@@ -36,6 +35,8 @@ internal expect fun createEmbeddedServer(
     out ApplicationEngine,
     out ApplicationEngine.Configuration,
 >
+
+internal expect fun configureContentNegotiation(config: ContentNegotiationConfig)
 
 /**
  * Represents an embedded mock server capable of handling various HTTP requests and responses for testing purposes.
@@ -88,11 +89,7 @@ public open class MokksyServer(
             install(DoubleReceive)
 
             install(ContentNegotiation) {
-                json(
-                    Json {
-                        ignoreUnknownKeys = true
-                    },
-                )
+                configureContentNegotiation(this)
             }
 
             routing {
