@@ -13,13 +13,15 @@ import kotlinx.serialization.SerializationException
  * A []ContentConverter] implementation that delegates to a primary converter (KotlinX Serialization)
  * and falls back to a secondary converter when the primary one fails.
  *
- * This class is used to handle content serialization and deserialization in scenarios where different serialization strategies might be necessary based on the data.
+ * This class is used to handle content serialization and deserialization
+ * in scenarios where different serialization strategies might be necessary based on the data.
  *
  * @constructor
  * @param kotlinxSerializationConverter The primary KotlinX Serialization-based content converter.
- * @param fallbackConverter The secondary fallback content converter used when the primary converter fails to serialize or deserialize the content.
+ * @param fallbackConverter The secondary fallback content converter used
+ * when the primary converter fails to serialize or deserialize the content.
  */
-internal class KotlinxFirstContentConverter(
+internal data class KotlinxFirstContentConverter(
     private val kotlinxSerializationConverter: KotlinxSerializationConverter,
     private val fallbackConverter: ContentConverter,
 ) : ContentConverter {
@@ -31,8 +33,7 @@ internal class KotlinxFirstContentConverter(
     ): OutgoingContent? {
         try {
             return kotlinxSerializationConverter.serialize(contentType, charset, typeInfo, value)
-        } catch (e: SerializationException) {
-            println("e.message = $e")
+        } catch (_: SerializationException) {
             return fallbackConverter.serialize(contentType, charset, typeInfo, value)
         }
     }
@@ -44,8 +45,7 @@ internal class KotlinxFirstContentConverter(
     ): Any? {
         try {
             return kotlinxSerializationConverter.deserialize(charset, typeInfo, content)
-        } catch (e: Exception) {
-            println("e.message = $e")
+        } catch (_: Exception) {
             return fallbackConverter.deserialize(charset, typeInfo, content)
         }
     }
