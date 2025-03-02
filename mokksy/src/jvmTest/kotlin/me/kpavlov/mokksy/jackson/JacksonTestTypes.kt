@@ -1,4 +1,4 @@
-package me.kpavlov.mokksy
+package me.kpavlov.mokksy.jackson
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

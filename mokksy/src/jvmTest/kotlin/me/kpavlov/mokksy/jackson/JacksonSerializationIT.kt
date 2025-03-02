@@ -1,4 +1,4 @@
-package me.kpavlov.mokksy
+package me.kpavlov.mokksy.jackson
 
 import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.shouldBe
@@ -14,6 +14,8 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.serialization.jackson.jackson
 import kotlinx.coroutines.test.runTest
+import me.kpavlov.mokksy.AbstractIT
+import me.kpavlov.mokksy.mokksy
 import org.junit.jupiter.api.Test
 
 internal class JacksonSerializationIT : AbstractIT() {
@@ -30,16 +32,16 @@ internal class JacksonSerializationIT : AbstractIT() {
     @Test
     fun `Should respond to POST with Jackson`() =
         runTest {
-            mokksy.post(
+            mokksy.post<JacksonInput>(
                 requestType = JacksonInput::class,
             ) {
-                path = beEqual("/jackson")
+                path = beEqual("/jackson-$seed")
             } respondsWith {
                 body = JacksonOutput("Hello, ${request.body.name}")
             }
 
             val result =
-                jacksonClient.post("/jackson") {
+                jacksonClient.post("/jackson-$seed") {
                     contentType(ContentType.Application.Json)
                     setBody(JacksonInput("Bob"))
                 }

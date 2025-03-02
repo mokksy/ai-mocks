@@ -16,6 +16,7 @@ import io.ktor.utils.io.jvm.javaio.toByteReadChannel
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
+import me.kpavlov.mokksy.jackson.JacksonInput
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
