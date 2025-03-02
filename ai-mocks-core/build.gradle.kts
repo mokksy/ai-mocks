@@ -10,6 +10,7 @@ kotlin {
         commonMain {
             dependencies {
                 api(project(":mokksy"))
+                implementation(project.dependencies.platform(libs.ktor.bom))
             }
         }
     }

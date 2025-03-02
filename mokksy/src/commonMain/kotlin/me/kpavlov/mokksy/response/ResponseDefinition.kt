@@ -6,7 +6,10 @@ import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.log
 import io.ktor.server.response.ResponseHeaders
 import io.ktor.server.response.respond
+import io.ktor.server.response.respondNullable
+import io.ktor.util.reflect.TypeInfo
 import kotlinx.coroutines.delay
+import kotlin.reflect.KClass
 import kotlin.time.Duration
 
 /**
@@ -23,8 +26,10 @@ import kotlin.time.Duration
  * @property headerList A list of additional header key-value pairs. Defaults to an empty list.
  * @property delay Delay before response is sent. Default value is zero.
  */
-public open class ResponseDefinition<P, T>(
+@Suppress("LongParameterList")
+public open class ResponseDefinition<P, T : Any>(
     contentType: ContentType = ContentType.Application.Json,
+    responseType: KClass<T>? = null,
     public val body: T? = null,
     httpStatus: HttpStatusCode = HttpStatusCode.OK,
     headers: (ResponseHeaders.() -> Unit)? = null,
@@ -32,6 +37,7 @@ public open class ResponseDefinition<P, T>(
     delay: Duration,
 ) : AbstractResponseDefinition<T>(
         contentType,
+        responseType,
         httpStatus,
         headers,
         headerList,
@@ -44,12 +50,31 @@ public open class ResponseDefinition<P, T>(
         if (this.delay.isPositive()) {
             delay(delay)
         }
-        if (verbose) {
-            call.application.log.debug("Sending: {}", body)
+
+        if (body == null) {
+            if (verbose) {
+                call.application.log.debug("Sending {} with empty response", httpStatus)
+            }
+            call.respondNullable(
+                status = httpStatus,
+                message = body,
+            )
+        } else {
+            // detect body type
+            val type = responseType ?: body::class as KClass<T>
+            if (verbose) {
+                call.application.log.debug(
+                    "Sending {} with ({}): {}",
+                    httpStatus,
+                    type,
+                    body,
+                )
+            }
+            call.respond(
+                status = httpStatus,
+                message = body,
+                messageType = TypeInfo(type),
+            )
         }
-        call.respond(
-            status = httpStatus,
-            message = body as Any,
-        )
     }
 }

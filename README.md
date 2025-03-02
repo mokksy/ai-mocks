@@ -22,6 +22,7 @@ _Mokksy_ and _AI-Mocks_ are mock HTTP and LLM (Large Language Model) servers ins
 - Fluent modern Kotlin DSL API.
 - Support for simulating streamed responses and Server-Side Events (SSE) with delays between chunks.
 - Support for simulating response delays.
+- Supports [serialization](https://ktor.io/docs/server-serialization.html#add_json_dependency) with [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) and [Jackson](https://github.com/FasterXML/jackson) (only on JVM)
 
 ## Example Usages
 

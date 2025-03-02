@@ -17,6 +17,7 @@ kotlin {
     jvm {
         compilerOptions {
             jvmTarget = JvmTarget.JVM_17
+            javaParameters = true
         }
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()

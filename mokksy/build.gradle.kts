@@ -13,6 +13,7 @@ kotlin {
                 api(libs.kotest.assertions.core)
                 api(libs.kotest.assertions.json)
                 api(libs.ktor.server.core)
+                implementation(project.dependencies.platform(libs.ktor.bom))
                 implementation(libs.ktor.server.double.receive)
                 implementation(libs.ktor.server.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
@@ -36,6 +37,9 @@ kotlin {
 
         jvmMain {
             dependencies {
+                implementation(project.dependencies.platform(libs.jackson.bom))
+                implementation(project.dependencies.platform(libs.netty.bom))
+                implementation(libs.ktor.serialization.jackson)
                 implementation(libs.ktor.server.netty)
                 implementation(libs.ktor.server.call.logging)
             }
@@ -49,4 +53,9 @@ kotlin {
             }
         }
     }
+}
+dependencies {
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:3.1.1")
+    implementation("io.ktor:ktor-server-core-jvm:3.1.1")
+    implementation("io.ktor:ktor-serialization-jackson-jvm:3.1.1")
 }

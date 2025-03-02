@@ -4,6 +4,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.response.ResponseHeaders
+import kotlin.reflect.KClass
 import kotlin.time.Duration
 
 internal typealias ResponseDefinitionSupplier<P, T> = (
@@ -21,8 +22,9 @@ internal typealias ResponseDefinitionSupplier<P, T> = (
  * @property headers A lambda function for configuring the response headers. Defaults to `null`.
  * @property headerList A list of header key-value pairs to populate the response headers. Defaults to an empty list.
  */
-public abstract class AbstractResponseDefinition<T>(
+public abstract class AbstractResponseDefinition<T : Any>(
     public val contentType: ContentType? = null,
+    public val responseType: KClass<T>? = null,
     public val httpStatus: HttpStatusCode = HttpStatusCode.OK,
     public val headers: (ResponseHeaders.() -> Unit)? = null,
     public val headerList: List<Pair<String, String>> = emptyList<Pair<String, String>>(),

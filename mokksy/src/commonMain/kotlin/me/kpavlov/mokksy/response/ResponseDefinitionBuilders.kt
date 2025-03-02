@@ -6,6 +6,7 @@ import io.ktor.server.response.ResponseHeaders
 import kotlinx.coroutines.flow.Flow
 import me.kpavlov.mokksy.CapturedRequest
 import java.util.Collections
+import kotlin.reflect.KClass
 import kotlin.time.Duration
 
 /**
@@ -18,10 +19,12 @@ import kotlin.time.Duration
  * @property httpStatus The HTTP status code to be associated with the response.
  * @property headers A mutable list of header key-value pairs to be included in the response.
  */
-public abstract class AbstractResponseDefinitionBuilder<P, T>(
+public abstract class AbstractResponseDefinitionBuilder<P, T : Any>(
     public var httpStatus: HttpStatusCode,
     public val headers: MutableList<Pair<String, String>>,
 ) {
+//    protected abstract fun responseType(): KClass<T>
+
     /**
      * A lambda function for configuring additional response headers.
      * This function can define custom headers or override existing ones.
@@ -62,6 +65,7 @@ public abstract class AbstractResponseDefinitionBuilder<P, T>(
 public open class ResponseDefinitionBuilder<P : Any, T : Any>(
     public val request: CapturedRequest<P>,
     public var contentType: ContentType? = null,
+    public var responseType: KClass<T>? = null,
     public var body: T? = null,
     public var delay: Duration = Duration.ZERO,
     httpStatus: HttpStatusCode = HttpStatusCode.OK,
@@ -71,6 +75,7 @@ public open class ResponseDefinitionBuilder<P : Any, T : Any>(
         ResponseDefinition<P, T>(
             body = body,
             contentType = contentType ?: ContentType.Application.Json,
+            responseType = responseType,
             httpStatus = httpStatus,
             headers = headersLambda,
             headerList = Collections.unmodifiableList(headers),
@@ -91,8 +96,9 @@ public open class ResponseDefinitionBuilder<P : Any, T : Any>(
  *          if [flow] is not provided.
  */
 @Suppress("LongParameterList")
-public open class StreamingResponseDefinitionBuilder<P : Any, T>(
+public open class StreamingResponseDefinitionBuilder<P : Any, T : Any>(
     public val request: CapturedRequest<P>,
+    public var responseType: KClass<T>? = null,
     public var flow: Flow<T>? = null,
     public var chunks: MutableList<T> = mutableListOf(),
     public var delayBetweenChunks: Duration = Duration.ZERO,
@@ -121,5 +127,6 @@ public open class StreamingResponseDefinitionBuilder<P : Any, T>(
             headerList = Collections.unmodifiableList(headers),
             delayBetweenChunks = delayBetweenChunks,
             delay = delay,
+            responseType = responseType,
         )
 }

@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.yield
 import java.io.Writer
+import kotlin.reflect.KClass
 import kotlin.time.Duration
 
 /**
@@ -34,17 +35,19 @@ import kotlin.time.Duration
  * @see AbstractResponseDefinition
  */
 @Suppress("LongParameterList")
-public open class StreamResponseDefinition<P, T>(
+public open class StreamResponseDefinition<P, T : Any>(
     public open val chunkFlow: Flow<T>? = null,
     public val chunks: List<T>? = null,
     public val delayBetweenChunks: Duration = Duration.ZERO,
     contentType: ContentType = ContentType.Text.EventStream.withCharset(Charsets.UTF_8),
+    responseType: KClass<T>? = null,
     httpStatus: HttpStatusCode = HttpStatusCode.OK,
     headers: (ResponseHeaders.() -> Unit)? = null,
     headerList: List<Pair<String, String>> = emptyList<Pair<String, String>>(),
     delay: Duration,
 ) : AbstractResponseDefinition<T>(
         contentType,
+        responseType,
         httpStatus,
         headers,
         headerList,
