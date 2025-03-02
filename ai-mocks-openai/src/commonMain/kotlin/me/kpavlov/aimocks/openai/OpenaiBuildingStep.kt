@@ -45,7 +45,8 @@ public class OpenaiBuildingStep(
             val rejectedPredictionTokens =
                 completionTokens - reasoningTokens - acceptedPredictionTokens
 
-            val response =
+            responseType = ChatResponse::class
+            body =
                 ChatResponse(
                     id = "chatcmpl-abc${counter.addAndGet(1)}",
                     created = Instant.now().epochSecond,
@@ -76,8 +77,6 @@ public class OpenaiBuildingStep(
                         ),
                     systemFingerprint = "fp_44709d6fcb",
                 )
-
-            body = response
         }
     }
 
