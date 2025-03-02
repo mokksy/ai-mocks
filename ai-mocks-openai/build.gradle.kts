@@ -11,12 +11,14 @@ kotlin {
         commonMain {
             dependencies {
                 api(project(":ai-mocks-core"))
+                implementation(project.dependencies.platform(libs.ktor.bom))
                 api(libs.ktor.serialization.kotlinx.json)
             }
         }
 
         commonTest {
             dependencies {
+                implementation(kotlin("test"))
                 implementation(libs.assertk)
                 implementation(libs.kotlinx.coroutines.test)
             }
