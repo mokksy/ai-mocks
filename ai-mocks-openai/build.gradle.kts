@@ -27,7 +27,6 @@ kotlin {
         jvmMain {
             dependencies {
                 api(libs.ktor.server.netty)
-                api(libs.ktor.serialization.jackson)
             }
         }
 
