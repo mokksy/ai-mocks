@@ -1,13 +1,6 @@
 package me.kpavlov.mokksy
 
-import com.fasterxml.jackson.core.util.DefaultIndenter
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import io.ktor.http.ContentType
-import io.ktor.serialization.jackson.JacksonConverter
-import io.ktor.serialization.kotlinx.KotlinxSerializationConverter
+import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.engine.ApplicationEngine
@@ -42,36 +35,9 @@ internal actual fun createEmbeddedServer(
 
 @OptIn(ExperimentalSerializationApi::class)
 internal actual fun configureContentNegotiation(config: ContentNegotiationConfig) {
-    val converter =
-        KotlinxFirstContentConverter(
-            KotlinxSerializationConverter(
-                Json {
-                    ignoreUnknownKeys = true
-                },
-            ),
-            createJacksonConverter {
-                findAndRegisterModules()
-                disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-            },
-        )
-
-    config.register(ContentType.Application.Json, converter)
-}
-
-private fun createJacksonConverter(
-    streamRequestBody: Boolean = true,
-    block: ObjectMapper.() -> Unit = {},
-): JacksonConverter {
-    val mapper = ObjectMapper()
-    mapper.apply {
-        setDefaultPrettyPrinter(
-            DefaultPrettyPrinter().apply {
-                indentArraysWith(DefaultPrettyPrinter.FixedSpaceIndenter.instance)
-                indentObjectsWith(DefaultIndenter("  ", "\n"))
-            },
-        )
-    }
-    mapper.apply(block)
-    mapper.registerKotlinModule()
-    return JacksonConverter(mapper, streamRequestBody)
+    config.json(
+        Json {
+            ignoreUnknownKeys = true
+        },
+    )
 }

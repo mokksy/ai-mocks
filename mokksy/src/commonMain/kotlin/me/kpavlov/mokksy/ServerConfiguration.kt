@@ -4,7 +4,7 @@ import io.ktor.server.plugins.contentnegotiation.ContentNegotiationConfig
 
 public data class ServerConfiguration(
     val verbose: Boolean = false,
-    val contextNegotiationConfigurer: (
+    val contentNegotiationConfigurer: (
         ContentNegotiationConfig,
     ) -> Unit = ::configureContentNegotiation,
 )

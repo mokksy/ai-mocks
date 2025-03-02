@@ -39,7 +39,6 @@ kotlin {
             dependencies {
                 implementation(project.dependencies.platform(libs.jackson.bom))
                 implementation(project.dependencies.platform(libs.netty.bom))
-                implementation(libs.ktor.serialization.jackson)
                 implementation(libs.ktor.server.netty)
                 implementation(libs.ktor.server.call.logging)
             }
@@ -50,6 +49,7 @@ kotlin {
                 implementation(libs.ktor.client.java)
                 implementation(libs.junit.jupiter.params)
                 runtimeOnly(libs.slf4j.simple)
+                implementation(libs.ktor.serialization.jackson)
             }
         }
     }

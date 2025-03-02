@@ -89,7 +89,7 @@ public open class MokksyServer(
             install(DoubleReceive)
 
             install(ContentNegotiation) {
-                configuration.contextNegotiationConfigurer(this)
+                configuration.contentNegotiationConfigurer(this)
             }
 
             routing {

@@ -26,7 +26,8 @@ making it particularly useful for integration testing LLM clients.
 - Fluent modern Kotlin DSL API.
 - Support for simulating streamed responses and Server-Side Events (SSE) with delays between chunks.
 - Support for simulating response delays.
-- Supports [serialization](https://ktor.io/docs/server-serialization.html#add_json_dependency) with [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) and [Jackson](https://github.com/FasterXML/jackson) (only on JVM). _Kotlinx.serialization_ serializer/deserializer will attempt first, then _Jackson_ will try its best as a fallback. This ensures that [@Serializable](https://kotlinlang.org/api/kotlinx.serialization/kotlinx-serialization-core/kotlinx.serialization/-serializable/) annotation is honored.
+- Supports [serialization](https://ktor.io/docs/server-serialization.html#add_json_dependency) with [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) and [Jackson](https://github.com/FasterXML/jackson) (only on JVM).
+
 ## Example Usages
 
 ### Responding with Predefined Responses
@@ -104,6 +105,25 @@ assertThat(result.status).isEqualTo(HttpStatusCode.Created)
 assertThat(result.bodyAsText()).isEqualTo(expectedResponse)
 assertThat(result.headers["Location"]).isEqualTo("/things/$id")
 assertThat(result.headers["Foo"]).isEqualTo("bar")
+```
+
+### Using Jackson for serialization
+
+Mokksy is configured to use [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) by default. You may override this by configuring 
+[Jackson](https://github.com/FasterXML/jackson) when creating a new instance:
+
+```kotlin
+val mokksy = MokksyServer(
+  configuration =
+    ServerConfiguration(
+      verbose = true,
+      contentNegotiationConfigurer = { // it: ContentNegotiationConfig
+        it.jackson { // this: ObjectMapper
+          findAndRegisterModules()
+        }
+      },
+    ),
+)
 ```
 
 ### Server-Side Events (SSE) Response
