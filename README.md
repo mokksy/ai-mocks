@@ -7,13 +7,17 @@
 [![codecov](https://codecov.io/github/kpavlov/ai-mocks/graph/badge.svg?token=449G80QY5S)](https://codecov.io/github/kpavlov/ai-mocks)
 [![Api Docs](https://img.shields.io/badge/api-docs-blue)](https://kpavlov.github.io/ai-mocks/api/)
 
-_Mokksy_ and _AI-Mocks_ are mock HTTP and LLM (Large Language Model) servers inspired by WireMock, with support for response streaming and Server-Side Events (SSE). They are designed to build, test, and mock OpenAI API responses for development purposes.
+_Mokksy_ and _AI-Mocks_ are mock HTTP and LLM (Large Language Model) servers inspired by WireMock, with support for
+response streaming and Server-Side Events (SSE). They are designed to build, test, and mock OpenAI API responses for
+development purposes.
 
 # Mokksy
 
 ![mokksy-mascot-256.png](mokksy/docs/mokksy-mascot-256.png)
 
-**[Mokksy](mokksy/README.md)** is a mock HTTP server built with [Kotlin](https://kotlinlang.org/) and [Ktor](https://ktor.io/). It addresses the limitations of WireMock by supporting true SSE and streaming responses, making it particularly useful for integration testing LLM clients.
+**[Mokksy](mokksy/README.md)** is a mock HTTP server built with [Kotlin](https://kotlinlang.org/)
+and [Ktor](https://ktor.io/). It addresses the limitations of WireMock by supporting true SSE and streaming responses,
+making it particularly useful for integration testing LLM clients.
 
 ## Core Features
 
@@ -30,23 +34,23 @@ _Mokksy_ and _AI-Mocks_ are mock HTTP and LLM (Large Language Model) servers ins
 ```kotlin
 // given
 val expectedResponse =
-    // language=json
-    """
+  // language=json
+  """
     {
         "response": "Pong"
     }
     """.trimIndent()
 
 mokksy.get {
-    path = beEqual("/ping")
-    containsHeader("Foo", "bar")
+  path = beEqual("/ping")
+  containsHeader("Foo", "bar")
 } respondsWith {
-    body = expectedResponse
+  body = expectedResponse
 }
 
 // when
 val result = client.get("/ping") {
-    headers.append("Foo", "bar")
+  headers.append("Foo", "bar")
 }
 
 // then
@@ -60,8 +64,8 @@ assertThat(result.bodyAsText()).isEqualTo(expectedResponse)
 // given
 val id = Random.nextInt()
 val expectedResponse =
-    // language=json
-    """
+  // language=json
+  """
     {
         "id": "$id",
         "name": "thing-$id"
@@ -69,31 +73,31 @@ val expectedResponse =
     """.trimIndent()
 
 mokksy.post {
-    path = beEqual("/things")
-    bodyContains("\"$id\"")
+  path = beEqual("/things")
+  bodyContains("\"$id\"")
 } respondsWith {
-    body = expectedResponse
-    httpStatus = HttpStatusCode.Created
-    headers {
-        // type-safe builder style
-        append(HttpHeaders.Location, "/things/$id")
-    }
-    headers += "Foo" to "bar" // list style
+  body = expectedResponse
+  httpStatus = HttpStatusCode.Created
+  headers {
+    // type-safe builder style
+    append(HttpHeaders.Location, "/things/$id")
+  }
+  headers += "Foo" to "bar" // list style
 }
 
 // when
 val result =
-    client.post("/things") {
-        headers.append("Content-Type", "application/json")
-        setBody(
-            // language=json
-            """
+  client.post("/things") {
+    headers.append("Content-Type", "application/json")
+    setBody(
+      // language=json
+      """
             {
                 "id": "$id"
             }
             """.trimIndent(),
-        )
-    }
+    )
+  }
 
 // then
 assertThat(result.status).isEqualTo(HttpStatusCode.Created)
@@ -103,27 +107,28 @@ assertThat(result.headers["Foo"]).isEqualTo("bar")
 ```
 ### Server-Side Events (SSE) Response
 
-Server-Side Events (SSE) is a technology that allows a server to push updates to the client over a single, long-lived HTTP connection, enabling real-time updates without requiring the client to continuously poll the server for new data.
+Server-Side Events (SSE) is a technology that allows a server to push updates to the client over a single, long-lived
+HTTP connection, enabling real-time updates without requiring the client to continuously poll the server for new data.
 
 ```kotlin
 mokksy.post {
-    path = beEqual("/sse")
+  path = beEqual("/sse")
 } respondsWithSseStream {
-    flow =
-        flow {
-            delay(200.milliseconds)
-            emit(
-                ServerSentEvent(
-                    data = "One",
-                ),
-            )
-            delay(50.milliseconds)
-            emit(
-                ServerSentEvent(
-                    data = "Two",
-                ),
-            )
-        }
+  flow =
+    flow {
+      delay(200.milliseconds)
+      emit(
+        ServerSentEvent(
+          data = "One",
+        ),
+      )
+      delay(50.milliseconds)
+      emit(
+        ServerSentEvent(
+          data = "Two",
+        ),
+      )
+    }
 }
 
 // when
@@ -131,13 +136,12 @@ val result = client.post("/sse")
 
 // then
 assertThat(result.status)
-    .isEqualTo(HttpStatusCode.OK)
+  .isEqualTo(HttpStatusCode.OK)
 assertThat(result.contentType())
-    .isEqualTo(ContentType.Text.EventStream.withCharsetIfNeeded(Charsets.UTF_8))
+  .isEqualTo(ContentType.Text.EventStream.withCharsetIfNeeded(Charsets.UTF_8))
 assertThat(result.bodyAsText())
-    .isEqualTo("data: One\r\ndata: Two\r\n")
+  .isEqualTo("data: One\r\ndata: Two\r\n")
 ```
-
 
 # AI-Mocks
 
@@ -145,9 +149,12 @@ assertThat(result.bodyAsText())
 
 ## Mocking OpenAI API
 
-`MockOpenai` is tested against official [openai-java SDK](https://github.com/openai/openai-java) and popular JVM AI frameworks: [LangChain4j](https://github.com/langchain4j/langchain4j) and [Spring AI](https://docs.spring.io/spring-ai/reference/api/chatclient.html).
+`MockOpenai` is tested against official [openai-java SDK](https://github.com/openai/openai-java) and popular JVM AI
+frameworks: [LangChain4j](https://github.com/langchain4j/langchain4j)
+and [Spring AI](https://docs.spring.io/spring-ai/reference/api/chatclient.html).
 
-Currently, it only supports [ChatCompletion](https://platform.openai.com/docs/api-reference/chat/create) and [Streaming ChatCompletion](https://platform.openai.com/docs/api-reference/chat/streaming) requests.
+Currently, it only supports [ChatCompletion](https://platform.openai.com/docs/api-reference/chat/create)
+and [Streaming ChatCompletion](https://platform.openai.com/docs/api-reference/chat/streaming) requests.
 
 Set up a mock server and define mock responses:
 
@@ -270,19 +277,19 @@ Mock streaming responses easily with flow support:
 ```kotlin
 // configure mock openai
 openai.completion {
-    temperature = temperatureValue
-    model = "gpt-4o-mini"
-    userMessageContains("What is in the sea?")
+  temperature = temperatureValue
+  model = "gpt-4o-mini"
+  userMessageContains("What is in the sea?")
 } respondsStream {
-    responseFlow =
-        flow {
-            emit("Yellow")
-            emit(" submarine")
-        }
-    finishReason = "stop"
+  responseFlow =
+    flow {
+      emit("Yellow")
+      emit(" submarine")
+    }
+  finishReason = "stop"
 
-    // send "[DONE]" as last message to finish the stream in openai4j
-    sendDone = true
+  // send "[DONE]" as last message to finish the stream in openai4j
+  sendDone = true
 }
 
 // create streaming model (a client)
@@ -345,35 +352,35 @@ val chatClient =
 
 // Set up a mock for the LLM call
 openai.completion {
-    temperature = temperatureValue
-    seed = seedValue
-    model = modelName
-    maxCompletionTokens = maxCompletionTokensValue
-    systemMessageContains("helpful pirate")
-    userMessageContains("say 'Hello!'")
+  temperature = temperatureValue
+  seed = seedValue
+  model = modelName
+  maxCompletionTokens = maxCompletionTokensValue
+  systemMessageContains("helpful pirate")
+  userMessageContains("say 'Hello!'")
 } responds {
-    assistantContent = "Ahoy there, matey! Hello!"
-    finishReason = "stop"
+  assistantContent = "Ahoy there, matey! Hello!"
+  finishReason = "stop"
 }
 
 // Configure Spring-AI client call
 val response =
-    chatClient
-      .prompt()
-      .system("You are a helpful pirate")
-      .user("Just say 'Hello!'")
-      .options<OpenAiChatOptions>(
-        OpenAiChatOptions
-          .builder()
-          .maxCompletionTokens(maxCompletionTokensValue.toInt())
-          .temperature(temperatureValue)
-          .model(modelName)
-          .seed(seedValue)
-          .build(),
-      )
-      // Make a call
-      .call()
-      .chatResponse() 
+  chatClient
+    .prompt()
+    .system("You are a helpful pirate")
+    .user("Just say 'Hello!'")
+    .options<OpenAiChatOptions>(
+      OpenAiChatOptions
+        .builder()
+        .maxCompletionTokens(maxCompletionTokensValue.toInt())
+        .temperature(temperatureValue)
+        .model(modelName)
+        .seed(seedValue)
+        .build(),
+    )
+    // Make a call
+    .call()
+    .chatResponse()
 
 // Verify the response
 response?.result shouldNotBe null
@@ -382,16 +389,20 @@ metadata.finishReason shouldBe "STOP"
 output?.text shouldBe "Ahoy there, matey! Hello!"
 }
 ```
-Check for examples in the [integration tests](https://github.com/kpavlov/ai-mocks/tree/main/ai-mocks-openai/src/jvmTest/kotlin/me/kpavlov/aimocks/openai/springai).
+
+Check for examples in
+the [integration tests](https://github.com/kpavlov/ai-mocks/tree/main/ai-mocks-openai/src/jvmTest/kotlin/me/kpavlov/aimocks/openai/springai).
 
 ## How to build
 
 Building project locally:
+
 ```shell
 gradle build
 ```
 
 or using Make:
+
 ```shell
 make
 ```
@@ -401,4 +412,5 @@ make
 I do welcome contributions! Please see the [Contributing Guidelines](CONTRIBUTING.md) for details.
 
 ## Enjoying LLM integration testing? :heart:
+
 [![Buy me a Coffee](https://cdn.buymeacoffee.com/buttons/default-orange.png)](https://buymeacoffee.com/mailsk)
