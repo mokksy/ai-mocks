@@ -1,5 +1,6 @@
 package me.kpavlov.mokksy
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import net.datafaker.Faker
 
@@ -19,6 +20,7 @@ data class TestAddress(
 
 @Serializable
 data class TestPerson(
+    @SerialName("person_name")
     val name: String,
     val address: List<TestAddress> = emptyList(),
 ) {
