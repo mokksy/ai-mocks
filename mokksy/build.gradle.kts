@@ -14,7 +14,7 @@ kotlin {
                 api(libs.kotest.assertions.json)
                 api(libs.ktor.server.core)
                 implementation(libs.ktor.server.double.receive)
-                implementation(libs.ktor.server.content.negotiation)
+                api(libs.ktor.server.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
                 implementation(libs.ktor.server.sse)
             }
@@ -46,6 +46,7 @@ kotlin {
                 implementation(libs.ktor.client.java)
                 implementation(libs.junit.jupiter.params)
                 runtimeOnly(libs.slf4j.simple)
+                implementation(libs.ktor.serialization.jackson)
             }
         }
     }
