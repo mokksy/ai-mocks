@@ -1,4 +1,5 @@
 import org.jetbrains.dokka.gradle.tasks.DokkaGenerateTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("plugin.serialization") apply true
@@ -8,11 +9,15 @@ plugins {
     id("org.openapi.generator") version "7.12.0"
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+tasks.withType<KotlinCompile> {
     dependsOn(tasks.openApiGenerate)
 }
 
 tasks.withType<DokkaGenerateTask> {
+    dependsOn(tasks.openApiGenerate)
+}
+
+tasks.named("jvmSourcesJar") {
     dependsOn(tasks.openApiGenerate)
 }
 
