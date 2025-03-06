@@ -1,14 +1,70 @@
+import org.jetbrains.dokka.gradle.tasks.DokkaGenerateTask
+
 plugins {
     kotlin("plugin.serialization") apply true
     alias(libs.plugins.kover) apply true
     `kotlin-convention`
     `publish-convention`
+    id("org.openapi.generator") version "7.12.0"
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    dependsOn(tasks.openApiGenerate)
+}
+
+tasks.withType<DokkaGenerateTask> {
+    dependsOn(tasks.openApiGenerate)
+}
+
+openApiGenerate {
+    generatorName = "kotlin"
+    // https://github.com/openai/openai-openapi/blob/master/openapi.yaml
+    remoteInputSpec =
+        "https://raw.githubusercontent.com/openai/openai-openapi/refs/heads/master/openapi.yaml"
+//        "https://raw.githubusercontent.com/openai/openai-openapi/refs/heads/update-2024-11-04/openapi.yaml"
+
+    outputDir =
+        layout.buildDirectory
+            .dir("generated-sources")
+            .get()
+            .asFile.path
+
+    modelPackage = "me.kpavlov.aimocks.openai.model"
+    generateModelTests = false
+    generateModelDocumentation = false
+    cleanupOutput = true
+    skipValidateSpec = true
+    library = "multiplatform"
+    globalProperties.set(
+        mapOf(
+            "models" to // generate only models
+                listOf(
+                    "ChatCompletionRole",
+                    "ChatCompletionStreamOptions",
+                    "Error",
+                ).joinToString(","),
+        ),
+    )
+    configOptions.set(
+        mapOf(
+            "enumPropertyNaming" to "UPPERCASE",
+            "dateLibrary" to "kotlinx-datetime",
+            "explicitApi" to "true",
+//            "modelMutable" to "true",
+        ),
+    )
 }
 
 kotlin {
 
     sourceSets {
         commonMain {
+            val generatedDir =
+                layout.buildDirectory.dir(
+                    "generated-sources/src/commonMain/kotlin",
+                )
+            kotlin.srcDir(generatedDir)
+
             dependencies {
                 api(project(":ai-mocks-core"))
                 api(libs.ktor.serialization.kotlinx.json)

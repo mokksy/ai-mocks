@@ -31,3 +31,13 @@ ij_kotlin_name_count_to_use_star_import_for_members = 2147483647
 ij_kotlin_packages_to_use_import_on_demand = unset
 ktlint_code_style = ktlint_official # intellij_idea or android_studio or ktlint_official (default)
 ktlint_function_naming_ignore_when_annotated_with = "Test"
+
+[**/build/**/*.{kt,kts}]
+max_line_length = off
+ij_kotlin_name_count_to_use_star_import = unset
+ij_kotlin_name_count_to_use_star_import_for_members = unset
+ij_kotlin_packages_to_use_import_on_demand = kotlinx.serialization,kotlinx.serialization.descriptors,kotlinx.serialization.encoding
+insert_final_newline = unset
+# no-trailing-spaces:
+# in
+# standard:no-multi-spaces: 2

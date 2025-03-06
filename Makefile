@@ -12,14 +12,14 @@ apidocs:
 	cp -R mokksy/build/dokka/html build/docs/api
 
 lint:prepare
-	ktlint "!**/generated-sources/**" && \
+	ktlint "!**/build/**" && \
   ./gradlew detekt spotlessCheck
 
 # https://docs.openrewrite.org/recipes/maven/bestpractices
 format:prepare
 	./gradlew spotlessApply
 	./gradlew rewriteRun
-	ktlint --format "!**/generated-sources/**"
+	ktlint --format "!**/build/**"
 
 prepare:
 	command -v ktlint >/dev/null 2>&1 || brew install ktlint --quiet
