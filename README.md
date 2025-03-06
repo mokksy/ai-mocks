@@ -179,7 +179,7 @@ val client: OpenAIClient =
   OpenAIOkHttpClient
     .builder()
     .apiKey("dummy-api-key")
-    .baseUrl("http://127.0.0.1:${openai.port()}/v1") // connect to mock OpenAI
+    .baseUrl(openai.baseUrl()) // connect to mock OpenAI
     .responseValidation(true)
     .build()
 
@@ -252,7 +252,7 @@ val model: OpenAiChatModel =
   OpenAiChatModel
     .builder()
     .apiKey("dummy-api-key")
-    .baseUrl("http://127.0.0.1:${openai.port()}/v1")
+    .baseUrl(openai.baseUrl())
     .build()
 
 val result =
@@ -297,7 +297,7 @@ val model: OpenAiStreamingChatModel =
   OpenAiStreamingChatModel
     .builder()
     .apiKey("foo")
-    .baseUrl("http://127.0.0.1:${openai.port()}/v1")
+    .baseUrl(openai.baseUrl())
     .build()
 
 // call streaming model
@@ -345,7 +345,7 @@ val chatClient =
           OpenAiApi
             .builder()
             .apiKey("demo-key")
-            .baseUrl("http://127.0.0.1:${openai.port()}")
+            .baseUrl(openai.baseUrl())
             .build(),
         ).build(),
     ).build()

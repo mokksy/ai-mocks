@@ -73,4 +73,6 @@ public open class MockOpenai(
             mokksy = mokksy,
         )
     }
+
+    override fun baseUrl(): String = "http://localhost:${port()}/v1"
 }
