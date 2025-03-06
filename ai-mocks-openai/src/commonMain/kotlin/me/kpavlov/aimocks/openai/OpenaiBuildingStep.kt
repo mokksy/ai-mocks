@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.core.LlmBuildingStep
+import me.kpavlov.aimocks.openai.model.ChatCompletionRole
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 import me.kpavlov.mokksy.response.StreamResponseDefinition
@@ -67,7 +68,7 @@ public class OpenaiBuildingStep(
                                 index = 0,
                                 message =
                                     Message(
-                                        role = "assistant",
+                                        role = ChatCompletionRole.ASSISTANT,
                                         content = assistantContent,
                                     ),
                                 finishReason = finishReason,
@@ -138,7 +139,7 @@ public class OpenaiBuildingStep(
                     id = id,
                     created = timestamp,
                     model = model,
-                    role = "assistant",
+                    role = ChatCompletionRole.ASSISTANT,
                     content = "",
                 ),
             )
@@ -171,7 +172,7 @@ public class OpenaiBuildingStep(
         id: Int,
         created: Long,
         content: String? = null,
-        role: String? = null,
+        role: ChatCompletionRole? = null,
         model: String,
         finishReason: String? = null,
     ): String {

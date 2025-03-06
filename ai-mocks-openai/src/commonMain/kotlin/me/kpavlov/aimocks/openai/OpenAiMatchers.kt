@@ -2,6 +2,7 @@ package me.kpavlov.aimocks.openai
 
 import io.kotest.matchers.Matcher
 import io.kotest.matchers.MatcherResult
+import me.kpavlov.aimocks.openai.model.ChatCompletionRole
 
 internal object OpenAiMatchers {
     fun systemMessageContains(string: String): Matcher<ChatCompletionRequest?> =
@@ -10,8 +11,10 @@ internal object OpenAiMatchers {
                 MatcherResult(
                     value != null &&
                         value.messages
-                            .find { it.role == "system" || it.role == "developer" }
-                            ?.content
+                            .find {
+                                it.role == ChatCompletionRole.SYSTEM ||
+                                    it.role == ChatCompletionRole.DEVELOPER
+                            }?.content
                             ?.contains(string) == true,
                     { "System message should contain \"$string\"" },
                     { "System message should not contain \"$string\"" },
@@ -26,7 +29,7 @@ internal object OpenAiMatchers {
                 MatcherResult(
                     value != null &&
                         value.messages
-                            .find { it.role == "user" }
+                            .find { it.role == ChatCompletionRole.USER }
                             ?.content
                             ?.contains(string) == true,
                     { "User message should contain \"$string\"" },
