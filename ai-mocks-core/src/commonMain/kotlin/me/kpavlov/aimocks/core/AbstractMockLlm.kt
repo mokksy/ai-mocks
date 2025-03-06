@@ -25,4 +25,12 @@ public abstract class AbstractMockLlm(
     public fun verifyNoUnmatchedRequests() {
         mokksy.checkForUnmatchedRequests()
     }
+
+    /**
+     * Provides the base URL of the mock server to be provided
+     * to language model client.
+     *
+     * @return The base URL as a string.
+     */
+    public abstract fun baseUrl(): String
 }
