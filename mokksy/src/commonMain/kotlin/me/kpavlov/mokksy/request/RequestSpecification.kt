@@ -4,10 +4,13 @@ import io.kotest.matchers.Matcher
 import io.kotest.matchers.string.contain
 import io.ktor.http.Headers
 import io.ktor.http.HttpMethod
+import io.ktor.server.application.log
+import io.ktor.server.plugins.BadRequestException
 import io.ktor.server.request.ApplicationRequest
 import io.ktor.server.request.httpMethod
 import io.ktor.server.request.path
 import io.ktor.server.request.receive
+import io.ktor.server.request.receiveText
 import kotlin.reflect.KClass
 
 /**
@@ -64,11 +67,21 @@ public open class RequestSpecification<P : Any>(
         request: ApplicationRequest,
     ): Boolean {
         if (matchers.isEmpty()) return true
-        val body: P? = request.call.receive(requestType)
-        return matchers.all {
-            it
-                .test(body)
-                .passed()
+        val body: P?
+        return try {
+            body = request.call.receive(requestType)
+            matchers.all {
+                it
+                    .test(body)
+                    .passed()
+            }
+        } catch (e: BadRequestException) {
+            request.call.application.log
+                .debug(
+                    "Bad request: ${e.message}. Request body: ${request.call.receiveText()}",
+                    e,
+                )
+            false
         }
     }
 

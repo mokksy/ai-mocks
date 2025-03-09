@@ -33,6 +33,7 @@ dependencies {
     kover(project(":mokksy"))
     kover(project(":ai-mocks-core"))
     kover(project(":ai-mocks-openai"))
+    kover(project(":ai-mocks-anthropic"))
 }
 
 kover {

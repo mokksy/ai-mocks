@@ -94,7 +94,6 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(libs.assertj.core)
-                implementation(libs.assertk)
                 implementation(libs.awaitility.kotlin)
                 implementation(libs.junit.jupiter.params)
                 implementation(libs.langchain4j.kotlin)

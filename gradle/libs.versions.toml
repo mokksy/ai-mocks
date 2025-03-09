@@ -23,6 +23,7 @@ slf4j = "2.0.17"
 spotless = "7.0.2"
 spring = "6.2.3"
 spring-ai = "1.0.0-M6"
+anthropic-java="0.7.0"
 
 [libraries]
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
@@ -58,6 +59,9 @@ spring-context = { group = "org.springframework", name = "spring-context" }
 spring-test = { group = "org.springframework", name = "spring-test" }
 spring-ai-bom = { group = "org.springframework.ai", name="spring-ai-bom", version.ref = "spring-ai" }
 spring-ai-openai = { group = "org.springframework.ai", name="spring-ai-openai" }
+anthropic-java-core = { group = "com.anthropic", name="anthropic-java-core", version.ref="anthropic-java" }
+anthropic-java = { group = "com.anthropic", name="anthropic-java", version.ref="anthropic-java" }
+anthropic-java-client-okhttp = { group = "com.anthropic", name="anthropic-java-client-okhttp", version.ref="anthropic-java" }
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

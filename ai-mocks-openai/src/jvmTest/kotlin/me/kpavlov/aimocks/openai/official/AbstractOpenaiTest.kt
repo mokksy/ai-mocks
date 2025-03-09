@@ -10,7 +10,7 @@ internal abstract class AbstractOpenaiTest : AbstractMockOpenaiTest() {
         OpenAIOkHttpClient
             .builder()
             .apiKey("my-key")
-            .baseUrl("http://127.0.0.1:${openai.port()}/v1")
+            .baseUrl(openai.baseUrl())
             .responseValidation(true)
             .build()
 }
