@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.openai
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import kotlin.random.Random
@@ -11,6 +12,7 @@ internal abstract class AbstractMockOpenaiTest {
     protected var seedValue: Int = -1
     protected var maxCompletionTokensValue: Long = -1
     protected lateinit var modelName: String
+    protected val logger = KotlinLogging.logger(name = this::class.simpleName!!)
 
     @BeforeEach
     fun beforeEach() {

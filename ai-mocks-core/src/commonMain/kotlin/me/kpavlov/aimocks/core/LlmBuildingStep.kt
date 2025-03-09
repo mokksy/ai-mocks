@@ -42,10 +42,12 @@ public abstract class LlmBuildingStep<P : Any, R : ChatResponseSpecification<P, 
 
     /**
      * Specifies an error response for a given request scenario.
-     * This allows defining the characteristics of an erroneous response, such as the HTTP status, response body, headers, delay, and more.
+     * This allows defining the characteristics of an erroneous response,
+     * such as the HTTP status, response body, headers, delay, and more.
      *
      * @param T The type of the response body for the error response.
-     * @param block A lambda function applied to a [ResponseDefinitionBuilder], used to configure the error response properties
+     * @param block A lambda function applied to a [ResponseDefinitionBuilder],
+     * used to configure the error response properties
      * such as the body, status, headers, and other attributes.
      */
     public open infix fun <T : Any> respondsError(
