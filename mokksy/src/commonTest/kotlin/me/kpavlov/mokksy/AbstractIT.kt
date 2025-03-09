@@ -2,13 +2,14 @@ package me.kpavlov.mokksy
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.HttpClient
+import io.ktor.server.application.log
 import kotlin.random.Random
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 
 val mokksy: MokksyServer =
     MokksyServer(verbose = true) {
-        println("Running Mokksy server with ${it.engine} engine")
+        it.log.info("Running Mokksy server with ${it.engine} engine")
     }
 
 internal abstract class AbstractIT(

@@ -93,17 +93,17 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
                 .build(),
             object : StreamingChatResponseHandler {
                 override fun onCompleteResponse(completeResponse: ChatResponse) {
-                    println("Received CompleteResponse: $completeResponse")
+                    logger.info { "Received CompleteResponse: $completeResponse" }
                     responseRef.set(completeResponse)
                 }
 
                 override fun onPartialResponse(partialResponse: String) {
-                    println("Received partial response: $partialResponse")
+                    logger.info { "Received partial response: $partialResponse" }
                     partialResults.add(partialResponse)
                 }
 
                 override fun onError(error: Throwable) {
-                    println("Received error: $error")
+                    logger.info { "Received error: $error" }
                     failure("Unexpected error", error)
                 }
             },
@@ -138,16 +138,16 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
                 when (it) {
                     is PartialResponse -> {
                         result.add(it.token)
-                        println("token = ${it.token}")
+                        logger.info { "token = ${it.token}" }
                     }
 
                     is CompleteResponse -> {
-                        println("Completed: $it")
+                        logger.info { "Completed: $it" }
                         finishReason.set(it.response.finishReason())
                     }
 
                     is StreamingChatLanguageModelReply.Error -> {
-                        println("Error: $it")
+                        logger.info { "Error: $it" }
                         it.cause.printStackTrace()
                     }
                 }
