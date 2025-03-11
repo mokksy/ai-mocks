@@ -1,4 +1,4 @@
-.PHONY: build test lint format all # always run
+.PHONY: build test lint format all docs # always run
 
 build:
 	./gradlew clean build dokkaJavadocJar sourcesJar koverXmlReport
@@ -12,7 +12,8 @@ apidocs:
 	cp -R mokksy/build/dokka/html build/docs/api
 
 docs:
-	cd docs && hugo server -D --watch
+	cd docs && \
+	hugo server -D --watch
 
 lint:prepare
 	ktlint "!**/build/**" && \
