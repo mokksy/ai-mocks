@@ -12,17 +12,18 @@ internal class RemoveAfterUseIT : AbstractIT() {
     fun `Should remove Stub after match`() =
         runTest {
             val uri = "/remove-after-match"
-            mokksy.get(
-                configuration =
-                    StubConfiguration(
-                        removeAfterMatch = true,
-                        verbose = true,
-                    ),
-            ) {
-                path = beEqual(uri)
-            } respondsWith {
-                body = "🇪🇪 Tere!"
-            }
+            mokksy
+                .get(
+                    configuration =
+                        StubConfiguration(
+                            removeAfterMatch = true,
+                            verbose = true,
+                        ),
+                ) {
+                    path = beEqual(uri)
+                }.respondsWith(String::class) {
+                    body = "🇪🇪 Tere!"
+                }
             // First request should succeed
             client.get(uri).status shouldBe HttpStatusCode.OK
             // Next request should fail as stub is self-removed

@@ -65,6 +65,13 @@ public class BuildingStep<P : Any> internal constructor(
         registerStub(stub)
     }
 
+    public fun <T : Any> respondsWith(
+        @Suppress("unused") responseType: KClass<T>,
+        block: ResponseDefinitionBuilder<P, T>.() -> Unit,
+    ) {
+        respondsWith<T>(block)
+    }
+
     /**
      * Associates the current request specification with a streaming response definition.
      * This method is part of a fluent API for defining mappings between requests and streaming responses.
@@ -91,6 +98,13 @@ public class BuildingStep<P : Any> internal constructor(
         registerStub(stub)
     }
 
+    public fun <T : Any> respondsWithStream(
+        @Suppress("unused") responseType: KClass<T>,
+        block: StreamingResponseDefinitionBuilder<P, T>.() -> Unit,
+    ) {
+        respondsWithStream<T>(block)
+    }
+
     /**
      * Associates the current request specification with a server-sent events (SSE) streaming response definition.
      * This method is part of a fluent API for defining mappings between requests and SSE streaming responses.
@@ -106,4 +120,9 @@ public class BuildingStep<P : Any> internal constructor(
         respondsWithStream<ServerSentEventMetadata<T>>(
             block,
         )
+
+    public fun <T : Any> respondsWithSseStream(
+        @Suppress("unused") responseType: KClass<T>,
+        block: StreamingResponseDefinitionBuilder<P, ServerSentEventMetadata<T>>.() -> Unit,
+    ): Unit = respondsWithSseStream(block)
 }

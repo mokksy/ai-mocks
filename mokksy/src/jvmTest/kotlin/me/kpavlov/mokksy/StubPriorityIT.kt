@@ -14,19 +14,21 @@ internal class StubPriorityIT : AbstractIT() {
     fun `Should consider stub priority (desc order)`() =
         runTest {
             val path = "/stub-priority-$seed"
-            mokksy.get {
-                this.path = beEqual(path)
-                this.priority = 1 // higher priority
-            } respondsWith {
-                body = "Expected response"
-            }
+            mokksy
+                .get {
+                    this.path = beEqual(path)
+                    this.priority = 1 // higher priority
+                }.respondsWith(String::class) {
+                    body = "Expected response"
+                }
 
-            mokksy.get {
-                this.path = beEqual(path)
-                this.priority = 2 // lower priority
-            } respondsWith {
-                body = "Unexpected response"
-            }
+            mokksy
+                .get {
+                    this.path = beEqual(path)
+                    this.priority = 2 // lower priority
+                }.respondsWith(String::class) {
+                    body = "Unexpected response"
+                }
 
             // when
             val result =
@@ -39,20 +41,22 @@ internal class StubPriorityIT : AbstractIT() {
     @Test
     fun `Should consider stub priority (asc order)`() =
         runTest {
-            mokksy.get {
-                this.path = beEqual(path)
-                this.priority = 2 // lower priority
-            } respondsWith {
-                body = "Unexpected response"
-            }
+            mokksy
+                .get {
+                    this.path = beEqual(path)
+                    this.priority = 2 // lower priority
+                }.respondsWith(String::class) {
+                    body = "Unexpected response"
+                }
 
             val path = "/stub-priority-$seed"
-            mokksy.get {
-                this.path = beEqual(path)
-                this.priority = 1 // higher priority
-            } respondsWith {
-                body = "Expected response"
-            }
+            mokksy
+                .get {
+                    this.path = beEqual(path)
+                    this.priority = 1 // higher priority
+                }.respondsWith(String::class) {
+                    body = "Expected response"
+                }
 
             // when
             val result =

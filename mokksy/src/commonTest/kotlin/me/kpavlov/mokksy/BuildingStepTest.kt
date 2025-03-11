@@ -8,10 +8,9 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import me.kpavlov.mokksy.request.RequestSpecification
+import java.util.UUID
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 internal class BuildingStepTest {
     private lateinit var subject: BuildingStep<Input>
@@ -29,10 +28,9 @@ internal class BuildingStepTest {
         stub: Stub<*, *>,
     ) -> Unit
 
-    @OptIn(ExperimentalUuidApi::class)
     @BeforeTest
     fun before() {
-        name = Uuid.random().toString()
+        name = UUID.randomUUID().toString()
         request = mockk()
         addStubCallback = mockk()
         configuration = mockk()

@@ -13,10 +13,9 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import me.kpavlov.mokksy.request.RequestSpecificationBuilder
 import org.junit.jupiter.api.Test
+import java.util.UUID
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.test.BeforeTest
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 @Suppress("UastIncorrectHttpHeaderInspection")
 internal class ShortcutMethodsIT : AbstractIT() {
@@ -24,10 +23,9 @@ internal class ShortcutMethodsIT : AbstractIT() {
 
     private lateinit var requestPayload: TestPerson
 
-    @OptIn(ExperimentalUuidApi::class)
     @BeforeTest
     fun before() {
-        name = Uuid.random().toString()
+        name = UUID.randomUUID().toString()
 
         requestPayload = TestPerson.random()
     }
