@@ -4,6 +4,7 @@ import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 import me.kpavlov.mokksy.response.ResponseDefinitionBuilder
 import java.util.function.Consumer
+import kotlin.reflect.KClass
 
 /**
  * Defines a building step for constructing a mock response based on specific request scenarios
@@ -56,6 +57,13 @@ public abstract class LlmBuildingStep<P : Any, R : ChatResponseSpecification<P, 
         buildingStep.respondsWith {
             block(this)
         }
+    }
+
+    public open fun <T : Any> respondsError(
+        responseType: KClass<T>,
+        block: ResponseDefinitionBuilder<P, T>.() -> Unit,
+    ) {
+        respondsError<T>(block)
     }
 
     /**
