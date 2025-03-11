@@ -1,5 +1,6 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -15,10 +16,6 @@ kotlin {
     withSourcesJar(publish = true)
 
     jvm {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
-            javaParameters = true
-        }
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
         }
@@ -46,9 +43,9 @@ configure<SpotlessExtension> {
 
 tasks.withType<KotlinCompile>().configureEach {
     compilerOptions {
-        allWarningsAsErrors = true
-        progressiveMode = true
-        jvmTarget.set(JvmTarget.JVM_17)
+        jvmTarget = JvmTarget.JVM_17
+        languageVersion = KOTLIN_1_9
+        apiVersion = KOTLIN_1_9
         freeCompilerArgs =
             listOf(
                 "-Xjvm-default=all",
