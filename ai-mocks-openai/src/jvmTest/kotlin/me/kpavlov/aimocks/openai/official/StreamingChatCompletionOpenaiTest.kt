@@ -3,11 +3,11 @@ package me.kpavlov.aimocks.openai.official
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.openai.core.JsonValue
-import com.openai.models.ChatCompletionChunk
-import com.openai.models.ChatCompletionCreateParams
-import com.openai.models.ChatCompletionMessageParam
-import com.openai.models.ChatCompletionStreamOptions
-import com.openai.models.ChatCompletionUserMessageParam
+import com.openai.models.chat.completions.ChatCompletionChunk
+import com.openai.models.chat.completions.ChatCompletionCreateParams
+import com.openai.models.chat.completions.ChatCompletionMessageParam
+import com.openai.models.chat.completions.ChatCompletionStreamOptions
+import com.openai.models.chat.completions.ChatCompletionUserMessageParam
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.flow
 import me.kpavlov.aimocks.openai.openai

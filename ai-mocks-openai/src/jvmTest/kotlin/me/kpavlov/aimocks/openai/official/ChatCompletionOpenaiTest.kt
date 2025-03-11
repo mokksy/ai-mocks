@@ -1,10 +1,10 @@
 package me.kpavlov.aimocks.openai.official
 
 import com.openai.errors.UnexpectedStatusCodeException
-import com.openai.models.ChatCompletionCreateParams
-import com.openai.models.ChatCompletionMessageParam
-import com.openai.models.ChatCompletionSystemMessageParam
-import com.openai.models.ChatCompletionUserMessageParam
+import com.openai.models.chat.completions.ChatCompletionCreateParams
+import com.openai.models.chat.completions.ChatCompletionMessageParam
+import com.openai.models.chat.completions.ChatCompletionSystemMessageParam
+import com.openai.models.chat.completions.ChatCompletionUserMessageParam
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
