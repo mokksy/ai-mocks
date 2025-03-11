@@ -6,7 +6,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/4887b8978534404dbc62c4894b630501)](https://app.codacy.com/gh/kpavlov/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Codacy Coverage](https://app.codacy.com/project/badge/Coverage/4887b8978534404dbc62c4894b630501)](https://app.codacy.com/gh/kpavlov/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 [![codecov](https://codecov.io/github/kpavlov/ai-mocks/graph/badge.svg?token=449G80QY5S)](https://codecov.io/github/kpavlov/ai-mocks)
-[![Api Docs](https://img.shields.io/badge/api-docs-blue)](https://kpavlov.github.io/ai-mocks/api/)
+[![Documentation](https://img.shields.io/badge/docs-website-blue)](https://kpavlov.github.io/ai-mocks/) [![API Reference](https://img.shields.io/badge/api-reference-blue)](https://kpavlov.github.io/ai-mocks/api/)
 ![GitHub License](https://img.shields.io/github/license/kpavlov/ai-mocks)
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.9-%237F52FF.svg?logo=kotlin&logoColor=white)
 

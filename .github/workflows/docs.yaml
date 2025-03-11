@@ -23,6 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true  # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
       - name: Set up JDK 23
         uses: actions/setup-java@v4
         with:
@@ -35,11 +39,23 @@ jobs:
         with:
           gradle-version: 8.13
 
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.145.0'
+          extended: true
+
       - name: Generate Dokka Site
         run: |-
           gradle clean dokkaGenerate && \
-          mkdir -p build/docs && \
-          cp -R mokksy/build/dokka/html build/docs/api
+          mkdir -p build/docs/api && \
+          cp -R mokksy/build/dokka/html/* build/docs/api/
+
+      - name: Build Hugo Site
+        run: |-
+          cd docs && \
+          hugo --minify && \
+          cp -R public/* ../build/docs/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

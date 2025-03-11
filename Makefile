@@ -11,6 +11,9 @@ apidocs:
 	mkdir -p build/docs && \
 	cp -R mokksy/build/dokka/html build/docs/api
 
+docs:
+	cd docs && hugo server -D --watch
+
 lint:prepare
 	ktlint "!**/build/**" && \
   ./gradlew detekt spotlessCheck
