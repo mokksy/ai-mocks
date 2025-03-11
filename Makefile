@@ -12,6 +12,8 @@ apidocs:
 	cp -R mokksy/build/dokka/html build/docs/api
 
 docs:
+	git submodule sync && \
+  git submodule update --init --depth=1 && \
 	cd docs && \
 	hugo server -D --watch
 

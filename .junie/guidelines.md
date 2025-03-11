@@ -52,6 +52,7 @@ Mokksy and AI-Mocks are a suite of tools designed for mocking HTTP and LLM (Larg
    - Follow the guidelines in CONTRIBUTING.md
    - Create pull requests for new features or bug fixes
    - Ensure all tests pass before submitting
+   - Never commit and push automatically
 
 ### Getting Started
 
