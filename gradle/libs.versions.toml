@@ -55,12 +55,9 @@ netty = { group = "io.netty", name = "netty-handler", version.ref = "netty" }
 openai-java = { group = "com.openai", name = "openai-java", version.ref = "openai" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 spring-bom = { group = "org.springframework", name = "spring-framework-bom", version.ref = "spring" }
-spring-context = { group = "org.springframework", name = "spring-context" }
-spring-test = { group = "org.springframework", name = "spring-test" }
 spring-ai-bom = { group = "org.springframework.ai", name="spring-ai-bom", version.ref = "spring-ai" }
 spring-ai-openai = { group = "org.springframework.ai", name="spring-ai-openai" }
 anthropic-java-core = { group = "com.anthropic", name="anthropic-java-core", version.ref="anthropic-java" }
-anthropic-java = { group = "com.anthropic", name="anthropic-java", version.ref="anthropic-java" }
 anthropic-java-client-okhttp = { group = "com.anthropic", name="anthropic-java-client-okhttp", version.ref="anthropic-java" }
 
 [plugins]
