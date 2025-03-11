@@ -65,18 +65,19 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
               "caramba": "Arrr, blast me barnacles! This be not what ye expect! 🏴‍☠️"
             }
             """.trimIndent()
-        openai.completion {
-            temperature = temperatureValue
-            seed = seedValue
-            model = modelName
-            maxCompletionTokens = maxCompletionTokensValue
-            systemMessageContains("helpful assistant")
-            userMessageContains("say 'Hello!'")
-        } respondsError {
-            body = carambaResponse
-            delay = 1.seconds
-            httpStatus = HttpStatusCode.PaymentRequired
-        }
+        openai
+            .completion {
+                temperature = temperatureValue
+                seed = seedValue
+                model = modelName
+                maxCompletionTokens = maxCompletionTokensValue
+                systemMessageContains("helpful assistant")
+                userMessageContains("say 'Hello!'")
+            }.respondsError(String::class) {
+                body = carambaResponse
+                delay = 1.seconds
+                httpStatus = HttpStatusCode.PaymentRequired
+            }
 
         val params =
             createChatCompletionRequestParams()

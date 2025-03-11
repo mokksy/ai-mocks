@@ -20,12 +20,11 @@ import me.kpavlov.mokksy.request.RequestSpecificationBuilder
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import java.util.UUID
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.fail
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 @Suppress("UastIncorrectHttpHeaderInspection")
 internal class TypesafeMethodsIT : AbstractIT() {
@@ -33,10 +32,9 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     private lateinit var requestPayload: TestPerson
 
-    @OptIn(ExperimentalUuidApi::class)
     @BeforeTest
     fun before() {
-        name = Uuid.random().toString()
+        name = UUID.randomUUID().toString()
 
         requestPayload = TestPerson.random()
     }
@@ -186,14 +184,15 @@ internal class TypesafeMethodsIT : AbstractIT() {
     fun `Should respond 404 to unmatched headers`() =
         runTest {
             val uri = "/unmatched-headers"
-            mokksy.get {
-                path = beEqual(uri)
-                this.containsHeader("Foo", "bar")
-            } respondsWith {
-                fail("✋🛑 Should not be called")
-                httpStatus = HttpStatusCode.OK
-                body = "Hello"
-            }
+            mokksy
+                .get {
+                    path = beEqual(uri)
+                    this.containsHeader("Foo", "bar")
+                }.respondsWith(String::class) {
+                    fail("✋🛑 Should not be called")
+                    httpStatus = HttpStatusCode.OK
+                    body = "Hello"
+                }
             // when
             val result = client.get(uri)
 
@@ -215,18 +214,19 @@ internal class TypesafeMethodsIT : AbstractIT() {
                 }
                 """.trimIndent()
 
-            mokksy.post<Input>(name = "post", Input::class) {
-                path = beEqual("/things")
-                bodyContains("$id")
-            } respondsWith {
-                body = expectedResponse
-                httpStatus = HttpStatusCode.Created
-                headers {
-                    // type-safe builder style
-                    append(HttpHeaders.Location, "/things/$id")
+            mokksy
+                .post<Input>(name = "post", Input::class) {
+                    path = beEqual("/things")
+                    bodyContains("$id")
+                }.respondsWith(String::class) {
+                    body = expectedResponse
+                    httpStatus = HttpStatusCode.Created
+                    headers {
+                        // type-safe builder style
+                        append(HttpHeaders.Location, "/things/$id")
+                    }
+                    headers += "Foo" to "bar" // list style
                 }
-                headers += "Foo" to "bar" // list style
-            }
 
             // when
             val result =

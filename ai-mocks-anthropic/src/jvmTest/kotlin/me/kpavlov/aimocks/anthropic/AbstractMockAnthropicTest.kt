@@ -3,13 +3,11 @@ package me.kpavlov.aimocks.anthropic
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
+import java.util.UUID
 import kotlin.random.Random
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 val anthropic = MockAnthropic(verbose = true)
 
-@OptIn(ExperimentalUuidApi::class)
 internal abstract class AbstractMockAnthropicTest {
     protected var temperatureValue: Double = -1.0
     protected lateinit var userIdValue: String
@@ -26,7 +24,7 @@ internal abstract class AbstractMockAnthropicTest {
                 "claude-3-5-haiku-latest",
                 "claude-3-opus-latest",
             ).random()
-        userIdValue = Uuid.random().toHexString()
+        userIdValue = UUID.randomUUID().toString()
         temperatureValue = Random.nextDouble(0.0, 1.0)
         maxCompletionTokensValue = Random.nextLong(100, 500)
     }

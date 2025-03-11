@@ -1,12 +1,15 @@
 package me.kpavlov.aimocks.anthropic
 
+import com.anthropic.models.ContentBlock
 import com.anthropic.models.Message
 import com.anthropic.models.RawContentBlockDeltaEvent
 import com.anthropic.models.RawContentBlockStartEvent
 import com.anthropic.models.RawMessageStartEvent
 import com.anthropic.models.RawMessageStopEvent
+import com.anthropic.models.TextBlock
 import com.anthropic.models.Usage
 import io.ktor.sse.ServerSentEvent
+import java.util.Optional
 
 internal object StreamingResponseHelper {
     @Suppress("MagicNumber")
@@ -28,8 +31,20 @@ internal object StreamingResponseHelper {
                                 .builder()
                                 .inputTokens(25)
                                 .outputTokens(1)
+                                .cacheCreationInputTokens(Optional.empty())
+                                .cacheReadInputTokens(Optional.empty())
                                 .build(),
-                        ).build(),
+                        ).addContent(
+                            ContentBlock.ofText(
+                                TextBlock
+                                    .builder()
+                                    .text("")
+                                    .citations(Optional.empty())
+                                    .build(),
+                            ),
+                        ).stopReason(Optional.empty())
+                        .stopSequence(Optional.empty())
+                        .build(),
                 ).build()
         return ServerSentEvent(
             event = data._type().asStringOrThrow(),
@@ -48,7 +63,13 @@ internal object StreamingResponseHelper {
             RawContentBlockStartEvent
                 .builder()
                 .index(index)
-                .build()
+                .contentBlock(
+                    TextBlock
+                        .builder()
+                        .text("")
+                        .citations(Optional.empty())
+                        .build(),
+                ).build()
         return ServerSentEvent(
             event = data._type().asStringOrThrow(),
             data =
