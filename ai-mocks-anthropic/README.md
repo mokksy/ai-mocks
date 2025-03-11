@@ -23,28 +23,63 @@
 2. **Initialize the Server**
    ```kotlin
    val anthropic = MockAnthropic(verbose = true)
-   anthropic.start()
    ```
   - The server will start on a random free port by default.
   - You can retrieve the server’s base URL via `anthropic.baseUrl()`.
 
 3. **Configure Requests and Responses**
 
-   Here’s a minimal example that sets up a mock “messages” endpoint and defines the response:
+   Here’s an example that sets up a mock “messages” endpoint and defines the response:
+    ```kotlin
+    anthropic.messages {
+        temperature = 0.42
+        model = "claude-3-7-sonnet-latest"
+        maxCompletionTokens = 100
+        systemMessageContains("helpful assistant")
+        userMessageContains("say 'Hello!'")
+    } responds {
+        assistantContent = "Hello" // response content
+        delay = 200.milliseconds // simulate delay
+    }
+    ```
+    - The `messages { ... }` block sets how the incoming request must look.
+    - The `responds { ... }` block defines what the mock server returns.
 
-   ```kotlin
-   anthropic.messages {
-       // Configure expected request
-       model = "claude-v1"        // Example: specify the model
-       userMessageContains("Hello") // Check the request’s user message
-   } responds {
-       // Configure mock response
-       assistantContent = "Hi there!"
-   }
-   ```
 
-  - The `messages("simple-test")` block sets how the incoming request must look.
-  - The `responds { ... }` block defines what the mock server returns.
+4. **Calling Anthropic API Client**
+
+    Here’s an example that sets up and call officoal [Anthropic SDK client](https://github.com/anthropics/anthropic-sdk-java):
+    ```kotlin
+    // create Anthropic SDK client
+    val client =
+        AnthropicOkHttpClient
+            .builder()
+            .apiKey("my-anthropic-api-key")
+            .baseUrl(anthropic.baseUrl())
+            .build()
+
+    // prepare Anthropic SDK call
+    val params =
+        MessageCreateParams
+            .builder()
+            .temperature(0.42)
+            .maxTokens(100)
+            .system("You are a helpful assistant.")
+            .addUserMessage("Just say 'Hello!' and nothing else")
+            .model("claude-3-7-sonnet-latest")
+            .build()
+
+    val result =
+        client
+            .messages()
+            .create(params)
+
+    result
+        .content()
+        .first()
+        .asText()
+        .text() shouldBe "Hello" // kotest matcher
+    ```
 
 ### Streaming Responses
 
