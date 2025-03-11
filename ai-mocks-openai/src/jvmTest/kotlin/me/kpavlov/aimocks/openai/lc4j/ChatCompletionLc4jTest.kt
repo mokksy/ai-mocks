@@ -17,7 +17,7 @@ internal class ChatCompletionLc4jTest : AbstractMockOpenaiTest() {
         OpenAiChatModel
             .builder()
             .apiKey("foo")
-            .baseUrl("http://127.0.0.1:${openai.port()}/v1")
+            .baseUrl(openai.baseUrl())
             .build()
 
     @Test

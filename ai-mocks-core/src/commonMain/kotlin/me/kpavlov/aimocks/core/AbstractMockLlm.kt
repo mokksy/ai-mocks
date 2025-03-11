@@ -32,5 +32,5 @@ public abstract class AbstractMockLlm(
      *
      * @return The base URL as a string.
      */
-    public abstract fun baseUrl(): String
+    public open fun baseUrl(): String = "http://localhost:${port()}"
 }
