@@ -117,6 +117,6 @@ mockOpenAI.stop()
 
 For more detailed examples and usage instructions, see the specific documentation for each component:
 
-- [Mokksy](/docs/mokksy/)
-- [AI-Mocks OpenAI](/docs/ai-mocks-openai/)
-- [AI-Mocks Anthropic](/docs/ai-mocks-anthropic/)
+- [Mokksy](../mokksy/)
+- [AI-Mocks OpenAI](../ai-mocks-openai/)
+- [AI-Mocks Anthropic](../ai-mocks-anthropic/)

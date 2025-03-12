@@ -1,7 +1,7 @@
 ---
 title: "Mokksy and AI-Mocks"
 ---
-
+![Mokksy Mascot](mokksy-mascot-256.png)
 # Mokksy and AI-Mocks
 
 _Mokksy_ and _AI-Mocks_ are mock HTTP and LLM (Large Language Model) servers inspired by WireMock, with support for
@@ -37,8 +37,8 @@ Mokksy and AI-Mocks are a suite of tools designed for mocking HTTP and LLM (Larg
 
 ## Documentation Sections
 
-- [Getting Started](/docs/getting-started/)
-- [Mokksy](/docs/mokksy/)
-- [AI-Mocks OpenAI](/docs/ai-mocks-openai/)
-- [AI-Mocks Anthropic](/docs/ai-mocks-anthropic/)
-- [API Reference](https://kpavlov.github.io/ai-mocks/api/)
+- [Getting Started](docs/getting-started/)
+- [Mokksy](docs/mokksy/)
+- [AI-Mocks OpenAI](docs/ai-mocks-openai/)
+- [AI-Mocks Anthropic](docs/ai-mocks-anthropic/)
+- [API Reference](api/)
