@@ -10,7 +10,7 @@ enableCopyright = false
 
 # search
 [search]
-on = true
+on = false
 global = false # turn to `true` to enable global search
 [search.algolia]
 enable = true # if false search will default to fusejs
@@ -25,3 +25,7 @@ name = "GitHub"
 iconLight = "images/GitHubMarkLight.svg"
 iconDark = "images/GitHubMarkDark.svg"
 url = "https://github.com/kpavlov/ai-mocks"
+
+[author]
+name = "Konstantin Pavlov"
+url = "https://kpavlov.me"

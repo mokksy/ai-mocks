@@ -34,8 +34,6 @@ implementation("me.kpavlov.aimocks:ai-mocks-openai-jvm:$latestVersion")
     {{< /tab >}}
     {{< /tabs >}}
 
-## Basic Usage
-
 Set up a mock server and define mock responses:
 
 ```kotlin
