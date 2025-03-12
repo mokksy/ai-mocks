@@ -7,7 +7,7 @@ weight: 20
 
 _Mokksy_ is a mock HTTP server built with [Kotlin](https://kotlinlang.org/) and [Ktor](https://ktor.io/).
 
-![Mokksy Mascot](/mokksy-mascot-256.png)
+![Mokksy Mascot](mokksy-mascot-256.png)
 
 **Why?** Wiremock does not support true SSE and streaming responses. Mokksy is here to address those limitations. It's particularly useful for integration testing LLM clients.
 
