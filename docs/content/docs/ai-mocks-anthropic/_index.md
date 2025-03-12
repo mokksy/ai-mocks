@@ -92,12 +92,67 @@ You can also configure streaming responses (such as chunked SSE events) for test
 
 ```kotlin
 anthropic.messages {
-    // request setup
+  temperature = temperatureValue
+  model = modelName
+  userId = userIdValue
 } respondsStream {
-    // Provide chunks or a Flow<String>
-    responseChunks = listOf("first chunk", "second chunk")
-    // Additional streaming settings like delays, finish reason, etc.
+  responseChunks = listOf("All", " we", " need", " is", " Love")
+  delay = 50.milliseconds
+  delayBetweenChunks = 10.milliseconds
+  finishReason = "stop"
 }
+```
+
+Or, you can use a flow to generate the response:
+```kotlin
+anthropic.messages("openai-completion-flow") {
+  temperature = temperatureValue
+  model = modelName
+  userId = userIdValue
+} respondsStream {
+  responseFlow =
+    flow {
+      emit("All")
+      emit(" we")
+      emit(" need")
+      emit(" is")
+      emit(" Love")
+    }
+  delay = 60.milliseconds
+  delayBetweenChunks = 15.milliseconds
+  finishReason = "stop"
+}
+```
+
+Call Anthropic client:
+```kotlin
+val params =
+  MessageCreateParams
+    .builder()
+    .temperature(temperatureValue)
+    .maxTokens(maxCompletionTokensValue)
+    .metadata(Metadata.builder().userId(userIdValue).build())
+    .system("You are a man from 60s")
+    .addUserMessage("What do we need?")
+    .model(modelName)
+    .build()
+
+val timedValue =
+  measureTimedValue {
+    client
+      .messages()
+      .createStreaming(params)
+      .stream() // streaming
+      .consumeAsFlow()
+      .onStart { logger.info { "Started streaming" } }
+      .onEach {
+        logger
+          .info { it }
+      }.onCompletion { logger.info { "Completed streaming" } }
+      .count()
+  }
+timedValue.duration shouldBeLessThan 10.seconds
+timedValue.value shouldBeLessThan 10
 ```
 
 Use your Anthropic client to invoke the endpoint at `anthropic.baseUrl()`, and it will receive a streamed response.

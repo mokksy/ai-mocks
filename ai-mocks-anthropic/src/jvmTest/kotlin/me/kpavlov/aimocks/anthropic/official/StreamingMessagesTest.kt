@@ -34,6 +34,30 @@ internal class StreamingMessagesTest : AbstractAnthropicTest() {
             verifyStreamingCall()
         }
 
+    @Test
+    fun `Should respond to Streaming Chat Completion with Flow`() =
+        runTest {
+            anthropic.messages("openai-completion-flow") {
+                temperature = temperatureValue
+                model = modelName
+                userId = userIdValue
+            } respondsStream {
+                responseFlow =
+                    flow {
+                        emit("All")
+                        emit(" we")
+                        emit(" need")
+                        emit(" is")
+                        emit(" Love")
+                    }
+                delay = 60.milliseconds
+                delayBetweenChunks = 15.milliseconds
+                finishReason = "stop"
+            }
+
+            verifyStreamingCall()
+        }
+
     private suspend fun verifyStreamingCall() {
         val params =
             MessageCreateParams
@@ -63,26 +87,4 @@ internal class StreamingMessagesTest : AbstractAnthropicTest() {
         timedValue.duration shouldBeLessThan 10.seconds
         timedValue.value shouldBeLessThan 10
     }
-
-    @Test
-    fun `Should respond to Streaming Chat Completion with Flow`() =
-        runTest {
-            anthropic.messages("openai-completion-flow") {
-                temperature = temperatureValue
-                model = modelName
-                userId = userIdValue
-            } respondsStream {
-                responseFlow =
-                    flow {
-                        emit("All")
-                        emit(" we")
-                        emit(" need")
-                        emit(" is")
-                        emit(" Love")
-                    }
-                delay = 60.milliseconds
-                delayBetweenChunks = 15.milliseconds
-                finishReason = "stop"
-            }
-        }
 }
