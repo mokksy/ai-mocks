@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import me.kpavlov.aimocks.core.ChatResponseSpecification
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 @Suppress("LongParameterList")
 public class OpenaiChatResponseSpecification(
@@ -25,6 +26,11 @@ public class OpenaiChatResponseSpecification(
         apply {
             this.finishReason =
                 finishReason
+        }
+
+    public fun delayMillis(value: Long): OpenaiChatResponseSpecification =
+        apply {
+            this.delay = value.milliseconds
         }
 }
 

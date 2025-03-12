@@ -6,7 +6,7 @@ repo = "https://github.com/kpavlov/ai-mocks"
 
 # Defaults to true if not set
 # Enable copyRight Footer Stamp. Takes in attribution
-enableCopyright = false
+enableCopyright = true
 
 # search
 [search]

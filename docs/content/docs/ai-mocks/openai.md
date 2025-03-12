@@ -50,6 +50,7 @@ openai.completion {
 } responds {
   assistantContent = "Hello"
   finishReason = "stop"
+  delay = 42.milliseconds // delay before answer
 }
 
 // OpenAI client setup

@@ -11,6 +11,7 @@ import kotlinx.coroutines.test.runTest
 import me.kpavlov.aimocks.openai.AbstractMockOpenaiTest
 import me.kpavlov.aimocks.openai.openai
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.milliseconds
 
 internal class ChatCompletionLc4jTest : AbstractMockOpenaiTest() {
     private val model: OpenAiChatModel =
@@ -31,6 +32,7 @@ internal class ChatCompletionLc4jTest : AbstractMockOpenaiTest() {
             } responds {
                 assistantContent = "Hello"
                 finishReason = "stop"
+                delay = 42.milliseconds
             }
 
             val result =
