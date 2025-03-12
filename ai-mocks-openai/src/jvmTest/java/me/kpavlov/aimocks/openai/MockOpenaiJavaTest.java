@@ -47,6 +47,7 @@ class MockOpenaiJavaTest {
         }).responds(response -> {
             response.assistantContent("Hello");
             response.finishReason("stop");
+            response.delayMillis(42);
         });
 
         final var params = ChatCompletionCreateParams.builder()

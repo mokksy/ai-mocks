@@ -7,7 +7,7 @@ url = "docs/"
 [[main]]
   name = "API Reference"
   weight = 3
-  url = "https://kpavlov.github.io/ai-mocks/ai-mocks/api/"
+  url = "https://kpavlov.github.io/ai-mocks/api/"
 
 [[main]]
   name = "GitHub"
