@@ -158,13 +158,6 @@ It supports mocking following LLMs:
 
 **_NB! Not all API endpoints and parameters are supported!_**
 
-## Mocking OpenAI API
-
-See [ai-mocks-openai/README.md](ai-mocks-openai/README.md) for detailed examples and usage instructions.
-
-## Mocking Anthropic API
-See [ai-mocks-anthropic/README.md](ai-mocks-anthropic/README.md) for detailed examples and usage instructions.
-
 ## How to build
 
 Building project locally:
