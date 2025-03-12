@@ -1,7 +1,17 @@
 ---
 title: "Documentation"
-weight: 1
+#weight: 1
 ---
+
+## Documentation Sections
+
+- [Getting Started](docs/getting-started/)
+- [Mokksy](docs/mokksy/)
+- [AI-Mocks OpenAI](docs/ai-mocks-openai/)
+- [AI-Mocks Anthropic](docs/ai-mocks-anthropic/)
+- [API Reference](api/)
+
+
 
 # Mokksy and AI-Mocks Documentation
 

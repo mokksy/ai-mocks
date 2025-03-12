@@ -1,8 +1,8 @@
 ---
 title: "Mokksy and AI-Mocks"
+#weight: 0
+featureImage: "mokksy-mascot-256.png"
 ---
-![Mokksy Mascot](mokksy-mascot-256.png)
-# Mokksy and AI-Mocks
 
 _Mokksy_ and _AI-Mocks_ are mock HTTP and LLM (Large Language Model) servers inspired by WireMock, with support for
 response streaming and Server-Side Events (SSE). They are designed to build, test, and mock OpenAI API responses for
@@ -35,10 +35,3 @@ Mokksy and AI-Mocks are a suite of tools designed for mocking HTTP and LLM (Larg
 - **Modern API**: Fluent Kotlin DSL API with Kotest Assertions
 - **Error Simulation**: Ability to mock negative scenarios and error responses
 
-## Documentation Sections
-
-- [Getting Started](docs/getting-started/)
-- [Mokksy](docs/mokksy/)
-- [AI-Mocks OpenAI](docs/ai-mocks-openai/)
-- [AI-Mocks Anthropic](docs/ai-mocks-anthropic/)
-- [API Reference](api/)

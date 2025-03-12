@@ -1,5 +1,6 @@
 #repo = "https://github.com/kpavlov/ai-mocks
 #logo = "/mokksy-mascot-256.png"
+uniqueHomePage = false
 
 repo = "https://github.com/kpavlov/ai-mocks"
 
@@ -13,3 +14,14 @@ on = true
 global = false # turn to `true` to enable global search
 [search.algolia]
 enable = true # if false search will default to fusejs
+
+# Site logo
+[logo]
+lightMode = "mokksy-mascot-256.png"
+darkMode = "mokksy-mascot-256.png"
+
+[source]
+name = "GitHub"
+iconLight = "images/GitHubMarkLight.svg"
+iconDark = "images/GitHubMarkDark.svg"
+url = "https://github.com/kpavlov/ai-mocks"

@@ -1,11 +1,10 @@
 ---
 title: "Mokksy"
 weight: 20
+#toc: true
+#featureImage: "mokksy-mascot-256.png"
 ---
-
 _Mokksy_ is a mock HTTP server built with [Kotlin](https://kotlinlang.org/) and [Ktor](https://ktor.io/).
-
-![Mokksy Mascot](../../mokksy-mascot-256.png)
 
 **Why?** Wiremock does not support true SSE and streaming responses. Mokksy is here to address those limitations. It's particularly useful for integration testing LLM clients.
 
@@ -15,6 +14,32 @@ _Mokksy_ is a mock HTTP server built with [Kotlin](https://kotlinlang.org/) and 
 - Built with [Kotest Assertions](https://kotest.io/docs/assertions/assertions.html)
 - Fluent modern Kotlin DSL API
 - Support for simulating streamed responses and [Server-Side Events (SSE)](https://html.spec.whatwg.org/multipage/server-sent-events.html)
+
+## Basic Usage
+
+### Creating Mokksy Server
+
+```kotlin
+// Create a Mokksy instance
+val mokksy = Mokksy()
+
+// Configure a response for a GET request
+mokksy.get {
+  path = beEqual("/ping")
+} respondsWith {
+  body = """{"response": "Pong"}"""
+}
+
+// Start the server
+mokksy.start()
+
+// Use the server URL in your client
+val serverUrl = mokksy.serverUrl
+
+// Stop the server when done
+mokksy.stop()
+```
+
 
 ## Responding with Predefined Responses
 

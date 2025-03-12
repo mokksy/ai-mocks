@@ -1,0 +1,16 @@
+#  menu items
+[[main]]
+name = "Documentation"
+weight = 2
+url = "docs/"
+
+[[main]]
+  name = "API Reference"
+  weight = 3
+  url = "/ai-mocks/api/"
+
+[[main]]
+  name = "GitHub"
+  weight = 4
+  url = "https://github.com/kpavlov/ai-mocks"
+

@@ -1,6 +1,7 @@
 ---
-title: "AI-Mocks OpenAI"
-weight: 30
+title: "OpenAI"
+#weight: 30
+toc: true
 ---
 
 AI-Mocks OpenAI is a specialized mock server implementation for mocking the OpenAI API, built using Mokksy.
