@@ -2,3 +2,6 @@
 	path = docs/themes/hugo-book
 	url = https://github.com/alex-shpak/hugo-book.git
 	shallow = true
+[submodule "docs/themes/compose"]
+	path = docs/themes/compose
+	url = https://github.com/onweru/compose.git

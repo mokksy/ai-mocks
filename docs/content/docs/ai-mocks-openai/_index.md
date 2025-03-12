@@ -3,8 +3,6 @@ title: "AI-Mocks OpenAI"
 weight: 30
 ---
 
-# AI-Mocks OpenAI
-
 AI-Mocks OpenAI is a specialized mock server implementation for mocking the OpenAI API, built using Mokksy.
 
 `MockOpenai` is tested against official [openai-java SDK](https://github.com/openai/openai-java) and popular JVM AI
@@ -18,19 +16,22 @@ and [Streaming ChatCompletion](https://platform.openai.com/docs/api-reference/ch
 
 Add Dependency Include the library in your test dependencies (Maven or Gradle).
 
-Maven:
-```
-<dependency>
-    <groupId>me.kpavlov.aimocks</groupId>
-    <artifactId>ai-mocks-openai-jvm</artifactId>
-    <version>[LATEST_VERSION]</version>
-</dependency>
-```
-
-Gradle:
+{{< tabs "dependencies" >}}
+{{< tab "Gradle" >}}
 ```kotlin
 implementation("me.kpavlov.aimocks:ai-mocks-openai-jvm:$latestVersion")
 ```
+    {{< /tab >}}
+    {{< tab "Maven" >}}
+```xml
+<dependency>
+  <groupId>me.kpavlov.aimocks</groupId>
+  <artifactId>ai-mocks-openai-jvm</artifactId>
+  <version>[LATEST_VERSION]</version>
+</dependency>
+```
+    {{< /tab >}}
+    {{< /tabs >}}
 
 ## Basic Usage
 

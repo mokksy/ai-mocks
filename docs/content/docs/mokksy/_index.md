@@ -3,8 +3,6 @@ title: "Mokksy"
 weight: 20
 ---
 
-# Mokksy
-
 _Mokksy_ is a mock HTTP server built with [Kotlin](https://kotlinlang.org/) and [Ktor](https://ktor.io/).
 
 ![Mokksy Mascot](../../mokksy-mascot-256.png)

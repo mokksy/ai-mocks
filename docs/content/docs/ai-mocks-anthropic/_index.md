@@ -3,8 +3,6 @@ title: "AI-Mocks Anthropic"
 weight: 40
 ---
 
-# AI-Mocks Anthropic
-
 [MockAnthropic](https://github.com/kpavlov/ai-mocks/blob/main/ai-mocks-anthropic/src/commonMain/kotlin/me/kpavlov/aimocks/anthropic/MockAnthropic.kt) provides a local mock server for simulating [Anthropic API endpoints](https://docs.anthropic.com/en/api). It simplifies testing by allowing you to define request expectations and responses without making real network calls.
 
 ## Quick Start
@@ -12,18 +10,23 @@ weight: 40
 1. **Add Dependency**
    Include the library in your test dependencies (Maven or Gradle).
 
-    Maven:
-    ```
-    <dependency>
-        <groupId>me.kpavlov.aimocks</groupId>
-        <artifactId>ai-mocks-anthropic-jvm</artifactId>
-        <version>[LATEST_VERSION]</version>
-    </dependency>
-    ```
-   Gradle:
-    ```kotlin
-    implementation("me.kpavlov.aimocks:ai-mocks-anthropic-jvm:$latestVersion")
-    ```
+    {{< tabs "dependencies" >}}
+    {{< tab "Gradle" >}}
+```kotlin
+implementation("me.kpavlov.aimocks:ai-mocks-anthropic-jvm:$latestVersion")
+```
+    {{< /tab >}}
+    {{< tab "Maven" >}}
+```xml
+<dependency>
+    <groupId>me.kpavlov.aimocks</groupId>
+    <artifactId>ai-mocks-anthropic-jvm</artifactId>
+    <version>[LATEST_VERSION]</version>
+</dependency>
+```
+    {{< /tab >}}
+    {{< /tabs >}}
+
 
 2. **Initialize the Server**
    ```kotlin

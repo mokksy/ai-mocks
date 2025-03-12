@@ -1,0 +1,15 @@
+#repo = "https://github.com/kpavlov/ai-mocks
+#logo = "/mokksy-mascot-256.png"
+
+repo = "https://github.com/kpavlov/ai-mocks"
+
+# Defaults to true if not set
+# Enable copyRight Footer Stamp. Takes in attribution
+enableCopyright = false
+
+# search
+[search]
+on = true
+global = false # turn to `true` to enable global search
+[search.algolia]
+enable = true # if false search will default to fusejs
