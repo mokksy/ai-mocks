@@ -13,6 +13,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.InterruptedIOException;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Random;
 
 import static dev.langchain4j.data.message.UserMessage.userMessage;
@@ -66,9 +67,7 @@ class Lc4jChatModelErrorsTest {
                 """
                 .formatted(type, errorMessage);
 
-        MOCK.messages(req -> {
-                req.userMessageContains(question);
-            })
+        MOCK.messages(req -> req.userMessageContains(question))
             .respondsError(res -> {
                 res.setBody(responseBody);
                 res.setHttpStatus(HttpStatusCode.Companion.fromValue(httpStatusCode));
@@ -91,9 +90,7 @@ class Lc4jChatModelErrorsTest {
     void shouldHandleTimeout() {
         // given
         final var question = "Simulate timeout";
-        MOCK.messages(req -> {
-                req.userMessageContains(question);
-            })
+        MOCK.messages(req -> req.userMessageContains(question))
             .respondsError(res -> {
                 res.delayMillis(TIMEOUT.plusMillis(100).toMillis());
                 res.setHttpStatus(HttpStatusCode.Companion.getNoContent());
@@ -104,6 +101,6 @@ class Lc4jChatModelErrorsTest {
             // when
             .isThrownBy(() -> model.chat(
                 ChatRequest.builder().messages(userMessage(question)).build()))
-            .satisfies(ex -> assertThat(ex).hasStackTraceContaining("Read timed out"));
+            .satisfies(ex -> assertThat(ex.getCause()).hasCauseInstanceOf(InterruptedIOException.class));
     }
 }

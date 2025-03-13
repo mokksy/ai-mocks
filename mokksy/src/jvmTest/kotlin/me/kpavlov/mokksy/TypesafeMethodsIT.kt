@@ -190,8 +190,6 @@ internal class TypesafeMethodsIT : AbstractIT() {
                     this.containsHeader("Foo", "bar")
                 }.respondsWith(String::class) {
                     fail("✋🛑 Should not be called")
-                    httpStatus = HttpStatusCode.OK
-                    body = "Hello"
                 }
             // when
             val result = client.get(uri)
