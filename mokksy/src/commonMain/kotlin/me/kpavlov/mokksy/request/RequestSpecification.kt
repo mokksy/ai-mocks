@@ -7,6 +7,7 @@ import io.ktor.http.HttpMethod
 import io.ktor.server.application.log
 import io.ktor.server.plugins.BadRequestException
 import io.ktor.server.request.ApplicationRequest
+import io.ktor.server.request.ContentTransformationException
 import io.ktor.server.request.httpMethod
 import io.ktor.server.request.path
 import io.ktor.server.request.receive
@@ -75,6 +76,16 @@ public open class RequestSpecification<P : Any>(
                     .test(body)
                     .passed()
             }
+        } catch (e: ContentTransformationException) {
+            request.call.application.log
+                .debug(
+                    "Request payload can not be transformed to {}: {}. Request body: {}",
+                    requestType,
+                    e.message,
+                    request.call.receiveText(),
+                    e,
+                )
+            false
         } catch (e: BadRequestException) {
             request.call.application.log
                 .debug(

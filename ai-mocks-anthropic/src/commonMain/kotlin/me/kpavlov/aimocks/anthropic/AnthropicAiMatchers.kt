@@ -2,6 +2,7 @@ package me.kpavlov.aimocks.anthropic
 
 import com.anthropic.models.MessageCreateParams
 import com.anthropic.models.MessageParam
+import com.anthropic.models.TextBlockParam
 import io.kotest.matchers.Matcher
 import io.kotest.matchers.MatcherResult
 import kotlin.jvm.optionals.getOrNull
@@ -15,7 +16,8 @@ internal object AnthropicAiMatchers {
                         value
                             .system()
                             .getOrNull()
-                            ?.asString()
+                            ?.string()
+                            ?.getOrNull()
                             ?.contains(string) == true,
                     { "System message should contain \"$string\"" },
                     { "System message should not contain \"$string\"" },
@@ -26,18 +28,27 @@ internal object AnthropicAiMatchers {
 
     fun userMessageContains(string: String): Matcher<MessageCreateParams.Body?> =
         object : Matcher<MessageCreateParams.Body?> {
-            override fun test(value: MessageCreateParams.Body?): MatcherResult =
-                MatcherResult(
-                    value != null &&
-                        value
-                            .messages()
-                            .find { it.role() == MessageParam.Role.USER }
-                            ?.content()
-                            ?.asString()
-                            ?.contains(string) == true,
+            override fun test(value: MessageCreateParams.Body?): MatcherResult {
+                val content = findUserMessageContent(value)
+                val result: Boolean =
+                    content != null &&
+                        findTextContent(content) {
+                            it?.text()?.contains(string) == true
+                        } != null
+                return MatcherResult(
+                    result,
                     { "User message should contain \"$string\"" },
                     { "User message should not contain \"$string\"" },
                 )
+            }
+
+            private fun findUserMessageContent(
+                value: MessageCreateParams.Body?,
+            ): MessageParam.Content? =
+                value
+                    ?.messages()
+                    ?.find { it.role() == MessageParam.Role.USER }
+                    ?.content()
 
             override fun toString(): String = "User message should contain \"$string\""
         }
@@ -58,4 +69,14 @@ internal object AnthropicAiMatchers {
 
             override fun toString(): String = "metadata.user_id should be \"$userId\""
         }
+
+    private fun findTextContent(
+        content: MessageParam.Content?,
+        predicate: (TextBlockParam?) -> Boolean,
+    ): TextBlockParam? =
+        content
+            ?.blockParams()
+            ?.getOrNull()
+            ?.mapNotNull { it.text().getOrNull() }
+            ?.firstOrNull(predicate)
 }

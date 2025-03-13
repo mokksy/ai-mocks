@@ -49,6 +49,7 @@ ktor-server-sse = { module = "io.ktor:ktor-server-sse", version.ref = "ktor" }
 langchain4j-bom = { group = "dev.langchain4j", name = "langchain4j-bom", version.ref = "langchain4j" }
 langchain4j-kotlin = { group = "me.kpavlov.langchain4j.kotlin", name = "langchain4j-kotlin", version.ref = "langchain4jKotlin" }
 langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai", version.ref = "langchain4j" }
+langchain4j-anthropic = { group = "dev.langchain4j", name = "langchain4j-anthropic", version.ref = "langchain4j" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-dsl = { module = "io.mockk:mockk-dsl", version.ref = "mockk" }
 netty = { group = "io.netty", name = "netty-handler", version.ref = "netty" }
