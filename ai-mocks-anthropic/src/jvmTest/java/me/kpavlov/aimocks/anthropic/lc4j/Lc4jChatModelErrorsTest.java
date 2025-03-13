@@ -81,7 +81,7 @@ class Lc4jChatModelErrorsTest {
             });
 
         // when-then
-        assertThatExceptionOfType(RuntimeException.class)
+        assertThatExceptionOfType(AnthropicHttpException.class)
             // when
             .isThrownBy(() -> model.chat(
                 ChatRequest.builder().messages(
@@ -89,10 +89,8 @@ class Lc4jChatModelErrorsTest {
                     userMessage(question)
                 ).build()))
             .satisfies(ex -> {
-                final var cause = ex.getCause();
-                assertThat(cause).isInstanceOf(AnthropicHttpException.class);
-                final var anthropicHttpException = (AnthropicHttpException) cause;
-                assertThat(anthropicHttpException.statusCode()).as("statusCode").isEqualTo(httpStatusCode);
+                assertThat(ex.statusCode()).as("statusCode").isEqualTo(httpStatusCode);
+                assertThat(ex.getMessage()).as("message").isEqualTo(responseBody);
             });
     }
 
