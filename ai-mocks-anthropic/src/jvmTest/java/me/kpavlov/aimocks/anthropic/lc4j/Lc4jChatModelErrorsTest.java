@@ -6,15 +6,12 @@ import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.request.ChatRequest;
 import io.ktor.http.HttpStatusCode;
 import me.kpavlov.aimocks.anthropic.MockAnthropic;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.io.InterruptedIOException;
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.Random;
 
 import static dev.langchain4j.data.message.UserMessage.userMessage;
 import static dev.langchain4j.model.anthropic.AnthropicChatModelName.CLAUDE_3_5_HAIKU_20241022;
@@ -36,6 +33,11 @@ class Lc4jChatModelErrorsTest {
         .logRequests(true)
         .logResponses(true)
         .build();
+
+    @AfterEach
+    void afterEach() {
+        MOCK.verifyNoUnmatchedRequests();
+    }
 
     /**
      * See <a href="https://docs.anthropic.com/en/api/errors#http-errors">Anthropic HTTP errors</a>
@@ -71,7 +73,7 @@ class Lc4jChatModelErrorsTest {
         MOCK.messages(req -> req.userMessageContains(question))
             .respondsError(res -> {
                 res.setBody(responseBody);
-                res.setHttpStatus(HttpStatusCode.Companion.fromValue(httpStatusCode));
+                res.httpStatus(httpStatusCode);
             });
 
         // when-then

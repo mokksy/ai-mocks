@@ -48,6 +48,10 @@ public abstract class AbstractResponseDefinitionBuilder<P, T>(
         this.delay = millis.milliseconds
     }
 
+    public fun httpStatus(status: Int) {
+        this.httpStatus = HttpStatusCode.fromValue(status)
+    }
+
     /**
      * Abstract method to build a concrete response definition.
      *
