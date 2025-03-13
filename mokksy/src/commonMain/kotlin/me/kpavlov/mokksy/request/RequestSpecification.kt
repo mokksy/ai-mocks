@@ -56,12 +56,14 @@ public open class RequestSpecification<P : Any>(
 ) {
     internal fun priority(): Int = priority ?: DEFAULT_STUB_PRIORITY
 
-    public suspend fun matches(request: ApplicationRequest): Boolean =
-        (method == null || method.test(request.httpMethod).passed()) &&
-            (path == null || path.test(request.path()).passed()) &&
-            matchHeaders(headers, request) &&
-            matchBody(body, request) &&
-            matchBodyString(bodyString, request)
+    public suspend fun matches(request: ApplicationRequest): Result<Boolean> =
+        runCatching {
+            (method == null || method.test(request.httpMethod).passed()) &&
+                (path == null || path.test(request.path()).passed()) &&
+                matchHeaders(headers, request) &&
+                matchBody(body, request) &&
+                matchBodyString(bodyString, request)
+        }
 
     protected suspend fun matchBody(
         matchers: List<Matcher<P?>>,

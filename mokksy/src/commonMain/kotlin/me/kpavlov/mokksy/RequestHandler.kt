@@ -31,8 +31,22 @@ internal suspend fun handleRequest(
     )
     val matchedStub: Stub<*, *>? =
         stubs
-            .filter {
-                it.requestSpecification.matches(request)
+            .filter { stub ->
+                val result =
+                    stub.requestSpecification
+                        .matches(request)
+                        .onFailure {
+                            if (configuration.verbose) {
+                                application.log.warn(
+                                    "Failed to evaluate condition for stub:\n---\n{}\n---" +
+                                        "\nand request:\n---\n{}\n---",
+                                    stub.toLogString(),
+                                    printRequest(request),
+                                    it,
+                                )
+                            }
+                        }
+                result.getOrNull() == true
             }.minWithOrNull(StubComparator)
 
     if (matchedStub != null) {
