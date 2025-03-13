@@ -4,12 +4,15 @@ import com.anthropic.models.MessageCreateParams
 import com.anthropic.models.Metadata
 import io.kotest.matchers.shouldBe
 import me.kpavlov.aimocks.anthropic.anthropic
+import kotlin.jvm.optionals.getOrNull
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class MessagesTest : AbstractAnthropicTest() {
     @Test
     fun `Should respond`() {
+        val messageIdValue = "msg_" + System.currentTimeMillis()
+
         anthropic.messages {
             temperature = 0.42
             model = "claude-3-7-sonnet-latest"
@@ -18,8 +21,9 @@ internal class MessagesTest : AbstractAnthropicTest() {
             systemMessageContains("helpful assistant #$userIdValue")
             userMessageContains("say 'Hello!'")
         } responds {
+            messageId = messageIdValue
             assistantContent = "Hello"
-            delay = 100.milliseconds
+            delay = 50.milliseconds
         }
 
         val params =
@@ -38,13 +42,16 @@ internal class MessagesTest : AbstractAnthropicTest() {
                 .messages()
                 .create(params)
 
-        val response =
-            result
-                .content()
-                .first()
-                .asText()
-                .text()
+        val message = result.validate()
 
-        response shouldBe "Hello"
+        message.id() shouldBe messageIdValue
+        val text =
+            message
+                .content()
+                .mapNotNull { it.text().getOrNull() }
+                .map { it.text() }
+                .first()
+
+        text shouldBe "Hello"
     }
 }
