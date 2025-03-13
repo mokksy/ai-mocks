@@ -7,6 +7,7 @@ import me.kpavlov.aimocks.anthropic.StreamingResponseHelper.randomIdString
 import me.kpavlov.aimocks.core.ChatResponseSpecification
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 @Suppress("LongParameterList")
 public class AnthropicMessagesResponseSpecification(
@@ -23,6 +24,11 @@ public class AnthropicMessagesResponseSpecification(
         apply {
             this.assistantContent =
                 content
+        }
+
+    public fun delayMillis(value: Long): AnthropicMessagesResponseSpecification =
+        apply {
+            this.delay = value.milliseconds
         }
 
     public fun finishReason(finishReason: String): AnthropicMessagesResponseSpecification =

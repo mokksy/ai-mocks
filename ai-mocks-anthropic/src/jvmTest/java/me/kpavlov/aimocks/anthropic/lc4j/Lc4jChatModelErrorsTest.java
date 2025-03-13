@@ -4,7 +4,6 @@ import dev.langchain4j.model.anthropic.AnthropicChatModel;
 import dev.langchain4j.model.anthropic.internal.client.AnthropicHttpException;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.request.ChatRequest;
-import io.ktor.http.HttpStatusCode;
 import me.kpavlov.aimocks.anthropic.MockAnthropic;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -104,9 +103,9 @@ class Lc4jChatModelErrorsTest {
                 req.userMessageContains(question);
                 req.requestBodyContains(question);
             })
-            .respondsError(res -> {
+            .responds(res -> {
                 res.delayMillis(TIMEOUT.plusMillis(100).toMillis());
-                res.setHttpStatus(HttpStatusCode.Companion.getNoContent());
+                res.assistantContent("You should never see this");
             });
 
         // when-then
