@@ -14,27 +14,27 @@ internal class MessagesTest : AbstractAnthropicTest() {
         val messageIdValue = "msg_" + System.currentTimeMillis()
 
         anthropic.messages {
-            temperature = 0.42
-            model = "claude-3-7-sonnet-latest"
-            maxCompletionTokens = 100
+            temperature = temperatureValue
+            model = modelName
+            maxCompletionTokens = maxCompletionTokensValue
             userId = userIdValue
-            systemMessageContains("helpful assistant #$userIdValue")
-            userMessageContains("say 'Hello!'")
+            systemMessageContains("witch")
+            userMessageContains("say 'He-he!'")
         } responds {
             messageId = messageIdValue
-            assistantContent = "Hello"
+            assistantContent = "He-he!"
             delay = 50.milliseconds
         }
 
         val params =
             MessageCreateParams
                 .builder()
-                .temperature(0.42)
-                .maxTokens(100)
+                .temperature(temperatureValue)
+                .maxTokens(maxCompletionTokensValue)
                 .metadata(Metadata.builder().userId(userIdValue).build())
-                .system("You are a helpful assistant #$userIdValue")
-                .addUserMessage("Just say 'Hello!' and nothing else")
-                .model("claude-3-7-sonnet-latest")
+                .system("You are witch")
+                .addUserMessage("Just say 'He-he!' and nothing else")
+                .model(modelName)
                 .build()
 
         val result =
@@ -52,6 +52,6 @@ internal class MessagesTest : AbstractAnthropicTest() {
                 .map { it.text() }
                 .first()
 
-        text shouldBe "Hello"
+        text shouldBe "He-he!"
     }
 }
