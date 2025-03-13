@@ -25,7 +25,7 @@ public open class SseStreamResponseDefinition<P>(
             SSEServerContent(call) {
                 theFlow.collect {
                     if (verbose) {
-                        call.application.log.debug("Sending: {}", it)
+                        call.application.log.debug("Sending {}: {}", httpStatus, it)
                     }
                     send(it)
                 }
