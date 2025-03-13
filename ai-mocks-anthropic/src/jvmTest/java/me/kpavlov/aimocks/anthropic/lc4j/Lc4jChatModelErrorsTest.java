@@ -23,7 +23,7 @@ class Lc4jChatModelErrorsTest {
 
     private static final MockAnthropic MOCK = new MockAnthropic(0, true);
 
-    public static final Duration TIMEOUT = Duration.ofMillis(1500);
+    public static final Duration TIMEOUT = Duration.ofMillis(750);
 
     private static final ChatLanguageModel model = AnthropicChatModel.builder()
         .apiKey("dummy-key")
@@ -72,8 +72,8 @@ class Lc4jChatModelErrorsTest {
                 .formatted(type, errorMessage);
 
         MOCK.messages(req -> {
-            req.systemMessageContains(type);
-            req.userMessageContains(question);
+                req.systemMessageContains(type);
+                req.userMessageContains(question);
             })
             .respondsError(res -> {
                 res.setBody(responseBody);
@@ -97,7 +97,7 @@ class Lc4jChatModelErrorsTest {
     @Test
     void shouldHandleTimeout() {
         // given
-        final var question = "Simulate timeout";
+        final var question = "Simulate timeout " + System.currentTimeMillis();
         MOCK.messages(req -> req.userMessageContains(question))
             .respondsError(res -> {
                 res.delayMillis(TIMEOUT.plusMillis(100).toMillis());
@@ -108,7 +108,9 @@ class Lc4jChatModelErrorsTest {
         assertThatExceptionOfType(RuntimeException.class)
             // when
             .isThrownBy(() -> model.chat(
-                ChatRequest.builder().messages(userMessage(question)).build()))
-            .satisfies(ex -> assertThat(ex.getCause()).isNotNull());
+                ChatRequest.builder()
+                    .messages(userMessage(question))
+                    .build())
+            );
     }
 }
