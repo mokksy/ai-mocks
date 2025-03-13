@@ -38,7 +38,7 @@ class AnthropicAiMatchersTest {
     }
 
     @Test
-    fun `should parse multiple user messages`() {
+    fun `should parse multiple messages`() {
         test(
             // language=json
             """
@@ -54,6 +54,7 @@ class AnthropicAiMatchersTest {
               "stream" : false
             }""",
         ) { body ->
+
             userMessageContains("Hello there.").test(body).passed() shouldBe true
             userMessageContains("Can you explain LLMs").test(body).passed() shouldBe true
         }
@@ -101,11 +102,15 @@ class AnthropicAiMatchersTest {
                   {"type": "text", "text": "What is in this image?"}
                 ]}
                ],
-              "system" : [ ],
+               "system" : [ {
+                "type" : "text",
+                "text" : "Let's test"
+              } ],
               "max_tokens" : 20,
               "stream" : false
             }""",
         ) { body ->
+            systemMessageContains("test").test(body).passed() shouldBe true
             userMessageContains("What is in this image?").test(body).passed() shouldBe true
         }
     }

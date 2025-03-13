@@ -13,6 +13,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.time.Duration;
 
+import static dev.langchain4j.data.message.SystemMessage.systemMessage;
 import static dev.langchain4j.data.message.UserMessage.userMessage;
 import static dev.langchain4j.model.anthropic.AnthropicChatModelName.CLAUDE_3_5_HAIKU_20241022;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -70,7 +71,10 @@ class Lc4jChatModelErrorsTest {
                 """
                 .formatted(type, errorMessage);
 
-        MOCK.messages(req -> req.userMessageContains(question))
+        MOCK.messages(req -> {
+            req.systemMessageContains(type);
+            req.userMessageContains(question);
+            })
             .respondsError(res -> {
                 res.setBody(responseBody);
                 res.httpStatus(httpStatusCode);
@@ -80,7 +84,10 @@ class Lc4jChatModelErrorsTest {
         assertThatExceptionOfType(RuntimeException.class)
             // when
             .isThrownBy(() -> model.chat(
-                ChatRequest.builder().messages(userMessage(question)).build()))
+                ChatRequest.builder().messages(
+                    systemMessage("Let's test " + type),
+                    userMessage(question)
+                ).build()))
             .satisfies(ex -> {
                 final var cause = ex.getCause();
                 assertThat(cause).isInstanceOf(AnthropicHttpException.class);

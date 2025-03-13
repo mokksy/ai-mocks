@@ -11,13 +11,21 @@ internal object AnthropicAiMatchers {
         object : Matcher<MessageCreateParams.Body?> {
             override fun test(value: MessageCreateParams.Body?): MatcherResult {
                 val passed =
-                    value != null &&
-                        value
-                            .system()
-                            .getOrNull()
-                            ?.string()
-                            ?.getOrNull()
-                            ?.contains(string) == true
+                    if (value == null) {
+                        false
+                    } else if (value.system().isPresent) {
+                        val system = value.system().orElseThrow()
+                        if (system.isString()) {
+                            system.asString().contains(string) == true
+                        } else if (system.isTextBlockParams()) {
+                            system.asTextBlockParams().any { it.text().contains(string) }
+                        } else {
+                            false
+                        }
+                    } else {
+                        false
+                    }
+
                 return MatcherResult(
                     passed,
                     { "System message should contain \"$string\"" },
