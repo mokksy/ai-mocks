@@ -1,7 +1,5 @@
 package me.kpavlov.aimocks.anthropic.official
 
-import com.anthropic.client.AnthropicClient
-import com.anthropic.client.okhttp.AnthropicOkHttpClient
 import com.anthropic.models.MessageCreateParams
 import com.anthropic.models.Metadata
 import io.kotest.matchers.shouldBe
@@ -12,14 +10,6 @@ import kotlin.time.Duration.Companion.milliseconds
 internal class MessagesTest : AbstractAnthropicTest() {
     @Test
     fun `Should respond`() {
-        val client: AnthropicClient =
-            AnthropicOkHttpClient
-                .builder()
-                .apiKey("my-anthropic-api-key")
-                .baseUrl(anthropic.baseUrl())
-                .responseValidation(true)
-                .build()
-
         anthropic.messages {
             temperature = 0.42
             model = "claude-3-7-sonnet-latest"
@@ -29,7 +19,7 @@ internal class MessagesTest : AbstractAnthropicTest() {
             userMessageContains("say 'Hello!'")
         } responds {
             assistantContent = "Hello"
-            delay = 200.milliseconds
+            delay = 100.milliseconds
         }
 
         val params =
