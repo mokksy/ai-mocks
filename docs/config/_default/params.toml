@@ -17,8 +17,8 @@ enable = true # if false search will default to fusejs
 
 # Site logo
 [logo]
-lightMode = "mokksy-mascot-256.png"
-darkMode = "mokksy-mascot-256.png"
+lightMode = "mokksy-logo.png"
+darkMode = "mokksy-logo.png"
 
 [source]
 name = "GitHub"
