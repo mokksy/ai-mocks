@@ -9,31 +9,37 @@ import kotlin.jvm.optionals.getOrNull
 internal object AnthropicAiMatchers {
     fun systemMessageContains(string: String): Matcher<MessageCreateParams.Body?> =
         object : Matcher<MessageCreateParams.Body?> {
-            override fun test(value: MessageCreateParams.Body?): MatcherResult =
-                MatcherResult(
+            override fun test(value: MessageCreateParams.Body?): MatcherResult {
+                val passed =
                     value != null &&
                         value
                             .system()
                             .getOrNull()
                             ?.string()
                             ?.getOrNull()
-                            ?.contains(string) == true,
+                            ?.contains(string) == true
+                return MatcherResult(
+                    passed,
                     { "System message should contain \"$string\"" },
                     { "System message should not contain \"$string\"" },
                 )
+            }
 
             override fun toString(): String = "System message should contain \"$string\""
         }
 
     fun userMessageContains(string: String): Matcher<MessageCreateParams.Body?> =
         object : Matcher<MessageCreateParams.Body?> {
-            override fun test(value: MessageCreateParams.Body?): MatcherResult =
-                MatcherResult(
+            override fun test(value: MessageCreateParams.Body?): MatcherResult {
+                val passed =
                     findUserMessages(value)
-                        .any { checkTextBlockContains(it, string) },
+                        .any { checkTextBlockContains(it, string) }
+                return MatcherResult(
+                    passed,
                     { "User message should contain \"$string\"" },
                     { "User message should not contain \"$string\"" },
                 )
+            }
 
             private fun findUserMessages(
                 value: MessageCreateParams.Body?,

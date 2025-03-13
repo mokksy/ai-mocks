@@ -4,13 +4,14 @@ import com.anthropic.client.AnthropicClient
 import com.anthropic.client.okhttp.AnthropicOkHttpClient
 import com.anthropic.models.MessageCreateParams
 import com.anthropic.models.Metadata
+import io.kotest.matchers.shouldBe
 import me.kpavlov.aimocks.anthropic.anthropic
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class MessagesTest : AbstractAnthropicTest() {
     @Test
-    fun `Should respond with error`() {
+    fun `Should respond`() {
         val client: AnthropicClient =
             AnthropicOkHttpClient
                 .builder()
@@ -54,6 +55,6 @@ internal class MessagesTest : AbstractAnthropicTest() {
                 .asText()
                 .text()
 
-        println("LLM Reponse: $response")
+        response shouldBe "Hello"
     }
 }
