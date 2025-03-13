@@ -100,7 +100,10 @@ class Lc4jChatModelErrorsTest {
     void shouldHandleTimeout() {
         // given
         final var question = "Simulate timeout " + System.currentTimeMillis();
-        MOCK.messages(req -> req.userMessageContains(question))
+        MOCK.messages(req -> {
+                req.userMessageContains(question);
+                req.requestBodyContains(question);
+            })
             .respondsError(res -> {
                 res.delayMillis(TIMEOUT.plusMillis(100).toMillis());
                 res.setHttpStatus(HttpStatusCode.Companion.getNoContent());
