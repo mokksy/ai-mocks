@@ -49,6 +49,7 @@ tasks.withType<KotlinCompile>().configureEach {
         freeCompilerArgs =
             listOf(
                 "-Xjvm-default=all",
+                "-Wextra",
             )
     }
 }
