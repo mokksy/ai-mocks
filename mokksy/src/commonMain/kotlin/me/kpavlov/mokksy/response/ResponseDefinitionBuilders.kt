@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import me.kpavlov.mokksy.CapturedRequest
 import java.util.Collections
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Represents a base abstraction for defining the attributes of an HTTP response in the context of
@@ -21,6 +22,7 @@ import kotlin.time.Duration
 public abstract class AbstractResponseDefinitionBuilder<P, T>(
     public var httpStatus: HttpStatusCode,
     public val headers: MutableList<Pair<String, String>>,
+    public var delay: Duration = Duration.ZERO,
 ) {
     /**
      * A lambda function for configuring additional response headers.
@@ -35,6 +37,15 @@ public abstract class AbstractResponseDefinitionBuilder<P, T>(
      */
     public fun headers(block: ResponseHeaders.() -> Unit) {
         this.headersLambda = block
+    }
+
+    /**
+     * Sets a delay for the response in milliseconds.
+     *
+     * @param millis The delay duration in milliseconds before the response is sent.
+     */
+    public fun delayMillis(millis: Long) {
+        this.delay = millis.milliseconds
     }
 
     /**
@@ -63,7 +74,6 @@ public open class ResponseDefinitionBuilder<P : Any, T : Any>(
     public val request: CapturedRequest<P>,
     public var contentType: ContentType? = null,
     public var body: T? = null,
-    public var delay: Duration = Duration.ZERO,
     httpStatus: HttpStatusCode = HttpStatusCode.OK,
     headers: MutableList<Pair<String, String>> = mutableListOf(),
 ) : AbstractResponseDefinitionBuilder<P, T>(httpStatus = httpStatus, headers = headers) {
@@ -96,7 +106,6 @@ public open class StreamingResponseDefinitionBuilder<P : Any, T>(
     public var flow: Flow<T>? = null,
     public var chunks: MutableList<T> = mutableListOf(),
     public var delayBetweenChunks: Duration = Duration.ZERO,
-    public var delay: Duration = Duration.ZERO,
     httpStatus: HttpStatusCode = HttpStatusCode.OK,
     headers: MutableList<Pair<String, String>> = mutableListOf(),
 ) : AbstractResponseDefinitionBuilder<P, T>(httpStatus = httpStatus, headers = headers) {

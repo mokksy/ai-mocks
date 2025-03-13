@@ -49,7 +49,7 @@ public open class ResponseDefinition<P, T>(
         }
         call.respond(
             status = httpStatus,
-            message = body as Any,
+            message = body ?: "" as Any,
         )
     }
 }
