@@ -102,7 +102,6 @@ class Lc4jChatModelErrorsTest {
         final var question = "Simulate timeout " + System.currentTimeMillis();
         MOCK.messages(req -> {
                 req.userMessageContains(question);
-                req.requestBodyContains(question);
             })
             .responds(res -> {
                 res.delayMillis(TIMEOUT.plusMillis(200).toMillis());
@@ -116,6 +115,7 @@ class Lc4jChatModelErrorsTest {
 
         assertThatExceptionOfType(RuntimeException.class)
             // when
-            .isThrownBy(() -> model.chat(chatRequest));
+            .isThrownBy(() -> model.chat(chatRequest))
+            .withMessageContaining("timeout");
     }
 }
