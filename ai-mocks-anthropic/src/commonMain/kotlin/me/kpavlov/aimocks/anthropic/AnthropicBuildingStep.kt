@@ -1,12 +1,12 @@
 package me.kpavlov.aimocks.anthropic
 
 import com.anthropic.core.JsonValue
-import com.anthropic.models.ContentBlock
-import com.anthropic.models.Message
-import com.anthropic.models.MessageCreateParams
-import com.anthropic.models.MessageParam
-import com.anthropic.models.TextBlock
-import com.anthropic.models.Usage
+import com.anthropic.models.messages.ContentBlock
+import com.anthropic.models.messages.Message
+import com.anthropic.models.messages.MessageCreateParams
+import com.anthropic.models.messages.MessageParam
+import com.anthropic.models.messages.TextBlock
+import com.anthropic.models.messages.Usage
 import io.ktor.sse.ServerSentEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -42,7 +42,7 @@ public class AnthropicBuildingStep(
                 AnthropicMessagesResponseSpecification(responseDefinition)
             block.invoke(chatResponseSpecification)
             val assistantContent = chatResponseSpecification.assistantContent
-            val finishReason = chatResponseSpecification.finishReason
+            val stopReason = chatResponseSpecification.stopReason
             val completionTokens = LongRange(1, 10).random()
             delay = chatResponseSpecification.delay
 
@@ -64,7 +64,7 @@ public class AnthropicBuildingStep(
                             ),
                         ),
                     ).stopSequence(null)
-                    .stopReason(Message.StopReason.of(finishReason))
+                    .stopReason(Message.StopReason.of(stopReason))
                     .usage(
                         Usage
                             .builder()
@@ -118,19 +118,21 @@ public class AnthropicBuildingStep(
                     id = id,
                     model = request.model().asString(),
                     chunksFlow = chunkFlow,
-                    finishReason = responseSpec.finishReason,
+                    stopReason = responseSpec.stopReason,
                 ).map {
                     "event: ${it.event}\ndata: ${it.data}\n\n"
                 }
         }
     }
 
-    @Suppress("MagicNumber")
+    /**
+     * See [Anthropic example](https://docs.anthropic.com/en/api/messages-streaming#basic-streaming-request)
+     */
     private fun prepareFlow(
         id: Int,
         model: String,
         chunksFlow: Flow<String>,
-        finishReason: String,
+        stopReason: String,
     ): Flow<ServerSentEvent> =
         flow {
             emit(
@@ -155,6 +157,18 @@ public class AnthropicBuildingStep(
                         serializer = serializer,
                     )
                 },
+            )
+            emit(
+                StreamingResponseHelper.createContentBlockStopChunk(
+                    serializer = serializer,
+                ),
+            )
+            emit(
+                StreamingResponseHelper.createMessageDeltaChunk(
+                    stopReason = stopReason,
+                    outputTokens = 100,
+                    serializer = serializer,
+                ),
             )
             emit(
                 StreamingResponseHelper.createMessageStopChunk(

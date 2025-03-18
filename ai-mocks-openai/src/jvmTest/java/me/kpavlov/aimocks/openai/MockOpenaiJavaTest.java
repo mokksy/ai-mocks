@@ -43,9 +43,9 @@ class MockOpenaiJavaTest {
             req.temperature(temperature);
             req.model("gpt-4o-mini");
             req.maxCompletionTokens(maxTokens);
-            req.requestBodyContains("say 'Hello!'");
+            req.requestBodyContains("say 'Hey!'");
         }).responds(response -> {
-            response.assistantContent("Hello");
+            response.assistantContent("Hey!");
             response.finishReason("stop");
             response.delayMillis(42);
         });
@@ -57,13 +57,13 @@ class MockOpenaiJavaTest {
                 List.of(ChatCompletionMessageParam.ofUser(
                     ChatCompletionUserMessageParam.builder()
                         .role(JsonValue.from("user"))
-                        .content("Just say 'Hello!'").build())))
+                        .content("Just say 'Hey!'").build())))
             .model(ChatModel.GPT_4O_MINI)
             .build();
 
         final var result = CLIENT.chat().completions().create(params);
 
-        assertThat(result.choices().get(0).message().content()).hasValue("Hello");
+        assertThat(result.choices().get(0).message().content()).hasValue("Hey!");
     }
 
     @Test

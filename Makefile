@@ -15,6 +15,7 @@ docs:
 	git submodule sync && \
   git submodule update --init --depth=1 && \
 	cd docs && \
+	rm -rf public && \
 	hugo server -D --watch
 
 lint:prepare

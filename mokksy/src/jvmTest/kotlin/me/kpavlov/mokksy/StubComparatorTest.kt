@@ -20,7 +20,7 @@ internal class StubComparatorTest {
     lateinit var config: StubConfiguration
 
     @MockK
-    lateinit var responseDefinitionSupplier: ResponseDefinitionSupplier<Int, String>
+    lateinit var responseDefinitionSupplier: ResponseDefinitionSupplier<String>
 
     @Test
     fun `compare should compare by creationOrder when priorities are equal`() {

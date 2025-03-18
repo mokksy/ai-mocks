@@ -1,12 +1,13 @@
 package me.kpavlov.aimocks.anthropic
 
-import com.anthropic.models.Message
-import com.anthropic.models.MessageCreateParams
+import com.anthropic.models.messages.Message
+import com.anthropic.models.messages.MessageCreateParams
 import kotlinx.coroutines.flow.Flow
 import me.kpavlov.aimocks.anthropic.StreamingResponseHelper.randomIdString
 import me.kpavlov.aimocks.core.ChatResponseSpecification
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 @Suppress("LongParameterList")
 public class AnthropicMessagesResponseSpecification(
@@ -17,7 +18,7 @@ public class AnthropicMessagesResponseSpecification(
     public var responseChunks: List<String>? = null,
     public var delayBetweenChunks: Duration = Duration.ZERO,
     public var delay: Duration = Duration.ZERO,
-    public var finishReason: String = "stop",
+    public var stopReason: String = "end_turn",
 ) : ChatResponseSpecification<MessageCreateParams.Body, Message>(response = response) {
     public fun assistantContent(content: String): AnthropicMessagesResponseSpecification =
         apply {
@@ -25,9 +26,14 @@ public class AnthropicMessagesResponseSpecification(
                 content
         }
 
+    public fun delayMillis(value: Long): AnthropicMessagesResponseSpecification =
+        apply {
+            this.delay = value.milliseconds
+        }
+
     public fun finishReason(finishReason: String): AnthropicMessagesResponseSpecification =
         apply {
-            this.finishReason =
+            this.stopReason =
                 finishReason
         }
 }
@@ -39,7 +45,7 @@ public class AnthropicStreamingChatResponseSpecification(
     public var responseChunks: List<String>? = null,
     public var delayBetweenChunks: Duration = Duration.ZERO,
     public var delay: Duration = Duration.ZERO,
-    public var finishReason: String = "stop",
+    public var stopReason: String = "end_turn",
     /**
      * Should send `[DONE]` at the end.
      */

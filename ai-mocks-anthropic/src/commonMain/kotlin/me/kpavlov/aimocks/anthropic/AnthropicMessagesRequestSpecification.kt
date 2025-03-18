@@ -1,6 +1,6 @@
 package me.kpavlov.aimocks.anthropic
 
-import com.anthropic.models.MessageCreateParams
+import com.anthropic.models.messages.MessageCreateParams
 import me.kpavlov.aimocks.core.ChatRequestSpecification
 
 public open class AnthropicMessagesRequestSpecification(

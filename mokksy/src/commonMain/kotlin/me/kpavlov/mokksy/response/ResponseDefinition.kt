@@ -45,7 +45,7 @@ public open class ResponseDefinition<P, T>(
             delay(delay)
         }
         if (verbose) {
-            call.application.log.debug("Sending: {}", body)
+            call.application.log.debug("Sending {}: {}", httpStatus, body)
         }
         call.respond(
             status = httpStatus,

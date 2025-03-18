@@ -26,7 +26,7 @@ private val counter = AtomicLong()
 internal data class Stub<P : Any, T : Any>(
     val configuration: StubConfiguration,
     val requestSpecification: RequestSpecification<P>,
-    val responseDefinitionSupplier: ResponseDefinitionSupplier<P, T>,
+    val responseDefinitionSupplier: ResponseDefinitionSupplier<T>,
 ) : Comparable<Stub<*, *>> {
     /**
      * Represents the order of creation for an instance of the containing class.

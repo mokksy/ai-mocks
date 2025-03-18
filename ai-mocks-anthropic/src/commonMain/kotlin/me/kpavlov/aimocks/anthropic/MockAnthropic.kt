@@ -1,7 +1,6 @@
 package me.kpavlov.aimocks.anthropic
 
-import com.anthropic.models.MessageCreateParams
-import io.kotest.assertions.json.containJsonKeyValue
+import com.anthropic.models.messages.MessageCreateParams
 import io.kotest.matchers.equals.beEqual
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiationConfig
 import me.kpavlov.aimocks.core.AbstractMockLlm
@@ -53,12 +52,16 @@ public open class MockAnthropic(
                     body += AnthropicAiMatchers.userIdEquals(it)
                 }
 
+                chatRequestSpec.temperature?.let {
+                    body += AnthropicAiMatchers.temperatureEquals(it)
+                }
+
                 chatRequestSpec.maxCompletionTokens?.let {
-                    bodyString += containJsonKeyValue("max_tokens", it)
+                    body += AnthropicAiMatchers.maxTokensEquals(it)
                 }
 
                 chatRequestSpec.model?.let {
-                    bodyString += containJsonKeyValue("model", it)
+                    body += AnthropicAiMatchers.modelEquals(it)
                 }
 
                 body += chatRequestSpec.requestBody

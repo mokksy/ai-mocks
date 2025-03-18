@@ -6,7 +6,7 @@ import io.ktor.server.application.ApplicationCall
 import io.ktor.server.response.ResponseHeaders
 import kotlin.time.Duration
 
-internal typealias ResponseDefinitionSupplier<P, T> = (
+internal typealias ResponseDefinitionSupplier<T> = (
     ApplicationCall,
 ) -> AbstractResponseDefinition<T>
 

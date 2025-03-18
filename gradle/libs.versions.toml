@@ -12,7 +12,7 @@ kotlinLogging = "7.0.5"
 kotlinx = "1.10.1"
 kover = "0.9.1"
 ktor = "3.1.1"
-langchain4j = "1.0.0-beta1"
+langchain4j = "1.0.0-beta2"
 langchain4jKotlin = "0.1.8"
 mockk = "1.13.17"
 netty = "4.1.119.Final"
@@ -23,7 +23,7 @@ slf4j = "2.0.17"
 spotless = "7.0.2"
 spring = "6.2.3"
 spring-ai = "1.0.0-M6"
-anthropic-java="0.7.0"
+anthropic-java="0.8.0"
 
 [libraries]
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }

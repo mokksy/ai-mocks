@@ -18,15 +18,13 @@ configure<MavenPublishBaseExtension> {
     signAllPublications()
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-    println(
-        """
-            Publishing:
-                groupId: ${project.group}
-                artifactId: ${project.name}
-                version: $version
-                name: ${project.name}
-                description: ${project.description}
-            """,
+    logger.debug(
+        "{}:{}:{} - {}({})",
+        project.group,
+        project.name,
+        version,
+        project.name,
+        project.description,
     )
     coordinates(project.group.toString(), project.name, project.version.toString())
     configure(

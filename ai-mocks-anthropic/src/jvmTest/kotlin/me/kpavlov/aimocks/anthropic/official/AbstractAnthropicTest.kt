@@ -2,10 +2,10 @@ package me.kpavlov.aimocks.anthropic.official
 
 import com.anthropic.client.AnthropicClient
 import com.anthropic.client.okhttp.AnthropicOkHttpClient
-import me.kpavlov.aimocks.anthropic.AbstractMockAnthropicTest
+import me.kpavlov.aimocks.anthropic.AbstractAnthropicIntegraitonTest
 import me.kpavlov.aimocks.anthropic.anthropic
 
-internal abstract class AbstractAnthropicTest : AbstractMockAnthropicTest() {
+internal abstract class AbstractAnthropicTest : AbstractAnthropicIntegraitonTest() {
     protected val client: AnthropicClient =
         AnthropicOkHttpClient
             .builder()

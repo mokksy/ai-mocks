@@ -1,7 +1,7 @@
 package me.kpavlov.aimocks.anthropic.official
 
-import com.anthropic.models.MessageCreateParams
-import com.anthropic.models.Metadata
+import com.anthropic.models.messages.MessageCreateParams
+import com.anthropic.models.messages.Metadata
 import io.kotest.matchers.comparables.shouldBeLessThan
 import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.flow
@@ -16,7 +16,7 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.measureTimedValue
 
-internal class StreamingMessagesTest : AbstractAnthropicTest() {
+internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
     @Test
     fun `Should respond to Streaming Messages Completion with chunk list`() =
         runTest {
@@ -28,7 +28,7 @@ internal class StreamingMessagesTest : AbstractAnthropicTest() {
                 responseChunks = listOf("All", " we", " need", " is", " Love")
                 delay = 50.milliseconds
                 delayBetweenChunks = 10.milliseconds
-                finishReason = "stop"
+                stopReason = "end_turn"
             }
 
             verifyStreamingCall()
@@ -52,7 +52,7 @@ internal class StreamingMessagesTest : AbstractAnthropicTest() {
                     }
                 delay = 60.milliseconds
                 delayBetweenChunks = 15.milliseconds
-                finishReason = "stop"
+                stopReason = "stop"
             }
 
             verifyStreamingCall()

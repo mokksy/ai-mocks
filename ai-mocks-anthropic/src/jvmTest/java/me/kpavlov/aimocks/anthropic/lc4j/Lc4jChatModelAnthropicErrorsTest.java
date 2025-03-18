@@ -4,27 +4,26 @@ import dev.langchain4j.model.anthropic.AnthropicChatModel;
 import dev.langchain4j.model.anthropic.internal.client.AnthropicHttpException;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.request.ChatRequest;
-import io.ktor.http.HttpStatusCode;
 import me.kpavlov.aimocks.anthropic.MockAnthropic;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.io.InterruptedIOException;
 import java.time.Duration;
-import java.util.Random;
 
+import static dev.langchain4j.data.message.SystemMessage.systemMessage;
 import static dev.langchain4j.data.message.UserMessage.userMessage;
 import static dev.langchain4j.model.anthropic.AnthropicChatModelName.CLAUDE_3_5_HAIKU_20241022;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-class Lc4jChatModelErrorsTest {
+class Lc4jChatModelAnthropicErrorsTest {
 
     private static final MockAnthropic MOCK = new MockAnthropic(0, true);
 
-    public static final Duration TIMEOUT = Duration.ofMillis(300);
+    public static final Duration TIMEOUT = Duration.ofSeconds(3);
+
     private static final ChatLanguageModel model = AnthropicChatModel.builder()
         .apiKey("dummy-key")
         .baseUrl(MOCK.baseUrl() + "/v1")
@@ -34,6 +33,11 @@ class Lc4jChatModelErrorsTest {
         .logRequests(true)
         .logResponses(true)
         .build();
+
+    @AfterEach
+    void afterEach() {
+        MOCK.verifyNoUnmatchedRequests();
+    }
 
     /**
      * See <a href="https://docs.anthropic.com/en/api/errors#http-errors">Anthropic HTTP errors</a>
@@ -67,43 +71,51 @@ class Lc4jChatModelErrorsTest {
                 .formatted(type, errorMessage);
 
         MOCK.messages(req -> {
+                req.systemMessageContains(type);
                 req.userMessageContains(question);
             })
             .respondsError(res -> {
                 res.setBody(responseBody);
-                res.setHttpStatus(HttpStatusCode.Companion.fromValue(httpStatusCode));
+                res.httpStatus(httpStatusCode);
             });
 
+
         // when-then
-        assertThatExceptionOfType(RuntimeException.class)
+        final var chatRequest = ChatRequest.builder().messages(
+            systemMessage("Let's test " + type),
+            userMessage(question)
+        ).build();
+
+        assertThatExceptionOfType(AnthropicHttpException.class)
+            .as("Handle Http status code: %s", httpStatusCode)
             // when
-            .isThrownBy(() -> model.chat(
-                ChatRequest.builder().messages(userMessage(question)).build()))
+            .isThrownBy(() -> model.chat(chatRequest))
             .satisfies(ex -> {
-                final var cause = ex.getCause();
-                assertThat(cause).isInstanceOf(AnthropicHttpException.class);
-                final var anthropicHttpException = (AnthropicHttpException) cause;
-                assertThat(anthropicHttpException.statusCode()).as("statusCode").isEqualTo(httpStatusCode);
+                assertThat(ex.statusCode()).as("statusCode").isEqualTo(httpStatusCode);
+                assertThat(ex.getMessage()).as("message").isEqualTo(responseBody);
             });
     }
 
     @Test
     void shouldHandleTimeout() {
         // given
-        final var question = "Simulate timeout";
+        final var question = "Simulate timeout " + System.currentTimeMillis();
         MOCK.messages(req -> {
                 req.userMessageContains(question);
             })
-            .respondsError(res -> {
-                res.delayMillis(TIMEOUT.plusMillis(100).toMillis());
-                res.setHttpStatus(HttpStatusCode.Companion.getNoContent());
+            .responds(res -> {
+                res.delayMillis(TIMEOUT.plusMillis(200).toMillis());
+                res.assistantContent("You should never see this");
             });
 
         // when-then
+        final var chatRequest = ChatRequest.builder()
+            .messages(userMessage(question))
+            .build();
+
         assertThatExceptionOfType(RuntimeException.class)
             // when
-            .isThrownBy(() -> model.chat(
-                ChatRequest.builder().messages(userMessage(question)).build()))
-            .satisfies(ex -> assertThat(ex).hasStackTraceContaining("Read timed out"));
+            .isThrownBy(() -> model.chat(chatRequest))
+            .withMessageContaining("time");
     }
 }

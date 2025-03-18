@@ -1,10 +1,8 @@
 package me.kpavlov.mokksy
 
-import assertk.assertThat
-import assertk.assertions.isFalse
-import assertk.assertions.isTrue
 import io.kotest.matchers.Matcher
 import io.kotest.matchers.equals.beEqual
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.contain
 import io.ktor.http.Headers
 import io.ktor.http.HttpMethod
@@ -58,7 +56,7 @@ class RequestSpecificationTest {
                         requestType = Input::class,
                     )
 
-                assertThat(spec.matches(request)).isTrue()
+                spec.matches(request) shouldBe Result.success(true)
             }
 
         @Test
@@ -78,7 +76,7 @@ class RequestSpecificationTest {
 
                 every { headersMatcher.test(any()).passed() } returns true
 
-                assertThat(spec.matches(request)).isTrue()
+                spec.matches(request) shouldBe Result.success(true)
             }
     }
 
@@ -95,7 +93,7 @@ class RequestSpecificationTest {
                         requestType = Input::class,
                     )
 
-                assertThat(spec.matches(request)).isFalse()
+                spec.matches(request) shouldBe Result.success(false)
             }
 
         @Test
@@ -111,7 +109,7 @@ class RequestSpecificationTest {
                         requestType = Input::class,
                     )
 
-                assertThat(spec.matches(request)).isFalse()
+                spec.matches(request) shouldBe Result.success(false)
             }
 
         @Test
@@ -131,7 +129,7 @@ class RequestSpecificationTest {
 
                 every { headersMatcher.test(any()).passed() } returns false
 
-                assertThat(spec.matches(request)).isFalse()
+                spec.matches(request) shouldBe Result.success(false)
             }
 
         @Test
@@ -146,7 +144,7 @@ class RequestSpecificationTest {
                         requestType = String::class,
                     )
 
-                assertThat(spec.matches(request)).isFalse()
+                spec.matches(request) shouldBe Result.success(false)
             }
 
         @Test
@@ -163,7 +161,7 @@ class RequestSpecificationTest {
                         requestType = Input::class,
                     )
 
-                assertThat(spec.matches(request)).isFalse()
+                spec.matches(request) shouldBe Result.success(false)
             }
     }
 }

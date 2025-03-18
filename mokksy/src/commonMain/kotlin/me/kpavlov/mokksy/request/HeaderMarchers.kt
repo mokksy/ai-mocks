@@ -11,17 +11,19 @@ import io.ktor.http.Headers
  */
 internal fun containsHeader(
     name: String,
-    value: String,
+    expectedValue: String,
 ): Matcher<Headers> =
     object : Matcher<Headers> {
-        override fun test(valueUnderTest: Headers): MatcherResult {
-            val actualValue = valueUnderTest[name]
+        override fun test(value: Headers): MatcherResult {
+            val actualValue = value[name]
             return MatcherResult(
-                actualValue contentEquals value,
+                actualValue contentEquals expectedValue,
                 {
-                    "Headers should contain a header '$name' with value '$value', but was '$actualValue'."
+                    "Headers should contain a header '$name' with value '$expectedValue', but was '$actualValue'."
                 },
-                { "Headers should not contain a header '$name' with value '$value', but it does." },
+                {
+                    "Headers should NOT contain a header '$name' with value '$expectedValue', but it does."
+                },
             )
         }
     }
