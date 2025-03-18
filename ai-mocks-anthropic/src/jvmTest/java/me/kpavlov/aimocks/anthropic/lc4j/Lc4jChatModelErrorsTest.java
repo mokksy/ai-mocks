@@ -22,7 +22,7 @@ class Lc4jChatModelErrorsTest {
 
     private static final MockAnthropic MOCK = new MockAnthropic(0, true);
 
-    public static final Duration TIMEOUT = Duration.ofMillis(750);
+    public static final Duration TIMEOUT = Duration.ofSeconds(3);
 
     private static final ChatLanguageModel model = AnthropicChatModel.builder()
         .apiKey("dummy-key")
@@ -87,6 +87,7 @@ class Lc4jChatModelErrorsTest {
         ).build();
 
         assertThatExceptionOfType(AnthropicHttpException.class)
+            .as("Handle Http status code: %s", httpStatusCode)
             // when
             .isThrownBy(() -> model.chat(chatRequest))
             .satisfies(ex -> {
@@ -104,7 +105,7 @@ class Lc4jChatModelErrorsTest {
                 req.requestBodyContains(question);
             })
             .responds(res -> {
-                res.delayMillis(TIMEOUT.plusMillis(100).toMillis());
+                res.delayMillis(TIMEOUT.plusMillis(200).toMillis());
                 res.assistantContent("You should never see this");
             });
 
