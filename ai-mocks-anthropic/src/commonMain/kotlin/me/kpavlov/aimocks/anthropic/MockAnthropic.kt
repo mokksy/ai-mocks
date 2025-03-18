@@ -57,7 +57,7 @@ public open class MockAnthropic(
                 }
 
                 chatRequestSpec.maxCompletionTokens?.let {
-                    body += AnthropicAiMatchers.maxCompletionTokensEquals(it)
+                    body += AnthropicAiMatchers.maxTokensEquals(it)
                 }
 
                 chatRequestSpec.model?.let {

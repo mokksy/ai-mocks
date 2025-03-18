@@ -107,7 +107,7 @@ internal object AnthropicAiMatchers {
             override fun toString(): String = "temperature should be \"$temperature\""
         }
 
-    fun maxCompletionTokensEquals(maxTokens: Long): Matcher<MessageCreateParams.Body?> =
+    fun maxTokensEquals(maxTokens: Long): Matcher<MessageCreateParams.Body?> =
         object : Matcher<MessageCreateParams.Body?> {
             override fun test(value: MessageCreateParams.Body?): MatcherResult =
                 MatcherResult(

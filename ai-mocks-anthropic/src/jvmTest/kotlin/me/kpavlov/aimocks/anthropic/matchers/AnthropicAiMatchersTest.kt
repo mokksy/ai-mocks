@@ -3,7 +3,11 @@ package me.kpavlov.aimocks.anthropic.matchers
 import com.anthropic.models.messages.MessageCreateParams
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.matchers.shouldBe
+import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.maxTokensEquals
+import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.modelEquals
 import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.systemMessageContains
+import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.temperatureEquals
+import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.userIdEquals
 import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.userMessageContains
 import org.junit.jupiter.api.Test
 
@@ -29,11 +33,25 @@ class AnthropicAiMatchersTest {
                 } ]
               } ],
               "max_tokens" : 20,
-              "stream" : false
+              "temperature" : 0.7,
+              "stream" : false,
+              "metadata": {
+                "user_id": "foo-bar-baz"
+              }
             }""",
         ) { body ->
+            modelEquals("claude-3-5-haiku-20241022").test(body).passed() shouldBe true
+            modelEquals("claude-3-7-haiku").test(body).passed() shouldBe false
+            temperatureEquals(0.7).test(body).passed() shouldBe true
+            temperatureEquals(0.71).test(body).passed() shouldBe false
             systemMessageContains("helpful assistant").test(body).passed() shouldBe true
+            systemMessageContains("unhelpful assistant").test(body).passed() shouldBe false
             userMessageContains("joke about").test(body).passed() shouldBe true
+            userMessageContains("joker").test(body).passed() shouldBe false
+            userIdEquals("foo-bar-baz").test(body).passed() shouldBe true
+            userIdEquals("foo-bar-bUzz").test(body).passed() shouldBe false
+            maxTokensEquals(20).test(body).passed() shouldBe true
+            maxTokensEquals(42).test(body).passed() shouldBe false
         }
     }
 
@@ -57,6 +75,7 @@ class AnthropicAiMatchersTest {
 
             userMessageContains("Hello there.").test(body).passed() shouldBe true
             userMessageContains("Can you explain LLMs").test(body).passed() shouldBe true
+            maxTokensEquals(20).test(body).passed() shouldBe true
         }
     }
 
@@ -72,11 +91,13 @@ class AnthropicAiMatchersTest {
                   {"role": "assistant", "content": "The best answer is ("}
                ],
               "system" : [ ],
-              "max_tokens" : 20,
+              "max_tokens" : 42,
               "stream" : false
             }""",
         ) { body ->
+            modelEquals("claude-3-5-haiku-20241022").test(body).passed() shouldBe true
             userMessageContains("Greek name").test(body).passed() shouldBe true
+            maxTokensEquals(42).test(body).passed() shouldBe true
         }
     }
 
