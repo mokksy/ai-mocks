@@ -16,7 +16,7 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.measureTimedValue
 
-internal class StreamingMessagesTest : AbstractAnthropicTest() {
+internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
     @Test
     fun `Should respond to Streaming Messages Completion with chunk list`() =
         runTest {

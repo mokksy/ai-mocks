@@ -8,9 +8,9 @@ import kotlin.jvm.optionals.getOrNull
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
-internal class MessagesTest : AbstractAnthropicTest() {
+internal class AnthropicSdkMessagesTest : AbstractAnthropicTest() {
     @Test
-    fun `Should respond`() {
+    fun `Should respond with a message`() {
         val messageIdValue = "msg_" + System.currentTimeMillis()
 
         anthropic.messages {
@@ -29,6 +29,7 @@ internal class MessagesTest : AbstractAnthropicTest() {
         val params =
             MessageCreateParams
                 .builder()
+                .model(modelName)
                 .temperature(temperatureValue)
                 .maxTokens(maxCompletionTokensValue)
                 .metadata(Metadata.builder().userId(userIdValue).build())
@@ -36,6 +37,8 @@ internal class MessagesTest : AbstractAnthropicTest() {
                 .addUserMessage("Just say 'He-he!' and nothing else")
                 .model(modelName)
                 .build()
+
+        println("params = $params")
 
         val result =
             client

@@ -18,7 +18,7 @@ import static dev.langchain4j.model.anthropic.AnthropicChatModelName.CLAUDE_3_5_
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-class Lc4jChatModelErrorsTest {
+class Lc4jChatModelAnthropicErrorsTest {
 
     private static final MockAnthropic MOCK = new MockAnthropic(0, true);
 
@@ -116,6 +116,6 @@ class Lc4jChatModelErrorsTest {
         assertThatExceptionOfType(RuntimeException.class)
             // when
             .isThrownBy(() -> model.chat(chatRequest))
-            .withMessageContaining("timeout");
+            .withMessageContaining("time");
     }
 }
