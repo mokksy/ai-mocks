@@ -28,7 +28,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
                 responseChunks = listOf("All", " we", " need", " is", " Love")
                 delay = 50.milliseconds
                 delayBetweenChunks = 10.milliseconds
-                finishReason = "stop"
+                stopReason = "end_turn"
             }
 
             verifyStreamingCall()
@@ -52,7 +52,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
                     }
                 delay = 60.milliseconds
                 delayBetweenChunks = 15.milliseconds
-                finishReason = "stop"
+                stopReason = "stop"
             }
 
             verifyStreamingCall()

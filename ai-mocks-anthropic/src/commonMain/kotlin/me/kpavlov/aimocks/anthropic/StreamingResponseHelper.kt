@@ -2,8 +2,11 @@ package me.kpavlov.aimocks.anthropic
 
 import com.anthropic.models.messages.ContentBlock
 import com.anthropic.models.messages.Message
+import com.anthropic.models.messages.MessageDeltaUsage
 import com.anthropic.models.messages.RawContentBlockDeltaEvent
 import com.anthropic.models.messages.RawContentBlockStartEvent
+import com.anthropic.models.messages.RawContentBlockStopEvent
+import com.anthropic.models.messages.RawMessageDeltaEvent
 import com.anthropic.models.messages.RawMessageStartEvent
 import com.anthropic.models.messages.RawMessageStopEvent
 import com.anthropic.models.messages.TextBlock
@@ -94,6 +97,47 @@ internal object StreamingResponseHelper {
         return ServerSentEvent(
             event = data._type().asStringOrThrow(),
             data = serializer.invoke(data),
+        )
+    }
+
+    @Suppress("LongParameterList")
+    internal fun createMessageDeltaChunk(
+        stopReason: String,
+        outputTokens: Long,
+        serializer: (Any) -> String,
+    ): ServerSentEvent {
+        val data =
+            RawMessageDeltaEvent
+                .builder()
+                .delta(
+                    RawMessageDeltaEvent.Delta
+                        .builder()
+                        .stopReason(RawMessageDeltaEvent.Delta.StopReason.of(stopReason))
+                        .stopSequence(Optional.empty())
+                        .build(),
+                ).usage(
+                    MessageDeltaUsage
+                        .builder()
+                        .outputTokens(outputTokens)
+                        .build(),
+                ).build()
+        return ServerSentEvent(
+            event = data._type().asStringOrThrow(),
+            data = serializer.invoke(data),
+        )
+    }
+
+    internal fun createContentBlockStopChunk(serializer: (Any) -> String): ServerSentEvent {
+        val data =
+            RawContentBlockStopEvent
+                .builder()
+                .build()
+        return ServerSentEvent(
+            event = data._type().asStringOrThrow(),
+            data =
+                serializer.invoke(
+                    data,
+                ),
         )
     }
 

@@ -18,7 +18,7 @@ public class AnthropicMessagesResponseSpecification(
     public var responseChunks: List<String>? = null,
     public var delayBetweenChunks: Duration = Duration.ZERO,
     public var delay: Duration = Duration.ZERO,
-    public var finishReason: String = "stop",
+    public var stopReason: String = "end_turn",
 ) : ChatResponseSpecification<MessageCreateParams.Body, Message>(response = response) {
     public fun assistantContent(content: String): AnthropicMessagesResponseSpecification =
         apply {
@@ -33,7 +33,7 @@ public class AnthropicMessagesResponseSpecification(
 
     public fun finishReason(finishReason: String): AnthropicMessagesResponseSpecification =
         apply {
-            this.finishReason =
+            this.stopReason =
                 finishReason
         }
 }
@@ -45,7 +45,7 @@ public class AnthropicStreamingChatResponseSpecification(
     public var responseChunks: List<String>? = null,
     public var delayBetweenChunks: Duration = Duration.ZERO,
     public var delay: Duration = Duration.ZERO,
-    public var finishReason: String = "stop",
+    public var stopReason: String = "end_turn",
     /**
      * Should send `[DONE]` at the end.
      */
