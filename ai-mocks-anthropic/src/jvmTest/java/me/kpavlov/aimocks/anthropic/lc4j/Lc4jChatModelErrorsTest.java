@@ -7,7 +7,6 @@ import dev.langchain4j.model.chat.request.ChatRequest;
 import me.kpavlov.aimocks.anthropic.MockAnthropic;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -19,7 +18,6 @@ import static dev.langchain4j.model.anthropic.AnthropicChatModelName.CLAUDE_3_5_
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-@DisabledIfEnvironmentVariable(named = "CI", matches = "true")
 class Lc4jChatModelErrorsTest {
 
     private static final MockAnthropic MOCK = new MockAnthropic(0, true);

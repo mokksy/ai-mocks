@@ -1,6 +1,6 @@
 package me.kpavlov.aimocks.anthropic
 
-import com.anthropic.models.MessageCreateParams
+import com.anthropic.models.messages.MessageCreateParams
 import io.kotest.assertions.json.containJsonKeyValue
 import io.kotest.matchers.equals.beEqual
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiationConfig

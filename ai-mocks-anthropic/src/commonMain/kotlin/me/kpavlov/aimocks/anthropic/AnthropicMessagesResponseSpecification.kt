@@ -1,7 +1,7 @@
 package me.kpavlov.aimocks.anthropic
 
-import com.anthropic.models.Message
-import com.anthropic.models.MessageCreateParams
+import com.anthropic.models.messages.Message
+import com.anthropic.models.messages.MessageCreateParams
 import kotlinx.coroutines.flow.Flow
 import me.kpavlov.aimocks.anthropic.StreamingResponseHelper.randomIdString
 import me.kpavlov.aimocks.core.ChatResponseSpecification

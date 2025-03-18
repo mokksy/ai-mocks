@@ -1,12 +1,12 @@
 package me.kpavlov.aimocks.anthropic
 
 import com.anthropic.core.JsonValue
-import com.anthropic.models.ContentBlock
-import com.anthropic.models.Message
-import com.anthropic.models.MessageCreateParams
-import com.anthropic.models.MessageParam
-import com.anthropic.models.TextBlock
-import com.anthropic.models.Usage
+import com.anthropic.models.messages.ContentBlock
+import com.anthropic.models.messages.Message
+import com.anthropic.models.messages.MessageCreateParams
+import com.anthropic.models.messages.MessageParam
+import com.anthropic.models.messages.TextBlock
+import com.anthropic.models.messages.Usage
 import io.ktor.sse.ServerSentEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow

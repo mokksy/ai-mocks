@@ -1,13 +1,13 @@
 package me.kpavlov.aimocks.anthropic
 
-import com.anthropic.models.ContentBlock
-import com.anthropic.models.Message
-import com.anthropic.models.RawContentBlockDeltaEvent
-import com.anthropic.models.RawContentBlockStartEvent
-import com.anthropic.models.RawMessageStartEvent
-import com.anthropic.models.RawMessageStopEvent
-import com.anthropic.models.TextBlock
-import com.anthropic.models.Usage
+import com.anthropic.models.messages.ContentBlock
+import com.anthropic.models.messages.Message
+import com.anthropic.models.messages.RawContentBlockDeltaEvent
+import com.anthropic.models.messages.RawContentBlockStartEvent
+import com.anthropic.models.messages.RawMessageStartEvent
+import com.anthropic.models.messages.RawMessageStopEvent
+import com.anthropic.models.messages.TextBlock
+import com.anthropic.models.messages.Usage
 import io.ktor.sse.ServerSentEvent
 import java.util.Optional
 

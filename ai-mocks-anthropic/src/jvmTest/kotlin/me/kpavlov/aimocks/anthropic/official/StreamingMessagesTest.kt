@@ -1,7 +1,7 @@
 package me.kpavlov.aimocks.anthropic.official
 
-import com.anthropic.models.MessageCreateParams
-import com.anthropic.models.Metadata
+import com.anthropic.models.messages.MessageCreateParams
+import com.anthropic.models.messages.Metadata
 import io.kotest.matchers.comparables.shouldBeLessThan
 import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.flow

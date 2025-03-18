@@ -1,6 +1,6 @@
 package me.kpavlov.aimocks.anthropic.matchers
 
-import com.anthropic.models.MessageCreateParams
+import com.anthropic.models.messages.MessageCreateParams
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.matchers.shouldBe
 import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.systemMessageContains

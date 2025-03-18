@@ -1,7 +1,7 @@
 package me.kpavlov.aimocks.anthropic
 
-import com.anthropic.models.MessageCreateParams
-import com.anthropic.models.MessageParam
+import com.anthropic.models.messages.MessageCreateParams
+import com.anthropic.models.messages.MessageParam
 import io.kotest.matchers.Matcher
 import io.kotest.matchers.MatcherResult
 import kotlin.jvm.optionals.getOrNull
