@@ -77,6 +77,50 @@ internal object AnthropicAiMatchers {
             override fun toString(): String = "metadata.user_id should be \"$userId\""
         }
 
+    fun modelEquals(model: String): Matcher<MessageCreateParams.Body?> =
+        object : Matcher<MessageCreateParams.Body?> {
+            override fun test(value: MessageCreateParams.Body?): MatcherResult =
+                MatcherResult(
+                    value != null &&
+                        value
+                            .model()
+                            .asString() == model,
+                    { "model should be \"$model\"" },
+                    { "model should not be \"$model\"" },
+                )
+
+            override fun toString(): String = "model should be \"$model\""
+        }
+
+    fun temperatureEquals(temperature: Double): Matcher<MessageCreateParams.Body?> =
+        object : Matcher<MessageCreateParams.Body?> {
+            override fun test(value: MessageCreateParams.Body?): MatcherResult =
+                MatcherResult(
+                    value != null &&
+                        value
+                            .temperature()
+                            .getOrNull() == temperature,
+                    { "temperature should be \"$temperature\"" },
+                    { "temperature should not be \"$temperature\"" },
+                )
+
+            override fun toString(): String = "temperature should be \"$temperature\""
+        }
+
+    fun maxCompletionTokensEquals(maxTokens: Long): Matcher<MessageCreateParams.Body?> =
+        object : Matcher<MessageCreateParams.Body?> {
+            override fun test(value: MessageCreateParams.Body?): MatcherResult =
+                MatcherResult(
+                    value != null &&
+                        value
+                            .maxTokens() == maxTokens,
+                    { "maxTokens should be \"$maxTokens\"" },
+                    { "maxTokens should not be \"$maxTokens\"" },
+                )
+
+            override fun toString(): String = "maxTokens should be \"$maxTokens\""
+        }
+
     private fun checkTextBlockContains(
         content: MessageParam.Content?,
         string: String,
