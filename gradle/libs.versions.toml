@@ -21,7 +21,7 @@ openai = "0.35.1"
 openrewrite = "7.2.1"
 slf4j = "2.0.17"
 spotless = "7.0.2"
-spring = "6.2.4"
+spring = "6.2.5"
 spring-ai = "1.0.0-M6"
 anthropic-java="0.8.0"
 
