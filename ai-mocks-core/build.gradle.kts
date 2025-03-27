@@ -12,5 +12,10 @@ kotlin {
                 api(project(":mokksy"))
             }
         }
+        commonTest {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
     }
 }
