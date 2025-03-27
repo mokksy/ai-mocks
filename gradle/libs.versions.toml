@@ -18,12 +18,12 @@ mockk = "1.13.17"
 netty = "4.1.119.Final"
 nexusPublish = "2.0.0"
 openai = "0.38.0"
-openrewrite = "7.2.1"
+openrewrite = "7.3.0"
 slf4j = "2.0.17"
 spotless = "7.0.2"
 spring = "6.2.5"
 spring-ai = "1.0.0-M6"
-anthropic-java="0.9.2"
+anthropic-java="0.9.1"
 
 [libraries]
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
