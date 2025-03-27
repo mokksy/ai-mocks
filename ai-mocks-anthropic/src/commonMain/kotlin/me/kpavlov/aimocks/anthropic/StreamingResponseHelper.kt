@@ -9,6 +9,7 @@ import com.anthropic.models.messages.RawContentBlockStopEvent
 import com.anthropic.models.messages.RawMessageDeltaEvent
 import com.anthropic.models.messages.RawMessageStartEvent
 import com.anthropic.models.messages.RawMessageStopEvent
+import com.anthropic.models.messages.StopReason
 import com.anthropic.models.messages.TextBlock
 import com.anthropic.models.messages.Usage
 import io.ktor.sse.ServerSentEvent
@@ -112,7 +113,7 @@ internal object StreamingResponseHelper {
                 .delta(
                     RawMessageDeltaEvent.Delta
                         .builder()
-                        .stopReason(RawMessageDeltaEvent.Delta.StopReason.of(stopReason))
+                        .stopReason(StopReason.of(stopReason))
                         .stopSequence(Optional.empty())
                         .build(),
                 ).usage(

@@ -5,6 +5,7 @@ import com.anthropic.models.messages.ContentBlock
 import com.anthropic.models.messages.Message
 import com.anthropic.models.messages.MessageCreateParams
 import com.anthropic.models.messages.MessageParam
+import com.anthropic.models.messages.StopReason
 import com.anthropic.models.messages.TextBlock
 import com.anthropic.models.messages.Usage
 import io.ktor.sse.ServerSentEvent
@@ -64,7 +65,7 @@ public class AnthropicBuildingStep(
                             ),
                         ),
                     ).stopSequence(null)
-                    .stopReason(Message.StopReason.of(stopReason))
+                    .stopReason(StopReason.of(stopReason))
                     .usage(
                         Usage
                             .builder()
