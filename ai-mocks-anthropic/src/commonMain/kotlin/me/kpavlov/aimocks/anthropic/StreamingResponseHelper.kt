@@ -132,6 +132,7 @@ internal object StreamingResponseHelper {
         val data =
             RawContentBlockStopEvent
                 .builder()
+                .index(0)
                 .build()
         return ServerSentEvent(
             event = data._type().asStringOrThrow(),

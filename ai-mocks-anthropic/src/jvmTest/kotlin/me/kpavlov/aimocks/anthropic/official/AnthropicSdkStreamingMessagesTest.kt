@@ -3,6 +3,7 @@ package me.kpavlov.aimocks.anthropic.official
 import com.anthropic.models.messages.MessageCreateParams
 import com.anthropic.models.messages.Metadata
 import io.kotest.matchers.comparables.shouldBeLessThan
+import io.kotest.matchers.ints.shouldBeLessThanOrEqual
 import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onCompletion
@@ -20,7 +21,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
     @Test
     fun `Should respond to Streaming Messages Completion with chunk list`() =
         runTest {
-            anthropic.messages("openai-completion-list") {
+            anthropic.messages("anthropic-messages-list") {
                 temperature = temperatureValue
                 model = modelName
                 userId = userIdValue
@@ -37,7 +38,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
     @Test
     fun `Should respond to Streaming Chat Completion with Flow`() =
         runTest {
-            anthropic.messages("openai-completion-flow") {
+            anthropic.messages("anthropic-messages-flow") {
                 temperature = temperatureValue
                 model = modelName
                 userId = userIdValue
@@ -52,7 +53,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
                     }
                 delay = 60.milliseconds
                 delayBetweenChunks = 15.milliseconds
-                stopReason = "stop"
+                stopReason = "end_turn"
             }
 
             verifyStreamingCall()
@@ -85,6 +86,6 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
                     .count()
             }
         timedValue.duration shouldBeLessThan 10.seconds
-        timedValue.value shouldBeLessThan 10
+        timedValue.value shouldBeLessThanOrEqual 10
     }
 }
