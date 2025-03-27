@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.openai.official
 
+import com.openai.errors.InternalServerException
 import com.openai.errors.UnexpectedStatusCodeException
 import com.openai.models.chat.completions.ChatCompletionCreateParams
 import com.openai.models.chat.completions.ChatCompletionMessageParam
@@ -7,12 +8,13 @@ import com.openai.models.chat.completions.ChatCompletionSystemMessageParam
 import com.openai.models.chat.completions.ChatCompletionUserMessageParam
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.comparables.shouldBeGreaterThan
+import io.kotest.matchers.optional.shouldBePresent
 import io.kotest.matchers.shouldBe
+import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import me.kpavlov.aimocks.openai.openai
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 import kotlin.time.measureTimedValue
 
 internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
@@ -57,12 +59,15 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
     }
 
     @Test
-    fun `Should respond with error`() {
+    fun `Should respond with unexpected error`() {
         val carambaResponse =
             // language=json
             """
             {
-              "caramba": "Arrr, blast me barnacles! This be not what ye expect! 🏴‍☠️"
+              "type": "error",
+              "code": "ERR_SOMETHING",
+              "message": "Arrr, blast me barnacles! This be not what ye expect! 🏴‍☠️",
+              "param": null
             }
             """.trimIndent()
         openai
@@ -75,8 +80,9 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
                 userMessageContains("say 'Hello!'")
             }.respondsError(String::class) {
                 body = carambaResponse
-                delay = 1.seconds
-                httpStatus = HttpStatusCode.PaymentRequired
+                contentType = ContentType.Text.Plain
+                delay = 100.milliseconds
+                httpStatus = HttpStatusCode.PreconditionFailed
             }
 
         val params =
@@ -92,10 +98,67 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
                 }
             }
 
-        timedValue.duration shouldBeGreaterThan 1.seconds
+        timedValue.duration shouldBeGreaterThan 100.milliseconds
         val exception = timedValue.value
-        exception.statusCode() shouldBe HttpStatusCode.PaymentRequired.value
-        exception.body() shouldBe carambaResponse
+        exception.statusCode() shouldBe HttpStatusCode.PreconditionFailed.value
+    }
+
+    @Test
+    fun `Should respond with error 500`() {
+        val errorResponse =
+            // language=json
+            """
+            {
+                "error": {
+                   "type": "server_error",
+                  "code": "ERR_SOMETHING",
+                  "message": "Arrr, blast me barnacles! This be not what ye expect! 🏴‍☠️",
+                  "param": "foo"
+                }
+            }
+            """.trimIndent()
+        openai
+            .completion {
+                temperature = temperatureValue
+                seed = seedValue
+                model = modelName
+                maxCompletionTokens = maxCompletionTokensValue
+                systemMessageContains("helpful assistant")
+                userMessageContains("say 'Hello!'")
+            }.respondsError(String::class) {
+                body = errorResponse
+                delay = 150.milliseconds
+                contentType = ContentType.Application.Json
+                httpStatus = HttpStatusCode.InternalServerError
+            }
+
+        val params =
+            createChatCompletionRequestParams()
+
+        val timedValue =
+            measureTimedValue {
+                shouldThrow<InternalServerException> {
+                    client
+                        .chat()
+                        .completions()
+                        .create(params)
+                }
+            }
+
+        timedValue.duration shouldBeGreaterThan 150.milliseconds
+        val exception = timedValue.value
+        exception.statusCode() shouldBe HttpStatusCode.InternalServerError.value
+        exception.code() shouldBePresent {
+            shouldBe("ERR_SOMETHING")
+        }
+        exception.message shouldBe
+            "500: Arrr, blast me barnacles! This be not what ye expect! 🏴‍☠️"
+        exception.param() shouldBePresent {
+            shouldBe("foo")
+        }
+        exception.type() shouldBePresent {
+            shouldBe("server_error")
+        }
     }
 
     private fun createChatCompletionRequestParams(): ChatCompletionCreateParams {
