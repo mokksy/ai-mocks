@@ -26,8 +26,8 @@ kotlin {
 
         jvmMain {
             dependencies {
+                api(libs.anthropic.java.core)
                 implementation(libs.ktor.server.netty)
-                implementation(libs.anthropic.java.core)
                 implementation(libs.ktor.serialization.jackson)
             }
         }
