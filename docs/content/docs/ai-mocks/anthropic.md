@@ -43,12 +43,17 @@ implementation("me.kpavlov.aimocks:ai-mocks-anthropic-jvm:$latestVersion")
     anthropic.messages {
         temperature = 0.42
         model = "claude-3-7-sonnet-latest"
-        maxCompletionTokens = 100
+        maxTokens = 100
+        topP = 0.95
+        topK = 40
+        userId = "user123"
         systemMessageContains("helpful assistant")
         userMessageContains("say 'Hello!'")
     } responds {
+        messageId = "msg_1234567890"
         assistantContent = "Hello" // response content
         delay = 200.milliseconds // simulate delay
+        stopReason = "end_turn" // reason for stopping
     }
     ```
     - The `messages { ... }` block sets how the incoming request must look.
@@ -96,23 +101,33 @@ You can also configure streaming responses (such as chunked SSE events) for test
 
 ```kotlin
 anthropic.messages {
-  temperature = temperatureValue
-  model = modelName
-  userId = userIdValue
+  temperature = 0.7
+  model = "claude-3-7-sonnet-latest"
+  maxTokens = 150
+  topP = 0.95
+  topK = 40
+  userId = "user123"
+  systemMessageContains("person from 60s")
+  userMessageContains("What do we need?")
 } respondsStream {
   responseChunks = listOf("All", " we", " need", " is", " Love")
   delay = 50.milliseconds
   delayBetweenChunks = 10.milliseconds
-  finishReason = "stop"
+  stopReason = "end_turn"
 }
 ```
 
 Or, you can use a flow to generate the response:
 ```kotlin
-anthropic.messages("openai-completion-flow") {
-  temperature = temperatureValue
-  model = modelName
-  userId = userIdValue
+anthropic.messages("anthropic-messages-flow") {
+  temperature = 0.7
+  model = "claude-3-7-sonnet-latest"
+  maxTokens = 150
+  topP = 0.95
+  topK = 40
+  userId = "user123"
+  systemMessageContains("person from 60s")
+  userMessageContains("What do we need?")
 } respondsStream {
   responseFlow =
     flow {
@@ -124,7 +139,7 @@ anthropic.messages("openai-completion-flow") {
     }
   delay = 60.milliseconds
   delayBetweenChunks = 15.milliseconds
-  finishReason = "stop"
+  stopReason = "end_turn"
 }
 ```
 
@@ -133,12 +148,14 @@ Call Anthropic client:
 val params =
   MessageCreateParams
     .builder()
-    .temperature(temperatureValue)
-    .maxTokens(maxCompletionTokensValue)
-    .metadata(Metadata.builder().userId(userIdValue).build())
-    .system("You are a man from 60s")
+    .temperature(0.7)
+    .maxTokens(150)
+    .topP(0.95)
+    .topK(40)
+    .metadata(Metadata.builder().userId("user123").build())
+    .system("You are a person from 60s")
     .addUserMessage("What do we need?")
-    .model(modelName)
+    .model("claude-3-7-sonnet-latest")
     .build()
 
 val timedValue =

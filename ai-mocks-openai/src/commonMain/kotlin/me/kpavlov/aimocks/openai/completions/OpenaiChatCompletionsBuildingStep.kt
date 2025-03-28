@@ -1,4 +1,4 @@
-package me.kpavlov.aimocks.openai
+package me.kpavlov.aimocks.openai.completions
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -8,6 +8,14 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.core.LlmBuildingStep
+import me.kpavlov.aimocks.openai.ChatCompletionRequest
+import me.kpavlov.aimocks.openai.ChatResponse
+import me.kpavlov.aimocks.openai.Choice
+import me.kpavlov.aimocks.openai.Chunk
+import me.kpavlov.aimocks.openai.CompletionTokensDetails
+import me.kpavlov.aimocks.openai.Delta
+import me.kpavlov.aimocks.openai.Message
+import me.kpavlov.aimocks.openai.Usage
 import me.kpavlov.aimocks.openai.model.ChatCompletionRole
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
@@ -18,7 +26,7 @@ import kotlin.random.Random.Default.nextInt
 
 private const val LINE_SEPARATOR = "\n\n"
 
-public class OpenaiBuildingStep(
+public class OpenaiChatCompletionsBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<ChatCompletionRequest>,
 ) : LlmBuildingStep<ChatCompletionRequest, OpenaiChatResponseSpecification>(
@@ -48,6 +56,7 @@ public class OpenaiBuildingStep(
             body =
                 ChatResponse(
                     id = "chatcmpl-abc${counter.addAndGet(1)}",
+                    objectType = "chat.completion",
                     created = Instant.now().epochSecond,
                     model = request.model,
                     usage =
@@ -80,7 +89,7 @@ public class OpenaiBuildingStep(
     }
 
     /**
-     * Configures a streaming response for a chat completion request by applying the provided specifications.
+     * Configures a streaming response for a chat completions request by applying the provided specifications.
      *
      * This function sets up
      * a [chunked response](https://platform.openai.com/docs/api-reference/chat/streaming)

@@ -1,4 +1,4 @@
-package me.kpavlov.aimocks.openai.official
+package me.kpavlov.aimocks.openai.official.completions
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
@@ -10,6 +10,7 @@ import com.openai.models.chat.completions.ChatCompletionStreamOptions
 import com.openai.models.chat.completions.ChatCompletionUserMessageParam
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.flow
+import me.kpavlov.aimocks.openai.official.AbstractOpenaiTest
 import me.kpavlov.aimocks.openai.openai
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
@@ -17,9 +18,10 @@ import kotlin.time.Duration.Companion.milliseconds
 internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
     @Test
     fun `Should respond to Streaming Chat Completion`() {
-        openai.completion("openai-completion-list") {
+        openai.completion("openai-completions-list") {
             temperature = temperatureValue
             model = modelName
+            topP = topPValue
         } respondsStream {
             responseChunks = listOf("All", " we", " need", " is", " Love")
             delay = 50.milliseconds
@@ -32,7 +34,7 @@ internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
 
     @Test
     fun `Should respond to Streaming Chat Completion with Flow`() {
-        openai.completion("openai-completion-flow") {
+        openai.completion("openai-completions-flow") {
             temperature = temperatureValue
             model = modelName
         } respondsStream {
@@ -59,6 +61,7 @@ internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
                 .streamOptions(
                     ChatCompletionStreamOptions.builder().includeUsage(true).build(),
                 ).temperature(temperatureValue)
+                .topP(topPValue)
                 .seed(seedValue.toLong())
                 .messages(
                     listOf(

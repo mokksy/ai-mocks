@@ -28,7 +28,7 @@ internal class ChatCompletionLc4jTest : AbstractMockOpenaiTest() {
                 temperature = temperatureValue
                 seed = seedValue
                 model = modelName
-                maxCompletionTokens = maxCompletionTokensValue
+                maxTokens = maxCompletionTokensValue
             } responds {
                 assistantContent = "Hello"
                 finishReason = "stop"

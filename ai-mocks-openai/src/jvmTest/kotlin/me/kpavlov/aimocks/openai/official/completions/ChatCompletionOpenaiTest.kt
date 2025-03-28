@@ -1,4 +1,4 @@
-package me.kpavlov.aimocks.openai.official
+package me.kpavlov.aimocks.openai.official.completions
 
 import com.openai.errors.InternalServerException
 import com.openai.errors.UnexpectedStatusCodeException
@@ -12,6 +12,7 @@ import io.kotest.matchers.optional.shouldBePresent
 import io.kotest.matchers.shouldBe
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
+import me.kpavlov.aimocks.openai.official.AbstractOpenaiTest
 import me.kpavlov.aimocks.openai.openai
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
@@ -24,7 +25,8 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
             temperature = temperatureValue
             seed = seedValue
             model = modelName
-            maxCompletionTokens = maxCompletionTokensValue
+            topP = topPValue
+            maxTokens = maxCompletionTokensValue
             systemMessageContains("helpful assistant")
             userMessageContains("say 'Hello!'")
         } responds {
@@ -75,7 +77,7 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
                 temperature = temperatureValue
                 seed = seedValue
                 model = modelName
-                maxCompletionTokens = maxCompletionTokensValue
+                maxTokens = maxCompletionTokensValue
                 systemMessageContains("helpful assistant")
                 userMessageContains("say 'Hello!'")
             }.respondsError(String::class) {
@@ -122,7 +124,7 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
                 temperature = temperatureValue
                 seed = seedValue
                 model = modelName
-                maxCompletionTokens = maxCompletionTokensValue
+                maxTokens = maxCompletionTokensValue
                 systemMessageContains("helpful assistant")
                 userMessageContains("say 'Hello!'")
             }.respondsError(String::class) {
@@ -166,6 +168,7 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
             ChatCompletionCreateParams
                 .builder()
                 .temperature(temperatureValue)
+                .topP(topPValue)
                 .maxCompletionTokens(maxCompletionTokensValue)
                 .seed(seedValue.toLong())
                 .messages(

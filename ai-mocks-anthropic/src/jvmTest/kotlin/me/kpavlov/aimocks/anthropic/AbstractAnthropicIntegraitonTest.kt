@@ -1,7 +1,7 @@
 package me.kpavlov.aimocks.anthropic
 
 import com.anthropic.models.messages.Model
-import io.github.oshai.kotlinlogging.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import java.util.UUID
@@ -12,9 +12,9 @@ val anthropic = MockAnthropic(verbose = true)
 internal abstract class AbstractAnthropicIntegraitonTest {
     protected var temperatureValue: Double = -1.0
     protected lateinit var userIdValue: String
-    protected var maxCompletionTokensValue: Long = -1
+    protected var maxTokensValue: Long = -1
     protected lateinit var modelName: String
-    protected val logger = KotlinLogging.logger(name = this::class.simpleName!!)
+    protected val logger = logger(name = this::class.simpleName!!)
 
     @BeforeEach
     fun beforeEach() {
@@ -27,7 +27,7 @@ internal abstract class AbstractAnthropicIntegraitonTest {
             ).random()
         userIdValue = UUID.randomUUID().toString()
         temperatureValue = Random.nextDouble(0.0, 1.0)
-        maxCompletionTokensValue = Random.nextLong(100, 500)
+        maxTokensValue = Random.nextLong(100, 500)
     }
 
     @AfterEach

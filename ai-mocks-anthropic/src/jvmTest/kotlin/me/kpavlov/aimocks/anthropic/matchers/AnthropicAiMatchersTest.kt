@@ -7,6 +7,8 @@ import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.maxTokensEquals
 import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.modelEquals
 import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.systemMessageContains
 import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.temperatureEquals
+import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.topKEquals
+import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.topPEquals
 import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.userIdEquals
 import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.userMessageContains
 import org.junit.jupiter.api.Test
@@ -25,6 +27,8 @@ class AnthropicAiMatchersTest {
             {
               "model" : "claude-3-5-haiku-20241022",
               "system":"You are a helpful assistant.",
+              "top_p":0.42,
+              "top_k":100500,
               "messages" : [ {
                 "role" : "user",
                 "content" : [ {
@@ -40,17 +44,80 @@ class AnthropicAiMatchersTest {
               }
             }""",
         ) { body ->
-            modelEquals("claude-3-5-haiku-20241022").test(body).passed() shouldBe true
+            modelEquals("claude-3-5-haiku-20241022").apply {
+                toString() shouldBe "model should be \"claude-3-5-haiku-20241022\""
+                test(body).apply {
+                    passed() shouldBe true
+                    failureMessage() shouldBe "model should be \"claude-3-5-haiku-20241022\""
+                    negatedFailureMessage() shouldBe
+                        "model should not be \"claude-3-5-haiku-20241022\""
+                }
+            }
             modelEquals("claude-3-7-haiku").test(body).passed() shouldBe false
-            temperatureEquals(0.7).test(body).passed() shouldBe true
+            temperatureEquals(0.7).apply {
+                toString() shouldBe "temperature should be 0.7"
+                test(body).apply {
+                    passed() shouldBe true
+                    failureMessage() shouldBe "temperature should be 0.7"
+                    negatedFailureMessage() shouldBe "temperature should not be 0.7"
+                }
+            }
             temperatureEquals(0.71).test(body).passed() shouldBe false
-            systemMessageContains("helpful assistant").test(body).passed() shouldBe true
+            topPEquals(0.42).apply {
+                toString() shouldBe "top_p should be 0.42"
+                test(body).apply {
+                    passed() shouldBe true
+                    failureMessage() shouldBe "top_p should be 0.42"
+                    negatedFailureMessage() shouldBe "top_p should not be 0.42"
+                }
+            }
+            topPEquals(0.142).test(body).passed() shouldBe false
+            topKEquals(100500).apply {
+                toString() shouldBe "top_k should be 100500"
+                test(body).apply {
+                    passed() shouldBe true
+                    failureMessage() shouldBe "top_k should be 100500"
+                    negatedFailureMessage() shouldBe "top_k should not be 100500"
+                }
+            }
+            topKEquals(55).test(body).apply {
+                passed() shouldBe false
+            }
+            systemMessageContains("helpful assistant").apply {
+                toString() shouldBe "System message should contain \"helpful assistant\""
+                test(body).apply {
+                    passed() shouldBe true
+                    failureMessage() shouldBe "System message should contain \"helpful assistant\""
+                    negatedFailureMessage() shouldBe "System message should not contain \"helpful assistant\""
+                }
+            }
             systemMessageContains("unhelpful assistant").test(body).passed() shouldBe false
-            userMessageContains("joke about").test(body).passed() shouldBe true
+            userMessageContains("joke about").apply {
+                toString() shouldBe "User message should contain \"joke about\""
+                test(body).apply {
+                    passed() shouldBe true
+                    failureMessage() shouldBe "User message should contain \"joke about\""
+                    negatedFailureMessage() shouldBe "User message should not contain \"joke about\""
+                }
+            }
             userMessageContains("joker").test(body).passed() shouldBe false
-            userIdEquals("foo-bar-baz").test(body).passed() shouldBe true
+            userIdEquals("foo-bar-baz").apply {
+                toString() shouldBe "metadata.user_id should be \"foo-bar-baz\""
+                test(body).apply {
+                    passed() shouldBe true
+                    failureMessage() shouldBe "metadata.user_id should be \"foo-bar-baz\""
+                    negatedFailureMessage() shouldBe "metadata.user_id should not be \"foo-bar-baz\""
+                }
+            }
             userIdEquals("foo-bar-bUzz").test(body).passed() shouldBe false
-            maxTokensEquals(20).test(body).passed() shouldBe true
+            maxTokensEquals(20).apply {
+                toString() shouldBe "maxTokens should be 20"
+                test(body).apply {
+                    passed() shouldBe true
+                    failureMessage() shouldBe "maxTokens should be 20"
+                    negatedFailureMessage() shouldBe "maxTokens should not be 20"
+                }
+            }
             maxTokensEquals(42).test(body).passed() shouldBe false
         }
     }
@@ -72,7 +139,6 @@ class AnthropicAiMatchersTest {
               "stream" : false
             }""",
         ) { body ->
-
             userMessageContains("Hello there.").test(body).passed() shouldBe true
             userMessageContains("Can you explain LLMs").test(body).passed() shouldBe true
             maxTokensEquals(20).test(body).passed() shouldBe true

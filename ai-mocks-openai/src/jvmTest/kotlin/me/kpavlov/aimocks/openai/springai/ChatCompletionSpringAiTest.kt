@@ -17,7 +17,7 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
             temperature = temperatureValue
             seed = seedValue
             model = modelName
-            maxCompletionTokens = maxCompletionTokensValue
+            maxTokens = maxCompletionTokensValue
             systemMessageContains("helpful pirate")
             userMessageContains("say 'Hello!'")
         } responds {
@@ -43,7 +43,7 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
             temperature = temperatureValue
             seed = seedValue
             model = modelName
-            maxCompletionTokens = maxCompletionTokensValue
+            maxTokens = maxCompletionTokensValue
             systemMessageContains("helpful pirate")
             userMessageContains("say 'Hello!'")
         } respondsStream {

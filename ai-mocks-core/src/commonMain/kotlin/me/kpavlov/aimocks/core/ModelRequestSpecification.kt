@@ -6,20 +6,28 @@ import io.kotest.matchers.string.containIgnoringCase
 import me.kpavlov.mokksy.kotest.doesNotContain
 import me.kpavlov.mokksy.kotest.doesNotContainIgnoringCase
 
-public abstract class ChatRequestSpecification<P>(
+@Suppress("LongParameterList", "TooManyFunctions")
+public abstract class ModelRequestSpecification<P>(
     public var temperature: Double? = null,
-    public var maxCompletionTokens: Long? = null,
+    public var maxTokens: Long? = null,
+    public var topK: Long? = null,
+    public var topP: Double? = null,
     public var model: String? = null,
     public val requestBody: MutableList<Matcher<P?>> = mutableListOf(),
     public val requestBodyString: MutableList<Matcher<String?>> = mutableListOf(),
 ) {
-    public fun temperature(temperature: Double): ChatRequestSpecification<P> =
+    public fun temperature(temperature: Double): ModelRequestSpecification<P> =
         apply { this.temperature = temperature }
 
-    public fun model(model: String): ChatRequestSpecification<P> = apply { this.model = model }
+    public fun model(model: String): ModelRequestSpecification<P> = apply { this.model = model }
 
-    public fun maxCompletionTokens(value: Long): ChatRequestSpecification<P> =
-        apply { this.maxCompletionTokens = value }
+    public fun maxTokens(value: Long): ModelRequestSpecification<P> =
+        apply { this.maxTokens = value }
+
+    public fun topK(value: Long): ModelRequestSpecification<P> = apply { this.topK = value }
+
+    public fun topK(value: Number): ModelRequestSpecification<P> =
+        apply { this.topP = value.toDouble() }
 
     /**
      * Adds a condition to ensure the request body contains the specified substring.
@@ -27,7 +35,7 @@ public abstract class ChatRequestSpecification<P>(
      * @param substring The substring that the request body should contain.
      * @return The current instance of ChatRequestSpecification with the updated condition.
      */
-    public fun requestBodyContains(substring: String): ChatRequestSpecification<P> =
+    public fun requestBodyContains(substring: String): ModelRequestSpecification<P> =
         apply {
             requestBodyString += contain(substring)
         }
@@ -39,7 +47,7 @@ public abstract class ChatRequestSpecification<P>(
      * @param substring The substring that the request body should contain, case-insensitive.
      * @return The current instance of ChatRequestSpecification with the updated condition.
      */
-    public fun requestBodyContainsIgnoringCase(substring: String): ChatRequestSpecification<P> =
+    public fun requestBodyContainsIgnoringCase(substring: String): ModelRequestSpecification<P> =
         apply {
             requestBodyString += containIgnoringCase(substring)
         }
@@ -53,7 +61,7 @@ public abstract class ChatRequestSpecification<P>(
      */
     public fun requestBodyDoesNotContainsIgnoringCase(
         substring: String,
-    ): ChatRequestSpecification<P> =
+    ): ModelRequestSpecification<P> =
         apply {
             requestBodyString += doesNotContainIgnoringCase(substring)
         }
@@ -64,7 +72,7 @@ public abstract class ChatRequestSpecification<P>(
      * @param substring The substring that the request body should contain, case-sensitive.
      * @return The current instance of ChatRequestSpecification with the updated condition.
      */
-    public fun requestBodyDoesNotContains(substring: String): ChatRequestSpecification<P> =
+    public fun requestBodyDoesNotContains(substring: String): ModelRequestSpecification<P> =
         apply {
             requestBodyString += doesNotContain(substring)
         }

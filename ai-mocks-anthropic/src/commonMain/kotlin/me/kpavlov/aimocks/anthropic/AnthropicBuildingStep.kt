@@ -79,7 +79,7 @@ public class AnthropicBuildingStep(
     }
 
     /**
-     * Configures a streaming response for a chat completion request by applying the provided specifications.
+     * Configures a streaming response for a chat completions request by applying the provided specifications.
      *
      * This function sets up
      * a [chunked response](https://docs.anthropic.com/en/api/messages-streaming#basic-streaming-request)
