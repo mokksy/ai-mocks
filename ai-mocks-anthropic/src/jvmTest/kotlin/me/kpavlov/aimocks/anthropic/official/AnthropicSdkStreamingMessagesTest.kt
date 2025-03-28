@@ -69,7 +69,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
             MessageCreateParams
                 .builder()
                 .temperature(temperatureValue)
-                .maxTokens(maxCompletionTokensValue)
+                .maxTokens(maxTokensValue)
                 .metadata(Metadata.builder().userId(userIdValue).build())
                 .system("You are a person from 60s")
                 .addUserMessage("What do we need?")

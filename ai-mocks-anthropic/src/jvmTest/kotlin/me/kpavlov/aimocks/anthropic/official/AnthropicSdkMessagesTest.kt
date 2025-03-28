@@ -16,7 +16,7 @@ internal class AnthropicSdkMessagesTest : AbstractAnthropicTest() {
         anthropic.messages {
             temperature = temperatureValue
             model = modelName
-            maxTokens = maxCompletionTokensValue
+            maxTokens = maxTokensValue
             userId = userIdValue
             topP = 0.42
             topK = 100500
@@ -35,7 +35,7 @@ internal class AnthropicSdkMessagesTest : AbstractAnthropicTest() {
                 .topP(0.42)
                 .topK(100500)
                 .temperature(temperatureValue)
-                .maxTokens(maxCompletionTokensValue)
+                .maxTokens(maxTokensValue)
                 .metadata(Metadata.builder().userId(userIdValue).build())
                 .system("You are witch")
                 .addUserMessage("Just say 'He-he!' and nothing else")
