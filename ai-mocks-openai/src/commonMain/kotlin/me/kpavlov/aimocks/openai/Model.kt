@@ -59,7 +59,8 @@ public data class ChatResponse(
     val id: String,
     @EncodeDefault(ALWAYS)
     @SerialName("object")
-    val objectType: String = "chat.completion",
+    @Required
+    val objectType: String = "chat.completions",
     val created: Long,
     val model: String,
     @SerialName("service_tier")
@@ -106,19 +107,19 @@ public data class Metadata(
 )
 
 /**
- * Represents a request for generating a chat-based completion in an OpenAI-like environment.
- * See [Create chat completion](https://platform.openai.com/docs/api-reference/chat/create).
+ * Represents a request for generating a chat-based completions in an OpenAI-like environment.
+ * See [Create chat completions](https://platform.openai.com/docs/api-reference/chat/create).
  *
  * This data class is used for serialization and defines the parameters required to send
- * a chat completion request, including the input messages, model to use, and various tuning parameters.
+ * a chat completions request, including the input messages, model to use, and various tuning parameters.
  *
  * @property messages A list of input messages that define the conversation context, each with a role and content.
- * @property model The identifier of the language model to be used for generating the completion.
+ * @property model The identifier of the language model to be used for generating the completions.
  * @property store A flag indicating whether the conversation context should be stored for further use.
  * @property reasoningEffort Specifies the level of computational effort to apply during reasoning
  * ("low", "medium", "high").
  * @property metadata Optional metadata associated with the request, such as tags.
- * @property maxCompletionTokens The maximum number of tokens allowed in the generated completion.
+ * @property maxCompletionTokens The maximum number of tokens allowed in the generated completions.
  * @property frequencyPenalty The penalty value for repetitive token usage in the response.
  * @property responseFormat Defines the response format, including optional JSON schema support.
  * @property temperature A value between 0.0 and 1.0 that controls the randomness of the generated response.

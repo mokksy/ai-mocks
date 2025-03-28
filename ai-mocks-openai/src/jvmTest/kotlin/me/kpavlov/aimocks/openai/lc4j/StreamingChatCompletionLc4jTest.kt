@@ -37,7 +37,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
     @Test
     fun `Should respond to Streaming Chat Completion`() =
         runTest {
-            openai.completion("lc4j-openai-completion-list") {
+            openai.completion("lc4j-openai-completions-list") {
                 temperature = temperatureValue
                 model = modelName
                 seed = seedValue
@@ -56,7 +56,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
     @Test
     fun `Should respond to Streaming Chat Completion with Flow`() =
         runTest {
-            openai.completion("lc4j-openai-completion-flow") {
+            openai.completion("lc4j-openai-completions-flow") {
                 temperature = temperatureValue
                 model = modelName
                 seed = seedValue

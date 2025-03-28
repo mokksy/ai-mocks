@@ -1,11 +1,11 @@
 package me.kpavlov.aimocks.anthropic
 
 import com.anthropic.models.messages.MessageCreateParams
-import me.kpavlov.aimocks.core.ChatRequestSpecification
+import me.kpavlov.aimocks.core.ModelRequestSpecification
 
 public open class AnthropicMessagesRequestSpecification(
     public var userId: String? = null,
-) : ChatRequestSpecification<MessageCreateParams.Body>() {
+) : ModelRequestSpecification<MessageCreateParams.Body>() {
     public fun userId(value: String): AnthropicMessagesRequestSpecification =
         apply { this.userId = value }
 

@@ -42,7 +42,7 @@ class MockOpenaiJavaTest {
         MOCK_OPENAI.completion(req -> {
             req.temperature(temperature);
             req.model("gpt-4o-mini");
-            req.maxCompletionTokens(maxTokens);
+            req.maxTokens(maxTokens);
             req.requestBodyContains("say 'Hey!'");
         }).responds(response -> {
             response.assistantContent("Hey!");
@@ -70,7 +70,7 @@ class MockOpenaiJavaTest {
     void shouldRespondToChatCompletionWithError() {
         MOCK_OPENAI.completion(req -> {
             req.temperature(temperature);
-            req.maxCompletionTokens(maxTokens);
+            req.maxTokens(maxTokens);
         }).respondsError(response -> {
             response.setBody("Ahh, ohh!");
             response.setHttpStatus(HttpStatusCode.Companion.getPaymentRequired());

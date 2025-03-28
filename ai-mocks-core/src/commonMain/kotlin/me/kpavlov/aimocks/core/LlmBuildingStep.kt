@@ -11,7 +11,7 @@ import kotlin.reflect.KClass
  * within a mock server for large language model interactions.
  *
  * This class provides methods to specify both expected responses and error responses
- * for completion requests. It serves as a framework for configuring the behavior
+ * for completions requests. It serves as a framework for configuring the behavior
  * of a mock server's response mechanism.
  *
  * @param P The type of the request body for the interaction.
@@ -28,7 +28,7 @@ public abstract class LlmBuildingStep<P : Any, R : ChatResponseSpecification<P, 
     public abstract infix fun responds(block: R.() -> Unit)
 
     /**
-     * Defines the expected response from the system in response to a completion request.
+     * Defines the expected response from the system in response to a completions request.
      *
      * This method allows specifying the response using a Consumer-like approach for Java interop.
      *
@@ -67,7 +67,7 @@ public abstract class LlmBuildingStep<P : Any, R : ChatResponseSpecification<P, 
     }
 
     /**
-     * Specifies an erroneous response for a completion request.
+     * Specifies an erroneous response for a completions request.
      *
      * This method enables defining the error response using a Consumer-like approach for interoperability with Java.
      *

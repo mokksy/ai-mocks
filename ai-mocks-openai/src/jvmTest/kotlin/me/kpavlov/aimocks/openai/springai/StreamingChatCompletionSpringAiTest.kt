@@ -16,7 +16,7 @@ internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
             temperature = temperatureValue
             seed = seedValue
             model = modelName
-            maxCompletionTokens = maxCompletionTokensValue
+            maxTokens = maxCompletionTokensValue
             systemMessageContains("helpful pirate")
             userMessageContains("say 'Hello!'")
         } respondsStream {

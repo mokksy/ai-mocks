@@ -14,7 +14,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
     fun `Should respond to Streaming Messages Completion with chunk list`() =
         runTest {
             val tokens = listOf("All", " we", " need", " is", " Love")
-            anthropic.messages("openai-completion-list") {
+            anthropic.messages("openai-completions-list") {
                 temperature = temperatureValue
                 model = modelName
                 userId = userIdValue
@@ -47,7 +47,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
                     " change.",
                     " ✌️☮️🪷",
                 )
-            anthropic.messages("openai-completion-flow") {
+            anthropic.messages("openai-completions-flow") {
                 temperature = temperatureValue
                 model = modelName
                 userId = userIdValue

@@ -6,12 +6,12 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 class ChatRequestSpecificationTest {
-    lateinit var subject: ChatRequestSpecification<String>
+    lateinit var subject: ModelRequestSpecification<String>
 
     @BeforeTest
     fun before() {
         subject =
-            object : ChatRequestSpecification<String>() {
+            object : ModelRequestSpecification<String>() {
                 override fun systemMessageContains(substring: String) = TODO()
 
                 override fun userMessageContains(substring: String) = TODO()

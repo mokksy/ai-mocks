@@ -56,8 +56,16 @@ public open class MockAnthropic(
                     body += AnthropicAiMatchers.temperatureEquals(it)
                 }
 
-                chatRequestSpec.maxCompletionTokens?.let {
+                chatRequestSpec.maxTokens?.let {
                     body += AnthropicAiMatchers.maxTokensEquals(it)
+                }
+
+                chatRequestSpec.topP?.let {
+                    body += AnthropicAiMatchers.topPEquals(it)
+                }
+
+                chatRequestSpec.topK?.let {
+                    body += AnthropicAiMatchers.topKEquals(it)
                 }
 
                 chatRequestSpec.model?.let {

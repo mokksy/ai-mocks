@@ -109,7 +109,7 @@ anthropic.messages {
 
 Or, you can use a flow to generate the response:
 ```kotlin
-anthropic.messages("openai-completion-flow") {
+anthropic.messages("openai-completions-flow") {
   temperature = temperatureValue
   model = modelName
   userId = userIdValue

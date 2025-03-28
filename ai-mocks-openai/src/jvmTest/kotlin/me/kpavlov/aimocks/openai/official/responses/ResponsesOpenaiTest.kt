@@ -1,24 +1,25 @@
-package me.kpavlov.aimocks.openai.official
+package me.kpavlov.aimocks.openai.official.responses
 
 import com.openai.models.responses.ResponseCreateParams
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
+import me.kpavlov.aimocks.openai.official.AbstractOpenaiTest
 import me.kpavlov.aimocks.openai.openai
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.measureTimedValue
 
 internal class ResponsesOpenaiTest : AbstractOpenaiTest() {
     @Test
     fun `Should respond to Responses`() {
-        openai.completion {
+        openai.responses {
             temperature = temperatureValue
             model = modelName
-            maxCompletionTokens = maxCompletionTokensValue
-            systemMessageContains("helpful assistant")
-            userMessageContains("say 'Hello!'")
-        } responds {
-            assistantContent = "Hello"
+            maxTokens = maxCompletionTokensValue
+            systemMessageContains("Be ultra-brief.")
+            userMessageContains("How to start business?")
+        } respond {
+            assistantContent = "Find. Create. Sell."
             finishReason = "stop"
             delay = 200.milliseconds
         }
@@ -38,19 +39,24 @@ internal class ResponsesOpenaiTest : AbstractOpenaiTest() {
 
         result.validate()
 
-        result.model() shouldBe modelName
-        result.text().orElseThrow() shouldBe "Hello"
+        result.model().asString() shouldBe modelName
+        val message = result.output().first().asMessage()
+        message
+            .content()
+            .first()
+            .asOutputText()
+            .text() shouldBe "Find. Create. Sell."
     }
 
     private fun createResponseCreateRequestParams(): ResponseCreateParams {
         val params =
-            ResponseCreateParams
+            ResponseCreateParams.Companion
                 .builder()
                 .temperature(temperatureValue)
                 .maxOutputTokens(maxCompletionTokensValue)
                 .model(modelName)
-                .instructions("You are a helpful assistant.")
-                .input("Just say 'Hello!' and nothing else")
+                .instructions("Be ultra-brief.")
+                .input("How to start business?")
                 .build()
         return params
     }

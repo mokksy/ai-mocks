@@ -77,6 +77,36 @@ internal object AnthropicAiMatchers {
             override fun toString(): String = "metadata.user_id should be \"$userId\""
         }
 
+    fun topPEquals(topP: Double): Matcher<MessageCreateParams.Body?> =
+        object : Matcher<MessageCreateParams.Body?> {
+            override fun test(value: MessageCreateParams.Body?): MatcherResult =
+                MatcherResult(
+                    value != null &&
+                        value
+                            .topP()
+                            .getOrNull() == topP,
+                    { "top_p should be \"$topP\"" },
+                    { "top_p should not be \"$topP\"" },
+                )
+
+            override fun toString(): String = "top_p should be \"$topP\""
+        }
+
+    fun topKEquals(topK: Long): Matcher<MessageCreateParams.Body?> =
+        object : Matcher<MessageCreateParams.Body?> {
+            override fun test(value: MessageCreateParams.Body?): MatcherResult =
+                MatcherResult(
+                    value != null &&
+                        value
+                            .topK()
+                            .getOrNull() == topK,
+                    { "top_k should be \"$topK\"" },
+                    { "top_k should not be \"$topK\"" },
+                )
+
+            override fun toString(): String = "top_k should be \"$topK\""
+        }
+
     fun modelEquals(model: String): Matcher<MessageCreateParams.Body?> =
         object : Matcher<MessageCreateParams.Body?> {
             override fun test(value: MessageCreateParams.Body?): MatcherResult =
