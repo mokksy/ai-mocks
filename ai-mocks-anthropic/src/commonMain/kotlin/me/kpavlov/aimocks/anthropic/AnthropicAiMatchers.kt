@@ -85,11 +85,11 @@ internal object AnthropicAiMatchers {
                         value
                             .topP()
                             .getOrNull() == topP,
-                    { "top_p should be \"$topP\"" },
-                    { "top_p should not be \"$topP\"" },
+                    { "top_p should be $topP" },
+                    { "top_p should not be $topP" },
                 )
 
-            override fun toString(): String = "top_p should be \"$topP\""
+            override fun toString(): String = "top_p should be $topP"
         }
 
     fun topKEquals(topK: Long): Matcher<MessageCreateParams.Body?> =
@@ -100,11 +100,11 @@ internal object AnthropicAiMatchers {
                         value
                             .topK()
                             .getOrNull() == topK,
-                    { "top_k should be \"$topK\"" },
-                    { "top_k should not be \"$topK\"" },
+                    { "top_k should be $topK" },
+                    { "top_k should not be $topK" },
                 )
 
-            override fun toString(): String = "top_k should be \"$topK\""
+            override fun toString(): String = "top_k should be $topK"
         }
 
     fun modelEquals(model: String): Matcher<MessageCreateParams.Body?> =
@@ -130,11 +130,11 @@ internal object AnthropicAiMatchers {
                         value
                             .temperature()
                             .getOrNull() == temperature,
-                    { "temperature should be \"$temperature\"" },
-                    { "temperature should not be \"$temperature\"" },
+                    { "temperature should be $temperature" },
+                    { "temperature should not be $temperature" },
                 )
 
-            override fun toString(): String = "temperature should be \"$temperature\""
+            override fun toString(): String = "temperature should be $temperature"
         }
 
     fun maxTokensEquals(maxTokens: Long): Matcher<MessageCreateParams.Body?> =
@@ -144,11 +144,11 @@ internal object AnthropicAiMatchers {
                     value != null &&
                         value
                             .maxTokens() == maxTokens,
-                    { "maxTokens should be \"$maxTokens\"" },
-                    { "maxTokens should not be \"$maxTokens\"" },
+                    { "maxTokens should be $maxTokens" },
+                    { "maxTokens should not be $maxTokens" },
                 )
 
-            override fun toString(): String = "maxTokens should be \"$maxTokens\""
+            override fun toString(): String = "maxTokens should be $maxTokens"
         }
 
     private fun checkTextBlockContains(
