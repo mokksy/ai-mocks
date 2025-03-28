@@ -83,7 +83,6 @@ internal object StreamingResponseHelper {
         )
     }
 
-    @Suppress("LongParameterList")
     internal fun createTextDeltaChunk(
         index: Long = 0,
         content: String,
@@ -101,7 +100,6 @@ internal object StreamingResponseHelper {
         )
     }
 
-    @Suppress("LongParameterList")
     internal fun createMessageDeltaChunk(
         stopReason: String,
         outputTokens: Long,
