@@ -2,41 +2,51 @@ package me.kpavlov.aimocks.anthropic.official
 
 import com.anthropic.models.messages.MessageCreateParams
 import com.anthropic.models.messages.Metadata
-import io.kotest.matchers.comparables.shouldBeLessThan
-import kotlinx.coroutines.flow.count
+import io.kotest.matchers.collections.shouldContainExactly
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.stream.consumeAsFlow
 import kotlinx.coroutines.test.runTest
 import me.kpavlov.aimocks.anthropic.anthropic
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
-import kotlin.time.measureTimedValue
 
 internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
     @Test
     fun `Should respond to Streaming Messages Completion with chunk list`() =
         runTest {
+            val tokens = listOf("All", " we", " need", " is", " Love")
             anthropic.messages("openai-completion-list") {
                 temperature = temperatureValue
                 model = modelName
                 userId = userIdValue
             } respondsStream {
-                responseChunks = listOf("All", " we", " need", " is", " Love")
+                responseChunks = tokens
                 delay = 50.milliseconds
                 delayBetweenChunks = 10.milliseconds
                 stopReason = "end_turn"
             }
 
-            verifyStreamingCall()
+            verifyStreamingCall(tokens)
         }
 
     @Test
     fun `Should respond to Streaming Chat Completion with Flow`() =
         runTest {
+            val tokens =
+                listOf(
+                    "What",
+                    " we",
+                    " need",
+                    " is",
+                    " a",
+                    " revolution",
+                    " of",
+                    " love,",
+                    " understanding,",
+                    " and",
+                    " social",
+                    " change.",
+                    " ✌️☮️🪷",
+                )
             anthropic.messages("openai-completion-flow") {
                 temperature = temperatureValue
                 model = modelName
@@ -44,47 +54,43 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
             } respondsStream {
                 responseFlow =
                     flow {
-                        emit("All")
-                        emit(" we")
-                        emit(" need")
-                        emit(" is")
-                        emit(" Love")
+                        tokens.forEach { emit(it) }
                     }
                 delay = 60.milliseconds
                 delayBetweenChunks = 15.milliseconds
-                stopReason = "stop"
+                stopReason = "end_turn"
             }
 
-            verifyStreamingCall()
+            verifyStreamingCall(tokens)
         }
 
-    private suspend fun verifyStreamingCall() {
+    private suspend fun verifyStreamingCall(tokens: List<String>) {
         val params =
             MessageCreateParams
                 .builder()
                 .temperature(temperatureValue)
                 .maxTokens(maxCompletionTokensValue)
                 .metadata(Metadata.builder().userId(userIdValue).build())
-                .system("You are a man from 60s")
+                .system("You are a person from 60s")
                 .addUserMessage("What do we need?")
                 .model(modelName)
                 .build()
 
-        val timedValue =
-            measureTimedValue {
-                client
-                    .messages()
-                    .createStreaming(params)
-                    .stream()
-                    .consumeAsFlow()
-                    .onStart { logger.info { "Started streaming" } }
-                    .onEach {
-                        logger
-                            .info { it }
-                    }.onCompletion { logger.info { "Completed streaming" } }
-                    .count()
-            }
-        timedValue.duration shouldBeLessThan 10.seconds
-        timedValue.value shouldBeLessThan 10
+        val buffer =
+            client
+                .messages()
+                .createStreaming(params)
+                .stream()
+                .filter { it.isContentBlockDelta() }
+                .map {
+                    it
+                        .asContentBlockDelta()
+                        .delta()
+                        .asText()
+                        .text()
+                }.toList()
+
+        logger.info { buffer.joinToString("") }
+        buffer shouldContainExactly tokens
     }
 }
