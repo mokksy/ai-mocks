@@ -10,6 +10,8 @@ val openai = MockOpenai(verbose = true)
 internal abstract class AbstractMockOpenaiTest {
     protected var temperatureValue: Double = -1.0
     protected var seedValue: Int = -1
+    protected var topPValue: Double = -1.0
+    protected var topKValue: Long = -1
     protected var maxCompletionTokensValue: Long = -1
     protected lateinit var modelName: String
     protected val logger = KotlinLogging.logger(name = this::class.simpleName!!)
@@ -18,6 +20,8 @@ internal abstract class AbstractMockOpenaiTest {
     fun beforeEach() {
         modelName = arrayOf("gpt-4o", "gpt-4o-mini", "o1", "o1-mini", "o3-mini").random()
         seedValue = Random.nextInt(1, 100500)
+        topPValue = Random.nextDouble(0.1, 1.0)
+        topKValue = Random.nextLong(1, 42)
         temperatureValue = Random.nextDouble(0.0, 1.0)
         maxCompletionTokensValue = Random.nextLong(100, 500)
     }

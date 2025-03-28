@@ -6,6 +6,7 @@ import io.kotest.matchers.string.containIgnoringCase
 import me.kpavlov.mokksy.kotest.doesNotContain
 import me.kpavlov.mokksy.kotest.doesNotContainIgnoringCase
 
+@Suppress("LongParameterList", "TooManyFunctions")
 public abstract class ModelRequestSpecification<P>(
     public var temperature: Double? = null,
     public var maxTokens: Long? = null,

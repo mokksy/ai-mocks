@@ -21,6 +21,7 @@ internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
         openai.completion("openai-completions-list") {
             temperature = temperatureValue
             model = modelName
+            topP = topPValue
         } respondsStream {
             responseChunks = listOf("All", " we", " need", " is", " Love")
             delay = 50.milliseconds
@@ -60,6 +61,7 @@ internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
                 .streamOptions(
                     ChatCompletionStreamOptions.builder().includeUsage(true).build(),
                 ).temperature(temperatureValue)
+                .topP(topPValue)
                 .seed(seedValue.toLong())
                 .messages(
                     listOf(

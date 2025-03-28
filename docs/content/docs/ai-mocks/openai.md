@@ -34,23 +34,29 @@ implementation("me.kpavlov.aimocks:ai-mocks-openai-jvm:$latestVersion")
     {{< /tab >}}
     {{< /tabs >}}
 
+## Chat Completions API
+
 Set up a mock server and define mock responses:
 
 ```kotlin
 val openai = MockOpenai(verbose = true)
+```
+Let's simulate OpenAI [Chat Completions API](https://platform.openai.com/docs/api-reference/chat):
 
+```kotlin
 // Define mock response
 openai.completion {
-  temperature = temperatureValue
-  seed = seedValue
+  temperature = 0.7
+  seed = 42
   model = "gpt-4o-mini"
-  maxCompletionTokens = maxCompletionTokensValue
+  maxTokens = 100
+  topP = 0.95
   systemMessageContains("helpful assistant")
   userMessageContains("say 'Hello!'")
 } responds {
   assistantContent = "Hello"
   finishReason = "stop"
-  delay = 42.milliseconds // delay before answer
+  delay = 200.milliseconds // delay before answer
 }
 
 // OpenAI client setup
@@ -66,9 +72,10 @@ val client: OpenAIClient =
 val params =
   ChatCompletionCreateParams
     .builder()
-    .temperature(temperatureValue)
-    .maxCompletionTokens(maxCompletionTokensValue)
-    .seed(seedValue.toLong())
+    .temperature(0.7)
+    .maxCompletionTokens(100)
+    .topP(0.95)
+    .seed(42)
     .messages(
       listOf(
         ChatCompletionMessageParam.ofSystem(
@@ -85,7 +92,7 @@ val params =
             .build(),
         ),
       ),
-    ).model(ChatModel.GPT_4O_MINI)
+    ).model("gpt-4o-mini")
     .build()
 
 val result: ChatCompletion =
@@ -103,10 +110,11 @@ With AI-Mocks it is possible to test negative scenarios, such as erroneous respo
 
 ```kotlin
 openai.completion {
-  temperature = temperatureValue
-  seed = seedValue
-  model = modelName
-  maxCompletionTokens = maxCompletionTokensValue
+  temperature = 0.7
+  seed = 42
+  model = "gpt-4o-mini"
+  maxTokens = 100
+  topP = 0.95
   systemMessageContains("helpful assistant")
   userMessageContains("say 'Hello!'")
 } respondsError {
@@ -139,9 +147,11 @@ val result =
     parameters =
       OpenAiChatRequestParameters
         .builder()
-        .temperature(temperature)
+        .temperature(0.7)
         .modelName("gpt-4o-mini")
-        .seed(seedValue)
+        .maxCompletionTokens(100)
+        .topP(0.95)
+        .seed(42)
         .build()
     messages += userMessage("Say Hello")
   }
@@ -156,8 +166,12 @@ Mock streaming responses easily with flow support:
 ```kotlin
 // configure mock openai
 openai.completion {
-  temperature = temperatureValue
+  temperature = 0.7
   model = "gpt-4o-mini"
+  maxTokens = 100
+  topP = 0.95
+  topK = 40
+  seed = 42
   userMessageContains("What is in the sea?")
 } respondsStream {
   responseFlow =
@@ -166,6 +180,8 @@ openai.completion {
       emit(" submarine")
     }
   finishReason = "stop"
+  delay = 60.milliseconds
+  delayBetweenChunks = 15.milliseconds
 
   // send "[DONE]" as last message to finish the stream in openai4j
   sendDone = true
@@ -185,10 +201,14 @@ model
     parameters =
       ChatRequestParameters
         .builder()
-        .temperature(temperatureValue)
+        .temperature(0.7)
         .modelName("gpt-4o-mini")
+        .maxTokens(100)
+        .topP(0.95)
+        .topK(40)
+        .seed(42)
         .build()
-    messages += userMessage(userMessage)
+    messages += userMessage("What is in the sea?")
   }.collect {
     when (it) {
       is PartialResponse -> {
@@ -231,15 +251,18 @@ val chatClient =
 
 // Set up a mock for the LLM call
 openai.completion {
-  temperature = temperatureValue
-  seed = seedValue
-  model = modelName
-  maxCompletionTokens = maxCompletionTokensValue
+  temperature = 0.7
+  seed = 42
+  model = "gpt-4o-mini"
+  maxTokens = 100
+  topP = 0.95
+  topK = 40
   systemMessageContains("helpful pirate")
   userMessageContains("say 'Hello!'")
 } responds {
   assistantContent = "Ahoy there, matey! Hello!"
   finishReason = "stop"
+  delay = 200.milliseconds
 }
 
 // Configure Spring-AI client call
@@ -251,10 +274,12 @@ val response =
     .options<OpenAiChatOptions>(
       OpenAiChatOptions
         .builder()
-        .maxCompletionTokens(maxCompletionTokensValue.toInt())
-        .temperature(temperatureValue)
-        .model(modelName)
-        .seed(seedValue)
+        .maxCompletionTokens(100)
+        .temperature(0.7)
+        .topP(0.95)
+        .topK(40)
+        .model("gpt-4o-mini")
+        .seed(42)
         .build(),
     )
     // Make a call

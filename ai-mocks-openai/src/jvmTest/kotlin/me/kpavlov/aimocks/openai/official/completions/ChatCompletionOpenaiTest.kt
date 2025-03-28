@@ -25,6 +25,7 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
             temperature = temperatureValue
             seed = seedValue
             model = modelName
+            topP = topPValue
             maxTokens = maxCompletionTokensValue
             systemMessageContains("helpful assistant")
             userMessageContains("say 'Hello!'")
@@ -167,6 +168,7 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
             ChatCompletionCreateParams
                 .builder()
                 .temperature(temperatureValue)
+                .topP(topPValue)
                 .maxCompletionTokens(maxCompletionTokensValue)
                 .seed(seedValue.toLong())
                 .messages(
