@@ -108,13 +108,14 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(libs.assertj.core)
                 implementation(libs.awaitility.kotlin)
+                implementation(libs.finchly)
                 implementation(libs.junit.jupiter.params)
                 implementation(libs.langchain4j.kotlin)
                 implementation(libs.langchain4j.openai)
                 implementation(libs.openai.java)
-                implementation(project.dependencies.platform(libs.spring.bom))
-                implementation(project.dependencies.platform(libs.spring.ai.bom))
                 implementation(libs.spring.ai.openai)
+                implementation(project.dependencies.platform(libs.spring.ai.bom))
+                implementation(project.dependencies.platform(libs.spring.bom))
                 runtimeOnly(libs.slf4j.simple)
             }
         }

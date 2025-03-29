@@ -24,12 +24,16 @@ spotless = "7.0.2"
 spring = "6.2.5"
 spring-ai = "1.0.0-M6"
 anthropic-java="0.9.2"
+finchly="0.1.1"
 
 [libraries]
+anthropic-java-client-okhttp = { group = "com.anthropic", name="anthropic-java-client-okhttp", version.ref="anthropic-java" }
+anthropic-java-core = { group = "com.anthropic", name="anthropic-java-core", version.ref="anthropic-java" }
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }
 awaitility-kotlin = { group = "org.awaitility", name = "awaitility-kotlin", version.ref = "awaitility" }
 datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
+finchly = { module = "me.kpavlov.finchly:finchly", version.ref = "finchly" }
 junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junitJupiter" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-assertions-json = { module = "io.kotest:kotest-assertions-json", version.ref = "kotest" }
@@ -46,20 +50,18 @@ ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-double-receive = { module = "io.ktor:ktor-server-double-receive", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 ktor-server-sse = { module = "io.ktor:ktor-server-sse", version.ref = "ktor" }
+langchain4j-anthropic = { group = "dev.langchain4j", name = "langchain4j-anthropic", version.ref = "langchain4j" }
 langchain4j-bom = { group = "dev.langchain4j", name = "langchain4j-bom", version.ref = "langchain4j" }
 langchain4j-kotlin = { group = "me.kpavlov.langchain4j.kotlin", name = "langchain4j-kotlin", version.ref = "langchain4jKotlin" }
 langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai", version.ref = "langchain4j" }
-langchain4j-anthropic = { group = "dev.langchain4j", name = "langchain4j-anthropic", version.ref = "langchain4j" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-dsl = { module = "io.mockk:mockk-dsl", version.ref = "mockk" }
 netty = { group = "io.netty", name = "netty-handler", version.ref = "netty" }
 openai-java = { group = "com.openai", name = "openai-java", version.ref = "openai" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
-spring-bom = { group = "org.springframework", name = "spring-framework-bom", version.ref = "spring" }
 spring-ai-bom = { group = "org.springframework.ai", name="spring-ai-bom", version.ref = "spring-ai" }
 spring-ai-openai = { group = "org.springframework.ai", name="spring-ai-openai" }
-anthropic-java-core = { group = "com.anthropic", name="anthropic-java-core", version.ref="anthropic-java" }
-anthropic-java-client-okhttp = { group = "com.anthropic", name="anthropic-java-client-okhttp", version.ref="anthropic-java" }
+spring-bom = { group = "org.springframework", name = "spring-framework-bom", version.ref = "spring" }
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

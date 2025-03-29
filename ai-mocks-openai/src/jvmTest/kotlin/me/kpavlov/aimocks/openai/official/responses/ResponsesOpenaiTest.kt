@@ -39,22 +39,24 @@ internal class ResponsesOpenaiTest : AbstractOpenaiTest() {
 
         result.validate()
 
-        result.model().asString() shouldBe modelName
         val message = result.output().first().asMessage()
+        logger.info { "Response message: $message" }
         message
             .content()
             .first()
             .asOutputText()
             .text() shouldBe "Find. Create. Sell."
+        result.model().asString() shouldBe modelName
     }
 
     private fun createResponseCreateRequestParams(): ResponseCreateParams {
         val params =
-            ResponseCreateParams.Companion
+            ResponseCreateParams
                 .builder()
                 .temperature(temperatureValue)
                 .maxOutputTokens(maxCompletionTokensValue)
                 .model(modelName)
+                // .model("gpt-4o-mini")
                 .instructions("Be ultra-brief.")
                 .input("How to start business?")
                 .build()
