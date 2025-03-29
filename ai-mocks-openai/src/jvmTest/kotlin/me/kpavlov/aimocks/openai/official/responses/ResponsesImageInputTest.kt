@@ -25,10 +25,12 @@ import kotlin.time.measureTimedValue
 @TestInstance(Lifecycle.PER_CLASS)
 internal class ResponsesImageInputTest : AbstractOpenaiTest() {
     private lateinit var base64Image: String
+    private lateinit var base64ImageUrl: String
 
     @BeforeAll
     fun beforeAll() {
         base64Image = resourceAsBytes("/pipiro.webp").encodeBase64()
+        base64ImageUrl = "data:image/webp;base64,$base64Image"
     }
 
     @Test
@@ -38,9 +40,9 @@ internal class ResponsesImageInputTest : AbstractOpenaiTest() {
         openai.responses {
             temperature = temperatureValue
             model = modelName
-            systemMessageContains("You are an art expert")
+            instructionsContains("You are an art expert")
             userMessageContains("what's in this image?")
-            requestBodyContains(base64Image)
+            containsInputImageWithUrl(base64ImageUrl)
         } respond {
             assistantContent = """
                     The image depicts a cute, cartoonish creature resembling a small,
@@ -52,7 +54,7 @@ internal class ResponsesImageInputTest : AbstractOpenaiTest() {
         val imageInput =
             ResponseInputImage
                 .builder()
-                .imageUrl("data:image/webp;base64,$base64Image")
+                .imageUrl(base64ImageUrl)
                 .detail(ResponseInputImage.Detail.AUTO)
                 .build()
 

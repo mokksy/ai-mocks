@@ -13,12 +13,25 @@ public open class OpenaiResponsesRequestSpecification(
         }
 
     override fun systemMessageContains(substring: String) {
-        requestBodyString += contain(substring)
-//         requestBody.add(OpenAiMatchers.systemMessageContains(substring))
+        instructionsContains(substring)
+    }
+
+    public fun instructionsContains(substring: String) {
+        requestBody.add(OpenAiResponsesMatchers.instructionsContains(substring))
     }
 
     override fun userMessageContains(substring: String) {
         requestBodyString += contain(substring)
         // requestBody.add(OpenAiMatchers.userMessageContains(substring))
+    }
+
+    /**
+     * Checks if the input includes an image with the specified URL.
+     *
+     * @param imageUrl The URL of the image to check for in the input. Might be Base64 image url
+     */
+    public fun containsInputImageWithUrl(imageUrl: String) {
+        requestBodyString += contain(imageUrl)
+        // requestBody.add(OpenAiResponsesMatchers.containsInputImageWithUrl(substring))
     }
 }
