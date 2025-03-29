@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.measureTimedValue
 
-internal class ResponsesOpenaiTest : AbstractOpenaiTest() {
+internal class ResponsesTextTest : AbstractOpenaiTest() {
     @Test
     fun `Should respond to Responses`() {
         openai.responses {
