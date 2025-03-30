@@ -5,7 +5,7 @@
    ```shell
    git tag -d v0.2.0
    ```
-3. Perform the release
+2. Perform the release
 
    ```shell
    export GPG_TTY=$(tty)
@@ -27,10 +27,9 @@
    gpg -K --keyid-format SHORT
    ```
 
-4. Push
+3. Push
 
    ```shell
    git push origin 
    git push origin --tags
    ```
-
