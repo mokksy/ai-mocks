@@ -5,7 +5,6 @@ import io.kotest.matchers.MatcherResult
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldNot
 import io.ktor.http.Headers
-import java.util.function.Predicate
 
 /**
  * Custom matcher to verify that the Ktor [Headers] object contains a header with the specified name and value.
@@ -50,11 +49,11 @@ public infix fun Headers.shouldNotHaveHeader(header: Pair<String, String>) {
  * @param predicate the predicate to evaluate objects against
  * @return a [Matcher] that applies the given predicate to objects for evaluation
  */
-internal fun <T> predicateMatcher(predicate: Predicate<T?>): Matcher<T?> =
+internal fun <T> predicateMatcher(predicate: (T?) -> Boolean): Matcher<T?> =
     object : Matcher<T?> {
         override fun test(value: T?): MatcherResult =
             MatcherResult(
-                predicate.test(value),
+                predicate.invoke(value),
                 {
                     "Object '$value' should match predicate '$predicate'"
                 },

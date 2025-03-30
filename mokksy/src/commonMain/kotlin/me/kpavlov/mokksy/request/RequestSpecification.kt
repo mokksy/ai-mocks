@@ -13,7 +13,6 @@ import io.ktor.server.request.httpMethod
 import io.ktor.server.request.path
 import io.ktor.server.request.receive
 import io.ktor.server.request.receiveText
-import java.util.function.Predicate
 import kotlin.reflect.KClass
 
 /**
@@ -182,7 +181,7 @@ public open class RequestSpecificationBuilder<P : Any>(
      * @return The same instance of [RequestSpecificationBuilder] with the predicate applied
      *         for further customization.
      */
-    public fun bodyMatchesPredicate(predicate: Predicate<P?>): RequestSpecificationBuilder<P> {
+    public fun bodyMatchesPredicate(predicate: (P?) -> Boolean): RequestSpecificationBuilder<P> {
         this.body += predicateMatcher<P?>(predicate)
         return this
     }
@@ -197,7 +196,7 @@ public open class RequestSpecificationBuilder<P : Any>(
      *         for further customization.
      */
     public fun bodyMatchesPredicates(
-        vararg predicate: Predicate<P?>,
+        vararg predicate: (P?) -> Boolean,
     ): RequestSpecificationBuilder<P> {
         predicate.forEach { bodyMatchesPredicate(it) }
         return this
