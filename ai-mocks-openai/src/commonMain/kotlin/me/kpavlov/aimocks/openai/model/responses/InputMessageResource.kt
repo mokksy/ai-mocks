@@ -24,7 +24,9 @@ import kotlinx.serialization.Serializable
  * @property content A list of one or many input items to the model, containing different content types.
  * @property id The unique ID of the message input.
  * @property type The type of the message input. Always set to `message`.
- * @property status The status of item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API.
+ * @property status The status of item.
+ * One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API.
+ * @author Konstantin Pavlov
  */
 @Serializable
 public data class InputMessageResource(

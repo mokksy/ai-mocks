@@ -11,6 +11,16 @@ import java.time.Instant
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.random.Random
 
+/**
+ * Represents a building step in the MokksyServer framework for configuring OpenAI responses.
+ *
+ * @constructor Initializes the `OpenaiResponsesBuildingStep` with the specified Mokksy server instance
+ * and a building step for handling the creation of responses.
+ *
+ * @param mokksy The instance of `MokksyServer` used for this building step.
+ * @param buildingStep The building step associated with configuring responses of type `CreateResponseRequest`.
+ * @author Konstantin Pavlov
+ */
 public class OpenaiResponsesBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<CreateResponseRequest>,

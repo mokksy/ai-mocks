@@ -12,6 +12,8 @@ import kotlinx.serialization.json.jsonPrimitive
 /**
  * Sealed interface representing input content elements in the OpenAI responses API.
  * This is the base interface for all input content types.
+ *
+ * @author Konstantin Pavlov
  */
 @Serializable(with = InputContentSerializer::class)
 public sealed interface InputContent {
@@ -26,6 +28,7 @@ public sealed interface InputContent {
  *
  * @property type The type of the input item. Always "input_text".
  * @property text The text input to the model.
+ * @author Konstantin Pavlov
  */
 @Serializable
 public data class InputText(
@@ -50,6 +53,7 @@ public data class InputText(
  * @property detail The detail level of the image. One of "high", "low", or "auto".
  * @property imageUrl The URL of the image or base64 encoded image data.
  * @property fileId The ID of the file to be sent to the model.
+ * @author Konstantin Pavlov
  */
 @Serializable
 public data class InputImage(
@@ -60,6 +64,8 @@ public data class InputImage(
 ) : InputContent {
     /**
      * The detail level of the image.
+     *
+     * @author Konstantin Pavlov
      */
     @Serializable
     public enum class Detail(
@@ -109,6 +115,7 @@ public data class InputImage(
  * @property fileId The ID of the file to be sent to the model.
  * @property filename The name of the file to be sent to the model.
  * @property fileData The content of the file to be sent to the model.
+ * @author Konstantin Pavlov
  */
 @Serializable
 public data class InputFile(
@@ -146,6 +153,7 @@ public data class InputFile(
  * @property type The type of the input item. Always "input_audio".
  * @property data Base64-encoded audio data.
  * @property format The format of the audio data. Currently supported formats are "mp3" and "wav".
+ * @author Konstantin Pavlov
  */
 @Serializable
 public data class InputAudio(
@@ -155,6 +163,8 @@ public data class InputAudio(
 ) : InputContent {
     /**
      * The format of the audio data.
+     *
+     * @author Konstantin Pavlov
      */
     @Serializable
     public enum class Format(
@@ -200,6 +210,8 @@ public data class InputAudio(
 
 /**
  * Serializer for [InputContent] that handles polymorphic serialization based on the "type" field.
+ *
+ * @author Konstantin Pavlov
  */
 public object InputContentSerializer :
     JsonContentPolymorphicSerializer<InputContent>(InputContent::class) {

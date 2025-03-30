@@ -5,6 +5,15 @@ import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
 import me.kpavlov.mokksy.utils.asBase64DataUrl
 import java.net.URL
 
+/**
+ * Defines specifications for building and validating OpenAI response requests. This class extends
+ * the functionalities provided by `ModelRequestSpecification` to incorporate additional checks
+ * specific to handling OpenAI response-related requests.
+ *
+ * @constructor Initializes the specification with optional parameters.
+ * @param seed An optional random seed value for reproducible results.
+ * @author Konstantin Pavlov
+ */
 public open class OpenaiResponsesRequestSpecification(
     public var seed: Int? = null,
 ) : ModelRequestSpecification<CreateResponseRequest>() {

@@ -20,6 +20,7 @@ class AnthropicAiMatchersTest {
     private val objectMapper = ObjectMapper().findAndRegisterModules()
 
     @Test
+    @Suppress("LongMethod")
     fun `should parse single user message`() {
         test(
             // language=json
@@ -88,7 +89,8 @@ class AnthropicAiMatchersTest {
                 test(body).apply {
                     passed() shouldBe true
                     failureMessage() shouldBe "System message should contain \"helpful assistant\""
-                    negatedFailureMessage() shouldBe "System message should not contain \"helpful assistant\""
+                    negatedFailureMessage() shouldBe
+                        "System message should not contain \"helpful assistant\""
                 }
             }
             systemMessageContains("unhelpful assistant").test(body).passed() shouldBe false
@@ -97,7 +99,8 @@ class AnthropicAiMatchersTest {
                 test(body).apply {
                     passed() shouldBe true
                     failureMessage() shouldBe "User message should contain \"joke about\""
-                    negatedFailureMessage() shouldBe "User message should not contain \"joke about\""
+                    negatedFailureMessage() shouldBe
+                        "User message should not contain \"joke about\""
                 }
             }
             userMessageContains("joker").test(body).passed() shouldBe false
@@ -106,7 +109,8 @@ class AnthropicAiMatchersTest {
                 test(body).apply {
                     passed() shouldBe true
                     failureMessage() shouldBe "metadata.user_id should be \"foo-bar-baz\""
-                    negatedFailureMessage() shouldBe "metadata.user_id should not be \"foo-bar-baz\""
+                    negatedFailureMessage() shouldBe
+                        "metadata.user_id should not be \"foo-bar-baz\""
                 }
             }
             userIdEquals("foo-bar-bUzz").test(body).passed() shouldBe false

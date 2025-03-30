@@ -9,6 +9,14 @@ import me.kpavlov.aimocks.openai.model.responses.InputItems
 import me.kpavlov.aimocks.openai.model.responses.InputText
 import me.kpavlov.aimocks.openai.model.responses.Text
 
+/**
+ * OpenaiResponsesMatchers is a utility object that provides matchers for validating properties of
+ * a [CreateResponseRequest] object.
+ *
+ * These matchers are primarily used to evaluate specific aspects of the `CreateResponseRequest`
+ * to ensure it contains the expected data or behaviors.
+ * @author Konstantin Pavlov
+ */
 internal object OpenaiResponsesMatchers {
     fun instructionsContains(string: String): Matcher<CreateResponseRequest?> =
         object : Matcher<CreateResponseRequest?> {

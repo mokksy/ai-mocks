@@ -45,6 +45,7 @@ import me.kpavlov.aimocks.openai.model.chat.Tool
  * @property parallelToolCalls Whether to allow parallel tool calls.
  * @property store Whether to store the response.
  * @property stream Whether to stream the response.
+ * @author Konstantin Pavlov
  */
 @Serializable
 public data class CreateResponseRequest(
@@ -148,6 +149,7 @@ internal object ArrayAsInputItemsSerializer : KSerializer<InputItems> {
  * @property truncation Optional truncation strategy used.
  * @property status The status of the response generation.
  * @property outputText Optional convenience property with aggregated text output.
+ * @author Konstantin Pavlov
  */
 @Serializable
 public data class Response
@@ -179,6 +181,8 @@ public data class Response
     ) {
         /**
          * The status of the response generation.
+         *
+         * @author Konstantin Pavlov
          */
         @Serializable
         public enum class Status(
@@ -200,6 +204,8 @@ public data class Response
 
 /**
  * The truncation strategy to use for the model response.
+ *
+ * @author Konstantin Pavlov
  */
 @Serializable
 public enum class Truncation(
