@@ -2,7 +2,6 @@ package me.kpavlov.aimocks.openai.completions
 
 import me.kpavlov.aimocks.core.ModelRequestSpecification
 import me.kpavlov.aimocks.openai.ChatCompletionRequest
-import me.kpavlov.aimocks.openai.OpenAiMatchers
 
 public open class OpenaiChatCompletionRequestSpecification(
     public var seed: Int? = null,
@@ -14,10 +13,10 @@ public open class OpenaiChatCompletionRequestSpecification(
         }
 
     override fun systemMessageContains(substring: String) {
-        requestBody.add(OpenAiMatchers.systemMessageContains(substring))
+        requestBody.add(OpenaiCompletionsMatchers.systemMessageContains(substring))
     }
 
     override fun userMessageContains(substring: String) {
-        requestBody.add(OpenAiMatchers.userMessageContains(substring))
+        requestBody.add(OpenaiCompletionsMatchers.userMessageContains(substring))
     }
 }

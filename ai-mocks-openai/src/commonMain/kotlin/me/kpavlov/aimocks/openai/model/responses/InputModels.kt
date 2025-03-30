@@ -150,7 +150,7 @@ public data class InputFile(
 @Serializable
 public data class InputAudio(
     @SerialName("type") @Required public override val type: String = "input_audio",
-    @SerialName("data") @Required public val `data`: String,
+    @SerialName("data") @Required public val data: String,
     @SerialName("format") @Required public val format: Format,
 ) : InputContent {
     /**
@@ -176,9 +176,9 @@ public data class InputAudio(
          * @return A new [InputAudio] instance.
          */
         public fun of(
-            `data`: String,
+            data: String,
             format: Format,
-        ): InputAudio = InputAudio(`data` = `data`, format = format)
+        ): InputAudio = InputAudio(data = data, format = format)
 
         /**
          * Creates a new MP3 audio input.
@@ -186,7 +186,7 @@ public data class InputAudio(
          * @param data Base64-encoded audio data.
          * @return A new [InputAudio] instance with MP3 format.
          */
-        public fun ofMp3(`data`: String): InputAudio = of(`data` = `data`, format = Format.MP3)
+        public fun ofMp3(data: String): InputAudio = of(data = data, format = Format.MP3)
 
         /**
          * Creates a new WAV audio input.
@@ -194,7 +194,7 @@ public data class InputAudio(
          * @param data Base64-encoded audio data.
          * @return A new [InputAudio] instance with WAV format.
          */
-        public fun ofWav(`data`: String): InputAudio = of(`data` = `data`, format = Format.WAV)
+        public fun ofWav(data: String): InputAudio = of(data = data, format = Format.WAV)
     }
 }
 
