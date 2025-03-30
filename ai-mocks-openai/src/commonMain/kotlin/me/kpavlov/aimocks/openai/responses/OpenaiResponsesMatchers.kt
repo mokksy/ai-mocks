@@ -23,8 +23,7 @@ internal object OpenaiResponsesMatchers {
             override fun test(value: CreateResponseRequest?): MatcherResult =
                 MatcherResult(
                     value != null &&
-                        value.instructions
-                            ?.contains(string) == true,
+                        value.instructions?.contains(string) == true,
                     { "Instructions should contain \"$string\"" },
                     { "Instructions should not contain \"$string\"" },
                 )
