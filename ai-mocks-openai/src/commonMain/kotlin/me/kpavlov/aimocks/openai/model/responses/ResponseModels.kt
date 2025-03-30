@@ -59,7 +59,7 @@ public data class CreateResponseRequest(
     @SerialName(value = "max_output_tokens") val maxOutputTokens: Int? = null,
     @SerialName(value = "instructions") val instructions: String? = null,
     @SerialName(value = "text") @Contextual val text: Map<String, String>? = null,
-    @SerialName(value = "tools") val tools: List<me.kpavlov.aimocks.openai.model.chat.Tool>? = null,
+    @SerialName(value = "tools") val tools: List<Tool>? = null,
     @SerialName(value = "tool_choice") @Contextual val toolChoice: String? = null,
     @SerialName(value = "truncation") val truncation: Truncation? = Truncation.DISABLED,
     @SerialName(value = "include") val include: List<String>? = null,
@@ -81,8 +81,6 @@ public data class InputItems(
     val items: List<InputMessageResource>,
 ) : Input
 
-// public interface InputItem
-
 internal object InputSerializer : JsonContentPolymorphicSerializer<Input>(Input::class) {
     override fun selectDeserializer(element: JsonElement) =
         when {
@@ -94,7 +92,7 @@ internal object InputSerializer : JsonContentPolymorphicSerializer<Input>(Input:
 
 internal object StringAsTextSerializer : KSerializer<Text> {
     override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("TextInput", PrimitiveKind.STRING)
+        PrimitiveSerialDescriptor("Text", PrimitiveKind.STRING)
 
     override fun serialize(
         encoder: Encoder,
