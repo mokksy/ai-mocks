@@ -2,6 +2,8 @@ package me.kpavlov.aimocks.openai.responses
 
 import kotlinx.coroutines.flow.Flow
 import me.kpavlov.aimocks.core.ChatResponseSpecification
+import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
+import me.kpavlov.aimocks.openai.model.responses.Response
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds

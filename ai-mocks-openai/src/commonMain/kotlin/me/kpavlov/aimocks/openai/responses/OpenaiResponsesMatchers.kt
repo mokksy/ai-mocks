@@ -2,8 +2,9 @@ package me.kpavlov.aimocks.openai.responses
 
 import io.kotest.matchers.Matcher
 import io.kotest.matchers.MatcherResult
+import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
 
-internal object OpenAiResponsesMatchers {
+internal object OpenaiResponsesMatchers {
     fun instructionsContains(string: String): Matcher<CreateResponseRequest?> =
         object : Matcher<CreateResponseRequest?> {
             override fun test(value: CreateResponseRequest?): MatcherResult =

@@ -3,6 +3,8 @@ package me.kpavlov.aimocks.openai.responses
 import me.kpavlov.aimocks.core.LlmBuildingStep
 import me.kpavlov.aimocks.openai.model.OutputContent
 import me.kpavlov.aimocks.openai.model.OutputMessage
+import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
+import me.kpavlov.aimocks.openai.model.responses.Response
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 import java.time.Instant

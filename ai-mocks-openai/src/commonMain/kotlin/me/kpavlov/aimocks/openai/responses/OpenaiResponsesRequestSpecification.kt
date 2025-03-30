@@ -2,6 +2,7 @@ package me.kpavlov.aimocks.openai.responses
 
 import io.kotest.matchers.string.contain
 import me.kpavlov.aimocks.core.ModelRequestSpecification
+import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
 import me.kpavlov.mokksy.utils.asBase64DataUrl
 import java.net.URL
 
@@ -19,7 +20,7 @@ public open class OpenaiResponsesRequestSpecification(
     }
 
     public fun instructionsContains(substring: String) {
-        requestBody.add(OpenAiResponsesMatchers.instructionsContains(substring))
+        requestBody.add(OpenaiResponsesMatchers.instructionsContains(substring))
     }
 
     override fun userMessageContains(substring: String) {

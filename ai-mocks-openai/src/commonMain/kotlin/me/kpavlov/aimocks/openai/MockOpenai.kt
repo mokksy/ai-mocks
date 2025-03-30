@@ -7,7 +7,7 @@ import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.core.AbstractMockLlm
 import me.kpavlov.aimocks.openai.completions.OpenaiChatCompletionRequestSpecification
 import me.kpavlov.aimocks.openai.completions.OpenaiChatCompletionsBuildingStep
-import me.kpavlov.aimocks.openai.responses.CreateResponseRequest
+import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
 import me.kpavlov.aimocks.openai.responses.OpenaiResponsesBuildingStep
 import me.kpavlov.aimocks.openai.responses.OpenaiResponsesRequestSpecification
 import me.kpavlov.mokksy.ServerConfiguration

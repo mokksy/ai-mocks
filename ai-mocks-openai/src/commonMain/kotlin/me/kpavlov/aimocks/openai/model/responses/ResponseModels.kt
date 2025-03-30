@@ -6,9 +6,20 @@ import kotlinx.serialization.Contextual
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.EncodeDefault.Mode.ALWAYS
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Required
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.builtins.ArraySerializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.listSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.JsonContentPolymorphicSerializer
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonPrimitive
 import me.kpavlov.aimocks.openai.model.OutputMessage
 import me.kpavlov.aimocks.openai.model.Reasoning
 import me.kpavlov.aimocks.openai.model.chat.Tool
@@ -38,7 +49,7 @@ import me.kpavlov.aimocks.openai.model.chat.Tool
 @Serializable
 public data class CreateResponseRequest(
     @SerialName(value = "model") @Required val model: String,
-    @SerialName(value = "input") @Contextual val input: Map<String, String>? = null,
+    @SerialName(value = "input") @Contextual val input: Input? = null,
     @SerialName(value = "metadata") val metadata: Map<String, String>? = null,
     @SerialName(value = "temperature") val temperature: Double? = 1.0,
     @SerialName(value = "top_p") val topP: Double? = 1.0,
@@ -56,6 +67,66 @@ public data class CreateResponseRequest(
     @SerialName(value = "store") val store: Boolean? = true,
     @SerialName(value = "stream") val stream: Boolean? = false,
 )
+
+@Serializable(InputSerializer::class)
+public interface Input
+
+@Serializable(StringAsTextSerializer::class)
+public data class Text(
+    val text: String,
+) : Input
+
+@Serializable(ArrayAsInputItemsSerializer::class)
+public data class InputItems(
+    val items: List<InputMessageResource>,
+) : Input
+
+// public interface InputItem
+
+internal object InputSerializer : JsonContentPolymorphicSerializer<Input>(Input::class) {
+    override fun selectDeserializer(element: JsonElement) =
+        when {
+            element is JsonPrimitive && element.isString
+            -> Text.serializer()
+            else -> InputItems.serializer()
+        }
+}
+
+internal object StringAsTextSerializer : KSerializer<Text> {
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("TextInput", PrimitiveKind.STRING)
+
+    override fun serialize(
+        encoder: Encoder,
+        value: Text,
+    ) {
+        encoder.encodeString(value.text)
+    }
+
+    override fun deserialize(decoder: Decoder): Text = Text(decoder.decodeString())
+}
+
+internal object ArrayAsInputItemsSerializer : KSerializer<InputItems> {
+    override val descriptor: SerialDescriptor =
+        listSerialDescriptor(InputMessageResource.serializer().descriptor)
+
+    override fun serialize(
+        encoder: Encoder,
+        value: InputItems,
+    ) {
+        TODO("Unsupported")
+    }
+
+    override fun deserialize(decoder: Decoder): InputItems {
+        val array =
+            ArraySerializer(InputMessageResource.serializer())
+                .deserialize(decoder)
+
+        return InputItems(
+            items = array.asList(),
+        )
+    }
+}
 
 /**
  * Represents a response from the OpenAI API.
