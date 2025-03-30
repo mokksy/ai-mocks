@@ -1,6 +1,7 @@
 package me.kpavlov.mokksy.request
 
 import io.kotest.matchers.Matcher
+import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.string.contain
 import io.ktor.http.Headers
 import io.ktor.http.HttpMethod
@@ -160,8 +161,44 @@ public open class RequestSpecificationBuilder<P : Any>(
         return this
     }
 
+    public fun path(pathString: String): RequestSpecificationBuilder<P> {
+        this.path = beEqual(pathString)
+        return this
+    }
+
     public fun bodyContains(vararg strings: String): RequestSpecificationBuilder<P> {
         strings.forEach { this.bodyString += contain(it) }
+        return this
+    }
+
+    /**
+     * Adds a predicate to match against the request body.
+     *
+     * The specified predicate will be used to evaluate whether the request body satisfies the defined condition.
+     *
+     * @param predicate The predicate used to evaluate the request body. It defines the condition
+     *                  that the request body must satisfy.
+     * @return The same instance of [RequestSpecificationBuilder] with the predicate applied
+     *         for further customization.
+     */
+    public fun bodyMatchesPredicate(predicate: (P?) -> Boolean): RequestSpecificationBuilder<P> {
+        this.body += predicateMatcher<P?>(predicate)
+        return this
+    }
+
+    /**
+     * Adds multiple predicates to match against the request body.
+     * Each predicate will be applied to evaluate whether the request body satisfies the specified conditions.
+     *
+     * @param predicate A variable number of predicates to evaluate the request body.
+     *                  All predicates are added as matchers for the request body.
+     * @return The same instance of [RequestSpecificationBuilder] with the predicates applied
+     *         for further customization.
+     */
+    public fun bodyMatchesPredicates(
+        vararg predicate: (P?) -> Boolean,
+    ): RequestSpecificationBuilder<P> {
+        predicate.forEach { bodyMatchesPredicate(it) }
         return this
     }
 

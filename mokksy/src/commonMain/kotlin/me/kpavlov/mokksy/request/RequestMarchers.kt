@@ -41,3 +41,26 @@ public infix fun Headers.shouldHaveHeader(header: Pair<String, String>) {
 public infix fun Headers.shouldNotHaveHeader(header: Pair<String, String>) {
     this shouldNot containsHeader(header.first, header.second)
 }
+
+/**
+ * Creates a matcher that evaluates objects against a specified predicate.
+ *
+ * @param T the type of the object being matched
+ * @param predicate the predicate to evaluate objects against
+ * @return a [Matcher] that applies the given predicate to objects for evaluation
+ */
+internal fun <T> predicateMatcher(predicate: (T?) -> Boolean): Matcher<T?> =
+    object : Matcher<T?> {
+        override fun test(value: T?): MatcherResult =
+            MatcherResult(
+                predicate.invoke(value),
+                {
+                    "Object '$value' should match predicate '$predicate'"
+                },
+                {
+                    "Object '$value' should NOT match predicate '$predicate'"
+                },
+            )
+
+        override fun toString(): String = "PredicateMatcher($predicate)"
+    }
