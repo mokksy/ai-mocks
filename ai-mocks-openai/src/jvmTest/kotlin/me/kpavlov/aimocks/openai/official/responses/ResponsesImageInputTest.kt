@@ -32,7 +32,6 @@ internal class ResponsesImageInputTest : AbstractOpenaiTest() {
     private lateinit var imageResource: URL
     private lateinit var base64ImageUrl: String
 
-    // @OptIn(ExperimentalEncodingApi::class)
     @OptIn(ExperimentalEncodingApi::class)
     @BeforeAll
     fun beforeAll() {

@@ -1,20 +1,23 @@
 package me.kpavlov.aimocks.openai.official.responses
 
+import com.openai.errors.NotFoundException
 import com.openai.models.responses.EasyInputMessage
 import com.openai.models.responses.ResponseCreateParams
 import com.openai.models.responses.ResponseInputContent
 import com.openai.models.responses.ResponseInputFile
 import com.openai.models.responses.ResponseInputItem
 import com.openai.models.responses.ResponseInputText
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.string.shouldContainIgnoringCase
 import io.kotest.matchers.string.shouldStartWith
 import me.kpavlov.aimocks.openai.official.AbstractOpenaiTest
 import me.kpavlov.aimocks.openai.openai
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import java.net.URL
-import java.util.UUID
+import java.util.*
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlin.time.measureTimedValue
 
@@ -32,59 +35,25 @@ internal class ResponsesFileInputTest : AbstractOpenaiTest() {
         fileId = UUID.randomUUID().toString()
     }
 
-    @Test
-    @Suppress("LongMethod")
-    fun `Should match file`() {
+    @BeforeEach
+    fun setupMock() {
         modelName = "gpt-4o-mini" // cheap model
         openai.responses {
             temperature = temperatureValue
             model = modelName
 
             containsInputFileWithNamed(filename)
+            containsInputFileWithId(fileId)
         } responds {
             assistantContent = "The file is an image."
         }
+    }
 
-        val input =
-            ResponseCreateParams.Input.ofResponse(
-                listOf(
-                    ResponseInputItem.Companion.ofEasyInputMessage(
-                        EasyInputMessage.Companion
-                            .builder()
-                            .role(EasyInputMessage.Role.USER)
-                            .content(
-                                EasyInputMessage.Content.Companion
-                                    .ofResponseInputMessageContentList(
-                                        listOf(
-                                            ResponseInputContent.Companion.ofInputText(
-                                                ResponseInputText.Companion
-                                                    .builder()
-                                                    .text(
-                                                        "what's the file?",
-                                                    ).build(),
-                                            ),
-                                            ResponseInputContent.Companion.ofInputFile(
-                                                ResponseInputFile.Companion
-                                                    .builder()
-                                                    .fileId(fileId)
-                                                    .filename(filename)
-                                                    .build(),
-                                            ),
-                                        ),
-                                    ),
-                            ).build(),
-                    ),
-                ),
-            )
+    @Test
+    @Suppress("LongMethod")
+    fun `Should match file`() {
         val params =
-            ResponseCreateParams.Companion
-                .builder()
-                .temperature(temperatureValue)
-                .maxOutputTokens(maxCompletionTokensValue)
-                .model(modelName)
-                .instructions("You are a file expert")
-                .input(input)
-                .build()
+            createParams(fileId, modelName)
 
         val timedValue =
             measureTimedValue {
@@ -107,5 +76,70 @@ internal class ResponsesFileInputTest : AbstractOpenaiTest() {
         assistantText shouldContainIgnoringCase "image"
 
         response.model().asString() shouldStartWith modelName
+    }
+
+    @Test
+    @Suppress("LongMethod")
+    fun `Should miss file by name`() {
+        shouldThrow<NotFoundException> {
+            client
+                .responses()
+                .create(createParams("a" + fileId, filename))
+                .error()
+        }
+
+        shouldThrow<NotFoundException> {
+            client
+                .responses()
+                .create(createParams(fileId, "b" + filename))
+                .error()
+        }
+    }
+
+    private fun createParams(
+        id: String,
+        name: String,
+    ): ResponseCreateParams {
+        val input =
+            ResponseCreateParams.Input.ofResponse(
+                listOf(
+                    ResponseInputItem.Companion.ofEasyInputMessage(
+                        EasyInputMessage.Companion
+                            .builder()
+                            .role(EasyInputMessage.Role.USER)
+                            .content(
+                                EasyInputMessage.Content.Companion
+                                    .ofResponseInputMessageContentList(
+                                        listOf(
+                                            ResponseInputContent.Companion.ofInputText(
+                                                ResponseInputText.Companion
+                                                    .builder()
+                                                    .text(
+                                                        "what's the file?",
+                                                    ).build(),
+                                            ),
+                                            ResponseInputContent.Companion.ofInputFile(
+                                                ResponseInputFile.Companion
+                                                    .builder()
+                                                    .fileId(id)
+                                                    .filename(filename)
+                                                    .build(),
+                                            ),
+                                        ),
+                                    ),
+                            ).build(),
+                    ),
+                ),
+            )
+        val params =
+            ResponseCreateParams.Companion
+                .builder()
+                .temperature(temperatureValue)
+                .maxOutputTokens(maxCompletionTokensValue)
+                .model(name)
+                .instructions("You are a file expert")
+                .input(input)
+                .build()
+        return params
     }
 }

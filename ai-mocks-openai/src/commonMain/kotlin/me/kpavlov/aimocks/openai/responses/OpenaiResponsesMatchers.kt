@@ -69,7 +69,7 @@ internal object OpenaiResponsesMatchers {
             override fun toString(): String = "InputImage should have URL \"$imageUrl\""
         }
 
-    fun containsInputFileWithNamed(filename: String): Matcher<CreateResponseRequest?> =
+    fun containsInputFileNamed(filename: String): Matcher<CreateResponseRequest?> =
         object : Matcher<CreateResponseRequest?> {
             override fun test(value: CreateResponseRequest?): MatcherResult {
                 val passed =
@@ -90,6 +90,29 @@ internal object OpenaiResponsesMatchers {
             }
 
             override fun toString(): String = "Request should contain file named \"$filename\""
+        }
+
+    fun containsInputFileWithId(fileId: String): Matcher<CreateResponseRequest?> =
+        object : Matcher<CreateResponseRequest?> {
+            override fun test(value: CreateResponseRequest?): MatcherResult {
+                val passed =
+                    if (value == null) {
+                        false
+                    } else if ((value.input is InputItems) == false) {
+                        false
+                    } else {
+                        val files = extractInputItem<InputFile>(value)
+                        files?.any { it.fileId == fileId } == true
+                    }
+
+                return MatcherResult(
+                    passed,
+                    { "Request should contain file with ID \"$fileId\"" },
+                    { "Request should NOT contain file with ID  \"$fileId\"" },
+                )
+            }
+
+            override fun toString(): String = "Request should contain file with ID \"$fileId\""
         }
 
     fun userMessageContains(subString: String): Matcher<CreateResponseRequest?> =

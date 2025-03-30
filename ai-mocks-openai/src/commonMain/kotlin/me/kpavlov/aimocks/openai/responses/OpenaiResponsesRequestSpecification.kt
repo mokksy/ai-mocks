@@ -41,7 +41,11 @@ public open class OpenaiResponsesRequestSpecification(
      * @param filename The name of the file to check for in the input.
      */
     public fun containsInputFileWithNamed(filename: String) {
-        requestBody.add(OpenaiResponsesMatchers.containsInputFileWithNamed(filename))
+        requestBody.add(OpenaiResponsesMatchers.containsInputFileNamed(filename))
+    }
+
+    public fun containsInputFileWithId(fileId: String) {
+        requestBody.add(OpenaiResponsesMatchers.containsInputFileWithId(fileId))
     }
 
     /**
