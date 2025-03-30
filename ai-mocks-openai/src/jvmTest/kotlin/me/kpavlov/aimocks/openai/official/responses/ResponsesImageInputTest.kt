@@ -21,6 +21,10 @@ import org.junit.jupiter.api.TestInstance.Lifecycle
 import java.net.URL
 import kotlin.time.measureTimedValue
 
+@Suppress("MaxLineLength")
+private const val WIKIPEDIA_IMAGE_URL =
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
+
 @TestInstance(Lifecycle.PER_CLASS)
 internal class ResponsesImageInputTest : AbstractOpenaiTest() {
     private lateinit var base64Image: String
@@ -44,7 +48,8 @@ internal class ResponsesImageInputTest : AbstractOpenaiTest() {
             instructionsContains("You are an art expert")
             userMessageContains("what's in this image?")
             containsInputImageWithUrl(base64ImageUrl)
-            // TODO: containsInputImageWithUrl(imageResource)
+            containsInputImageWithUrl(WIKIPEDIA_IMAGE_URL)
+//            containsInputImageWithUrl(imageResource)
         } responds {
             assistantContent = """
                     The image depicts a cute, cartoonish creature resembling a small,
@@ -77,6 +82,14 @@ internal class ResponsesImageInputTest : AbstractOpenaiTest() {
                                                 ).build(),
                                         ),
                                         ofInputImage(imageInput),
+                                        ofInputImage(
+                                            ResponseInputImage
+                                                .builder()
+                                                .detail(ResponseInputImage.Detail.AUTO)
+                                                .imageUrl(
+                                                    WIKIPEDIA_IMAGE_URL,
+                                                ).build(),
+                                        ),
                                     ),
                                 ),
                             ).build(),

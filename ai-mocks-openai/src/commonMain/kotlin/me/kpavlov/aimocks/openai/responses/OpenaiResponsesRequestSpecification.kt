@@ -1,6 +1,5 @@
 package me.kpavlov.aimocks.openai.responses
 
-import io.kotest.matchers.string.contain
 import me.kpavlov.aimocks.core.ModelRequestSpecification
 import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
 import me.kpavlov.mokksy.utils.asBase64DataUrl
@@ -24,8 +23,7 @@ public open class OpenaiResponsesRequestSpecification(
     }
 
     override fun userMessageContains(substring: String) {
-        requestBodyString += contain(substring)
-        // requestBody.add(OpenAiMatchers.userMessageContains(substring))
+        requestBody.add(OpenaiResponsesMatchers.userMessageContains(substring))
     }
 
     /**
@@ -37,8 +35,15 @@ public open class OpenaiResponsesRequestSpecification(
         requestBody.add(OpenaiResponsesMatchers.containsInputImageWithUrl(imageUrl))
     }
 
-    private fun containsInputImageWithUrl(url: URL) {
-        val dataUrl = url.asBase64DataUrl()
-        TODO("Not yet implemented")
+    /**
+     * Checks if the input includes an image with the specified URL as Base64 data URL.
+     *
+     * @param url The URL of the image to check for in the input.
+     * The content of the URL will be converted to a Base64 data URL string.
+     */
+    public fun containsInputImageWithUrl(url: URL) {
+        url.asBase64DataUrl().apply {
+            containsInputImageWithUrl(this)
+        }
     }
 }
