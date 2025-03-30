@@ -34,8 +34,7 @@ public open class OpenaiResponsesRequestSpecification(
      * @param imageUrl The URL of the image to check for in the input. Might be Base64 image url
      */
     public fun containsInputImageWithUrl(imageUrl: String) {
-        requestBodyString += contain(imageUrl)
-//        requestBody.add(OpenAiResponsesMatchers.containsInputImageWithUrl(substring))
+        requestBody.add(OpenaiResponsesMatchers.containsInputImageWithUrl(imageUrl))
     }
 
     private fun containsInputImageWithUrl(url: URL) {

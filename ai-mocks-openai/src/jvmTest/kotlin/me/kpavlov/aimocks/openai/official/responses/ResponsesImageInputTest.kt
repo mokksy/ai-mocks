@@ -41,9 +41,9 @@ internal class ResponsesImageInputTest : AbstractOpenaiTest() {
         openai.responses {
             temperature = temperatureValue
             model = modelName
-//            instructionsContains("You are an art expert")
-//            userMessageContains("what's in this image?")
-//            containsInputImageWithUrl(base64ImageUrl)
+            instructionsContains("You are an art expert")
+            userMessageContains("what's in this image?")
+            containsInputImageWithUrl(base64ImageUrl)
             // TODO: containsInputImageWithUrl(imageResource)
         } responds {
             assistantContent = """

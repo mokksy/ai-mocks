@@ -69,7 +69,7 @@ public data class CreateResponseRequest(
 )
 
 @Serializable(InputSerializer::class)
-public interface Input
+public sealed interface Input
 
 @Serializable(StringAsTextSerializer::class)
 public data class Text(
