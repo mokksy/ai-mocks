@@ -7,12 +7,24 @@ import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.core.AbstractMockLlm
 import me.kpavlov.aimocks.openai.completions.OpenaiChatCompletionRequestSpecification
 import me.kpavlov.aimocks.openai.completions.OpenaiChatCompletionsBuildingStep
-import me.kpavlov.aimocks.openai.responses.CreateResponseRequest
+import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
 import me.kpavlov.aimocks.openai.responses.OpenaiResponsesBuildingStep
 import me.kpavlov.aimocks.openai.responses.OpenaiResponsesRequestSpecification
 import me.kpavlov.mokksy.ServerConfiguration
 import java.util.function.Consumer
 
+/**
+ * Mock implementation of an OpenAI-compatible service for testing purposes.
+ *
+ * This class provides an HTTP mock server to simulate OpenAI APIs, specifically for chat
+ * completions and response generation. It is designed to mimic the behavior of the OpenAI APIs
+ * locally and facilitate integration testing and development.
+ *
+ * @param port The port on which the mock server will run. Defaults to 0, which allows the server to select
+ *             an available port.
+ * @param verbose Controls whether the mock server's operations are logged in detail. Defaults to true.
+ * @author Konstantin Pavlov
+ */
 public open class MockOpenai(
     port: Int = 0,
     verbose: Boolean = true,

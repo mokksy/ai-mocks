@@ -26,6 +26,25 @@ import kotlin.random.Random.Default.nextInt
 
 private const val LINE_SEPARATOR = "\n\n"
 
+/**
+ * OpenaiChatCompletionsBuildingStep is a specialized implementation of [LlmBuildingStep]
+ * intended for constructing and managing chat completion responses as part of the OpenAI
+ * Mock Server setup.
+ *
+ * The class provides features to create both single-blocked responses and streaming
+ * responses for simulated chat completions using mock data.
+ * It extends the functionality of [LlmBuildingStep] by applying specific logic
+ * for generating fake responses compliant with OpenAI's chat completion API.
+ *
+ * @constructor Initializes the building step with the provided mock server instance and
+ *              a higher-level building step for configuring chat completion responses.
+ *
+ * @param mokksy The mock server instance used for handling mock request and response lifecycle.
+ * @param buildingStep The underlying building step for managing and supporting response configurations
+ *                     for OpenAI Chat Completion requests.
+ *
+ * @author Konstantin Pavlov
+ */
 public class OpenaiChatCompletionsBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<ChatCompletionRequest>,

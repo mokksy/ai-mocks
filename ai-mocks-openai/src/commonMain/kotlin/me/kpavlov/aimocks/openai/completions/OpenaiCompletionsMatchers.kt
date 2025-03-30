@@ -1,14 +1,21 @@
-package me.kpavlov.aimocks.openai
+package me.kpavlov.aimocks.openai.completions
 
 import io.kotest.matchers.Matcher
 import io.kotest.matchers.MatcherResult
+import me.kpavlov.aimocks.openai.ChatCompletionRequest
 import me.kpavlov.aimocks.openai.model.ChatCompletionRole
 
-internal object OpenAiMatchers {
+/**
+ * Utility object providing custom matchers for testing and validating attributes of
+ * `ChatCompletionRequest` instances. These matchers focus on checking the contents of the
+ * messages within the `ChatCompletionRequest` for specific roles such as SYSTEM, DEVELOPER, or USER.
+ * @author Konstantin Pavlov
+ */
+internal object OpenaiCompletionsMatchers {
     fun systemMessageContains(string: String): Matcher<ChatCompletionRequest?> =
         object : Matcher<ChatCompletionRequest?> {
             override fun test(value: ChatCompletionRequest?): MatcherResult =
-                MatcherResult(
+                MatcherResult.Companion(
                     value != null &&
                         value.messages
                             .find {
@@ -26,7 +33,7 @@ internal object OpenAiMatchers {
     fun userMessageContains(string: String): Matcher<ChatCompletionRequest?> =
         object : Matcher<ChatCompletionRequest?> {
             override fun test(value: ChatCompletionRequest?): MatcherResult =
-                MatcherResult(
+                MatcherResult.Companion(
                     value != null &&
                         value.messages
                             .find { it.role == ChatCompletionRole.USER }

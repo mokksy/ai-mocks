@@ -22,7 +22,9 @@ import me.kpavlov.aimocks.openai.model.ChatCompletionStreamOptions
  *     .temperature(0.7)
  *     .build()
  * ```
+ * @author Konstantin Pavlov
  */
+@Suppress("TooManyFunctions")
 public class ChatCompletionRequestBuilder {
     private val messages = mutableListOf<Message>()
     private var model: String? = null
@@ -56,7 +58,10 @@ public class ChatCompletionRequestBuilder {
      * @param content The content of the message.
      * @return This builder instance for method chaining.
      */
-    public fun addMessage(role: ChatCompletionRole, content: String): ChatCompletionRequestBuilder {
+    public fun addMessage(
+        role: ChatCompletionRole,
+        content: String,
+    ): ChatCompletionRequestBuilder {
         messages.add(Message(role, content))
         return this
     }
@@ -67,9 +72,8 @@ public class ChatCompletionRequestBuilder {
      * @param content The content of the system message.
      * @return This builder instance for method chaining.
      */
-    public fun addSystemMessage(content: String): ChatCompletionRequestBuilder {
-        return addMessage(ChatCompletionRole.SYSTEM, content)
-    }
+    public fun addSystemMessage(content: String): ChatCompletionRequestBuilder =
+        addMessage(ChatCompletionRole.SYSTEM, content)
 
     /**
      * Adds a user message to the conversation.
@@ -77,9 +81,8 @@ public class ChatCompletionRequestBuilder {
      * @param content The content of the user message.
      * @return This builder instance for method chaining.
      */
-    public fun addUserMessage(content: String): ChatCompletionRequestBuilder {
-        return addMessage(ChatCompletionRole.USER, content)
-    }
+    public fun addUserMessage(content: String): ChatCompletionRequestBuilder =
+        addMessage(ChatCompletionRole.USER, content)
 
     /**
      * Adds an assistant message to the conversation.
@@ -87,9 +90,8 @@ public class ChatCompletionRequestBuilder {
      * @param content The content of the assistant message.
      * @return This builder instance for method chaining.
      */
-    public fun addAssistantMessage(content: String): ChatCompletionRequestBuilder {
-        return addMessage(ChatCompletionRole.ASSISTANT, content)
-    }
+    public fun addAssistantMessage(content: String): ChatCompletionRequestBuilder =
+        addMessage(ChatCompletionRole.ASSISTANT, content)
 
     /**
      * Sets whether to store the conversation context.
@@ -196,7 +198,9 @@ public class ChatCompletionRequestBuilder {
      * @param streamOptions The stream options.
      * @return This builder instance for method chaining.
      */
-    public fun streamOptions(streamOptions: ChatCompletionStreamOptions): ChatCompletionRequestBuilder {
+    public fun streamOptions(
+        streamOptions: ChatCompletionStreamOptions,
+    ): ChatCompletionRequestBuilder {
         this.streamOptions = streamOptions
         return this
     }
@@ -227,7 +231,11 @@ public class ChatCompletionRequestBuilder {
             model = model!!,
             store = store,
             reasoningEffort = reasoningEffort,
-            metadata = metadata?.let { me.kpavlov.aimocks.openai.Metadata(it) },
+            metadata =
+                metadata?.let {
+                    me.kpavlov.aimocks.openai
+                        .Metadata(it)
+                },
             maxCompletionTokens = maxCompletionTokens,
             frequencyPenalty = frequencyPenalty,
             responseFormat = responseFormat,

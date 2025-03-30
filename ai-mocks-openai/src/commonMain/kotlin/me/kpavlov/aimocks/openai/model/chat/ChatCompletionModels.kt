@@ -41,6 +41,7 @@ import me.kpavlov.aimocks.openai.model.ChatCompletionStreamOptions
  * @property streamOptions Options for streaming responses.
  * @property tools List of tools the model may call.
  * @property toolChoice Controls which (if any) function is called by the model.
+ * @author Konstantin Pavlov
  */
 @Serializable
 public data class ChatCompletionRequest(
@@ -84,6 +85,7 @@ public data class ChatCompletionRequest(
  * @property toolCalls Optional list of tool calls made in this message.
  * @property name Optional name of the author of this message.
  * @property toolCallId Optional ID of the tool call this message is responding to.
+ * @author Konstantin Pavlov
  */
 @Serializable
 public data class Message(
@@ -101,6 +103,7 @@ public data class Message(
  * Represents metadata for a request.
  *
  * @property tags Optional map of tags associated with the request.
+ * @author Konstantin Pavlov
  */
 @Serializable
 public data class Metadata(
@@ -112,6 +115,7 @@ public data class Metadata(
  *
  * @property type The type of the tool, always "function" for now.
  * @property function The function object that describes the tool.
+ * @author Konstantin Pavlov
  */
 @Serializable
 public data class Tool(
@@ -201,7 +205,7 @@ public sealed class ToolChoice {
     @Serializable
     @SerialName("function")
     public data class Function(
-        val function: ToolChoiceFunction
+        val function: ToolChoiceFunction,
     ) : ToolChoice()
 }
 
@@ -212,7 +216,7 @@ public sealed class ToolChoice {
  */
 @Serializable
 public data class ToolChoiceFunction(
-    val name: String
+    val name: String,
 )
 
 /**

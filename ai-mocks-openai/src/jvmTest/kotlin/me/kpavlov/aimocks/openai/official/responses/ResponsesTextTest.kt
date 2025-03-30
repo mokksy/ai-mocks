@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.measureTimedValue
 
-internal class ResponsesOpenaiTest : AbstractOpenaiTest() {
+internal class ResponsesTextTest : AbstractOpenaiTest() {
     @Test
     fun `Should respond to Responses`() {
         openai.responses {
@@ -18,7 +18,7 @@ internal class ResponsesOpenaiTest : AbstractOpenaiTest() {
             maxTokens = maxCompletionTokensValue
             systemMessageContains("Be ultra-brief.")
             userMessageContains("How to start business?")
-        } respond {
+        } responds {
             assistantContent = "Find. Create. Sell."
             finishReason = "stop"
             delay = 200.milliseconds
@@ -39,22 +39,24 @@ internal class ResponsesOpenaiTest : AbstractOpenaiTest() {
 
         result.validate()
 
-        result.model().asString() shouldBe modelName
         val message = result.output().first().asMessage()
+        logger.info { "Response message: $message" }
         message
             .content()
             .first()
             .asOutputText()
             .text() shouldBe "Find. Create. Sell."
+        result.model().asString() shouldBe modelName
     }
 
     private fun createResponseCreateRequestParams(): ResponseCreateParams {
         val params =
-            ResponseCreateParams.Companion
+            ResponseCreateParams
                 .builder()
                 .temperature(temperatureValue)
                 .maxOutputTokens(maxCompletionTokensValue)
                 .model(modelName)
+                // .model("gpt-4o-mini")
                 .instructions("Be ultra-brief.")
                 .input("How to start business?")
                 .build()

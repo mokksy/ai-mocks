@@ -1,7 +1,8 @@
-package me.kpavlov.aimocks.openai
+package me.kpavlov.aimocks.openai.model
 
 import kotlinx.serialization.json.Json
-import kotlin.test.Test
+import me.kpavlov.aimocks.openai.ChatCompletionRequest
+import org.junit.jupiter.api.Test
 
 internal class ModelDeserializationTest {
     val jsonParser =

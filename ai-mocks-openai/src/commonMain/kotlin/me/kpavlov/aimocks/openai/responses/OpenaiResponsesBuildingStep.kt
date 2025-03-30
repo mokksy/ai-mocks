@@ -3,12 +3,24 @@ package me.kpavlov.aimocks.openai.responses
 import me.kpavlov.aimocks.core.LlmBuildingStep
 import me.kpavlov.aimocks.openai.model.OutputContent
 import me.kpavlov.aimocks.openai.model.OutputMessage
+import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
+import me.kpavlov.aimocks.openai.model.responses.Response
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 import java.time.Instant
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.random.Random
 
+/**
+ * Represents a building step in the MokksyServer framework for configuring OpenAI responses.
+ *
+ * @constructor Initializes the `OpenaiResponsesBuildingStep` with the specified Mokksy server instance
+ * and a building step for handling the creation of responses.
+ *
+ * @param mokksy The instance of `MokksyServer` used for this building step.
+ * @param buildingStep The building step associated with configuring responses of type `CreateResponseRequest`.
+ * @author Konstantin Pavlov
+ */
 public class OpenaiResponsesBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<CreateResponseRequest>,
@@ -19,7 +31,7 @@ public class OpenaiResponsesBuildingStep(
     private var counter: AtomicInteger = AtomicInteger(1)
 
     @Suppress("MagicNumber")
-    public infix fun respond(block: OpenaiResponsesResponseSpecification.() -> Unit) {
+    public override infix fun responds(block: OpenaiResponsesResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val request = this.request.body
             val responseDefinition = this.build()
@@ -67,9 +79,5 @@ public class OpenaiResponsesBuildingStep(
                         ),
                 )
         }
-    }
-
-    override fun responds(block: OpenaiResponsesResponseSpecification.() -> Unit) {
-        TODO("Not yet implemented")
     }
 }
