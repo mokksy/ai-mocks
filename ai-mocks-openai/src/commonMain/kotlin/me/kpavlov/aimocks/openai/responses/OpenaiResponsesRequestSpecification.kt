@@ -36,6 +36,15 @@ public open class OpenaiResponsesRequestSpecification(
     }
 
     /**
+     * Checks if the input contains a file with the specified filename.
+     *
+     * @param filename The name of the file to check for in the input.
+     */
+    public fun containsInputFileWithNamed(filename: String) {
+        requestBody.add(OpenaiResponsesMatchers.containsInputFileWithNamed(filename))
+    }
+
+    /**
      * Checks if the input includes an image with the specified URL.
      *
      * @param imageUrl The URL of the image to check for in the input. Might be Base64 image url

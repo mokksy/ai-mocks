@@ -4,6 +4,7 @@ import io.kotest.matchers.Matcher
 import io.kotest.matchers.MatcherResult
 import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
 import me.kpavlov.aimocks.openai.model.responses.InputContent
+import me.kpavlov.aimocks.openai.model.responses.InputFile
 import me.kpavlov.aimocks.openai.model.responses.InputImage
 import me.kpavlov.aimocks.openai.model.responses.InputItems
 import me.kpavlov.aimocks.openai.model.responses.InputText
@@ -60,12 +61,35 @@ internal object OpenaiResponsesMatchers {
 
                 return MatcherResult(
                     passed,
-                    { "Instructions should contain \"$imageUrl\"" },
-                    { "Instructions should not contain \"$imageUrl\"" },
+                    { "Input should contain image with url \"$imageUrl\"" },
+                    { "Input should NOT contain image with url \"$imageUrl\"" },
                 )
             }
 
             override fun toString(): String = "InputImage should have URL \"$imageUrl\""
+        }
+
+    fun containsInputFileWithNamed(filename: String): Matcher<CreateResponseRequest?> =
+        object : Matcher<CreateResponseRequest?> {
+            override fun test(value: CreateResponseRequest?): MatcherResult {
+                val passed =
+                    if (value == null) {
+                        false
+                    } else if ((value.input is InputItems) == false) {
+                        false
+                    } else {
+                        val files = extractInputItem<InputFile>(value)
+                        files?.any { it.filename == filename } == true
+                    }
+
+                return MatcherResult(
+                    passed,
+                    { "Request should contain file named \"$filename\"" },
+                    { "Request should NOT contain file named  \"$filename\"" },
+                )
+            }
+
+            override fun toString(): String = "Request should contain file named \"$filename\""
         }
 
     fun userMessageContains(subString: String): Matcher<CreateResponseRequest?> =
