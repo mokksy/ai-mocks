@@ -20,7 +20,20 @@ internal object OpenAiResponsesMatchers {
 
     fun containsInputImageWithUrl(string: String): Matcher<CreateResponseRequest?> =
         object : Matcher<CreateResponseRequest?> {
-            override fun test(value: CreateResponseRequest?): MatcherResult = TODO()
+            override fun test(value: CreateResponseRequest?): MatcherResult {
+                val passed =
+                    if (value != null) {
+                        false
+                    } else {
+                        TODO()
+                    }
+
+                return MatcherResult(
+                    passed,
+                    { "Instructions should contain \"$string\"" },
+                    { "Instructions should not contain \"$string\"" },
+                )
+            }
 
             override fun toString(): String = "InputImage should have URL \"$string\""
         }

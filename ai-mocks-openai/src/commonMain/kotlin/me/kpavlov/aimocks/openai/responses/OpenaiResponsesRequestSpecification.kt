@@ -2,6 +2,8 @@ package me.kpavlov.aimocks.openai.responses
 
 import io.kotest.matchers.string.contain
 import me.kpavlov.aimocks.core.ModelRequestSpecification
+import me.kpavlov.mokksy.utils.asBase64DataUrl
+import java.net.URL
 
 public open class OpenaiResponsesRequestSpecification(
     public var seed: Int? = null,
@@ -32,6 +34,11 @@ public open class OpenaiResponsesRequestSpecification(
      */
     public fun containsInputImageWithUrl(imageUrl: String) {
         requestBodyString += contain(imageUrl)
-        // requestBody.add(OpenAiResponsesMatchers.containsInputImageWithUrl(substring))
+//        requestBody.add(OpenAiResponsesMatchers.containsInputImageWithUrl(substring))
+    }
+
+    private fun containsInputImageWithUrl(url: URL) {
+        val dataUrl = url.asBase64DataUrl()
+        TODO("Not yet implemented")
     }
 }

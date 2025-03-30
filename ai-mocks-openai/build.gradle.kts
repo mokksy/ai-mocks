@@ -59,6 +59,12 @@ openApiGenerate {
                     "FilePath",
                     "UrlCitation",
                     "ResponsePropertiesToolChoice",
+                    "InputAudio",
+                    "InputContent",
+                    "InputFile",
+                    "InputImage",
+                    "InputMessageResource",
+                    "InputText",
                 ).joinToString(","),
         ),
     )

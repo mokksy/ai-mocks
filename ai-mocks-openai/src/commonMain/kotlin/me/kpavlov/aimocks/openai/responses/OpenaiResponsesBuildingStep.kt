@@ -19,7 +19,7 @@ public class OpenaiResponsesBuildingStep(
     private var counter: AtomicInteger = AtomicInteger(1)
 
     @Suppress("MagicNumber")
-    public infix fun respond(block: OpenaiResponsesResponseSpecification.() -> Unit) {
+    public override infix fun responds(block: OpenaiResponsesResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val request = this.request.body
             val responseDefinition = this.build()
@@ -67,9 +67,5 @@ public class OpenaiResponsesBuildingStep(
                         ),
                 )
         }
-    }
-
-    override fun responds(block: OpenaiResponsesResponseSpecification.() -> Unit) {
-        TODO("Not yet implemented")
     }
 }

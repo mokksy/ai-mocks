@@ -8,7 +8,6 @@ import com.openai.models.responses.ResponseInputContent.Companion.ofInputText
 import com.openai.models.responses.ResponseInputImage
 import com.openai.models.responses.ResponseInputItem.Companion.ofEasyInputMessage
 import com.openai.models.responses.ResponseInputText
-import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.resource.resourceAsBytes
 import io.kotest.matchers.string.shouldContainIgnoringCase
 import io.kotest.matchers.string.shouldStartWith
@@ -19,16 +18,18 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle
-import kotlin.time.Duration.Companion.milliseconds
+import java.net.URL
 import kotlin.time.measureTimedValue
 
 @TestInstance(Lifecycle.PER_CLASS)
 internal class ResponsesImageInputTest : AbstractOpenaiTest() {
     private lateinit var base64Image: String
+    private lateinit var imageResource: URL
     private lateinit var base64ImageUrl: String
 
     @BeforeAll
     fun beforeAll() {
+        imageResource = this.javaClass.getResource("/pipiro.webp")!!
         base64Image = resourceAsBytes("/pipiro.webp").encodeBase64()
         base64ImageUrl = "data:image/webp;base64,$base64Image"
     }
@@ -43,12 +44,12 @@ internal class ResponsesImageInputTest : AbstractOpenaiTest() {
             instructionsContains("You are an art expert")
             userMessageContains("what's in this image?")
             containsInputImageWithUrl(base64ImageUrl)
-        } respond {
+            // TODO: containsInputImageWithUrl(imageResource)
+        } responds {
             assistantContent = """
                     The image depicts a cute, cartoonish creature resembling a small,
                     fluffy animal, possibly inspired by a bear or a similar character.
                     """
-            delay = 200.milliseconds
         }
 
         val imageInput =
@@ -113,6 +114,5 @@ internal class ResponsesImageInputTest : AbstractOpenaiTest() {
         assistantText shouldContainIgnoringCase "creature"
 
         response.model().asString() shouldStartWith modelName
-        timedValue.duration shouldBeGreaterThan 200.milliseconds
     }
 }

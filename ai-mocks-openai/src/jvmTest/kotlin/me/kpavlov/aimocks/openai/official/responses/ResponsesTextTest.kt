@@ -18,7 +18,7 @@ internal class ResponsesTextTest : AbstractOpenaiTest() {
             maxTokens = maxCompletionTokensValue
             systemMessageContains("Be ultra-brief.")
             userMessageContains("How to start business?")
-        } respond {
+        } responds {
             assistantContent = "Find. Create. Sell."
             finishReason = "stop"
             delay = 200.milliseconds
