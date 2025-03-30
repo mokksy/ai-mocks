@@ -3,7 +3,8 @@ package me.kpavlov.mokksy.utils
 import io.ktor.http.ContentType
 import io.ktor.http.defaultForFilePath
 import java.net.URL
-import java.util.Base64
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 /**
  * Converts the byte array into a Base64 encoded data URL string.
@@ -12,8 +13,9 @@ import java.util.Base64
  * @return The Base64 encoded data URL string containing the MIME type and the encoded content.
  * @see [data: URLs](https://developer.mozilla.org/en-US/docs/Web/URI/Reference/Schemes/data)
  */
+@OptIn(ExperimentalEncodingApi::class)
 public fun ByteArray.asBase64DataUrl(mimeType: MimeType): String {
-    val base64 = Base64.getUrlEncoder().encodeToString(this)
+    val base64 = Base64.UrlSafe.encode(this)
     return "data:$mimeType;base64,$base64"
 }
 

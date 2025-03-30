@@ -42,8 +42,7 @@ public open class OpenaiResponsesRequestSpecification(
      * The content of the URL will be converted to a Base64 data URL string.
      */
     public fun containsInputImageWithUrl(url: URL) {
-        url.asBase64DataUrl().apply {
-            containsInputImageWithUrl(this)
-        }
+        val dataUrl = url.asBase64DataUrl()
+        containsInputImageWithUrl(dataUrl)
     }
 }
