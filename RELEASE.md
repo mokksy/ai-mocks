@@ -3,7 +3,7 @@
 1. Delete git tag, if needed:
 
    ```shell
-   git tag -d v0.1.0
+   git tag -d v0.2.0
    ```
 3. Perform the release
 
