@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import java.net.URL
-import java.util.*
+import java.util.UUID
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlin.time.measureTimedValue
 
@@ -84,14 +84,14 @@ internal class ResponsesFileInputTest : AbstractOpenaiTest() {
         shouldThrow<NotFoundException> {
             client
                 .responses()
-                .create(createParams("a" + fileId, filename))
+                .create(createParams("a$fileId", filename))
                 .error()
         }
 
         shouldThrow<NotFoundException> {
             client
                 .responses()
-                .create(createParams(fileId, "b" + filename))
+                .create(createParams(fileId, "b$filename"))
                 .error()
         }
     }
