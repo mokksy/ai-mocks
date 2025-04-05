@@ -64,7 +64,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
             verifyStreamingCall(tokens)
         }
 
-    private suspend fun verifyStreamingCall(tokens: List<String>) {
+    private fun verifyStreamingCall(tokens: List<String>) {
         val params =
             MessageCreateParams
                 .builder()
