@@ -30,6 +30,7 @@ public class OpenaiResponsesBuildingStep(
     ) {
     private var counter: AtomicInteger = AtomicInteger(1)
 
+    @OptIn(ExperimentalStdlibApi::class)
     @Suppress("MagicNumber")
     public override infix fun responds(block: OpenaiResponsesResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
@@ -50,12 +51,12 @@ public class OpenaiResponsesBuildingStep(
 
             body =
                 Response(
-                    id = "chatcmpl-abc${counter.addAndGet(1)}",
+                    id = "resp_${counter.addAndGet(1).toHexString()}",
                     model = request.model,
                     metadata = null,
                     instructions = null,
                     tools = emptyList(),
-                    toolChoice = emptyMap(),
+                    toolChoice = "auto",
                     createdAt = Instant.now().epochSecond,
 //                    error = null,
 //                    incompleteDetails = null,

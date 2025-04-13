@@ -162,7 +162,7 @@ public data class Response
         @SerialName(value = "instructions") @Required val instructions: String?,
         @SerialName(value = "tools") @Required val tools: List<Tool> = emptyList(),
         @SerialName(value = "tool_choice")
-        @Required val toolChoice: Map<String, String> = emptyMap(),
+        @Required val toolChoice: String = "auto",
         @SerialName(value = "id") @Required val id: String,
         @EncodeDefault(ALWAYS)
         @SerialName("object")

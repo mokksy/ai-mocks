@@ -128,6 +128,10 @@ internal class ResponsesImageInputTest : AbstractOpenaiTest() {
 
         assistantText shouldContainIgnoringCase "creature"
 
-        response.model().asString() shouldStartWith modelName
+        response
+            .model()
+            .chat()
+            .orElseThrow()
+            .asString() shouldStartWith modelName
     }
 }

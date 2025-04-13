@@ -46,7 +46,11 @@ internal class ResponsesTextTest : AbstractOpenaiTest() {
             .first()
             .asOutputText()
             .text() shouldBe "Find. Create. Sell."
-        result.model().asString() shouldBe modelName
+        result
+            .model()
+            .chat()
+            .orElseThrow()
+            .asString() shouldBe modelName
     }
 
     private fun createResponseCreateRequestParams(): ResponseCreateParams {

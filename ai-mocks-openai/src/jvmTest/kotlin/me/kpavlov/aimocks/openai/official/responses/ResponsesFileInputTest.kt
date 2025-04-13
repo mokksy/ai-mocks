@@ -75,7 +75,11 @@ internal class ResponsesFileInputTest : AbstractOpenaiTest() {
 
         assistantText shouldContainIgnoringCase "image"
 
-        response.model().asString() shouldStartWith modelName
+        response
+            .model()
+            .chat()
+            .orElseThrow()
+            .asString() shouldStartWith modelName
     }
 
     @Test
