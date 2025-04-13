@@ -10,8 +10,6 @@ import com.openai.models.responses.ResponseInputItem.Companion.ofEasyInputMessag
 import com.openai.models.responses.ResponseInputText
 import io.kotest.matchers.resource.resourceAsBytes
 import io.kotest.matchers.string.shouldContainIgnoringCase
-import io.kotest.matchers.string.shouldStartWith
-import me.kpavlov.aimocks.openai.official.AbstractOpenaiTest
 import me.kpavlov.aimocks.openai.openai
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -27,7 +25,7 @@ private const val WIKIPEDIA_IMAGE_URL =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
 
 @TestInstance(Lifecycle.PER_CLASS)
-internal class ResponsesImageInputTest : AbstractOpenaiTest() {
+internal class ResponsesImageInputTest : AbstractOpenaiResponsesTest() {
     private lateinit var base64Image: String
     private lateinit var imageResource: URL
     private lateinit var base64ImageUrl: String
@@ -128,10 +126,6 @@ internal class ResponsesImageInputTest : AbstractOpenaiTest() {
 
         assistantText shouldContainIgnoringCase "creature"
 
-        response
-            .model()
-            .chat()
-            .orElseThrow()
-            .asString() shouldStartWith modelName
+        verifyResponse(response)
     }
 }

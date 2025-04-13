@@ -3,13 +3,12 @@ package me.kpavlov.aimocks.openai.official.responses
 import com.openai.models.responses.ResponseCreateParams
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
-import me.kpavlov.aimocks.openai.official.AbstractOpenaiTest
 import me.kpavlov.aimocks.openai.openai
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.measureTimedValue
 
-internal class ResponsesTextTest : AbstractOpenaiTest() {
+internal class ResponsesTextTest : AbstractOpenaiResponsesTest() {
     @Test
     fun `Should respond to Responses`() {
         openai.responses {
@@ -35,22 +34,17 @@ internal class ResponsesTextTest : AbstractOpenaiTest() {
             }
 
         timedValue.duration shouldBeGreaterThan 200.milliseconds
-        val result = timedValue.value
+        val response = timedValue.value
 
-        result.validate()
-
-        val message = result.output().first().asMessage()
+        val message = response.output().first().asMessage()
         logger.info { "Response message: $message" }
         message
             .content()
             .first()
             .asOutputText()
             .text() shouldBe "Find. Create. Sell."
-        result
-            .model()
-            .chat()
-            .orElseThrow()
-            .asString() shouldBe modelName
+
+        verifyResponse(response)
     }
 
     private fun createResponseCreateRequestParams(): ResponseCreateParams {

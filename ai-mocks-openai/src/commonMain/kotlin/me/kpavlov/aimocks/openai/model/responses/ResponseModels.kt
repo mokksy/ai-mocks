@@ -22,6 +22,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import me.kpavlov.aimocks.openai.model.OutputMessage
 import me.kpavlov.aimocks.openai.model.Reasoning
+import me.kpavlov.aimocks.openai.model.ResponseError
 import me.kpavlov.aimocks.openai.model.chat.Tool
 
 /**
@@ -87,6 +88,7 @@ internal object InputSerializer : JsonContentPolymorphicSerializer<Input>(Input:
         when {
             element is JsonPrimitive && element.isString
             -> Text.serializer()
+
             else -> InputItems.serializer()
         }
 }
@@ -178,6 +180,10 @@ public data class Response
         @SerialName(value = "truncation") val truncation: Truncation? = Truncation.DISABLED,
         @SerialName(value = "status") val status: Status? = null,
         @SerialName(value = "output_text") val outputText: String? = null,
+        @SerialName(value = "incomplete_details") val incompleteDetails: IncompleteDetails? = null,
+        @SerialName(value = "usage") val usage: Usage,
+        @EncodeDefault(ALWAYS)
+        @SerialName(value = "error") val error: ResponseError? = null,
     ) {
         /**
          * The status of the response generation.
@@ -201,6 +207,48 @@ public data class Response
             INCOMPLETE("incomplete"),
         }
     }
+
+/**
+ * Represents token usage details including input tokens, output tokens,
+ * a breakdown of output tokens, and the total tokens used.
+ *
+ * @param inputTokens The number of input tokens.
+ * @param inputTokensDetails
+ * @param outputTokens The number of output tokens.
+ * @param outputTokensDetails
+ * @param totalTokens The total number of tokens used.
+ */
+@Serializable
+public data class Usage(
+    // The number of input tokens.
+    @SerialName(value = "input_tokens") @Required val inputTokens: Int,
+    @SerialName(value = "input_tokens_details") @Required val inputTokensDetails:
+        InputTokensDetails,
+    // The number of output tokens.
+    @SerialName(value = "output_tokens") @Required val outputTokens: Int,
+    @SerialName(value = "output_tokens_details") @Required val outputTokensDetails:
+        OutputTokensDetails,
+    // The total number of tokens used.
+    @SerialName(value = "total_tokens") @Required val totalTokens: Int,
+)
+
+@Serializable
+public data class InputTokensDetails(
+    @SerialName(value = "cached_tokens") @Required val cachedTokens: Int,
+)
+
+@Serializable
+public data class OutputTokensDetails(
+    @SerialName(value = "reasoning_tokens") @Required val reasoningTokens: Int,
+)
+
+/**
+ * Details about why the response is incomplete.
+ */
+@Serializable
+public data class IncompleteDetails(
+    val reason: String,
+)
 
 /**
  * The truncation strategy to use for the model response.

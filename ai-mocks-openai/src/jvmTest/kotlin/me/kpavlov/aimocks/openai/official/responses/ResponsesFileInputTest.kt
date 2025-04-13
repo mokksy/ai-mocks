@@ -9,8 +9,6 @@ import com.openai.models.responses.ResponseInputItem
 import com.openai.models.responses.ResponseInputText
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.string.shouldContainIgnoringCase
-import io.kotest.matchers.string.shouldStartWith
-import me.kpavlov.aimocks.openai.official.AbstractOpenaiTest
 import me.kpavlov.aimocks.openai.openai
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -22,7 +20,7 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlin.time.measureTimedValue
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-internal class ResponsesFileInputTest : AbstractOpenaiTest() {
+internal class ResponsesFileInputTest : AbstractOpenaiResponsesTest() {
     private lateinit var imageResource: URL
     private lateinit var filename: String
     private lateinit var fileId: String
@@ -75,11 +73,7 @@ internal class ResponsesFileInputTest : AbstractOpenaiTest() {
 
         assistantText shouldContainIgnoringCase "image"
 
-        response
-            .model()
-            .chat()
-            .orElseThrow()
-            .asString() shouldStartWith modelName
+        verifyResponse(response)
     }
 
     @Test

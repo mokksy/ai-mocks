@@ -44,21 +44,22 @@ openApiGenerate {
         mapOf(
             "models" to // generate only models
                 listOf(
+                    "Annotation",
                     "ChatCompletionRole",
                     "ChatCompletionStreamOptions",
                     "Error",
-                    "Refusal",
-                    "ResponsePropertiesToolChoice",
-                    "Reasoning",
-                    "ReasoningEffort",
-                    "OutputMessage",
-                    "OutputContent",
-                    "OutputText",
-                    "Annotation",
                     "FileCitation",
                     "FilePath",
+                    "OutputContent",
+                    "OutputMessage",
+                    "OutputText",
+                    "Reasoning",
+                    "Reasoning",
+                    "ReasoningEffort",
+                    "Refusal",
+                    "ResponseError",
+                    "ResponseErrorCode",
                     "UrlCitation",
-                    "ResponsePropertiesToolChoice",
                 ).joinToString(","),
         ),
     )
@@ -67,7 +68,6 @@ openApiGenerate {
             "enumPropertyNaming" to "UPPERCASE",
             "dateLibrary" to "kotlinx-datetime",
             "explicitApi" to "true",
-//            "modelMutable" to "true",
         ),
     )
 }
