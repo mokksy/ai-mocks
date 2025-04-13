@@ -4,7 +4,10 @@ import me.kpavlov.aimocks.core.LlmBuildingStep
 import me.kpavlov.aimocks.openai.model.OutputContent
 import me.kpavlov.aimocks.openai.model.OutputMessage
 import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
+import me.kpavlov.aimocks.openai.model.responses.InputTokensDetails
+import me.kpavlov.aimocks.openai.model.responses.OutputTokensDetails
 import me.kpavlov.aimocks.openai.model.responses.Response
+import me.kpavlov.aimocks.openai.model.responses.Usage
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 import java.time.Instant
@@ -38,27 +41,25 @@ public class OpenaiResponsesBuildingStep(
             val chatResponseSpecification = OpenaiResponsesResponseSpecification(responseDefinition)
             block.invoke(chatResponseSpecification)
             val assistantContent = chatResponseSpecification.assistantContent
-            val finishReason = chatResponseSpecification.finishReason
             delay = chatResponseSpecification.delay
 
-            val promptTokens = Random.Default.nextInt(1, 200)
-            val completionTokens = Random.Default.nextInt(1, 1500)
-            val reasoningTokens = completionTokens / 3
-            val acceptedPredictionTokens = (completionTokens - reasoningTokens) / 2
-            val rejectedPredictionTokens =
-                completionTokens - reasoningTokens - acceptedPredictionTokens
+            val inputTokens = Random.Default.nextInt(1, 200)
+            val outputTokens = Random.Default.nextInt(1, request.maxOutputTokens ?: 1500)
+            val reasoningTokens = outputTokens / 3
 
             body =
                 Response(
-                    id = "chatcmpl-abc${counter.addAndGet(1)}",
+                    id = "resp_${Integer.toHexString(counter.addAndGet(1))}",
                     model = request.model,
                     metadata = null,
                     instructions = null,
                     tools = emptyList(),
-                    toolChoice = emptyMap(),
+                    toolChoice = "auto",
                     createdAt = Instant.now().epochSecond,
-//                    error = null,
-//                    incompleteDetails = null,
+                    temperature = request.temperature,
+                    maxOutputTokens = request.maxOutputTokens,
+                    error = null,
+                    incompleteDetails = null,
                     output =
                         listOf(
                             OutputMessage(
@@ -76,6 +77,20 @@ public class OpenaiResponsesBuildingStep(
                                     ),
                                 status = OutputMessage.Status.COMPLETED,
                             ),
+                        ),
+                    usage =
+                        Usage(
+                            inputTokens = inputTokens,
+                            inputTokensDetails =
+                                InputTokensDetails(
+                                    cachedTokens = 0,
+                                ),
+                            outputTokens = outputTokens,
+                            outputTokensDetails =
+                                OutputTokensDetails(
+                                    reasoningTokens = reasoningTokens,
+                                ),
+                            totalTokens = inputTokens + outputTokens,
                         ),
                 )
         }

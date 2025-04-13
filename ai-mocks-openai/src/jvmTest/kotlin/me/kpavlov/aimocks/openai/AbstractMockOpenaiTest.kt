@@ -15,6 +15,7 @@ internal abstract class AbstractMockOpenaiTest {
     protected var maxCompletionTokensValue: Long = -1
     protected lateinit var modelName: String
     protected val logger = KotlinLogging.logger(name = this::class.simpleName!!)
+    protected lateinit var startTimestamp: java.time.Instant
 
     @BeforeEach
     fun beforeEach() {
@@ -24,6 +25,7 @@ internal abstract class AbstractMockOpenaiTest {
         topKValue = Random.nextLong(1, 42)
         temperatureValue = Random.nextDouble(0.0, 1.0)
         maxCompletionTokensValue = Random.nextLong(100, 500)
+        startTimestamp = java.time.Instant.now()
     }
 
     @AfterEach
