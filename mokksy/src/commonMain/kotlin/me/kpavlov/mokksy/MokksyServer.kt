@@ -1,7 +1,6 @@
 package me.kpavlov.mokksy
 
 import io.kotest.assertions.failure
-import io.kotest.matchers.equalityMatcher
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpMethod.Companion.Delete
 import io.ktor.http.HttpMethod.Companion.Get
@@ -23,6 +22,7 @@ import io.ktor.server.sse.SSE
 import kotlinx.coroutines.runBlocking
 import me.kpavlov.mokksy.request.RequestSpecification
 import me.kpavlov.mokksy.request.RequestSpecificationBuilder
+import me.kpavlov.mokksy.request.methodEqual
 import java.util.concurrent.ConcurrentSkipListSet
 import kotlin.reflect.KClass
 
@@ -161,7 +161,7 @@ public open class MokksyServer
             val requestSpec =
                 RequestSpecificationBuilder<P>(requestType)
                     .apply(block)
-                    .method(equalityMatcher(httpMethod))
+                    .method(methodEqual(httpMethod))
                     .build()
 
             return BuildingStep<P>(

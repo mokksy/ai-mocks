@@ -1,15 +1,19 @@
 [versions]
+anthropic-java="1.1.0"
 assertj = "3.27.3"
 assertk = "0.28.1"
 awaitility = "4.3.0"
 datafaker = "2.4.3"
 detekt = "1.23.8"
 dokka = "2.0.0"
+finchly="0.1.1"
 junitJupiter = "5.12.2"
 kotest = "5.9.1"
 kotlin = "2.1.10"
 kotlinLogging = "7.0.6"
 kotlinx = "1.10.2"
+kotlinxDatetime = "0.6.2"
+kotlinxSerialization = "1.8.1"
 kover = "0.9.1"
 ktor = "3.1.2"
 langchain4j = "1.0.0-beta3"
@@ -23,8 +27,6 @@ slf4j = "2.0.17"
 spotless = "7.0.3"
 spring = "6.2.5"
 spring-ai = "1.0.0-M7"
-anthropic-java="1.1.0"
-finchly="0.1.1"
 
 [libraries]
 anthropic-java-client-okhttp = { group = "com.anthropic", name="anthropic-java-client-okhttp", version.ref="anthropic-java" }
@@ -39,6 +41,8 @@ kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.
 kotest-assertions-json = { module = "io.kotest:kotest-assertions-json", version.ref = "kotest" }
 kotlinLogging = { module = "io.github.oshai:kotlin-logging", version.ref = "kotlinLogging" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
@@ -69,5 +73,5 @@ dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 dokka-javadoc = { id = "org.jetbrains.dokka-javadoc", version.ref = "dokka" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 nexusPublish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexusPublish" }
-spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 openrewrite = { id = "org.openrewrite.rewrite", version.ref = "openrewrite" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

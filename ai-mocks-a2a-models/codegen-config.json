@@ -1,0 +1,14 @@
+{
+  "annotations": {
+    "classes": {
+      "kotlinx.serialization.Serializable":  null
+    },
+    "fields": {
+      "kotlinx.serialization.Contextual": null,
+      "kotlinx.serialization.SerialName": "\"{{&name}}\""
+    }
+  },
+  "targetLanguage": "kotlin",
+  "examplesValidationOption": "warn",
+  "defaultValidationOption": "block"
+}

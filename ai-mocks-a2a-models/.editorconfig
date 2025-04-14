@@ -1,0 +1,3 @@
+# noinspection EditorConfigKeyCorrectness
+[**/model/*.kt]
+ktlint_standard_property-naming = disabled # Disables the `final-newline` rule provided by KtLint
