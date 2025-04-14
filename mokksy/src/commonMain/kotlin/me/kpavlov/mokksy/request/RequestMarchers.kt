@@ -5,6 +5,7 @@ import io.kotest.matchers.MatcherResult
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldNot
 import io.ktor.http.Headers
+import io.ktor.http.HttpMethod
 
 /**
  * Custom matcher to verify that the Ktor [Headers] object contains a header with the specified name and value.
@@ -63,4 +64,28 @@ internal fun <T> predicateMatcher(predicate: (T?) -> Boolean): Matcher<T?> =
             )
 
         override fun toString(): String = "PredicateMatcher($predicate)"
+    }
+
+internal fun pathEqual(expected: String): Matcher<String> =
+    object : Matcher<String> {
+        override fun test(value: String) =
+            MatcherResult(
+                value == expected,
+                { "Path '$value' should be equal to '$expected'" },
+                { "Path '$value' should not be equal to '$expected'" },
+            )
+
+        override fun toString(): String = "'$expected'"
+    }
+
+internal fun methodEqual(expected: HttpMethod): Matcher<HttpMethod> =
+    object : Matcher<HttpMethod> {
+        override fun test(value: HttpMethod) =
+            MatcherResult(
+                value == expected,
+                { "Method $value should be equal to $expected" },
+                { "Method $value should not be equal to $expected" },
+            )
+
+        override fun toString(): String = "$expected"
     }

@@ -1,7 +1,6 @@
 package me.kpavlov.mokksy.request
 
 import io.kotest.matchers.Matcher
-import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.string.contain
 import io.ktor.http.Headers
 import io.ktor.http.HttpMethod
@@ -162,7 +161,7 @@ public open class RequestSpecificationBuilder<P : Any>(
     }
 
     public fun path(pathString: String): RequestSpecificationBuilder<P> {
-        this.path = beEqual(pathString)
+        this.path = pathEqual(pathString)
         return this
     }
 
