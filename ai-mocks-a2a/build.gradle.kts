@@ -9,7 +9,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api(project(":mokksy"))
+                api(project(":ai-mocks-core"))
                 api(project(":ai-mocks-a2a-models"))
                 api(libs.ktor.serialization.kotlinx.json)
                 api(libs.ktor.server.content.negotiation)

@@ -1,7 +1,7 @@
 package me.kpavlov.aimocks.openai.completions
 
 import kotlinx.coroutines.flow.Flow
-import me.kpavlov.aimocks.core.ChatResponseSpecification
+import me.kpavlov.aimocks.core.ResponseSpecification
 import me.kpavlov.aimocks.openai.ChatCompletionRequest
 import me.kpavlov.aimocks.openai.ChatResponse
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
@@ -13,7 +13,7 @@ import kotlin.time.Duration.Companion.milliseconds
  * in an OpenAI-like conversational environment. Allows the configuration of the assistant response
  * content, response handling flow, chunking behavior, delays, and the designated finish reason.
  *
- * This class extends [ChatResponseSpecification] and provides additional parameters specific
+ * This class extends [ResponseSpecification] and provides additional parameters specific
  * to OpenAI chat responses such as assistant content manipulation and timing controls.
  *
  * @constructor Creates an instance of OpenaiChatResponseSpecification.
@@ -36,7 +36,7 @@ public class OpenaiChatResponseSpecification(
     public var delayBetweenChunks: Duration = Duration.ZERO,
     public var delay: Duration = Duration.ZERO,
     public var finishReason: String = "stop",
-) : ChatResponseSpecification<ChatCompletionRequest, ChatResponse>(response = response) {
+) : ResponseSpecification<ChatCompletionRequest, ChatResponse>(response = response) {
     public fun assistantContent(content: String): OpenaiChatResponseSpecification =
         apply {
             this.assistantContent =

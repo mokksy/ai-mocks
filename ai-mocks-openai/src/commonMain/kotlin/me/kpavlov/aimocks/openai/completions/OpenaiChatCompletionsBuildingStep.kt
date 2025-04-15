@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
-import me.kpavlov.aimocks.core.LlmBuildingStep
+import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.aimocks.openai.ChatCompletionRequest
 import me.kpavlov.aimocks.openai.ChatResponse
 import me.kpavlov.aimocks.openai.Choice
@@ -25,15 +25,16 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.random.Random.Default.nextInt
 
 private const val LINE_SEPARATOR = "\n\n"
+private var counter: AtomicInteger = AtomicInteger(1)
 
 /**
- * OpenaiChatCompletionsBuildingStep is a specialized implementation of [LlmBuildingStep]
+ * OpenaiChatCompletionsBuildingStep is a specialized implementation of [AbstractBuildingStep]
  * intended for constructing and managing chat completion responses as part of the OpenAI
  * Mock Server setup.
  *
  * The class provides features to create both single-blocked responses and streaming
  * responses for simulated chat completions using mock data.
- * It extends the functionality of [LlmBuildingStep] by applying specific logic
+ * It extends the functionality of [AbstractBuildingStep] by applying specific logic
  * for generating fake responses compliant with OpenAI's chat completion API.
  *
  * @constructor Initializes the building step with the provided mock server instance and
@@ -48,12 +49,10 @@ private const val LINE_SEPARATOR = "\n\n"
 public class OpenaiChatCompletionsBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<ChatCompletionRequest>,
-) : LlmBuildingStep<ChatCompletionRequest, OpenaiChatResponseSpecification>(
+) : AbstractBuildingStep<ChatCompletionRequest, OpenaiChatResponseSpecification>(
         mokksy,
         buildingStep,
     ) {
-    private var counter: AtomicInteger = AtomicInteger(1)
-
     @Suppress("MagicNumber")
     override infix fun responds(block: OpenaiChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {

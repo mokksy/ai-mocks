@@ -1,7 +1,7 @@
 package me.kpavlov.aimocks.openai.completions
 
 import kotlinx.coroutines.flow.Flow
-import me.kpavlov.aimocks.core.ChatResponseSpecification
+import me.kpavlov.aimocks.core.ResponseSpecification
 import me.kpavlov.aimocks.openai.ChatCompletionRequest
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
@@ -11,7 +11,7 @@ import kotlin.time.Duration
  * in an OpenAI-like environment. This class provides configuration options for managing
  * streaming responses, delays, chunking, and signaling the end of the response.
  *
- * This class extends [ChatResponseSpecification] to offer additional parameters
+ * This class extends [ResponseSpecification] to offer additional parameters
  * aimed at handling streaming chat responses.
  *
  * @constructor Creates an instance of OpenaiStreamingChatResponseSpecification.
@@ -39,4 +39,4 @@ public class OpenaiStreamingChatResponseSpecification(
      * Should send `[DONE]` at the end.
      */
     public var sendDone: Boolean = false,
-) : ChatResponseSpecification<ChatCompletionRequest, String>(response = response)
+) : ResponseSpecification<ChatCompletionRequest, String>(response = response)

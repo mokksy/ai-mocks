@@ -29,6 +29,5 @@ public data class Task(
     @SerialName("metadata")
     val metadata: Metadata? = null,
 ) {
-    @Serializable
-    public open class Metadata
+    public companion object
 }

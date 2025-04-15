@@ -16,6 +16,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import me.kpavlov.aimocks.a2a.model.serializers.RequestIdSerializer
 
+private const val cg_str0 = "2.0"
+
 @Serializable
 public data class GetTaskResponse(
     @SerialName("jsonrpc")
@@ -31,9 +33,5 @@ public data class GetTaskResponse(
 ) {
     init {
         require(jsonrpc == cg_str0) { "jsonrpc not constant value $cg_str0 - $jsonrpc" }
-    }
-
-    private companion object {
-        private const val cg_str0 = "2.0"
     }
 }

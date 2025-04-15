@@ -17,32 +17,40 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class TaskStatus
-    constructor(
-        @Contextual
-        @SerialName("state")
-        val state: String,
-        @Contextual
-        @SerialName("message")
-        val message: Message? = null,
-        @Contextual
-        @SerialName("timestamp")
-        val timestamp: Instant? = null,
-    ) {
-        init {
-            require(state in cg_array0) { "state not in enumerated values - $state" }
-        }
-
-        private companion object {
-            private val cg_array0 =
-                setOf(
-                    "submitted",
-                    "working",
-                    "input-required",
-                    "completed",
-                    "canceled",
-                    "failed",
-                    "unknown",
-                )
-        }
+public data class TaskStatus(
+    @Contextual
+    @SerialName("state")
+    val state: String,
+    @Contextual
+    @SerialName("message")
+    val message: Message? = null,
+    @Contextual
+    @SerialName("timestamp")
+    val timestamp: Instant? = null,
+) {
+    init {
+        require(state in cg_array0) { "state not in enumerated values - $state" }
     }
+
+    public companion object {
+        private val cg_array0 =
+            setOf(
+                "submitted",
+                "working",
+                "input-required",
+                "completed",
+                "canceled",
+                "failed",
+                "unknown",
+            )
+
+        /**
+         * Creates a new TaskStatus using the DSL builder.
+         *
+         * @param init The lambda to configure the task status.
+         * @return A new TaskStatus instance.
+         */
+        public fun build(init: TaskStatusBuilder.() -> Unit): TaskStatus =
+            TaskStatusBuilder().apply(init).build()
+    }
+}

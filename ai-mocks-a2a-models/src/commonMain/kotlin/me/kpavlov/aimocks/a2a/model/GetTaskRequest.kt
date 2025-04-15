@@ -17,6 +17,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import me.kpavlov.aimocks.a2a.model.serializers.RequestIdSerializer
 
+private const val cg_str0 = "2.0"
+private const val cg_str1 = "tasks/get"
+
 @Serializable
 public data class GetTaskRequest(
     @Contextual
@@ -38,10 +41,5 @@ public data class GetTaskRequest(
     init {
         require(jsonrpc == cg_str0) { "jsonrpc not constant value $cg_str0 - $jsonrpc" }
         require(method == cg_str1) { "method not constant value $cg_str1 - $method" }
-    }
-
-    private companion object {
-        private const val cg_str0 = "2.0"
-        private const val cg_str1 = "tasks/get"
     }
 }

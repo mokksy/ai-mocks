@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import me.kpavlov.aimocks.anthropic.StreamingResponseHelper.randomIdString
-import me.kpavlov.aimocks.core.LlmBuildingStep
+import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 import me.kpavlov.mokksy.response.StreamResponseDefinition
@@ -27,7 +27,7 @@ public class AnthropicBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<MessageCreateParams.Body>,
     private val serializer: (Any) -> String,
-) : LlmBuildingStep<MessageCreateParams.Body, AnthropicMessagesResponseSpecification>(
+) : AbstractBuildingStep<MessageCreateParams.Body, AnthropicMessagesResponseSpecification>(
         mokksy,
         buildingStep,
     ) {

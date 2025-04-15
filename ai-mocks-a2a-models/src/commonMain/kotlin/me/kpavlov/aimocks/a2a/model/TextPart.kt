@@ -21,7 +21,4 @@ public data class TextPart(
     val text: String,
     @SerialName("metadata")
     val metadata: Metadata? = null,
-) : Part {
-    @Serializable
-    public open class Metadata
-}
+) : Part

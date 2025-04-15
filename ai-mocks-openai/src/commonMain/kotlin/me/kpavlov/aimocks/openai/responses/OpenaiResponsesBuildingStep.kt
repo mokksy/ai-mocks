@@ -1,6 +1,6 @@
 package me.kpavlov.aimocks.openai.responses
 
-import me.kpavlov.aimocks.core.LlmBuildingStep
+import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.aimocks.openai.model.OutputContent
 import me.kpavlov.aimocks.openai.model.OutputMessage
 import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
@@ -27,7 +27,7 @@ import kotlin.random.Random
 public class OpenaiResponsesBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<CreateResponseRequest>,
-) : LlmBuildingStep<CreateResponseRequest, OpenaiResponsesResponseSpecification>(
+) : AbstractBuildingStep<CreateResponseRequest, OpenaiResponsesResponseSpecification>(
         mokksy,
         buildingStep,
     ) {
