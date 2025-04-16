@@ -4,7 +4,7 @@ import com.anthropic.models.messages.Message
 import com.anthropic.models.messages.MessageCreateParams
 import kotlinx.coroutines.flow.Flow
 import me.kpavlov.aimocks.anthropic.StreamingResponseHelper.randomIdString
-import me.kpavlov.aimocks.core.ChatResponseSpecification
+import me.kpavlov.aimocks.core.ResponseSpecification
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -19,7 +19,7 @@ public class AnthropicMessagesResponseSpecification(
     public var delayBetweenChunks: Duration = Duration.ZERO,
     public var delay: Duration = Duration.ZERO,
     public var stopReason: String = "end_turn",
-) : ChatResponseSpecification<MessageCreateParams.Body, Message>(response = response) {
+) : ResponseSpecification<MessageCreateParams.Body, Message>(response = response) {
     public fun assistantContent(content: String): AnthropicMessagesResponseSpecification =
         apply {
             this.assistantContent =
@@ -50,4 +50,4 @@ public class AnthropicStreamingChatResponseSpecification(
      * Should send `[DONE]` at the end.
      */
     public var sendDone: Boolean = false,
-) : ChatResponseSpecification<MessageCreateParams.Body, String>(response = response)
+) : ResponseSpecification<MessageCreateParams.Body, String>(response = response)

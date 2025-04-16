@@ -38,4 +38,6 @@ public data class AgentCard(
     val defaultOutputModes: List<String> = listOf("text"),
     @SerialName("skills")
     val skills: List<AgentSkill>,
-)
+) {
+    public companion object
+}

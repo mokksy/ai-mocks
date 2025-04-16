@@ -26,7 +26,4 @@ public data class TaskQueryParams(
     @Contextual
     @SerialName("metadata")
     val metadata: Metadata? = null,
-) {
-    @Serializable
-    public open class Metadata
-}
+)

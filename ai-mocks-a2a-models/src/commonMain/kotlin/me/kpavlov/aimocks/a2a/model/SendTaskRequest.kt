@@ -20,22 +20,21 @@ private const val cg_str0 = "2.0"
 private const val cg_str1 = "tasks/send"
 
 @Serializable
-public data class SendTaskRequest
-    constructor(
-        @SerialName("jsonrpc")
-        @EncodeDefault
-        val jsonrpc: String = "2.0",
-        @SerialName("id")
-        @Serializable(with = RequestIdSerializer::class)
-        val id: RequestId? = null,
-        @SerialName("method")
-        @EncodeDefault
-        val method: String = "tasks/send",
-        @SerialName("params")
-        val params: TaskSendParams,
-    ) : A2ARequest {
-        init {
-            require(jsonrpc == cg_str0) { "jsonrpc not constant value $cg_str0 - $jsonrpc" }
-            require(method == cg_str1) { "method not constant value $cg_str1 - $method" }
-        }
+public data class SendTaskRequest(
+    @SerialName("jsonrpc")
+    @EncodeDefault
+    val jsonrpc: String = "2.0",
+    @SerialName("id")
+    @Serializable(with = RequestIdSerializer::class)
+    val id: RequestId? = null,
+    @SerialName("method")
+    @EncodeDefault
+    val method: String = "tasks/send",
+    @SerialName("params")
+    val params: TaskSendParams,
+) : A2ARequest {
+    init {
+        require(jsonrpc == cg_str0) { "jsonrpc not constant value $cg_str0 - $jsonrpc" }
+        require(method == cg_str1) { "method not constant value $cg_str1 - $method" }
     }
+}

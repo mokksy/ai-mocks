@@ -1,7 +1,7 @@
 package me.kpavlov.aimocks.openai.responses
 
 import kotlinx.coroutines.flow.Flow
-import me.kpavlov.aimocks.core.ChatResponseSpecification
+import me.kpavlov.aimocks.core.ResponseSpecification
 import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
 import me.kpavlov.aimocks.openai.model.responses.Response
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
@@ -33,7 +33,7 @@ public class OpenaiResponsesResponseSpecification(
     public var delayBetweenChunks: Duration = Duration.ZERO,
     public var delay: Duration = Duration.ZERO,
     public var finishReason: String = "stop",
-) : ChatResponseSpecification<CreateResponseRequest, Response>(response = response) {
+) : ResponseSpecification<CreateResponseRequest, Response>(response = response) {
     public fun assistantContent(content: String): OpenaiResponsesResponseSpecification =
         apply {
             this.assistantContent =

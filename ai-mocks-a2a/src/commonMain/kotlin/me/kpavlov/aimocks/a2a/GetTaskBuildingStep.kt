@@ -2,22 +2,25 @@ package me.kpavlov.aimocks.a2a
 
 import me.kpavlov.aimocks.a2a.model.GetTaskRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskResponse
+import me.kpavlov.aimocks.core.AbstractBuildingStep
+import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 
 public class GetTaskBuildingStep(
-    private val mokksy: MokksyServer,
-) {
-    public infix fun responds(block: GetTaskResponse.() -> Unit) {
-        mokksy
-            .post(requestType = GetTaskRequest::class) {
-                this.path("/")
-                this.bodyMatchesPredicate {
-                    it?.method == "tasks/get"
-                }
-            }.respondsWith<GetTaskResponse> {
-                val response = GetTaskResponse()
-                block(response)
-                this.body = response
-            }
+    mokksy: MokksyServer,
+    buildingStep: BuildingStep<GetTaskRequest>,
+) : AbstractBuildingStep<GetTaskRequest, GetTaskResponseSpecification>(
+        mokksy,
+        buildingStep,
+    ) {
+    override infix fun responds(block: GetTaskResponseSpecification.() -> Unit) {
+        buildingStep.respondsWith<GetTaskResponse> {
+            val requestBody = request.body
+            val responseDefinition = this.build()
+            val responseSpecification = GetTaskResponseSpecification(responseDefinition)
+            block.invoke(responseSpecification)
+            val task = requireNotNull(responseSpecification.result) { "Task must be defined" }
+            body = GetTaskResponse(id = responseSpecification.id ?: requestBody.id, result = task)
+        }
     }
 }

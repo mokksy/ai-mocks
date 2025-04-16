@@ -15,13 +15,13 @@ import kotlin.reflect.KClass
  * of a mock server's response mechanism.
  *
  * @param P The type of the request body for the interaction.
- * @param R A type that extends [ChatResponseSpecification], representing configuration
+ * @param R A type that extends [ResponseSpecification], representing configuration
  *          for the expected response specification.
  * @property mokksy A reference to the mock server instance.
  * @property buildingStep A reference to the internally managed building step
  *                        for configuring mock response behavior.
  */
-public abstract class LlmBuildingStep<P : Any, R : ChatResponseSpecification<P, *>>(
+public abstract class AbstractBuildingStep<P : Any, R : ResponseSpecification<P, *>>(
     protected val mokksy: MokksyServer,
     protected val buildingStep: BuildingStep<P>,
 ) {
