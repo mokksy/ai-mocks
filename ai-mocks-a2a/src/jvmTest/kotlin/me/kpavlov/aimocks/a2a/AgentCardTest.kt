@@ -57,8 +57,6 @@ internal class AgentCardTest : AbstractTest() {
             a2aServer.agentCard() responds {
                 delay = 1.milliseconds
                 card = agentCard
-                card {
-                }
             }
 
             val response =

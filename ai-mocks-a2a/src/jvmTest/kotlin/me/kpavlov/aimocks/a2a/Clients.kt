@@ -14,7 +14,7 @@ import kotlinx.serialization.json.Json
  * @return A configured instance of `HttpClient` with JSON serialization, SSE support,
  *         and a default request base URL pointing to the specified port.
  */
-internal fun createA2AClient(port: Int): HttpClient =
+internal fun createA2AClient(url: String): HttpClient =
     HttpClient(Java) {
         install(ContentNegotiation) {
             Json {
@@ -28,29 +28,6 @@ internal fun createA2AClient(port: Int): HttpClient =
             showCommentEvents()
         }
         install(DefaultRequest) {
-            url("http://127.0.0.1:$port") // Set the base URL
-        }
-    }
-
-/**
- * Creates and configures a Ktor HTTP client using the specified port to set the base URL.
- * The client leverages the `Java` engine and installs plugins such as `ContentNegotiation` for JSON handling
- * and `DefaultRequest` for setting default request parameters.
- *
- * @param port The server port number used to set the base URL for the client.
- * @return A configured instance of [HttpClient].
- */
-internal fun createKtorClient(port: Int): HttpClient =
-    HttpClient(Java) {
-        install(ContentNegotiation) {
-            Json {
-                // Configure JSON serialization
-                prettyPrint = true
-                isLenient = true
-                ignoreUnknownKeys = true
-            }
-        }
-        install(DefaultRequest) {
-            url("http://127.0.0.1:$port") // Set the base URL
+            url(url) // Set the base URL
         }
     }
