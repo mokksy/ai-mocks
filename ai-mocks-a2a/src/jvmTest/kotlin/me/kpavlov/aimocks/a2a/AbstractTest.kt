@@ -7,7 +7,7 @@ internal abstract class AbstractTest {
     protected val logger = KotlinLogging.logger(name = javaClass.canonicalName!!)
     protected val a2aServer = MockAgentServer(verbose = true)
 
-    protected val a2aClient = createA2AClient(a2aServer.port())
+    protected val a2aClient = createA2AClient(url = a2aServer.baseUrl())
 
     @AfterEach
     fun afterEach() {
