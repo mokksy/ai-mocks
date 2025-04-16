@@ -14,13 +14,13 @@ import kotlin.time.Duration
 
 public open class SseStreamResponseDefinition<P>(
     override val chunkFlow: Flow<ServerSentEvent>? = null,
-    delay: Duration,
+    delay: Duration = Duration.ZERO,
 ) : StreamResponseDefinition<P, ServerSentEvent>(delay = delay) {
     override suspend fun writeResponse(
         call: ApplicationCall,
         verbose: Boolean,
     ) {
-        val theFlow = this.chunkFlow ?: emptyFlow()
+        val theFlow = chunkFlow ?: emptyFlow()
         val sseContent =
             SSEServerContent(call) {
                 theFlow.collect {

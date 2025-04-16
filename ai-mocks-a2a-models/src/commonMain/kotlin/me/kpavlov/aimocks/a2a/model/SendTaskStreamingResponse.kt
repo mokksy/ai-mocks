@@ -12,31 +12,30 @@
 package me.kpavlov.aimocks.a2a.model
 
 import kotlinx.serialization.Contextual
+import kotlinx.serialization.EncodeDefault
+import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import me.kpavlov.aimocks.a2a.model.serializers.RequestIdSerializer
+import me.kpavlov.aimocks.a2a.model.serializers.TaskUpdateEventSerializer
 
 @Serializable
 public data class SendTaskStreamingResponse(
-    @Contextual
     @SerialName("jsonrpc")
+    @EncodeDefault
     val jsonrpc: String = "2.0",
-    @Contextual
     @SerialName("id")
     @Serializable(with = RequestIdSerializer::class)
     var id: RequestId? = null,
-    @Contextual
     @SerialName("result")
-    val result: Any? = null,
+    @Polymorphic
+    @Serializable(with = TaskUpdateEventSerializer::class)
+    val result: TaskUpdateEvent? = null,
     @Contextual
     @SerialName("error")
     val error: JSONRPCError? = null,
 ) {
     init {
-        require(jsonrpc == cg_str0) { "jsonrpc not constant value $cg_str0 - $jsonrpc" }
-    }
-
-    private companion object {
-        private const val cg_str0 = "2.0"
+        require(jsonrpc == "2.0") { "jsonrpc not constant value 2.0 - $jsonrpc" }
     }
 }

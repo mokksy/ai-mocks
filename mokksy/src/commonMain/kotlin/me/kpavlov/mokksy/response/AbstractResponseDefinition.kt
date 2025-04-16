@@ -26,7 +26,7 @@ public abstract class AbstractResponseDefinition<T>(
     public val httpStatus: HttpStatusCode = HttpStatusCode.OK,
     public val headers: (ResponseHeaders.() -> Unit)? = null,
     public val headerList: List<Pair<String, String>> = emptyList<Pair<String, String>>(),
-    public val delay: Duration = Duration.ZERO,
+    public open val delay: Duration = Duration.ZERO,
 ) {
     internal abstract suspend fun writeResponse(
         call: ApplicationCall,

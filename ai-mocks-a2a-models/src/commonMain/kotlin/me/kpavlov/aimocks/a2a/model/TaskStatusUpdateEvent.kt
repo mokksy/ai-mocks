@@ -26,4 +26,6 @@ public data class TaskStatusUpdateEvent(
     val final: Boolean = false,
     @SerialName("metadata")
     val metadata: Metadata? = null,
-)
+) : TaskUpdateEvent {
+    override fun id(): TaskId = id
+}

@@ -18,9 +18,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class Task(
     @SerialName("id")
-    val id: String,
+    val id: TaskId,
     @SerialName("sessionId")
-    val sessionId: String? = null,
+    val sessionId: SessionId? = null,
     @SerialName("status")
     val status: TaskStatus,
     @SerialName("artifacts")

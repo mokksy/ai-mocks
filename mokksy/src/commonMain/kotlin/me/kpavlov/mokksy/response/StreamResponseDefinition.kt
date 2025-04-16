@@ -7,13 +7,14 @@ import io.ktor.http.withCharset
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.response.ResponseHeaders
 import io.ktor.server.response.cacheControl
-import io.ktor.server.response.respondTextWriter
+import io.ktor.server.response.respondBytesWriter
 import io.ktor.server.sse.ServerSSESession
+import io.ktor.utils.io.ByteWriteChannel
+import io.ktor.utils.io.writeStringUtf8
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.yield
-import java.io.Writer
 import kotlin.time.Duration
 
 /**
@@ -51,7 +52,7 @@ public open class StreamResponseDefinition<P, T>(
         delay,
     ) {
     internal suspend fun writeChunksFromFlow(
-        writer: Writer,
+        writer: ByteWriteChannel,
         verbose: Boolean,
     ) {
         if (this.delay.isPositive()) {
@@ -65,14 +66,15 @@ public open class StreamResponseDefinition<P, T>(
     }
 
     private suspend fun writeChunk(
-        writer: Writer,
+        writer: ByteWriteChannel,
         value: T,
         verbose: Boolean,
+        serialize: (T) -> String = { "$it" },
     ) {
         if (verbose) {
             print("$value")
         }
-        writer.write("$value")
+        writer.writeStringUtf8(serialize(value))
         writer.flush()
         yield()
         if (delayBetweenChunks.isPositive()) {
@@ -100,7 +102,7 @@ public open class StreamResponseDefinition<P, T>(
     }
 
     internal suspend fun writeChunksFromList(
-        writer: Writer,
+        writer: ByteWriteChannel,
         verbose: Boolean,
     ) {
         if (this.delay.isPositive()) {
@@ -118,7 +120,7 @@ public open class StreamResponseDefinition<P, T>(
         when {
             chunkFlow != null -> {
                 call.response.cacheControl(CacheControl.NoCache(null))
-                call.respondTextWriter(
+                call.respondBytesWriter(
                     status = this.httpStatus,
                     contentType = this.contentType,
                 ) {
@@ -128,7 +130,7 @@ public open class StreamResponseDefinition<P, T>(
 
             else -> {
                 call.response.cacheControl(CacheControl.NoCache(null))
-                call.respondTextWriter(
+                call.respondBytesWriter(
                     status = this.httpStatus,
                     contentType = this.contentType,
                 ) {

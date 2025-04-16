@@ -16,8 +16,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import me.kpavlov.aimocks.a2a.model.serializers.RequestIdSerializer
 
-private const val cg_str0 = "2.0"
-
 @Serializable
 public data class SendTaskResponse(
     @SerialName("jsonrpc")
@@ -25,13 +23,13 @@ public data class SendTaskResponse(
     val jsonrpc: String = "2.0",
     @SerialName("id")
     @Serializable(with = RequestIdSerializer::class)
-    var id: RequestId? = null,
+    val id: RequestId? = null,
     @SerialName("result")
-    var result: Task? = null, // todo: val
+    val result: Task? = null, // todo: val
     @SerialName("error")
     val error: JSONRPCError? = null,
 ) {
     init {
-        require(jsonrpc == cg_str0) { "jsonrpc not constant value $cg_str0 - $jsonrpc" }
+        require(jsonrpc == "2.0") { "jsonrpc not constant value 2.0 - $jsonrpc" }
     }
 }
