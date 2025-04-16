@@ -6,6 +6,7 @@ import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.log
 import io.ktor.server.response.ResponseHeaders
 import io.ktor.server.response.respond
+import io.ktor.util.cio.ChannelWriteException
 import kotlinx.coroutines.delay
 import kotlin.time.Duration
 
@@ -47,9 +48,14 @@ public open class ResponseDefinition<P, T>(
         if (verbose) {
             call.application.log.debug("Sending {}: {}", httpStatus, body)
         }
-        call.respond(
-            status = httpStatus,
-            message = body ?: "" as Any,
-        )
+        try {
+            call.respond(
+                status = httpStatus,
+                message = body ?: "" as Any,
+            )
+        } catch (e: ChannelWriteException) {
+            // We can't do anything about it
+            call.application.log.debug(e.message, e)
+        }
     }
 }
