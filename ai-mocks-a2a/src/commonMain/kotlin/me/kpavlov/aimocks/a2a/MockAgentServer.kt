@@ -170,8 +170,8 @@ public open class MockAgentServer(
         val requestStep =
             mokksy
                 .post(name = name, requestType = GetTaskRequest::class) {
-                    this.path("/")
-                    this.bodyMatchesPredicate {
+                    path("/")
+                    bodyMatchesPredicate {
                         it?.method == "tasks/get"
                     }
                 }

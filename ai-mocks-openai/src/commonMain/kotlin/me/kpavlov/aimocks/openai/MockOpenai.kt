@@ -1,7 +1,6 @@
 package me.kpavlov.aimocks.openai
 
 import io.kotest.assertions.json.containJsonKeyValue
-import io.kotest.matchers.equals.beEqual
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.core.AbstractMockLlm
@@ -60,7 +59,7 @@ public open class MockOpenai(
                 val chatRequestSpec = OpenaiChatCompletionRequestSpecification()
                 block(chatRequestSpec)
 
-                path = beEqual("/v1/chat/completions")
+                path("/v1/chat/completions")
 
                 body += chatRequestSpec.requestBody
 
@@ -103,7 +102,7 @@ public open class MockOpenai(
                 val chatRequestSpec = OpenaiResponsesRequestSpecification()
                 block(chatRequestSpec)
 
-                path = beEqual("/v1/responses")
+                path("/v1/responses")
 
                 body += chatRequestSpec.requestBody
 

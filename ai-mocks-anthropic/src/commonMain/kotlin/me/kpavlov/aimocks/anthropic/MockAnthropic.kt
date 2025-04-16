@@ -1,7 +1,6 @@
 package me.kpavlov.aimocks.anthropic
 
 import com.anthropic.models.messages.MessageCreateParams
-import io.kotest.matchers.equals.beEqual
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiationConfig
 import me.kpavlov.aimocks.core.AbstractMockLlm
 import me.kpavlov.mokksy.ServerConfiguration
@@ -44,7 +43,7 @@ public open class MockAnthropic(
                 val chatRequestSpec = AnthropicMessagesRequestSpecification()
                 block(chatRequestSpec)
 
-                path = beEqual("/v1/messages")
+                path("/v1/messages")
 
                 body += chatRequestSpec.requestBody
 
