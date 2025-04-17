@@ -152,9 +152,10 @@ assertThat(result.bodyAsText())
 
 **AI-Mocks** is a specialized mock server implementations (e.g., mocking OpenAI API) built using Mokksy.
 
-It supports mocking following LLMs:
+It supports mocking following AI services:
 1. [OpenAI](https://platform.openai.com/docs/api-reference/) - [ai-mocks-openai](https://kpavlov.github.io/ai-mocks/docs/ai-mocks-openai/)
 2. [Anthropic](https://docs.anthropic.com/en/api) - [ai-mocks-anthropic](https://kpavlov.github.io/ai-mocks/docs/ai-mocks-anthropic/)
+3. [Agent-to-Agent (A2A) Protocol](https://github.com/google/A2A) - [ai-mocks-a2a](https://kpavlov.github.io/ai-mocks/docs/ai-mocks/a2a/)
 
 **_NB! Not all API endpoints and parameters are supported!_**
 

@@ -215,8 +215,8 @@ Client call example:
 // Create a SendTaskRequest object
 val jsonRpcRequest = SendTaskRequest(
     id = "1",
-    params = TaskSendParams(
-        id = UUID.randomUUID().toString(),
+    params = TaskSendParams.create {
+        id = UUID.randomUUID().toString()
         message = Message(
             role = Message.Role.user,
             parts = listOf(
@@ -224,8 +224,8 @@ val jsonRpcRequest = SendTaskRequest(
                     text = "Tell me a joke",
                 ),
             ),
-        ),
-    ),
+        )
+    },
 )
 
 // Make a POST request to the Send Task endpoint
@@ -443,21 +443,32 @@ Mock Server configuration:
 ```kotlin
 // Create a TaskPushNotificationConfig object
 val taskId: TaskId = "task_12345"
-val config = TaskPushNotificationConfig(
-    id = taskId,
-    pushNotificationConfig = PushNotificationConfig(
-        url = "https://example.com/callback",
-        token = "abc.def.jk",
-        authentication = AuthenticationInfo(
-            schemes = listOf("Bearer"),
-        ),
-    ),
-)
+val config = TaskPushNotificationConfig.create {
+    id = taskId
+    pushNotificationConfig {
+        url = "https://example.com/callback"
+        token = "abc.def.jk"
+        authentication {
+            credentials = "secret"
+            schemes += "Bearer"
+        }
+    }
+}
 
 // Configure the mock server to respond with the config
 a2aServer.setTaskPushNotification() responds {
     id = 1
-    result = config
+    result {
+        id = taskId
+        pushNotificationConfig {
+            url = "https://example.com/callback"
+            token = "abc.def.jk"
+            authentication {
+                credentials = "secret"
+                schemes += "Bearer"
+            }
+        }
+    }
 }
 ```
 
@@ -465,16 +476,17 @@ Client call example:
 
 ```kotlin
 // Create a TaskPushNotificationConfig object
-val config = TaskPushNotificationConfig(
-    id = "task_12345",
-    pushNotificationConfig = PushNotificationConfig(
-        url = "https://example.com/callback",
-        token = "abc.def.jk",
-        authentication = AuthenticationInfo(
-            schemes = listOf("Bearer"),
-        ),
-    ),
-)
+val config = TaskPushNotificationConfig.create {
+    id = "task_12345"
+    pushNotificationConfig {
+        url = "https://example.com/callback"
+        token = "abc.def.jk"
+        authentication {
+            credentials = "secret"
+            schemes += "Bearer"
+        }
+    }
+}
 
 // Create a SetTaskPushNotificationRequest object
 val jsonRpcRequest = SetTaskPushNotificationRequest(
