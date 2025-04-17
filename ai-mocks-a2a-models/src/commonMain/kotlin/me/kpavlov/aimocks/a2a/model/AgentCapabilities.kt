@@ -22,4 +22,15 @@ public data class AgentCapabilities(
     val pushNotifications: Boolean = false,
     @SerialName("stateTransitionHistory")
     val stateTransitionHistory: Boolean = false,
-)
+) {
+    public companion object {
+        /**
+         * Creates a new AgentCapabilities using the DSL builder.
+         *
+         * @param init The lambda to configure the agent capabilities.
+         * @return A new AgentCapabilities instance.
+         */
+        public fun build(init: AgentCapabilitiesBuilder.() -> Unit): AgentCapabilities =
+            AgentCapabilitiesBuilder().apply(init).build()
+    }
+}

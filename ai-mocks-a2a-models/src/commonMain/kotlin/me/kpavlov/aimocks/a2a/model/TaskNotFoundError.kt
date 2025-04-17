@@ -18,11 +18,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class TaskNotFoundError(
     /** Error code */
-    @Contextual
     @SerialName("code")
     val code: Int = -32001,
     /** A short description of the error */
-    @Contextual
     @SerialName("message")
     val message: String = "Task not found",
     @Contextual
@@ -31,10 +29,8 @@ public data class TaskNotFoundError(
 ) {
     init {
         require(code == -32001) { "code not constant value -32001 - $code" }
-        require(message == cg_str0) { "message not constant value $cg_str0 - $message" }
-    }
-
-    private companion object {
-        private const val cg_str0 = "Task not found"
+        require(
+            message == "Task not found",
+        ) { "message not constant value Task not found - $message" }
     }
 }

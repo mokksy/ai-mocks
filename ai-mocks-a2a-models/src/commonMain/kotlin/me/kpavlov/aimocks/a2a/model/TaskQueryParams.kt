@@ -17,10 +17,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class TaskQueryParams(
-    @Contextual
     @SerialName("id")
     val id: String,
-    @Contextual
     @SerialName("historyLength")
     val historyLength: Long? = null,
     @Contextual

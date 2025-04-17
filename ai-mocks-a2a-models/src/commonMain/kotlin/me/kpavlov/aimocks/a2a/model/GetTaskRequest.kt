@@ -11,35 +11,27 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import me.kpavlov.aimocks.a2a.model.serializers.RequestIdSerializer
 
-private const val cg_str0 = "2.0"
-private const val cg_str1 = "tasks/get"
-
 @Serializable
 public data class GetTaskRequest(
-    @Contextual
     @SerialName("jsonrpc")
     @EncodeDefault
     val jsonrpc: String = "2.0",
-    @Contextual
     @SerialName("id")
     @Serializable(with = RequestIdSerializer::class)
     val id: RequestId? = null,
-    @Contextual
     @SerialName("method")
     @EncodeDefault
     val method: String = "tasks/get",
-    @Contextual
     @SerialName("params")
     val params: TaskQueryParams,
 ) : A2ARequest {
     init {
-        require(jsonrpc == cg_str0) { "jsonrpc not constant value $cg_str0 - $jsonrpc" }
-        require(method == cg_str1) { "method not constant value $cg_str1 - $method" }
+        require(jsonrpc == "2.0") { "jsonrpc not constant value 2.0 - $jsonrpc" }
+        require(method == "tasks/get") { "method not constant value tasks/get - $method" }
     }
 }

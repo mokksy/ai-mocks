@@ -11,14 +11,10 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import me.kpavlov.aimocks.a2a.model.serializers.RequestIdSerializer
-
-private const val cg_str0 = "2.0"
-private const val cg_str1 = "tasks/sendSubscribe"
 
 @Serializable
 public data class SendTaskStreamingRequest(
@@ -31,12 +27,13 @@ public data class SendTaskStreamingRequest(
     @SerialName("method")
     @EncodeDefault
     val method: String = "tasks/sendSubscribe",
-    @Contextual
     @SerialName("params")
     val params: TaskSendParams,
 ) {
     init {
-        require(jsonrpc == cg_str0) { "jsonrpc not constant value $cg_str0 - $jsonrpc" }
-        require(method == cg_str1) { "method not constant value $cg_str1 - $method" }
+        require(jsonrpc == "2.0") { "jsonrpc not constant value 2.0 - $jsonrpc" }
+        require(method == "tasks/sendSubscribe") {
+            "method not constant value tasks/sendSubscribe - $method"
+        }
     }
 }

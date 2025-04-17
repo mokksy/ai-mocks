@@ -7,11 +7,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class PushNotificationNotSupportedError(
     /** Error code */
-    @Contextual
     @SerialName("code")
     val code: Int = -32003,
     /** A short description of the error */
-    @Contextual
     @SerialName("message")
     val message: String = "Push Notification is not supported",
     @Contextual
@@ -20,11 +18,8 @@ public data class PushNotificationNotSupportedError(
 ) {
     init {
         require(code == -32003) { "code not constant value -32003 - $code" }
-        require(message == cg_str0) { "message not constant value $cg_str0 - $message" }
-    }
-
-    private companion object {
-        @Suppress("ktlint:standard:property-naming")
-        private const val cg_str0 = "Push Notification is not supported"
+        require(message == "Push Notification is not supported") {
+            "message not constant value Push Notification is not supported - $message"
+        }
     }
 }

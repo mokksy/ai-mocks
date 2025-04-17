@@ -30,4 +30,15 @@ public data class AgentSkill(
     val inputModes: List<String>? = null,
     @SerialName("outputModes")
     val outputModes: List<String>? = null,
-)
+) {
+    public companion object {
+        /**
+         * Creates a new AgentSkill using the DSL builder.
+         *
+         * @param init The lambda to configure the agent skill.
+         * @return A new AgentSkill instance.
+         */
+        public fun build(init: AgentSkillBuilder.() -> Unit): AgentSkill =
+            AgentSkillBuilder().apply(init).build()
+    }
+}

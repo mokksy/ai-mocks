@@ -19,14 +19,8 @@ public interface A2ARequest {
         val params: TaskSendParams,
     ) : A2ARequest {
         init {
-            require(jsonrpc == cg_str0) { "jsonrpc not constant value $cg_str0 - $jsonrpc" }
-            require(method == cg_str1) { "method not constant value $cg_str1 - $method" }
+            require(jsonrpc == "2.0") { "jsonrpc not constant value 2.0 - $jsonrpc" }
+            require(method == "tasks/send") { "method not constant value tasks/send - $method" }
         }
-    }
-
-    private companion object {
-        @Suppress("ktlint:standard:property-naming")
-        private const val cg_str0 = "2.0"
-        private const val cg_str1 = "tasks/send"
     }
 }

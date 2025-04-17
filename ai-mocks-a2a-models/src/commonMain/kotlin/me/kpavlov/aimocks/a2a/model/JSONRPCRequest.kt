@@ -19,15 +19,12 @@ import me.kpavlov.aimocks.a2a.model.serializers.RequestIdSerializer
 
 @Serializable
 public data class JSONRPCRequest(
-    @Contextual
     @SerialName("jsonrpc")
     @EncodeDefault
     val jsonrpc: String = "2.0",
-    @Contextual
     @SerialName("id")
     @Serializable(with = RequestIdSerializer::class)
     val id: RequestId? = null,
-    @Contextual
     @SerialName("method")
     val method: String,
     @Contextual
@@ -35,13 +32,9 @@ public data class JSONRPCRequest(
     val params: Params? = null,
 ) {
     init {
-        require(jsonrpc == cg_str0) { "jsonrpc not constant value $cg_str0 - $jsonrpc" }
+        require(jsonrpc == "2.0") { "jsonrpc not constant value 2.0 - $jsonrpc" }
     }
 
     @Serializable
     public open class Params
-
-    private companion object {
-        private const val cg_str0 = "2.0"
-    }
 }

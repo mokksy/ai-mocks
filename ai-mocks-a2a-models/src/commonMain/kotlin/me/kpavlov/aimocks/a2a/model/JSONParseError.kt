@@ -19,12 +19,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class JSONParseError(
     /** Error code */
-    @Contextual
     @SerialName("code")
     @EncodeDefault
     val code: Int = -32700,
     /** A short description of the error */
-    @Contextual
     @SerialName("message")
     val message: String = "Invalid JSON payload",
     @Contextual
@@ -33,10 +31,8 @@ public data class JSONParseError(
 ) {
     init {
         require(code == -32700) { "code not constant value -32700 - $code" }
-        require(message == cg_str0) { "message not constant value $cg_str0 - $message" }
-    }
-
-    private companion object {
-        private const val cg_str0 = "Invalid JSON payload"
+        require(message == "Invalid JSON payload") {
+            "message not constant value Invalid JSON payload - $message"
+        }
     }
 }

@@ -31,10 +31,8 @@ public data class InvalidRequestError(
 ) {
     init {
         require(code == -32600) { "code not constant value -32600 - $code" }
-        require(message == cg_str0) { "message not constant value $cg_str0 - $message" }
-    }
-
-    private companion object {
-        private const val cg_str0 = "Request payload validation error"
+        require(message == "Request payload validation error") {
+            "message not constant value Request payload validation error - $message"
+        }
     }
 }

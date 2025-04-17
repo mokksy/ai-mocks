@@ -12,19 +12,15 @@
 package me.kpavlov.aimocks.a2a.model
 
 import kotlinx.datetime.Instant
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 public data class TaskStatus(
-    @Contextual
     @SerialName("state")
     val state: String,
-    @Contextual
     @SerialName("message")
     val message: Message? = null,
-    @Contextual
     @SerialName("timestamp")
     val timestamp: Instant? = null,
 ) {

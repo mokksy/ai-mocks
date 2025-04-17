@@ -20,4 +20,16 @@ public data class TaskPushNotificationConfig(
     val id: TaskId,
     @SerialName("pushNotificationConfig")
     val pushNotificationConfig: PushNotificationConfig,
-)
+) {
+    public companion object {
+        /**
+         * Creates a new TaskPushNotificationConfig using the DSL builder.
+         *
+         * @param init The lambda to configure the task push notification config.
+         * @return A new TaskPushNotificationConfig instance.
+         */
+        public fun build(
+            init: TaskPushNotificationConfigBuilder.() -> Unit,
+        ): TaskPushNotificationConfig = TaskPushNotificationConfigBuilder().apply(init).build()
+    }
+}
