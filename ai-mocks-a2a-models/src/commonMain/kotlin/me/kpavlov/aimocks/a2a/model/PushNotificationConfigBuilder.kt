@@ -34,6 +34,10 @@ public class PushNotificationConfigBuilder {
             authentication = authentication,
         )
     }
+
+    public fun authentication(block: AuthenticationInfoBuilder.() -> Unit) {
+        authentication = AuthenticationInfoBuilder().apply(block).build()
+    }
 }
 
 /**
