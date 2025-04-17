@@ -11,19 +11,17 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 public data class TaskArtifactUpdateEvent(
-    @Contextual
     @SerialName("id")
-    val id: String,
-    @Contextual
+    val id: TaskId,
     @SerialName("artifact")
     val artifact: Artifact,
-    @Contextual
     @SerialName("metadata")
     val metadata: Metadata? = null,
-)
+) : TaskUpdateEvent {
+    override fun id(): TaskId = id
+}

@@ -20,7 +20,6 @@ internal fun createA2AClient(url: String): HttpClient =
             Json {
                 prettyPrint = true
                 isLenient = true
-                ignoreUnknownKeys = true
             }
         }
         install(SSE) {

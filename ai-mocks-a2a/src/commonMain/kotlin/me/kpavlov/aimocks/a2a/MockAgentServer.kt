@@ -2,7 +2,10 @@ package me.kpavlov.aimocks.a2a
 
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import me.kpavlov.aimocks.a2a.model.CancelTaskRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskRequest
+import me.kpavlov.aimocks.a2a.model.SendTaskRequest
+import me.kpavlov.aimocks.a2a.model.SendTaskStreamingRequest
 import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.aimocks.core.AbstractMockLlm
 import me.kpavlov.mokksy.ServerConfiguration
@@ -127,7 +130,56 @@ public open class MockAgentServer(
      *
      * @return An instance of `SendTaskBuildingStep` to define the response behavior for "send task" requests.
      */
-    public fun sendTask(): SendTaskBuildingStep = SendTaskBuildingStep(mokksy)
+    @JvmOverloads
+    public fun sendTask(name: String? = null): SendTaskBuildingStep {
+        val requestStep =
+            mokksy
+                .post(name = name, requestType = SendTaskRequest::class) {
+                    path("/")
+                    bodyMatchesPredicate {
+                        it?.method == "tasks/send"
+                    }
+                }
+
+        return SendTaskBuildingStep(
+            buildingStep = requestStep,
+            mokksy = mokksy,
+        )
+    }
+
+    @JvmOverloads
+    public fun cancelTask(name: String? = null): CancelTaskBuildingStep {
+        val requestStep =
+            mokksy
+                .post(name = name, requestType = CancelTaskRequest::class) {
+                    path("/")
+                    bodyMatchesPredicate {
+                        it?.method == "tasks/cancel"
+                    }
+                }
+
+        return CancelTaskBuildingStep(
+            buildingStep = requestStep,
+            mokksy = mokksy,
+        )
+    }
+
+    @JvmOverloads
+    public fun sendTaskStreaming(name: String? = null): SendTaskStreamingBuildingStep {
+        val requestStep =
+            mokksy
+                .post(name = name, requestType = SendTaskStreamingRequest::class) {
+                    path("/")
+                    bodyMatchesPredicate {
+                        it?.method == "tasks/sendSubscribe"
+                    }
+                }
+
+        return SendTaskStreamingBuildingStep(
+            buildingStep = requestStep,
+            mokksy = mokksy,
+        )
+    }
 
     /**
      * Configures the behavior of the mocking server to handle
@@ -166,6 +218,7 @@ public open class MockAgentServer(
      * @return An instance of `GetTaskBuildingStep` that allows for further configuration of the mock
      *         response behavior for "Get a Task" requests.
      */
+    @JvmOverloads
     public fun getTask(name: String? = null): GetTaskBuildingStep {
         val requestStep =
             mokksy

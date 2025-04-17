@@ -43,39 +43,42 @@ implementation("me.kpavlov.aimocks:ai-mocks-a2a-jvm:$latestVersion")
 The Agent Card endpoint provides information about the agent's capabilities, skills, and authentication mechanisms.
 
 ```kotlin
-// Configure the mock server to respond with the AgentCard
-a2aServer.agentCard() responds {
-    delay = 1.milliseconds
-    card {
-      name = "test-agent"
-      description = "test-agent-description"
-      url = a2aServer.baseUrl()
-      documentationUrl = "https://example.com/documentation"
-      version = "0.0.1"
-      provider = AgentProvider(
+// Create an AgentCard object
+val agentCard = AgentCard.create {
+    name = "test-agent"
+    description = "test-agent-description"
+    url = a2aServer.baseUrl()
+    documentationUrl = "https://example.com/documentation"
+    version = "0.0.1"
+    provider = AgentProvider(
         "Acme, Inc.",
         "https://example.com/organization",
-      )
-      authentication = AgentAuthentication(
+    )
+    authentication = AgentAuthentication(
         schemes = listOf("none", "bearer"),
         credentials = "test-token",
-      )
-      capabilities = AgentCapabilities(
+    )
+    capabilities = AgentCapabilities(
         streaming = true,
         pushNotifications = true,
         stateTransitionHistory = true,
-      )
-      skills = listOf(
+    )
+    skills = listOf(
         AgentSkill(
-          id = "walk",
-          name = "Walk the walk",
+            id = "walk",
+            name = "Walk the walk",
         ),
         AgentSkill(
-          id = "talk",
-          name = "Talk the talk",
+            id = "talk",
+            name = "Talk the talk",
         ),
-      )
-    }
+    )
+}
+
+// Configure the mock server to respond with the AgentCard
+a2aServer.agentCard() responds {
+    delay = 1.milliseconds
+    card = agentCard
 }
 ```
 
@@ -134,9 +137,110 @@ a2aServer.sendTask() responds {
 }
 ```
 
+## Send Task Streaming Endpoint
+
+The Send Task Streaming endpoint allows clients to send a task to the agent for processing and receive streaming updates.
+
+```kotlin
+// Configure the mock server to respond with streaming updates
+val taskId = "task_12345"
+
+a2aServer.sendTaskStreaming() responds {
+    delayBetweenChunks = 1.seconds
+    responseFlow = flow {
+        emit(
+            TaskStatusUpdateEvent(
+                id = taskId,
+                status = TaskStatus(state = "working", timestamp = System.now()),
+            ),
+        )
+        emit(
+            TaskArtifactUpdateEvent(
+                id = taskId,
+                artifact = Artifact(
+                    name = "joke",
+                    parts = listOf(
+                        TextPart(
+                            text = "This",
+                        ),
+                    ),
+                    append = false,
+                ),
+            ),
+        )
+        emit(
+            TaskArtifactUpdateEvent(
+                id = taskId,
+                artifact = Artifact(
+                    name = "joke",
+                    parts = listOf(
+                        TextPart(
+                            text = "is",
+                        ),
+                    ),
+                    append = false,
+                ),
+            ),
+        )
+        emit(
+            TaskArtifactUpdateEvent(
+                id = taskId,
+                artifact = Artifact(
+                    name = "joke",
+                    parts = listOf(
+                        TextPart(
+                            text = "a",
+                        ),
+                    ),
+                    append = false,
+                ),
+            ),
+        )
+        emit(
+            TaskArtifactUpdateEvent(
+                id = taskId,
+                artifact = Artifact(
+                    name = "joke",
+                    parts = listOf(
+                        TextPart(
+                            text = "joke!",
+                        ),
+                    ),
+                    append = false,
+                    lastChunk = true,
+                ),
+            ),
+        )
+        emit(
+            TaskStatusUpdateEvent(
+                id = taskId,
+                status = TaskStatus(state = "completed", timestamp = System.now()),
+                final = true,
+            ),
+        )
+    }
+}
+```
+
+## Cancel Task Endpoint
+
+The Cancel Task endpoint allows clients to cancel a task that is in progress.
+
+```kotlin
+// Configure the mock server to respond with a canceled task
+a2aServer.cancelTask() responds {
+    id = 1
+    result {
+        id = "tid_12345"
+        sessionId = UUID.randomUUID().toString()
+        status = TaskStatus(state = "canceled")
+    }
+}
+```
+
 ## Making Requests to the Mock Server
 
-You can use any HTTP client to make requests to the mock server. Here's an example using Ktor:
+You can use any HTTP client to make requests to the mock server. Here's how to create a Ktor client for A2A:
 
 ```kotlin
 // Create a Ktor client
@@ -156,11 +260,158 @@ val a2aClient = HttpClient(Java) {
         url(a2aServer.baseUrl()) // Set the base URL
     }
 }
+```
 
-// Make a request to the Agent Card endpoint
-val receivedCard = a2aClient
-    .get("/.well-known/agent.json")
-    .body<AgentCard>()
+### Agent Card Endpoint Client Example
+
+```kotlin
+// Make a GET request to the Agent Card endpoint
+val response = a2aClient
+    .get("/.well-known/agent.json") {
+    }.call
+    .response
+    .body<String>()
+
+// Parse the response into an AgentCard object
+val receivedCard = Json.decodeFromString<AgentCard>(response)
+```
+
+### Get Task Endpoint Client Example
+
+```kotlin
+// Create a GetTaskRequest object
+val jsonRpcRequest = GetTaskRequest(
+    id = "1",
+    params = TaskQueryParams(
+        id = UUID.randomUUID().toString(),
+        historyLength = 2,
+    ),
+)
+
+// Make a POST request to the Get Task endpoint
+val response = a2aClient
+    .post("/") {
+        contentType(ContentType.Application.Json)
+        setBody(Json.encodeToString(jsonRpcRequest))
+    }.call
+    .response
+
+// Parse the response into a GetTaskResponse object
+val body = response.body<String>()
+val payload = Json.decodeFromString<GetTaskResponse>(body)
+```
+
+### Send Task Endpoint Client Example
+
+```kotlin
+// Create a SendTaskRequest object
+val jsonRpcRequest = SendTaskRequest(
+    id = "1",
+    params = TaskSendParams(
+        id = UUID.randomUUID().toString(),
+        message = Message(
+            role = Message.Role.user,
+            parts = listOf(
+                TextPart(
+                    text = "Tell me a joke",
+                ),
+            ),
+        ),
+    ),
+)
+
+// Make a POST request to the Send Task endpoint
+val response = a2aClient
+    .post("/") {
+        contentType(ContentType.Application.Json)
+        setBody(Json.encodeToString(jsonRpcRequest))
+    }.call
+    .response
+
+// Parse the response into a SendTaskResponse object
+val body = response.body<String>()
+val payload = Json.decodeFromString<SendTaskResponse>(body)
+```
+
+### Send Task Streaming Endpoint Client Example
+
+```kotlin
+// Create a collection to store the events
+var collectedEvents = ConcurrentLinkedQueue<TaskUpdateEvent>()
+
+// Make a POST request to the Send Task Streaming endpoint with SSE
+a2aClient.sse(
+    request = {
+        url { a2aServer.baseUrl() }
+        method = HttpMethod.Post
+        val payload = SendTaskStreamingRequest(
+            id = "1",
+            params = TaskSendParams(
+                id = UUID.randomUUID().toString(),
+                message = Message(
+                    role = Message.Role.user,
+                    parts = listOf(
+                        TextPart(
+                            text = "Tell me a joke",
+                        ),
+                    ),
+                ),
+            ),
+        )
+        body = TextContent(
+            text = Json.encodeToString(payload),
+            contentType = ContentType.Application.Json,
+        )
+    },
+) {
+    var reading = true
+    while (reading) {
+        incoming.collect {
+            println("Event from server:\n$it")
+            it.data?.let {
+                val event = Json.decodeFromString<TaskUpdateEvent>(it)
+                collectedEvents.add(event)
+                // Process the event
+                when (event) {
+                    is TaskStatusUpdateEvent -> {
+                        println("Task status: $event")
+                        if (event.final) {
+                            reading = false
+                            cancel("Finished")
+                        }
+                    }
+                    is TaskArtifactUpdateEvent -> {
+                        println("Task artifact: $event")
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+### Cancel Task Endpoint Client Example
+
+```kotlin
+// Create a CancelTaskRequest object
+val jsonRpcRequest = CancelTaskRequest(
+    id = "1",
+    params = TaskIdParams(
+        id = UUID.randomUUID().toString(),
+    ),
+)
+
+// Make a POST request to the Cancel Task endpoint
+val response = a2aClient
+    .post("/") {
+        contentType(ContentType.Application.Json)
+        setBody(Json.encodeToString(jsonRpcRequest))
+    }.call
+    .response
+
+// Parse the response into a CancelTaskResponse object
+val body = response.body<String>()
+val payload = Json.decodeFromString<CancelTaskResponse>(body)
 ```
 
 ## Verifying Requests

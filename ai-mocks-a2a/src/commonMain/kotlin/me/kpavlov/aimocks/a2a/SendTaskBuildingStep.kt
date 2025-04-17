@@ -2,22 +2,25 @@ package me.kpavlov.aimocks.a2a
 
 import me.kpavlov.aimocks.a2a.model.SendTaskRequest
 import me.kpavlov.aimocks.a2a.model.SendTaskResponse
+import me.kpavlov.aimocks.core.AbstractBuildingStep
+import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 
 public class SendTaskBuildingStep(
-    private val mokksy: MokksyServer,
-) {
-    public infix fun responds(block: SendTaskResponse.() -> Unit) {
-        mokksy
-            .post(requestType = SendTaskRequest::class) {
-                this.path("/")
-                this.bodyMatchesPredicate {
-                    it?.method == "tasks/send"
-                }
-            }.respondsWith<SendTaskResponse> {
-                val response = SendTaskResponse()
-                block(response)
-                this.body = response
-            }
+    mokksy: MokksyServer,
+    buildingStep: BuildingStep<SendTaskRequest>,
+) : AbstractBuildingStep<SendTaskRequest, SendTaskResponseSpecification>(
+        mokksy,
+        buildingStep,
+    ) {
+    override infix fun responds(block: SendTaskResponseSpecification.() -> Unit) {
+        buildingStep.respondsWith<SendTaskResponse> {
+            val requestBody = request.body
+            val responseDefinition = this.build()
+            val responseSpecification = SendTaskResponseSpecification(responseDefinition)
+            block.invoke(responseSpecification)
+            val task = requireNotNull(responseSpecification.result) { "Task must be defined" }
+            body = SendTaskResponse(id = responseSpecification.id ?: requestBody.id, result = task)
+        }
     }
 }
