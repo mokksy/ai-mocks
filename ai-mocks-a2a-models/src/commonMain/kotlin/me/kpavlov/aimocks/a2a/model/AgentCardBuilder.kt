@@ -35,6 +35,18 @@ public class AgentCardBuilder {
             skills = skills!!,
         )
     }
+
+    public fun provider(block: AgentProviderBuilder.() -> Unit) {
+        provider = AgentProviderBuilder().apply(block).build()
+    }
+
+    public fun authentication(block: AgentAuthenticationBuilder.() -> Unit) {
+        authentication = AgentAuthenticationBuilder().apply(block).build()
+    }
+
+    public fun capabilities(block: AgentCapabilitiesBuilder.() -> Unit) {
+        capabilities = AgentCapabilitiesBuilder().apply(block).build()
+    }
 }
 
 // Extension function for convenient creation

@@ -24,4 +24,6 @@ public data class TaskArtifactUpdateEvent(
     val metadata: Metadata? = null,
 ) : TaskUpdateEvent {
     override fun id(): TaskId = id
+
+    public companion object
 }
