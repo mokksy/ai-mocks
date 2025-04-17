@@ -39,9 +39,9 @@ public class AuthenticationInfoBuilder {
      * @throws IllegalArgumentException If required parameters are missing.
      */
     public fun build(): AuthenticationInfo {
-        requireNotNull(schemes) { "AuthenticationInfo requires at least one scheme" }
+        require(schemes.isNotEmpty()) { "AuthenticationInfo requires at least one scheme" }
         return AuthenticationInfo(
-            schemes = schemes!!,
+            schemes = schemes,
             credentials = credentials,
         )
     }
