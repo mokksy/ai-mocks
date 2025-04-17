@@ -238,6 +238,30 @@ a2aServer.cancelTask() responds {
 }
 ```
 
+## Set Task Push Notification Endpoint
+
+The Set Task Push Notification endpoint allows clients to configure push notifications for a task.
+
+```kotlin
+// Create a TaskPushNotificationConfig object
+val config = TaskPushNotificationConfig(
+    id = "task_12345",
+    pushNotificationConfig = PushNotificationConfig(
+        url = "https://example.com/callback",
+        token = "abc.def.jk",
+        authentication = AuthenticationInfo(
+            schemes = listOf("Bearer"),
+        ),
+    ),
+)
+
+// Configure the mock server to respond with the config
+a2aServer.setTaskPushNotification() responds {
+    id = 1
+    result = config
+}
+```
+
 ## Making Requests to the Mock Server
 
 You can use any HTTP client to make requests to the mock server. Here's how to create a Ktor client for A2A:
@@ -412,6 +436,40 @@ val response = a2aClient
 // Parse the response into a CancelTaskResponse object
 val body = response.body<String>()
 val payload = Json.decodeFromString<CancelTaskResponse>(body)
+```
+
+### Set Task Push Notification Endpoint Client Example
+
+```kotlin
+// Create a TaskPushNotificationConfig object
+val config = TaskPushNotificationConfig(
+    id = "task_12345",
+    pushNotificationConfig = PushNotificationConfig(
+        url = "https://example.com/callback",
+        token = "abc.def.jk",
+        authentication = AuthenticationInfo(
+            schemes = listOf("Bearer"),
+        ),
+    ),
+)
+
+// Create a SetTaskPushNotificationRequest object
+val jsonRpcRequest = SetTaskPushNotificationRequest(
+    id = "1",
+    params = config,
+)
+
+// Make a POST request to the Set Task Push Notification endpoint
+val response = a2aClient
+    .post("/") {
+        contentType(ContentType.Application.Json)
+        setBody(Json.encodeToString(jsonRpcRequest))
+    }.call
+    .response
+
+// Parse the response into a SetTaskPushNotificationResponse object
+val body = response.body<String>()
+val payload = Json.decodeFromString<SetTaskPushNotificationResponse>(body)
 ```
 
 ## Verifying Requests
