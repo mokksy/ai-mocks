@@ -38,12 +38,34 @@ implementation("me.kpavlov.aimocks:ai-mocks-a2a-jvm:$latestVersion")
 
 3. **Configure Requests and Responses**
 
+## HTTP Client Setup
+
+You may use any HTTP client which supports Server-Sent Events (SSE) to make requests to the mock server. Here's how to create a Ktor client for A2A:
+
+```kotlin
+// Create a Ktor client
+val a2aClient = HttpClient(Java) {
+    install(ContentNegotiation) {
+        Json {
+            prettyPrint = true
+            isLenient = true
+        }
+    }
+    install(SSE) {
+        showRetryEvents()
+        showCommentEvents()
+    }
+    install(DefaultRequest) {
+        url(a2aServer.baseUrl()) // Set the base URL
+    }
+}
+```
+
 ## Agent Card Endpoint
 
 The Agent Card endpoint provides information about the agent's capabilities, skills, and authentication mechanisms.
 
-### Server Configuration
-
+Mock Server configuration:
 ```kotlin
 // Create an AgentCard object
 val agentCard = AgentCard.create {
@@ -84,7 +106,7 @@ a2aServer.agentCard() responds {
 }
 ```
 
-### Client Example
+Client call example:
 
 ```kotlin
 // Make a GET request to the Agent Card endpoint
@@ -102,7 +124,7 @@ val receivedCard = Json.decodeFromString<AgentCard>(response)
 
 The Get Task endpoint allows clients to retrieve information about a specific task.
 
-### Server Configuration
+Mock Server configuration:
 
 ```kotlin
 // Configure the mock server to respond with a task
@@ -126,7 +148,7 @@ a2aServer.getTask() responds {
 }
 ```
 
-### Client Example
+Client call example:
 
 ```kotlin
 // Create a GetTaskRequest object
@@ -155,7 +177,7 @@ val payload = Json.decodeFromString<GetTaskResponse>(body)
 
 The Send Task endpoint allows clients to send a task to the agent for processing.
 
-### Server Configuration
+Mock Server configuration:
 
 ```kotlin
 // Create a Task object
@@ -182,7 +204,7 @@ a2aServer.sendTask() responds {
 }
 ```
 
-### Client Example
+Client call example:
 
 ```kotlin
 // Create a SendTaskRequest object
@@ -218,7 +240,7 @@ val payload = Json.decodeFromString<SendTaskResponse>(body)
 
 The Send Task Streaming endpoint allows clients to send a task to the agent for processing and receive streaming updates.
 
-### Server Configuration
+Mock Server configuration:
 
 ```kotlin
 // Configure the mock server to respond with streaming updates
@@ -301,7 +323,7 @@ a2aServer.sendTaskStreaming() responds {
 }
 ```
 
-### Client Example
+Client call example:
 
 ```kotlin
 // Create a collection to store the events
@@ -362,7 +384,7 @@ a2aClient.sse(
 
 The Cancel Task endpoint allows clients to cancel a task that is in progress.
 
-### Server Configuration
+Mock Server configuration:
 
 ```kotlin
 // Configure the mock server to respond with a canceled task
@@ -376,7 +398,7 @@ a2aServer.cancelTask() responds {
 }
 ```
 
-### Client Example
+Client call example:
 
 ```kotlin
 // Create a CancelTaskRequest object
@@ -404,7 +426,7 @@ val payload = Json.decodeFromString<CancelTaskResponse>(body)
 
 The Set Task Push Notification endpoint allows clients to configure push notifications for a task.
 
-### Server Configuration
+Mock Server configuration:
 
 ```kotlin
 // Create a TaskPushNotificationConfig object
@@ -426,7 +448,7 @@ a2aServer.setTaskPushNotification() responds {
 }
 ```
 
-### Client Example
+Client call example:
 
 ```kotlin
 // Create a TaskPushNotificationConfig object
@@ -460,27 +482,55 @@ val body = response.body<String>()
 val payload = Json.decodeFromString<SetTaskPushNotificationResponse>(body)
 ```
 
-## HTTP Client Setup
+## Get Task Push Notification Endpoint
 
-You can use any HTTP client to make requests to the mock server. Here's how to create a Ktor client for A2A:
+The Get Task Push Notification endpoint allows clients to retrieve the push notification configuration for a specific task.
+
+Mock Server configuration:
 
 ```kotlin
-// Create a Ktor client
-val a2aClient = HttpClient(Java) {
-    install(ContentNegotiation) {
-        Json {
-            prettyPrint = true
-            isLenient = true
-        }
-    }
-    install(SSE) {
-        showRetryEvents()
-        showCommentEvents()
-    }
-    install(DefaultRequest) {
-        url(a2aServer.baseUrl()) // Set the base URL
-    }
+// Create a TaskPushNotificationConfig object
+val taskId: TaskId = "task_12345"
+val config = TaskPushNotificationConfig(
+    id = taskId,
+    pushNotificationConfig = PushNotificationConfig(
+        url = "https://example.com/callback",
+        token = "abc.def.jk",
+        authentication = AuthenticationInfo(
+            schemes = listOf("Bearer"),
+        ),
+    ),
+)
+
+// Configure the mock server to respond with the config
+a2aServer.getTaskPushNotification() responds {
+    id = 1
+    result = config
 }
+```
+
+Client call example:
+
+```kotlin
+// Create a GetTaskPushNotificationRequest object
+val jsonRpcRequest = GetTaskPushNotificationRequest(
+    id = "1",
+    params = TaskIdParams(
+        id = taskId,
+    ),
+)
+
+// Make a POST request to the Get Task Push Notification endpoint
+val response = a2aClient
+    .post("/") {
+        contentType(ContentType.Application.Json)
+        setBody(Json.encodeToString(jsonRpcRequest))
+    }.call
+    .response
+
+// Parse the response into a GetTaskPushNotificationResponse object
+val body = response.body<String>()
+val payload = Json.decodeFromString<GetTaskPushNotificationResponse>(body)
 ```
 
 ## Verifying Requests
