@@ -6,6 +6,7 @@ import me.kpavlov.aimocks.a2a.model.CancelTaskRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskRequest
 import me.kpavlov.aimocks.a2a.model.SendTaskRequest
 import me.kpavlov.aimocks.a2a.model.SendTaskStreamingRequest
+import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationRequest
 import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.aimocks.core.AbstractMockLlm
 import me.kpavlov.mokksy.ServerConfiguration
@@ -230,6 +231,23 @@ public open class MockAgentServer(
                 }
 
         return GetTaskBuildingStep(
+            buildingStep = requestStep,
+            mokksy = mokksy,
+        )
+    }
+
+    @JvmOverloads
+    public fun setTaskPushNotification(name: String? = null): SetTaskPushNotificationBuildingStep {
+        val requestStep =
+            mokksy
+                .post(name = name, requestType = SetTaskPushNotificationRequest::class) {
+                    path("/")
+                    bodyMatchesPredicate {
+                        it?.method == "tasks/pushNotification/set"
+                    }
+                }
+
+        return SetTaskPushNotificationBuildingStep(
             buildingStep = requestStep,
             mokksy = mokksy,
         )
