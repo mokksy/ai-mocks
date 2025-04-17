@@ -30,10 +30,6 @@ public data class GetTaskPushNotificationResponse(
     val error: JSONRPCError? = null,
 ) {
     init {
-        require(jsonrpc == cg_str0) { "jsonrpc not constant value $cg_str0 - $jsonrpc" }
-    }
-
-    private companion object {
-        private const val cg_str0 = "2.0"
+        require(jsonrpc == "2.0") { "jsonrpc not constant value '2.0' - $jsonrpc" }
     }
 }
