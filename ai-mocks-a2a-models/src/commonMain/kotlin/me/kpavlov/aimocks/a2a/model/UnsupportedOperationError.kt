@@ -18,11 +18,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class UnsupportedOperationError(
     /** Error code */
-    @Contextual
     @SerialName("code")
     val code: Int = -32004,
     /** A short description of the error */
-    @Contextual
     @SerialName("message")
     val message: String = "This operation is not supported",
     @Contextual

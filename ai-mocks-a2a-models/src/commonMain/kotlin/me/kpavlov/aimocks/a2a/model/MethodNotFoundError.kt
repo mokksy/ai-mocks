@@ -18,11 +18,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class MethodNotFoundError(
     /** Error code */
-    @Contextual
     @SerialName("code")
     val code: Int = -32601,
     /** A short description of the error */
-    @Contextual
     @SerialName("message")
     val message: String = "Method not found",
     @Contextual
@@ -31,10 +29,8 @@ public data class MethodNotFoundError(
 ) {
     init {
         require(code == -32601) { "code not constant value -32601 - $code" }
-        require(message == cg_str0) { "message not constant value $cg_str0 - $message" }
-    }
-
-    private companion object {
-        private const val cg_str0 = "Method not found"
+        require(
+            message == "Method not found",
+        ) { "message not constant value Method not found - $message" }
     }
 }

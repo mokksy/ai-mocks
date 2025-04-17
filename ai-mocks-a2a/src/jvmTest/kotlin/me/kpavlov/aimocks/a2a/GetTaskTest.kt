@@ -15,7 +15,6 @@ import me.kpavlov.aimocks.a2a.model.GetTaskRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskResponse
 import me.kpavlov.aimocks.a2a.model.Task
 import me.kpavlov.aimocks.a2a.model.TaskQueryParams
-import me.kpavlov.aimocks.a2a.model.TaskStatus
 import me.kpavlov.aimocks.a2a.model.TextPart
 import java.util.UUID
 import kotlin.test.Test
@@ -34,7 +33,9 @@ internal class GetTaskTest : AbstractTest() {
                 result {
                     id = "tid_12345"
                     sessionId = null
-                    status = TaskStatus(state = "completed")
+                    status {
+                        state = "completed"
+                    }
                     artifacts =
                         listOf(
                             Artifact(

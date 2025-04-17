@@ -11,19 +11,33 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 public data class PushNotificationConfig(
-    @Contextual
     @SerialName("url")
     val url: String,
-    @Contextual
     @SerialName("token")
     val token: String? = null,
-    @Contextual
     @SerialName("authentication")
     val authentication: AuthenticationInfo? = null,
-)
+) {
+    public companion object {
+        /**
+         * Creates a new PushNotificationConfig using the DSL builder.
+         *
+         * @param init The lambda to configure the push notification config.
+         * @return A new PushNotificationConfig instance.
+         */
+        public fun build(init: PushNotificationConfigBuilder.() -> Unit): PushNotificationConfig =
+            PushNotificationConfigBuilder().apply(init).build()
+    }
+
+    override fun toString(): String =
+        "PushNotificationConfig(" +
+            "url='$url', " +
+            "authentication=$authentication, " +
+            "token=${if (token != null) "[REDACTED]" else "null"}" +
+            ")"
+}

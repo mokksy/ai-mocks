@@ -29,5 +29,13 @@ public data class Task(
     @SerialName("metadata")
     val metadata: Metadata? = null,
 ) {
-    public companion object
+    public companion object {
+        /**
+         * Creates a new Task using the DSL builder.
+         *
+         * @param init The lambda to configure the task.
+         * @return A new Task instance.
+         */
+        public fun build(init: TaskBuilder.() -> Unit): Task = TaskBuilder().apply(init).build()
+    }
 }

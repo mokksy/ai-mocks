@@ -23,7 +23,10 @@ public class GetTaskPushNotificationBuildingStep(
             val responseSpecification =
                 GetTaskPushNotificationResponseSpecification(responseDefinition)
             block.invoke(responseSpecification)
-            val config = requireNotNull(responseSpecification.result) { "Task must be defined" }
+            val config =
+                requireNotNull(
+                    responseSpecification.result,
+                ) { "TaskPushNotificationConfig must be defined" }
             body =
                 GetTaskPushNotificationResponse(
                     id = responseSpecification.id ?: requestBody.id,

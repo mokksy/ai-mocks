@@ -18,11 +18,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class TaskNotCancelableError(
     /** Error code */
-    @Contextual
     @SerialName("code")
     val code: Int = -32002,
     /** A short description of the error */
-    @Contextual
     @SerialName("message")
     val message: String = "Task cannot be canceled",
     @Contextual
@@ -31,10 +29,8 @@ public data class TaskNotCancelableError(
 ) {
     init {
         require(code == -32002) { "code not constant value -32002 - $code" }
-        require(message == cg_str0) { "message not constant value $cg_str0 - $message" }
-    }
-
-    private companion object {
-        private const val cg_str0 = "Task cannot be canceled"
+        require(message == "Task cannot be canceled") {
+            "message not constant value Task cannot be canceled - $message"
+        }
     }
 }

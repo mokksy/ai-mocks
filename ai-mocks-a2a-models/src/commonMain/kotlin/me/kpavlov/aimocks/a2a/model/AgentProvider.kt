@@ -20,4 +20,15 @@ public data class AgentProvider(
     val organization: String,
     @SerialName("url")
     val url: String? = null,
-)
+) {
+    public companion object {
+        /**
+         * Creates a new AgentProvider using the DSL builder.
+         *
+         * @param init The lambda to configure the agent provider.
+         * @return A new AgentProvider instance.
+         */
+        public fun build(init: AgentProviderBuilder.() -> Unit): AgentProvider =
+            AgentProviderBuilder().apply(init).build()
+    }
+}

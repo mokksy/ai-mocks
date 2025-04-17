@@ -29,6 +29,7 @@ public class RequestIdSerializer : KSerializer<RequestId?> {
                 // Try to convert to Int first, if not possible, use as String
                 element.intOrNull ?: element.content
             }
+
             else -> throw SerializationException("Unexpected JSON element type: $element")
         }
     }

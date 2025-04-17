@@ -16,9 +16,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import me.kpavlov.aimocks.a2a.model.serializers.RequestIdSerializer
 
-private const val cg_str0 = "2.0"
-private const val cg_str1 = "tasks/send"
-
 @Serializable
 public data class SendTaskRequest(
     @SerialName("jsonrpc")
@@ -34,7 +31,18 @@ public data class SendTaskRequest(
     val params: TaskSendParams,
 ) : A2ARequest {
     init {
-        require(jsonrpc == cg_str0) { "jsonrpc not constant value $cg_str0 - $jsonrpc" }
-        require(method == cg_str1) { "method not constant value $cg_str1 - $method" }
+        require(jsonrpc == "2.0") { "jsonrpc not constant value \"2.0\" - $jsonrpc" }
+        require(method == "tasks/send") { "method not constant value \"tasks/send\" - $method" }
+    }
+
+    public companion object {
+        /**
+         * Creates a new SendTaskRequest using the DSL builder.
+         *
+         * @param init The lambda to configure the send task request.
+         * @return A new SendTaskRequest instance.
+         */
+        public fun build(init: SendTaskRequestBuilder.() -> Unit): SendTaskRequest =
+            SendTaskRequestBuilder().apply(init).build()
     }
 }

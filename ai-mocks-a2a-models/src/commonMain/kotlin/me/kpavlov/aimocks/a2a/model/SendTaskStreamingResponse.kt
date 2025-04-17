@@ -11,7 +11,6 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.SerialName
@@ -31,7 +30,6 @@ public data class SendTaskStreamingResponse(
     @Polymorphic
     @Serializable(with = TaskUpdateEventSerializer::class)
     val result: TaskUpdateEvent? = null,
-    @Contextual
     @SerialName("error")
     val error: JSONRPCError? = null,
 ) {

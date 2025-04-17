@@ -18,11 +18,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class InternalError(
     /** Error code */
-    @Contextual
     @SerialName("code")
     val code: Int = -32603,
     /** A short description of the error */
-    @Contextual
     @SerialName("message")
     val message: String = "Internal error",
     @Contextual
@@ -31,10 +29,8 @@ public data class InternalError(
 ) {
     init {
         require(code == -32603) { "code not constant value -32603 - $code" }
-        require(message == cg_str0) { "message not constant value $cg_str0 - $message" }
-    }
-
-    private companion object {
-        private const val cg_str0 = "Internal error"
+        require(
+            message == "Internal error",
+        ) { "message not constant value Internal error - $message" }
     }
 }

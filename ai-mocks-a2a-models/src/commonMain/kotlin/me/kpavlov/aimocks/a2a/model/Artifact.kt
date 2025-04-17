@@ -11,7 +11,6 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -22,19 +21,26 @@ public data class Artifact(
     val name: String? = null,
     @SerialName("description")
     val description: String? = null,
-    @Contextual
     @SerialName("parts")
     val parts: List<Part>,
     @SerialName("index")
     @EncodeDefault
     val index: Long = 0,
-    @Contextual
     @SerialName("append")
     val append: Boolean? = null,
-    @Contextual
     @SerialName("lastChunk")
     val lastChunk: Boolean? = null,
-    @Contextual
     @SerialName("metadata")
     val metadata: Metadata? = null,
-)
+) {
+    public companion object {
+        /**
+         * Creates a new Artifact using the DSL builder.
+         *
+         * @param init The lambda to configure the artifact.
+         * @return A new Artifact instance.
+         */
+        public fun build(init: ArtifactBuilder.() -> Unit): Artifact =
+            ArtifactBuilder().apply(init).build()
+    }
+}

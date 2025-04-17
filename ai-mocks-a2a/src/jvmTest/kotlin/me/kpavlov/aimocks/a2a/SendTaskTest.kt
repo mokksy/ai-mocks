@@ -16,8 +16,8 @@ import me.kpavlov.aimocks.a2a.model.SendTaskRequest
 import me.kpavlov.aimocks.a2a.model.SendTaskResponse
 import me.kpavlov.aimocks.a2a.model.Task
 import me.kpavlov.aimocks.a2a.model.TaskSendParams
-import me.kpavlov.aimocks.a2a.model.TaskStatus
 import me.kpavlov.aimocks.a2a.model.TextPart
+import me.kpavlov.aimocks.a2a.model.create
 import java.util.UUID
 import kotlin.test.Test
 
@@ -26,26 +26,28 @@ internal class SendTaskTest : AbstractTest() {
      * https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task
      */
     @Test
+    @Suppress("LongMethod")
     fun `Should send task`() =
         runTest {
             val task =
-                Task(
-                    id = "tid_12345",
-                    sessionId = null,
-                    status = TaskStatus(state = "completed"),
-                    artifacts =
+                Task.create {
+                    id("tid_12345")
+                    status {
+                        state("completed")
+                    }
+                    artifacts(
                         listOf(
-                            Artifact(
-                                name = "joke",
-                                parts =
-                                    listOf(
-                                        TextPart(
-                                            text = "This is a joke",
-                                        ),
+                            Artifact.build {
+                                name("joke")
+                                addPart(
+                                    TextPart(
+                                        text = "This is a joke",
                                     ),
-                            ),
+                                )
+                            },
                         ),
-                )
+                    )
+                }
             val reply =
                 SendTaskResponse(
                     id = 1,

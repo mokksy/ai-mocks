@@ -90,6 +90,10 @@ public class TaskBuilder {
             metadata = metadata,
         )
     }
+
+    public fun status(block: TaskStatusBuilder.() -> Unit) {
+        status = TaskStatusBuilder().apply(block).build()
+    }
 }
 
 /**

@@ -18,11 +18,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class InvalidParamsError(
     /** Error code */
-    @Contextual
     @SerialName("code")
     val code: Int = -32602,
     /** A short description of the error */
-    @Contextual
     @SerialName("message")
     val message: String = "Invalid parameters",
     @Contextual

@@ -3,11 +3,10 @@ package me.kpavlov.aimocks.a2a
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import io.ktor.client.plugins.sse.sse
-import io.ktor.http.ContentType
-import io.ktor.http.HttpMethod
-import io.ktor.http.content.TextContent
-import io.ktor.utils.io.InternalAPI
+import io.ktor.client.plugins.sse.*
+import io.ktor.http.*
+import io.ktor.http.content.*
+import io.ktor.utils.io.*
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
@@ -23,7 +22,8 @@ import me.kpavlov.aimocks.a2a.model.TaskStatus
 import me.kpavlov.aimocks.a2a.model.TaskStatusUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TextPart
-import java.util.UUID
+import me.kpavlov.aimocks.a2a.model.create
+import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
@@ -34,6 +34,7 @@ internal class SendTaskStreamingTest : AbstractTest() {
      */
     @OptIn(InternalAPI::class)
     @Test
+    @Suppress("LongMethod")
     fun `Should send task streaming`() =
         runTest {
             val taskId: TaskId = "task_12345"
@@ -49,8 +50,8 @@ internal class SendTaskStreamingTest : AbstractTest() {
                             ),
                         )
                         emit(
-                            TaskArtifactUpdateEvent(
-                                id = taskId,
+                            TaskArtifactUpdateEvent.create {
+                                id = taskId
                                 artifact =
                                     Artifact(
                                         name = "joke",
@@ -61,12 +62,12 @@ internal class SendTaskStreamingTest : AbstractTest() {
                                                 ),
                                             ),
                                         append = false,
-                                    ),
-                            ),
+                                    )
+                            },
                         )
                         emit(
-                            TaskArtifactUpdateEvent(
-                                id = taskId,
+                            TaskArtifactUpdateEvent.create {
+                                id = taskId
                                 artifact =
                                     Artifact(
                                         name = "joke",
@@ -77,12 +78,12 @@ internal class SendTaskStreamingTest : AbstractTest() {
                                                 ),
                                             ),
                                         append = false,
-                                    ),
-                            ),
+                                    )
+                            },
                         )
                         emit(
-                            TaskArtifactUpdateEvent(
-                                id = taskId,
+                            TaskArtifactUpdateEvent.create {
+                                id = taskId
                                 artifact =
                                     Artifact(
                                         name = "joke",
@@ -93,12 +94,12 @@ internal class SendTaskStreamingTest : AbstractTest() {
                                                 ),
                                             ),
                                         append = false,
-                                    ),
-                            ),
+                                    )
+                            },
                         )
                         emit(
-                            TaskArtifactUpdateEvent(
-                                id = taskId,
+                            TaskArtifactUpdateEvent.create {
+                                id = taskId
                                 artifact =
                                     Artifact(
                                         name = "joke",
@@ -110,8 +111,8 @@ internal class SendTaskStreamingTest : AbstractTest() {
                                             ),
                                         append = false,
                                         lastChunk = true,
-                                    ),
-                            ),
+                                    )
+                            },
                         )
                         emit(
                             TaskStatusUpdateEvent(
@@ -132,8 +133,8 @@ internal class SendTaskStreamingTest : AbstractTest() {
                         SendTaskStreamingRequest(
                             id = "1",
                             params =
-                                TaskSendParams(
-                                    id = UUID.randomUUID().toString(),
+                                TaskSendParams.create {
+                                    id = UUID.randomUUID().toString()
                                     message =
                                         Message(
                                             role = Message.Role.user,
@@ -143,8 +144,8 @@ internal class SendTaskStreamingTest : AbstractTest() {
                                                         text = "Tell me a joke",
                                                     ),
                                                 ),
-                                        ),
-                                ),
+                                        )
+                                },
                         )
                     body =
                         TextContent(
@@ -156,7 +157,7 @@ internal class SendTaskStreamingTest : AbstractTest() {
                 var reading = true
                 while (reading) {
                     incoming.collect {
-                        println("Event from server:\n$it")
+                        logger.info { "Event from server:\n$it" }
                         it.data?.let {
                             val event = Json.decodeFromString<TaskUpdateEvent>(it)
                             collectedEvents.add(event)

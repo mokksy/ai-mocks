@@ -17,10 +17,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class Message(
-    @Contextual
     @SerialName("role")
     val role: Role,
-    @Contextual
     @SerialName("parts")
     val parts: List<Part>,
     @Contextual
@@ -32,5 +30,16 @@ public data class Message(
     public enum class Role {
         user,
         agent,
+    }
+
+    public companion object {
+        /**
+         * Creates a new Message using the DSL builder.
+         *
+         * @param init The lambda to configure the message.
+         * @return A new Message instance.
+         */
+        public fun build(init: MessageBuilder.() -> Unit): Message =
+            MessageBuilder().apply(init).build()
     }
 }

@@ -18,9 +18,9 @@ import kotlinx.datetime.Instant
  * ```
  */
 public class TaskStatusBuilder {
-    private var state: String? = null
-    private var message: Message? = null
-    private var timestamp: Instant? = null
+    public var state: String? = null
+    public var message: Message? = null
+    public var timestamp: Instant? = null
 
     /**
      * Sets the state of the task status.

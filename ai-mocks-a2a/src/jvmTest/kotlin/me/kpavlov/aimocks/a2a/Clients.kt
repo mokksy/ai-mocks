@@ -10,7 +10,7 @@ import kotlinx.serialization.json.Json
 /**
  * Creates a Ktor `HttpClient` configured to work with Server-Sent Events (SSE).
  *
- * @param port The port number to configure the base URL for the `HttpClient`.
+ * @param url The base URL for the `HttpClient`.
  * @return A configured instance of `HttpClient` with JSON serialization, SSE support,
  *         and a default request base URL pointing to the specified port.
  */

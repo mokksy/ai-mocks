@@ -11,7 +11,6 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -27,7 +26,6 @@ public data class SetTaskPushNotificationResponse(
     var id: RequestId? = null,
     @SerialName("result")
     val result: TaskPushNotificationConfig? = null,
-    @Contextual
     @SerialName("error")
     val error: JSONRPCError? = null,
 ) {

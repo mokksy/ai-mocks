@@ -74,28 +74,28 @@ val agentCard = AgentCard.create {
     url = a2aServer.baseUrl()
     documentationUrl = "https://example.com/documentation"
     version = "0.0.1"
-    provider = AgentProvider(
-        "Acme, Inc.",
-        "https://example.com/organization",
-    )
-    authentication = AgentAuthentication(
-        schemes = listOf("none", "bearer"),
-        credentials = "test-token",
-    )
-    capabilities = AgentCapabilities(
-        streaming = true,
-        pushNotifications = true,
-        stateTransitionHistory = true,
-    )
+    provider {
+        organization = "Acme, Inc."
+        url = "https://example.com/organization"
+    }
+    authentication {
+        schemes = listOf("none", "bearer")
+        credentials = "test-token"
+    }
+    capabilities {
+        streaming = true
+        pushNotifications = true
+        stateTransitionHistory = true
+    }
     skills = listOf(
-        AgentSkill(
-            id = "walk",
-            name = "Walk the walk",
-        ),
-        AgentSkill(
-            id = "talk",
-            name = "Talk the talk",
-        ),
+        AgentSkill.create {
+            id = "walk"
+            name = "Walk the walk"
+        },
+        AgentSkill.create {
+            id = "talk"
+            name = "Talk the talk"
+        },
     )
 }
 
@@ -133,7 +133,9 @@ a2aServer.getTask() responds {
     result {
         id = "tid_12345"
         sessionId = null
-        status = TaskStatus(state = "completed")
+        status {
+            state = "completed"
+        }
         artifacts = listOf(
             Artifact(
                 name = "joke",
@@ -181,21 +183,24 @@ Mock Server configuration:
 
 ```kotlin
 // Create a Task object
-val task = Task(
-    id = "tid_12345",
-    sessionId = null,
-    status = TaskStatus(state = "completed"),
-    artifacts = listOf(
-        Artifact(
-            name = "joke",
-            parts = listOf(
-                TextPart(
-                    text = "This is a joke",
-                ),
-            ),
+val task = Task.create {
+    id("tid_12345")
+    status {
+        state("completed")
+    }
+    artifacts(
+        listOf(
+            Artifact.build {
+                name("joke")
+                addPart(
+                    TextPart(
+                        text = "This is a joke",
+                    ),
+                )
+            },
         ),
-    ),
-)
+    )
+}
 
 // Configure the mock server to respond with the task
 a2aServer.sendTask() responds {
@@ -256,8 +261,8 @@ a2aServer.sendTaskStreaming() responds {
             ),
         )
         emit(
-            TaskArtifactUpdateEvent(
-                id = taskId,
+            TaskArtifactUpdateEvent.create {
+                id = taskId
                 artifact = Artifact(
                     name = "joke",
                     parts = listOf(
@@ -266,12 +271,12 @@ a2aServer.sendTaskStreaming() responds {
                         ),
                     ),
                     append = false,
-                ),
-            ),
+                )
+            },
         )
         emit(
-            TaskArtifactUpdateEvent(
-                id = taskId,
+            TaskArtifactUpdateEvent.create {
+                id = taskId
                 artifact = Artifact(
                     name = "joke",
                     parts = listOf(
@@ -280,12 +285,12 @@ a2aServer.sendTaskStreaming() responds {
                         ),
                     ),
                     append = false,
-                ),
-            ),
+                )
+            },
         )
         emit(
-            TaskArtifactUpdateEvent(
-                id = taskId,
+            TaskArtifactUpdateEvent.create {
+                id = taskId
                 artifact = Artifact(
                     name = "joke",
                     parts = listOf(
@@ -294,12 +299,12 @@ a2aServer.sendTaskStreaming() responds {
                         ),
                     ),
                     append = false,
-                ),
-            ),
+                )
+            },
         )
         emit(
-            TaskArtifactUpdateEvent(
-                id = taskId,
+            TaskArtifactUpdateEvent.create {
+                id = taskId
                 artifact = Artifact(
                     name = "joke",
                     parts = listOf(
@@ -309,8 +314,8 @@ a2aServer.sendTaskStreaming() responds {
                     ),
                     append = false,
                     lastChunk = true,
-                ),
-            ),
+                )
+            },
         )
         emit(
             TaskStatusUpdateEvent(
@@ -336,8 +341,8 @@ a2aClient.sse(
         method = HttpMethod.Post
         val payload = SendTaskStreamingRequest(
             id = "1",
-            params = TaskSendParams(
-                id = UUID.randomUUID().toString(),
+            params = TaskSendParams.create {
+                id = UUID.randomUUID().toString()
                 message = Message(
                     role = Message.Role.user,
                     parts = listOf(
@@ -345,8 +350,8 @@ a2aClient.sse(
                             text = "Tell me a joke",
                         ),
                     ),
-                ),
-            ),
+                )
+            },
         )
         body = TextContent(
             text = Json.encodeToString(payload),
@@ -361,22 +366,29 @@ a2aClient.sse(
             it.data?.let {
                 val event = Json.decodeFromString<TaskUpdateEvent>(it)
                 collectedEvents.add(event)
-                // Process the event
-                when (event) {
-                    is TaskStatusUpdateEvent -> {
-                        println("Task status: $event")
-                        if (event.final) {
-                            reading = false
-                            cancel("Finished")
-                        }
-                    }
-                    is TaskArtifactUpdateEvent -> {
-                        println("Task artifact: $event")
-                    }
+                if (!handleEvent(event)) {
+                    reading = false
+                    cancel("Finished")
                 }
             }
         }
     }
+}
+
+// Helper function to handle events
+private fun handleEvent(event: TaskUpdateEvent): Boolean {
+    when (event) {
+        is TaskStatusUpdateEvent -> {
+            println("Task status: $event")
+            if (event.final) {
+                return false
+            }
+        }
+        is TaskArtifactUpdateEvent -> {
+            println("Task artifact: $event")
+        }
+    }
+    return true
 }
 ```
 
@@ -430,8 +442,9 @@ Mock Server configuration:
 
 ```kotlin
 // Create a TaskPushNotificationConfig object
+val taskId: TaskId = "task_12345"
 val config = TaskPushNotificationConfig(
-    id = "task_12345",
+    id = taskId,
     pushNotificationConfig = PushNotificationConfig(
         url = "https://example.com/callback",
         token = "abc.def.jk",
