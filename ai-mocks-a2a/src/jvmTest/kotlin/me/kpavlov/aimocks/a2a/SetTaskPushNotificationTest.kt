@@ -10,12 +10,11 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
-import me.kpavlov.aimocks.a2a.model.AuthenticationInfo
-import me.kpavlov.aimocks.a2a.model.PushNotificationConfig
 import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationRequest
 import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationResponse
 import me.kpavlov.aimocks.a2a.model.TaskId
 import me.kpavlov.aimocks.a2a.model.TaskPushNotificationConfig
+import me.kpavlov.aimocks.a2a.model.create
 import kotlin.test.Test
 
 internal class SetTaskPushNotificationTest : AbstractTest() {
@@ -27,22 +26,31 @@ internal class SetTaskPushNotificationTest : AbstractTest() {
         runTest {
             val taskId: TaskId = "task_12345"
             val config =
-                TaskPushNotificationConfig(
-                    id = taskId,
-                    pushNotificationConfig =
-                        PushNotificationConfig(
-                            url = "https://example.com/callback",
-                            token = "abc.def.jk",
-                            authentication =
-                                AuthenticationInfo(
-                                    schemes = listOf("Bearer"),
-                                ),
-                        ),
-                )
+                TaskPushNotificationConfig.create {
+                    id = taskId
+                    pushNotificationConfig {
+                        url = "https://example.com/callback"
+                        token = "abc.def.jk"
+                        authentication {
+                            credentials = "secret"
+                            schemes += "Bearer"
+                        }
+                    }
+                }
 
             a2aServer.setTaskPushNotification() responds {
                 id = 1
-                result = config
+                result {
+                    id = taskId
+                    pushNotificationConfig {
+                        url = "https://example.com/callback"
+                        token = "abc.def.jk"
+                        authentication {
+                            credentials = "secret"
+                            schemes += "Bearer"
+                        }
+                    }
+                }
             }
 
             val response =

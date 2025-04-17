@@ -20,4 +20,6 @@ public data class AuthenticationInfo(
     val schemes: List<String>,
     @SerialName("credentials")
     val credentials: String? = null,
-)
+) {
+    public companion object
+}
