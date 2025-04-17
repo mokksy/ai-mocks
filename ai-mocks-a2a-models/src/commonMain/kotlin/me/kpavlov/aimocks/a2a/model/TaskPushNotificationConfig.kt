@@ -11,16 +11,13 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 public data class TaskPushNotificationConfig(
-    @Contextual
     @SerialName("id")
-    val id: String,
-    @Contextual
+    val id: TaskId,
     @SerialName("pushNotificationConfig")
     val pushNotificationConfig: PushNotificationConfig,
 )

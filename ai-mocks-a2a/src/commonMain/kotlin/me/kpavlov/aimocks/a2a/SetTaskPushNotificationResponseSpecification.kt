@@ -1,0 +1,18 @@
+package me.kpavlov.aimocks.a2a
+
+import me.kpavlov.aimocks.a2a.model.RequestId
+import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationRequest
+import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationResponse
+import me.kpavlov.aimocks.a2a.model.TaskPushNotificationConfig
+import me.kpavlov.aimocks.core.ResponseSpecification
+import me.kpavlov.mokksy.response.AbstractResponseDefinition
+import kotlin.time.Duration
+
+public class SetTaskPushNotificationResponseSpecification(
+    response: AbstractResponseDefinition<SetTaskPushNotificationResponse>,
+    public var id: RequestId? = null,
+    public var result: TaskPushNotificationConfig? = null,
+    public var delay: Duration = Duration.ZERO,
+) : ResponseSpecification<SetTaskPushNotificationRequest, SetTaskPushNotificationResponse>(
+        response = response,
+    )
