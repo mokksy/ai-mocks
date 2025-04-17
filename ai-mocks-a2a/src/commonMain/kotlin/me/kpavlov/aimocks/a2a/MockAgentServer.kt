@@ -3,6 +3,7 @@ package me.kpavlov.aimocks.a2a
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.a2a.model.CancelTaskRequest
+import me.kpavlov.aimocks.a2a.model.GetTaskPushNotificationRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskRequest
 import me.kpavlov.aimocks.a2a.model.SendTaskRequest
 import me.kpavlov.aimocks.a2a.model.SendTaskStreamingRequest
@@ -231,6 +232,23 @@ public open class MockAgentServer(
                 }
 
         return GetTaskBuildingStep(
+            buildingStep = requestStep,
+            mokksy = mokksy,
+        )
+    }
+
+    @JvmOverloads
+    public fun getTaskPushNotification(name: String? = null): GetTaskPushNotificationBuildingStep {
+        val requestStep =
+            mokksy
+                .post(name = name, requestType = GetTaskPushNotificationRequest::class) {
+                    path("/")
+                    bodyMatchesPredicate {
+                        it?.method == "tasks/pushNotification/get"
+                    }
+                }
+
+        return GetTaskPushNotificationBuildingStep(
             buildingStep = requestStep,
             mokksy = mokksy,
         )

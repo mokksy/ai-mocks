@@ -31,12 +31,9 @@ public data class GetTaskPushNotificationRequest(
     val params: TaskIdParams,
 ) : A2ARequest {
     init {
-        require(jsonrpc == cg_str0) { "jsonrpc not constant value $cg_str0 - $jsonrpc" }
-        require(method == cg_str1) { "method not constant value $cg_str1 - $method" }
-    }
-
-    private companion object {
-        private const val cg_str0 = "2.0"
-        private const val cg_str1 = "tasks/pushNotification/get"
+        require(jsonrpc == "2.0") { "jsonrpc not constant value 2.0 - $jsonrpc" }
+        require(method == "tasks/pushNotification/get") {
+            "method not constant value \"tasks/pushNotification/get\" - $method"
+        }
     }
 }

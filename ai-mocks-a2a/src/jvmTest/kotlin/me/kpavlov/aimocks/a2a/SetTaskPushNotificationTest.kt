@@ -18,12 +18,12 @@ import me.kpavlov.aimocks.a2a.model.TaskId
 import me.kpavlov.aimocks.a2a.model.TaskPushNotificationConfig
 import kotlin.test.Test
 
-internal class SetTaskPushNotoficationTest : AbstractTest() {
+internal class SetTaskPushNotificationTest : AbstractTest() {
     /**
      * https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task
      */
     @Test
-    fun `Should send task`() =
+    fun `Should set TaskPushNotification config`() =
         runTest {
             val taskId: TaskId = "task_12345"
             val config =
