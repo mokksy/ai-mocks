@@ -39,7 +39,7 @@ public data class Message(
          * @param init The lambda to configure the message.
          * @return A new Message instance.
          */
-        public fun build(init: MessageBuilder.() -> Unit): Message =
+        public fun create(init: MessageBuilder.() -> Unit): Message =
             MessageBuilder().apply(init).build()
     }
 }

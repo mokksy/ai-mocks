@@ -10,7 +10,7 @@ package me.kpavlov.aimocks.a2a.model
  *     metadata {
  *         // configure metadata
  *     }
- * }.build()
+ * }.create()
  * ```
  */
 public class TextPartBuilder {

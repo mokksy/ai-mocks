@@ -7,7 +7,7 @@ package me.kpavlov.aimocks.a2a.model
  * ```kotlin
  * val dataPart = DataPartBuilder().apply {
  *     data = mapOf("key" to "value", "nested" to mapOf("inner" to 42))
- * }.build()
+ * }.create()
  * ```
  */
 public class DataPartBuilder {

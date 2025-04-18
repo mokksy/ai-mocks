@@ -11,7 +11,7 @@ package me.kpavlov.aimocks.a2a.model
  * val config = PushNotificationConfigBuilder()
  *     .url("https://example.org/notifications")
  *     .token("auth-token")
- *     .build()
+ *     .create()
  * ```
  */
 public class PushNotificationConfigBuilder {

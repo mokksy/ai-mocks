@@ -17,7 +17,7 @@ package me.kpavlov.aimocks.a2a.model
  *             textPart("Hello, how can I help you?")
  *         }
  *     }
- *     .build()
+ *     .create()
  * ```
  */
 public class SendTaskRequestBuilder {

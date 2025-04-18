@@ -14,7 +14,7 @@ package me.kpavlov.aimocks.a2a.model
  *         url = "https://example.org/notifications"
  *         token = "auth-token"
  *     }
- *     .build()
+ *     .create()
  * ```
  */
 public class TaskPushNotificationConfigBuilder {

@@ -1,7 +1,7 @@
 .PHONY: build test lint format all docs # always run
 
 build:
-	./gradlew clean build dokkaJavadocJar sourcesJar koverXmlReport
+	./gradlew clean build dokkaJavadocJar sourcesJar koverHtmlReport
 
 test:
 	./gradlew check
