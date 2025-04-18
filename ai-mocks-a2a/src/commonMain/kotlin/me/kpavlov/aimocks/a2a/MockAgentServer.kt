@@ -82,7 +82,7 @@ public open class MockAgentServer(
         name: String? = null,
     ): AbstractBuildingStep<Nothing, AgentCardResponseSpecification> {
         val requestStep =
-            mokksy.get<Nothing>(
+            mokksy.get(
                 name = name,
                 requestType = Nothing::class,
             ) {

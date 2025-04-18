@@ -1,10 +1,11 @@
 rootProject.name = "ai-mocks"
 
 include(
-    ":mokksy",
-    ":ai-mocks-a2a-models",
+    ":a2a-client",
     ":ai-mocks-a2a",
+    ":ai-mocks-a2a-models",
+    ":ai-mocks-anthropic",
     ":ai-mocks-core",
     ":ai-mocks-openai",
-    ":ai-mocks-anthropic",
+    ":mokksy",
 )
