@@ -395,12 +395,12 @@ Client call example:
 
 ```kotlin
 // Create a CancelTaskRequest object
-val jsonRpcRequest = CancelTaskRequest(
-    id = "1",
-    params = TaskIdParams(
-        id = UUID.randomUUID().toString(),
-    ),
-)
+val jsonRpcRequest = cancelTaskRequest {
+    id = "1"
+    params {
+        id = UUID.randomUUID().toString()
+    }
+}
 
 // Make a POST request to the Cancel Task endpoint
 val response = a2aClient
