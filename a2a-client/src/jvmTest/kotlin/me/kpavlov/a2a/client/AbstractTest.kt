@@ -8,8 +8,6 @@ internal abstract class AbstractTest {
     protected val logger = KotlinLogging.logger(name = javaClass.canonicalName!!)
     protected val a2aServer = MockAgentServer(verbose = true)
 
-    @Deprecated("Use client instead")
-    protected val a2aClient = createA2AClient(url = a2aServer.baseUrl())
     protected val client = A2AClientFactory.create(baseUrl = a2aServer.baseUrl())
 
     @AfterEach
