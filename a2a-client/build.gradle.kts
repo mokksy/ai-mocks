@@ -1,27 +1,25 @@
 plugins {
-    kotlin("plugin.serialization") apply true
-    alias(libs.plugins.kover) apply true
     `kotlin-convention`
     `publish-convention`
+    alias(libs.plugins.kover) apply true
 }
 
 kotlin {
+
     sourceSets {
         commonMain {
             dependencies {
-                api(project(":ai-mocks-core"))
                 api(project(":ai-mocks-a2a-models"))
                 api(libs.ktor.serialization.kotlinx.json)
-                api(libs.ktor.server.content.negotiation)
-                implementation(libs.ktor.server.sse)
                 api(libs.ktor.client.core)
                 api(libs.ktor.client.logging)
                 api(libs.ktor.client.content.negotiation)
             }
         }
-
         commonTest {
             dependencies {
+                implementation(kotlin("test"))
+                api(project(":ai-mocks-a2a"))
                 implementation(libs.assertk)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.kotlinLogging)
@@ -32,20 +30,9 @@ kotlin {
             }
         }
 
-        jvmMain {
-            dependencies {
-                implementation(libs.ktor.server.netty)
-                implementation(libs.ktor.serialization.jackson)
-            }
-        }
-
         jvmTest {
             dependencies {
-                implementation(kotlin("test"))
-                implementation(libs.assertj.core)
                 implementation(libs.ktor.client.java)
-                implementation(libs.awaitility.kotlin)
-                implementation(libs.junit.jupiter.params)
                 runtimeOnly(libs.slf4j.simple)
             }
         }

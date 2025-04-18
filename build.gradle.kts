@@ -30,6 +30,7 @@ subprojects {
 }
 
 dependencies {
+    kover(project(":a2a-client"))
     kover(project(":ai-mocks-a2a"))
     kover(project(":ai-mocks-a2a-models"))
     kover(project(":ai-mocks-anthropic"))
