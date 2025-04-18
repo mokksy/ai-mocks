@@ -1,39 +1,43 @@
-package me.kpavlov.a2a.client
+package me.kpavlov.aimocks.a2a
 
 import io.kotest.matchers.collections.shouldHaveSize
-import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import io.ktor.client.plugins.sse.sse
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.HttpMethod
+import io.ktor.http.contentType
 import io.ktor.utils.io.InternalAPI
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Clock.System
-import me.kpavlov.aimocks.a2a.model.Message
+import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.a2a.model.TaskArtifactUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskId
-import me.kpavlov.aimocks.a2a.model.TaskSendParams
+import me.kpavlov.aimocks.a2a.model.TaskQueryParams
+import me.kpavlov.aimocks.a2a.model.TaskResubscriptionRequest
 import me.kpavlov.aimocks.a2a.model.TaskStatusUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TextPart
-import me.kpavlov.aimocks.a2a.model.create
 import me.kpavlov.aimocks.a2a.model.taskArtifactUpdateEvent
 import me.kpavlov.aimocks.a2a.model.taskStatusUpdateEvent
-import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 
-internal class SendTaskStreamingTest : AbstractTest() {
+internal class TaskResubscriptionTest : AbstractTest() {
     /**
-     * https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task
+     * Test for task resubscription operation
      */
     @OptIn(InternalAPI::class)
     @Test
     @Suppress("LongMethod")
-    fun `Should send task streaming`() =
+    fun `Should resubscribe to task`() =
         runTest {
             val taskId: TaskId = "task_12345"
 
-            a2aServer.sendTaskStreaming() responds {
+            a2aServer.taskResubscription() responds {
                 delayBetweenChunks = 1.seconds
                 responseFlow =
                     flow {
@@ -53,47 +57,8 @@ internal class SendTaskStreamingTest : AbstractTest() {
                                     name = "joke"
                                     parts +=
                                         textPart {
-                                            text = "This"
+                                            text = "This is a resubscribed joke!"
                                         }
-                                }
-                            },
-                        )
-                        emit(
-                            taskArtifactUpdateEvent {
-                                id = taskId
-                                artifact {
-                                    name = "joke"
-                                    parts +=
-                                        textPart {
-                                            text = "is"
-                                        }
-                                    append = true
-                                }
-                            },
-                        )
-                        emit(
-                            taskArtifactUpdateEvent {
-                                id = taskId
-                                artifact {
-                                    name = "joke"
-                                    parts +=
-                                        textPart {
-                                            text = "a"
-                                        }
-                                    append = true
-                                }
-                            },
-                        )
-                        emit(
-                            taskArtifactUpdateEvent {
-                                id = taskId
-                                artifact {
-                                    name = "joke"
-                                    parts +=
-                                        textPart {
-                                            text = "joke!"
-                                        }
-                                    append = true
                                     lastChunk = true
                                 }
                             },
@@ -111,37 +76,49 @@ internal class SendTaskStreamingTest : AbstractTest() {
                     }
             }
 
-            val taskParams =
-                TaskSendParams.create {
-                    id = UUID.randomUUID().toString()
-                    message {
-                        role = Message.Role.user
-                        parts +=
-                            textPart {
-                                text = "Tell me a joke"
+            val collectedEvents = ConcurrentLinkedQueue<TaskUpdateEvent>()
+            a2aClient.sse(
+                request = {
+                    url { a2aServer.baseUrl() }
+                    method = HttpMethod.Post
+                    contentType(ContentType.Application.Json)
+                    val payload =
+                        TaskResubscriptionRequest(
+                            id = "1",
+                            params =
+                                TaskQueryParams(
+                                    id = taskId,
+                                ),
+                        )
+                    setBody(payload)
+                },
+            ) {
+                var reading = true
+                while (reading) {
+                    incoming.collect {
+                        logger.info { "Event from server:\n$it" }
+                        it.data?.let {
+                            val event = Json.decodeFromString<TaskUpdateEvent>(it)
+                            collectedEvents.add(event)
+                            if (!handleEvent(event)) {
+                                reading = false
+                                cancel("Finished")
                             }
+                        }
                     }
                 }
-
-            val collectedEvents = ConcurrentLinkedQueue<TaskUpdateEvent>()
-            client.sendTaskStreaming(taskParams).collect { event ->
-                logger.info { "Event from server: $event" }
-                collectedEvents.add(event)
-                handleEvent(event)
             }
 
-            collectedEvents shouldHaveSize 6
+            collectedEvents shouldHaveSize 3
             collectedEvents.forEach {
                 it.id() shouldBe taskId
             }
             (collectedEvents.first() as TaskStatusUpdateEvent).let {
                 it.status.state shouldBe "working"
-                it.status.timestamp.shouldNotBeNull()
             }
             (collectedEvents.last() as TaskStatusUpdateEvent).let {
                 it.final shouldBe true
                 it.status.state shouldBe "completed"
-                it.status.timestamp.shouldNotBeNull()
             }
             val joke =
                 collectedEvents
@@ -152,7 +129,7 @@ internal class SendTaskStreamingTest : AbstractTest() {
                     .map { it.text }
                     .toList()
                     .joinToString(separator = " ")
-            joke shouldBe "This is a joke!"
+            joke shouldBe "This is a resubscribed joke!"
         }
 
     private fun handleEvent(event: TaskUpdateEvent): Boolean {

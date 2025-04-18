@@ -8,6 +8,7 @@ import me.kpavlov.aimocks.a2a.model.GetTaskRequest
 import me.kpavlov.aimocks.a2a.model.SendTaskRequest
 import me.kpavlov.aimocks.a2a.model.SendTaskStreamingRequest
 import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationRequest
+import me.kpavlov.aimocks.a2a.model.TaskResubscriptionRequest
 import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.aimocks.core.AbstractMockLlm
 import me.kpavlov.mokksy.ServerConfiguration
@@ -266,6 +267,54 @@ public open class MockAgentServer(
                 }
 
         return SetTaskPushNotificationBuildingStep(
+            buildingStep = requestStep,
+            mokksy = mokksy,
+        )
+    }
+
+    /**
+     * Configures the behavior of the mocking server to handle
+     * ["Resubscribe to a Task"](https://google.github.io/A2A/#/documentation?id=resubscribe-to-a-task) requests.
+     *
+     * This method simulates the behavior of the A2A's
+     * ["Resubscribe to a Task"](https://google.github.io/A2A/#/documentation?id=resubscribe-to-a-task) endpoint.
+     * It allows defining how the server should respond to a "task resubscription" JsonRPC request by chaining
+     * a response configuration using the `responds` method of the returned `TaskResubscriptionBuildingStep`.
+     *
+     * Example usage:
+     * ```kotlin
+     * // Configure the mock server to respond with task updates
+     * a2aServer.taskResubscription() responds {
+     *     responseFlow = flow {
+     *         emit(
+     *             taskStatusUpdateEvent {
+     *                 id = "task_12345"
+     *                 status {
+     *                     state = "completed"
+     *                     timestamp = System.now()
+     *                 }
+     *                 final = true
+     *             }
+     *         )
+     *     }
+     * }
+     * ```
+     *
+     * @param name An optional identifier for the configured request.
+     * @return An instance of `TaskResubscriptionBuildingStep` to define the response behavior for task resubscription requests.
+     */
+    @JvmOverloads
+    public fun taskResubscription(name: String? = null): TaskResubscriptionBuildingStep {
+        val requestStep =
+            mokksy
+                .post(name = name, requestType = TaskResubscriptionRequest::class) {
+                    path("/")
+                    bodyMatchesPredicate {
+                        it?.method == "tasks/resubscribe"
+                    }
+                }
+
+        return TaskResubscriptionBuildingStep(
             buildingStep = requestStep,
             mokksy = mokksy,
         )

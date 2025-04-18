@@ -9,7 +9,6 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import kotlinx.coroutines.test.runTest
-import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.a2a.model.Message
 import me.kpavlov.aimocks.a2a.model.SendTaskRequest
 import me.kpavlov.aimocks.a2a.model.SendTaskResponse
@@ -71,14 +70,12 @@ internal class SendTaskTest : AbstractTest() {
                                 }
                             }
                         contentType(ContentType.Application.Json)
-                        setBody(Json.encodeToString(jsonRpcRequest))
+                        setBody(jsonRpcRequest)
                     }.call
                     .response
 
             response.status.shouldBeEqual(HttpStatusCode.OK)
-            val body = response.body<String>()
-            logger.info { "body = $body" }
-            val payload = Json.decodeFromString<SendTaskResponse>(body)
+            val payload = response.body<SendTaskResponse>()
             payload shouldBeEqualToComparingFields reply
         }
 }

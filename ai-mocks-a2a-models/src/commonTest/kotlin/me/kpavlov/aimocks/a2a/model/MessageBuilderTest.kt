@@ -9,12 +9,14 @@ internal class MessageBuilderTest {
     @Test
     fun `should build Message with minimal parameters`() {
         // when
-        val message = Message.create {
-            role = Message.Role.user
-            parts += textPart {
-                text = "Hello, how can I help you?"
+        val message =
+            Message.create {
+                role = Message.Role.user
+                parts +=
+                    textPart {
+                        text = "Hello, how can I help you?"
+                    }
             }
-        }
 
         // then
         message.role shouldBe Message.Role.user
@@ -26,15 +28,20 @@ internal class MessageBuilderTest {
     @Test
     fun `should build Message with multiple parts`() {
         // when
-        val message = Message.create {
-            role = Message.Role.agent
-            parts.add(textPart {
-                text = "Hello, I'm an agent."
-            })
-            parts.add(textPart {
-                text = "How can I help you today?"
-            })
-        }
+        val message =
+            Message.create {
+                role = Message.Role.agent
+                parts.add(
+                    textPart {
+                        text = "Hello, I'm an agent."
+                    },
+                )
+                parts.add(
+                    textPart {
+                        text = "How can I help you today?"
+                    },
+                )
+            }
 
         // then
         message.role shouldBe Message.Role.agent
@@ -47,13 +54,16 @@ internal class MessageBuilderTest {
     @Test
     fun `should build Message with metadata`() {
         // when
-        val message = Message.create {
-            role = Message.Role.user
-            parts.add(textPart {
-                text = "Hello, how can I help you?"
-            })
-            metadata = Metadata()
-        }
+        val message =
+            Message.create {
+                role = Message.Role.user
+                parts.add(
+                    textPart {
+                        text = "Hello, how can I help you?"
+                    },
+                )
+                metadata = Metadata()
+            }
 
         // then
         message.role shouldBe Message.Role.user
@@ -66,11 +76,14 @@ internal class MessageBuilderTest {
     fun `should throw exception when role is missing`() {
         // when/then
         assertFailsWith<IllegalArgumentException> {
-            MessageBuilder().apply {
-                parts.add(textPart {
-                    text = "Hello, how can I help you?"
-                })
-            }.build()
+            MessageBuilder()
+                .apply {
+                    parts.add(
+                        textPart {
+                            text = "Hello, how can I help you?"
+                        },
+                    )
+                }.build()
         }
     }
 
@@ -78,9 +91,10 @@ internal class MessageBuilderTest {
     fun `should throw exception when parts are empty`() {
         // when/then
         assertFailsWith<IllegalArgumentException> {
-            MessageBuilder().apply {
-                role = Message.Role.user
-            }.build()
+            MessageBuilder()
+                .apply {
+                    role = Message.Role.user
+                }.build()
         }
     }
 }

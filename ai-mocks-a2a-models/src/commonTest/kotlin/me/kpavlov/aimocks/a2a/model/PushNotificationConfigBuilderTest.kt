@@ -8,9 +8,10 @@ internal class PushNotificationConfigBuilderTest {
     @Test
     fun `should build PushNotificationConfig with minimal parameters`() {
         // when
-        val config = PushNotificationConfig.create {
-            url = "https://example.org/notifications"
-        }
+        val config =
+            PushNotificationConfig.create {
+                url = "https://example.org/notifications"
+            }
 
         // then
         config.url shouldBe "https://example.org/notifications"
@@ -20,10 +21,11 @@ internal class PushNotificationConfigBuilderTest {
     @Test
     fun `should build PushNotificationConfig with all parameters`() {
         // when
-        val config = PushNotificationConfig.build {
-            url = "https://example.org/notifications"
-            token = "auth-token"
-        }
+        val config =
+            PushNotificationConfig.build {
+                url = "https://example.org/notifications"
+                token = "auth-token"
+            }
 
         // then
         config.url shouldBe "https://example.org/notifications"

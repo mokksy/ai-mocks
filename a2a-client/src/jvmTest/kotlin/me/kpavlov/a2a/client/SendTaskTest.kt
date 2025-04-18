@@ -44,16 +44,17 @@ internal class SendTaskTest : AbstractTest() {
                 result = task
             }
 
-            val taskParams = me.kpavlov.aimocks.a2a.model.TaskSendParams.create {
-                id = UUID.randomUUID().toString()
-                message {
-                    role = Message.Role.user
-                    parts +=
-                        textPart {
-                            text = "Tell me a joke"
-                        }
+            val taskParams =
+                me.kpavlov.aimocks.a2a.model.TaskSendParams.create {
+                    id = UUID.randomUUID().toString()
+                    message {
+                        role = Message.Role.user
+                        parts +=
+                            textPart {
+                                text = "Tell me a joke"
+                            }
+                    }
                 }
-            }
 
             val payload = client.sendTask(taskParams)
             logger.info { "response = $payload" }

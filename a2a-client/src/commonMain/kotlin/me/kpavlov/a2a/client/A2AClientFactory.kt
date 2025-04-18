@@ -27,34 +27,36 @@ public object A2AClientFactory {
     public fun create(
         baseUrl: String,
         httpClient: HttpClient? = null,
-        json: Json = Json {
-            ignoreUnknownKeys = true
-            isLenient = true
-            prettyPrint = true
-        }
+        json: Json =
+            Json {
+                ignoreUnknownKeys = true
+                isLenient = true
+                prettyPrint = true
+            },
     ): A2AClient {
-        val client = httpClient ?: HttpClient {
-            install(ContentNegotiation) {
-                json(json)
+        val client =
+            httpClient ?: HttpClient {
+                install(ContentNegotiation) {
+                    json(json)
+                }
+                install(SSE) {
+                    // Configure SSE client
+                }
+                install(Logging) {
+                    logger = Logger.DEFAULT
+                    level = LogLevel.ALL
+                    sanitizeHeader { header -> header == HttpHeaders.Authorization }
+                }
+                defaultRequest {
+                    url(baseUrl)
+                    headers.append(HttpHeaders.UserAgent, "mokksy-a2a-client")
+                }
             }
-            install(SSE) {
-                // Configure SSE client
-            }
-            install(Logging) {
-                logger = Logger.DEFAULT
-                level = LogLevel.ALL
-                sanitizeHeader { header -> header == HttpHeaders.Authorization }
-            }
-            defaultRequest {
-                url(baseUrl)
-                headers.append(HttpHeaders.UserAgent, "mokksy-a2a-client")
-            }
-        }
 
         return DefaultA2AClient(
             httpClient = client,
             baseUrl = baseUrl,
-            json = json
+            json = json,
         )
     }
 }

@@ -541,6 +541,108 @@ val body = response.body<String>()
 val payload = Json.decodeFromString<GetTaskPushNotificationResponse>(body)
 ```
 
+## Task Resubscription Endpoint
+
+The Task Resubscription endpoint allows clients to resubscribe to streaming updates for a task that was previously created. This is useful when a client loses connection and needs to resume receiving updates for an ongoing task.
+
+Mock Server configuration:
+
+```kotlin
+// Configure the mock server to respond with streaming updates
+val taskId: TaskId = "task_12345"
+
+a2aServer.taskResubscription() responds {
+    delayBetweenChunks = 1.seconds
+    responseFlow = flow {
+        emit(
+            taskStatusUpdateEvent {
+                id = taskId
+                status {
+                    state = "working"
+                    timestamp = System.now()
+                }
+            }
+        )
+        emit(
+            taskArtifactUpdateEvent {
+                id = taskId
+                artifact {
+                    name = "joke"
+                    parts += textPart {
+                        text = "This is a resubscribed joke!"
+                    }
+                    lastChunk = true
+                }
+            }
+        )
+        emit(
+            taskStatusUpdateEvent {
+                id = taskId
+                status {
+                    state = "completed"
+                    timestamp = System.now()
+                }
+                final = true
+            }
+        )
+    }
+}
+```
+
+Client call example:
+
+```kotlin
+// Create a collection to store the events
+val collectedEvents = ConcurrentLinkedQueue<TaskUpdateEvent>()
+
+// Make a POST request to the Task Resubscription endpoint with SSE
+a2aClient.sse(
+    request = {
+        url { a2aServer.baseUrl() }
+        method = HttpMethod.Post
+        contentType(ContentType.Application.Json)
+        val payload = TaskResubscriptionRequest(
+            id = "1",
+            params = TaskQueryParams(
+                id = taskId,
+            ),
+        )
+        setBody(payload)
+    },
+) {
+    var reading = true
+    while (reading) {
+        incoming.collect {
+            println("Event from server:\n$it")
+            it.data?.let {
+                val event = Json.decodeFromString<TaskUpdateEvent>(it)
+                collectedEvents.add(event)
+                if (!handleEvent(event)) {
+                    reading = false
+                    cancel("Finished")
+                }
+            }
+        }
+    }
+}
+
+// Helper function to handle events
+private fun handleEvent(event: TaskUpdateEvent): Boolean {
+    when (event) {
+        is TaskStatusUpdateEvent -> {
+            println("Task status: $event")
+            if (event.final) {
+                return false
+            }
+        }
+        is TaskArtifactUpdateEvent -> {
+            println("Task artifact: $event")
+        }
+    }
+    return true
+}
+```
+
 ## Verifying Requests
 
 After your test is complete, you can verify that all expected requests were received:

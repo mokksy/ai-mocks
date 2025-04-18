@@ -9,7 +9,6 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import kotlinx.coroutines.test.runTest
-import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationRequest
 import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationResponse
 import me.kpavlov.aimocks.a2a.model.TaskId
@@ -62,14 +61,12 @@ internal class SetTaskPushNotificationTest : AbstractTest() {
                                 params = config,
                             )
                         contentType(ContentType.Application.Json)
-                        setBody(Json.encodeToString(jsonRpcRequest))
+                        setBody(jsonRpcRequest)
                     }.call
                     .response
 
             response.status.shouldBeEqual(HttpStatusCode.OK)
-            val body = response.body<String>()
-            logger.info { "body = $body" }
-            val payload = Json.decodeFromString<SetTaskPushNotificationResponse>(body)
+            val payload = response.body<SetTaskPushNotificationResponse>()
             payload shouldBeEqualToComparingFields
                 SetTaskPushNotificationResponse(
                     id = 1,

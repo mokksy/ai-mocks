@@ -9,7 +9,6 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import kotlinx.coroutines.test.runTest
-import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.a2a.model.CancelTaskResponse
 import me.kpavlov.aimocks.a2a.model.Task
 import me.kpavlov.aimocks.a2a.model.TaskStatus
@@ -47,14 +46,12 @@ internal class CancelTaskTest : AbstractTest() {
                                 }
                             }
                         contentType(ContentType.Application.Json)
-                        setBody(Json.encodeToString(jsonRpcRequest))
+                        setBody(jsonRpcRequest)
                     }.call
                     .response
 
             response.status.shouldBeEqual(HttpStatusCode.OK)
-            val body = response.body<String>()
-            logger.info { "body = $body" }
-            val payload = Json.decodeFromString<CancelTaskResponse>(body)
+            val payload = response.body<CancelTaskResponse>()
 
             val expectedReply =
                 CancelTaskResponse(
