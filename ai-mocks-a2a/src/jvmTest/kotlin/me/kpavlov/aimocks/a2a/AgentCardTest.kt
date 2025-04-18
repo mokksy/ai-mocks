@@ -6,7 +6,6 @@ import io.ktor.client.request.get
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.a2a.model.AgentCard
-import me.kpavlov.aimocks.a2a.model.AgentSkill
 import me.kpavlov.aimocks.a2a.model.create
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
@@ -35,17 +34,16 @@ internal class AgentCardTest : AbstractTest() {
                         pushNotifications = true
                         stateTransitionHistory = true
                     }
-                    skills =
-                        listOf(
-                            AgentSkill.create {
-                                id = "walk"
-                                name = "Walk the walk"
-                            },
-                            AgentSkill.create {
-                                id = "talk"
-                                name = "Talk the talk"
-                            },
-                        )
+                    skills +=
+                        skill {
+                            id = "walk"
+                            name = "Walk the walk"
+                        }
+                    skills +=
+                        skill {
+                            id = "talk"
+                            name = "Talk the talk"
+                        }
                 }
 
             a2aServer.agentCard() responds {

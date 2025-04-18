@@ -27,6 +27,10 @@ public class TaskArtifactUpdateEventBuilder {
         return this
     }
 
+    public fun artifact(block: ArtifactBuilder.() -> Unit) {
+        ArtifactBuilder().apply(block).build().also { artifact = it }
+    }
+
     /**
      * Sets the optional metadata for the event.
      *
@@ -62,5 +66,12 @@ public class TaskArtifactUpdateEventBuilder {
  * @return A new TaskArtifactUpdateEvent instance.
  */
 public fun TaskArtifactUpdateEvent.Companion.create(
+    init: TaskArtifactUpdateEventBuilder.() -> Unit,
+): TaskArtifactUpdateEvent = TaskArtifactUpdateEventBuilder().apply(init).build()
+
+/**
+ * Top-level DSL function for creating [TaskArtifactUpdateEvent].
+ */
+public inline fun taskArtifactUpdateEvent(
     init: TaskArtifactUpdateEventBuilder.() -> Unit,
 ): TaskArtifactUpdateEvent = TaskArtifactUpdateEventBuilder().apply(init).build()

@@ -10,12 +10,10 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
-import me.kpavlov.aimocks.a2a.model.Artifact
 import me.kpavlov.aimocks.a2a.model.GetTaskRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskResponse
 import me.kpavlov.aimocks.a2a.model.Task
 import me.kpavlov.aimocks.a2a.model.TaskQueryParams
-import me.kpavlov.aimocks.a2a.model.TextPart
 import java.util.UUID
 import kotlin.test.Test
 
@@ -36,18 +34,14 @@ internal class GetTaskTest : AbstractTest() {
                     status {
                         state = "completed"
                     }
-                    artifacts =
-                        listOf(
-                            Artifact(
-                                name = "joke",
-                                parts =
-                                    listOf(
-                                        TextPart(
-                                            text = "This is a joke",
-                                        ),
-                                    ),
-                            ),
-                        )
+                    artifacts +=
+                        artifact {
+                            name = "joke"
+                            parts +=
+                                textPart {
+                                    text = "This is a joke"
+                                }
+                        }
                 }
                 expectedTask = requireNotNull(result) { "Result should not be null" }
             }

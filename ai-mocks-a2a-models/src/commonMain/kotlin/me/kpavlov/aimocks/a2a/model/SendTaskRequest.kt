@@ -42,7 +42,7 @@ public data class SendTaskRequest(
          * @param init The lambda to configure the send task request.
          * @return A new SendTaskRequest instance.
          */
-        public fun build(init: SendTaskRequestBuilder.() -> Unit): SendTaskRequest =
+        public fun create(init: SendTaskRequestBuilder.() -> Unit): SendTaskRequest =
             SendTaskRequestBuilder().apply(init).build()
     }
 }

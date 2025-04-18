@@ -7,7 +7,7 @@ package me.kpavlov.aimocks.a2a.model
  * making it easier to configure complex settings programmatically.
  */
 public class AuthenticationInfoBuilder {
-    public var schemes: List<String> = emptyList()
+    public var schemes: List<String> = mutableListOf()
     public var credentials: String? = null
 
     /**

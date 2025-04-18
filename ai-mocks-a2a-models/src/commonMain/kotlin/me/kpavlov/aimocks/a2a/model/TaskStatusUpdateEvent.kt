@@ -28,4 +28,6 @@ public data class TaskStatusUpdateEvent(
     val metadata: Metadata? = null,
 ) : TaskUpdateEvent {
     override fun id(): TaskId = id
+
+    public companion object
 }

@@ -12,7 +12,7 @@ package me.kpavlov.aimocks.a2a.model
  *     .streaming(true)
  *     .pushNotifications(true)
  *     .stateTransitionHistory(false)
- *     .build()
+ *     .create()
  * ```
  */
 public class AgentCapabilitiesBuilder {

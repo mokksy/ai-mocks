@@ -29,6 +29,8 @@ Mokksy and AI-Mocks are a suite of tools designed for mocking HTTP and LLM (Larg
 
 ### Project Structure
 
+- `ai-mocks-a2a`: Agent2Agent (A2A) protocol mocks
+- `ai-mocks-a2a-models`: Agent2Agent (A2A) protocol models
 - `ai-mocks-core`: Core functionality shared across AI-Mocks implementations
 - `ai-mocks-openai`: OpenAI API mock implementation
 - `ai-mocks-anthropic`: Anthropic API mock implementation
@@ -39,16 +41,19 @@ Mokksy and AI-Mocks are a suite of tools designed for mocking HTTP and LLM (Larg
 1. **Code Style**
    - Follow Kotlin coding conventions
    - Use the provided `.editorconfig` for consistent formatting
+   - Use Kotlin typesafe DSL builders where possible and prioritise fluent builders style.
 
 2. **Testing**
    - Write comprehensive tests for new features
    - Ensure backward compatibility when making changes
    - Write tests on Kotlin with kotlin-test, kotest assertions
    - Prioritize test readability
+   - When asked to write tests in Java: use JUnit5, Mockito, AssertJ core
 
 3. **Documentation**
    - Update README files when adding new features
    - Document API changes in the appropriate module's documentation
+   - Write tutorials in Hugo markdown /docs/content/docs. 
 
 4. **Contributions**
    - Follow the guidelines in CONTRIBUTING.md

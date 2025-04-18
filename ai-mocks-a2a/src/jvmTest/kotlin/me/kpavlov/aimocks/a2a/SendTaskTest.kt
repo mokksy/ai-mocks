@@ -10,13 +10,10 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
-import me.kpavlov.aimocks.a2a.model.Artifact
 import me.kpavlov.aimocks.a2a.model.Message
 import me.kpavlov.aimocks.a2a.model.SendTaskRequest
 import me.kpavlov.aimocks.a2a.model.SendTaskResponse
 import me.kpavlov.aimocks.a2a.model.Task
-import me.kpavlov.aimocks.a2a.model.TaskSendParams
-import me.kpavlov.aimocks.a2a.model.TextPart
 import me.kpavlov.aimocks.a2a.model.create
 import java.util.UUID
 import kotlin.test.Test
@@ -31,23 +28,20 @@ internal class SendTaskTest : AbstractTest() {
         runTest {
             val task =
                 Task.create {
-                    id("tid_12345")
+                    id = "tid_12345"
                     status {
-                        state("completed")
+                        state = "completed"
                     }
-                    artifacts(
-                        listOf(
-                            Artifact.build {
-                                name("joke")
-                                addPart(
-                                    TextPart(
-                                        text = "This is a joke",
-                                    ),
-                                )
-                            },
-                        ),
-                    )
+                    artifacts +=
+                        artifact {
+                            name = "joke"
+                            parts +=
+                                textPart {
+                                    text = "This is a joke"
+                                }
+                        }
                 }
+
             val reply =
                 SendTaskResponse(
                     id = 1,
@@ -63,23 +57,19 @@ internal class SendTaskTest : AbstractTest() {
                 a2aClient
                     .post("/") {
                         val jsonRpcRequest =
-                            SendTaskRequest(
-                                id = "1",
-                                params =
-                                    TaskSendParams(
-                                        id = UUID.randomUUID().toString(),
-                                        message =
-                                            Message(
-                                                role = Message.Role.user,
-                                                parts =
-                                                    listOf(
-                                                        TextPart(
-                                                            text = "Tell me a joke",
-                                                        ),
-                                                    ),
-                                            ),
-                                    ),
-                            )
+                            SendTaskRequest.create {
+                                id = "1"
+                                params {
+                                    id = UUID.randomUUID().toString()
+                                    message {
+                                        role = Message.Role.user
+                                        parts +=
+                                            textPart {
+                                                text = "Tell me a joke"
+                                            }
+                                    }
+                                }
+                            }
                         contentType(ContentType.Application.Json)
                         setBody(Json.encodeToString(jsonRpcRequest))
                     }.call

@@ -9,23 +9,25 @@ package me.kpavlov.aimocks.a2a.model
  * Example usage:
  * ```kotlin
  * val artifact = ArtifactBuilder()
- *     .name("example-artifact")
- *     .description("An example artifact")
- *     .addPart(textPartBuilder.build())
- *     .index(1)
- *     .append(true)
- *     .lastChunk(false)
- *     .build()
+ *     .apply {
+ *         name = "example-artifact"
+ *         description = "An example artifact"
+ *         parts.add(textPartBuilder.create())
+ *         index = 1
+ *         append = true
+ *         lastChunk = false
+ *     }
+ *     .create()
  * ```
  */
 public class ArtifactBuilder {
-    private var name: String? = null
-    private var description: String? = null
-    private var parts: MutableList<Part> = mutableListOf()
-    private var index: Long = 0
-    private var append: Boolean? = null
-    private var lastChunk: Boolean? = null
-    private var metadata: Metadata? = null
+    public var name: String? = null
+    public var description: String? = null
+    public var parts: MutableList<Part> = mutableListOf()
+    public var index: Long = 0
+    public var append: Boolean? = null
+    public var lastChunk: Boolean? = null
+    public var metadata: Metadata? = null
 
     /**
      * Sets the name of the artifact.
@@ -70,6 +72,15 @@ public class ArtifactBuilder {
         this.parts.add(part)
         return this
     }
+
+    public fun textPart(block: TextPartBuilder.() -> Unit): TextPart =
+        TextPartBuilder().apply(block).build()
+
+    public fun filePart(block: FilePartBuilder.() -> Unit): FilePart =
+        FilePartBuilder().apply(block).build()
+
+    public fun dataPart(block: DataPartBuilder.() -> Unit): DataPart =
+        DataPartBuilder().apply(block).build()
 
     /**
      * Sets the index of the artifact.
@@ -135,3 +146,12 @@ public class ArtifactBuilder {
         )
     }
 }
+
+/**
+ * Creates a new Artifact using the DSL builder.
+ *
+ * @param init The lambda to configure the artifact.
+ * @return A new Artifact instance.
+ */
+public fun Artifact.Companion.create(init: ArtifactBuilder.() -> Unit): Artifact =
+    ArtifactBuilder().apply(init).build()

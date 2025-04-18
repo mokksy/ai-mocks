@@ -11,9 +11,11 @@ import kotlinx.datetime.Instant
  * Example usage:
  * ```kotlin
  * val taskStatus = TaskStatusBuilder()
- *     .state("completed")
- *     .message(messageBuilder.build())
- *     .timestamp(Instant.parse("2023-01-01T00:00:00Z"))
+ *     .apply {
+ *         state = "completed"
+ *         message = messageBuilder.create()
+ *         timestamp = Instant.parse("2023-01-01T00:00:00Z")
+ *     }
  *     .build()
  * ```
  */
