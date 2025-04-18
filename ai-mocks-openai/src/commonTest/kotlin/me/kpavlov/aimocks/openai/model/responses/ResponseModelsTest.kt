@@ -1,10 +1,9 @@
 package me.kpavlov.aimocks.openai.model.responses
 
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 
 internal class ResponseModelsTest {
     private val jsonParser =
@@ -29,11 +28,11 @@ internal class ResponseModelsTest {
 
         val request = jsonParser.decodeFromString<CreateResponseRequest>(json)
 
-        assertEquals("gpt-4o", request.model)
-        assertEquals(0.7, request.temperature)
-        assertEquals(0.9, request.topP)
-        assertEquals(100, request.maxOutputTokens)
-        assertEquals(false, request.stream)
+        request.model shouldBe "gpt-4o"
+        request.temperature shouldBe 0.7
+        request.topP shouldBe 0.9
+        request.maxOutputTokens shouldBe 100
+        request.stream shouldBe false
     }
 
     @Test
@@ -49,9 +48,9 @@ internal class ResponseModelsTest {
 
         val request = jsonParser.decodeFromString<CreateResponseRequest>(json)
 
-        assertEquals("gpt-4o", request.model)
-        assertEquals(0.7, request.temperature)
-        assertNotNull(request.input)
+        request.model shouldBe "gpt-4o"
+        request.temperature shouldBe 0.7
+        request.input.shouldNotBeNull()
         // Note: We can't directly check the input type here due to the serialization approach
     }
 
@@ -78,9 +77,9 @@ internal class ResponseModelsTest {
 
         val request = jsonParser.decodeFromString<CreateResponseRequest>(json)
 
-        assertEquals("gpt-4o", request.model)
-        assertEquals(0.7, request.temperature)
-        assertNotNull(request.input)
+        request.model shouldBe "gpt-4o"
+        request.temperature shouldBe 0.7
+        request.input.shouldNotBeNull()
         // Note: We can't directly check the input type here due to the serialization approach
     }
 
@@ -175,11 +174,11 @@ internal class ResponseModelsTest {
 
         val usage = jsonParser.decodeFromString<Usage>(json)
 
-        assertEquals(10, usage.inputTokens)
-        assertEquals(8, usage.outputTokens)
-        assertEquals(18, usage.totalTokens)
-        assertEquals(5, usage.inputTokensDetails.cachedTokens)
-        assertEquals(8, usage.outputTokensDetails.reasoningTokens)
+        usage.inputTokens shouldBe 10
+        usage.outputTokens shouldBe 8
+        usage.totalTokens shouldBe 18
+        usage.inputTokensDetails.cachedTokens shouldBe 5
+        usage.outputTokensDetails.reasoningTokens shouldBe 8
     }
 
     @Test
@@ -193,7 +192,7 @@ internal class ResponseModelsTest {
 
         val details = jsonParser.decodeFromString<InputTokensDetails>(json)
 
-        assertEquals(5, details.cachedTokens)
+        details.cachedTokens shouldBe 5
     }
 
     @Test
@@ -207,7 +206,7 @@ internal class ResponseModelsTest {
 
         val details = jsonParser.decodeFromString<OutputTokensDetails>(json)
 
-        assertEquals(8, details.reasoningTokens)
+        details.reasoningTokens shouldBe 8
     }
 
     @Test
@@ -221,6 +220,6 @@ internal class ResponseModelsTest {
 
         val details = jsonParser.decodeFromString<IncompleteDetails>(json)
 
-        assertEquals("max_tokens_exceeded", details.reason)
+        details.reason shouldBe "max_tokens_exceeded"
     }
 }
