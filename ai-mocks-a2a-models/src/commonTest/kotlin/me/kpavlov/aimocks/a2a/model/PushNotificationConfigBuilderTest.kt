@@ -9,6 +9,7 @@ internal class PushNotificationConfigBuilderTest {
     fun `should build PushNotificationConfig with minimal parameters`() {
         // when
         val config = PushNotificationConfig.create {
+            url = "https://example.org/notifications"
         }
 
         // then
