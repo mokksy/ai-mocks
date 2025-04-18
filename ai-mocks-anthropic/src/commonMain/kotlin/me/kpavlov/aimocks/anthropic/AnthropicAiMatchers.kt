@@ -16,7 +16,7 @@ internal object AnthropicAiMatchers {
                     } else if (value.system().isPresent) {
                         val system = value.system().orElseThrow()
                         if (system.isString()) {
-                            system.asString().contains(string) == true
+                            system.asString().contains(string)
                         } else if (system.isTextBlockParams()) {
                             system.asTextBlockParams().any { it.text().contains(string) }
                         } else {

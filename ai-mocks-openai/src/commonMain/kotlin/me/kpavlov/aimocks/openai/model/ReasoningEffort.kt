@@ -19,7 +19,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * **o-series models only**   Constrains effort on reasoning for  [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently supported values are `low`, `medium`, and `high`. Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
+ * **o-series models only**
+ * Constrains effort on reasoning for
+ * [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently supported values are `low`, `medium`, and `high`. Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
  *
  * Values: LOW,MEDIUM,HIGH
  */
@@ -59,7 +61,7 @@ public enum class ReasoningEffort(
         public fun decode(data: kotlin.Any?): ReasoningEffort? =
             data?.let {
                 val normalizedData = "$it".lowercase()
-                values().firstOrNull { value ->
+                entries.firstOrNull { value ->
                     it == value || normalizedData == "$value".lowercase()
                 }
             }

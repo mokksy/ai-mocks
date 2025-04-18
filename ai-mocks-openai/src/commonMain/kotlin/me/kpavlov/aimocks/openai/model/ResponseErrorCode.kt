@@ -16,7 +16,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public enum class ResponseErrorCode(
-    public val value: kotlin.String,
+    public val value: String,
 ) {
     @SerialName(value = "server_error")
     SERVER_ERROR("server_error"),
@@ -80,19 +80,19 @@ public enum class ResponseErrorCode(
      * This solves a problem when the variable name and its value are different, and ensures that
      * the client sends the correct enum values to the server always.
      */
-    override fun toString(): kotlin.String = value
+    override fun toString(): String = value
 
     public companion object {
         /**
          * Converts the provided [data] to a [String] on success, null otherwise.
          */
-        public fun encode(data: kotlin.Any?): kotlin.String? =
+        public fun encode(data: Any?): String? =
             if (data is ResponseErrorCode) "$data" else null
 
         /**
          * Returns a valid [ResponseErrorCode] for [data], null otherwise.
          */
-        public fun decode(data: kotlin.Any?): ResponseErrorCode? =
+        public fun decode(data: Any?): ResponseErrorCode? =
             data?.let {
                 val normalizedData = "$it".lowercase()
                 values().firstOrNull { value ->
