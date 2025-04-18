@@ -68,7 +68,7 @@ internal class TaskResubscriptionTest : AbstractTest() {
             }
 
             val collectedEvents = ConcurrentLinkedQueue<TaskUpdateEvent>()
-            client.resubscribeToTask(taskId) .collect { event ->
+            client.resubscribeToTask(taskId).collect { event ->
                 logger.info { "Event from server: $event" }
                 collectedEvents.add(event)
                 handleEvent(event)

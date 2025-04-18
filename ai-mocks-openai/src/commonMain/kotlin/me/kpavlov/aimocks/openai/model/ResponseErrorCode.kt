@@ -86,8 +86,7 @@ public enum class ResponseErrorCode(
         /**
          * Converts the provided [data] to a [String] on success, null otherwise.
          */
-        public fun encode(data: Any?): String? =
-            if (data is ResponseErrorCode) "$data" else null
+        public fun encode(data: Any?): String? = if (data is ResponseErrorCode) "$data" else null
 
         /**
          * Returns a valid [ResponseErrorCode] for [data], null otherwise.

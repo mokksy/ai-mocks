@@ -9,18 +9,20 @@ internal class SendTaskRequestBuilderTest {
     @Test
     fun `should build SendTaskRequest with minimal parameters`() {
         // when
-        val request = SendTaskRequest.create {
-            id = "request-123"
-            params {
-                id = "task-123"
-                message {
-                    role = Message.Role.user
-                    parts += textPart {
-                        text = "Hello, how can I help you?"
+        val request =
+            SendTaskRequest.create {
+                id = "request-123"
+                params {
+                    id = "task-123"
+                    message {
+                        role = Message.Role.user
+                        parts +=
+                            textPart {
+                                text = "Hello, how can I help you?"
+                            }
                     }
                 }
             }
-        }
 
         // then
         request.id shouldBe "request-123"
@@ -37,25 +39,28 @@ internal class SendTaskRequestBuilderTest {
     @Test
     fun `should build SendTaskRequest with all parameters`() {
         // when
-        val request = SendTaskRequest.create {
-            id = "request-123"
-            params {
-                id = "task-123"
-                sessionId = "session-456"
-                message {
-                    role = Message.Role.user
-                    parts.add(textPart {
-                        text = "Hello, how can I help you?"
-                    })
+        val request =
+            SendTaskRequest.create {
+                id = "request-123"
+                params {
+                    id = "task-123"
+                    sessionId = "session-456"
+                    message {
+                        role = Message.Role.user
+                        parts.add(
+                            textPart {
+                                text = "Hello, how can I help you?"
+                            },
+                        )
+                    }
+                    pushNotification {
+                        url = "https://example.org/notifications"
+                        token = "auth-token"
+                    }
+                    historyLength = 10
+                    metadata = Metadata()
                 }
-                pushNotification {
-                    url = "https://example.org/notifications"
-                    token = "auth-token"
-                }
-                historyLength = 10
-                metadata = Metadata()
             }
-        }
 
         // then
         request.id shouldBe "request-123"

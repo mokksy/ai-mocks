@@ -47,7 +47,7 @@ internal class GetTaskTest : AbstractTest() {
                                 id = UUID.randomUUID().toString(),
                                 historyLength = 2,
                             ),
-                    )
+                    ),
                 )
 
             val expectedReply =

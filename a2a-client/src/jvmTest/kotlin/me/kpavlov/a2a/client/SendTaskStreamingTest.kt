@@ -111,16 +111,17 @@ internal class SendTaskStreamingTest : AbstractTest() {
                     }
             }
 
-            val taskParams = TaskSendParams.create {
-                id = UUID.randomUUID().toString()
-                message {
-                    role = Message.Role.user
-                    parts +=
-                        textPart {
-                            text = "Tell me a joke"
-                        }
+            val taskParams =
+                TaskSendParams.create {
+                    id = UUID.randomUUID().toString()
+                    message {
+                        role = Message.Role.user
+                        parts +=
+                            textPart {
+                                text = "Tell me a joke"
+                            }
+                    }
                 }
-            }
 
             val collectedEvents = ConcurrentLinkedQueue<TaskUpdateEvent>()
             client.sendTaskStreaming(taskParams).collect { event ->

@@ -3,9 +3,10 @@ package me.kpavlov.aimocks.a2a
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.ktor.client.plugins.sse.sse
+import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
-import io.ktor.http.content.TextContent
+import io.ktor.http.contentType
 import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flow
@@ -14,6 +15,8 @@ import kotlinx.datetime.Clock.System
 import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.a2a.model.TaskArtifactUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskId
+import me.kpavlov.aimocks.a2a.model.TaskQueryParams
+import me.kpavlov.aimocks.a2a.model.TaskResubscriptionRequest
 import me.kpavlov.aimocks.a2a.model.TaskStatusUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TextPart
@@ -78,12 +81,16 @@ internal class TaskResubscriptionTest : AbstractTest() {
                 request = {
                     url { a2aServer.baseUrl() }
                     method = HttpMethod.Post
-                    val payload = """{"jsonrpc":"2.0","id":1,"method":"tasks/resubscribe","params":{"id":"$taskId"}}"""
-                    body =
-                        TextContent(
-                            text = payload,
-                            contentType = ContentType.Application.Json,
+                    contentType(ContentType.Application.Json)
+                    val payload =
+                        TaskResubscriptionRequest(
+                            id = "1",
+                            params =
+                                TaskQueryParams(
+                                    id = taskId,
+                                ),
                         )
+                    setBody(payload)
                 },
             ) {
                 var reading = true

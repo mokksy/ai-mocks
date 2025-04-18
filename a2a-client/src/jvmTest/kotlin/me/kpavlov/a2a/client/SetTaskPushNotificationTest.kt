@@ -44,10 +44,11 @@ internal class SetTaskPushNotificationTest : AbstractTest() {
                 }
             }
 
-            val payload = client.setTaskPushNotification(
-                id = taskId,
-                config = config.pushNotificationConfig
-            )
+            val payload =
+                client.setTaskPushNotification(
+                    id = taskId,
+                    config = config.pushNotificationConfig,
+                )
             logger.info { "response = $payload" }
             payload shouldBeEqualToComparingFields
                 SetTaskPushNotificationResponse(

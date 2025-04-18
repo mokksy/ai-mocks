@@ -8,9 +8,10 @@ internal class TextPartBuilderTest {
     @Test
     fun `should build TextPart with text`() {
         // when
-        val textPart = textPart {
-            text = "Hello, world!"
-        }
+        val textPart =
+            textPart {
+                text = "Hello, world!"
+            }
 
         // then
         textPart.text shouldBe "Hello, world!"
@@ -20,10 +21,11 @@ internal class TextPartBuilderTest {
     @Test
     fun `should build TextPart with text and metadata`() {
         // when
-        val textPart = textPart {
-            text = "Hello, world!"
-            metadata = Metadata()
-        }
+        val textPart =
+            textPart {
+                text = "Hello, world!"
+                metadata = Metadata()
+            }
 
         // then
         textPart.text shouldBe "Hello, world!"
@@ -43,9 +45,11 @@ internal class TextPartBuilderTest {
     @Test
     fun `should validate TextPart when required`() {
         // when
-        val textPart = TextPartBuilder().apply {
-            text = "Hello, world!"
-        }.build(validate = true)
+        val textPart =
+            TextPartBuilder()
+                .apply {
+                    text = "Hello, world!"
+                }.build(validate = true)
 
         // then
         textPart.text shouldBe "Hello, world!"

@@ -5,6 +5,7 @@ import io.ktor.client.engine.java.Java
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.sse.SSE
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 /**
@@ -16,11 +17,13 @@ import kotlinx.serialization.json.Json
  */
 internal fun createA2AClient(url: String): HttpClient =
     HttpClient(Java) {
-        install(ContentNegotiation) {
+        val json =
             Json {
                 prettyPrint = true
                 isLenient = true
             }
+        install(ContentNegotiation) {
+            json(json)
         }
         install(SSE) {
             showRetryEvents()

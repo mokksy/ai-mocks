@@ -51,7 +51,10 @@ public interface A2AClient {
      * @param historyLength The number of history items to include (optional).
      * @return The response containing the task.
      */
-    public suspend fun getTask(id: TaskId, historyLength: Int? = null): GetTaskResponse
+    public suspend fun getTask(
+        id: TaskId,
+        historyLength: Int? = null,
+    ): GetTaskResponse
 
     public suspend fun getTask(request: GetTaskRequest): GetTaskResponse
 
@@ -80,7 +83,7 @@ public interface A2AClient {
      */
     public suspend fun setTaskPushNotification(
         id: TaskId,
-        config: PushNotificationConfig
+        config: PushNotificationConfig,
     ): SetTaskPushNotificationResponse
 
     /**
