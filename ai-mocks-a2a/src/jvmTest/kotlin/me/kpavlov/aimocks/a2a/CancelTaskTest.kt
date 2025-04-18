@@ -10,11 +10,10 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
-import me.kpavlov.aimocks.a2a.model.CancelTaskRequest
 import me.kpavlov.aimocks.a2a.model.CancelTaskResponse
 import me.kpavlov.aimocks.a2a.model.Task
-import me.kpavlov.aimocks.a2a.model.TaskIdParams
 import me.kpavlov.aimocks.a2a.model.TaskStatus
+import me.kpavlov.aimocks.a2a.model.cancelTaskRequest
 import java.util.UUID
 import kotlin.test.Test
 
@@ -40,14 +39,12 @@ internal class CancelTaskTest : AbstractTest() {
             val response =
                 a2aClient
                     .post("/") {
-                        val jsonRpcRequest =
-                            CancelTaskRequest(
-                                id = "1",
-                                params =
-                                    TaskIdParams(
-                                        id = UUID.randomUUID().toString(),
-                                    ),
-                            )
+                        val jsonRpcRequest = cancelTaskRequest {
+                            id = "1"
+                            params {
+                                id = UUID.randomUUID().toString()
+                            }
+                        }
                         contentType(ContentType.Application.Json)
                         setBody(Json.encodeToString(jsonRpcRequest))
                     }.call
