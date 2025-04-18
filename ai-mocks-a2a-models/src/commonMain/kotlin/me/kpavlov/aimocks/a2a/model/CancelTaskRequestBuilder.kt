@@ -19,10 +19,11 @@ public class CancelTaskRequestBuilder {
         params = TaskIdParamsBuilder().apply(init).build()
     }
 
-    public fun build(): CancelTaskRequest = CancelTaskRequest(
-        id = id,
-        params = requireNotNull(params) { "CancelTaskRequest.params must be provided" }
-    )
+    public fun build(): CancelTaskRequest =
+        CancelTaskRequest(
+            id = id,
+            params = requireNotNull(params) { "CancelTaskRequest.params must be provided" },
+        )
 }
 
 /**
@@ -34,5 +35,6 @@ public inline fun cancelTaskRequest(init: CancelTaskRequestBuilder.() -> Unit): 
 /**
  * DSL extension for [CancelTaskRequest.Companion].
  */
-public fun CancelTaskRequest.Companion.create(init: CancelTaskRequestBuilder.() -> Unit): CancelTaskRequest =
-    CancelTaskRequestBuilder().apply(init).build()
+public fun CancelTaskRequest.Companion.create(
+    init: CancelTaskRequestBuilder.() -> Unit,
+): CancelTaskRequest = CancelTaskRequestBuilder().apply(init).build()

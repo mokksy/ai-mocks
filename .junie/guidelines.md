@@ -46,7 +46,7 @@ Mokksy and AI-Mocks are a suite of tools designed for mocking HTTP and LLM (Larg
 2. **Testing**
    - Write comprehensive tests for new features
    - Ensure backward compatibility when making changes
-   - Write tests on Kotlin with kotlin-test, kotest assertions
+   - Write tests on Kotlin with kotlin-test and Kotest with infix form assertions `shouldBe` instead of Assertj's `assertThat(...)`.
    - Prioritize test readability
    - When asked to write tests in Java: use JUnit5, Mockito, AssertJ core
 

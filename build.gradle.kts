@@ -46,7 +46,7 @@ kover {
         verify {
             rule {
                 bound {
-                    minValue = 65
+                    minValue = 72
                 }
             }
         }
@@ -62,6 +62,8 @@ rewrite {
 //        "org.openrewrite.kotlin.format.AutoFormat",
         "org.openrewrite.gradle.MigrateToGradle8",
         "org.openrewrite.gradle.RemoveRedundantDependencyVersions",
+        "org.openrewrite.kotlin.cleanup.RemoveLambdaArgumentParentheses",
+        "org.openrewrite.kotlin.cleanup.UnnecessaryTypeParentheses",
     )
     isExportDatatables = true
 }

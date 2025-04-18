@@ -15,10 +15,11 @@ public class TaskIdParamsBuilder {
     public var id: TaskId? = null
     public var metadata: Metadata? = null
 
-    public fun build(): TaskIdParams = TaskIdParams(
-        id = requireNotNull(id) { "TaskIdParams.id must be provided" },
-        metadata = metadata
-    )
+    public fun build(): TaskIdParams =
+        TaskIdParams(
+            id = requireNotNull(id) { "TaskIdParams.id must be provided" },
+            metadata = metadata,
+        )
 }
 
 /**
