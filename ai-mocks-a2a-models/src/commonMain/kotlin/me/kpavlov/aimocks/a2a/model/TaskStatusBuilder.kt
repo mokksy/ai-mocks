@@ -16,7 +16,7 @@ import kotlinx.datetime.Instant
  *         message = messageBuilder.create()
  *         timestamp = Instant.parse("2023-01-01T00:00:00Z")
  *     }
- *     .build()
+ *     .create()
  * ```
  */
 public class TaskStatusBuilder {

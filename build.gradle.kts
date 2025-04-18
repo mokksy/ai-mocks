@@ -30,10 +30,12 @@ subprojects {
 }
 
 dependencies {
-    kover(project(":mokksy"))
+    kover(project(":ai-mocks-a2a"))
+    kover(project(":ai-mocks-a2a-models"))
+    kover(project(":ai-mocks-anthropic"))
     kover(project(":ai-mocks-core"))
     kover(project(":ai-mocks-openai"))
-    kover(project(":ai-mocks-anthropic"))
+    kover(project(":mokksy"))
 }
 
 kover {
@@ -41,12 +43,13 @@ kover {
 
         total {
             xml
+            html
         }
 
         verify {
             rule {
                 bound {
-                    minValue = 65
+                    minValue = 70
                 }
             }
         }
@@ -62,6 +65,8 @@ rewrite {
 //        "org.openrewrite.kotlin.format.AutoFormat",
         "org.openrewrite.gradle.MigrateToGradle8",
         "org.openrewrite.gradle.RemoveRedundantDependencyVersions",
+        "org.openrewrite.kotlin.cleanup.RemoveLambdaArgumentParentheses",
+        "org.openrewrite.kotlin.cleanup.UnnecessaryTypeParentheses",
     )
     isExportDatatables = true
 }

@@ -1,14 +1,12 @@
-import org.jetbrains.dokka.gradle.tasks.DokkaGenerateTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("plugin.serialization") apply true
     alias(libs.plugins.kover) apply true
     `kotlin-convention`
     `publish-convention`
-    id("org.openapi.generator") version "7.12.0"
+    // id("org.openapi.generator") version "7.12.0"
 }
 
+/*
 tasks.withType<KotlinCompile> {
     dependsOn(tasks.openApiGenerate)
 }
@@ -71,17 +69,18 @@ openApiGenerate {
         ),
     )
 }
-
+*/
 kotlin {
 
     sourceSets {
         commonMain {
+            /*
             val generatedDir =
                 layout.buildDirectory.dir(
                     "generated-sources/src/commonMain/kotlin",
                 )
             kotlin.srcDir(generatedDir)
-
+             */
             dependencies {
                 api(project(":ai-mocks-core"))
                 api(libs.ktor.serialization.kotlinx.json)

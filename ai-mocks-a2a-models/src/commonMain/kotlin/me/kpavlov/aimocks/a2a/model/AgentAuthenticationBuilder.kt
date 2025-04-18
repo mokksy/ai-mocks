@@ -11,7 +11,7 @@ package me.kpavlov.aimocks.a2a.model
  * val auth = AgentAuthenticationBuilder()
  *     .schemes(listOf("oauth2", "api_key"))
  *     .credentials("some-credentials-info")
- *     .build()
+ *     .create()
  * ```
  */
 public class AgentAuthenticationBuilder {

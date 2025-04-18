@@ -11,7 +11,7 @@ package me.kpavlov.aimocks.a2a.model
  *         mimeType = "text/plain"
  *         bytes = "Hello World".encodeToByteArray()
  *     }
- * }.build()
+ * }.create()
  * ```
  */
 public class FilePartBuilder {

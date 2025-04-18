@@ -11,7 +11,7 @@ package me.kpavlov.aimocks.a2a.model
  * val provider = AgentProviderBuilder()
  *     .organization("Example Organization")
  *     .url("https://example.org")
- *     .build()
+ *     .create()
  * ```
  */
 public class AgentProviderBuilder {

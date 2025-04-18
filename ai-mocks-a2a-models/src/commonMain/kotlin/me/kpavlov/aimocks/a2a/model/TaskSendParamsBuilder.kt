@@ -20,7 +20,7 @@ package me.kpavlov.aimocks.a2a.model
  *         token = "auth-token"
  *     }
  *     .historyLength(10)
- *     .build()
+ *     .create()
  * ```
  */
 public class TaskSendParamsBuilder {
@@ -37,7 +37,7 @@ public class TaskSendParamsBuilder {
      * @param init The lambda to configure the message.
      */
     public fun message(init: MessageBuilder.() -> Unit) {
-        this.message = Message.build(init)
+        this.message = Message.create(init)
     }
 
     /**

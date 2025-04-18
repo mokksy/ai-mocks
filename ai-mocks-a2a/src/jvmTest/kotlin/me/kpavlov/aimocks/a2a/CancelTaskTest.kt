@@ -39,12 +39,13 @@ internal class CancelTaskTest : AbstractTest() {
             val response =
                 a2aClient
                     .post("/") {
-                        val jsonRpcRequest = cancelTaskRequest {
-                            id = "1"
-                            params {
-                                id = UUID.randomUUID().toString()
+                        val jsonRpcRequest =
+                            cancelTaskRequest {
+                                id = "1"
+                                params {
+                                    id = UUID.randomUUID().toString()
+                                }
                             }
-                        }
                         contentType(ContentType.Application.Json)
                         setBody(Json.encodeToString(jsonRpcRequest))
                     }.call
