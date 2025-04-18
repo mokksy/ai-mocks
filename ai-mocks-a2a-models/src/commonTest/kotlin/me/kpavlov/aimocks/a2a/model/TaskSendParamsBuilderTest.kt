@@ -9,7 +9,7 @@ internal class TaskSendParamsBuilderTest {
     @Test
     fun `should build TaskSendParams with minimal parameters`() {
         // when
-        val params = TaskSendParams.build {
+        val params = TaskSendParams.create {
             id = "task-123"
             message {
                 role = Message.Role.user
