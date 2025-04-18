@@ -9,15 +9,17 @@ package me.kpavlov.aimocks.a2a.model
  * Example usage:
  * ```kotlin
  * val message = MessageBuilder()
- *     .role(Message.Role.user)
- *     .addPart(textPartBuilder.build())
- *     .build()
+ *     .apply {
+ *         role = Message.Role.user
+ *         parts.add(textPartBuilder.create())
+ *     }
+ *     .create()
  * ```
  */
 public class MessageBuilder {
-    private var role: Message.Role? = null
-    private var parts: MutableList<Part> = mutableListOf()
-    private var metadata: Metadata? = null
+    public var role: Message.Role? = null
+    public var parts: MutableList<Part> = mutableListOf()
+    public var metadata: Metadata? = null
 
     /**
      * Sets the role of the message.
@@ -27,17 +29,6 @@ public class MessageBuilder {
      */
     public fun role(role: Message.Role): MessageBuilder {
         this.role = role
-        return this
-    }
-
-    /**
-     * Sets the parts of the message.
-     *
-     * @param parts The list of parts that make up the message.
-     * @return This builder instance for method chaining.
-     */
-    public fun parts(parts: List<Part>): MessageBuilder {
-        this.parts = parts.toMutableList()
         return this
     }
 
@@ -52,22 +43,20 @@ public class MessageBuilder {
         return this
     }
 
-    /**
-     * Sets the metadata of the message.
-     *
-     * @param metadata The metadata associated with the message.
-     * @return This builder instance for method chaining.
-     */
-    public fun metadata(metadata: Metadata): MessageBuilder {
-        this.metadata = metadata
-        return this
-    }
+    public fun textPart(block: TextPartBuilder.() -> Unit): TextPart =
+        TextPartBuilder().apply(block).build()
+
+    public fun filePart(block: FilePartBuilder.() -> Unit): FilePart =
+        FilePartBuilder().apply(block).build()
+
+    public fun dataPart(block: DataPartBuilder.() -> Unit): DataPart =
+        DataPartBuilder().apply(block).build()
 
     /**
      * Builds a [Message] instance with the configured parameters.
      *
      * @return A new [Message] instance.
-     * @throws IllegalArgumentException If required parameters are missing.
+     * @throws IllegalArgumentException If required, parameters are missing.
      */
     public fun build(): Message {
         requireNotNull(role) { "Role is required" }

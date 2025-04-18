@@ -3,27 +3,28 @@ package me.kpavlov.aimocks.a2a
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import io.ktor.client.plugins.sse.*
-import io.ktor.http.*
-import io.ktor.http.content.*
-import io.ktor.utils.io.*
+import io.ktor.client.plugins.sse.sse
+import io.ktor.http.ContentType
+import io.ktor.http.HttpMethod
+import io.ktor.http.content.TextContent
+import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Clock.System
 import kotlinx.serialization.json.Json
-import me.kpavlov.aimocks.a2a.model.Artifact
 import me.kpavlov.aimocks.a2a.model.Message
 import me.kpavlov.aimocks.a2a.model.SendTaskStreamingRequest
 import me.kpavlov.aimocks.a2a.model.TaskArtifactUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskId
 import me.kpavlov.aimocks.a2a.model.TaskSendParams
-import me.kpavlov.aimocks.a2a.model.TaskStatus
 import me.kpavlov.aimocks.a2a.model.TaskStatusUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TextPart
 import me.kpavlov.aimocks.a2a.model.create
-import java.util.*
+import me.kpavlov.aimocks.a2a.model.taskArtifactUpdateEvent
+import me.kpavlov.aimocks.a2a.model.taskStatusUpdateEvent
+import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
@@ -44,87 +45,80 @@ internal class SendTaskStreamingTest : AbstractTest() {
                 responseFlow =
                     flow {
                         emit(
-                            TaskStatusUpdateEvent(
-                                id = taskId,
-                                status = TaskStatus(state = "working", timestamp = System.now()),
-                            ),
-                        )
-                        emit(
-                            TaskArtifactUpdateEvent.create {
+                            taskStatusUpdateEvent {
                                 id = taskId
-                                artifact =
-                                    Artifact(
-                                        name = "joke",
-                                        parts =
-                                            listOf(
-                                                TextPart(
-                                                    text = "This",
-                                                ),
-                                            ),
-                                        append = false,
-                                    )
+                                status {
+                                    state = "working"
+                                    timestamp = System.now()
+                                }
                             },
                         )
                         emit(
-                            TaskArtifactUpdateEvent.create {
+                            taskArtifactUpdateEvent {
                                 id = taskId
-                                artifact =
-                                    Artifact(
-                                        name = "joke",
-                                        parts =
-                                            listOf(
-                                                TextPart(
-                                                    text = "is",
-                                                ),
-                                            ),
-                                        append = false,
-                                    )
+                                artifact {
+                                    name = "joke"
+                                    parts +=
+                                        textPart {
+                                            text = "This"
+                                        }
+                                }
                             },
                         )
                         emit(
-                            TaskArtifactUpdateEvent.create {
+                            taskArtifactUpdateEvent {
                                 id = taskId
-                                artifact =
-                                    Artifact(
-                                        name = "joke",
-                                        parts =
-                                            listOf(
-                                                TextPart(
-                                                    text = "a",
-                                                ),
-                                            ),
-                                        append = false,
-                                    )
+                                artifact {
+                                    name = "joke"
+                                    parts +=
+                                        textPart {
+                                            text = "is"
+                                        }
+                                    append = true
+                                }
                             },
                         )
                         emit(
-                            TaskArtifactUpdateEvent.create {
+                            taskArtifactUpdateEvent {
                                 id = taskId
-                                artifact =
-                                    Artifact(
-                                        name = "joke",
-                                        parts =
-                                            listOf(
-                                                TextPart(
-                                                    text = "joke!",
-                                                ),
-                                            ),
-                                        append = false,
-                                        lastChunk = true,
-                                    )
+                                artifact {
+                                    name = "joke"
+                                    parts +=
+                                        textPart {
+                                            text = "a"
+                                        }
+                                    append = true
+                                }
                             },
                         )
                         emit(
-                            TaskStatusUpdateEvent(
-                                id = taskId,
-                                status = TaskStatus(state = "completed", timestamp = System.now()),
-                                final = true,
-                            ),
+                            taskArtifactUpdateEvent {
+                                id = taskId
+                                artifact {
+                                    name = "joke"
+                                    parts +=
+                                        textPart {
+                                            text = "joke!"
+                                        }
+                                    append = true
+                                    lastChunk = true
+                                }
+                            },
+                        )
+                        emit(
+                            taskStatusUpdateEvent {
+                                id = taskId
+                                status {
+                                    state = "completed"
+                                    timestamp = System.now()
+                                }
+                                final = true
+                            },
                         )
                     }
             }
 
-            var collectedEvents = ConcurrentLinkedQueue<TaskUpdateEvent>()
+            val collectedEvents = ConcurrentLinkedQueue<TaskUpdateEvent>()
             a2aClient.sse(
                 request = {
                     url { a2aServer.baseUrl() }
@@ -135,16 +129,13 @@ internal class SendTaskStreamingTest : AbstractTest() {
                             params =
                                 TaskSendParams.create {
                                     id = UUID.randomUUID().toString()
-                                    message =
-                                        Message(
-                                            role = Message.Role.user,
-                                            parts =
-                                                listOf(
-                                                    TextPart(
-                                                        text = "Tell me a joke",
-                                                    ),
-                                                ),
-                                        )
+                                    message {
+                                        role = Message.Role.user
+                                        parts +=
+                                            textPart {
+                                                text = "Tell me a joke"
+                                            }
+                                    }
                                 },
                         )
                     body =
@@ -183,6 +174,16 @@ internal class SendTaskStreamingTest : AbstractTest() {
                 it.status.state shouldBe "completed"
                 it.status.timestamp.shouldNotBeNull()
             }
+            val joke =
+                collectedEvents
+                    .filter { it is TaskArtifactUpdateEvent }
+                    .map { it as TaskArtifactUpdateEvent }
+                    .filter { it.artifact.name == "joke" }
+                    .map { it.artifact.parts[0] as TextPart }
+                    .map { it.text }
+                    .toList()
+                    .joinToString(separator = " ")
+            joke shouldBe "This is a joke!"
         }
 
     private fun handleEvent(event: TaskUpdateEvent): Boolean {

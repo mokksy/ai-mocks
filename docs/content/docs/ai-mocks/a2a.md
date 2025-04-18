@@ -1,8 +1,6 @@
----
 title: "Agent2Agent Protocol"
 #weight: 50
 toc: true
----
 
 [MockAgentServer](https://github.com/kpavlov/ai-mocks/blob/main/ai-mocks-a2a/src/commonMain/kotlin/me/kpavlov/aimocks/a2a/MockAgentServer.kt) provides a local mock server for simulating [A2A (Agent-to-Agent) API endpoints](https://google.github.io/A2A/). It simplifies testing by allowing you to define request expectations and responses without making real network calls.
 
@@ -87,16 +85,14 @@ val agentCard = AgentCard.create {
         pushNotifications = true
         stateTransitionHistory = true
     }
-    skills = listOf(
-        AgentSkill.create {
-            id = "walk"
-            name = "Walk the walk"
-        },
-        AgentSkill.create {
-            id = "talk"
-            name = "Talk the talk"
-        },
-    )
+    skills += skill {
+        id = "walk"
+        name = "Walk the walk"
+      }
+    skills += skill {
+        id = "talk"
+        name = "Talk the talk"
+    }
 }
 
 // Configure the mock server to respond with the AgentCard
@@ -132,21 +128,17 @@ a2aServer.getTask() responds {
     id = 1
     result {
         id = "tid_12345"
-        sessionId = null
+        sessionId = "de38c76d-d54c-436c-8b9f-4c2703648d64"
         status {
             state = "completed"
         }
-        artifacts = listOf(
-            Artifact(
-                name = "joke",
-                parts = listOf(
-                    TextPart(
-                        text = "This is a joke",
-                    ),
-                ),
-            ),
-        )
-    }
+        artifacts += artifact {
+            name = "joke"
+            parts += textPart {
+                text = "This is a joke"
+            }
+        }
+    } 
 }
 ```
 
@@ -188,18 +180,12 @@ val task = Task.create {
     status {
         state("completed")
     }
-    artifacts(
-        listOf(
-            Artifact.build {
-                name("joke")
-                addPart(
-                    TextPart(
-                        text = "This is a joke",
-                    ),
-                )
-            },
-        ),
-    )
+    artifacts += artifact {
+        name = "joke"
+        parts += textPart {
+            text = "This is a joke"
+        }
+    }
 }
 
 // Configure the mock server to respond with the task
@@ -213,20 +199,18 @@ Client call example:
 
 ```kotlin
 // Create a SendTaskRequest object
-val jsonRpcRequest = SendTaskRequest(
-    id = "1",
-    params = TaskSendParams.create {
+val jsonRpcRequest = SendTaskRequest.create {
+    id = "1"
+    params {
         id = UUID.randomUUID().toString()
-        message = Message(
-            role = Message.Role.user,
-            parts = listOf(
-                TextPart(
-                    text = "Tell me a joke",
-                ),
-            ),
-        )
-    },
-)
+        message {
+            role = Message.Role.user
+            parts += textPart {
+                text = "Tell me a joke"
+            }
+        }
+    }
+}
 
 // Make a POST request to the Send Task endpoint
 val response = a2aClient
@@ -254,76 +238,73 @@ val taskId = "task_12345"
 a2aServer.sendTaskStreaming() responds {
     delayBetweenChunks = 1.seconds
     responseFlow = flow {
-        emit(
-            TaskStatusUpdateEvent(
-                id = taskId,
-                status = TaskStatus(state = "working", timestamp = System.now()),
-            ),
-        )
-        emit(
-            TaskArtifactUpdateEvent.create {
-                id = taskId
-                artifact = Artifact(
-                    name = "joke",
-                    parts = listOf(
-                        TextPart(
-                            text = "This",
-                        ),
-                    ),
-                    append = false,
-                )
-            },
-        )
-        emit(
-            TaskArtifactUpdateEvent.create {
-                id = taskId
-                artifact = Artifact(
-                    name = "joke",
-                    parts = listOf(
-                        TextPart(
-                            text = "is",
-                        ),
-                    ),
-                    append = false,
-                )
-            },
-        )
-        emit(
-            TaskArtifactUpdateEvent.create {
-                id = taskId
-                artifact = Artifact(
-                    name = "joke",
-                    parts = listOf(
-                        TextPart(
-                            text = "a",
-                        ),
-                    ),
-                    append = false,
-                )
-            },
-        )
-        emit(
-            TaskArtifactUpdateEvent.create {
-                id = taskId
-                artifact = Artifact(
-                    name = "joke",
-                    parts = listOf(
-                        TextPart(
-                            text = "joke!",
-                        ),
-                    ),
-                    append = false,
-                    lastChunk = true,
-                )
-            },
-        )
-        emit(
-            TaskStatusUpdateEvent(
-                id = taskId,
-                status = TaskStatus(state = "completed", timestamp = System.now()),
-                final = true,
-            ),
-        )
+      emit(
+        taskStatusUpdateEvent {
+          id = taskId
+          status {
+            state = "working"
+            timestamp = System.now()
+          }
+        }
+      )
+      emit(
+        taskArtifactUpdateEvent {
+          id = taskId
+          artifact {
+            name = "joke"
+            parts += textPart {
+              text = "This"
+            }
+          }
+        },
+      )
+      emit(
+        taskArtifactUpdateEvent {
+          id = taskId
+          artifact {
+            name = "joke"
+            parts += textPart {
+              text = "is"
+            }
+            append = true
+          }
+        },
+      )
+      emit(
+        taskArtifactUpdateEvent {
+          id = taskId
+          artifact {
+            name = "joke"
+            parts += textPart {
+              text = "a"
+            }
+            append = true
+          }
+        },
+      )
+      emit(
+        taskArtifactUpdateEvent {
+          id = taskId
+          artifact {
+            name = "joke"
+            parts += textPart {
+              text = "joke!"
+            }
+            append = true
+            lastChunk = true
+          }
+        },
+      )
+      emit(
+        taskStatusUpdateEvent {
+          id = taskId
+          status {
+            state = "completed"
+            timestamp = System.now()
+          }
+          final = true
+        }
+      )
     }
 }
 ```

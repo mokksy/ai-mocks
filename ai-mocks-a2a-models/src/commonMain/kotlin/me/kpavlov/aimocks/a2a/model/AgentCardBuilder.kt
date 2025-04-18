@@ -11,7 +11,7 @@ public class AgentCardBuilder {
     public var authentication: AgentAuthentication? = null
     public var defaultInputModes: List<String> = listOf("text")
     public var defaultOutputModes: List<String> = listOf("text")
-    public var skills: List<AgentSkill>? = null
+    public var skills: MutableList<AgentSkill> = mutableListOf()
 
     public fun build(validate: Boolean = false): AgentCard {
         if (validate) {
@@ -19,7 +19,6 @@ public class AgentCardBuilder {
             requireNotNull(url) { "url must not be null" }
             requireNotNull(version) { "version must not be null" }
             requireNotNull(capabilities) { "capabilities must not be null" }
-            requireNotNull(skills) { "skills must not be null" }
         }
         return AgentCard(
             name = name!!,
@@ -32,9 +31,12 @@ public class AgentCardBuilder {
             authentication = authentication,
             defaultInputModes = defaultInputModes,
             defaultOutputModes = defaultOutputModes,
-            skills = skills!!,
+            skills = skills,
         )
     }
+
+    public fun skill(block: AgentSkillBuilder.() -> Unit): AgentSkill =
+        AgentSkillBuilder().apply(block).build()
 
     public fun provider(block: AgentProviderBuilder.() -> Unit) {
         provider = AgentProviderBuilder().apply(block).build()

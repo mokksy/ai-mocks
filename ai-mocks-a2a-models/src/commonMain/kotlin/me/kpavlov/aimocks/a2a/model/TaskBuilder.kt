@@ -4,7 +4,7 @@ public class TaskBuilder {
     public var id: String? = null
     public var sessionId: String? = null
     public var status: TaskStatus? = null
-    public var artifacts: List<Artifact>? = null
+    public var artifacts: MutableList<Artifact> = mutableListOf()
     public var metadata: Metadata? = null
 
     /**
@@ -47,7 +47,7 @@ public class TaskBuilder {
      * @return This builder instance for method chaining.
      */
     public fun artifacts(artifacts: List<Artifact>): TaskBuilder {
-        this.artifacts = artifacts
+        this.artifacts = artifacts.toMutableList()
         return this
     }
 
@@ -58,11 +58,7 @@ public class TaskBuilder {
      * @return This builder instance for method chaining.
      */
     public fun addArtifact(artifact: Artifact): TaskBuilder {
-        if (this.artifacts == null) {
-            this.artifacts = mutableListOf(artifact)
-        } else {
-            (this.artifacts as MutableList<Artifact>).add(artifact)
-        }
+        this.artifacts.add(artifact)
         return this
     }
 
@@ -94,6 +90,9 @@ public class TaskBuilder {
     public fun status(block: TaskStatusBuilder.() -> Unit) {
         status = TaskStatusBuilder().apply(block).build()
     }
+
+    public fun artifact(block: ArtifactBuilder.() -> Unit): Artifact =
+        ArtifactBuilder().apply(block).build()
 }
 
 /**

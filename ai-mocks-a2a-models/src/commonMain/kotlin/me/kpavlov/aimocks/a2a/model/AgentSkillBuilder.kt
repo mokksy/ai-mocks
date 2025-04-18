@@ -16,7 +16,7 @@ package me.kpavlov.aimocks.a2a.model
  *     .examples(listOf("Example usage 1", "Example usage 2"))
  *     .inputModes(listOf("text"))
  *     .outputModes(listOf("text"))
- *     .build()
+ *     .create()
  * ```
  */
 public class AgentSkillBuilder {

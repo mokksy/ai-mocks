@@ -57,4 +57,4 @@ public class SendTaskRequestBuilder {
  */
 public fun SendTaskRequest.Companion.create(
     block: SendTaskRequestBuilder.() -> Unit,
-): SendTaskRequest = build(block)
+): SendTaskRequest = create(block)

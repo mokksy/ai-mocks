@@ -22,4 +22,6 @@ public data class DataPart(
     val data: Map<String, @Contextual Any>,
     @SerialName("metadata")
     val metadata: Metadata? = null,
-) : Part
+) : Part {
+    public companion object
+}
