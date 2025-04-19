@@ -16,30 +16,32 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class Message(
-    @SerialName("role")
-    val role: Role,
-    @SerialName("parts")
-    val parts: List<Part>,
-    @Contextual
-    @SerialName("metadata")
-    val metadata: Metadata? = null,
-) {
-    @Suppress("EnumEntryName")
-    @Serializable
-    public enum class Role {
-        user,
-        agent,
-    }
+public data class Message
+    @JvmOverloads
+    constructor(
+        @SerialName("role")
+        val role: Role,
+        @SerialName("parts")
+        val parts: List<Part>,
+        @Contextual
+        @SerialName("metadata")
+        val metadata: Metadata? = null,
+    ) {
+        @Suppress("EnumEntryName")
+        @Serializable
+        public enum class Role {
+            user,
+            agent,
+        }
 
-    public companion object {
-        /**
-         * Creates a new Message using the DSL builder.
-         *
-         * @param init The lambda to configure the message.
-         * @return A new Message instance.
-         */
-        public fun create(init: MessageBuilder.() -> Unit): Message =
-            MessageBuilder().apply(init).build()
+        public companion object {
+            /**
+             * Creates a new Message using the DSL builder.
+             *
+             * @param init The lambda to configure the message.
+             * @return A new Message instance.
+             */
+            public fun create(init: MessageBuilder.() -> Unit): Message =
+                MessageBuilder().apply(init).build()
+        }
     }
-}

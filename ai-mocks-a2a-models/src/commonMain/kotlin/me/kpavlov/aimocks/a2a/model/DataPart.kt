@@ -17,11 +17,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("data")
-public data class DataPart(
-    @SerialName("data")
-    val data: Map<String, @Contextual Any>,
-    @SerialName("metadata")
-    val metadata: Metadata? = null,
-) : Part {
-    public companion object
-}
+public data class DataPart
+    @JvmOverloads
+    constructor(
+        @SerialName("data")
+        val data: Map<String, @Contextual Any>,
+        @SerialName("metadata")
+        val metadata: Metadata? = null,
+    ) : Part {
+        public companion object
+    }

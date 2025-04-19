@@ -16,18 +16,22 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class TaskStatusUpdateEvent(
-    @SerialName("id")
-    val id: TaskId,
-    @SerialName("status")
-    val status: TaskStatus,
-    @SerialName("final")
-    @EncodeDefault
-    val final: Boolean = false,
-    @SerialName("metadata")
-    val metadata: Metadata? = null,
-) : TaskUpdateEvent {
-    override fun id(): TaskId = id
+public data class TaskStatusUpdateEvent
+    @JvmOverloads
+    constructor(
+        @SerialName("id")
+        val id: TaskId,
+        @SerialName("status")
+        val status: TaskStatus,
+        @SerialName("final")
+        @EncodeDefault
+        val final: Boolean = false,
+        @SerialName("metadata")
+        val metadata: Metadata? = null,
+    ) : TaskUpdateEvent {
+        override fun id(): TaskId = id
 
-    public companion object
-}
+        public fun isFinal(): Boolean = final
+
+        public companion object
+    }

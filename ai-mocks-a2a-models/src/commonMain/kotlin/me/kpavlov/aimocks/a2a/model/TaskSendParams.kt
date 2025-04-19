@@ -15,28 +15,30 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class TaskSendParams(
-    @SerialName("id")
-    val id: TaskId,
-    @SerialName("sessionId")
-    val sessionId: SessionId? = null,
-    @SerialName("message")
-    val message: Message,
-    @SerialName("pushNotification")
-    val pushNotification: PushNotificationConfig? = null,
-    @SerialName("historyLength")
-    val historyLength: Long? = null,
-    @SerialName("metadata")
-    val metadata: Metadata? = null,
-) {
-    public companion object {
-        /**
-         * Creates a new TaskSendParams using the DSL builder.
-         *
-         * @param init The lambda to configure the task send params.
-         * @return A new TaskSendParams instance.
-         */
-        public fun build(init: TaskSendParamsBuilder.() -> Unit): TaskSendParams =
-            TaskSendParamsBuilder().apply(init).build()
+public data class TaskSendParams
+    @JvmOverloads
+    constructor(
+        @SerialName("id")
+        val id: TaskId,
+        @SerialName("sessionId")
+        val sessionId: SessionId? = null,
+        @SerialName("message")
+        val message: Message,
+        @SerialName("pushNotification")
+        val pushNotification: PushNotificationConfig? = null,
+        @SerialName("historyLength")
+        val historyLength: Long? = null,
+        @SerialName("metadata")
+        val metadata: Metadata? = null,
+    ) {
+        public companion object {
+            /**
+             * Creates a new TaskSendParams using the DSL builder.
+             *
+             * @param init The lambda to configure the task send params.
+             * @return A new TaskSendParams instance.
+             */
+            public fun build(init: TaskSendParamsBuilder.() -> Unit): TaskSendParams =
+                TaskSendParamsBuilder().apply(init).build()
+        }
     }
-}

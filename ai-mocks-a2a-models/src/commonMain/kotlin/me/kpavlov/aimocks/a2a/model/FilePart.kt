@@ -5,11 +5,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("file")
-public data class FilePart(
-    @SerialName("file")
-    val file: FileContent,
-    @SerialName("metadata")
-    val metadata: Metadata? = null,
-) : Part {
-    public companion object
-}
+public data class FilePart
+    @JvmOverloads
+    constructor(
+        @SerialName("file")
+        val file: FileContent,
+        @SerialName("metadata")
+        val metadata: Metadata? = null,
+    ) : Part {
+        public companion object
+    }

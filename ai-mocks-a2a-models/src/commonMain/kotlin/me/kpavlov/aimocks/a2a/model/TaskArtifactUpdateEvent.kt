@@ -15,15 +15,17 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class TaskArtifactUpdateEvent(
-    @SerialName("id")
-    val id: TaskId,
-    @SerialName("artifact")
-    val artifact: Artifact,
-    @SerialName("metadata")
-    val metadata: Metadata? = null,
-) : TaskUpdateEvent {
-    override fun id(): TaskId = id
+public data class TaskArtifactUpdateEvent
+    @JvmOverloads
+    constructor(
+        @SerialName("id")
+        val id: TaskId,
+        @SerialName("artifact")
+        val artifact: Artifact,
+        @SerialName("metadata")
+        val metadata: Metadata? = null,
+    ) : TaskUpdateEvent {
+        override fun id(): TaskId = id
 
-    public companion object
-}
+        public companion object
+    }

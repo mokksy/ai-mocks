@@ -16,9 +16,18 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("text")
-public data class TextPart(
-    @SerialName("text")
-    val text: String,
-    @SerialName("metadata")
-    val metadata: Metadata? = null,
-) : Part
+public data class TextPart
+    @JvmOverloads
+    constructor(
+        @SerialName("text")
+        val text: String,
+        @SerialName("metadata")
+        val metadata: Metadata? = null,
+    ) : Part {
+        override fun toString(): String =
+            if (metadata == null) {
+                "TextPart(text='$text')"
+            } else {
+                "TextPart(text='$text', metadata=$metadata)"
+            }
+    }

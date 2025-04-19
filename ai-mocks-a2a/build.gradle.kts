@@ -36,6 +36,7 @@ kotlin {
             dependencies {
                 implementation(libs.ktor.server.netty)
                 implementation(libs.ktor.serialization.jackson)
+                api(libs.kotlinx.coroutines.reactor)
             }
         }
 
