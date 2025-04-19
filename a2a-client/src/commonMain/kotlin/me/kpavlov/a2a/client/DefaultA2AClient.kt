@@ -3,16 +3,17 @@ package me.kpavlov.a2a.client
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.sse.sse
+import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
-import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
+import me.kpavlov.aimocks.a2a.model.A2ARequest
 import me.kpavlov.aimocks.a2a.model.AgentCard
 import me.kpavlov.aimocks.a2a.model.CancelTaskRequest
 import me.kpavlov.aimocks.a2a.model.CancelTaskResponse
@@ -52,23 +53,16 @@ public class DefaultA2AClient(
             ignoreUnknownKeys = true
             isLenient = true
         },
+    private val requestConfigurer: HttpRequestBuilder.() -> Unit = { },
 ) : A2AClient {
-    /**
-     * Gets the agent card from the server.
-     *
-     * @return The agent card.
-     */
+
     override suspend fun getAgentCard(): AgentCard {
-        val response = httpClient.get("$baseUrl/.well-known/agent.json")
+        val response = httpClient.get("$baseUrl/.well-known/agent.json") {
+            requestConfigurer.invoke(this)
+        }
         return response.body<AgentCard>()
     }
 
-    /**
-     * Sends a task to the server.
-     *
-     * @param params The parameters for sending the task.
-     * @return The response containing the task.
-     */
     override suspend fun sendTask(params: TaskSendParams): SendTaskResponse {
         val request =
             SendTaskRequest.create {
@@ -84,18 +78,12 @@ public class DefaultA2AClient(
             httpClient.post(baseUrl) {
                 contentType(ContentType.Application.Json)
                 setBody(json.encodeToString(SendTaskRequest.serializer(), request))
+                requestConfigurer.invoke(this)
             }
 
         return response.body<SendTaskResponse>()
     }
 
-    /**
-     * Gets a task from the server.
-     *
-     * @param id The ID of the task to get.
-     * @param historyLength The number of history items to include (optional).
-     * @return The response containing the task.
-     */
     override suspend fun getTask(
         id: TaskId,
         historyLength: Int?,
@@ -117,17 +105,12 @@ public class DefaultA2AClient(
             httpClient.post(baseUrl) {
                 contentType(ContentType.Application.Json)
                 setBody(request)
+                requestConfigurer.invoke(this)
             }
 
         return response.body<GetTaskResponse>()
     }
 
-    /**
-     * Cancels a task on the server.
-     *
-     * @param id The ID of the task to cancel.
-     * @return The response containing the canceled task.
-     */
     override suspend fun cancelTask(id: TaskId): CancelTaskResponse {
         val request =
             CancelTaskRequest(
@@ -145,18 +128,12 @@ public class DefaultA2AClient(
             httpClient.post(baseUrl) {
                 contentType(ContentType.Application.Json)
                 setBody(request)
+                requestConfigurer.invoke(this)
             }
 
         return response.body<CancelTaskResponse>()
     }
 
-    /**
-     * Sets push notification configuration for a task.
-     *
-     * @param id The ID of the task.
-     * @param config The push notification configuration.
-     * @return The response containing the push notification configuration.
-     */
     override suspend fun setTaskPushNotification(
         id: TaskId,
         config: PushNotificationConfig,
@@ -181,17 +158,12 @@ public class DefaultA2AClient(
             httpClient.post(baseUrl) {
                 contentType(ContentType.Application.Json)
                 setBody(request)
+                requestConfigurer.invoke(this)
             }
 
         return response.body<SetTaskPushNotificationResponse>()
     }
 
-    /**
-     * Gets the push notification configuration for a task.
-     *
-     * @param id The ID of the task.
-     * @return The response containing the push notification configuration.
-     */
     override suspend fun getTaskPushNotification(id: TaskId): GetTaskPushNotificationResponse {
         val request =
             GetTaskPushNotificationRequest(
@@ -212,18 +184,12 @@ public class DefaultA2AClient(
             httpClient.post(baseUrl) {
                 contentType(ContentType.Application.Json)
                 setBody(request)
+                requestConfigurer.invoke(this)
             }
 
         return response.body<GetTaskPushNotificationResponse>()
     }
 
-    /**
-     * Sends a task to the server and subscribes to streaming updates.
-     *
-     * @param params The parameters for sending the task.
-     * @return A flow of task update events.
-     */
-    @OptIn(InternalAPI::class)
     override fun sendTaskStreaming(params: TaskSendParams): Flow<TaskUpdateEvent> {
         val payload =
             SendTaskStreamingRequest(
@@ -235,11 +201,24 @@ public class DefaultA2AClient(
     }
 
     public override fun sendTaskStreaming(request: SendTaskStreamingRequest): Flow<TaskUpdateEvent> {
-        return receiveTaskUpdateEvents(request)
+        return receiveTaskUpdateEvents(request, requestConfigurer)
     }
 
-    private inline fun <reified T> receiveTaskUpdateEvents(
+    override fun resubscribeToTask(id: TaskId): Flow<TaskUpdateEvent> {
+        val request = TaskResubscriptionRequest(
+            id = "1",
+            params = TaskQueryParams(id = id),
+        )
+        return receiveTaskUpdateEvents(request, requestConfigurer)
+    }
+
+    override fun close() {
+        httpClient.close()
+    }
+
+    private inline fun <reified T : A2ARequest> receiveTaskUpdateEvents(
         request: T,
+        crossinline configurer: HttpRequestBuilder.() -> Unit,
     ): Flow<TaskUpdateEvent> = flow {
         httpClient.sse(
             request = {
@@ -247,6 +226,7 @@ public class DefaultA2AClient(
                 method = HttpMethod.Post
                 contentType(ContentType.Application.Json)
                 setBody(request)
+                configurer.invoke(this)
             },
         ) {
             var reading = true
@@ -266,27 +246,5 @@ public class DefaultA2AClient(
                 }
             }
         }
-    }
-
-    /**
-     * Resubscribes to streaming updates for a task.
-     *
-     * @param id The ID of the task.
-     * @return A flow of task update events.
-     */
-    @OptIn(InternalAPI::class)
-    override fun resubscribeToTask(id: TaskId): Flow<TaskUpdateEvent> {
-        val payload = TaskResubscriptionRequest(
-            id = "1",
-            params = TaskQueryParams(id = id),
-        )
-        return receiveTaskUpdateEvents(payload)
-    }
-
-    /**
-     * Closes the client and releases resources.
-     */
-    override fun close() {
-        httpClient.close()
     }
 }

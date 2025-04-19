@@ -29,7 +29,7 @@ public data class SendTaskStreamingRequest(
     val method: String = "tasks/sendSubscribe",
     @SerialName("params")
     val params: TaskSendParams,
-) {
+) : A2ARequest {
     init {
         require(jsonrpc == "2.0") { "jsonrpc not constant value 2.0 - $jsonrpc" }
         require(method == "tasks/sendSubscribe") {
