@@ -31,12 +31,12 @@ public class TaskStatusUpdateEventBuilder {
         return this
     }
 
-    public fun status(block: TaskStatusBuilder.() -> Unit) :TaskStatusUpdateEventBuilder {
+    public fun status(block: TaskStatusBuilder.() -> Unit): TaskStatusUpdateEventBuilder {
         TaskStatusBuilder().apply(block).build().also { status = it }
         return this
     }
 
-    public fun status(block: Consumer<TaskStatusBuilder>) :TaskStatusUpdateEventBuilder {
+    public fun status(block: Consumer<TaskStatusBuilder>): TaskStatusUpdateEventBuilder {
         val builder = TaskStatusBuilder()
         block.accept(builder)
         builder.build().also { status = it }
@@ -59,7 +59,6 @@ public inline fun taskStatusUpdateEvent(
     init: TaskStatusUpdateEventBuilder.() -> Unit,
 ): TaskStatusUpdateEvent = TaskStatusUpdateEventBuilder().apply(init).build()
 
-
 /**
  * Java-friendly top-level DSL function for creating [TaskStatusUpdateEvent].
  */
@@ -70,7 +69,6 @@ public fun taskStatusUpdateEvent(
     init.accept(builder)
     return builder.build()
 }
-
 
 /**
  * DSL extension for [TaskStatusUpdateEvent.Companion].

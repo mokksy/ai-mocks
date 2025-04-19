@@ -15,7 +15,6 @@ public class SendTaskStreamingResponseSpecification(
     public var delayBetweenChunks: Duration = Duration.ZERO,
     public var delay: Duration = Duration.ZERO,
 ) : ResponseSpecification<SendTaskStreamingRequest, String>(response = response) {
-
     /**
      * Java-friendly setter for [responseFlow].
      */
@@ -29,7 +28,6 @@ public class SendTaskStreamingResponseSpecification(
 
     public fun delay(delay: Duration): SendTaskStreamingResponseSpecification =
         apply { this.delay = delay }
-
 
     public fun stream(stream: Stream<TaskUpdateEvent>): SendTaskStreamingResponseSpecification =
         apply { this.responseFlow = stream.consumeAsFlow() }

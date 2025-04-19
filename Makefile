@@ -24,8 +24,7 @@ lint:prepare
 
 # https://docs.openrewrite.org/recipes/maven/bestpractices
 format:prepare
-	./gradlew spotlessApply
-	./gradlew rewriteRun
+	./gradlew spotlessApply rewriteRun
 	ktlint --format "!**/build/**"
 
 prepare:

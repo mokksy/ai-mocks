@@ -17,7 +17,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * Java version of the SendTaskStreamingTest.
- * https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task
+ * See <a href="https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task">A2A: Send a Task</a>
  * <p>
  * This test demonstrates how to set up a Java test for the A2A client.
  * Due to Java-Kotlin interoperability limitations, this test is simplified and doesn't
@@ -27,20 +27,17 @@ class SendTaskStreamingJavaTest extends AbstractJavaTest {
 
     /**
      * This test demonstrates the structure of a test that would send a task streaming request.
-     * Due to Java-Kotlin interoperability limitations, this test is simplified and doesn't
-     * fully replicate the functionality of the Kotlin test.
+     * <p>
+     * The test demonstrates Java-Kotlin interoperability and fully replicate the functionality of the Kotlin test.
      */
     @Test
     public void shouldSendTaskStreaming() throws InterruptedException {
-        // Define the task ID
         String taskId = "task_12345";
         String sessionId = "session_12345";
-        logger.info("Using task ID: {}", taskId);
 
         // 1. Configure the mock server to respond with a stream of events
-        a2aServer.sendTaskStreaming().responds((responseSpec) -> {
+        a2aServer.sendTaskStreaming().responds(responseSpec -> {
 
-            logger.info("Sending task update event");
             final Stream<TaskUpdateEvent> stream = Stream.of(
                 new TaskStatusUpdateEvent(
                     taskId,
@@ -158,8 +155,6 @@ class SendTaskStreamingJavaTest extends AbstractJavaTest {
 
         // 4. Verify the events
         Awaitility.await()
-            .timeout(30, java.util.concurrent.TimeUnit.SECONDS)
-            .pollInterval(100, java.util.concurrent.TimeUnit.MILLISECONDS)
             .untilAsserted(() -> {
                 final var lastEvent = events.peekLast();
                 assertThat(lastEvent).isInstanceOf(TaskStatusUpdateEvent.class);
@@ -175,9 +170,9 @@ class SendTaskStreamingJavaTest extends AbstractJavaTest {
             .map(it -> (TaskArtifactUpdateEvent) it)
             .map(it -> it.getArtifact().getParts().get(0))
             .filter(TextPart.class::isInstance)
-             .map(it->(TextPart) it )
+            .map(it -> (TextPart) it)
             .map(TextPart::getText)
-            .collect(Collectors.joining(" ")) ;
+            .collect(Collectors.joining(" "));
 
         assertThat(replyText).isEqualTo("This is a joke");
     }

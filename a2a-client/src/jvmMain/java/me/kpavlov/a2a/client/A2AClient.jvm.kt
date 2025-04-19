@@ -23,6 +23,7 @@ public fun A2AClient.sendTaskStreamingAsJavaFlow(
     kotlinx.coroutines.GlobalScope.launch {
         client
             .sendTaskStreaming(params)
+            .onEach { publisher.submit(it) }
             .onCompletion { cause: Throwable? ->
                 if (cause != null) {
                     publisher.closeExceptionally(cause)
@@ -30,7 +31,6 @@ public fun A2AClient.sendTaskStreamingAsJavaFlow(
                     publisher.close()
                 }
             }
-            .onEach { publisher.submit(it) }
             .count()
     }
     return publisher
