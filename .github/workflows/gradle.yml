@@ -41,7 +41,7 @@ jobs:
           add-job-summary-as-pr-comment: on-failure # Valid values are 'never' (default), 'always', and 'on-failure'
 
       - name: Build with Gradle
-        run: gradle --no-daemon build dokkaGenerate koverXmlReport
+        run: gradle --no-daemon clean build dokkaGenerate koverXmlReport
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v5
