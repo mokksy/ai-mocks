@@ -82,7 +82,7 @@ public open class ResponseDefinitionBuilder<P : Any, T : Any>(
     headers: MutableList<Pair<String, String>> = mutableListOf(),
 ) : AbstractResponseDefinitionBuilder<P, T>(httpStatus = httpStatus, headers = headers) {
     public override fun build(): ResponseDefinition<P, T> =
-        ResponseDefinition<P, T>(
+        ResponseDefinition(
             body = body,
             contentType = contentType ?: ContentType.Application.Json,
             httpStatus = httpStatus,
@@ -126,7 +126,7 @@ public open class StreamingResponseDefinitionBuilder<P : Any, T>(
      * @return A fully constructed `StreamResponseDefinition` instance containing the configured response details.
      */
     public override fun build(): StreamResponseDefinition<P, T> =
-        StreamResponseDefinition<P, T>(
+        StreamResponseDefinition(
             chunkFlow = flow,
             chunks = chunks.toList(),
             httpStatus = httpStatus,

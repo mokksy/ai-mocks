@@ -13,8 +13,8 @@ abstract class AbstractJavaTest {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     protected final MockAgentServer a2aServer = new MockAgentServer(0, true);
 
-    // Create the client with the baseUrl parameter and a Json object from the JavaTestHelper
-    protected final A2AClient client = A2AClientFactory.create(a2aServer.baseUrl(), null, JavaTestHelper.createJson());
+    // Create the client with the baseUrl parameter set to the mock server's URL
+    protected final A2AClient client = A2AClientFactory.create(a2aServer.baseUrl());
 
     @AfterEach
     public void afterEach() {

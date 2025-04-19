@@ -49,7 +49,7 @@ internal class MokksyStreamingIT : AbstractIT({ createKtorSSEClient(it) }) {
     fun `Should respond to stream of Strings (chunks)`() =
         runTest {
             mokksy.get {
-                path = beEqual("/streaming-chunks")
+                path("/streaming-chunks")
             } respondsWithStream {
                 chunks += "One"
                 chunks += "Two"

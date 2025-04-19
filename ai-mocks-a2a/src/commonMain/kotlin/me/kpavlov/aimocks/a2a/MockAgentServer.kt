@@ -13,7 +13,7 @@ import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.aimocks.core.AbstractMockLlm
 import me.kpavlov.mokksy.ServerConfiguration
 
-public open class MockAgentServer(
+public open class MockAgentServer @JvmOverloads constructor(
     port: Int = 0,
     verbose: Boolean = false,
 ) : AbstractMockLlm(

@@ -35,7 +35,7 @@ internal class BodyMatchingIT : AbstractIT() {
             val expectedResponse = TestPerson.random()
 
             mokksy
-                .post<Input>(name = "predicate", Input::class) {
+                .post(name = "predicate", Input::class) {
                     path("/predicate")
 
                     bodyMatchesPredicate {

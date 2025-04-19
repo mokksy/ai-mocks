@@ -28,7 +28,7 @@ internal class StubComparatorTest {
         request2 = RequestSpecification(priority = 1, requestType = Int::class)
 
         val stub1 =
-            Stub<Int, String>(
+            Stub(
                 configuration = config,
                 requestSpecification = request1,
                 responseDefinitionSupplier = responseDefinitionSupplier,

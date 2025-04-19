@@ -1,6 +1,5 @@
 package me.kpavlov.mokksy
 
-import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
@@ -20,13 +19,13 @@ internal class RemoveAfterUseIT : AbstractIT() {
                             verbose = true,
                         ),
                 ) {
-                    path = beEqual(uri)
+                    path(uri)
                 }.respondsWith(String::class) {
                     body = "🇪🇪 Tere!"
                 }
-            // First request should succeed
+            // The first request should succeed
             client.get(uri).status shouldBe HttpStatusCode.OK
-            // Next request should fail as stub is self-removed
+            // The next request should fail as stub is self-removed
             client.get(uri).status shouldBe HttpStatusCode.NotFound
         }
 }

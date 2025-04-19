@@ -22,7 +22,7 @@ import kotlin.time.Duration
  * @property headers A lambda function for configuring additional response headers using [ResponseHeaders].
  * Defaults to null.
  * @property headerList A list of additional header key-value pairs. Defaults to an empty list.
- * @property delay Delay before response is sent. Default value is zero.
+ * @property delay Delay before the response is sent. The default value is zero.
  */
 public open class ResponseDefinition<P, T>(
     contentType: ContentType = ContentType.Application.Json,

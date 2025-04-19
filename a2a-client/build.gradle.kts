@@ -35,7 +35,7 @@ kotlin {
                 implementation(libs.ktor.client.java)
                 implementation(libs.kotlinx.coroutines.core.jvm)
                 implementation(libs.assertj.core)
-                implementation(libs.awaitility.kotlin)
+                implementation(libs.awaitility)
                 runtimeOnly(libs.slf4j.simple)
             }
         }

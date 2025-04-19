@@ -43,7 +43,7 @@ internal class AgentCardTest : AbstractTest() {
                         }
                 }
 
-            a2aServer.agentCard() responds {
+            a2aServer.agentCard(name = agentCard.name) responds {
                 delay = 1.milliseconds
                 card = agentCard
             }

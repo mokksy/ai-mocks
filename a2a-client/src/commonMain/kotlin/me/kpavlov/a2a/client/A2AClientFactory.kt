@@ -1,6 +1,7 @@
 package me.kpavlov.a2a.client
 
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.DEFAULT
@@ -8,6 +9,7 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.sse.SSE
+import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
@@ -22,6 +24,8 @@ public object A2AClientFactory {
      * @param baseUrl The base URL of the A2A server.
      * @param httpClient An optional HttpClient to use. If not provided, a new one will be created.
      * @param json An optional Json serializer/deserializer to use. If not provided, a new one will be created.
+     * @param defaultRequestConfigurer An optional function to configure the default request.
+     * @param requestConfigurer An optional function to configure each request.
      * @return A new instance of the A2AClient.
      */
     @JvmStatic
@@ -35,6 +39,8 @@ public object A2AClientFactory {
                 isLenient = true
                 prettyPrint = true
             },
+        defaultRequestConfigurer: DefaultRequest.DefaultRequestBuilder.() -> Unit = { },
+        requestConfigurer: HttpRequestBuilder.() -> Unit = { },
     ): A2AClient {
         val client =
             httpClient ?: HttpClient {
@@ -52,6 +58,7 @@ public object A2AClientFactory {
                 defaultRequest {
                     url(baseUrl)
                     headers.append(HttpHeaders.UserAgent, "mokksy-a2a-client")
+                    defaultRequestConfigurer.invoke(this)
                 }
             }
 
@@ -59,6 +66,7 @@ public object A2AClientFactory {
             httpClient = client,
             baseUrl = baseUrl,
             json = json,
+            requestConfigurer = requestConfigurer,
         )
     }
 }
