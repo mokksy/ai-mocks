@@ -5,11 +5,15 @@ import kotlinx.coroutines.flow.Flow
 import me.kpavlov.aimocks.a2a.model.AgentCard
 import me.kpavlov.aimocks.a2a.model.CancelTaskRequest
 import me.kpavlov.aimocks.a2a.model.CancelTaskResponse
+import me.kpavlov.aimocks.a2a.model.GetTaskPushNotificationRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskPushNotificationResponse
 import me.kpavlov.aimocks.a2a.model.GetTaskRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskResponse
 import me.kpavlov.aimocks.a2a.model.PushNotificationConfig
+import me.kpavlov.aimocks.a2a.model.SendTaskRequest
 import me.kpavlov.aimocks.a2a.model.SendTaskResponse
+import me.kpavlov.aimocks.a2a.model.SendTaskStreamingRequest
+import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationRequest
 import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationResponse
 import me.kpavlov.aimocks.a2a.model.TaskId
 import me.kpavlov.aimocks.a2a.model.TaskSendParams
@@ -43,6 +47,8 @@ public interface A2AClient {
      * @return The response containing the task.
      */
     public suspend fun sendTask(params: TaskSendParams): SendTaskResponse
+
+    public suspend fun sendTask(request: SendTaskRequest): SendTaskResponse
 
     /**
      * Gets a task from the server.
@@ -86,6 +92,8 @@ public interface A2AClient {
         config: PushNotificationConfig,
     ): SetTaskPushNotificationResponse
 
+    public suspend fun setTaskPushNotification(request: SetTaskPushNotificationRequest): SetTaskPushNotificationResponse
+
     /**
      * Gets the push notification configuration for a task.
      *
@@ -94,6 +102,8 @@ public interface A2AClient {
      */
     public suspend fun getTaskPushNotification(id: TaskId): GetTaskPushNotificationResponse
 
+    public suspend fun getTaskPushNotification(request: GetTaskPushNotificationRequest): GetTaskPushNotificationResponse
+
     /**
      * Sends a task to the server and subscribes to streaming updates.
      *
@@ -101,6 +111,8 @@ public interface A2AClient {
      * @return A flow of task update events.
      */
     public fun sendTaskStreaming(params: TaskSendParams): Flow<TaskUpdateEvent>
+
+    public fun sendTaskStreaming(request: SendTaskStreamingRequest): Flow<TaskUpdateEvent>
 
     /**
      * Resubscribes to streaming updates for a task.

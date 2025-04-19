@@ -8,7 +8,6 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
-import io.ktor.http.content.TextContent
 import io.ktor.http.contentType
 import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.flow.Flow
@@ -31,6 +30,7 @@ import me.kpavlov.aimocks.a2a.model.TaskId
 import me.kpavlov.aimocks.a2a.model.TaskIdParams
 import me.kpavlov.aimocks.a2a.model.TaskPushNotificationConfig
 import me.kpavlov.aimocks.a2a.model.TaskQueryParams
+import me.kpavlov.aimocks.a2a.model.TaskResubscriptionRequest
 import me.kpavlov.aimocks.a2a.model.TaskSendParams
 import me.kpavlov.aimocks.a2a.model.TaskStatusUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
@@ -76,13 +76,17 @@ public class DefaultA2AClient(
                 this.params = params
             }
 
+        return sendTask(request)
+    }
+
+    public override suspend fun sendTask(request: SendTaskRequest): SendTaskResponse {
         val response =
             httpClient.post(baseUrl) {
                 contentType(ContentType.Application.Json)
                 setBody(json.encodeToString(SendTaskRequest.serializer(), request))
             }
 
-        return response.body<String>().let { json.decodeFromString<SendTaskResponse>(it) }
+        return response.body<SendTaskResponse>()
     }
 
     /**
@@ -167,17 +171,19 @@ public class DefaultA2AClient(
                     ),
             )
 
+        return setTaskPushNotification(request)
+    }
+
+    public override suspend fun setTaskPushNotification(
+        request: SetTaskPushNotificationRequest
+    ): SetTaskPushNotificationResponse {
         val response =
             httpClient.post(baseUrl) {
                 contentType(ContentType.Application.Json)
-                setBody(json.encodeToString(SetTaskPushNotificationRequest.serializer(), request))
+                setBody(request)
             }
 
-        return response.body<String>().let {
-            json.decodeFromString<SetTaskPushNotificationResponse>(
-                it,
-            )
-        }
+        return response.body<SetTaskPushNotificationResponse>()
     }
 
     /**
@@ -196,17 +202,19 @@ public class DefaultA2AClient(
                     ),
             )
 
+        return getTaskPushNotification(request)
+    }
+
+    public override suspend fun getTaskPushNotification(
+        request: GetTaskPushNotificationRequest
+    ): GetTaskPushNotificationResponse {
         val response =
             httpClient.post(baseUrl) {
                 contentType(ContentType.Application.Json)
-                setBody(json.encodeToString(GetTaskPushNotificationRequest.serializer(), request))
+                setBody(request)
             }
 
-        return response.body<String>().let {
-            json.decodeFromString<GetTaskPushNotificationResponse>(
-                it,
-            )
-        }
+        return response.body<GetTaskPushNotificationResponse>()
     }
 
     /**
@@ -223,35 +231,36 @@ public class DefaultA2AClient(
                 params = params,
             )
 
-        return flow {
-            httpClient.sse(
-                request = {
-                    url { baseUrl }
-                    method = HttpMethod.Post
-                    body =
-                        TextContent(
-                            text =
-                                json.encodeToString(
-                                    SendTaskStreamingRequest.serializer(),
-                                    payload,
-                                ),
-                            contentType = ContentType.Application.Json,
-                        )
-                },
-            ) {
-                var reading = true
-                while (reading) {
-                    incoming.collect { event ->
-                        event.data?.let { data ->
-                            val taskEvent = json.decodeFromString<TaskUpdateEvent>(data)
-                            emit(taskEvent)
+        return sendTaskStreaming(payload)
+    }
 
-                            // Check if this is the final event
-                            if (taskEvent is TaskStatusUpdateEvent &&
-                                taskEvent.final
-                            ) {
-                                reading = false
-                            }
+    public override fun sendTaskStreaming(request: SendTaskStreamingRequest): Flow<TaskUpdateEvent> {
+        return receiveTaskUpdateEvents(request)
+    }
+
+    private inline fun <reified T> receiveTaskUpdateEvents(
+        request: T,
+    ): Flow<TaskUpdateEvent> = flow {
+        httpClient.sse(
+            request = {
+                url { baseUrl }
+                method = HttpMethod.Post
+                contentType(ContentType.Application.Json)
+                setBody(request)
+            },
+        ) {
+            var reading = true
+            while (reading) {
+                incoming.collect { event ->
+                    event.data?.let { data ->
+                        val taskEvent = json.decodeFromString<TaskUpdateEvent>(data)
+                        emit(taskEvent)
+
+                        // Check if this is the final event
+                        if (taskEvent is TaskStatusUpdateEvent &&
+                            taskEvent.final
+                        ) {
+                            reading = false
                         }
                     }
                 }
@@ -267,37 +276,11 @@ public class DefaultA2AClient(
      */
     @OptIn(InternalAPI::class)
     override fun resubscribeToTask(id: TaskId): Flow<TaskUpdateEvent> {
-        val payload =
-            """{"jsonrpc":"2.0","id":1,"method":"tasks/resubscribe","params":{"id":"$id"}}"""
-
-        return flow {
-            httpClient.sse(
-                request = {
-                    url { baseUrl }
-                    method = HttpMethod.Post
-                    body =
-                        TextContent(
-                            text = payload,
-                            contentType = ContentType.Application.Json,
-                        )
-                },
-            ) {
-                var reading = true
-                while (reading) {
-                    incoming.collect { event ->
-                        event.data?.let { data ->
-                            val taskEvent = json.decodeFromString<TaskUpdateEvent>(data)
-                            emit(taskEvent)
-
-                            // Check if this is the final event
-                            if (taskEvent is TaskStatusUpdateEvent && taskEvent.final) {
-                                reading = false
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        val payload = TaskResubscriptionRequest(
+            id = "1",
+            params = TaskQueryParams(id = id),
+        )
+        return receiveTaskUpdateEvents(payload)
     }
 
     /**
