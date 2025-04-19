@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class RequestMarchersKtTest {
     private val predicate: (Input?) -> Boolean =
         object : (Input?) -> Boolean {
-            override fun invoke(p1: Input?): Boolean = (p1?.name == "foo") == true
+            override fun invoke(p1: Input?): Boolean = (p1?.name == "foo")
 
             override fun toString(): String = "predicateToString"
         }

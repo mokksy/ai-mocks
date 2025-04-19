@@ -48,32 +48,32 @@ internal class TypesafeMethodsIT : AbstractIT() {
     fun `Should respond to Method`(methodName: String) =
         runTest {
             val method = HttpMethod.parse(methodName)
-            doTestCallMethod<TestPerson>(method) {
-                mokksy.method<TestPerson>(name, method, TestPerson::class, it)
+            doTestCallMethod(method) {
+                mokksy.method(name, method, TestPerson::class, it)
             }
         }
 
     @Test
     fun `Should respond to GET`() =
         runTest {
-            doTestCallMethod<TestPerson>(
+            doTestCallMethod(
                 HttpMethod.Get,
-            ) { mokksy.get<TestPerson>(name, TestPerson::class, it) }
+            ) { mokksy.get(name, TestPerson::class, it) }
         }
 
     @Test
     fun `Should respond to OPTIONS`() =
         runTest {
-            doTestCallMethod<TestPerson>(
+            doTestCallMethod(
                 HttpMethod.Options,
-            ) { mokksy.options<TestPerson>(name, TestPerson::class, it) }
+            ) { mokksy.options(name, TestPerson::class, it) }
         }
 
     @Test
     fun `Should respond to PUT`() =
         runTest {
-            doTestCallMethod<TestPerson>(HttpMethod.Put) {
-                mokksy.put<TestPerson>(
+            doTestCallMethod(HttpMethod.Put) {
+                mokksy.put(
                     name,
                     TestPerson::class,
                     it,
@@ -84,8 +84,8 @@ internal class TypesafeMethodsIT : AbstractIT() {
     @Test
     fun `Should respond to PATCH`() =
         runTest {
-            doTestCallMethod<TestPerson>(HttpMethod.Patch) {
-                mokksy.patch<TestPerson>(
+            doTestCallMethod(HttpMethod.Patch) {
+                mokksy.patch(
                     name,
                     TestPerson::class,
                     it,
@@ -96,8 +96,8 @@ internal class TypesafeMethodsIT : AbstractIT() {
     @Test
     fun `Should respond to DELETE`() =
         runTest {
-            doTestCallMethod<TestPerson>(HttpMethod.Delete) {
-                mokksy.delete<TestPerson>(
+            doTestCallMethod(HttpMethod.Delete) {
+                mokksy.delete(
                     name,
                     TestPerson::class,
                     it,
@@ -108,8 +108,8 @@ internal class TypesafeMethodsIT : AbstractIT() {
     @Test
     fun `Should respond to HEAD`() =
         runTest {
-            doTestCallMethod<TestPerson>(HttpMethod.Head) {
-                mokksy.head<TestPerson>(
+            doTestCallMethod(HttpMethod.Head) {
+                mokksy.head(
                     name,
                     TestPerson::class,
                     it,
@@ -213,7 +213,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
                 """.trimIndent()
 
             mokksy
-                .post<Input>(name = "post", Input::class) {
+                .post(name = "post", Input::class) {
                     path = beEqual("/things")
                     bodyContains("$id")
                 }.respondsWith(String::class) {

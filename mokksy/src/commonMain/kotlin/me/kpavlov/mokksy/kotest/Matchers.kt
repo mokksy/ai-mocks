@@ -14,7 +14,7 @@ import io.kotest.matchers.MatcherResult
  * @return A Matcher instance that evaluates the given condition.
  */
 public fun doesNotContainIgnoringCase(substr: String): Matcher<String?> =
-    Matcher<String?> { value ->
+    Matcher { value ->
         MatcherResult(
             value == null || value.lowercase().indexOf(substr.lowercase()) == -1,
             {
@@ -35,7 +35,7 @@ public fun doesNotContainIgnoringCase(substr: String): Matcher<String?> =
  * @return A Matcher instance that evaluates the given condition.
  */
 public fun doesNotContain(substr: String): Matcher<String?> =
-    Matcher<String?> { value ->
+    Matcher { value ->
         MatcherResult(
             value == null || value.indexOf(substr) == -1,
             {

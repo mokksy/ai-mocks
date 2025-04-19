@@ -53,11 +53,11 @@ public class BuildingStep<P : Any> internal constructor(
      */
     public infix fun <T : Any> respondsWith(block: ResponseDefinitionBuilder<P, T>.() -> Unit) {
         val stub =
-            Stub<P, T>(
+            Stub(
                 configuration = configuration,
                 requestSpecification = requestSpecification,
             ) { call ->
-                val req = CapturedRequest<P>(call.request, requestType)
+                val req = CapturedRequest(call.request, requestType)
                 ResponseDefinitionBuilder<P, T>(request = req)
                     .apply(block)
                     .build()
@@ -69,7 +69,7 @@ public class BuildingStep<P : Any> internal constructor(
         @Suppress("unused") responseType: KClass<T>,
         block: ResponseDefinitionBuilder<P, T>.() -> Unit,
     ) {
-        respondsWith<T>(block)
+        respondsWith(block)
     }
 
     /**
@@ -85,11 +85,11 @@ public class BuildingStep<P : Any> internal constructor(
         block: StreamingResponseDefinitionBuilder<P, T>.() -> Unit,
     ) {
         val stub =
-            Stub<P, T>(
+            Stub(
                 configuration = configuration,
                 requestSpecification = requestSpecification,
             ) { call ->
-                val req = CapturedRequest<P>(call.request, requestType)
+                val req = CapturedRequest(call.request, requestType)
                 StreamingResponseDefinitionBuilder<P, T>(request = req)
                     .apply(block)
                     .build()
@@ -102,7 +102,7 @@ public class BuildingStep<P : Any> internal constructor(
         @Suppress("unused") responseType: KClass<T>,
         block: StreamingResponseDefinitionBuilder<P, T>.() -> Unit,
     ) {
-        respondsWithStream<T>(block)
+        respondsWithStream(block)
     }
 
     /**

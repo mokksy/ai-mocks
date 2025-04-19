@@ -22,7 +22,7 @@ internal abstract class AbstractIT(
     protected val logger = KotlinLogging.logger(name = this::class.simpleName!!)
 
     /**
-     * Represents a seed value that is used for random number generation in tests.
+     * Represents a seed value is used for random number generation in tests.
      * Initialized to `-1` by default, it is updated before each test execution to a random value.
      * This ensures variability and uniqueness for random-based operations during every test run.
      */

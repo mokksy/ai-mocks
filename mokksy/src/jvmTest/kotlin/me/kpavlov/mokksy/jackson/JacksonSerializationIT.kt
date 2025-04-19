@@ -47,7 +47,7 @@ internal class JacksonSerializationIT : AbstractIT() {
     fun `Should respond to POST with Jackson`() =
         runTest {
             mokksyWithJackson
-                .post<JacksonInput>(
+                .post(
                     requestType = JacksonInput::class,
                 ) {
                     path = beEqual("/jackson-$seed")

@@ -181,7 +181,7 @@ public open class RequestSpecificationBuilder<P : Any>(
      *         for further customization.
      */
     public fun bodyMatchesPredicate(predicate: (P?) -> Boolean): RequestSpecificationBuilder<P> {
-        this.body += predicateMatcher<P?>(predicate)
+        this.body += predicateMatcher(predicate)
         return this
     }
 
@@ -222,7 +222,7 @@ public open class RequestSpecificationBuilder<P : Any>(
     }
 
     internal fun build(): RequestSpecification<P> =
-        RequestSpecification<P>(
+        RequestSpecification(
             method = method,
             path = path,
             headers = headers,
