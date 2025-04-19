@@ -15,7 +15,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class TaskSendParams(
+public data class TaskSendParams @JvmOverloads constructor(
     @SerialName("id")
     val id: TaskId,
     @SerialName("sessionId")

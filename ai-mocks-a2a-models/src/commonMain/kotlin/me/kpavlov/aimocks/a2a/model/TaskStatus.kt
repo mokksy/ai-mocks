@@ -12,11 +12,12 @@
 package me.kpavlov.aimocks.a2a.model
 
 import kotlinx.datetime.Instant
+import kotlinx.datetime.toKotlinInstant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class TaskStatus(
+public data class TaskStatus @JvmOverloads constructor(
     @SerialName("state")
     val state: String,
     @SerialName("message")
@@ -24,6 +25,11 @@ public data class TaskStatus(
     @SerialName("timestamp")
     val timestamp: Instant? = null,
 ) {
+    public constructor(
+        state: String,
+        timestamp: java.time.Instant,
+    ): this(state=state, message=null, timestamp=timestamp.toKotlinInstant())
+
     init {
         require(state in cg_array0) { "state not in enumerated values - $state" }
     }

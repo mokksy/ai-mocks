@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("file")
-public data class FilePart(
+public data class FilePart @JvmOverloads constructor(
     @SerialName("file")
     val file: FileContent,
     @SerialName("metadata")

@@ -24,6 +24,8 @@ public object A2AClientFactory {
      * @param json An optional Json serializer/deserializer to use. If not provided, a new one will be created.
      * @return A new instance of the A2AClient.
      */
+    @JvmStatic
+    @JvmOverloads
     public fun create(
         baseUrl: String,
         httpClient: HttpClient? = null,

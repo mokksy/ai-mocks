@@ -16,7 +16,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("text")
-public data class TextPart(
+public data class TextPart @JvmOverloads constructor(
     @SerialName("text")
     val text: String,
     @SerialName("metadata")

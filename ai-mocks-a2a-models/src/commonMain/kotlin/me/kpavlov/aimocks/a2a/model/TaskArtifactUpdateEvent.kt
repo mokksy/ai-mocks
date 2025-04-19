@@ -15,7 +15,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class TaskArtifactUpdateEvent(
+public data class TaskArtifactUpdateEvent @JvmOverloads constructor(
     @SerialName("id")
     val id: TaskId,
     @SerialName("artifact")

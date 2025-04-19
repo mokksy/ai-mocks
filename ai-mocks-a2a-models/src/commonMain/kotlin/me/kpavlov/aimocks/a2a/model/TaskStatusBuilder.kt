@@ -1,6 +1,7 @@
 package me.kpavlov.aimocks.a2a.model
 
 import kotlinx.datetime.Instant
+import kotlinx.datetime.toKotlinInstant
 
 /**
  * Builder class for creating [TaskStatus] instances.
@@ -55,6 +56,11 @@ public class TaskStatusBuilder {
      */
     public fun timestamp(timestamp: Instant): TaskStatusBuilder {
         this.timestamp = timestamp
+        return this
+    }
+
+    public fun timestamp(timestamp: java.time.Instant): TaskStatusBuilder {
+        this.timestamp = timestamp.toKotlinInstant()
         return this
     }
 

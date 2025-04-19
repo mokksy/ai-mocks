@@ -16,7 +16,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class Message(
+public data class Message @JvmOverloads constructor(
     @SerialName("role")
     val role: Role,
     @SerialName("parts")

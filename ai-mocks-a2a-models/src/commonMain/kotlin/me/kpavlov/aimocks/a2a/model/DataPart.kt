@@ -17,7 +17,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("data")
-public data class DataPart(
+public data class DataPart @JvmOverloads constructor(
     @SerialName("data")
     val data: Map<String, @Contextual Any>,
     @SerialName("metadata")

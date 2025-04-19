@@ -1,5 +1,7 @@
 package me.kpavlov.aimocks.a2a.model
 
+import java.util.function.Consumer
+
 /**
  * DSL builder for [TaskStatusUpdateEvent].
  *
@@ -19,8 +21,26 @@ public class TaskStatusUpdateEventBuilder {
     public var final: Boolean = false
     public var metadata: Metadata? = null
 
-    public fun status(block: TaskStatusBuilder.() -> Unit) {
+    public fun id(id: TaskId): TaskStatusUpdateEventBuilder {
+        this.id = id
+        return this
+    }
+
+    public fun isFinal(isFinal: Boolean): TaskStatusUpdateEventBuilder {
+        this.final = isFinal
+        return this
+    }
+
+    public fun status(block: TaskStatusBuilder.() -> Unit) :TaskStatusUpdateEventBuilder {
         TaskStatusBuilder().apply(block).build().also { status = it }
+        return this
+    }
+
+    public fun status(block: Consumer<TaskStatusBuilder>) :TaskStatusUpdateEventBuilder {
+        val builder = TaskStatusBuilder()
+        block.accept(builder)
+        builder.build().also { status = it }
+        return this
     }
 
     public fun build(): TaskStatusUpdateEvent =
@@ -38,6 +58,19 @@ public class TaskStatusUpdateEventBuilder {
 public inline fun taskStatusUpdateEvent(
     init: TaskStatusUpdateEventBuilder.() -> Unit,
 ): TaskStatusUpdateEvent = TaskStatusUpdateEventBuilder().apply(init).build()
+
+
+/**
+ * Java-friendly top-level DSL function for creating [TaskStatusUpdateEvent].
+ */
+public fun taskStatusUpdateEvent(
+    init: Consumer<TaskStatusUpdateEventBuilder>,
+): TaskStatusUpdateEvent {
+    val builder = TaskStatusUpdateEventBuilder()
+    init.accept(builder)
+    return builder.build()
+}
+
 
 /**
  * DSL extension for [TaskStatusUpdateEvent.Companion].

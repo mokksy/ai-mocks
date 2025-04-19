@@ -18,8 +18,8 @@ kotlin {
         }
         commonTest {
             dependencies {
-                implementation(kotlin("test"))
                 api(project(":ai-mocks-a2a"))
+                implementation(kotlin("test"))
                 implementation(libs.assertk)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.kotlinLogging)
@@ -33,6 +33,9 @@ kotlin {
         jvmTest {
             dependencies {
                 implementation(libs.ktor.client.java)
+                implementation(libs.kotlinx.coroutines.core.jvm)
+                implementation(libs.assertj.core)
+                implementation(libs.awaitility.kotlin)
                 runtimeOnly(libs.slf4j.simple)
             }
         }
