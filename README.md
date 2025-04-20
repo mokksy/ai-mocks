@@ -1,14 +1,14 @@
 # Mokksy and AI-Mocks
 
 [![Maven Central](https://img.shields.io/maven-central/v/me.kpavlov.aimocks/ai-mocks-openai)](https://repo1.maven.org/maven2/me/kpavlov/aimocks/ai-mocks-openai/)
-[![Kotlin CI](https://github.com/kpavlov/ai-mocks/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/kpavlov/ai-mocks/actions/workflows/gradle.yml)
-![GitHub branch status](https://img.shields.io/github/checks-status/kpavlov/ai-mocks/main)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/4887b8978534404dbc62c4894b630501)](https://app.codacy.com/gh/kpavlov/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![Codacy Coverage](https://app.codacy.com/project/badge/Coverage/4887b8978534404dbc62c4894b630501)](https://app.codacy.com/gh/kpavlov/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
-[![codecov](https://codecov.io/github/kpavlov/ai-mocks/graph/badge.svg?token=449G80QY5S)](https://codecov.io/github/kpavlov/ai-mocks)
+[![Kotlin CI](https://github.com/mokksy/ai-mocks/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/mokksy/ai-mocks/actions/workflows/gradle.yml)
+![GitHub branch status](https://img.shields.io/github/checks-status/mokksy/ai-mocks/main)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/4887b8978534404dbc62c4894b630501)](https://app.codacy.com/gh/mokksy/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Codacy Coverage](https://app.codacy.com/project/badge/Coverage/4887b8978534404dbc62c4894b630501)](https://app.codacy.com/gh/mokksy/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
+[![codecov](https://codecov.io/github/mokksy/ai-mocks/graph/badge.svg?token=449G80QY5S)](https://codecov.io/github/mokksy/ai-mocks)
 
 [![Documentation](https://img.shields.io/badge/docs-website-blue)](https://kpavlov.github.io/ai-mocks/) [![API Reference](https://img.shields.io/badge/api-reference-blue)](https://kpavlov.github.io/ai-mocks/api/)
-![GitHub License](https://img.shields.io/github/license/kpavlov/ai-mocks)
+![GitHub License](https://img.shields.io/github/license/mokksy/ai-mocks)
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.9-%237F52FF.svg?logo=kotlin&logoColor=white)
 
 

@@ -37,7 +37,7 @@ configure<MavenPublishBaseExtension> {
     pom {
         name.set(project.name)
         description.set(project.description)
-        url.set("https://github.com/kpavlov/ai-mocks")
+        url.set("https://github.com/mokksy/ai-mocks")
         inceptionYear.set("2025")
 
         licenses {
@@ -56,9 +56,9 @@ configure<MavenPublishBaseExtension> {
         }
 
         scm {
-            connection.set("scm:git:git://github.com/kpavlov/ai-mocks.git")
-            developerConnection.set("scm:git:ssh://github.com/kpavlov/ai-mocks.git")
-            url.set("https://github.com/kpavlov/ai-mocks")
+            connection.set("scm:git:git://github.com/mokksy/ai-mocks.git")
+            developerConnection.set("scm:git:ssh://github.com/mokksy/ai-mocks.git")
+            url.set("https://github.com/mokksy/ai-mocks")
         }
     }
 }

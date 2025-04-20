@@ -12,5 +12,5 @@ url = "docs/"
 [[main]]
   name = "GitHub"
   weight = 4
-  url = "https://github.com/kpavlov/ai-mocks"
+  url = "https://github.com/mokksy/ai-mocks"
 

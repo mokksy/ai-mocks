@@ -4,7 +4,7 @@ title: "Agent2Agent Protocol"
 toc: true
 ---
 
-[MockAgentServer](https://github.com/kpavlov/ai-mocks/blob/main/ai-mocks-a2a/src/commonMain/kotlin/me/kpavlov/aimocks/a2a/MockAgentServer.kt) provides a local mock server for simulating [A2A (Agent-to-Agent) API endpoints](https://google.github.io/A2A/). It simplifies testing by allowing you to define request expectations and responses without making real network calls.
+[MockAgentServer](https://github.com/mokksy/ai-mocks/blob/main/ai-mocks-a2a/src/commonMain/kotlin/me/kpavlov/aimocks/a2a/MockAgentServer.kt) provides a local mock server for simulating [A2A (Agent-to-Agent) API endpoints](https://google.github.io/A2A/). It simplifies testing by allowing you to define request expectations and responses without making real network calls.
 
 ## Quick Start
 

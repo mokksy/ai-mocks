@@ -1,8 +1,8 @@
-#repo = "https://github.com/kpavlov/ai-mocks
+#repo = "https://github.com/mokksy/ai-mocks
 #logo = "/mokksy-mascot-256.png"
 uniqueHomePage = false
 
-repo = "https://github.com/kpavlov/ai-mocks"
+repo = "https://github.com/mokksy/ai-mocks"
 
 # Defaults to true if not set
 # Enable copyRight Footer Stamp. Takes in attribution
@@ -24,7 +24,7 @@ darkMode = "mokksy-logo.png"
 name = "GitHub"
 iconLight = "images/GitHubMarkLight.svg"
 iconDark = "images/GitHubMarkDark.svg"
-url = "https://github.com/kpavlov/ai-mocks"
+url = "https://github.com/mokksy/ai-mocks"
 
 [author]
 name = "Konstantin Pavlov"

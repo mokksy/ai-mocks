@@ -4,7 +4,7 @@ title: "Anthropic"
 toc: true
 ---
 
-[MockAnthropic](https://github.com/kpavlov/ai-mocks/blob/main/ai-mocks-anthropic/src/commonMain/kotlin/me/kpavlov/aimocks/anthropic/MockAnthropic.kt) provides a local mock server for simulating [Anthropic API endpoints](https://docs.anthropic.com/en/api). It simplifies testing by allowing you to define request expectations and responses without making real network calls.
+[MockAnthropic](https://github.com/mokksy/ai-mocks/blob/main/ai-mocks-anthropic/src/commonMain/kotlin/me/kpavlov/aimocks/anthropic/MockAnthropic.kt) provides a local mock server for simulating [Anthropic API endpoints](https://docs.anthropic.com/en/api). It simplifies testing by allowing you to define request expectations and responses without making real network calls.
 
 ## Quick Start
 

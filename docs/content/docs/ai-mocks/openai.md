@@ -294,4 +294,4 @@ output?.text shouldBe "Ahoy there, matey! Hello!"
 }
 ```
 
-Check for examples in the [integration tests](https://github.com/kpavlov/ai-mocks/tree/main/ai-mocks-openai/src/jvmTest/kotlin/me/kpavlov/aimocks/openai/springai).
+Check for examples in the [integration tests](https://github.com/mokksy/ai-mocks/tree/main/ai-mocks-openai/src/jvmTest/kotlin/me/kpavlov/aimocks/openai/springai).
