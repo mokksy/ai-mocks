@@ -1,4 +1,4 @@
-baseURL = 'https://kpavlov.github.io/ai-mocks/'
+baseURL = 'https://mokksy.github.io/ai-mocks/'
 languageCode = 'en-us'
 title = 'Mokksy & AI-Mocks'
 theme = 'compose'
