@@ -5,28 +5,76 @@ import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.a2a.model.CancelTaskRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskPushNotificationRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskRequest
+import me.kpavlov.aimocks.a2a.model.PushNotificationConfig
 import me.kpavlov.aimocks.a2a.model.SendTaskRequest
 import me.kpavlov.aimocks.a2a.model.SendTaskStreamingRequest
 import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationRequest
+import me.kpavlov.aimocks.a2a.model.TaskId
 import me.kpavlov.aimocks.a2a.model.TaskResubscriptionRequest
+import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
+import me.kpavlov.aimocks.a2a.notifications.NotificationListener
+import me.kpavlov.aimocks.a2a.notifications.NotificationSender
+import me.kpavlov.aimocks.a2a.notifications.TaskNotificationHistory
+import me.kpavlov.aimocks.a2a.notifications.configureNotificationListener
 import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.aimocks.core.AbstractMockLlm
 import me.kpavlov.mokksy.ServerConfiguration
 
-public open class MockAgentServer @JvmOverloads constructor(
-    port: Int = 0,
+private const val DEFAULT_NOTIFICATIONS_URI = "/notifications"
+
+@Suppress("TooManyFunctions")
+public open class MockAgentServer private constructor(
+    port: Int,
     verbose: Boolean = false,
+    public val notificationsUri: String,
+    private val notificationListener: NotificationListener,
+    private val notificationSender: NotificationSender
 ) : AbstractMockLlm(
+    port = port,
+    configuration =
+        ServerConfiguration(
+            verbose = verbose,
+        ) { config ->
+            config.json(
+                Json { ignoreUnknownKeys = true },
+            )
+        },
+    applicationConfigurer = {
+        configureNotificationListener(
+            notificationsUri = notificationsUri,
+            listener = notificationListener ,
+            verbose = verbose,
+        )
+    }
+) {
+    /**
+     * Constructor for initializing a `MockAgentServer` instance.
+     *
+     * @param port The port on which the mock server will run.
+     *          Defaults to 0, which allows automatic port selection.
+     * @param verbose Determines whether the server operates in verbose mode for detailed logging.
+     *          Defaults to `false`.
+     * @param notificationsUri The URI used for receiving notifications.
+     *          Defaults to `DEFAULT_NOTIFICATIONS_URI`.
+     */
+    @JvmOverloads
+    public constructor(
+        port: Int = 0,
+        verbose: Boolean = false,
+        notificationsUri: String = DEFAULT_NOTIFICATIONS_URI,
+    ) : this(
         port = port,
-        configuration =
-            ServerConfiguration(
-                verbose = verbose,
-            ) { config ->
-                config.json(
-                    Json { ignoreUnknownKeys = true },
-                )
-            },
-    ) {
+        verbose = verbose,
+        notificationsUri = notificationsUri,
+        notificationListener = NotificationListener(notificationsUri),
+        notificationSender = NotificationSender()
+    )
+
+
+    public fun notificationUrl(): String {
+        return baseUrl() + notificationsUri
+    }
+
     /**
      * Configures a behavior for handling
      * ["Agent Card"](https://google.github.io/A2A/#/documentation?id=agent-card) mock server requests.
@@ -301,7 +349,8 @@ public open class MockAgentServer @JvmOverloads constructor(
      * ```
      *
      * @param name An optional identifier for the configured request.
-     * @return An instance of `TaskResubscriptionBuildingStep` to define the response behavior for task resubscription requests.
+     * @return An instance of `TaskResubscriptionBuildingStep` to define the response behavior
+     * for task resubscription requests.
      */
     @JvmOverloads
     public fun taskResubscription(name: String? = null): TaskResubscriptionBuildingStep {
@@ -318,5 +367,17 @@ public open class MockAgentServer @JvmOverloads constructor(
             buildingStep = requestStep,
             mokksy = mokksy,
         )
+    }
+
+    public fun getTaskNotifications(taskId: TaskId): TaskNotificationHistory {
+        return notificationListener.getByTaskId(taskId)
+    }
+
+    @JvmOverloads
+    public suspend fun sendPushNotification(
+        config: PushNotificationConfig = PushNotificationConfig(url = notificationUrl()),
+        event: TaskUpdateEvent
+    ) {
+        notificationSender.sendPushNotification(config, event)
     }
 }

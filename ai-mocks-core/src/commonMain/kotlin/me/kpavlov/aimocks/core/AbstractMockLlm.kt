@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.core
 
+import io.ktor.server.application.Application
 import io.ktor.server.application.log
 import me.kpavlov.mokksy.MokksyServer
 import me.kpavlov.mokksy.ServerConfiguration
@@ -7,12 +8,14 @@ import me.kpavlov.mokksy.ServerConfiguration
 public abstract class AbstractMockLlm(
     port: Int = 0,
     configuration: ServerConfiguration,
+    applicationConfigurer: (Application.() -> Unit)? = null,
 ) {
     protected val mokksy: MokksyServer =
         MokksyServer(
             port = port,
             configuration = configuration,
         ) {
+            applicationConfigurer?.invoke(it)
             it.log.info("Running Mokksy with ${it.engine} engine")
         }
 
