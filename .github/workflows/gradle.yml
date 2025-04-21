@@ -42,7 +42,7 @@ jobs:
           cache-cleanup: 'always'
 
       - name: Build with Gradle
-        run: gradle --no-daemon clean build dokkaGenerate koverXmlReport
+        run: gradle --no-daemon clean build dokkaGenerate dokkaJavadocJar sourcesJar koverXmlReport
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v5
