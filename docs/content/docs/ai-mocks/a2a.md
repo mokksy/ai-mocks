@@ -63,7 +63,7 @@ val a2aClient = HttpClient(Java) {
 
 ## Agent Card Endpoint
 
-The Agent Card endpoint provides information about the agent's capabilities, skills, and authentication mechanisms.
+The Agent Card endpoint provides information about the agent's capabilities, skills, and authentication mechanisms. Remote Agents that support A2A are required to publish an **Agent Card** in JSON format describing the agent's capabilities/skills and authentication mechanism. Clients use the Agent Card information to identify the best agent that can perform a task and leverage A2A to communicate with that remote agent.
 
 Mock Server configuration:
 ```kotlin
@@ -120,7 +120,7 @@ val receivedCard = Json.decodeFromString<AgentCard>(response)
 
 ## Get Task Endpoint
 
-The Get Task endpoint allows clients to retrieve information about a specific task.
+The Get Task endpoint allows clients to retrieve information about a specific task. Clients may use this method to retrieve the generated Artifacts for a Task. The agent determines the retention window for Tasks previously submitted to it. The client may also request the last N items of history of the Task which will include all Messages, in order, sent by client and server.
 
 Mock Server configuration:
 
@@ -171,7 +171,7 @@ val payload = Json.decodeFromString<GetTaskResponse>(body)
 
 ## Send Task Endpoint
 
-The Send Task endpoint allows clients to send a task to the agent for processing.
+The Send Task endpoint allows clients to send a task to the agent for processing. This method allows a client to send content to a remote agent to start a new Task, resume an interrupted Task or reopen a completed Task. A Task interrupt may be caused due to an agent requiring additional user input or a runtime error.
 
 Mock Server configuration:
 
@@ -200,7 +200,7 @@ a2aServer.sendTask() responds {
 Client call example:
 
 ```kotlin
-// Create a SendTaskRequest object
+// Create a SendTaskRequest object using the builder function
 val jsonRpcRequest = SendTaskRequest.create {
     id = "1"
     params {
@@ -229,7 +229,7 @@ val payload = Json.decodeFromString<SendTaskResponse>(body)
 
 ## Send Task Streaming Endpoint
 
-The Send Task Streaming endpoint allows clients to send a task to the agent for processing and receive streaming updates.
+The Send Task Streaming endpoint allows clients to send a task to the agent for processing and receive streaming updates. For clients and remote agents capable of communicating over HTTP with Server-Sent Events (SSE), clients can send the RPC request with method `tasks/sendSubscribe` when creating a new Task. The remote agent can respond with a stream of TaskStatusUpdateEvents (to communicate status changes or instructions/requests) and TaskArtifactUpdateEvents (to stream generated results).
 
 Mock Server configuration:
 
@@ -377,7 +377,7 @@ private fun handleEvent(event: TaskUpdateEvent): Boolean {
 
 ## Cancel Task Endpoint
 
-The Cancel Task endpoint allows clients to cancel a task that is in progress.
+The Cancel Task endpoint allows clients to cancel a task that is in progress. A client may choose to cancel previously submitted Tasks, for example when the user no longer needs the result or wants to stop a long-running task.
 
 Mock Server configuration:
 
@@ -419,7 +419,7 @@ val payload = Json.decodeFromString<CancelTaskResponse>(body)
 
 ## Set Task Push Notification Endpoint
 
-The Set Task Push Notification endpoint allows clients to configure push notifications for a task.
+The Set Task Push Notification endpoint allows clients to configure push notifications for a task. Clients may configure a push notification URL for receiving updates on Task status changes. This is particularly useful for long-running tasks where the client may not want to maintain an open connection.
 
 Mock Server configuration:
 
@@ -492,7 +492,7 @@ val payload = Json.decodeFromString<SetTaskPushNotificationResponse>(body)
 
 ## Get Task Push Notification Endpoint
 
-The Get Task Push Notification endpoint allows clients to retrieve the push notification configuration for a specific task.
+The Get Task Push Notification endpoint allows clients to retrieve the push notification configuration for a specific task. Clients may retrieve the currently configured push notification configuration for a Task using this method, which is useful for verifying or displaying the current notification settings.
 
 Mock Server configuration:
 
@@ -543,7 +543,7 @@ val payload = Json.decodeFromString<GetTaskPushNotificationResponse>(body)
 
 ## Task Resubscription Endpoint
 
-The Task Resubscription endpoint allows clients to resubscribe to streaming updates for a task that was previously created. This is useful when a client loses connection and needs to resume receiving updates for an ongoing task.
+The Task Resubscription endpoint allows clients to resubscribe to streaming updates for a task that was previously created. This is useful when a client loses connection and needs to resume receiving updates for an ongoing task. A disconnected client may resubscribe to a remote agent that supports streaming to receive Task updates via Server-Sent Events (SSE).
 
 Mock Server configuration:
 
@@ -641,6 +641,49 @@ private fun handleEvent(event: TaskUpdateEvent): Boolean {
     }
     return true
 }
+```
+
+## Testing Push Notifications
+
+The A2A protocol supports push notifications, which allow agents to notify clients of updates outside a connected session. This is particularly useful for long-running tasks where the client may not want to maintain an open connection.
+
+### Accessing Task Notification History
+
+You can access the notification history for a specific task using the `getTaskNotifications` method:
+
+```kotlin
+val taskId: TaskId = "task_12345"
+val notificationHistory = a2aServer.getTaskNotifications(taskId)
+
+// Verify that the history is initially empty
+notificationHistory.events() shouldHaveSize 0
+```
+
+### Sending Push Notifications
+
+You can send push notifications using the `sendPushNotification` method:
+
+```kotlin
+val taskUpdateEvent = taskArtifactUpdateEvent {
+    id = taskId
+    artifact {
+        name = "joke"
+        parts += textPart {
+            text = "This is a notification joke!"
+        }
+        lastChunk = true
+    }
+}
+a2aServer.sendPushNotification(event=taskUpdateEvent)
+```
+
+### Verifying Notifications
+
+You can verify that notifications were received by checking the notification history:
+
+```kotlin
+// Verify that the notification history contains the event
+notificationHistory.events() shouldContain taskUpdateEvent
 ```
 
 ## Verifying Requests
