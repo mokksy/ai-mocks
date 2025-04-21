@@ -22,11 +22,13 @@ import me.kpavlov.mokksy.ServerConfiguration
 
 private const val DEFAULT_NOTIFICATIONS_URI = "/notifications"
 
-public open class MockAgentServer @JvmOverloads constructor(
-    port: Int = 0,
+@Suppress("TooManyFunctions")
+public open class MockAgentServer private constructor(
+    port: Int,
     verbose: Boolean = false,
-    public val notificationsUri: String = DEFAULT_NOTIFICATIONS_URI,
-    private val notificationListener: NotificationListener = NotificationListener(notificationsUri),
+    public val notificationsUri: String,
+    private val notificationListener: NotificationListener,
+    private val notificationSender: NotificationSender
 ) : AbstractMockLlm(
     port = port,
     configuration =
@@ -38,18 +40,40 @@ public open class MockAgentServer @JvmOverloads constructor(
             )
         },
     applicationConfigurer = {
-        this.configureNotificationListener(
+        configureNotificationListener(
             notificationsUri = notificationsUri,
-            listener = notificationListener
+            listener = notificationListener ,
+            verbose = verbose,
         )
     }
 ) {
+    /**
+     * Constructor for initializing a `MockAgentServer` instance.
+     *
+     * @param port The port on which the mock server will run.
+     *          Defaults to 0, which allows automatic port selection.
+     * @param verbose Determines whether the server operates in verbose mode for detailed logging.
+     *          Defaults to `false`.
+     * @param notificationsUri The URI used for receiving notifications.
+     *          Defaults to `DEFAULT_NOTIFICATIONS_URI`.
+     */
+    @JvmOverloads
+    public constructor(
+        port: Int = 0,
+        verbose: Boolean = false,
+        notificationsUri: String = DEFAULT_NOTIFICATIONS_URI,
+    ) : this(
+        port = port,
+        verbose = verbose,
+        notificationsUri = notificationsUri,
+        notificationListener = NotificationListener(notificationsUri),
+        notificationSender = NotificationSender()
+    )
+
 
     public fun notificationUrl(): String {
         return baseUrl() + notificationsUri
     }
-
-    private val notificationSender: NotificationSender = NotificationSender()
 
     /**
      * Configures a behavior for handling

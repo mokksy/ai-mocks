@@ -9,7 +9,7 @@ import me.kpavlov.aimocks.a2a.model.TaskId
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
 import java.util.concurrent.ConcurrentHashMap
 
-public class NotificationListener(internal val notificationsUri: String) {
+internal class NotificationListener(internal val notificationsUri: String) {
 
     private val taskNotificationsMap = ConcurrentHashMap<TaskId, TaskNotificationHistory>()
 
@@ -21,15 +21,12 @@ public class NotificationListener(internal val notificationsUri: String) {
         taskNotificationsMap.computeIfAbsent(taskId) {
             TaskNotificationHistory(taskId = taskId)
         }
-
-    internal fun clear(taskId: TaskId) {
-        taskNotificationsMap[taskId]?.clear()
-    }
 }
 
 internal fun Application.configureNotificationListener(
     notificationsUri: String,
-    listener: NotificationListener
+    listener: NotificationListener,
+    verbose: Boolean
 ) {
     require(notificationsUri.isNotBlank()) { "notificationsUri must not be blank" }
     require(notificationsUri.startsWith("/")) { "notificationsUri must start with '/'" }
@@ -38,7 +35,11 @@ internal fun Application.configureNotificationListener(
     routing {
         post(listener.notificationsUri) {
             val event = call.receive<TaskUpdateEvent>()
-            log.debug("Received task notification: {}", event)
+            if (verbose) {
+                log.info("Received task notification: {}", event)
+            } else {
+                log.trace("Received task notification: {}", event)
+            }
             listener.add(event)
         }
     }
