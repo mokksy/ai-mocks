@@ -35,6 +35,7 @@ import me.kpavlov.aimocks.a2a.model.TaskResubscriptionRequest
 import me.kpavlov.aimocks.a2a.model.TaskSendParams
 import me.kpavlov.aimocks.a2a.model.TaskStatusUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
+import me.kpavlov.aimocks.a2a.model.create
 import java.util.UUID
 
 /**
@@ -44,7 +45,7 @@ import java.util.UUID
  * @property baseUrl The base URL of the A2A server.
  * @property json The JSON serializer/deserializer.
  */
-@Suppress("TooManyFunctions")
+@Suppress("TooManyFunctions", "unused")
 public class DefaultA2AClient(
     override val httpClient: HttpClient,
     private val baseUrl: String,
@@ -64,13 +65,10 @@ public class DefaultA2AClient(
     }
 
     override suspend fun sendTask(params: TaskSendParams): SendTaskResponse {
-        val request =
-            SendTaskRequest.create {
-                id = "1"
-                this.params = params
-            }
-
-        return sendTask(request)
+        return sendTask(request=SendTaskRequest.create {
+            this.id = "1"
+            this.params = params
+        })
     }
 
     public override suspend fun sendTask(request: SendTaskRequest): SendTaskResponse {

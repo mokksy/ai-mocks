@@ -2,7 +2,14 @@ plugins {
     kotlin("plugin.serialization") apply true
     alias(libs.plugins.kover) apply true
     `kotlin-convention`
+    `dokka-convention`
     `publish-convention`
+}
+
+dokka {
+    dokkaSourceSets.configureEach {
+        // includes.from("README.md")
+    }
 }
 
 kotlin {
@@ -45,8 +52,8 @@ kotlin {
             dependencies {
                 implementation(libs.ktor.client.java)
                 implementation(libs.junit.jupiter.params)
-                runtimeOnly(libs.slf4j.simple)
                 implementation(libs.ktor.serialization.jackson)
+                runtimeOnly(libs.slf4j.simple)
             }
         }
     }

@@ -47,20 +47,17 @@ jobs:
 
       - name: Generate Dokka Site
         run: |-
-          gradle clean dokkaGenerate && \
-          mkdir -p build/docs/api && \
-          cp -R mokksy/build/dokka/html/* build/docs/api/
+          gradle clean :docs:dokkaGenerate
 
       - name: Build Hugo Site
         run: |-
           cd docs && \
-          hugo --minify && \
-          cp -R public/* ../build/docs/
+          hugo --minify
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build/docs/
+          path: docs/public
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

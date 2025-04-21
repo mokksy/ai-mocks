@@ -13,6 +13,15 @@ repositories {
     mavenCentral()
 }
 
+tasks.register<Jar>(name = "dokkaJavadocJar") {
+    group = "dokka"
+    description = "Assembles a jar archive containing javadoc documentation."
+   val javadocTask = tasks.named("dokkaGenerateModuleJavadoc")
+    dependsOn(javadocTask)
+    from("build/dokka-module/javadoc")
+    archiveClassifier.set("javadoc")
+}
+
 // https://vanniktech.github.io/gradle-maven-publish-plugin/
 configure<MavenPublishBaseExtension> {
     signAllPublications()
