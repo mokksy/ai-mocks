@@ -1,7 +1,13 @@
 plugins {
     `kotlin-convention`
+    `dokka-convention`
     `publish-convention`
     alias(libs.plugins.kover) apply true
+}
+
+dokka {
+    dokkaSourceSets.configureEach {
+    }
 }
 
 kotlin {

@@ -2,8 +2,14 @@ plugins {
     kotlin("plugin.serialization") apply true
     alias(libs.plugins.kover) apply true
     `kotlin-convention`
+    `dokka-convention`
     `publish-convention`
     // id("org.openapi.generator") version "7.12.0"
+}
+
+dokka {
+    dokkaSourceSets.configureEach {
+    }
 }
 
 /*

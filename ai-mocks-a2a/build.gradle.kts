@@ -2,7 +2,13 @@ plugins {
     kotlin("plugin.serialization") apply true
     alias(libs.plugins.kover) apply true
     `kotlin-convention`
+    `dokka-convention`
     `publish-convention`
+}
+
+dokka {
+    dokkaSourceSets.configureEach {
+    }
 }
 
 kotlin {

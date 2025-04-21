@@ -4,7 +4,11 @@ plugins {
 }
 
 dependencies {
-    dokka(project(":mockksy"))
+    dokka(project(":mokksy"))
+    dokka(project(":a2a-client"))
+    dokka(project(":ai-mocks-a2a"))
+    dokka(project(":ai-mocks-a2a-models"))
+    dokka(project(":ai-mocks-anthropic"))
     dokka(project(":ai-mocks-core"))
     dokka(project(":ai-mocks-openai"))
 }
@@ -13,6 +17,6 @@ dokka {
     moduleName.set("AI-Mocks")
 
     dokkaPublications.html {
-        includes.from("../README.md")
+        outputDirectory = layout.projectDirectory.dir("public/apidocs")
     }
 }

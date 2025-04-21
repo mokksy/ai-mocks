@@ -7,15 +7,13 @@ test:
 	./gradlew check
 
 apidocs:
-	./gradlew clean dokkaGenerate dokkaHtmlMultiModule && \
-	mkdir -p build/docs && \
-	cp -R mokksy/build/dokka/html build/docs/api
+	rm -rf docs/public/apidocs && \
+	./gradlew clean :docs:dokkaGenerate
 
-docs:
+docs:apidocs
 	git submodule sync && \
   git submodule update --init --depth=1 && \
 	cd docs && \
-	rm -rf public && \
 	hugo server -D --watch
 
 lint:prepare

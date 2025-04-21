@@ -35,14 +35,5 @@ public data class SendTaskRequest(
         require(method == "tasks/send") { "method not constant value \"tasks/send\" - $method" }
     }
 
-    public companion object {
-        /**
-         * Creates a new SendTaskRequest using the DSL builder.
-         *
-         * @param init The lambda to configure the send task request.
-         * @return A new SendTaskRequest instance.
-         */
-        public fun create(init: SendTaskRequestBuilder.() -> Unit): SendTaskRequest =
-            SendTaskRequestBuilder().apply(init).build()
-    }
+    public companion object
 }
