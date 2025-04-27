@@ -58,7 +58,11 @@ internal class SendTaskRequestBuilderTest {
                         token = "auth-token"
                     }
                     historyLength = 10
-                    metadata = Metadata()
+                    metadata = Metadata.of(
+                        "foo" to "bar",
+                        "baz" to 42,
+                        "qux" to "quux"
+                    )
                 }
             }
 

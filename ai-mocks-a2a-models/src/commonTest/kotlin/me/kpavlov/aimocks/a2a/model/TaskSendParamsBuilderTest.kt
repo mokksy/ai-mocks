@@ -54,7 +54,7 @@ internal class TaskSendParamsBuilderTest {
                     token = "auth-token"
                 }
                 historyLength = 10
-                metadata = Metadata()
+                metadata = Metadata.empty()
             }
 
         // then

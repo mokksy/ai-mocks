@@ -24,7 +24,7 @@ internal class TextPartBuilderTest {
         val textPart =
             textPart {
                 text = "Hello, world!"
-                metadata = Metadata()
+                metadata = Metadata.empty()
             }
 
         // then

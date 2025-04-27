@@ -11,28 +11,15 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class InvalidParamsError(
-    /** Error code */
-    @SerialName("code")
-    val code: Int = -32602,
-    /** A short description of the error */
-    @SerialName("message")
-    val message: String = "Invalid parameters",
-    @Contextual
-    @SerialName("data")
-    val data: Any? = null,
-) {
-    init {
-        require(code == -32602) { "code not constant value -32602 - $code" }
-        require(message == cg_str0) { "message not constant value $cg_str0 - $message" }
-    }
+public class InvalidParamsError : JSONRPCError {
 
-    private companion object {
-        private const val cg_str0 = "Invalid parameters"
-    }
+    @JvmOverloads
+    public constructor(data: Data? = null)  : super(-32602, "Invalid parameters", data)
+
+    public fun copy(data: Data? = this.data): InvalidParamsError = InvalidParamsError(data)
+
+    private companion object
 }

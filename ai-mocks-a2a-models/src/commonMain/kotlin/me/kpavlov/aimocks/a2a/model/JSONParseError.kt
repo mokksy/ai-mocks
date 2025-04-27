@@ -11,28 +11,12 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.EncodeDefault
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class JSONParseError(
-    /** Error code */
-    @SerialName("code")
-    @EncodeDefault
-    val code: Int = -32700,
-    /** A short description of the error */
-    @SerialName("message")
-    val message: String = "Invalid JSON payload",
-    @Contextual
-    @SerialName("data")
-    val data: Any? = null,
-) {
-    init {
-        require(code == -32700) { "code not constant value -32700 - $code" }
-        require(message == "Invalid JSON payload") {
-            "message not constant value Invalid JSON payload - $message"
-        }
-    }
+public class JSONParseError : JSONRPCError {
+    @JvmOverloads
+    public constructor(data: Data? = null) :  super(-32700, "Invalid JSON payload", null)
+
+    public fun copy(data: Data? = this.data): InternalError = InternalError(data = data)
 }

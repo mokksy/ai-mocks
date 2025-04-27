@@ -11,6 +11,7 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -29,6 +30,7 @@ public data class TaskSendParams
         @SerialName("historyLength")
         val historyLength: Long? = null,
         @SerialName("metadata")
+        @Contextual
         val metadata: Metadata? = null,
     ) {
         public companion object {

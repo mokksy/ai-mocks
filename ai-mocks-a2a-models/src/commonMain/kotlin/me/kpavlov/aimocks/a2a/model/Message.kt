@@ -34,14 +34,5 @@ public data class Message
             agent,
         }
 
-        public companion object {
-            /**
-             * Creates a new Message using the DSL builder.
-             *
-             * @param init The lambda to configure the message.
-             * @return A new Message instance.
-             */
-            public fun create(init: MessageBuilder.() -> Unit): Message =
-                MessageBuilder().apply(init).build()
-        }
+        public companion object
     }

@@ -1,5 +1,7 @@
 package me.kpavlov.aimocks.a2a.model
 
+import java.util.function.Consumer
+
 /**
  * Builder for creating [FilePart] instances with a fluent DSL.
  *
@@ -28,15 +30,37 @@ public class FilePartBuilder {
     }
 
     /**
+     * Configures the file content using a Java-friendly Consumer.
+     *
+     * @param block The consumer to configure the file content
+     */
+    public fun file(block: Consumer<FileContentBuilder>) {
+        val builder = FileContentBuilder()
+        block.accept(builder)
+        fileContent = builder.build()
+    }
+
+    /**
      * Sets the file content directly.
      *
      * @param fileContent The file content to set
      * @return This builder for chaining
      */
-    public fun file(fileContent: FileContent): FilePartBuilder {
-        this.fileContent = fileContent
-        return this
-    }
+    public fun file(fileContent: FileContent): FilePartBuilder =
+        apply {
+            this.fileContent = fileContent
+        }
+
+    /**
+     * Sets the metadata for the file part.
+     *
+     * @param metadata The metadata to set
+     * @return This builder for chaining
+     */
+    public fun metadata(metadata: Metadata): FilePartBuilder =
+        apply {
+            this.metadata = metadata
+        }
 
     /**
      * Builds a [FilePart] instance with the configured properties.
@@ -76,5 +100,35 @@ public class FilePartBuilder {
 public inline fun filePart(init: FilePartBuilder.() -> Unit): FilePart =
     FilePartBuilder().apply(init).build()
 
+/**
+ * Creates a new FilePart using the Java-friendly Consumer.
+ *
+ * @param init The consumer to configure the file part
+ * @return A new FilePart instance
+ */
+public fun filePart(init: Consumer<FilePartBuilder>): FilePart {
+    val builder = FilePartBuilder()
+    init.accept(builder)
+    return builder.build()
+}
+
+/**
+ * Creates a new FilePart using the DSL builder.
+ *
+ * @param init The lambda to configure the file part
+ * @return A new FilePart instance
+ */
 public fun FilePart.Companion.create(init: FilePartBuilder.() -> Unit): FilePart =
     FilePartBuilder().apply(init).build()
+
+/**
+ * Creates a new FilePart using the Java-friendly Consumer.
+ *
+ * @param init The consumer to configure the file part
+ * @return A new FilePart instance
+ */
+public fun FilePart.Companion.create(init: Consumer<FilePartBuilder>): FilePart {
+    val builder = FilePartBuilder()
+    init.accept(builder)
+    return builder.build()
+}

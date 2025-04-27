@@ -1,5 +1,7 @@
 package me.kpavlov.aimocks.a2a.model
 
+import java.util.function.Consumer
+
 /**
  * Builder for creating [DataPart] instances with a fluent DSL.
  *
@@ -24,10 +26,10 @@ public class DataPartBuilder {
     public fun put(
         key: String,
         value: Any,
-    ): DataPartBuilder {
-        data[key] = value
-        return this
-    }
+    ): DataPartBuilder =
+        apply {
+            data[key] = value
+        }
 
     /**
      * Adds all entries from the provided map to the data map.
@@ -35,10 +37,21 @@ public class DataPartBuilder {
      * @param map The map of entries to add
      * @return This builder for chaining
      */
-    public fun putAll(map: Map<String, Any>): DataPartBuilder {
-        data.putAll(map)
-        return this
-    }
+    public fun putAll(map: Map<String, Any>): DataPartBuilder =
+        apply {
+            data.putAll(map)
+        }
+
+    /**
+     * Sets the metadata for the data part.
+     *
+     * @param metadata The metadata to set
+     * @return This builder for chaining
+     */
+    public fun metadata(metadata: Metadata): DataPartBuilder =
+        apply {
+            this.metadata = metadata
+        }
 
     /**
      * Builds a [DataPart] instance with the configured properties.
@@ -77,5 +90,35 @@ public class DataPartBuilder {
 public inline fun dataPart(init: DataPartBuilder.() -> Unit): DataPart =
     DataPartBuilder().apply(init).build()
 
+/**
+ * Creates a new DataPart using the Java-friendly Consumer.
+ *
+ * @param init The consumer to configure the data part
+ * @return A new DataPart instance
+ */
+public fun dataPart(init: Consumer<DataPartBuilder>): DataPart {
+    val builder = DataPartBuilder()
+    init.accept(builder)
+    return builder.build()
+}
+
+/**
+ * Creates a new DataPart using the DSL builder.
+ *
+ * @param init The lambda to configure the data part
+ * @return A new DataPart instance
+ */
 public fun DataPart.Companion.create(init: DataPartBuilder.() -> Unit): DataPart =
     DataPartBuilder().apply(init).build()
+
+/**
+ * Creates a new DataPart using the Java-friendly Consumer.
+ *
+ * @param init The consumer to configure the data part
+ * @return A new DataPart instance
+ */
+public fun DataPart.Companion.create(init: Consumer<DataPartBuilder>): DataPart {
+    val builder = DataPartBuilder()
+    init.accept(builder)
+    return builder.build()
+}

@@ -1,5 +1,14 @@
 package me.kpavlov.aimocks.a2a.model
 
+import java.util.function.Consumer
+
+/**
+ * Builder class for creating [Task] instances.
+ *
+ * This builder provides a fluent API for creating Task objects,
+ * making it easier to configure tasks.
+ */
+@Suppress("TooManyFunctions")
 public class TaskBuilder {
     public var id: String? = null
     public var sessionId: String? = null
@@ -13,10 +22,10 @@ public class TaskBuilder {
      * @param id The unique identifier for the task.
      * @return This builder instance for method chaining.
      */
-    public fun id(id: String): TaskBuilder {
-        this.id = id
-        return this
-    }
+    public fun id(id: String): TaskBuilder =
+        apply {
+            this.id = id
+        }
 
     /**
      * Sets the session ID of the task.
@@ -24,10 +33,10 @@ public class TaskBuilder {
      * @param sessionId The session identifier for the task.
      * @return This builder instance for method chaining.
      */
-    public fun sessionId(sessionId: String): TaskBuilder {
-        this.sessionId = sessionId
-        return this
-    }
+    public fun sessionId(sessionId: String): TaskBuilder =
+        apply {
+            this.sessionId = sessionId
+        }
 
     /**
      * Sets the status of the task.
@@ -35,10 +44,34 @@ public class TaskBuilder {
      * @param status The status of the task.
      * @return This builder instance for method chaining.
      */
-    public fun status(status: TaskStatus): TaskBuilder {
-        this.status = status
-        return this
-    }
+    public fun status(status: TaskStatus): TaskBuilder =
+        apply {
+            this.status = status
+        }
+
+    /**
+     * Configures the status using a lambda with receiver.
+     *
+     * @param block The lambda to configure the status.
+     * @return This builder instance for method chaining.
+     */
+    public fun status(block: TaskStatusBuilder.() -> Unit): TaskBuilder =
+        apply {
+            status = TaskStatusBuilder().apply(block).build()
+        }
+
+    /**
+     * Configures the status using a Java-friendly Consumer.
+     *
+     * @param block The consumer to configure the status.
+     * @return This builder instance for method chaining.
+     */
+    public fun status(block: Consumer<TaskStatusBuilder>): TaskBuilder =
+        apply {
+            val builder = TaskStatusBuilder()
+            block.accept(builder)
+            status = builder.build()
+        }
 
     /**
      * Sets the artifacts of the task.
@@ -46,10 +79,10 @@ public class TaskBuilder {
      * @param artifacts The list of artifacts associated with the task.
      * @return This builder instance for method chaining.
      */
-    public fun artifacts(artifacts: List<Artifact>): TaskBuilder {
-        this.artifacts = artifacts.toMutableList()
-        return this
-    }
+    public fun artifacts(artifacts: List<Artifact>): TaskBuilder =
+        apply {
+            this.artifacts = artifacts.toMutableList()
+        }
 
     /**
      * Adds an artifact to the task.
@@ -57,9 +90,30 @@ public class TaskBuilder {
      * @param artifact The artifact to add to the task.
      * @return This builder instance for method chaining.
      */
-    public fun addArtifact(artifact: Artifact): TaskBuilder {
-        this.artifacts.add(artifact)
-        return this
+    public fun addArtifact(artifact: Artifact): TaskBuilder =
+        apply {
+            this.artifacts.add(artifact)
+        }
+
+    /**
+     * Creates an artifact using the provided configuration block and adds it to the task.
+     *
+     * @param block The lambda to configure the artifact.
+     * @return The created artifact.
+     */
+    public fun artifact(block: ArtifactBuilder.() -> Unit): Artifact =
+        ArtifactBuilder().apply(block).build()
+
+    /**
+     * Creates an artifact using the provided Java-friendly Consumer and adds it to the task.
+     *
+     * @param block The consumer to configure the artifact.
+     * @return The created artifact.
+     */
+    public fun artifact(block: Consumer<ArtifactBuilder>): Artifact {
+        val builder = ArtifactBuilder()
+        block.accept(builder)
+        return builder.build()
     }
 
     /**
@@ -68,11 +122,18 @@ public class TaskBuilder {
      * @param metadata The metadata associated with the task.
      * @return This builder instance for method chaining.
      */
-    public fun metadata(metadata: Metadata): TaskBuilder {
-        this.metadata = metadata
-        return this
-    }
+    public fun metadata(metadata: Metadata): TaskBuilder =
+        apply {
+            this.metadata = metadata
+        }
 
+    /**
+     * Builds a [Task] instance with the configured parameters.
+     *
+     * @param validate Whether to validate required parameters.
+     * @return A new [Task] instance.
+     * @throws IllegalArgumentException If validate is true and required parameters are missing.
+     */
     public fun build(validate: Boolean = false): Task {
         if (validate) {
             requireNotNull(id) { "Task ID is required" }
@@ -86,13 +147,26 @@ public class TaskBuilder {
             metadata = metadata,
         )
     }
+}
 
-    public fun status(block: TaskStatusBuilder.() -> Unit) {
-        status = TaskStatusBuilder().apply(block).build()
-    }
+/**
+ * Top-level DSL function for creating [Task].
+ *
+ * @param init The lambda to configure the task.
+ * @return A new [Task] instance.
+ */
+public inline fun task(init: TaskBuilder.() -> Unit): Task = TaskBuilder().apply(init).build()
 
-    public fun artifact(block: ArtifactBuilder.() -> Unit): Artifact =
-        ArtifactBuilder().apply(block).build()
+/**
+ * Java-friendly top-level DSL function for creating [Task].
+ *
+ * @param init The consumer to configure the task.
+ * @return A new [Task] instance.
+ */
+public fun task(init: Consumer<TaskBuilder>): Task {
+    val builder = TaskBuilder()
+    init.accept(builder)
+    return builder.build()
 }
 
 /**
@@ -103,3 +177,15 @@ public class TaskBuilder {
  */
 public fun Task.Companion.create(block: TaskBuilder.() -> Unit): Task =
     TaskBuilder().apply(block).build()
+
+/**
+ * Creates a new instance of a Task using the provided Java-friendly Consumer.
+ *
+ * @param block A consumer for building a Task instance using the TaskBuilder.
+ * @return A newly created Task instance.
+ */
+public fun Task.Companion.create(block: Consumer<TaskBuilder>): Task {
+    val builder = TaskBuilder()
+    block.accept(builder)
+    return builder.build()
+}

@@ -11,26 +11,12 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class TaskNotFoundError(
-    /** Error code */
-    @SerialName("code")
-    val code: Int = -32001,
-    /** A short description of the error */
-    @SerialName("message")
-    val message: String = "Task not found",
-    @Contextual
-    @SerialName("data")
-    val data: Any? = null,
-) {
-    init {
-        require(code == -32001) { "code not constant value -32001 - $code" }
-        require(
-            message == "Task not found",
-        ) { "message not constant value Task not found - $message" }
-    }
+public class TaskNotFoundError : JSONRPCError {
+    @JvmOverloads
+    public constructor(data: Data? = null) : super(-32001, "Task not found", null)
+
+    public fun copy(data: Data? = this.data): TaskNotFoundError = TaskNotFoundError(data=data)
 }
