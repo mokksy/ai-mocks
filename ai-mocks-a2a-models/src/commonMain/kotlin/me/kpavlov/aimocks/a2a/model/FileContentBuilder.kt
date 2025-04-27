@@ -76,10 +76,7 @@ public class FileContentBuilder {
             require(bytes != null || uri != null) {
                 "FileContent must have either bytes or uri to be defined"
             }
-            require(bytes != null && uri == null) {
-                "FileContent must have either bytes or uri, not both"
-            }
-            require(bytes == null && uri != null) {
+            require((bytes != null && uri == null) || (bytes == null && uri != null)) {
                 "FileContent must have either bytes or uri, not both"
             }
         }
