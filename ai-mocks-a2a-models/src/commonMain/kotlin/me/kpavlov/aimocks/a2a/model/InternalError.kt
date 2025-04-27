@@ -17,7 +17,11 @@ import kotlinx.serialization.Serializable
 public class InternalError : JSONRPCError {
 
     @JvmOverloads
-    public constructor(data: Data? = null) : super(-32603, "Internal error", data)
+    public constructor(data: Data? = null) : super(
+        code = -32603,
+        message = "Internal error",
+        data = data
+    )
 
     public fun copy(data: Data? = this.data): InternalError = InternalError(data = data)
 }

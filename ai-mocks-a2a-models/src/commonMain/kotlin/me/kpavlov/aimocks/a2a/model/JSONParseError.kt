@@ -16,7 +16,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 public class JSONParseError : JSONRPCError {
     @JvmOverloads
-    public constructor(data: Data? = null) :  super(-32700, "Invalid JSON payload", null)
+    public constructor(data: Data? = null) :  super(
+        code = -32700,
+        message = "Invalid JSON payload",
+        data = null
+    )
 
     public fun copy(data: Data? = this.data): InternalError = InternalError(data = data)
 }
