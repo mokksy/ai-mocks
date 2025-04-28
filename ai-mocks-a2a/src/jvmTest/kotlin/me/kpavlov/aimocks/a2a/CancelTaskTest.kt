@@ -12,12 +12,13 @@ import kotlinx.coroutines.test.runTest
 import me.kpavlov.aimocks.a2a.model.CancelTaskResponse
 import me.kpavlov.aimocks.a2a.model.cancelTaskRequest
 import me.kpavlov.aimocks.a2a.model.cancelTaskResponse
+import me.kpavlov.aimocks.a2a.model.internalError
 import java.util.UUID
 import kotlin.test.Test
 
 internal class CancelTaskTest : AbstractTest() {
     /**
-     * https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task
+     * https://github.com/google/A2A/blob/gh-pages/documentation.md#cancel-a-task
      */
     @Test
     fun `Should cancel task`() =
@@ -61,6 +62,43 @@ internal class CancelTaskTest : AbstractTest() {
                     status {
                         state = "canceled"
                     }
+                }
+            }
+            payload shouldBeEqualToComparingFields expectedReply
+        }
+
+    @Test
+    fun `Should fail to cancel task`() =
+        runTest {
+            a2aServer.cancelTask() responds {
+                id = 1
+                error = internalError {
+                    message = "Oops"
+                }
+            }
+
+            val response =
+                a2aClient
+                    .post("/") {
+                        val jsonRpcRequest =
+                            cancelTaskRequest {
+                                id = "1"
+                                params {
+                                    id = UUID.randomUUID().toString()
+                                }
+                            }
+                        contentType(ContentType.Application.Json)
+                        setBody(jsonRpcRequest)
+                    }.call
+                    .response
+
+            response.status.shouldBeEqual(HttpStatusCode.OK)
+            val payload = response.body<CancelTaskResponse>()
+
+            val expectedReply = cancelTaskResponse {
+                id = 1
+                error = internalError {
+                    message = "Oops"
                 }
             }
             payload shouldBeEqualToComparingFields expectedReply

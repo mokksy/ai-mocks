@@ -10,18 +10,21 @@ public class CancelTaskBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<CancelTaskRequest>,
 ) : AbstractBuildingStep<CancelTaskRequest, CancelTaskResponseSpecification>(
-        mokksy,
-        buildingStep,
-    ) {
+    mokksy,
+    buildingStep,
+) {
     override infix fun responds(block: CancelTaskResponseSpecification.() -> Unit) {
-        buildingStep.respondsWith<CancelTaskResponse> {
+        buildingStep.respondsWith {
             val requestBody = request.body
             val responseDefinition = this.build()
             val responseSpecification = CancelTaskResponseSpecification(responseDefinition)
             block.invoke(responseSpecification)
-            val task = requireNotNull(responseSpecification.result) { "Task must be defined" }
             body =
-                CancelTaskResponse(id = responseSpecification.id ?: requestBody.id, result = task)
+                CancelTaskResponse(
+                    id = responseSpecification.id ?: requestBody.id,
+                    result = responseSpecification.result,
+                    error = responseSpecification.error
+                )
         }
     }
 }

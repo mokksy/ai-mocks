@@ -14,6 +14,7 @@ import me.kpavlov.aimocks.a2a.model.Message
 import me.kpavlov.aimocks.a2a.model.SendTaskResponse
 import me.kpavlov.aimocks.a2a.model.Task
 import me.kpavlov.aimocks.a2a.model.create
+import me.kpavlov.aimocks.a2a.model.invalidRequestError
 import me.kpavlov.aimocks.a2a.model.sendTaskRequest
 import java.util.UUID
 import kotlin.test.Test
@@ -84,5 +85,45 @@ internal class SendTaskTest : AbstractTest() {
             response.status shouldBe HttpStatusCode.OK
             val payload = response.body<SendTaskResponse>()
             payload shouldBeEqualToComparingFields reply
+        }
+
+    @Test
+    fun `Should fail to send task`() =
+        runTest {
+            a2aServer.sendTask() responds {
+                id = 1
+                error = invalidRequestError {
+                    message = "Invalid request"
+                }
+            }
+
+            val response =
+                a2aClient
+                    .post("/") {
+                        val jsonRpcRequest = sendTaskRequest {
+                            id = "1"
+                            params {
+                                id = UUID.randomUUID().toString()
+                                message {
+                                    role = Message.Role.user
+                                    parts += text { "Tell me a joke" }
+                                }
+                            }
+                        }
+                        contentType(ContentType.Application.Json)
+                        setBody(jsonRpcRequest)
+                    }.call
+                    .response
+
+            response.status shouldBe HttpStatusCode.OK
+            val payload = response.body<SendTaskResponse>()
+
+            val expectedReply = SendTaskResponse.create {
+                id = 1
+                error = invalidRequestError {
+                    message = "Invalid request"
+                }
+            }
+            payload shouldBeEqualToComparingFields expectedReply
         }
 }

@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.a2a
 
+import me.kpavlov.aimocks.a2a.model.JSONRPCError
 import me.kpavlov.aimocks.a2a.model.RequestId
 import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationRequest
 import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationResponse
@@ -13,6 +14,7 @@ public class SetTaskPushNotificationResponseSpecification(
     response: AbstractResponseDefinition<SetTaskPushNotificationResponse>,
     public var id: RequestId? = null,
     public var result: TaskPushNotificationConfig? = null,
+    public var error: JSONRPCError? = null,
     public var delay: Duration = Duration.ZERO,
 ) : ResponseSpecification<SetTaskPushNotificationRequest, SetTaskPushNotificationResponse>(
         response = response,

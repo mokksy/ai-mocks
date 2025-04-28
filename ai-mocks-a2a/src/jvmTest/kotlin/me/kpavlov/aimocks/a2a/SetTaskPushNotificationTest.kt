@@ -14,6 +14,7 @@ import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationResponse
 import me.kpavlov.aimocks.a2a.model.TaskId
 import me.kpavlov.aimocks.a2a.model.TaskPushNotificationConfig
 import me.kpavlov.aimocks.a2a.model.create
+import me.kpavlov.aimocks.a2a.model.internalError
 import kotlin.test.Test
 
 internal class SetTaskPushNotificationTest : AbstractTest() {
@@ -72,5 +73,54 @@ internal class SetTaskPushNotificationTest : AbstractTest() {
                     id = 1,
                     result = config,
                 )
+        }
+
+    @Test
+    fun `Should fail to set TaskPushNotification config`() =
+        runTest {
+            val taskId: TaskId = "task_12345"
+            val config =
+                TaskPushNotificationConfig.create {
+                    id = taskId
+                    pushNotificationConfig {
+                        url = "https://example.com/callback"
+                        token = "abc.def.jk"
+                        authentication {
+                            credentials = "secret"
+                            schemes += "Bearer"
+                        }
+                    }
+                }
+
+            a2aServer.setTaskPushNotification() responds {
+                id = 1
+                error = internalError {
+                    message = "Failed to set push notification config"
+                }
+            }
+
+            val response =
+                a2aClient
+                    .post("/") {
+                        val jsonRpcRequest =
+                            SetTaskPushNotificationRequest(
+                                id = "1",
+                                params = config,
+                            )
+                        contentType(ContentType.Application.Json)
+                        setBody(jsonRpcRequest)
+                    }.call
+                    .response
+
+            response.status.shouldBeEqual(HttpStatusCode.OK)
+            val payload = response.body<SetTaskPushNotificationResponse>()
+
+            val expectedReply = SetTaskPushNotificationResponse(
+                id = 1,
+                error = internalError {
+                    message = "Failed to set push notification config"
+                }
+            )
+            payload shouldBeEqualToComparingFields expectedReply
         }
 }

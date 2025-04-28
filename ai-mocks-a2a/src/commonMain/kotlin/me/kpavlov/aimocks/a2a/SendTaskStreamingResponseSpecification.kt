@@ -2,6 +2,7 @@ package me.kpavlov.aimocks.a2a
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.stream.consumeAsFlow
+import me.kpavlov.aimocks.a2a.model.JSONRPCError
 import me.kpavlov.aimocks.a2a.model.SendTaskStreamingRequest
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
 import me.kpavlov.aimocks.core.ResponseSpecification
@@ -13,6 +14,7 @@ public class SendTaskStreamingResponseSpecification(
     response: AbstractResponseDefinition<String>,
     public var responseFlow: Flow<TaskUpdateEvent>? = null,
     public var delayBetweenChunks: Duration = Duration.ZERO,
+    public var error: JSONRPCError? = null,
     public var delay: Duration = Duration.ZERO,
 ) : ResponseSpecification<SendTaskStreamingRequest, String>(response = response) {
     /**

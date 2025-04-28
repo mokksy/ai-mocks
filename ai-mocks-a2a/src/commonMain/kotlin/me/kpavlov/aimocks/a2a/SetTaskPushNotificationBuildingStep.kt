@@ -23,11 +23,11 @@ public class SetTaskPushNotificationBuildingStep(
             val responseSpecification =
                 SetTaskPushNotificationResponseSpecification(responseDefinition)
             block.invoke(responseSpecification)
-            val config = requireNotNull(responseSpecification.result) { "Task must be defined" }
             body =
                 SetTaskPushNotificationResponse(
                     id = responseSpecification.id ?: requestBody.id,
-                    result = config,
+                    result = responseSpecification.result,
+                    error = responseSpecification.error
                 )
         }
     }
