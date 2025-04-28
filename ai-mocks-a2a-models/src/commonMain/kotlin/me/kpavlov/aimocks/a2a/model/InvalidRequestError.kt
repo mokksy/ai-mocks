@@ -11,28 +11,12 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.EncodeDefault
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class InvalidRequestError(
-    /** Error code */
-    @SerialName("code")
-    @EncodeDefault
-    val code: Int = -32600,
-    /** A short description of the error */
-    @SerialName("message")
-    val message: String = "Request payload validation error",
-    @Contextual
-    @SerialName("data")
-    val data: Any? = null,
-) {
-    init {
-        require(code == -32600) { "code not constant value -32600 - $code" }
-        require(message == "Request payload validation error") {
-            "message not constant value Request payload validation error - $message"
-        }
-    }
+public class InvalidRequestError : JSONRPCError {
+    @JvmOverloads
+    public constructor(data: Data? = null) :  super(-32600, "Request payload validation error", null)
+
+    public fun copy(data: Data? = this.data): InternalError = InternalError(data = data)
 }

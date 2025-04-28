@@ -11,26 +11,12 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class MethodNotFoundError(
-    /** Error code */
-    @SerialName("code")
-    val code: Int = -32601,
-    /** A short description of the error */
-    @SerialName("message")
-    val message: String = "Method not found",
-    @Contextual
-    @SerialName("data")
-    val data: Any? = null,
-) {
-    init {
-        require(code == -32601) { "code not constant value -32601 - $code" }
-        require(
-            message == "Method not found",
-        ) { "message not constant value Method not found - $message" }
-    }
+public class MethodNotFoundError : JSONRPCError {
+    @JvmOverloads
+    public constructor(data: Data? = null) :  super(-32601, "Method not found", data)
+
+    public fun copy(data: Data? = this.data): InternalError = InternalError(data = data)
 }

@@ -11,26 +11,12 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class TaskNotCancelableError(
-    /** Error code */
-    @SerialName("code")
-    val code: Int = -32002,
-    /** A short description of the error */
-    @SerialName("message")
-    val message: String = "Task cannot be canceled",
-    @Contextual
-    @SerialName("data")
-    val data: Any? = null,
-) {
-    init {
-        require(code == -32002) { "code not constant value -32002 - $code" }
-        require(message == "Task cannot be canceled") {
-            "message not constant value Task cannot be canceled - $message"
-        }
-    }
+public class TaskNotCancelableError : JSONRPCError {
+    @JvmOverloads
+    public constructor(data: Data? = null) : super(-32002, "Task cannot be canceled", data)
+
+    public fun copy(data: Data? = this.data): TaskNotCancelableError = TaskNotCancelableError(data)
 }

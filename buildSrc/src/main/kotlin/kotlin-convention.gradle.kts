@@ -1,6 +1,6 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -43,8 +43,8 @@ configure<SpotlessExtension> {
 tasks.withType<KotlinCompile>().configureEach {
     compilerOptions {
         jvmTarget = JvmTarget.JVM_17
-        languageVersion = KOTLIN_1_9
-        apiVersion = KOTLIN_1_9
+        languageVersion = KOTLIN_2_0
+        apiVersion = KOTLIN_2_0
         freeCompilerArgs =
             listOf(
                 "-Xjvm-default=all",

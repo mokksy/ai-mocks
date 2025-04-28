@@ -23,21 +23,12 @@ public data class PushNotificationConfig(
     @SerialName("authentication")
     val authentication: AuthenticationInfo? = null,
 ) {
-    public companion object {
-        /**
-         * Creates a new PushNotificationConfig using the DSL builder.
-         *
-         * @param init The lambda to configure the push notification config.
-         * @return A new PushNotificationConfig instance.
-         */
-        public fun build(init: PushNotificationConfigBuilder.() -> Unit): PushNotificationConfig =
-            PushNotificationConfigBuilder().apply(init).build()
-    }
-
     override fun toString(): String =
         "PushNotificationConfig(" +
             "url='$url', " +
             "authentication=$authentication, " +
             "token=${if (token != null) "[REDACTED]" else "null"}" +
             ")"
+
+    public companion object
 }

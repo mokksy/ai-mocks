@@ -33,7 +33,10 @@ internal class SendTaskStreamingTest : AbstractSerializationTest() {
                     }
                   }]
                 },
-                "metadata": {}
+                "metadata": {
+                  "foo": "bar",
+                  "fee": 42
+                }
               }
             }
             """.trimIndent()
@@ -47,6 +50,8 @@ internal class SendTaskStreamingTest : AbstractSerializationTest() {
         (model.params.message.parts[0] as? TextPart)?.text shouldBe
             "write a long paper describing the attached pictures"
         (model.params.message.parts[1] as? FilePart)?.file?.mimeType shouldBe "image/png"
+        model.params.metadata?.get("foo") shouldBe "bar"
+        model.params.metadata?.get("fee") shouldBe 42
     }
 
     @Test

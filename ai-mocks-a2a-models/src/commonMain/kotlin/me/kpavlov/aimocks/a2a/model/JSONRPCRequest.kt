@@ -18,23 +18,22 @@ import kotlinx.serialization.Serializable
 import me.kpavlov.aimocks.a2a.model.serializers.RequestIdSerializer
 
 @Serializable
-public data class JSONRPCRequest(
+public open class JSONRPCRequest<T>(
     @SerialName("jsonrpc")
     @EncodeDefault
-    val jsonrpc: String = "2.0",
+    public val jsonrpc: String = "2.0",
     @SerialName("id")
     @Serializable(with = RequestIdSerializer::class)
-    val id: RequestId? = null,
+    public open val id: RequestId? = null,
     @SerialName("method")
-    val method: String,
+    public val method: String,
     @Contextual
     @SerialName("params")
-    val params: Params? = null,
+    public open val params: T? = null,
 ) {
     init {
         require(jsonrpc == "2.0") { "jsonrpc not constant value 2.0 - $jsonrpc" }
     }
 
-    @Serializable
-    public open class Params
+    public constructor(method: String, params: T? = null): this(jsonrpc = "2.0", method = method, params = params)
 }

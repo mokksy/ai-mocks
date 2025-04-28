@@ -11,7 +11,6 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -21,7 +20,7 @@ public data class DataPart
     @JvmOverloads
     constructor(
         @SerialName("data")
-        val data: Map<String, @Contextual Any>,
+        val data: Data,
         @SerialName("metadata")
         val metadata: Metadata? = null,
     ) : Part {

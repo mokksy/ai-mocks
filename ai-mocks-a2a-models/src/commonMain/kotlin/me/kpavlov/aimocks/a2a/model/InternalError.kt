@@ -11,26 +11,17 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class InternalError(
-    /** Error code */
-    @SerialName("code")
-    val code: Int = -32603,
-    /** A short description of the error */
-    @SerialName("message")
-    val message: String = "Internal error",
-    @Contextual
-    @SerialName("data")
-    val data: Any? = null,
-) {
-    init {
-        require(code == -32603) { "code not constant value -32603 - $code" }
-        require(
-            message == "Internal error",
-        ) { "message not constant value Internal error - $message" }
-    }
+public class InternalError : JSONRPCError {
+
+    @JvmOverloads
+    public constructor(data: Data? = null) : super(
+        code = -32603,
+        message = "Internal error",
+        data = data
+    )
+
+    public fun copy(data: Data? = this.data): InternalError = InternalError(data = data)
 }

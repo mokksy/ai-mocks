@@ -90,7 +90,7 @@ public class OpenaiChatCompletionsBuildingStep(
                                 ),
                         ),
                     choices =
-                        listOf<Choice>(
+                        listOf(
                             Choice(
                                 index = 0,
                                 message =
@@ -121,7 +121,7 @@ public class OpenaiChatCompletionsBuildingStep(
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     public infix fun respondsStream(block: OpenaiStreamingChatResponseSpecification.() -> Unit) {
-        buildingStep.respondsWithStream<String> {
+        buildingStep.respondsWithStream {
             val responseDefinition: StreamResponseDefinition<ChatCompletionRequest, String> =
                 this.build()
             val responseSpec =

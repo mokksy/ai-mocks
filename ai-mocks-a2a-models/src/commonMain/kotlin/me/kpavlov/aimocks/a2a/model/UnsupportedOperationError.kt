@@ -11,28 +11,15 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class UnsupportedOperationError(
-    /** Error code */
-    @SerialName("code")
-    val code: Int = -32004,
-    /** A short description of the error */
-    @SerialName("message")
-    val message: String = "This operation is not supported",
-    @Contextual
-    @SerialName("data")
-    val data: Any? = null,
-) {
-    init {
-        require(code == -32004) { "code not constant value -32004 - $code" }
-        require(message == cg_str0) { "message not constant value $cg_str0 - $message" }
-    }
+public class UnsupportedOperationError : JSONRPCError {
+    @JvmOverloads
+    public constructor(data: Data? = null) : super(-32004, "This operation is not supported", null)
 
-    private companion object {
-        private const val cg_str0 = "This operation is not supported"
-    }
+    public fun copy(data: Data? = this.data): UnsupportedOperationError =
+        UnsupportedOperationError(data)
+
+    private companion object
 }

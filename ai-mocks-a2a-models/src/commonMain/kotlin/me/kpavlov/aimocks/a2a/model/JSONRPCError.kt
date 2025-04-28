@@ -16,12 +16,37 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class JSONRPCError(
+public open class JSONRPCError(
     @SerialName("code")
-    val code: Long,
+    public val code: Long,
     @SerialName("message")
-    val message: String,
+    public val message: String,
     @SerialName("data")
     @Contextual
-    val data: Any? = null,
-)
+    public val data: Data? = null,
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is JSONRPCError) return false
+        if (other.javaClass != this.javaClass) return false
+
+        if (code != other.code) return false
+        if (message != other.message) return false
+        if (data != other.data) return false
+
+        return true
+    }
+
+
+    override fun hashCode(): Int {
+        var result = code.hashCode()
+        result = 31 * result + javaClass.hashCode()
+        result = 31 * result + message.hashCode()
+        result = 31 * result + (data?.hashCode() ?: 0)
+        return result
+    }
+
+    override fun toString(): String {
+        return "JSONRPCError(message='$message', code=$code, data=$data)"
+    }
+}

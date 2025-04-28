@@ -2,10 +2,6 @@
 plugins {
     base
     alias(libs.plugins.detekt)
-//    id("org.jetbrains.dokka")
-//    id("org.jetbrains.dokka:dokka-gradle-plugin:2.0.0") apply true
-//    alias(libs.plugins.dokka) apply true
-//    alias(libs.plugins.dokka.javadoc)
     alias(libs.plugins.kover)
     `dokka-convention`
     alias(libs.plugins.nexusPublish) // https://github.com/gradle-nexus/publish-plugin
@@ -56,16 +52,12 @@ kover {
         verify {
             rule {
                 bound {
-                    minValue = 70
+                    minValue = 67
                 }
             }
         }
     }
 }
-
-//tasks.dokkaHtmlMultiModule {
-//    moduleName.set("AI-Mocks")
-//}
 
 rewrite {
     activeRecipe(

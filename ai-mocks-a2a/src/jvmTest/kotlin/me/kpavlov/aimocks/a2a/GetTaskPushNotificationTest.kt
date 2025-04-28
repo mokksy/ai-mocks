@@ -16,6 +16,7 @@ import me.kpavlov.aimocks.a2a.model.PushNotificationConfig
 import me.kpavlov.aimocks.a2a.model.TaskId
 import me.kpavlov.aimocks.a2a.model.TaskIdParams
 import me.kpavlov.aimocks.a2a.model.TaskPushNotificationConfig
+import me.kpavlov.aimocks.a2a.model.invalidParamsError
 import kotlin.test.Test
 
 internal class GetTaskPushNotificationTest : AbstractTest() {
@@ -68,5 +69,45 @@ internal class GetTaskPushNotificationTest : AbstractTest() {
                     id = 1,
                     result = config,
                 )
+        }
+
+    @Test
+    fun `Should fail to get TaskPushNotification config`() =
+        runTest {
+            val taskId: TaskId = "task_12345"
+
+            a2aServer.getTaskPushNotification() responds {
+                id = 1
+                error = invalidParamsError {
+                    message = "Invalid parameters"
+                }
+            }
+
+            val response =
+                a2aClient
+                    .post("/") {
+                        val jsonRpcRequest =
+                            GetTaskPushNotificationRequest(
+                                id = "1",
+                                params =
+                                    TaskIdParams(
+                                        id = taskId,
+                                    ),
+                            )
+                        contentType(ContentType.Application.Json)
+                        setBody(jsonRpcRequest)
+                    }.call
+                    .response
+
+            response.status.shouldBeEqual(HttpStatusCode.OK)
+            val payload = response.body<GetTaskPushNotificationResponse>()
+
+            val expectedReply = GetTaskPushNotificationResponse(
+                id = 1,
+                error = invalidParamsError {
+                    message = "Invalid parameters"
+                }
+            )
+            payload shouldBeEqualToComparingFields expectedReply
         }
 }

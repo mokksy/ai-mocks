@@ -21,27 +21,73 @@ public class TaskStatusUpdateEventBuilder {
     public var final: Boolean = false
     public var metadata: Metadata? = null
 
-    public fun id(id: TaskId): TaskStatusUpdateEventBuilder {
-        this.id = id
-        return this
-    }
+    /**
+     * Sets the task ID.
+     *
+     * @param id The task ID.
+     * @return This builder instance for method chaining.
+     */
+    public fun id(id: TaskId): TaskStatusUpdateEventBuilder =
+        apply {
+            this.id = id
+        }
 
-    public fun isFinal(isFinal: Boolean): TaskStatusUpdateEventBuilder {
-        this.final = isFinal
-        return this
-    }
+    /**
+     * Sets the final status flag.
+     *
+     * @param isFinal Whether this is the final status update.
+     * @return This builder instance for method chaining.
+     */
+    public fun isFinal(isFinal: Boolean): TaskStatusUpdateEventBuilder =
+        apply {
+            this.final = isFinal
+        }
 
-    public fun status(block: TaskStatusBuilder.() -> Unit): TaskStatusUpdateEventBuilder {
-        TaskStatusBuilder().apply(block).build().also { status = it }
-        return this
-    }
+    /**
+     * Sets the task status directly.
+     *
+     * @param status The task status.
+     * @return This builder instance for method chaining.
+     */
+    public fun status(status: TaskStatus): TaskStatusUpdateEventBuilder =
+        apply {
+            this.status = status
+        }
 
-    public fun status(block: Consumer<TaskStatusBuilder>): TaskStatusUpdateEventBuilder {
-        val builder = TaskStatusBuilder()
-        block.accept(builder)
-        builder.build().also { status = it }
-        return this
-    }
+    /**
+     * Configures the task status using a DSL.
+     *
+     * @param block The lambda to configure the task status.
+     * @return This builder instance for method chaining.
+     */
+    public fun status(block: TaskStatusBuilder.() -> Unit): TaskStatusUpdateEventBuilder =
+        apply {
+            status = TaskStatusBuilder().apply(block).build()
+        }
+
+    /**
+     * Configures the task status using a Java-friendly Consumer.
+     *
+     * @param block The consumer to configure the task status.
+     * @return This builder instance for method chaining.
+     */
+    public fun status(block: Consumer<TaskStatusBuilder>): TaskStatusUpdateEventBuilder =
+        apply {
+            val builder = TaskStatusBuilder()
+            block.accept(builder)
+            status = builder.build()
+        }
+
+    /**
+     * Sets the metadata.
+     *
+     * @param metadata The metadata.
+     * @return This builder instance for method chaining.
+     */
+    public fun metadata(metadata: Metadata): TaskStatusUpdateEventBuilder =
+        apply {
+            this.metadata = metadata
+        }
 
     public fun build(): TaskStatusUpdateEvent =
         TaskStatusUpdateEvent(
@@ -76,3 +122,14 @@ public fun taskStatusUpdateEvent(
 public fun TaskStatusUpdateEvent.Companion.create(
     init: TaskStatusUpdateEventBuilder.() -> Unit,
 ): TaskStatusUpdateEvent = TaskStatusUpdateEventBuilder().apply(init).build()
+
+/**
+ * Java-friendly DSL extension for [TaskStatusUpdateEvent.Companion].
+ */
+public fun TaskStatusUpdateEvent.Companion.create(
+    init: Consumer<TaskStatusUpdateEventBuilder>,
+): TaskStatusUpdateEvent {
+    val builder = TaskStatusUpdateEventBuilder()
+    init.accept(builder)
+    return builder.build()
+}
