@@ -20,6 +20,22 @@ internal class TaskStatusBuilderTest {
     }
 
     @Test
+    fun `should build TaskStatus with TaskState enum`() {
+        for (state in TaskState.entries) {
+            // when
+            val status = TaskStatus.create {
+                state(state)
+            }
+
+            // then
+            status.state shouldBe state.value
+            status.message shouldBe null
+            status.timestamp shouldBe null
+        }
+
+    }
+
+    @Test
     fun `should build TaskStatus with all parameters`() {
         // given
         val message = Message.create {
@@ -29,11 +45,11 @@ internal class TaskStatusBuilderTest {
         val timestamp = Instant.parse("2023-01-01T00:00:00Z")
 
         // when
-        val status = TaskStatusBuilder()
-            .state("completed")
-            .message(message)
-            .timestamp(timestamp)
-            .build()
+        val status = taskStatus {
+            state = "completed"
+            this.message = message
+            this.timestamp = timestamp
+        }
 
         // then
         status.state shouldBe "completed"

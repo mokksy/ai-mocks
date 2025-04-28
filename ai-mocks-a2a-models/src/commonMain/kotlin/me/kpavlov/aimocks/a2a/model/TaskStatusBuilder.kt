@@ -38,6 +38,11 @@ public class TaskStatusBuilder {
             this.state = state
         }
 
+    public fun state(state: TaskState): TaskStatusBuilder =
+        apply {
+            this.state = state.value
+        }
+
     /**
      * Sets the message of the task status.
      *
