@@ -122,7 +122,7 @@ internal class ArtifactBuilderTest {
         // then
         artifact.parts.size shouldBe 1
         val dataPart = artifact.parts[0] as DataPart
-        dataPart.data shouldBe mapOf("key1" to "value1", "key2" to 42)
+        dataPart.data.asMap() shouldBe mapOf("key1" to "value1", "key2" to 42)
     }
 
     @Test

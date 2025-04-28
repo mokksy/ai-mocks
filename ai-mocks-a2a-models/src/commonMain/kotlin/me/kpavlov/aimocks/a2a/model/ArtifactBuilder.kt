@@ -97,6 +97,17 @@ public class ArtifactBuilder {
         return builder.build()
     }
 
+    public fun text(block: () -> String): TextPart =
+        TextPartBuilder().text(block.invoke()).build()
+
+    public fun file(block: FileContentBuilder.() -> Unit): FilePart = filePart {
+        this.file(block)
+    }
+
+    public fun data(block: () -> Map<String, Any>): DataPart = dataPart {
+        data = block.invoke().toMutableMap()
+    }
+
     /**
      * Creates a file part using the provided configuration block.
      *

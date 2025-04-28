@@ -11,9 +11,12 @@ public value class Data(
 
     public operator fun get(key: String): Any? = value[key]
 
+    public fun asMap(): Map<String, Any> = value
+
     public companion object {
         private val EMPTY: Data = Data(emptyMap())
         public fun empty(): Data = EMPTY
         public fun of(vararg pairs: Pair<String, Any>): Data = Data(mapOf(*pairs))
+        public fun of(map: Map<String, Any>): Data = Data(map)
     }
 }

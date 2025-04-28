@@ -66,7 +66,7 @@ public class DataPartBuilder {
         }
 
         return DataPart(
-            data = data,
+            data = Data.of(data),
             metadata = metadata,
         )
     }

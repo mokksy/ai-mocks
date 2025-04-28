@@ -10,10 +10,10 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
-import me.kpavlov.aimocks.a2a.model.GetTaskRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskResponse
 import me.kpavlov.aimocks.a2a.model.Task
-import me.kpavlov.aimocks.a2a.model.TaskQueryParams
+import me.kpavlov.aimocks.a2a.model.getTaskRequest
+import me.kpavlov.aimocks.a2a.model.getTaskResponse
 import java.util.UUID
 import kotlin.test.Test
 
@@ -34,14 +34,12 @@ internal class GetTaskTest : AbstractTest() {
                     status {
                         state = "completed"
                     }
-                    artifacts +=
-                        artifact {
-                            name = "joke"
-                            parts +=
-                                textPart {
-                                    text = "This is a joke"
-                                }
+                    artifacts += artifact {
+                        name = "joke"
+                        parts += textPart {
+                            text = "This is a joke"
                         }
+                    }
                 }
                 expectedTask = requireNotNull(result) { "Result should not be null" }
             }
@@ -49,15 +47,13 @@ internal class GetTaskTest : AbstractTest() {
             val response =
                 a2aClient
                     .post("/") {
-                        val jsonRpcRequest =
-                            GetTaskRequest(
-                                id = "1",
-                                params =
-                                    TaskQueryParams(
-                                        id = UUID.randomUUID().toString(),
-                                        historyLength = 2,
-                                    ),
-                            )
+                        val jsonRpcRequest = getTaskRequest {
+                            id = "1"
+                            params {
+                                id = UUID.randomUUID().toString()
+                                historyLength = 2
+                            }
+                        }
                         contentType(ContentType.Application.Json)
                         setBody(Json.encodeToString(jsonRpcRequest))
                     }.call
@@ -68,11 +64,22 @@ internal class GetTaskTest : AbstractTest() {
             logger.info { "body = $body" }
             val payload = Json.decodeFromString<GetTaskResponse>(body)
 
-            val expectedReply =
-                GetTaskResponse(
-                    id = 1,
-                    result = expectedTask,
-                )
+            val expectedReply = getTaskResponse {
+                id = 1
+                result {
+                    id = "tid_12345"
+                    sessionId = null
+                    status {
+                        state = "completed"
+                    }
+                    artifacts += artifact {
+                        name = "joke"
+                        parts += textPart {
+                            text = "This is a joke"
+                        }
+                    }
+                }
+            }
             payload shouldBeEqualToComparingFields expectedReply
         }
 }

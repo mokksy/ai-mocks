@@ -14,7 +14,7 @@ internal class DataPartBuilderTest {
             .build()
 
         // then
-        dataPart.data shouldBe mapOf("key1" to "value1", "key2" to 42)
+        dataPart.data.asMap() shouldBe mapOf("key1" to "value1", "key2" to 42)
         dataPart.metadata shouldBe null
     }
 
@@ -29,7 +29,7 @@ internal class DataPartBuilderTest {
             .build()
 
         // then
-        dataPart.data shouldBe mapOf("key1" to "value1", "key2" to 42)
+        dataPart.data.asMap() shouldBe mapOf("key1" to "value1", "key2" to 42)
         dataPart.metadata shouldBe metadata
     }
 
@@ -42,7 +42,7 @@ internal class DataPartBuilderTest {
             .build()
 
         // then
-        dataPart.data shouldBe dataMap
+        dataPart.data.asMap() shouldBe dataMap
     }
 
     @Test
@@ -62,7 +62,7 @@ internal class DataPartBuilderTest {
         }
 
         // then
-        dataPart.data shouldBe mapOf("key1" to "value1", "key2" to 42)
+        dataPart.data.asMap() shouldBe mapOf("key1" to "value1", "key2" to 42)
         dataPart.metadata shouldBe null
     }
 
@@ -75,7 +75,7 @@ internal class DataPartBuilderTest {
         }
 
         // then
-        dataPart.data shouldBe mapOf("key1" to "value1", "key2" to 42)
+        dataPart.data.asMap() shouldBe mapOf("key1" to "value1", "key2" to 42)
         dataPart.metadata shouldBe null
     }
 }
