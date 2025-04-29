@@ -144,6 +144,18 @@ a2aServer.getTask() responds {
 }
 ```
 
+You can also configure the mock server to respond with an error:
+
+```kotlin
+// Configure the mock server to respond with a task not found error
+a2aServer.getTask() responds {
+    id = 1
+    error = taskNotFoundError {
+        message = "Task not found"
+    }
+}
+```
+
 Client call example:
 
 ```kotlin
@@ -178,22 +190,23 @@ Mock Server configuration:
 ```kotlin
 // Create a Task object
 val task = Task.create {
-    id("tid_12345")
-    status {
-        state("completed")
-    }
-    artifacts += artifact {
-        name = "joke"
-        parts += textPart {
-            text = "This is a joke"
-        }
-    }
+  id("tid_12345")
+  status {
+    state("completed")
+  }
+  artifacts += artifact {
+    name = "joke"
+    parts += text { "This is a joke" }
+    parts += file { uri = "https://example.com/readme.md" }
+    parts += file { bytes = "1234".toByteArray() }
+    parts += data { mapOf("foo" to "bar") }
+  }
 }
 
 // Configure the mock server to respond with the task
 a2aServer.sendTask() responds {
-    id = 1
-    result = task
+  id = 1
+  result = task
 }
 ```
 
