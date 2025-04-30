@@ -26,7 +26,7 @@ openrewrite = "7.5.0"
 slf4j = "2.0.17"
 spotless = "7.0.3"
 spring = "6.2.6"
-spring-ai = "1.0.0-M7"
+spring-ai = "1.0.0-M8"
 
 [libraries]
 anthropic-java-client-okhttp = { group = "com.anthropic", name="anthropic-java-client-okhttp", version.ref="anthropic-java" }
