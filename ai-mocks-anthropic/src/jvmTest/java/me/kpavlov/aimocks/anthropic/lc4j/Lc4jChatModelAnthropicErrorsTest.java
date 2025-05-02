@@ -79,7 +79,6 @@ class Lc4jChatModelAnthropicErrorsTest {
                 res.httpStatus(httpStatusCode);
             });
 
-
         // when-then
         final var chatRequest = ChatRequest.builder().messages(
             systemMessage("Let's test " + type),
@@ -100,9 +99,7 @@ class Lc4jChatModelAnthropicErrorsTest {
     void shouldHandleTimeout() {
         // given
         final var question = "Simulate timeout " + System.currentTimeMillis();
-        MOCK.messages(req -> {
-                req.userMessageContains(question);
-            })
+        MOCK.messages(req -> req.userMessageContains(question))
             .responds(res -> {
                 res.delayMillis(TIMEOUT.plusMillis(200).toMillis());
                 res.assistantContent("You should never see this");
