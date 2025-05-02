@@ -46,7 +46,7 @@ kotlin {
                 implementation(libs.junit.jupiter.params)
                 implementation(project.dependencies.platform(libs.spring.bom))
                 implementation(project.dependencies.platform(libs.spring.ai.bom))
-                implementation(project.dependencies.platform(libs.langchain4j.bom))
+//                implementation(project.dependencies.platform(libs.langchain4j.bom))
                 implementation(libs.anthropic.java.client.okhttp)
                 implementation(libs.langchain4j.anthropic)
                 runtimeOnly(libs.slf4j.simple)
