@@ -39,6 +39,7 @@ jobs:
         with:
           gradle-version: 8.14
           add-job-summary-as-pr-comment: on-failure # Valid values are 'never' (default), 'always', and 'on-failure'
+          cache-disabled: true
           cache-cleanup: 'always'
           cache-overwrite-existing: true
 
