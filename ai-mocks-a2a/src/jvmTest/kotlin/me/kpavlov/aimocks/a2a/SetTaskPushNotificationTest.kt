@@ -94,9 +94,10 @@ internal class SetTaskPushNotificationTest : AbstractTest() {
 
             a2aServer.setTaskPushNotification() responds {
                 id = 1
-                error = internalError {
-                    message = "Failed to set push notification config"
-                }
+                error =
+                    internalError {
+                        message = "Failed to set push notification config"
+                    }
             }
 
             val response =
@@ -115,12 +116,14 @@ internal class SetTaskPushNotificationTest : AbstractTest() {
             response.status.shouldBeEqual(HttpStatusCode.OK)
             val payload = response.body<SetTaskPushNotificationResponse>()
 
-            val expectedReply = SetTaskPushNotificationResponse(
-                id = 1,
-                error = internalError {
-                    message = "Failed to set push notification config"
-                }
-            )
+            val expectedReply =
+                SetTaskPushNotificationResponse(
+                    id = 1,
+                    error =
+                        internalError {
+                            message = "Failed to set push notification config"
+                        },
+                )
             payload shouldBeEqualToComparingFields expectedReply
         }
 }

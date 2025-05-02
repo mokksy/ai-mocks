@@ -11,10 +11,11 @@ internal class TaskStatusUpdateEventBuilderTest {
         val status = TaskStatus(state = "completed")
 
         // when
-        val event = TaskStatusUpdateEventBuilder()
-            .id("task-123")
-            .status(status)
-            .build()
+        val event =
+            TaskStatusUpdateEventBuilder()
+                .id("task-123")
+                .status(status)
+                .build()
 
         // then
         event.id shouldBe "task-123"
@@ -30,12 +31,13 @@ internal class TaskStatusUpdateEventBuilderTest {
         val metadata = Metadata.of("metaKey" to "metaValue")
 
         // when
-        val event = TaskStatusUpdateEventBuilder()
-            .id("task-123")
-            .status(status)
-            .isFinal(true)
-            .metadata(metadata)
-            .build()
+        val event =
+            TaskStatusUpdateEventBuilder()
+                .id("task-123")
+                .status(status)
+                .isFinal(true)
+                .metadata(metadata)
+                .build()
 
         // then
         event.id shouldBe "task-123"
@@ -47,12 +49,12 @@ internal class TaskStatusUpdateEventBuilderTest {
     @Test
     fun `should build TaskStatusUpdateEvent with status builder`() {
         // when
-        val event = TaskStatusUpdateEventBuilder()
-            .id("task-123")
-            .status {
-                state("completed")
-            }
-            .build()
+        val event =
+            TaskStatusUpdateEventBuilder()
+                .id("task-123")
+                .status {
+                    state("completed")
+                }.build()
 
         // then
         event.id shouldBe "task-123"
@@ -87,13 +89,14 @@ internal class TaskStatusUpdateEventBuilderTest {
     @Test
     fun `should build using top-level DSL function`() {
         // when
-        val event = taskStatusUpdateEvent {
-            id("task-123")
-            status {
-                state("completed")
+        val event =
+            taskStatusUpdateEvent {
+                id("task-123")
+                status {
+                    state("completed")
+                }
+                isFinal(true)
             }
-            isFinal(true)
-        }
 
         // then
         event.id shouldBe "task-123"
@@ -105,13 +108,14 @@ internal class TaskStatusUpdateEventBuilderTest {
     @Test
     fun `should build using companion object create function`() {
         // when
-        val event = TaskStatusUpdateEvent.create {
-            id("task-123")
-            status {
-                state("completed")
+        val event =
+            TaskStatusUpdateEvent.create {
+                id("task-123")
+                status {
+                    state("completed")
+                }
+                isFinal(true)
             }
-            isFinal(true)
-        }
 
         // then
         event.id shouldBe "task-123"

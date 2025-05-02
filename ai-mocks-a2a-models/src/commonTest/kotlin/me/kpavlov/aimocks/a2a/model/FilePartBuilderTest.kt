@@ -8,16 +8,18 @@ internal class FilePartBuilderTest {
     @Test
     fun `should build FilePart with required parameters`() {
         // given
-        val fileContent = FileContent(
-            name = "example.txt",
-            mimeType = "text/plain",
-            bytes = "Hello World".encodeToByteArray()
-        )
+        val fileContent =
+            FileContent(
+                name = "example.txt",
+                mimeType = "text/plain",
+                bytes = "Hello World".encodeToByteArray(),
+            )
 
         // when
-        val filePart = FilePartBuilder()
-            .file(fileContent)
-            .build()
+        val filePart =
+            FilePartBuilder()
+                .file(fileContent)
+                .build()
 
         // then
         filePart.file shouldBe fileContent
@@ -27,18 +29,20 @@ internal class FilePartBuilderTest {
     @Test
     fun `should build FilePart with all parameters`() {
         // given
-        val fileContent = FileContent(
-            name = "example.txt",
-            mimeType = "text/plain",
-            bytes = "Hello World".encodeToByteArray()
-        )
+        val fileContent =
+            FileContent(
+                name = "example.txt",
+                mimeType = "text/plain",
+                bytes = "Hello World".encodeToByteArray(),
+            )
         val metadata = Metadata.of("metaKey" to "metaValue")
 
         // when
-        val filePart = FilePartBuilder()
-            .file(fileContent)
-            .metadata(metadata)
-            .build()
+        val filePart =
+            FilePartBuilder()
+                .file(fileContent)
+                .metadata(metadata)
+                .build()
 
         // then
         filePart.file shouldBe fileContent
@@ -51,15 +55,15 @@ internal class FilePartBuilderTest {
         val bytes = "Hello World".encodeToByteArray()
 
         // when
-        val filePart = FilePartBuilder()
-            .apply {
-                file {
-                    name("example.txt")
-                    mimeType("text/plain")
-                    bytes(bytes)
-                }
-            }
-            .build()
+        val filePart =
+            FilePartBuilder()
+                .apply {
+                    file {
+                        name("example.txt")
+                        mimeType("text/plain")
+                        bytes(bytes)
+                    }
+                }.build()
 
         // then
         filePart.file.name shouldBe "example.txt"
@@ -83,13 +87,14 @@ internal class FilePartBuilderTest {
         val bytes = "Hello World".encodeToByteArray()
 
         // when
-        val filePart = filePart {
-            file {
-                name("example.txt")
-                mimeType("text/plain")
-                bytes(bytes)
+        val filePart =
+            filePart {
+                file {
+                    name("example.txt")
+                    mimeType("text/plain")
+                    bytes(bytes)
+                }
             }
-        }
 
         // then
         filePart.file.name shouldBe "example.txt"
@@ -105,14 +110,15 @@ internal class FilePartBuilderTest {
         val bytes = "Hello World".encodeToByteArray()
 
         // when
-        val filePart = FilePart.create {
-            file {
-                name("example.txt")
-                mimeType("text/plain")
-                bytes(bytes)
+        val filePart =
+            FilePart.create {
+                file {
+                    name("example.txt")
+                    mimeType("text/plain")
+                    bytes(bytes)
+                }
+                metadata(Metadata.of("metaKey" to "metaValue"))
             }
-            metadata(Metadata.of("metaKey" to "metaValue"))
-        }
 
         // then
         filePart.file.name shouldBe "example.txt"

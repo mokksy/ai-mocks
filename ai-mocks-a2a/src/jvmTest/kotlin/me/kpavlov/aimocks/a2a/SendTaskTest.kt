@@ -39,22 +39,23 @@ internal class SendTaskTest : AbstractTest() {
                     }
                 }
 
-            val reply = SendTaskResponse.create {
-                id = 1
-                result {
-                    id = "tid_12345"
-                    status {
-                        state = "completed"
-                    }
-                    artifact {
-                        name = "joke"
-                        parts += text { "This is a joke" }
-                        parts += file { uri = "https://example.com/readme.md" }
-                        parts += file { bytes = "1234".toByteArray() }
-                        parts += data { mapOf("foo" to "bar") }
+            val reply =
+                SendTaskResponse.create {
+                    id = 1
+                    result {
+                        id = "tid_12345"
+                        status {
+                            state = "completed"
+                        }
+                        artifact {
+                            name = "joke"
+                            parts += text { "This is a joke" }
+                            parts += file { uri = "https://example.com/readme.md" }
+                            parts += file { bytes = "1234".toByteArray() }
+                            parts += data { mapOf("foo" to "bar") }
+                        }
                     }
                 }
-            }
 
             a2aServer.sendTask() responds {
                 id = 1
@@ -64,19 +65,20 @@ internal class SendTaskTest : AbstractTest() {
             val response =
                 a2aClient
                     .post("/") {
-                        val jsonRpcRequest = sendTaskRequest {
-                            id = "1"
-                            params {
-                                id = UUID.randomUUID().toString()
-                                message {
-                                    role = Message.Role.user
-                                    parts += text { "Tell me a joke" }
-                                    parts += file { uri = "https://example.com/readme.md" }
-                                    parts += file { bytes = "1234".toByteArray() }
-                                    parts += data { mapOf("foo" to "bar") }
+                        val jsonRpcRequest =
+                            sendTaskRequest {
+                                id = "1"
+                                params {
+                                    id = UUID.randomUUID().toString()
+                                    message {
+                                        role = Message.Role.user
+                                        parts += text { "Tell me a joke" }
+                                        parts += file { uri = "https://example.com/readme.md" }
+                                        parts += file { bytes = "1234".toByteArray() }
+                                        parts += data { mapOf("foo" to "bar") }
+                                    }
                                 }
                             }
-                        }
                         contentType(ContentType.Application.Json)
                         setBody(jsonRpcRequest)
                     }.call
@@ -92,24 +94,26 @@ internal class SendTaskTest : AbstractTest() {
         runTest {
             a2aServer.sendTask() responds {
                 id = 1
-                error = invalidRequestError {
-                    message = "Invalid request"
-                }
+                error =
+                    invalidRequestError {
+                        message = "Invalid request"
+                    }
             }
 
             val response =
                 a2aClient
                     .post("/") {
-                        val jsonRpcRequest = sendTaskRequest {
-                            id = "1"
-                            params {
-                                id = UUID.randomUUID().toString()
-                                message {
-                                    role = Message.Role.user
-                                    parts += text { "Tell me a joke" }
+                        val jsonRpcRequest =
+                            sendTaskRequest {
+                                id = "1"
+                                params {
+                                    id = UUID.randomUUID().toString()
+                                    message {
+                                        role = Message.Role.user
+                                        parts += text { "Tell me a joke" }
+                                    }
                                 }
                             }
-                        }
                         contentType(ContentType.Application.Json)
                         setBody(jsonRpcRequest)
                     }.call
@@ -118,12 +122,14 @@ internal class SendTaskTest : AbstractTest() {
             response.status shouldBe HttpStatusCode.OK
             val payload = response.body<SendTaskResponse>()
 
-            val expectedReply = SendTaskResponse.create {
-                id = 1
-                error = invalidRequestError {
-                    message = "Invalid request"
+            val expectedReply =
+                SendTaskResponse.create {
+                    id = 1
+                    error =
+                        invalidRequestError {
+                            message = "Invalid request"
+                        }
                 }
-            }
             payload shouldBeEqualToComparingFields expectedReply
         }
 }

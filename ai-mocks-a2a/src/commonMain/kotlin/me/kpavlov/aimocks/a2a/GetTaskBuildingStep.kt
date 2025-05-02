@@ -10,20 +10,21 @@ public class GetTaskBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<GetTaskRequest>,
 ) : AbstractBuildingStep<GetTaskRequest, GetTaskResponseSpecification>(
-    mokksy,
-    buildingStep,
-) {
+        mokksy,
+        buildingStep,
+    ) {
     override infix fun responds(block: GetTaskResponseSpecification.() -> Unit) {
         buildingStep.respondsWith<GetTaskResponse> {
             val requestBody = request.body
             val responseDefinition = this.build()
             val responseSpecification = GetTaskResponseSpecification(responseDefinition)
             block.invoke(responseSpecification)
-            body = GetTaskResponse(
-                id = responseSpecification.id ?: requestBody.id,
-                result = responseSpecification.result,
-                error = responseSpecification.error,
-            )
+            body =
+                GetTaskResponse(
+                    id = responseSpecification.id ?: requestBody.id,
+                    result = responseSpecification.result,
+                    error = responseSpecification.error,
+                )
         }
     }
 }

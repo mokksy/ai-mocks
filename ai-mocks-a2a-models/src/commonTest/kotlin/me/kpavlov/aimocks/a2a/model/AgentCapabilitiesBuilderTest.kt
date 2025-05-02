@@ -18,11 +18,13 @@ internal class AgentCapabilitiesBuilderTest {
     @Test
     fun `should build AgentCapabilities with custom values`() {
         // when
-        val capabilities = AgentCapabilitiesBuilder().apply {
-            streaming = true
-            pushNotifications = true
-            stateTransitionHistory = true
-        }.build()
+        val capabilities =
+            AgentCapabilitiesBuilder()
+                .apply {
+                    streaming = true
+                    pushNotifications = true
+                    stateTransitionHistory = true
+                }.build()
 
         // then
         capabilities.streaming shouldBe true
@@ -33,11 +35,13 @@ internal class AgentCapabilitiesBuilderTest {
     @Test
     fun `should build AgentCapabilities with mixed values`() {
         // when
-        val capabilities = AgentCapabilitiesBuilder().apply {
-            streaming = true
-            pushNotifications = false
-            stateTransitionHistory = true
-        }.build()
+        val capabilities =
+            AgentCapabilitiesBuilder()
+                .apply {
+                    streaming = true
+                    pushNotifications = false
+                    stateTransitionHistory = true
+                }.build()
 
         // then
         capabilities.streaming shouldBe true

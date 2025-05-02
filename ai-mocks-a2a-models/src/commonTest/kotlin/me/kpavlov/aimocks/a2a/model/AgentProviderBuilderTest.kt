@@ -8,9 +8,11 @@ internal class AgentProviderBuilderTest {
     @Test
     fun `should build AgentProvider with required properties`() {
         // when
-        val provider = AgentProviderBuilder().apply {
-            organization = "Test Organization"
-        }.build()
+        val provider =
+            AgentProviderBuilder()
+                .apply {
+                    organization = "Test Organization"
+                }.build()
 
         // then
         provider.organization shouldBe "Test Organization"
@@ -20,10 +22,12 @@ internal class AgentProviderBuilderTest {
     @Test
     fun `should build AgentProvider with all properties`() {
         // when
-        val provider = AgentProviderBuilder().apply {
-            organization = "Test Organization"
-            url = "https://example.com"
-        }.build()
+        val provider =
+            AgentProviderBuilder()
+                .apply {
+                    organization = "Test Organization"
+                    url = "https://example.com"
+                }.build()
 
         // then
         provider.organization shouldBe "Test Organization"

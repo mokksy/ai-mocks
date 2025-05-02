@@ -52,7 +52,7 @@ public open class MockOpenai(
         block: OpenaiChatCompletionRequestSpecification.() -> Unit,
     ): OpenaiChatCompletionsBuildingStep {
         val requestStep =
-            mokksy.post<ChatCompletionRequest>(
+            mokksy.post(
                 name = name,
                 requestType = ChatCompletionRequest::class,
             ) {
@@ -95,7 +95,7 @@ public open class MockOpenai(
         block: OpenaiResponsesRequestSpecification.() -> Unit,
     ): OpenaiResponsesBuildingStep {
         val requestStep =
-            mokksy.post<CreateResponseRequest>(
+            mokksy.post(
                 name = name,
                 requestType = CreateResponseRequest::class,
             ) {

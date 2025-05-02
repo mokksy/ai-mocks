@@ -2,7 +2,7 @@ package me.kpavlov.aimocks.anthropic.lc4j;
 
 import dev.langchain4j.model.anthropic.AnthropicChatModel;
 import dev.langchain4j.model.anthropic.internal.client.AnthropicHttpException;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ChatRequest;
 import me.kpavlov.aimocks.anthropic.MockAnthropic;
 import org.junit.jupiter.api.AfterEach;
@@ -24,7 +24,7 @@ class Lc4jChatModelAnthropicErrorsTest {
 
     public static final Duration TIMEOUT = Duration.ofSeconds(3);
 
-    private static final ChatLanguageModel model = AnthropicChatModel.builder()
+    private static final ChatModel model = AnthropicChatModel.builder()
         .apiKey("dummy-key")
         .baseUrl(MOCK.baseUrl() + "/v1")
         .modelName(CLAUDE_3_5_HAIKU_20241022)
@@ -79,7 +79,6 @@ class Lc4jChatModelAnthropicErrorsTest {
                 res.httpStatus(httpStatusCode);
             });
 
-
         // when-then
         final var chatRequest = ChatRequest.builder().messages(
             systemMessage("Let's test " + type),
@@ -100,9 +99,7 @@ class Lc4jChatModelAnthropicErrorsTest {
     void shouldHandleTimeout() {
         // given
         final var question = "Simulate timeout " + System.currentTimeMillis();
-        MOCK.messages(req -> {
-                req.userMessageContains(question);
-            })
+        MOCK.messages(req -> req.userMessageContains(question))
             .responds(res -> {
                 res.delayMillis(TIMEOUT.plusMillis(200).toMillis());
                 res.assistantContent("You should never see this");

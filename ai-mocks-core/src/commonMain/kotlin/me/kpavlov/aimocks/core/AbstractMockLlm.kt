@@ -1,22 +1,22 @@
 package me.kpavlov.aimocks.core
 
-import io.ktor.server.application.Application
 import io.ktor.server.application.log
+import me.kpavlov.mokksy.ApplicationConfigurer
 import me.kpavlov.mokksy.MokksyServer
 import me.kpavlov.mokksy.ServerConfiguration
 
 public abstract class AbstractMockLlm(
     port: Int = 0,
     configuration: ServerConfiguration,
-    applicationConfigurer: (Application.() -> Unit)? = null,
+    applicationConfigurer: ApplicationConfigurer? = {},
 ) {
     protected val mokksy: MokksyServer =
         MokksyServer(
             port = port,
             configuration = configuration,
         ) {
-            applicationConfigurer?.invoke(it)
-            it.log.info("Running Mokksy with ${it.engine} engine")
+            applicationConfigurer?.invoke(this)
+            log.info("Running Mokksy with $engine engine")
         }
 
     public fun port(): Int = mokksy.port()

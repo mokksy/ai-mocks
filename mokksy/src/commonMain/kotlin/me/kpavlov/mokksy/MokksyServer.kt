@@ -40,6 +40,8 @@ internal expect fun createEmbeddedServer(
 
 internal expect fun configureContentNegotiation(config: ContentNegotiationConfig)
 
+public typealias ApplicationConfigurer = (Application.() -> Unit)
+
 /**
  * Represents an embedded mock server capable of handling various HTTP requests and responses for testing purposes.
  * Provides functionality to configure request specifications for different HTTP methods and manage request matching.
@@ -58,7 +60,7 @@ public open class MokksyServer
         host: String = DEFAULT_HOST,
         configuration: ServerConfiguration,
         wait: Boolean = false,
-        configurer: (Application) -> Unit = {},
+        configurer: ApplicationConfigurer = {},
     ) {
         /**
          *  @constructor Initializes the server with the specified parameters and starts it.

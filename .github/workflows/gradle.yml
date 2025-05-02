@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 100
           ref: main
 
       - name: Set up JDK 17
@@ -39,10 +39,21 @@ jobs:
         with:
           gradle-version: 8.14
           add-job-summary-as-pr-comment: on-failure # Valid values are 'never' (default), 'always', and 'on-failure'
+          cache-disabled: true
           cache-cleanup: 'always'
+          cache-overwrite-existing: true
+          # Cache downloaded JDKs in addition to the default directories.
+          gradle-home-cache-includes: |
+            caches
+            notifications
+            jdks
+          # Exclude the local build-cache and keyrings from the directories cached.
+          gradle-home-cache-excludes: |
+            caches/build-cache-1
+            caches/keyrings
 
       - name: Build with Gradle
-        run: gradle --no-daemon clean build dokkaGenerate dokkaJavadocJar sourcesJar koverXmlReport
+        run: gradle clean && gradle build dokkaGenerate dokkaJavadocJar sourcesJar koverXmlReport
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v5

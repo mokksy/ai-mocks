@@ -18,7 +18,11 @@ internal class PushNotificationNotSupportedErrorTest {
     @Test
     fun `should create PushNotificationNotSupportedError with data`() {
         // given
-        val data = Data.of("reason" to "Push notifications not configured", "details" to "Missing configuration")
+        val data =
+            Data.of(
+                "reason" to "Push notifications not configured",
+                "details" to "Missing configuration",
+            )
 
         // when
         val error = PushNotificationNotSupportedError(data)

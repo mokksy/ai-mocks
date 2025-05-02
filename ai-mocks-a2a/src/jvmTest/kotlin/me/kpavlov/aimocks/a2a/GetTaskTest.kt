@@ -32,25 +32,28 @@ internal class GetTaskTest : AbstractTest() {
                     status {
                         state = "completed"
                     }
-                    artifacts += artifact {
-                        name = "joke"
-                        parts += textPart {
-                            text = "This is a joke"
+                    artifacts +=
+                        artifact {
+                            name = "joke"
+                            parts +=
+                                textPart {
+                                    text = "This is a joke"
+                                }
                         }
-                    }
                 }
             }
 
             val response =
                 a2aClient
                     .post("/") {
-                        val jsonRpcRequest = getTaskRequest {
-                            id = "1"
-                            params {
-                                id = UUID.randomUUID().toString()
-                                historyLength = 2
+                        val jsonRpcRequest =
+                            getTaskRequest {
+                                id = "1"
+                                params {
+                                    id = UUID.randomUUID().toString()
+                                    historyLength = 2
+                                }
                             }
-                        }
                         contentType(ContentType.Application.Json)
                         setBody(Json.encodeToString(jsonRpcRequest))
                     }.call
@@ -61,22 +64,25 @@ internal class GetTaskTest : AbstractTest() {
             logger.info { "body = $body" }
             val payload = Json.decodeFromString<GetTaskResponse>(body)
 
-            val expectedReply = getTaskResponse {
-                id = 1
-                result {
-                    id = "tid_12345"
-                    sessionId = null
-                    status {
-                        state = "completed"
-                    }
-                    artifacts += artifact {
-                        name = "joke"
-                        parts += textPart {
-                            text = "This is a joke"
+            val expectedReply =
+                getTaskResponse {
+                    id = 1
+                    result {
+                        id = "tid_12345"
+                        sessionId = null
+                        status {
+                            state = "completed"
                         }
+                        artifacts +=
+                            artifact {
+                                name = "joke"
+                                parts +=
+                                    textPart {
+                                        text = "This is a joke"
+                                    }
+                            }
                     }
                 }
-            }
             payload shouldBeEqualToComparingFields expectedReply
         }
 
@@ -85,21 +91,23 @@ internal class GetTaskTest : AbstractTest() {
         runTest {
             a2aServer.getTask() responds {
                 id = 1
-                error = taskNotFoundError {
-                    message = "Task not found"
-                }
+                error =
+                    taskNotFoundError {
+                        message = "Task not found"
+                    }
             }
 
             val response =
                 a2aClient
                     .post("/") {
-                        val jsonRpcRequest = getTaskRequest {
-                            id = "1"
-                            params {
-                                id = UUID.randomUUID().toString()
-                                historyLength = 2
+                        val jsonRpcRequest =
+                            getTaskRequest {
+                                id = "1"
+                                params {
+                                    id = UUID.randomUUID().toString()
+                                    historyLength = 2
+                                }
                             }
-                        }
                         contentType(ContentType.Application.Json)
                         setBody(Json.encodeToString(jsonRpcRequest))
                     }.call
@@ -110,12 +118,14 @@ internal class GetTaskTest : AbstractTest() {
             logger.info { "body = $body" }
             val payload = Json.decodeFromString<GetTaskResponse>(body)
 
-            val expectedReply = getTaskResponse {
-                id = 1
-                error = taskNotFoundError {
-                    message = "Task not found"
+            val expectedReply =
+                getTaskResponse {
+                    id = 1
+                    error =
+                        taskNotFoundError {
+                            message = "Task not found"
+                        }
                 }
-            }
             payload shouldBeEqualToComparingFields expectedReply
         }
 }

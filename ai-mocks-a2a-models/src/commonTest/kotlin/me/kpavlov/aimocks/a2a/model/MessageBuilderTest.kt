@@ -62,10 +62,11 @@ internal class MessageBuilderTest {
                         text = "Hello, how can I help you?"
                     },
                 )
-                metadata = Metadata.of(
-                    "foo" to "bar",
-                    "baz" to 42
-                )
+                metadata =
+                    Metadata.of(
+                        "foo" to "bar",
+                        "baz" to 42,
+                    )
             }
 
         // then

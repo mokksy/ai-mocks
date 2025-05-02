@@ -36,7 +36,7 @@ public open class MockAnthropic(
         block: AnthropicMessagesRequestSpecification.() -> Unit,
     ): AnthropicBuildingStep {
         val requestStep =
-            mokksy.post<MessageCreateParams.Body>(
+            mokksy.post(
                 name = name,
                 requestType = MessageCreateParams.Body::class,
             ) {

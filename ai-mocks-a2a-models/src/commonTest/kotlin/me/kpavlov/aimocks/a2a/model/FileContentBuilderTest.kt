@@ -11,11 +11,12 @@ internal class FileContentBuilderTest {
         val bytes = "Hello World".encodeToByteArray()
 
         // when
-        val fileContent = FileContentBuilder()
-            .name("example.txt")
-            .mimeType("text/plain")
-            .bytes(bytes)
-            .build()
+        val fileContent =
+            FileContentBuilder()
+                .name("example.txt")
+                .mimeType("text/plain")
+                .bytes(bytes)
+                .build()
 
         // then
         fileContent.name shouldBe "example.txt"
@@ -27,11 +28,12 @@ internal class FileContentBuilderTest {
     @Test
     fun `should build FileContent with uri`() {
         // when
-        val fileContent = FileContentBuilder()
-            .name("example.txt")
-            .mimeType("text/plain")
-            .uri("https://example.com/file.txt")
-            .build()
+        val fileContent =
+            FileContentBuilder()
+                .name("example.txt")
+                .mimeType("text/plain")
+                .uri("https://example.com/file.txt")
+                .build()
 
         // then
         fileContent.name shouldBe "example.txt"
@@ -46,9 +48,10 @@ internal class FileContentBuilderTest {
         val bytes = "Hello World".encodeToByteArray()
 
         // when
-        val fileContent = FileContentBuilder()
-            .bytes(bytes)
-            .build()
+        val fileContent =
+            FileContentBuilder()
+                .bytes(bytes)
+                .build()
 
         // then
         fileContent.name shouldBe null
@@ -85,11 +88,12 @@ internal class FileContentBuilderTest {
         val bytes = "Hello World".encodeToByteArray()
 
         // when
-        val fileContent = fileContent {
-            name("example.txt")
-            mimeType("text/plain")
-            bytes(bytes)
-        }
+        val fileContent =
+            fileContent {
+                name("example.txt")
+                mimeType("text/plain")
+                bytes(bytes)
+            }
 
         // then
         fileContent.name shouldBe "example.txt"
@@ -101,11 +105,12 @@ internal class FileContentBuilderTest {
     @Test
     fun `should build using companion object create function`() {
         // when
-        val fileContent = FileContent.create {
-            name("example.txt")
-            mimeType("text/plain")
-            uri("https://example.com/file.txt")
-        }
+        val fileContent =
+            FileContent.create {
+                name("example.txt")
+                mimeType("text/plain")
+                uri("https://example.com/file.txt")
+            }
 
         // then
         fileContent.name shouldBe "example.txt"

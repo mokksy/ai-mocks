@@ -10,9 +10,9 @@ public class CancelTaskBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<CancelTaskRequest>,
 ) : AbstractBuildingStep<CancelTaskRequest, CancelTaskResponseSpecification>(
-    mokksy,
-    buildingStep,
-) {
+        mokksy,
+        buildingStep,
+    ) {
     override infix fun responds(block: CancelTaskResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val requestBody = request.body
@@ -23,7 +23,7 @@ public class CancelTaskBuildingStep(
                 CancelTaskResponse(
                     id = responseSpecification.id ?: requestBody.id,
                     result = responseSpecification.result,
-                    error = responseSpecification.error
+                    error = responseSpecification.error,
                 )
         }
     }

@@ -24,9 +24,10 @@ public class JSONRPCResponseBuilder {
      * @param id The ID of the response.
      * @return This builder instance for method chaining.
      */
-    public fun id(id: RequestId): JSONRPCResponseBuilder = apply {
-        this.id = id
-    }
+    public fun id(id: RequestId): JSONRPCResponseBuilder =
+        apply {
+            this.id = id
+        }
 
     /**
      * Sets the result.
@@ -34,9 +35,10 @@ public class JSONRPCResponseBuilder {
      * @param result The result.
      * @return This builder instance for method chaining.
      */
-    public fun result(result: Any?): JSONRPCResponseBuilder = apply {
-        this.result = result
-    }
+    public fun result(result: Any?): JSONRPCResponseBuilder =
+        apply {
+            this.result = result
+        }
 
     /**
      * Sets the error.
@@ -44,9 +46,10 @@ public class JSONRPCResponseBuilder {
      * @param error The error.
      * @return This builder instance for method chaining.
      */
-    public fun error(error: JSONRPCError): JSONRPCResponseBuilder = apply {
-        this.error = error
-    }
+    public fun error(error: JSONRPCError): JSONRPCResponseBuilder =
+        apply {
+            this.error = error
+        }
 
     /**
      * Builds a [JSONRPCResponse] instance with the configured parameters.

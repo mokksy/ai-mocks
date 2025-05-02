@@ -8,9 +8,10 @@ internal class AuthenticationInfoBuilderTest {
     @Test
     fun `should build AuthenticationInfo with required parameters`() {
         // when
-        val authInfo = AuthenticationInfoBuilder()
-            .schemes(listOf("basic", "oauth2"))
-            .build()
+        val authInfo =
+            AuthenticationInfoBuilder()
+                .schemes(listOf("basic", "oauth2"))
+                .build()
 
         // then
         authInfo.schemes shouldBe listOf("basic", "oauth2")
@@ -20,10 +21,11 @@ internal class AuthenticationInfoBuilderTest {
     @Test
     fun `should build AuthenticationInfo with all parameters`() {
         // when
-        val authInfo = AuthenticationInfoBuilder()
-            .schemes(listOf("basic", "oauth2"))
-            .credentials("token123")
-            .build()
+        val authInfo =
+            AuthenticationInfoBuilder()
+                .schemes(listOf("basic", "oauth2"))
+                .credentials("token123")
+                .build()
 
         // then
         authInfo.schemes shouldBe listOf("basic", "oauth2")
@@ -43,10 +45,11 @@ internal class AuthenticationInfoBuilderTest {
     @Test
     fun `should build using top-level DSL function`() {
         // when
-        val authInfo = authenticationInfo {
-            schemes = listOf("basic", "oauth2")
-            credentials = "token123"
-        }
+        val authInfo =
+            authenticationInfo {
+                schemes = listOf("basic", "oauth2")
+                credentials = "token123"
+            }
 
         // then
         authInfo.schemes shouldBe listOf("basic", "oauth2")
@@ -56,10 +59,11 @@ internal class AuthenticationInfoBuilderTest {
     @Test
     fun `should build using companion object create function`() {
         // when
-        val authInfo = AuthenticationInfo.create {
-            schemes = listOf("basic", "oauth2")
-            credentials = "token123"
-        }
+        val authInfo =
+            AuthenticationInfo.create {
+                schemes = listOf("basic", "oauth2")
+                credentials = "token123"
+            }
 
         // then
         authInfo.schemes shouldBe listOf("basic", "oauth2")

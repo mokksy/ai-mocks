@@ -15,12 +15,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public class InvalidParamsError : JSONRPCError {
-
     @JvmOverloads
-    public constructor(data: Data? = null)  : super(
+    public constructor(data: Data? = null) : super(
         code = -32602,
         message = "Invalid parameters",
-        data = data
+        data = data,
     )
 
     public fun copy(data: Data? = this.data): InvalidParamsError = InvalidParamsError(data)

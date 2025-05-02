@@ -28,25 +28,25 @@ public open class MockAgentServer private constructor(
     verbose: Boolean = false,
     public val notificationsUri: String,
     private val notificationListener: NotificationListener,
-    private val notificationSender: NotificationSender
+    private val notificationSender: NotificationSender,
 ) : AbstractMockLlm(
-    port = port,
-    configuration =
-        ServerConfiguration(
-            verbose = verbose,
-        ) { config ->
-            config.json(
-                Json { ignoreUnknownKeys = true },
+        port = port,
+        configuration =
+            ServerConfiguration(
+                verbose = verbose,
+            ) { config ->
+                config.json(
+                    Json { ignoreUnknownKeys = true },
+                )
+            },
+        applicationConfigurer = {
+            configureNotificationListener(
+                notificationsUri = notificationsUri,
+                listener = notificationListener,
+                verbose = verbose,
             )
         },
-    applicationConfigurer = {
-        configureNotificationListener(
-            notificationsUri = notificationsUri,
-            listener = notificationListener ,
-            verbose = verbose,
-        )
-    }
-) {
+    ) {
     /**
      * Constructor for initializing a `MockAgentServer` instance.
      *
@@ -67,13 +67,10 @@ public open class MockAgentServer private constructor(
         verbose = verbose,
         notificationsUri = notificationsUri,
         notificationListener = NotificationListener(notificationsUri),
-        notificationSender = NotificationSender()
+        notificationSender = NotificationSender(),
     )
 
-
-    public fun notificationUrl(): String {
-        return baseUrl() + notificationsUri
-    }
+    public fun notificationUrl(): String = baseUrl() + notificationsUri
 
     /**
      * Configures a behavior for handling
@@ -369,14 +366,13 @@ public open class MockAgentServer private constructor(
         )
     }
 
-    public fun getTaskNotifications(taskId: TaskId): TaskNotificationHistory {
-        return notificationListener.getByTaskId(taskId)
-    }
+    public fun getTaskNotifications(taskId: TaskId): TaskNotificationHistory =
+        notificationListener.getByTaskId(taskId)
 
     @JvmOverloads
     public suspend fun sendPushNotification(
         config: PushNotificationConfig = PushNotificationConfig(url = notificationUrl()),
-        event: TaskUpdateEvent
+        event: TaskUpdateEvent,
     ) {
         notificationSender.sendPushNotification(config, event)
     }

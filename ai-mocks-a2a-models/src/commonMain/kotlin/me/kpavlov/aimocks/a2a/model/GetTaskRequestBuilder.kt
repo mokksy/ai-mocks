@@ -26,9 +26,10 @@ public class GetTaskRequestBuilder {
      * @param id The ID of the request.
      * @return This builder instance for method chaining.
      */
-    public fun id(id: RequestId): GetTaskRequestBuilder = apply {
-        this.id = id
-    }
+    public fun id(id: RequestId): GetTaskRequestBuilder =
+        apply {
+            this.id = id
+        }
 
     /**
      * Configures the task query params using a lambda with receiver.
@@ -36,9 +37,10 @@ public class GetTaskRequestBuilder {
      * @param init The lambda to configure the task query params.
      * @return This builder instance for method chaining.
      */
-    public fun params(init: TaskQueryParamsBuilder.() -> Unit): GetTaskRequestBuilder = apply {
-        params = TaskQueryParams.create(init)
-    }
+    public fun params(init: TaskQueryParamsBuilder.() -> Unit): GetTaskRequestBuilder =
+        apply {
+            params = TaskQueryParams.create(init)
+        }
 
     /**
      * Configures the task query params using a Java-friendly Consumer.
@@ -46,11 +48,12 @@ public class GetTaskRequestBuilder {
      * @param init The consumer to configure the task query params.
      * @return This builder instance for method chaining.
      */
-    public fun params(init: Consumer<TaskQueryParamsBuilder>): GetTaskRequestBuilder = apply {
-        val builder = TaskQueryParamsBuilder()
-        init.accept(builder)
-        params = builder.build()
-    }
+    public fun params(init: Consumer<TaskQueryParamsBuilder>): GetTaskRequestBuilder =
+        apply {
+            val builder = TaskQueryParamsBuilder()
+            init.accept(builder)
+            params = builder.build()
+        }
 
     /**
      * Builds a [GetTaskRequest] instance with the configured parameters.
@@ -92,9 +95,8 @@ public fun getTaskRequest(init: Consumer<GetTaskRequestBuilder>): GetTaskRequest
  * @param init The lambda to configure the get task request.
  * @return A new [GetTaskRequest] instance.
  */
-public fun GetTaskRequest.Companion.create(
-    init: GetTaskRequestBuilder.() -> Unit
-): GetTaskRequest = GetTaskRequestBuilder().apply(init).build()
+public fun GetTaskRequest.Companion.create(init: GetTaskRequestBuilder.() -> Unit): GetTaskRequest =
+    GetTaskRequestBuilder().apply(init).build()
 
 /**
  * Java-friendly DSL extension for [GetTaskRequest.Companion].
@@ -102,9 +104,7 @@ public fun GetTaskRequest.Companion.create(
  * @param init The consumer to configure the get task request.
  * @return A new [GetTaskRequest] instance.
  */
-public fun GetTaskRequest.Companion.create(
-    init: Consumer<GetTaskRequestBuilder>
-): GetTaskRequest {
+public fun GetTaskRequest.Companion.create(init: Consumer<GetTaskRequestBuilder>): GetTaskRequest {
     val builder = GetTaskRequestBuilder()
     init.accept(builder)
     return builder.build()

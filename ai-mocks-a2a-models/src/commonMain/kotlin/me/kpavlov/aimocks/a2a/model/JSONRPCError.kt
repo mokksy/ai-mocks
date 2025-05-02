@@ -37,7 +37,6 @@ public open class JSONRPCError(
         return true
     }
 
-
     override fun hashCode(): Int {
         var result = code.hashCode()
         result = 31 * result + javaClass.hashCode()
@@ -46,7 +45,5 @@ public open class JSONRPCError(
         return result
     }
 
-    override fun toString(): String {
-        return "JSONRPCError(message='$message', code=$code, data=$data)"
-    }
+    override fun toString(): String = "JSONRPCError(message='$message', code=$code, data=$data)"
 }

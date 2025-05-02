@@ -8,7 +8,6 @@ import kotlin.test.Test
 import kotlin.test.fail
 
 class MapOrPrimitiveSerializerTest {
-
     private val serializer = MapOrPrimitiveSerializer<Any>()
     private val json = Json { ignoreUnknownKeys = true }
 
@@ -65,10 +64,11 @@ class MapOrPrimitiveSerializerTest {
     fun `should deserialize a nested JSON structure`() {
         val input = """{"key1": {"nestedKey": "nestedValue"}, "key2": [1, 2, 3]}"""
         val result = json.decodeFromString(serializer, input)
-        result shouldBe mapOf(
-            "key1" to mapOf("nestedKey" to "nestedValue"),
-            "key2" to listOf(1, 2, 3)
-        )
+        result shouldBe
+            mapOf(
+                "key1" to mapOf("nestedKey" to "nestedValue"),
+                "key2" to listOf(1, 2, 3),
+            )
     }
 
     @Test
@@ -119,10 +119,11 @@ class MapOrPrimitiveSerializerTest {
 
     @Test
     fun `should serialize a nested structure to JSON`() {
-        val value = mapOf(
-            "nestedMap" to mapOf("nestedKey" to 42),
-            "nestedList" to listOf("a", "b", "c")
-        )
+        val value =
+            mapOf(
+                "nestedMap" to mapOf("nestedKey" to 42),
+                "nestedList" to listOf("a", "b", "c"),
+            )
         val result = json.encodeToString(serializer, value)
         result shouldBe """{"nestedMap":{"nestedKey":42},"nestedList":["a","b","c"]}"""
     }

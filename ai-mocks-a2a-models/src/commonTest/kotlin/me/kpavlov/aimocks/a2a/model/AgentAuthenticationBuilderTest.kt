@@ -8,9 +8,11 @@ internal class AgentAuthenticationBuilderTest {
     @Test
     fun `should build AgentAuthentication with schemes`() {
         // when
-        val auth = AgentAuthenticationBuilder().apply {
-            schemes = listOf("oauth2")
-        }.build()
+        val auth =
+            AgentAuthenticationBuilder()
+                .apply {
+                    schemes = listOf("oauth2")
+                }.build()
 
         // then
         auth.schemes shouldBe listOf("oauth2")
@@ -20,10 +22,12 @@ internal class AgentAuthenticationBuilderTest {
     @Test
     fun `should build AgentAuthentication with schemes and credentials`() {
         // when
-        val auth = AgentAuthenticationBuilder().apply {
-            schemes = listOf("oauth2", "api_key")
-            credentials = "some-credentials-info"
-        }.build()
+        val auth =
+            AgentAuthenticationBuilder()
+                .apply {
+                    schemes = listOf("oauth2", "api_key")
+                    credentials = "some-credentials-info"
+                }.build()
 
         // then
         auth.schemes shouldBe listOf("oauth2", "api_key")
@@ -41,10 +45,12 @@ internal class AgentAuthenticationBuilderTest {
     @Test
     fun `should build using builder directly`() {
         // when
-        val auth = AgentAuthenticationBuilder().apply {
-            schemes = listOf("oauth2")
-            credentials = "some-credentials"
-        }.build()
+        val auth =
+            AgentAuthenticationBuilder()
+                .apply {
+                    schemes = listOf("oauth2")
+                    credentials = "some-credentials"
+                }.build()
 
         // then
         auth.schemes shouldBe listOf("oauth2")

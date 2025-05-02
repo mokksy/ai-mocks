@@ -8,7 +8,6 @@ import me.kpavlov.aimocks.a2a.model.taskArtifactUpdateEvent
 import kotlin.test.Test
 
 internal class ReceiveNotificationsTest : AbstractTest() {
-
     @Test
     fun `Should resubscribe to task`() =
         runTest {
@@ -18,21 +17,20 @@ internal class ReceiveNotificationsTest : AbstractTest() {
 
             notificationHistory.events() shouldHaveSize 0
 
-            val taskUpdateEvent = taskArtifactUpdateEvent {
-                id = taskId
-                artifact {
-                    name = "joke"
-                    parts +=
-                        textPart {
-                            text = "This is a notification joke!"
-                        }
-                    lastChunk = true
+            val taskUpdateEvent =
+                taskArtifactUpdateEvent {
+                    id = taskId
+                    artifact {
+                        name = "joke"
+                        parts +=
+                            textPart {
+                                text = "This is a notification joke!"
+                            }
+                        lastChunk = true
+                    }
                 }
-            }
-            a2aServer.sendPushNotification(event=taskUpdateEvent)
+            a2aServer.sendPushNotification(event = taskUpdateEvent)
 
             notificationHistory.events() shouldContain taskUpdateEvent
-
         }
-
 }

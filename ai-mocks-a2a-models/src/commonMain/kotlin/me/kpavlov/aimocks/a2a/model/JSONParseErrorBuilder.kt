@@ -12,8 +12,7 @@ import java.util.function.Consumer
  * }
  * ```
  */
-public class JSONParseErrorBuilder: JSONRPCErrorBuilder<JSONParseError, JSONParseErrorBuilder>() {
-
+public class JSONParseErrorBuilder : JSONRPCErrorBuilder<JSONParseError, JSONParseErrorBuilder>() {
     /**
      * Builds a [JSONParseError] instance with the configured parameters.
      *

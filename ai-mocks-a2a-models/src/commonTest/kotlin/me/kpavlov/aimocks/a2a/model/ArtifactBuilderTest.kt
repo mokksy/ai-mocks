@@ -11,9 +11,10 @@ internal class ArtifactBuilderTest {
         val textPart = TextPart(text = "Sample text content")
 
         // when
-        val artifact = ArtifactBuilder()
-            .addPart(textPart)
-            .build()
+        val artifact =
+            ArtifactBuilder()
+                .addPart(textPart)
+                .build()
 
         // then
         artifact.name shouldBe null
@@ -32,15 +33,16 @@ internal class ArtifactBuilderTest {
         val metadata = Metadata.of("metaKey" to "metaValue")
 
         // when
-        val artifact = ArtifactBuilder()
-            .name("artifact-name")
-            .description("artifact description")
-            .addPart(textPart)
-            .index(1)
-            .append(true)
-            .lastChunk(false)
-            .metadata(metadata)
-            .build()
+        val artifact =
+            ArtifactBuilder()
+                .name("artifact-name")
+                .description("artifact description")
+                .addPart(textPart)
+                .index(1)
+                .append(true)
+                .lastChunk(false)
+                .metadata(metadata)
+                .build()
 
         // then
         artifact.name shouldBe "artifact-name"
@@ -60,9 +62,10 @@ internal class ArtifactBuilderTest {
         val parts = listOf(textPart1, textPart2)
 
         // when
-        val artifact = ArtifactBuilder()
-            .parts(parts)
-            .build()
+        val artifact =
+            ArtifactBuilder()
+                .parts(parts)
+                .build()
 
         // then
         artifact.parts shouldBe parts
@@ -71,13 +74,15 @@ internal class ArtifactBuilderTest {
     @Test
     fun `should create and add text part`() {
         // when
-        val artifact = ArtifactBuilder()
-            .apply {
-                addPart(textPart {
-                    text = "Sample text content"
-                })
-            }
-            .build()
+        val artifact =
+            ArtifactBuilder()
+                .apply {
+                    addPart(
+                        textPart {
+                            text = "Sample text content"
+                        },
+                    )
+                }.build()
 
         // then
         artifact.parts.size shouldBe 1
@@ -87,17 +92,19 @@ internal class ArtifactBuilderTest {
     @Test
     fun `should create and add file part`() {
         // when
-        val artifact = ArtifactBuilder()
-            .apply {
-                addPart(filePart {
-                    file {
-                        name = "example.txt"
-                        mimeType = "text/plain"
-                        uri = "https://example.com/file.txt"
-                    }
-                })
-            }
-            .build()
+        val artifact =
+            ArtifactBuilder()
+                .apply {
+                    addPart(
+                        filePart {
+                            file {
+                                name = "example.txt"
+                                mimeType = "text/plain"
+                                uri = "https://example.com/file.txt"
+                            }
+                        },
+                    )
+                }.build()
 
         // then
         artifact.parts.size shouldBe 1
@@ -110,14 +117,16 @@ internal class ArtifactBuilderTest {
     @Test
     fun `should create and add data part`() {
         // when
-        val artifact = ArtifactBuilder()
-            .apply {
-                addPart(dataPart {
-                    put("key1", "value1")
-                    put("key2", 42)
-                })
-            }
-            .build()
+        val artifact =
+            ArtifactBuilder()
+                .apply {
+                    addPart(
+                        dataPart {
+                            put("key1", "value1")
+                            put("key2", 42)
+                        },
+                    )
+                }.build()
 
         // then
         artifact.parts.size shouldBe 1
@@ -136,11 +145,12 @@ internal class ArtifactBuilderTest {
     @Test
     fun `should build using top-level DSL function`() {
         // when
-        val artifact = artifact {
-            name = "artifact-name"
-            description = "artifact description"
-            addPart(TextPart(text = "Sample text content"))
-        }
+        val artifact =
+            artifact {
+                name = "artifact-name"
+                description = "artifact description"
+                addPart(TextPart(text = "Sample text content"))
+            }
 
         // then
         artifact.name shouldBe "artifact-name"
@@ -152,11 +162,12 @@ internal class ArtifactBuilderTest {
     @Test
     fun `should build using companion object create function`() {
         // when
-        val artifact = Artifact.create {
-            name = "artifact-name"
-            description = "artifact description"
-            addPart(TextPart(text = "Sample text content"))
-        }
+        val artifact =
+            Artifact.create {
+                name = "artifact-name"
+                description = "artifact description"
+                addPart(TextPart(text = "Sample text content"))
+            }
 
         // then
         artifact.name shouldBe "artifact-name"

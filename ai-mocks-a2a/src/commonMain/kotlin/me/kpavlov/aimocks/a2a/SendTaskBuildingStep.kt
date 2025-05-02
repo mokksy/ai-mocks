@@ -10,20 +10,21 @@ public class SendTaskBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<SendTaskRequest>,
 ) : AbstractBuildingStep<SendTaskRequest, SendTaskResponseSpecification>(
-    mokksy,
-    buildingStep,
-) {
+        mokksy,
+        buildingStep,
+    ) {
     override infix fun responds(block: SendTaskResponseSpecification.() -> Unit) {
         buildingStep.respondsWith<SendTaskResponse> {
             val requestBody = request.body
             val responseDefinition = this.build()
             val responseSpecification = SendTaskResponseSpecification(responseDefinition)
             block.invoke(responseSpecification)
-            body = SendTaskResponse(
-                id = responseSpecification.id ?: requestBody.id,
-                result = responseSpecification.result,
-                error = responseSpecification.error
-            )
+            body =
+                SendTaskResponse(
+                    id = responseSpecification.id ?: requestBody.id,
+                    result = responseSpecification.result,
+                    error = responseSpecification.error,
+                )
         }
     }
 }
