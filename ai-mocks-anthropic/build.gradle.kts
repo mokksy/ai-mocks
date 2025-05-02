@@ -41,14 +41,14 @@ kotlin {
         jvmTest {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(libs.anthropic.java.client.okhttp)
                 implementation(libs.assertj.core)
                 implementation(libs.awaitility.kotlin)
                 implementation(libs.junit.jupiter.params)
-                implementation(project.dependencies.platform(libs.spring.bom))
-                implementation(project.dependencies.platform(libs.spring.ai.bom))
-//                implementation(project.dependencies.platform(libs.langchain4j.bom))
-                implementation(libs.anthropic.java.client.okhttp)
                 implementation(libs.langchain4j.anthropic)
+                implementation(project.dependencies.platform(libs.langchain4j.bom))
+                implementation(project.dependencies.platform(libs.spring.ai.bom))
+                implementation(project.dependencies.platform(libs.spring.bom))
                 runtimeOnly(libs.slf4j.simple)
             }
         }

@@ -3,12 +3,7 @@ package me.kpavlov.aimocks.anthropic.official
 import com.anthropic.models.messages.MessageCreateParams
 import com.anthropic.models.messages.Metadata
 import io.kotest.matchers.collections.shouldContainExactly
-import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.stream.consumeAsFlow
 import kotlinx.coroutines.test.runTest
 import me.kpavlov.aimocks.anthropic.anthropic
 import org.junit.jupiter.api.Test
@@ -86,8 +81,6 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
                 .messages()
                 .createStreaming(params)
                 .stream()
-                .consumeAsFlow()
-                .buffer(capacity = 8096)
                 .filter { it.isContentBlockDelta() }
                 .map {
                     it
@@ -95,7 +88,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
                         .delta()
                         .asText()
                         .text()
-                }.toList(mutableListOf())
+                }.toList()
 
         logger.info { buffer.joinToString("") }
         buffer shouldContainExactly tokens

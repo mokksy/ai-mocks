@@ -8,9 +8,15 @@ import io.ktor.server.response.header
 import io.ktor.server.response.respond
 import io.ktor.server.sse.SSEServerContent
 import io.ktor.sse.ServerSentEvent
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emptyFlow
 import kotlin.time.Duration
+
+private const val SEND_BUFFER_CAPACITY = 256
 
 public open class SseStreamResponseDefinition<P>(
     override val chunkFlow: Flow<ServerSentEvent>? = null,
@@ -23,12 +29,19 @@ public open class SseStreamResponseDefinition<P>(
         val theFlow = chunkFlow ?: emptyFlow()
         val sseContent =
             SSEServerContent(call) {
-                theFlow.collect {
-                    if (verbose) {
-                        call.application.log.debug("Sending {}: {}", httpStatus, it)
+                theFlow
+                    .cancellable()
+                    .buffer(
+                        capacity = SEND_BUFFER_CAPACITY,
+                        onBufferOverflow = BufferOverflow.SUSPEND
+                    )
+                    .catch { call.application.log.error("Error while sending SSE events", it) }
+                    .collect {
+                        if (verbose) {
+                            call.application.log.debug("Sending {}: {}", httpStatus, it)
+                        }
+                        send(it)
                     }
-                    send(it)
-                }
             }
         processSSE(call, sseContent)
     }
