@@ -11,11 +11,18 @@ import io.ktor.server.response.respondBytesWriter
 import io.ktor.server.sse.ServerSSESession
 import io.ktor.utils.io.ByteWriteChannel
 import io.ktor.utils.io.writeStringUtf8
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.yield
 import kotlin.time.Duration
+
+
+internal const val SEND_BUFFER_CAPACITY = 256
 
 /**
  * Represents a definition for streaming responses, supporting chunked data and flow-based content streaming.
@@ -60,6 +67,12 @@ public open class StreamResponseDefinition<P, T>(
         }
         chunkFlow
             ?.filterNotNull()
+            ?.cancellable()
+            ?.buffer(
+                capacity = SEND_BUFFER_CAPACITY,
+                onBufferOverflow = BufferOverflow.SUSPEND
+            )
+            ?.catch { print("Error while sending chunks: $it") }
             ?.collect {
                 writeChunk(writer, it, verbose)
             }
@@ -89,6 +102,12 @@ public open class StreamResponseDefinition<P, T>(
         }
         chunkFlow
             ?.filterNotNull()
+            ?.cancellable()
+            ?.buffer(
+                capacity = SEND_BUFFER_CAPACITY,
+                onBufferOverflow = BufferOverflow.SUSPEND
+            )
+            ?.catch { print("Error while sending chunks: $it") }
             ?.collect {
                 val chunk = "$it"
                 session.send(

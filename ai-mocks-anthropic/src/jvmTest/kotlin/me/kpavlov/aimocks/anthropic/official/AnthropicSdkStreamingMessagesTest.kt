@@ -41,6 +41,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
                     " revolution",
                     " of",
                     " love,",
+                    " $seed,",
                     " understanding,",
                     " and",
                     " social",
@@ -64,7 +65,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
             verifyStreamingCall(tokens)
         }
 
-    private suspend fun verifyStreamingCall(tokens: List<String>) {
+    private fun verifyStreamingCall(tokens: List<String>) {
         val params =
             MessageCreateParams
                 .builder()
