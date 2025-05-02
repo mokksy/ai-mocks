@@ -24,9 +24,10 @@ public class GetTaskPushNotificationResponseBuilder {
      * @param id The ID of the response.
      * @return This builder instance for method chaining.
      */
-    public fun id(id: RequestId): GetTaskPushNotificationResponseBuilder = apply {
-        this.id = id
-    }
+    public fun id(id: RequestId): GetTaskPushNotificationResponseBuilder =
+        apply {
+            this.id = id
+        }
 
     /**
      * Sets the result task push notification config.
@@ -45,7 +46,9 @@ public class GetTaskPushNotificationResponseBuilder {
      * @param init The lambda to configure the task push notification config.
      * @return This builder instance for method chaining.
      */
-    public fun result(init: TaskPushNotificationConfigBuilder.() -> Unit): GetTaskPushNotificationResponseBuilder =
+    public fun result(
+        init: TaskPushNotificationConfigBuilder.() -> Unit,
+    ): GetTaskPushNotificationResponseBuilder =
         apply {
             result = TaskPushNotificationConfig.create(init)
         }
@@ -56,7 +59,9 @@ public class GetTaskPushNotificationResponseBuilder {
      * @param init The consumer to configure the task push notification config.
      * @return This builder instance for method chaining.
      */
-    public fun result(init: Consumer<TaskPushNotificationConfigBuilder>): GetTaskPushNotificationResponseBuilder =
+    public fun result(
+        init: Consumer<TaskPushNotificationConfigBuilder>,
+    ): GetTaskPushNotificationResponseBuilder =
         apply {
             val builder = TaskPushNotificationConfigBuilder()
             init.accept(builder)
@@ -69,9 +74,10 @@ public class GetTaskPushNotificationResponseBuilder {
      * @param error The error.
      * @return This builder instance for method chaining.
      */
-    public fun error(error: JSONRPCError): GetTaskPushNotificationResponseBuilder = apply {
-        this.error = error
-    }
+    public fun error(error: JSONRPCError): GetTaskPushNotificationResponseBuilder =
+        apply {
+            this.error = error
+        }
 
     /**
      * Builds a [GetTaskPushNotificationResponse] instance with the configured parameters.
@@ -93,9 +99,8 @@ public class GetTaskPushNotificationResponseBuilder {
  * @return A new [GetTaskPushNotificationResponse] instance.
  */
 public inline fun getTaskPushNotificationResponse(
-    init: GetTaskPushNotificationResponseBuilder.() -> Unit
-): GetTaskPushNotificationResponse =
-    GetTaskPushNotificationResponseBuilder().apply(init).build()
+    init: GetTaskPushNotificationResponseBuilder.() -> Unit,
+): GetTaskPushNotificationResponse = GetTaskPushNotificationResponseBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [GetTaskPushNotificationResponse].
@@ -104,7 +109,7 @@ public inline fun getTaskPushNotificationResponse(
  * @return A new [GetTaskPushNotificationResponse] instance.
  */
 public fun getTaskPushNotificationResponse(
-    init: Consumer<GetTaskPushNotificationResponseBuilder>
+    init: Consumer<GetTaskPushNotificationResponseBuilder>,
 ): GetTaskPushNotificationResponse {
     val builder = GetTaskPushNotificationResponseBuilder()
     init.accept(builder)
@@ -118,7 +123,7 @@ public fun getTaskPushNotificationResponse(
  * @return A new [GetTaskPushNotificationResponse] instance.
  */
 public fun GetTaskPushNotificationResponse.Companion.create(
-    init: GetTaskPushNotificationResponseBuilder.() -> Unit
+    init: GetTaskPushNotificationResponseBuilder.() -> Unit,
 ): GetTaskPushNotificationResponse = GetTaskPushNotificationResponseBuilder().apply(init).build()
 
 /**
@@ -128,7 +133,7 @@ public fun GetTaskPushNotificationResponse.Companion.create(
  * @return A new [GetTaskPushNotificationResponse] instance.
  */
 public fun GetTaskPushNotificationResponse.Companion.create(
-    init: Consumer<GetTaskPushNotificationResponseBuilder>
+    init: Consumer<GetTaskPushNotificationResponseBuilder>,
 ): GetTaskPushNotificationResponse {
     val builder = GetTaskPushNotificationResponseBuilder()
     init.accept(builder)

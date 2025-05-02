@@ -1,11 +1,10 @@
 package me.kpavlov.aimocks.a2a.model
 
-
 /**
  * Abstract DSL builder for Error classes.
  */
 @Suppress("UNCHECKED_CAST")
-public open class JSONRPCErrorBuilder<E: JSONRPCError, T> {
+public open class JSONRPCErrorBuilder<E : JSONRPCError, T> {
     public var code: Long? = null
     public var message: String? = null
     public var data: Data? = null
@@ -48,12 +47,10 @@ public open class JSONRPCErrorBuilder<E: JSONRPCError, T> {
      *
      * @return A new [E] instance.
      */
-    public open fun build(): E {
-        return JSONRPCError(
+    public open fun build(): E =
+        JSONRPCError(
             code = requireNotNull(code) { "JSONRPCError.code must be provided" },
             message = requireNotNull(message) { "JSONRPCError.message must be provided" },
             data = data,
         ) as E
-    }
-
 }

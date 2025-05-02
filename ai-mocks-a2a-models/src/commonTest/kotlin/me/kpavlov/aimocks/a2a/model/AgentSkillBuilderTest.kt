@@ -8,10 +8,11 @@ internal class AgentSkillBuilderTest {
     @Test
     fun `should build AgentSkill with required parameters`() {
         // when
-        val skill = AgentSkill.create {
-            id = "skill-123"
-            name = "Example Skill"
-        }
+        val skill =
+            AgentSkill.create {
+                id = "skill-123"
+                name = "Example Skill"
+            }
 
         // then
         skill.id shouldBe "skill-123"
@@ -26,15 +27,16 @@ internal class AgentSkillBuilderTest {
     @Test
     fun `should build AgentSkill with all parameters`() {
         // when
-        val skill = AgentSkillBuilder()
-            .id("skill-123")
-            .name("Example Skill")
-            .description("This is an example skill")
-            .tags(listOf("example", "demo"))
-            .examples(listOf("Example usage 1", "Example usage 2"))
-            .inputModes(listOf("text"))
-            .outputModes(listOf("text"))
-            .build()
+        val skill =
+            AgentSkillBuilder()
+                .id("skill-123")
+                .name("Example Skill")
+                .description("This is an example skill")
+                .tags(listOf("example", "demo"))
+                .examples(listOf("Example usage 1", "Example usage 2"))
+                .inputModes(listOf("text"))
+                .outputModes(listOf("text"))
+                .build()
 
         // then
         skill.id shouldBe "skill-123"
@@ -69,15 +71,16 @@ internal class AgentSkillBuilderTest {
     @Test
     fun `should build using top-level DSL function`() {
         // when
-        val skill = agentSkill {
-            id("skill-123")
-            name("Example Skill")
-            description("This is an example skill")
-            tags(listOf("example", "demo"))
-            examples(listOf("Example usage 1", "Example usage 2"))
-            inputModes(listOf("text"))
-            outputModes(listOf("text"))
-        }
+        val skill =
+            agentSkill {
+                id("skill-123")
+                name("Example Skill")
+                description("This is an example skill")
+                tags(listOf("example", "demo"))
+                examples(listOf("Example usage 1", "Example usage 2"))
+                inputModes(listOf("text"))
+                outputModes(listOf("text"))
+            }
 
         // then
         skill.id shouldBe "skill-123"
@@ -92,15 +95,16 @@ internal class AgentSkillBuilderTest {
     @Test
     fun `should build using companion object create function`() {
         // when
-        val skill = AgentSkill.create {
-            id("skill-123")
-            name("Example Skill")
-            description("This is an example skill")
-            tags(listOf("example", "demo"))
-            examples(listOf("Example usage 1", "Example usage 2"))
-            inputModes(listOf("text"))
-            outputModes(listOf("text"))
-        }
+        val skill =
+            AgentSkill.create {
+                id("skill-123")
+                name("Example Skill")
+                description("This is an example skill")
+                tags(listOf("example", "demo"))
+                examples(listOf("Example usage 1", "Example usage 2"))
+                inputModes(listOf("text"))
+                outputModes(listOf("text"))
+            }
 
         // then
         skill.id shouldBe "skill-123"

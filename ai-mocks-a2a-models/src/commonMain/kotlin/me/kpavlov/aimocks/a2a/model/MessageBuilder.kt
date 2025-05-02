@@ -54,8 +54,7 @@ public class MessageBuilder {
         return builder.build()
     }
 
-    public fun text(block: () -> String): TextPart =
-        TextPartBuilder().text(block.invoke()).build()
+    public fun text(block: () -> String): TextPart = TextPartBuilder().text(block.invoke()).build()
 
     public fun filePart(block: FilePartBuilder.() -> Unit): FilePart =
         FilePartBuilder().apply(block).build()
@@ -66,9 +65,10 @@ public class MessageBuilder {
         return builder.build()
     }
 
-    public fun file(block: FileContentBuilder.() -> Unit): FilePart = filePart {
-        this.file(block)
-    }
+    public fun file(block: FileContentBuilder.() -> Unit): FilePart =
+        filePart {
+            this.file(block)
+        }
 
     public fun dataPart(block: DataPartBuilder.() -> Unit): DataPart =
         DataPartBuilder().apply(block).build()
@@ -79,9 +79,10 @@ public class MessageBuilder {
         return builder.build()
     }
 
-    public fun data(block: () -> Map<String, Any>): DataPart = dataPart {
-        data = block.invoke().toMutableMap()
-    }
+    public fun data(block: () -> Map<String, Any>): DataPart =
+        dataPart {
+            data = block.invoke().toMutableMap()
+        }
 
     /**
      * Builds a [Message] instance with the configured parameters.

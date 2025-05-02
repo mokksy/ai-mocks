@@ -14,7 +14,6 @@ import java.util.function.Consumer
  */
 public class UnsupportedOperationErrorBuilder :
     JSONRPCErrorBuilder<UnsupportedOperationError, UnsupportedOperationErrorBuilder>() {
-
     /**
      * Builds an [UnsupportedOperationError] instance with the configured parameters.
      *

@@ -16,7 +16,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 public class MethodNotFoundError : JSONRPCError {
     @JvmOverloads
-    public constructor(data: Data? = null) :  super(-32601, "Method not found", data)
+    public constructor(data: Data? = null) : super(-32601, "Method not found", data)
 
     public fun copy(data: Data? = this.data): InternalError = InternalError(data = data)
 }

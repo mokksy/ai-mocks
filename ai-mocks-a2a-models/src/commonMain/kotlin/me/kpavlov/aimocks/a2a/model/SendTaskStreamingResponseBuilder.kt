@@ -27,9 +27,10 @@ public class SendTaskStreamingResponseBuilder {
      * @param id The ID of the response.
      * @return This builder instance for method chaining.
      */
-    public fun id(id: RequestId): SendTaskStreamingResponseBuilder = apply {
-        this.id = id
-    }
+    public fun id(id: RequestId): SendTaskStreamingResponseBuilder =
+        apply {
+            this.id = id
+        }
 
     /**
      * Sets the result task update event.
@@ -37,9 +38,10 @@ public class SendTaskStreamingResponseBuilder {
      * @param result The task update event result.
      * @return This builder instance for method chaining.
      */
-    public fun result(result: TaskUpdateEvent): SendTaskStreamingResponseBuilder = apply {
-        this.result = result
-    }
+    public fun result(result: TaskUpdateEvent): SendTaskStreamingResponseBuilder =
+        apply {
+            this.result = result
+        }
 
     /**
      * Configures the result as a task status update event using a lambda with receiver.
@@ -47,7 +49,9 @@ public class SendTaskStreamingResponseBuilder {
      * @param init The lambda to configure the task status update event.
      * @return This builder instance for method chaining.
      */
-    public fun statusUpdateEvent(init: TaskStatusUpdateEventBuilder.() -> Unit): SendTaskStreamingResponseBuilder =
+    public fun statusUpdateEvent(
+        init: TaskStatusUpdateEventBuilder.() -> Unit,
+    ): SendTaskStreamingResponseBuilder =
         apply {
             result = TaskStatusUpdateEventBuilder().apply(init).build()
         }
@@ -58,7 +62,9 @@ public class SendTaskStreamingResponseBuilder {
      * @param init The consumer to configure the task status update event.
      * @return This builder instance for method chaining.
      */
-    public fun statusUpdateEvent(init: Consumer<TaskStatusUpdateEventBuilder>): SendTaskStreamingResponseBuilder =
+    public fun statusUpdateEvent(
+        init: Consumer<TaskStatusUpdateEventBuilder>,
+    ): SendTaskStreamingResponseBuilder =
         apply {
             val builder = TaskStatusUpdateEventBuilder()
             init.accept(builder)
@@ -71,7 +77,9 @@ public class SendTaskStreamingResponseBuilder {
      * @param init The lambda to configure the task artifact update event.
      * @return This builder instance for method chaining.
      */
-    public fun artifactUpdateEvent(init: TaskArtifactUpdateEventBuilder.() -> Unit): SendTaskStreamingResponseBuilder =
+    public fun artifactUpdateEvent(
+        init: TaskArtifactUpdateEventBuilder.() -> Unit,
+    ): SendTaskStreamingResponseBuilder =
         apply {
             result = TaskArtifactUpdateEventBuilder().apply(init).build()
         }
@@ -82,7 +90,9 @@ public class SendTaskStreamingResponseBuilder {
      * @param init The consumer to configure the task artifact update event.
      * @return This builder instance for method chaining.
      */
-    public fun artifactUpdateEvent(init: Consumer<TaskArtifactUpdateEventBuilder>): SendTaskStreamingResponseBuilder =
+    public fun artifactUpdateEvent(
+        init: Consumer<TaskArtifactUpdateEventBuilder>,
+    ): SendTaskStreamingResponseBuilder =
         apply {
             val builder = TaskArtifactUpdateEventBuilder()
             init.accept(builder)
@@ -95,11 +105,10 @@ public class SendTaskStreamingResponseBuilder {
      * @param error The error.
      * @return This builder instance for method chaining.
      */
-    public fun error(error: JSONRPCError): SendTaskStreamingResponseBuilder = apply {
-        this.error = error
-    }
-
-
+    public fun error(error: JSONRPCError): SendTaskStreamingResponseBuilder =
+        apply {
+            this.error = error
+        }
 
     /**
      * Builds a [SendTaskStreamingResponse] instance with the configured parameters.
@@ -121,9 +130,8 @@ public class SendTaskStreamingResponseBuilder {
  * @return A new [SendTaskStreamingResponse] instance.
  */
 public inline fun sendTaskStreamingResponse(
-    init: SendTaskStreamingResponseBuilder.() -> Unit
-): SendTaskStreamingResponse =
-    SendTaskStreamingResponseBuilder().apply(init).build()
+    init: SendTaskStreamingResponseBuilder.() -> Unit,
+): SendTaskStreamingResponse = SendTaskStreamingResponseBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [SendTaskStreamingResponse].
@@ -132,7 +140,7 @@ public inline fun sendTaskStreamingResponse(
  * @return A new [SendTaskStreamingResponse] instance.
  */
 public fun sendTaskStreamingResponse(
-    init: Consumer<SendTaskStreamingResponseBuilder>
+    init: Consumer<SendTaskStreamingResponseBuilder>,
 ): SendTaskStreamingResponse {
     val builder = SendTaskStreamingResponseBuilder()
     init.accept(builder)
@@ -146,7 +154,7 @@ public fun sendTaskStreamingResponse(
  * @return A new [SendTaskStreamingResponse] instance.
  */
 public fun SendTaskStreamingResponse.Companion.create(
-    init: SendTaskStreamingResponseBuilder.() -> Unit
+    init: SendTaskStreamingResponseBuilder.() -> Unit,
 ): SendTaskStreamingResponse = SendTaskStreamingResponseBuilder().apply(init).build()
 
 /**
@@ -156,7 +164,7 @@ public fun SendTaskStreamingResponse.Companion.create(
  * @return A new [SendTaskStreamingResponse] instance.
  */
 public fun SendTaskStreamingResponse.Companion.create(
-    init: Consumer<SendTaskStreamingResponseBuilder>
+    init: Consumer<SendTaskStreamingResponseBuilder>,
 ): SendTaskStreamingResponse {
     val builder = SendTaskStreamingResponseBuilder()
     init.accept(builder)

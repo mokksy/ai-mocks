@@ -142,7 +142,9 @@ public interface A2AClient {
      * @param request The fully constructed request containing ID, task ID, and notification configuration.
      * @return The response containing the updated push notification configuration.
      */
-    public suspend fun setTaskPushNotification(request: SetTaskPushNotificationRequest): SetTaskPushNotificationResponse
+    public suspend fun setTaskPushNotification(
+        request: SetTaskPushNotificationRequest,
+    ): SetTaskPushNotificationResponse
 
     /**
      * Gets the push notification configuration for a task.
@@ -164,7 +166,9 @@ public interface A2AClient {
      * @param request The fully constructed request containing request ID and task parameters.
      * @return The response containing the current push notification configuration.
      */
-    public suspend fun getTaskPushNotification(request: GetTaskPushNotificationRequest): GetTaskPushNotificationResponse
+    public suspend fun getTaskPushNotification(
+        request: GetTaskPushNotificationRequest,
+    ): GetTaskPushNotificationResponse
 
     /**
      * Sends a task to the server and subscribes to streaming updates.

@@ -2,7 +2,7 @@ package me.kpavlov.aimocks.anthropic.lc4j;
 
 import dev.langchain4j.model.anthropic.AnthropicChatModel;
 import dev.langchain4j.model.anthropic.internal.client.AnthropicHttpException;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ChatRequest;
 import me.kpavlov.aimocks.anthropic.MockAnthropic;
 import org.junit.jupiter.api.AfterEach;
@@ -24,7 +24,7 @@ class Lc4jChatModelAnthropicErrorsTest {
 
     public static final Duration TIMEOUT = Duration.ofSeconds(3);
 
-    private static final ChatLanguageModel model = AnthropicChatModel.builder()
+    private static final ChatModel model = AnthropicChatModel.builder()
         .apiKey("dummy-key")
         .baseUrl(MOCK.baseUrl() + "/v1")
         .modelName(CLAUDE_3_5_HAIKU_20241022)

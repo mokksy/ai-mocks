@@ -9,8 +9,9 @@ import me.kpavlov.aimocks.a2a.model.TaskId
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
 import java.util.concurrent.ConcurrentHashMap
 
-internal class NotificationListener(internal val notificationsUri: String) {
-
+internal class NotificationListener(
+    internal val notificationsUri: String,
+) {
     private val taskNotificationsMap = ConcurrentHashMap<TaskId, TaskNotificationHistory>()
 
     internal fun add(event: TaskUpdateEvent) {
@@ -26,7 +27,7 @@ internal class NotificationListener(internal val notificationsUri: String) {
 internal fun Application.configureNotificationListener(
     notificationsUri: String,
     listener: NotificationListener,
-    verbose: Boolean
+    verbose: Boolean,
 ) {
     require(notificationsUri.isNotBlank()) { "notificationsUri must not be blank" }
     require(notificationsUri.startsWith("/")) { "notificationsUri must start with '/'" }
@@ -43,5 +44,4 @@ internal fun Application.configureNotificationListener(
             listener.add(event)
         }
     }
-
 }

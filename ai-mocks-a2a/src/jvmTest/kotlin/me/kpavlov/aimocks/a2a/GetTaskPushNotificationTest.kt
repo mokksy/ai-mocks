@@ -78,9 +78,10 @@ internal class GetTaskPushNotificationTest : AbstractTest() {
 
             a2aServer.getTaskPushNotification() responds {
                 id = 1
-                error = invalidParamsError {
-                    message = "Invalid parameters"
-                }
+                error =
+                    invalidParamsError {
+                        message = "Invalid parameters"
+                    }
             }
 
             val response =
@@ -102,12 +103,14 @@ internal class GetTaskPushNotificationTest : AbstractTest() {
             response.status.shouldBeEqual(HttpStatusCode.OK)
             val payload = response.body<GetTaskPushNotificationResponse>()
 
-            val expectedReply = GetTaskPushNotificationResponse(
-                id = 1,
-                error = invalidParamsError {
-                    message = "Invalid parameters"
-                }
-            )
+            val expectedReply =
+                GetTaskPushNotificationResponse(
+                    id = 1,
+                    error =
+                        invalidParamsError {
+                            message = "Invalid parameters"
+                        },
+                )
             payload shouldBeEqualToComparingFields expectedReply
         }
 }

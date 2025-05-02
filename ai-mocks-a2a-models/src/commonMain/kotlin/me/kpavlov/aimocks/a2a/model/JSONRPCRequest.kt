@@ -35,5 +35,9 @@ public open class JSONRPCRequest<T>(
         require(jsonrpc == "2.0") { "jsonrpc not constant value 2.0 - $jsonrpc" }
     }
 
-    public constructor(method: String, params: T? = null): this(jsonrpc = "2.0", method = method, params = params)
+    public constructor(method: String, params: T? = null) : this(
+        jsonrpc = "2.0",
+        method = method,
+        params = params,
+    )
 }

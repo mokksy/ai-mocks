@@ -54,16 +54,17 @@ internal class CancelTaskTest : AbstractTest() {
             response.status.shouldBeEqual(HttpStatusCode.OK)
             val payload = response.body<CancelTaskResponse>()
 
-            val expectedReply = cancelTaskResponse {
-                id = 1
-                result {
-                    id = "tid_12345"
-                    this.sessionId = sessionId
-                    status {
-                        state = "canceled"
+            val expectedReply =
+                cancelTaskResponse {
+                    id = 1
+                    result {
+                        id = "tid_12345"
+                        this.sessionId = sessionId
+                        status {
+                            state = "canceled"
+                        }
                     }
                 }
-            }
             payload shouldBeEqualToComparingFields expectedReply
         }
 
@@ -72,9 +73,10 @@ internal class CancelTaskTest : AbstractTest() {
         runTest {
             a2aServer.cancelTask() responds {
                 id = 1
-                error = internalError {
-                    message = "Oops"
-                }
+                error =
+                    internalError {
+                        message = "Oops"
+                    }
             }
 
             val response =
@@ -95,12 +97,14 @@ internal class CancelTaskTest : AbstractTest() {
             response.status.shouldBeEqual(HttpStatusCode.OK)
             val payload = response.body<CancelTaskResponse>()
 
-            val expectedReply = cancelTaskResponse {
-                id = 1
-                error = internalError {
-                    message = "Oops"
+            val expectedReply =
+                cancelTaskResponse {
+                    id = 1
+                    error =
+                        internalError {
+                            message = "Oops"
+                        }
                 }
-            }
             payload shouldBeEqualToComparingFields expectedReply
         }
 }

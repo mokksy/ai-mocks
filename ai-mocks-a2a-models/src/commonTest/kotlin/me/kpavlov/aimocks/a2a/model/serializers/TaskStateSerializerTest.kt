@@ -6,13 +6,14 @@ import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.a2a.model.TaskState
 import kotlin.test.Test
 
-
 internal class TaskStateSerializerTest {
-    private val json = Json {
-        serializersModule = kotlinx.serialization.modules.SerializersModule {
-            contextual(TaskState::class, TaskStateSerializer())
+    private val json =
+        Json {
+            serializersModule =
+                kotlinx.serialization.modules.SerializersModule {
+                    contextual(TaskState::class, TaskStateSerializer())
+                }
         }
-    }
 
     @Test
     fun testDeserializeKnownValues() {
@@ -29,6 +30,4 @@ internal class TaskStateSerializerTest {
     fun testDeserializeUnknownValue() {
         json.decodeFromString<TaskState>("\"something_else\"") shouldBe TaskState.UNKNOWN
     }
-
-
 }

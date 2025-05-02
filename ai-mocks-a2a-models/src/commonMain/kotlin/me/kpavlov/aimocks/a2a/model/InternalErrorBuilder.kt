@@ -13,8 +13,6 @@ import java.util.function.Consumer
  * ```
  */
 public class InternalErrorBuilder : JSONRPCErrorBuilder<InternalError, InternalErrorBuilder>() {
-
-
     /**
      * Builds an [InternalError] instance with the configured parameters.
      *

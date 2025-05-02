@@ -12,8 +12,8 @@ import java.util.function.Consumer
  * }
  * ```
  */
-public class MethodNotFoundErrorBuilder : JSONRPCErrorBuilder<MethodNotFoundError, MethodNotFoundErrorBuilder>() {
-
+public class MethodNotFoundErrorBuilder :
+    JSONRPCErrorBuilder<MethodNotFoundError, MethodNotFoundErrorBuilder>() {
     /**
      * Builds a [MethodNotFoundError] instance with the configured parameters.
      *

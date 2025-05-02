@@ -58,10 +58,11 @@ ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-double-receive = { module = "io.ktor:ktor-server-double-receive", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 ktor-server-sse = { module = "io.ktor:ktor-server-sse", version.ref = "ktor" }
+kpavlov-langchain4j-kotlin = { group = "me.kpavlov.langchain4j.kotlin", name = "langchain4j-kotlin", version.ref = "langchain4jKotlin" }
 langchain4j-anthropic = { group = "dev.langchain4j", name = "langchain4j-anthropic", version.ref = "langchain4j" }
 langchain4j-bom = { group = "dev.langchain4j", name = "langchain4j-bom", version.ref = "langchain4j" }
-langchain4j-kotlin = { group = "me.kpavlov.langchain4j.kotlin", name = "langchain4j-kotlin", version.ref = "langchain4jKotlin" }
-langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai", version.ref = "langchain4j" }
+langchain4j-kotlin = { group = "dev.langchain4j", name = "langchain4j-kotlin", version.ref = "langchain4j" }
+langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai", version = "1.0.0-rc1" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-dsl = { module = "io.mockk:mockk-dsl", version.ref = "mockk" }
 netty = { group = "io.netty", name = "netty-handler", version.ref = "netty" }

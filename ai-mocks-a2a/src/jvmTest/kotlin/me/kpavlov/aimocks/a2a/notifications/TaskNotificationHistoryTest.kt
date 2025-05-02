@@ -19,12 +19,11 @@ import kotlin.test.assertTrue
  * providing methods for adding, retrieving, searching, and clearing those events.
  */
 internal class TaskNotificationHistoryTest {
-
     private lateinit var history: TaskNotificationHistory
     private lateinit var taskId: TaskId
-    private lateinit var event : TaskUpdateEvent
-    private lateinit var event1 : TaskUpdateEvent
-    private lateinit var event2 :TaskUpdateEvent
+    private lateinit var event: TaskUpdateEvent
+    private lateinit var event1: TaskUpdateEvent
+    private lateinit var event2: TaskUpdateEvent
 
     @BeforeTest
     fun beforeEach() {
@@ -54,7 +53,6 @@ internal class TaskNotificationHistoryTest {
 
     @Test
     fun `events should return all added events in insertion order`() {
-
         history.add(event1)
         history.add(event2)
 
@@ -82,7 +80,6 @@ internal class TaskNotificationHistoryTest {
 
     @Test
     fun `find should return the first matching event`() {
-
         history.add(event1)
         history.add(event2)
 
@@ -93,17 +90,15 @@ internal class TaskNotificationHistoryTest {
 
     @Test
     fun `find should return null if no event matches the predicate`() {
-
         history.add(event)
 
         val result = history.find { it.toString() == "nonexistent" }
 
-       result shouldBe null
+        result shouldBe null
     }
 
     @Test
     fun `extract should remove and return all events matching the predicate`() {
-
         history.add(event1)
         history.add(event2)
 
@@ -115,7 +110,6 @@ internal class TaskNotificationHistoryTest {
 
     @Test
     fun `extract should return an empty list if no events match the predicate`() {
-
         history.add(event)
 
         val extracted = history.extract { it.toString() == "nonexistent" }

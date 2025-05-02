@@ -19,8 +19,8 @@ public class TaskNotFoundError : JSONRPCError {
     public constructor(data: Data? = null) : super(
         code = -32001,
         message = "Task not found",
-        data = null
+        data = null,
     )
 
-    public fun copy(data: Data? = this.data): TaskNotFoundError = TaskNotFoundError(data=data)
+    public fun copy(data: Data? = this.data): TaskNotFoundError = TaskNotFoundError(data = data)
 }

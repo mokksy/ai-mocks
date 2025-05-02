@@ -9,12 +9,14 @@ internal class AgentCardBuilderTest {
     @Test
     fun `should build AgentCard with required properties`() {
         // when
-        val card = AgentCardBuilder().apply {
-            name = "Test Agent"
-            url = "https://example.com/agent"
-            version = "1.0.0"
-            capabilities = AgentCapabilitiesBuilder().build()
-        }.build()
+        val card =
+            AgentCardBuilder()
+                .apply {
+                    name = "Test Agent"
+                    url = "https://example.com/agent"
+                    version = "1.0.0"
+                    capabilities = AgentCapabilitiesBuilder().build()
+                }.build()
 
         // then
         card.name shouldBe "Test Agent"
@@ -33,33 +35,36 @@ internal class AgentCardBuilderTest {
     @Test
     fun `should build AgentCard with all properties`() {
         // when
-        val card = AgentCardBuilder().apply {
-            name = "Test Agent"
-            description = "A test agent"
-            url = "https://example.com/agent"
-            provider {
-                organization = "Test Provider"
-                url = "https://example.com"
-            }
-            version = "1.0.0"
-            documentationUrl = "https://example.com/docs"
-            capabilities {
-                streaming = true
-                pushNotifications = true
-                stateTransitionHistory = true
-            }
-            authentication {
-                schemes = listOf("oauth2")
-                credentials = "some-credentials"
-            }
-            defaultInputModes = listOf("text", "image")
-            defaultOutputModes = listOf("text", "audio")
-            skills += skill {
-                id = "skill-123"
-                name = "Test Skill"
-                description = "A test skill"
-            }
-        }.build()
+        val card =
+            AgentCardBuilder()
+                .apply {
+                    name = "Test Agent"
+                    description = "A test agent"
+                    url = "https://example.com/agent"
+                    provider {
+                        organization = "Test Provider"
+                        url = "https://example.com"
+                    }
+                    version = "1.0.0"
+                    documentationUrl = "https://example.com/docs"
+                    capabilities {
+                        streaming = true
+                        pushNotifications = true
+                        stateTransitionHistory = true
+                    }
+                    authentication {
+                        schemes = listOf("oauth2")
+                        credentials = "some-credentials"
+                    }
+                    defaultInputModes = listOf("text", "image")
+                    defaultOutputModes = listOf("text", "audio")
+                    skills +=
+                        skill {
+                            id = "skill-123"
+                            name = "Test Skill"
+                            description = "A test skill"
+                        }
+                }.build()
 
         // then
         card.name shouldBe "Test Agent"
@@ -92,24 +97,27 @@ internal class AgentCardBuilderTest {
         }
 
         shouldThrow<IllegalArgumentException> {
-            AgentCardBuilder().apply {
-                name = "Test Agent"
-            }.build(validate = true)
+            AgentCardBuilder()
+                .apply {
+                    name = "Test Agent"
+                }.build(validate = true)
         }
 
         shouldThrow<IllegalArgumentException> {
-            AgentCardBuilder().apply {
-                name = "Test Agent"
-                url = "https://example.com/agent"
-            }.build(validate = true)
+            AgentCardBuilder()
+                .apply {
+                    name = "Test Agent"
+                    url = "https://example.com/agent"
+                }.build(validate = true)
         }
 
         shouldThrow<IllegalArgumentException> {
-            AgentCardBuilder().apply {
-                name = "Test Agent"
-                url = "https://example.com/agent"
-                version = "1.0.0"
-            }.build(validate = true)
+            AgentCardBuilder()
+                .apply {
+                    name = "Test Agent"
+                    url = "https://example.com/agent"
+                    version = "1.0.0"
+                }.build(validate = true)
         }
     }
 }

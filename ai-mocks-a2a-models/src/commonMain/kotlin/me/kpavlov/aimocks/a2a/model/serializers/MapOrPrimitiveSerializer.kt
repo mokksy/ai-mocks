@@ -22,28 +22,28 @@ import kotlinx.serialization.json.buildJsonObject
  *
  * @param T The type parameter for the serializer (usually Any, Map<String, Any>, or a specific type)
  */
-public open class MapOrPrimitiveSerializer<T: Any> : KSerializer<T> {
+public open class MapOrPrimitiveSerializer<T : Any> : KSerializer<T> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("MapOrPrimitive")
 
     @Suppress("UNCHECKED_CAST")
     override fun deserialize(decoder: Decoder): T {
-        val jsonDecoder = decoder as? JsonDecoder
-            ?: throw SerializationException("Expected JSON decoder")
+        val jsonDecoder =
+            decoder as? JsonDecoder
+                ?: throw SerializationException("Expected JSON decoder")
         val element = jsonDecoder.decodeJsonElement()
 
         return deserializeJsonElement(element) as T
     }
 
-    private fun deserializeJsonElement(jsonElement: JsonElement): Any {
-        return when (jsonElement) {
+    private fun deserializeJsonElement(jsonElement: JsonElement): Any =
+        when (jsonElement) {
             is JsonPrimitive -> deserializePrimitive(jsonElement)
             is JsonObject -> deserializeObject(jsonElement)
             is JsonArray -> deserializeArray(jsonElement)
         }
-    }
 
-    private fun deserializePrimitive(jsonPrimitive: JsonPrimitive): Any {
-        return when {
+    private fun deserializePrimitive(jsonPrimitive: JsonPrimitive): Any =
+        when {
             jsonPrimitive.isString -> jsonPrimitive.content
             jsonPrimitive.content == "true" -> true
             jsonPrimitive.content == "false" -> false
@@ -52,31 +52,32 @@ public open class MapOrPrimitiveSerializer<T: Any> : KSerializer<T> {
             jsonPrimitive.content.toDoubleOrNull() != null -> jsonPrimitive.content.toDouble()
             else -> jsonPrimitive.content
         }
-    }
 
-    private fun deserializeObject(jsonObject: JsonObject): Map<String, Any> {
-        return jsonObject.mapValues { (_, value) ->
+    private fun deserializeObject(jsonObject: JsonObject): Map<String, Any> =
+        jsonObject.mapValues { (_, value) ->
             deserializeJsonElement(value)
         }
-    }
 
-    private fun deserializeArray(jsonArray: JsonArray): List<Any?> {
-        return jsonArray.map {
+    private fun deserializeArray(jsonArray: JsonArray): List<Any?> =
+        jsonArray.map {
             if (it is JsonNull) null else deserializeJsonElement(it)
         }
-    }
 
     @Suppress("UNCHECKED_CAST")
-    override fun serialize(encoder: Encoder, value: T) {
-        val jsonEncoder = encoder as? JsonEncoder
-            ?: throw SerializationException("Expected JSON encoder")
+    override fun serialize(
+        encoder: Encoder,
+        value: T,
+    ) {
+        val jsonEncoder =
+            encoder as? JsonEncoder
+                ?: throw SerializationException("Expected JSON encoder")
 
         val jsonElement = serializeToJsonElement(value as Any?)
         jsonEncoder.encodeJsonElement(jsonElement)
     }
 
-    private fun serializeToJsonElement(value: Any?): JsonElement {
-        return when (value) {
+    private fun serializeToJsonElement(value: Any?): JsonElement =
+        when (value) {
             null -> JsonNull
             is String -> JsonPrimitive(value)
             is Number -> JsonPrimitive(value)
@@ -91,19 +92,20 @@ public open class MapOrPrimitiveSerializer<T: Any> : KSerializer<T> {
                 }
             }
 
-            is Collection<*> -> buildJsonArray {
-                value.forEach { item ->
-                    add(serializeToJsonElement(item))
+            is Collection<*> ->
+                buildJsonArray {
+                    value.forEach { item ->
+                        add(serializeToJsonElement(item))
+                    }
                 }
-            }
 
-            is Array<*> -> buildJsonArray {
-                value.forEach { item ->
-                    add(serializeToJsonElement(item))
+            is Array<*> ->
+                buildJsonArray {
+                    value.forEach { item ->
+                        add(serializeToJsonElement(item))
+                    }
                 }
-            }
 
             else -> JsonPrimitive(value.toString())
         }
-    }
 }

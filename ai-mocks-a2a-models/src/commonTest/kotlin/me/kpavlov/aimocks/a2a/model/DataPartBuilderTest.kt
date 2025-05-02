@@ -8,10 +8,11 @@ internal class DataPartBuilderTest {
     @Test
     fun `should build DataPart with required parameters`() {
         // when
-        val dataPart = DataPartBuilder()
-            .put("key1", "value1")
-            .put("key2", 42)
-            .build()
+        val dataPart =
+            DataPartBuilder()
+                .put("key1", "value1")
+                .put("key2", 42)
+                .build()
 
         // then
         dataPart.data.asMap() shouldBe mapOf("key1" to "value1", "key2" to 42)
@@ -22,11 +23,12 @@ internal class DataPartBuilderTest {
     fun `should build DataPart with all parameters`() {
         // when
         val metadata = Metadata.of("metaKey" to "metaValue")
-        val dataPart = DataPartBuilder()
-            .put("key1", "value1")
-            .put("key2", 42)
-            .metadata(metadata)
-            .build()
+        val dataPart =
+            DataPartBuilder()
+                .put("key1", "value1")
+                .put("key2", 42)
+                .metadata(metadata)
+                .build()
 
         // then
         dataPart.data.asMap() shouldBe mapOf("key1" to "value1", "key2" to 42)
@@ -37,9 +39,10 @@ internal class DataPartBuilderTest {
     fun `should add multiple entries using putAll`() {
         // when
         val dataMap = mapOf("key1" to "value1", "key2" to 42)
-        val dataPart = DataPartBuilder()
-            .putAll(dataMap)
-            .build()
+        val dataPart =
+            DataPartBuilder()
+                .putAll(dataMap)
+                .build()
 
         // then
         dataPart.data.asMap() shouldBe dataMap
@@ -56,10 +59,11 @@ internal class DataPartBuilderTest {
     @Test
     fun `should build using top-level DSL function`() {
         // when
-        val dataPart = dataPart {
-            put("key1", "value1")
-            put("key2", 42)
-        }
+        val dataPart =
+            dataPart {
+                put("key1", "value1")
+                put("key2", 42)
+            }
 
         // then
         dataPart.data.asMap() shouldBe mapOf("key1" to "value1", "key2" to 42)
@@ -69,10 +73,11 @@ internal class DataPartBuilderTest {
     @Test
     fun `should build using companion object create function`() {
         // when
-        val dataPart = DataPart.create {
-            put("key1", "value1")
-            put("key2", 42)
-        }
+        val dataPart =
+            DataPart.create {
+                put("key1", "value1")
+                put("key2", 42)
+            }
 
         // then
         dataPart.data.asMap() shouldBe mapOf("key1" to "value1", "key2" to 42)

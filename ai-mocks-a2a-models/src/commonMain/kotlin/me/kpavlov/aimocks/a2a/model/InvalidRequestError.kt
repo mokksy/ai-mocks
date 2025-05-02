@@ -16,7 +16,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 public class InvalidRequestError : JSONRPCError {
     @JvmOverloads
-    public constructor(data: Data? = null) :  super(-32600, "Request payload validation error", null)
+    public constructor(data: Data? = null) : super(-32600, "Request payload validation error", null)
 
     public fun copy(data: Data? = this.data): InternalError = InternalError(data = data)
 }

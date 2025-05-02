@@ -6,9 +6,9 @@ import java.util.concurrent.ConcurrentLinkedDeque
 
 public class TaskNotificationHistory(
     public val taskId: TaskId,
- ) {
-    private val events: ConcurrentLinkedDeque<TaskUpdateEvent> = ConcurrentLinkedDeque< TaskUpdateEvent>()
-
+) {
+    private val events: ConcurrentLinkedDeque<TaskUpdateEvent> =
+        ConcurrentLinkedDeque<TaskUpdateEvent>()
 
     internal fun add(event: TaskUpdateEvent) {
         events.offer(event)
@@ -24,9 +24,10 @@ public class TaskNotificationHistory(
 
     internal fun isNotEmpty(): Boolean = !isEmpty()
 
-    internal fun find(predicate: (TaskUpdateEvent) -> Boolean): TaskUpdateEvent? = events.find(predicate)
+    internal fun find(predicate: (TaskUpdateEvent) -> Boolean): TaskUpdateEvent? =
+        events.find(predicate)
 
-    internal fun extract(predicate: (TaskUpdateEvent) -> Boolean): List<TaskUpdateEvent>  {
+    internal fun extract(predicate: (TaskUpdateEvent) -> Boolean): List<TaskUpdateEvent> {
         events.filter(predicate).also { found ->
             for (event in found) {
                 events.remove(event)
@@ -34,6 +35,4 @@ public class TaskNotificationHistory(
             return found.toList()
         }
     }
-
-
 }

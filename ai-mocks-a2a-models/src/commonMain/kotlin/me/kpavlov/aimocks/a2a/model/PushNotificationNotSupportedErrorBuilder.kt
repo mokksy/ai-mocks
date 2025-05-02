@@ -13,8 +13,10 @@ import java.util.function.Consumer
  * ```
  */
 public class PushNotificationNotSupportedErrorBuilder :
-    JSONRPCErrorBuilder<PushNotificationNotSupportedError, PushNotificationNotSupportedErrorBuilder>() {
-
+    JSONRPCErrorBuilder<
+        PushNotificationNotSupportedError,
+        PushNotificationNotSupportedErrorBuilder,
+    >() {
     /**
      * Builds a [PushNotificationNotSupportedError] instance with the configured parameters.
      *
@@ -33,7 +35,7 @@ public class PushNotificationNotSupportedErrorBuilder :
  * @return A new [PushNotificationNotSupportedError] instance.
  */
 public inline fun pushNotificationNotSupportedError(
-    init: PushNotificationNotSupportedErrorBuilder.() -> Unit
+    init: PushNotificationNotSupportedErrorBuilder.() -> Unit,
 ): PushNotificationNotSupportedError =
     PushNotificationNotSupportedErrorBuilder().apply(init).build()
 
@@ -44,7 +46,7 @@ public inline fun pushNotificationNotSupportedError(
  * @return A new [PushNotificationNotSupportedError] instance.
  */
 public fun pushNotificationNotSupportedError(
-    init: Consumer<PushNotificationNotSupportedErrorBuilder>
+    init: Consumer<PushNotificationNotSupportedErrorBuilder>,
 ): PushNotificationNotSupportedError {
     val builder = PushNotificationNotSupportedErrorBuilder()
     init.accept(builder)
@@ -58,7 +60,7 @@ public fun pushNotificationNotSupportedError(
  * @return A new [PushNotificationNotSupportedError] instance.
  */
 public fun PushNotificationNotSupportedError.Companion.create(
-    init: PushNotificationNotSupportedErrorBuilder.() -> Unit
+    init: PushNotificationNotSupportedErrorBuilder.() -> Unit,
 ): PushNotificationNotSupportedError =
     PushNotificationNotSupportedErrorBuilder().apply(init).build()
 
@@ -69,7 +71,7 @@ public fun PushNotificationNotSupportedError.Companion.create(
  * @return A new [PushNotificationNotSupportedError] instance.
  */
 public fun PushNotificationNotSupportedError.Companion.create(
-    init: Consumer<PushNotificationNotSupportedErrorBuilder>
+    init: Consumer<PushNotificationNotSupportedErrorBuilder>,
 ): PushNotificationNotSupportedError {
     val builder = PushNotificationNotSupportedErrorBuilder()
     init.accept(builder)

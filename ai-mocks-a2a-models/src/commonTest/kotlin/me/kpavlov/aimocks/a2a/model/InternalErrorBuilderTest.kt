@@ -21,9 +21,10 @@ internal class InternalErrorBuilderTest {
         val data = Data.of("key1" to "value1", "key2" to 42)
 
         // when
-        val error = InternalErrorBuilder()
-            .data(data)
-            .build()
+        val error =
+            InternalErrorBuilder()
+                .data(data)
+                .build()
 
         // then
         error.code shouldBe -32603
@@ -39,9 +40,10 @@ internal class InternalErrorBuilderTest {
         val data = Data.of("key1" to "value1", "key2" to 42)
 
         // when
-        val error = internalError {
-            data(data)
-        }
+        val error =
+            internalError {
+                data(data)
+            }
 
         // then
         error.code shouldBe -32603
@@ -55,9 +57,10 @@ internal class InternalErrorBuilderTest {
         val data = Data.of("key1" to "value1", "key2" to 42)
 
         // when
-        val error = InternalError.create {
-            data(data)
-        }
+        val error =
+            InternalError.create {
+                data(data)
+            }
 
         // then
         error.code shouldBe -32603

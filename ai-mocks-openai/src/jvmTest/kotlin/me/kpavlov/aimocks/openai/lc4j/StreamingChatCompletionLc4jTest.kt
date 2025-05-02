@@ -3,6 +3,8 @@ package me.kpavlov.aimocks.openai.lc4j
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import dev.langchain4j.data.message.UserMessage.userMessage
+import dev.langchain4j.kotlin.model.chat.StreamingChatModelReply
+import dev.langchain4j.kotlin.model.chat.chatFlow
 import dev.langchain4j.model.chat.request.ChatRequest
 import dev.langchain4j.model.chat.response.ChatResponse
 import dev.langchain4j.model.chat.response.StreamingChatResponseHandler
@@ -13,18 +15,17 @@ import io.kotest.assertions.failure
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import me.kpavlov.aimocks.openai.AbstractMockOpenaiTest
 import me.kpavlov.aimocks.openai.openai
-import me.kpavlov.langchain4j.kotlin.model.chat.StreamingChatLanguageModelReply
-import me.kpavlov.langchain4j.kotlin.model.chat.StreamingChatLanguageModelReply.CompleteResponse
-import me.kpavlov.langchain4j.kotlin.model.chat.StreamingChatLanguageModelReply.PartialResponse
-import me.kpavlov.langchain4j.kotlin.model.chat.chatFlow
 import org.awaitility.kotlin.await
 import org.junit.jupiter.api.Test
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.atomic.AtomicReference
+
+private const val FLOW_BUFFER_SIZE = 8096
 
 internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
     private val model: OpenAiStreamingChatModel =
@@ -111,7 +112,6 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
 
         await.untilAsserted {
             responseRef.get().shouldNotBeNull()
-//          partialResults.joinToString("") shouldBeEqual expectedResponse
         }
         val chatResponse = responseRef.get()
         chatResponse.finishReason() shouldBe FinishReason.STOP
@@ -134,19 +134,20 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
                         .seed(seedValue)
                         .build()
                 messages += userMessage(userMessage)
-            }.collect {
+            }.buffer(capacity = FLOW_BUFFER_SIZE)
+            .collect {
                 when (it) {
-                    is PartialResponse -> {
-                        result.add(it.token)
-                        logger.info { "token = ${it.token}" }
+                    is StreamingChatModelReply.PartialResponse -> {
+                        result.add(it.partialResponse)
+                        logger.info { "token = ${it.partialResponse}" }
                     }
 
-                    is CompleteResponse -> {
+                    is StreamingChatModelReply.CompleteResponse -> {
                         logger.info { "Completed: $it" }
                         finishReason.set(it.response.finishReason())
                     }
 
-                    is StreamingChatLanguageModelReply.Error -> {
+                    is StreamingChatModelReply.Error -> {
                         logger.info { "Error: $it" }
                         it.cause.printStackTrace()
                     }

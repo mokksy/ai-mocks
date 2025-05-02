@@ -56,20 +56,22 @@ public class DefaultA2AClient(
         },
     private val requestConfigurer: HttpRequestBuilder.() -> Unit = { },
 ) : A2AClient {
-
     override suspend fun getAgentCard(): AgentCard {
-        val response = httpClient.get("$baseUrl/.well-known/agent.json") {
-            requestConfigurer.invoke(this)
-        }
+        val response =
+            httpClient.get("$baseUrl/.well-known/agent.json") {
+                requestConfigurer.invoke(this)
+            }
         return response.body<AgentCard>()
     }
 
-    override suspend fun sendTask(params: TaskSendParams): SendTaskResponse {
-        return sendTask(request=SendTaskRequest.create {
-            this.id = "1"
-            this.params = params
-        })
-    }
+    override suspend fun sendTask(params: TaskSendParams): SendTaskResponse =
+        sendTask(
+            request =
+                SendTaskRequest.create {
+                    this.id = "1"
+                    this.params = params
+                },
+        )
 
     public override suspend fun sendTask(request: SendTaskRequest): SendTaskResponse {
         val response =
@@ -150,7 +152,7 @@ public class DefaultA2AClient(
     }
 
     public override suspend fun setTaskPushNotification(
-        request: SetTaskPushNotificationRequest
+        request: SetTaskPushNotificationRequest,
     ): SetTaskPushNotificationResponse {
         val response =
             httpClient.post(baseUrl) {
@@ -176,7 +178,7 @@ public class DefaultA2AClient(
     }
 
     public override suspend fun getTaskPushNotification(
-        request: GetTaskPushNotificationRequest
+        request: GetTaskPushNotificationRequest,
     ): GetTaskPushNotificationResponse {
         val response =
             httpClient.post(baseUrl) {
@@ -198,15 +200,16 @@ public class DefaultA2AClient(
         return sendTaskStreaming(payload)
     }
 
-    public override fun sendTaskStreaming(request: SendTaskStreamingRequest): Flow<TaskUpdateEvent> {
-        return receiveTaskUpdateEvents(request, requestConfigurer)
-    }
+    public override fun sendTaskStreaming(
+        request: SendTaskStreamingRequest,
+    ): Flow<TaskUpdateEvent> = receiveTaskUpdateEvents(request, requestConfigurer)
 
     override fun resubscribeToTask(id: TaskId): Flow<TaskUpdateEvent> {
-        val request = TaskResubscriptionRequest(
-            id = "1",
-            params = TaskQueryParams(id = id),
-        )
+        val request =
+            TaskResubscriptionRequest(
+                id = "1",
+                params = TaskQueryParams(id = id),
+            )
         return receiveTaskUpdateEvents(request, requestConfigurer)
     }
 
@@ -217,32 +220,33 @@ public class DefaultA2AClient(
     private inline fun <reified T : A2ARequest> receiveTaskUpdateEvents(
         request: T,
         crossinline configurer: HttpRequestBuilder.() -> Unit,
-    ): Flow<TaskUpdateEvent> = flow {
-        httpClient.sse(
-            request = {
-                url { baseUrl }
-                method = HttpMethod.Post
-                contentType(ContentType.Application.Json)
-                setBody(request)
-                configurer.invoke(this)
-            },
-        ) {
-            var reading = true
-            while (reading) {
-                incoming.collect { event ->
-                    event.data?.let { data ->
-                        val taskEvent = json.decodeFromString<TaskUpdateEvent>(data)
-                        emit(taskEvent)
+    ): Flow<TaskUpdateEvent> =
+        flow {
+            httpClient.sse(
+                request = {
+                    url { baseUrl }
+                    method = HttpMethod.Post
+                    contentType(ContentType.Application.Json)
+                    setBody(request)
+                    configurer.invoke(this)
+                },
+            ) {
+                var reading = true
+                while (reading) {
+                    incoming.collect { event ->
+                        event.data?.let { data ->
+                            val taskEvent = json.decodeFromString<TaskUpdateEvent>(data)
+                            emit(taskEvent)
 
-                        // Check if this is the final event
-                        if (taskEvent is TaskStatusUpdateEvent &&
-                            taskEvent.final
-                        ) {
-                            reading = false
+                            // Check if this is the final event
+                            if (taskEvent is TaskStatusUpdateEvent &&
+                                taskEvent.final
+                            ) {
+                                reading = false
+                            }
                         }
                     }
                 }
             }
         }
-    }
 }

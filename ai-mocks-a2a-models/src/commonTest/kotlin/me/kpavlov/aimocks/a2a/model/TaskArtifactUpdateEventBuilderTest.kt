@@ -12,10 +12,11 @@ internal class TaskArtifactUpdateEventBuilderTest {
         val artifact = Artifact(name = "artifact-name", parts = listOf(textPart))
 
         // when
-        val event = TaskArtifactUpdateEventBuilder()
-            .id("task-123")
-            .artifact(artifact)
-            .build()
+        val event =
+            TaskArtifactUpdateEventBuilder()
+                .id("task-123")
+                .artifact(artifact)
+                .build()
 
         // then
         event.id shouldBe "task-123"
@@ -31,11 +32,12 @@ internal class TaskArtifactUpdateEventBuilderTest {
         val metadata = Metadata.of("metaKey" to "metaValue")
 
         // when
-        val event = TaskArtifactUpdateEventBuilder()
-            .id("task-123")
-            .artifact(artifact)
-            .metadata(metadata)
-            .build()
+        val event =
+            TaskArtifactUpdateEventBuilder()
+                .id("task-123")
+                .artifact(artifact)
+                .metadata(metadata)
+                .build()
 
         // then
         event.id shouldBe "task-123"
@@ -46,13 +48,13 @@ internal class TaskArtifactUpdateEventBuilderTest {
     @Test
     fun `should build TaskArtifactUpdateEvent with artifact builder`() {
         // when
-        val event = TaskArtifactUpdateEventBuilder()
-            .id("task-123")
-            .artifact {
-                name("artifact-name")
-                addPart(TextPart(text = "Sample text content"))
-            }
-            .build()
+        val event =
+            TaskArtifactUpdateEventBuilder()
+                .id("task-123")
+                .artifact {
+                    name("artifact-name")
+                    addPart(TextPart(text = "Sample text content"))
+                }.build()
 
         // then
         event.id shouldBe "task-123"
@@ -89,13 +91,14 @@ internal class TaskArtifactUpdateEventBuilderTest {
     @Test
     fun `should build using top-level DSL function`() {
         // when
-        val event = taskArtifactUpdateEvent {
-            id("task-123")
-            artifact {
-                name("artifact-name")
-                addPart(TextPart(text = "Sample text content"))
+        val event =
+            taskArtifactUpdateEvent {
+                id("task-123")
+                artifact {
+                    name("artifact-name")
+                    addPart(TextPart(text = "Sample text content"))
+                }
             }
-        }
 
         // then
         event.id shouldBe "task-123"
@@ -108,13 +111,14 @@ internal class TaskArtifactUpdateEventBuilderTest {
     @Test
     fun `should build using companion object create function`() {
         // when
-        val event = TaskArtifactUpdateEvent.create {
-            id("task-123")
-            artifact {
-                name("artifact-name")
-                addPart(TextPart(text = "Sample text content"))
+        val event =
+            TaskArtifactUpdateEvent.create {
+                id("task-123")
+                artifact {
+                    name("artifact-name")
+                    addPart(TextPart(text = "Sample text content"))
+                }
             }
-        }
 
         // then
         event.id shouldBe "task-123"

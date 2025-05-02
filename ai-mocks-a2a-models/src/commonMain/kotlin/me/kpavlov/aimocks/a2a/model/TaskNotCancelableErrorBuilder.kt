@@ -14,7 +14,6 @@ import java.util.function.Consumer
  */
 public class TaskNotCancelableErrorBuilder :
     JSONRPCErrorBuilder<TaskNotCancelableError, TaskNotCancelableErrorBuilder>() {
-
     /**
      * Builds a [TaskNotCancelableError] instance with the configured parameters.
      *
@@ -32,8 +31,9 @@ public class TaskNotCancelableErrorBuilder :
  * @param init The lambda to configure the task not cancelable error.
  * @return A new [TaskNotCancelableError] instance.
  */
-public inline fun taskNotCancelableError(init: TaskNotCancelableErrorBuilder.() -> Unit): TaskNotCancelableError =
-    TaskNotCancelableErrorBuilder().apply(init).build()
+public inline fun taskNotCancelableError(
+    init: TaskNotCancelableErrorBuilder.() -> Unit,
+): TaskNotCancelableError = TaskNotCancelableErrorBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [TaskNotCancelableError].
@@ -41,7 +41,9 @@ public inline fun taskNotCancelableError(init: TaskNotCancelableErrorBuilder.() 
  * @param init The consumer to configure the task not cancelable error.
  * @return A new [TaskNotCancelableError] instance.
  */
-public fun taskNotCancelableError(init: Consumer<TaskNotCancelableErrorBuilder>): TaskNotCancelableError {
+public fun taskNotCancelableError(
+    init: Consumer<TaskNotCancelableErrorBuilder>,
+): TaskNotCancelableError {
     val builder = TaskNotCancelableErrorBuilder()
     init.accept(builder)
     return builder.build()

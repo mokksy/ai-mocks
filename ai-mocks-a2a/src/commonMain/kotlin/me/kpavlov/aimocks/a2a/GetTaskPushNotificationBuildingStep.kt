@@ -27,7 +27,7 @@ public class GetTaskPushNotificationBuildingStep(
                 GetTaskPushNotificationResponse(
                     id = responseSpecification.id ?: requestBody.id,
                     result = responseSpecification.result,
-                    error = responseSpecification.error
+                    error = responseSpecification.error,
                 )
         }
     }

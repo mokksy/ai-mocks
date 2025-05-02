@@ -12,8 +12,8 @@ import java.util.function.Consumer
  * }
  * ```
  */
-public class InvalidParamsErrorBuilder : JSONRPCErrorBuilder<InvalidParamsError, InvalidParamsErrorBuilder>() {
-
+public class InvalidParamsErrorBuilder :
+    JSONRPCErrorBuilder<InvalidParamsError, InvalidParamsErrorBuilder>() {
     /**
      * Builds an [InvalidParamsError] instance with the configured parameters.
      *

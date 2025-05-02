@@ -7,23 +7,28 @@ import kotlinx.serialization.encoding.Encoder
 import me.kpavlov.aimocks.a2a.model.TaskState
 
 public class TaskStateSerializer : KSerializer<TaskState> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("TaskState", PrimitiveKind.STRING)
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("TaskState", PrimitiveKind.STRING)
 
-    override fun serialize(encoder: Encoder, value: TaskState) {
-        val serialName = when(value) {
-            TaskState.SUBMITTED -> "submitted"
-            TaskState.WORKING -> "working"
-            TaskState.INPUT_REQUIRED -> "input-required"
-            TaskState.COMPLETED -> "completed"
-            TaskState.CANCELED -> "canceled"
-            TaskState.FAILED -> "failed"
-            TaskState.UNKNOWN -> "unknown"
-        }
+    override fun serialize(
+        encoder: Encoder,
+        value: TaskState,
+    ) {
+        val serialName =
+            when (value) {
+                TaskState.SUBMITTED -> "submitted"
+                TaskState.WORKING -> "working"
+                TaskState.INPUT_REQUIRED -> "input-required"
+                TaskState.COMPLETED -> "completed"
+                TaskState.CANCELED -> "canceled"
+                TaskState.FAILED -> "failed"
+                TaskState.UNKNOWN -> "unknown"
+            }
         encoder.encodeString(serialName)
     }
 
-    override fun deserialize(decoder: Decoder): TaskState {
-        return when (val value = decoder.decodeString()) {
+    override fun deserialize(decoder: Decoder): TaskState =
+        when (val value = decoder.decodeString()) {
             "submitted" -> TaskState.SUBMITTED
             "working" -> TaskState.WORKING
             "input-required" -> TaskState.INPUT_REQUIRED
@@ -33,5 +38,4 @@ public class TaskStateSerializer : KSerializer<TaskState> {
             "unknown" -> TaskState.UNKNOWN
             else -> TaskState.UNKNOWN
         }
-    }
 }

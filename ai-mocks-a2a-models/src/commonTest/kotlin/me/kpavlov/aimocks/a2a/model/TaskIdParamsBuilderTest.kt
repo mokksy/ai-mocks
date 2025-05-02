@@ -49,10 +49,11 @@ internal class TaskIdParamsBuilderTest {
         val metadata = Metadata.of("key1" to "value1", "key2" to 42)
 
         // when
-        val params = taskIdParams {
-            id = "task-123"
-            this.metadata = metadata
-        }
+        val params =
+            taskIdParams {
+                id = "task-123"
+                this.metadata = metadata
+            }
 
         // then
         params.id shouldBe "task-123"
@@ -65,10 +66,11 @@ internal class TaskIdParamsBuilderTest {
         val metadata = Metadata.of("key1" to "value1", "key2" to 42)
 
         // when
-        val params = TaskIdParams.create {
-            id = "task-123"
-            this.metadata = metadata
-        }
+        val params =
+            TaskIdParams.create {
+                id = "task-123"
+                this.metadata = metadata
+            }
 
         // then
         params.id shouldBe "task-123"
