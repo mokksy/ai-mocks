@@ -44,7 +44,7 @@ jobs:
           cache-overwrite-existing: true
 
       - name: Build with Gradle
-        run: gradle --no-daemon clean build dokkaGenerate dokkaJavadocJar sourcesJar koverXmlReport
+        run: gradle clean && gradle build dokkaGenerate dokkaJavadocJar sourcesJar koverXmlReport
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v5
