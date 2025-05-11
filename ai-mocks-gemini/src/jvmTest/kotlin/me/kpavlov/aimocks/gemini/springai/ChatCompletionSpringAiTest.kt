@@ -1,0 +1,41 @@
+package me.kpavlov.aimocks.gemini.springai
+
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import me.kpavlov.aimocks.gemini.gemini
+import org.springframework.ai.chat.prompt.ChatOptions
+import kotlin.test.Test
+import kotlin.time.Duration.Companion.milliseconds
+
+internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
+    @Test
+    fun `Should respond to Chat Completion`() {
+        gemini.generateContent {
+            temperature = temperatureValue
+            model = modelName
+//            maxTokens = maxCompletionTokensValue
+            project = projectId
+            location = locationId
+            systemMessageContains("You are a helpful pirate")
+            userMessageContains("Just say 'Hello!'")
+        } responds {
+            content = "Ahoy there, matey! Hello!"
+            finishReason = "stop"
+            delay = 42.milliseconds
+        }
+
+        val response =
+            prepareClientRequest()
+                .options(ChatOptions.builder().temperature(temperatureValue).build())
+                .call()
+                .chatResponse()
+
+        response?.result shouldNotBe null
+        response?.result?.apply {
+            metadata.finishReason shouldBe "STOP"
+            output?.text shouldBe "Ahoy there, matey! Hello!"
+        }
+    }
+
+
+}

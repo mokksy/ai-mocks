@@ -4,6 +4,7 @@ plugins {
     `kotlin-convention`
     `dokka-convention`
     `publish-convention`
+    `netty-convention`
 }
 
 dokka {
@@ -45,6 +46,7 @@ kotlin {
             dependencies {
                 implementation(libs.ktor.server.netty)
                 implementation(libs.ktor.server.call.logging)
+                implementation(project.dependencies.platform(libs.netty.bom))
             }
         }
 

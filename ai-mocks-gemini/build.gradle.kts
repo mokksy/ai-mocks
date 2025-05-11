@@ -13,18 +13,17 @@ dokka {
 }
 
 kotlin {
-
     sourceSets {
         commonMain {
             dependencies {
                 api(project(":ai-mocks-core"))
                 api(libs.ktor.serialization.kotlinx.json)
-                implementation(libs.ktor.server.sse)
             }
         }
 
         commonTest {
             dependencies {
+                implementation(kotlin("test"))
                 implementation(libs.assertk)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.kotlinLogging)
@@ -33,20 +32,20 @@ kotlin {
 
         jvmMain {
             dependencies {
-                api(libs.anthropic.java.core)
                 implementation(libs.ktor.server.netty)
-                implementation(libs.ktor.serialization.jackson)
             }
         }
 
         jvmTest {
             dependencies {
                 implementation(kotlin("test"))
-                implementation(libs.anthropic.java.client.okhttp)
                 implementation(libs.assertj.core)
                 implementation(libs.awaitility.kotlin)
+                implementation(libs.finchly)
                 implementation(libs.junit.jupiter.params)
-                implementation(libs.langchain4j.anthropic)
+                implementation(libs.langchain4j.kotlin)
+                implementation(libs.langchain4j.gemini)
+                implementation(libs.spring.ai.gemini)
                 implementation(project.dependencies.platform(libs.langchain4j.bom))
                 implementation(project.dependencies.platform(libs.spring.ai.bom))
                 implementation(project.dependencies.platform(libs.spring.bom))

@@ -8,6 +8,7 @@ import io.ktor.server.response.ResponseHeaders
 import io.ktor.server.response.respond
 import io.ktor.util.cio.ChannelWriteException
 import kotlinx.coroutines.delay
+import java.util.concurrent.RejectedExecutionException
 import kotlin.time.Duration
 
 /**
@@ -32,12 +33,12 @@ public open class ResponseDefinition<P, T>(
     headerList: List<Pair<String, String>> = emptyList<Pair<String, String>>(),
     delay: Duration,
 ) : AbstractResponseDefinition<T>(
-        contentType,
-        httpStatus,
-        headers,
-        headerList,
-        delay,
-    ) {
+    contentType,
+    httpStatus,
+    headers,
+    headerList,
+    delay,
+) {
     override suspend fun writeResponse(
         call: ApplicationCall,
         verbose: Boolean,
@@ -45,17 +46,27 @@ public open class ResponseDefinition<P, T>(
         if (this.delay.isPositive()) {
             delay(delay)
         }
+        val log = call.application.log
         if (verbose) {
-            call.application.log.debug("Sending {}: {}", httpStatus, body)
+            log.debug("Sending {}: {}", httpStatus, body)
         }
         try {
             call.respond(
                 status = httpStatus,
                 message = body ?: "" as Any,
             )
+        } catch (e: RejectedExecutionException) {
+            // We can't do anything about it
+            if (log.isTraceEnabled) {
+                log.trace("Can't write to the channel", e)
+            }
         } catch (e: ChannelWriteException) {
             // We can't do anything about it
-            call.application.log.debug(e.message, e)
+            if (log.isTraceEnabled) {
+                log.trace("Can't write to the channel", e)
+            } else if (verbose) {
+                log.debug("Can't write to the channel: {}", e.message)
+            }
         }
     }
 }

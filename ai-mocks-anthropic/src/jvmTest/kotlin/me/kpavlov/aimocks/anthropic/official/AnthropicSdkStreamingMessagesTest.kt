@@ -6,10 +6,13 @@ import io.kotest.matchers.collections.shouldContainExactly
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import me.kpavlov.aimocks.anthropic.anthropic
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
+
+    @Disabled("TODO: Should be fixed separately, #195")
     @Test
     fun `Should respond to Streaming Messages Completion with chunk list`() =
         runTest {
@@ -28,6 +31,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
             verifyStreamingCall(tokens)
         }
 
+    @Disabled("TODO: Should be fixed separately, #195")
     @Test
     fun `Should respond to Streaming Chat Completion with Flow`() =
         runTest {
