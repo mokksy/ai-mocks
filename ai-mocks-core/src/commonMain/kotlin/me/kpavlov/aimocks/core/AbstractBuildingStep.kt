@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.core
 
+import io.ktor.util.logging.Logger
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 import me.kpavlov.mokksy.response.ResponseDefinitionBuilder
@@ -25,6 +26,8 @@ public abstract class AbstractBuildingStep<P : Any, R : ResponseSpecification<P,
     protected val mokksy: MokksyServer,
     protected val buildingStep: BuildingStep<P>,
 ) {
+    protected val logger: Logger = mokksy.logger
+
     public abstract infix fun responds(block: R.() -> Unit)
 
     /**
