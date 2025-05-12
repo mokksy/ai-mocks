@@ -74,7 +74,7 @@ public class AnthropicBuildingStep(
                             .cacheReadInputTokens(0)
                             .inputTokens(LongRange(10, 1000).random())
                             .outputTokens(completionTokens)
-                            .serverToolUse(null)
+                            .serverToolUse(Optional.empty())
                             .build(),
                     ).build()
         }
@@ -95,7 +95,7 @@ public class AnthropicBuildingStep(
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     public infix fun respondsStream(block: AnthropicStreamingChatResponseSpecification.() -> Unit) {
-        buildingStep.respondsWithStream<String> {
+        buildingStep.respondsWithStream {
             val responseDefinition: StreamResponseDefinition<MessageCreateParams.Body, String> =
                 this.build()
             val responseSpec =
