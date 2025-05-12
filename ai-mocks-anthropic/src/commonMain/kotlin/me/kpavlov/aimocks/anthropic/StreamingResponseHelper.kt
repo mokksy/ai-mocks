@@ -37,7 +37,7 @@ internal object StreamingResponseHelper {
                                 .outputTokens(1)
                                 .cacheCreationInputTokens(Optional.empty())
                                 .cacheReadInputTokens(Optional.empty())
-                                .serverToolUse(Optional.empty())
+                                //.serverToolUse(Optional.empty())
                                 .build(),
                         ).addContent(
                             ContentBlock.ofText(
@@ -119,10 +119,10 @@ internal object StreamingResponseHelper {
                     MessageDeltaUsage
                         .builder()
                         .outputTokens(outputTokens)
-                        .cacheCreationInputTokens(null)
-                        .cacheReadInputTokens(null)
-                        .inputTokens(LongRange(10, 1000).random())
-                        .serverToolUse(null)
+                        //.cacheCreationInputTokens(null)
+                        //.cacheReadInputTokens(null)
+                        //.inputTokens(LongRange(10, 1000).random())
+                        //.serverToolUse(null)
                         .build(),
                 ).build()
         return ServerSentEvent(

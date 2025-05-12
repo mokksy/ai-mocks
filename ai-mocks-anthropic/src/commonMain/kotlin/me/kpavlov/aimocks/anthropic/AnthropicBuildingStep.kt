@@ -74,7 +74,7 @@ public class AnthropicBuildingStep(
                             .cacheReadInputTokens(0)
                             .inputTokens(LongRange(10, 1000).random())
                             .outputTokens(completionTokens)
-                            .serverToolUse(Optional.empty())
+                            //.serverToolUse(Optional.empty())
                             .build(),
                     ).build()
         }
