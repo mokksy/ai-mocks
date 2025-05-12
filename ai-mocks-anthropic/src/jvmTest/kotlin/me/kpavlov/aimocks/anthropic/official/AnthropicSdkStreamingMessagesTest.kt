@@ -52,6 +52,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
                 temperature = temperatureValue
                 model = modelName
                 userId = userIdValue
+                systemMessageContains(seed)
             } respondsStream {
                 responseFlow =
                     flow {
@@ -72,7 +73,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
                 .temperature(temperatureValue)
                 .maxTokens(maxTokensValue)
                 .metadata(Metadata.builder().userId(userIdValue).build())
-                .system("You are a person from 60s")
+                .system("You are a person from 60s $seed")
                 .addUserMessage("What do we need?")
                 .model(modelName)
                 .build()

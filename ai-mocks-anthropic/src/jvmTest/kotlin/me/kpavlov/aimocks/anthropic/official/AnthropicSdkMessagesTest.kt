@@ -20,7 +20,7 @@ internal class AnthropicSdkMessagesTest : AbstractAnthropicTest() {
             userId = userIdValue
             topP = 0.42
             topK = 100500
-            systemMessageContains("witch")
+            systemMessageContains("You are witch $seed")
             userMessageContains("say 'He-he!'")
         } responds {
             messageId = messageIdValue
@@ -37,7 +37,7 @@ internal class AnthropicSdkMessagesTest : AbstractAnthropicTest() {
                 .temperature(temperatureValue)
                 .maxTokens(maxTokensValue)
                 .metadata(Metadata.builder().userId(userIdValue).build())
-                .system("You are witch")
+                .system("You are witch $seed")
                 .addUserMessage("Just say 'He-he!' and nothing else")
                 .model(modelName)
                 .build()
