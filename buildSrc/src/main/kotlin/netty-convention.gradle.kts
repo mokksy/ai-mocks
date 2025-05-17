@@ -5,8 +5,6 @@
  *
  * This plugin should be applied to any module that uses Netty for testing.
  */
-
-// Define the Netty version - this should match the version in libs.versions.toml
 val nettyVersion = "4.2.1.Final"
 
 plugins {
@@ -30,23 +28,30 @@ afterEvaluate {
 
                 when {
                     osName.contains("linux") -> {
-                        val archClassifier = if (osName.contains("aarch64")) {
-                            "linux-aarch_64"
-                        } else {
-                            "linux-x86_64"
-                        }
-                        runtimeOnly("io.netty:netty-transport-native-epoll:$nettyVersion:$archClassifier")
-
-                     }
+                        val archClassifier =
+                            if (osArch.contains("aarch64")) {
+                                "linux-aarch_64"
+                            } else {
+                                "linux-x86_64"
+                            }
+                        runtimeOnly(
+                            "io.netty:netty-transport-native-epoll:$nettyVersion:$archClassifier",
+                        )
+                    }
 
                     osName.contains("mac") -> {
-                        val archClassifier = if (osName.contains("aarch64")) {
-                            "osx-aarch_64"
-                        } else {
-                            "osx-x86_64"
-                        }
-                        runtimeOnly("io.netty:netty-transport-native-kqueue:$nettyVersion:$archClassifier")
-                        runtimeOnly("io.netty:netty-resolver-dns-native-macos:$nettyVersion:$archClassifier")
+                        val archClassifier =
+                            if (osArch.contains("aarch64")) {
+                                "osx-aarch_64"
+                            } else {
+                                "osx-x86_64"
+                            }
+                        runtimeOnly(
+                            "io.netty:netty-transport-native-kqueue:$nettyVersion:$archClassifier",
+                        )
+                        runtimeOnly(
+                            "io.netty:netty-resolver-dns-native-macos:$nettyVersion:$archClassifier",
+                        )
                     }
                 }
             }

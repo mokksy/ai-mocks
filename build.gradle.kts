@@ -29,6 +29,7 @@ dependencies {
     kover(project(":ai-mocks-a2a-models"))
     kover(project(":ai-mocks-anthropic"))
     kover(project(":ai-mocks-core"))
+    kover(project(":ai-mocks-gemini"))
     kover(project(":ai-mocks-openai"))
     kover(project(":mokksy"))
 }
