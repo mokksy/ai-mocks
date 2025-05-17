@@ -66,6 +66,7 @@ langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-dsl = { module = "io.mockk:mockk-dsl", version.ref = "mockk" }
 netty = { group = "io.netty", name = "netty-handler", version.ref = "netty" }
+netty-bom = { group = "io.netty", name = "netty-bom", version.ref = "netty" }
 openai-java = { group = "com.openai", name = "openai-java", version.ref = "openai" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 spring-ai-bom = { group = "org.springframework.ai", name = "spring-ai-bom", version.ref = "spring-ai" }
