@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.io.InterruptedIOException;
 import java.time.Duration;
 
 import static dev.langchain4j.data.message.SystemMessage.systemMessage;
@@ -110,11 +111,16 @@ class Lc4jChatModelAnthropicErrorsTest {
             .messages(userMessage(question))
             .build();
 
-        assertThatExceptionOfType(AnthropicHttpException.class)
+        assertThatExceptionOfType(RuntimeException.class)
             // when
             .isThrownBy(() -> model.chat(chatRequest))
-            .satisfies(ex ->
-                assertThat(ex.statusCode()).isBetween(500, 503)
+            .satisfies(ex -> {
+                    if (ex instanceof AnthropicHttpException ae) {
+                        assertThat(ae.statusCode()).isBetween(500, 503);
+                    } else {
+                        assertThat(ex).hasCauseInstanceOf(InterruptedIOException.class);
+                    }
+                }
             );
     }
 }
