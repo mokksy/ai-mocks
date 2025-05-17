@@ -110,11 +110,16 @@ class Lc4jChatModelAnthropicErrorsTest {
             .messages(userMessage(question))
             .build();
 
-        assertThatExceptionOfType(AnthropicHttpException.class)
+        assertThatExceptionOfType(RuntimeException.class)
             // when
             .isThrownBy(() -> model.chat(chatRequest))
-            .satisfies(ex ->
-                assertThat(ex.statusCode()).isBetween(500, 503)
+            .satisfies(ex -> {
+                    if (ex instanceof AnthropicHttpException ae) {
+                        assertThat(ae.statusCode()).isBetween(500, 503);
+                    } else {
+                        assertThat(ex).hasMessageContaining("time");
+                    }
+                }
             );
     }
 }

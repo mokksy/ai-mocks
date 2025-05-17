@@ -1,6 +1,7 @@
 package me.kpavlov.aimocks.anthropic
 
 import com.anthropic.core.JsonValue
+import com.anthropic.errors.AnthropicException
 import com.anthropic.models.messages.ContentBlock
 import com.anthropic.models.messages.Message
 import com.anthropic.models.messages.MessageCreateParams
@@ -69,10 +70,11 @@ public class AnthropicBuildingStep(
                     .usage(
                         Usage
                             .builder()
-                            .inputTokens(0)
-                            .outputTokens(completionTokens)
                             .cacheCreationInputTokens(0)
                             .cacheReadInputTokens(0)
+                            .inputTokens(LongRange(10, 1000).random())
+                            .outputTokens(completionTokens)
+                            //.serverToolUse(Optional.empty())
                             .build(),
                     ).build()
         }
@@ -93,7 +95,7 @@ public class AnthropicBuildingStep(
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     public infix fun respondsStream(block: AnthropicStreamingChatResponseSpecification.() -> Unit) {
-        buildingStep.respondsWithStream<String> {
+        buildingStep.respondsWithStream {
             val responseDefinition: StreamResponseDefinition<MessageCreateParams.Body, String> =
                 this.build()
             val responseSpec =
@@ -136,45 +138,51 @@ public class AnthropicBuildingStep(
         stopReason: String,
     ): Flow<ServerSentEvent> =
         flow {
-            emit(
-                StreamingResponseHelper.createMessageStartChunk(
-                    id = id,
-                    model = model,
-                    serializer = serializer,
-                ),
-            )
-            emit(
-                StreamingResponseHelper.createContentBlockStartChunk(
-                    serializer = serializer,
-                ),
-            )
-            emit(
-                StreamingResponseHelper.createPingEvent(),
-            )
-            emitAll(
-                chunksFlow.map {
-                    StreamingResponseHelper.createTextDeltaChunk(
-                        content = it,
+            @Suppress("TooGenericExceptionCaught")
+            try {
+                emit(
+                    StreamingResponseHelper.createMessageStartChunk(
+                        id = id,
+                        model = model,
                         serializer = serializer,
-                    )
-                },
-            )
-            emit(
-                StreamingResponseHelper.createContentBlockStopChunk(
-                    serializer = serializer,
-                ),
-            )
-            emit(
-                StreamingResponseHelper.createMessageDeltaChunk(
-                    stopReason = stopReason,
-                    outputTokens = 100,
-                    serializer = serializer,
-                ),
-            )
-            emit(
-                StreamingResponseHelper.createMessageStopChunk(
-                    serializer = serializer,
-                ),
-            )
+                    ),
+                )
+                emit(
+                    StreamingResponseHelper.createContentBlockStartChunk(
+                        serializer = serializer,
+                    ),
+                )
+                emit(
+                    StreamingResponseHelper.createPingEvent(),
+                )
+                emitAll(
+                    chunksFlow.map {
+                        StreamingResponseHelper.createTextDeltaChunk(
+                            content = it,
+                            serializer = serializer,
+                        )
+                    },
+                )
+                emit(
+                    StreamingResponseHelper.createContentBlockStopChunk(
+                        serializer = serializer,
+                    ),
+                )
+                emit(
+                    StreamingResponseHelper.createMessageDeltaChunk(
+                        stopReason = stopReason,
+                        outputTokens = 100,
+                        serializer = serializer,
+                    ),
+                )
+                emit(
+                    StreamingResponseHelper.createMessageStopChunk(
+                        serializer = serializer,
+                    ),
+                )
+            } catch (e: AnthropicException) {
+                logger.error("Failed to build streaming response", e)
+                throw e
+            }
         }
 }

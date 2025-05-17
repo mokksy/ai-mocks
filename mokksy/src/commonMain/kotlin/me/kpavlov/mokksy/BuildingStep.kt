@@ -1,9 +1,11 @@
 package me.kpavlov.mokksy
 
+import io.ktor.server.application.log
 import io.ktor.sse.ServerSentEventMetadata
 import me.kpavlov.mokksy.request.RequestSpecification
 import me.kpavlov.mokksy.response.ResponseDefinitionBuilder
 import me.kpavlov.mokksy.response.StreamingResponseDefinitionBuilder
+import java.io.IOException
 import kotlin.reflect.KClass
 
 /**
@@ -58,9 +60,17 @@ public class BuildingStep<P : Any> internal constructor(
                 requestSpecification = requestSpecification,
             ) { call ->
                 val req = CapturedRequest(call.request, requestType)
-                ResponseDefinitionBuilder<P, T>(request = req)
-                    .apply(block)
-                    .build()
+                @SuppressWarnings("TooGenericExceptionCaught")
+                try {
+                    ResponseDefinitionBuilder<P, T>(request = req)
+                        .apply(block)
+                        .build()
+                } catch (e: Exception) {
+                    if (e !is IOException) {
+                        call.application.log.error("Failed to build response for request: $req", e)
+                    }
+                    throw e
+                }
             }
         registerStub(stub)
     }

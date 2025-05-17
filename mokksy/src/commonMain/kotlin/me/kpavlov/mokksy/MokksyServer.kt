@@ -86,6 +86,8 @@ public open class MokksyServer
 
         private var resolvedPort: Int
 
+        public lateinit var logger: io.ktor.util.logging.Logger
+
         private val server =
             createEmbeddedServer(
                 host = host,
@@ -112,6 +114,7 @@ public open class MokksyServer
                         }
                     }
                 }
+                logger = this.environment.log
                 configurer(this)
             }
 

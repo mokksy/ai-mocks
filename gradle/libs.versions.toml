@@ -1,5 +1,5 @@
 [versions]
-anthropic-java = "1.4.0"
+anthropic-java = "1.2.0"
 assertj = "3.27.3"
 assertk = "0.28.1"
 awaitility = "4.3.0"
