@@ -4,6 +4,7 @@ plugins {
     `kotlin-convention`
     `dokka-convention`
     `publish-convention`
+    `netty-convention`
     // id("org.openapi.generator") version "7.12.0"
 }
 
