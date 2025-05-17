@@ -1,27 +1,29 @@
 package me.kpavlov.aimocks.anthropic
 
-import com.anthropic.models.messages.MessageCreateParams
-import io.ktor.server.plugins.contentnegotiation.ContentNegotiationConfig
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
+import me.kpavlov.aimocks.anthropic.model.MessageCreateParams
 import me.kpavlov.aimocks.core.AbstractMockLlm
 import me.kpavlov.mokksy.ServerConfiguration
 import java.util.function.Consumer
-
-internal expect fun configureContentNegotiation(config: ContentNegotiationConfig)
-
-internal expect fun serializer(data: Any): String
 
 public open class MockAnthropic(
     port: Int = 0,
     verbose: Boolean = true,
 ) : AbstractMockLlm(
-        port = port,
-        configuration =
-            ServerConfiguration(
-                verbose = verbose,
-            ) {
-                configureContentNegotiation(it)
-            },
-    ) {
+    port = port,
+    configuration =
+        ServerConfiguration(
+            verbose = verbose,
+        ) { config ->
+            config.json(
+                Json {
+                    prettyPrint = true
+                    ignoreUnknownKeys = true
+                },
+            )
+        },
+) {
     /**
      * Java-friendly overload that accepts a Consumer for configuring the chat request.
      */
@@ -38,7 +40,7 @@ public open class MockAnthropic(
         val requestStep =
             mokksy.post(
                 name = name,
-                requestType = MessageCreateParams.Body::class,
+                requestType = MessageCreateParams::class,
             ) {
                 val chatRequestSpec = AnthropicMessagesRequestSpecification()
                 block(chatRequestSpec)
@@ -81,7 +83,7 @@ public open class MockAnthropic(
         return AnthropicBuildingStep(
             buildingStep = requestStep,
             mokksy = mokksy,
-            serializer = { serializer(it) },
+            serializer = { Json.encodeToString(it) },
         )
     }
 }

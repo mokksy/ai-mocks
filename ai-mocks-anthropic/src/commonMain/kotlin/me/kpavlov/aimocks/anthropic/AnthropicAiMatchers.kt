@@ -1,31 +1,16 @@
 package me.kpavlov.aimocks.anthropic
 
-import com.anthropic.models.messages.MessageCreateParams
-import com.anthropic.models.messages.MessageParam
 import io.kotest.matchers.Matcher
 import io.kotest.matchers.MatcherResult
-import kotlin.jvm.optionals.getOrNull
+import me.kpavlov.aimocks.anthropic.model.MessageCreateParams
 
 internal object AnthropicAiMatchers {
-    fun systemMessageContains(string: String): Matcher<MessageCreateParams.Body?> =
-        object : Matcher<MessageCreateParams.Body?> {
-            override fun test(value: MessageCreateParams.Body?): MatcherResult {
-                val passed =
-                    if (value == null) {
-                        false
-                    } else if (value.system().isPresent) {
-                        val system = value.system().orElseThrow()
-                        if (system.isString()) {
-                            system.asString().contains(string)
-                        } else if (system.isTextBlockParams()) {
-                            system.asTextBlockParams().any { it.text().contains(string) }
-                        } else {
-                            false
-                        }
-                    } else {
-                        false
-                    }
 
+    fun systemMessageContains(string: String): Matcher<MessageCreateParams?> =
+        object : Matcher<MessageCreateParams?> {
+            override fun test(value: MessageCreateParams?): MatcherResult {
+                val passed =
+                    value?.system?.any { it.text.contains(string) } == true
                 return MatcherResult(
                     passed,
                     { "System message should contain \"$string\"" },
@@ -36,9 +21,9 @@ internal object AnthropicAiMatchers {
             override fun toString(): String = "System message should contain \"$string\""
         }
 
-    fun userMessageContains(string: String): Matcher<MessageCreateParams.Body?> =
-        object : Matcher<MessageCreateParams.Body?> {
-            override fun test(value: MessageCreateParams.Body?): MatcherResult {
+    fun userMessageContains(string: String): Matcher<MessageCreateParams?> =
+        object : Matcher<MessageCreateParams?> {
+            override fun test(value: MessageCreateParams?): MatcherResult {
                 val passed =
                     findUserMessages(value)
                         .any { checkTextBlockContains(it, string) }
@@ -50,26 +35,22 @@ internal object AnthropicAiMatchers {
             }
 
             private fun findUserMessages(
-                value: MessageCreateParams.Body?,
-            ): List<MessageParam.Content> =
+                value: MessageCreateParams?,
+            ): List<MessageCreateParams.Content> =
                 value
-                    ?.messages()
-                    ?.filter { it.role() == MessageParam.Role.USER }
-                    ?.mapNotNull { it.content() } ?: emptyList()
+                    ?.messages
+                    ?.filter { it.role == "user" }
+                    ?.map { it.content } ?: emptyList()
 
             override fun toString(): String = "User message should contain \"$string\""
         }
 
-    fun userIdEquals(userId: String): Matcher<MessageCreateParams.Body?> =
-        object : Matcher<MessageCreateParams.Body?> {
-            override fun test(value: MessageCreateParams.Body?): MatcherResult =
+    fun userIdEquals(userId: String): Matcher<MessageCreateParams?> =
+
+        object : Matcher<MessageCreateParams?> {
+            override fun test(value: MessageCreateParams?): MatcherResult =
                 MatcherResult(
-                    value != null &&
-                        value
-                            .metadata()
-                            .getOrNull()
-                            ?.userId()
-                            ?.getOrNull() == userId,
+                    value?.metadata?.userId == userId,
                     { "metadata.user_id should be \"$userId\"" },
                     { "metadata.user_id should not be \"$userId\"" },
                 )
@@ -77,14 +58,12 @@ internal object AnthropicAiMatchers {
             override fun toString(): String = "metadata.user_id should be \"$userId\""
         }
 
-    fun topPEquals(topP: Double): Matcher<MessageCreateParams.Body?> =
-        object : Matcher<MessageCreateParams.Body?> {
-            override fun test(value: MessageCreateParams.Body?): MatcherResult =
+    fun topPEquals(topP: Double): Matcher<MessageCreateParams?> =
+
+        object : Matcher<MessageCreateParams?> {
+            override fun test(value: MessageCreateParams?): MatcherResult =
                 MatcherResult(
-                    value != null &&
-                        value
-                            .topP()
-                            .getOrNull() == topP,
+                    value?.topP == topP,
                     { "top_p should be $topP" },
                     { "top_p should not be $topP" },
                 )
@@ -92,14 +71,11 @@ internal object AnthropicAiMatchers {
             override fun toString(): String = "top_p should be $topP"
         }
 
-    fun topKEquals(topK: Long): Matcher<MessageCreateParams.Body?> =
-        object : Matcher<MessageCreateParams.Body?> {
-            override fun test(value: MessageCreateParams.Body?): MatcherResult =
+    fun topKEquals(topK: Long): Matcher<MessageCreateParams?> =
+        object : Matcher<MessageCreateParams?> {
+            override fun test(value: MessageCreateParams?): MatcherResult =
                 MatcherResult(
-                    value != null &&
-                        value
-                            .topK()
-                            .getOrNull() == topK,
+                    value?.topK?.toLong() == topK,
                     { "top_k should be $topK" },
                     { "top_k should not be $topK" },
                 )
@@ -107,14 +83,11 @@ internal object AnthropicAiMatchers {
             override fun toString(): String = "top_k should be $topK"
         }
 
-    fun modelEquals(model: String): Matcher<MessageCreateParams.Body?> =
-        object : Matcher<MessageCreateParams.Body?> {
-            override fun test(value: MessageCreateParams.Body?): MatcherResult =
+    fun modelEquals(model: String): Matcher<MessageCreateParams?> =
+        object : Matcher<MessageCreateParams?> {
+            override fun test(value: MessageCreateParams?): MatcherResult =
                 MatcherResult(
-                    value != null &&
-                        value
-                            .model()
-                            .asString() == model,
+                    value?.model == model,
                     { "model should be \"$model\"" },
                     { "model should not be \"$model\"" },
                 )
@@ -122,14 +95,11 @@ internal object AnthropicAiMatchers {
             override fun toString(): String = "model should be \"$model\""
         }
 
-    fun temperatureEquals(temperature: Double): Matcher<MessageCreateParams.Body?> =
-        object : Matcher<MessageCreateParams.Body?> {
-            override fun test(value: MessageCreateParams.Body?): MatcherResult =
+    fun temperatureEquals(temperature: Double): Matcher<MessageCreateParams?> =
+        object : Matcher<MessageCreateParams?> {
+            override fun test(value: MessageCreateParams?): MatcherResult =
                 MatcherResult(
-                    value != null &&
-                        value
-                            .temperature()
-                            .getOrNull() == temperature,
+                    value?.temperature == temperature,
                     { "temperature should be $temperature" },
                     { "temperature should not be $temperature" },
                 )
@@ -137,13 +107,11 @@ internal object AnthropicAiMatchers {
             override fun toString(): String = "temperature should be $temperature"
         }
 
-    fun maxTokensEquals(maxTokens: Long): Matcher<MessageCreateParams.Body?> =
-        object : Matcher<MessageCreateParams.Body?> {
-            override fun test(value: MessageCreateParams.Body?): MatcherResult =
+    fun maxTokensEquals(maxTokens: Long): Matcher<MessageCreateParams?> =
+        object : Matcher<MessageCreateParams?> {
+            override fun test(value: MessageCreateParams?): MatcherResult =
                 MatcherResult(
-                    value != null &&
-                        value
-                            .maxTokens() == maxTokens,
+                    value?.maxTokens?.toLong() == maxTokens,
                     { "maxTokens should be $maxTokens" },
                     { "maxTokens should not be $maxTokens" },
                 )
@@ -152,17 +120,23 @@ internal object AnthropicAiMatchers {
         }
 
     private fun checkTextBlockContains(
-        content: MessageParam.Content?,
+        content: MessageCreateParams.Content?,
         string: String,
     ): Boolean =
-        if (content?.string()?.isPresent == true) {
-            content.string().getOrNull()?.contains(string) == true
-        } else {
-            content
-                ?.blockParams()
-                ?.getOrNull()
-                ?.mapNotNull { it.text().getOrNull() }
-                ?.mapNotNull { it.text() }
-                ?.any { it.contains(string) == true } == true
+        when (content) {
+            is MessageCreateParams.TextContent -> {
+                content.text?.contains(string) == true
+            }
+
+            is MessageCreateParams.ContentList -> {
+                content.blocks.any {
+                    (it as? MessageCreateParams.TextBlock)?.text?.contains(string) == true
+                }
+            }
+
+            else -> {
+                TODO()
+            }
         }
+
 }

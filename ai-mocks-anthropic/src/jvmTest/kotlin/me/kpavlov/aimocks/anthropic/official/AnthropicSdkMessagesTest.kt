@@ -9,7 +9,6 @@ import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class AnthropicSdkMessagesTest : AbstractAnthropicTest() {
-
     @Test
     fun `Should respond with a message`() {
         val messageIdValue = "msg_" + System.currentTimeMillis()
