@@ -8,6 +8,7 @@
 [![codecov](https://codecov.io/github/mokksy/ai-mocks/graph/badge.svg?token=449G80QY5S)](https://codecov.io/github/mokksy/ai-mocks)
 
 [![Documentation](https://img.shields.io/badge/docs-website-blue)](https://kpavlov.github.io/ai-mocks/) [![API Reference](https://img.shields.io/badge/api-reference-blue)](https://kpavlov.github.io/ai-mocks/api/)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mokksy/ai-mocks)
 ![GitHub License](https://img.shields.io/github/license/mokksy/ai-mocks)
 ![Kotlin API](https://img.shields.io/badge/Kotlin-2.0-%237F52FF.svg?logo=kotlin&logoColor=white)
 
