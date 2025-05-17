@@ -1,37 +1,34 @@
 package me.kpavlov.aimocks.anthropic
 
-import com.anthropic.core.JsonValue
-import com.anthropic.errors.AnthropicException
-import com.anthropic.models.messages.ContentBlock
-import com.anthropic.models.messages.Message
-import com.anthropic.models.messages.MessageCreateParams
-import com.anthropic.models.messages.MessageParam
-import com.anthropic.models.messages.StopReason
-import com.anthropic.models.messages.TextBlock
-import com.anthropic.models.messages.Usage
-import io.ktor.sse.ServerSentEvent
+import io.ktor.sse.TypedServerSentEvent
+import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.serializer
 import me.kpavlov.aimocks.anthropic.StreamingResponseHelper.randomIdString
+import me.kpavlov.aimocks.anthropic.model.AnthropicSseData
+import me.kpavlov.aimocks.anthropic.model.Message
+import me.kpavlov.aimocks.anthropic.model.MessageCreateParams
 import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 import me.kpavlov.mokksy.response.StreamResponseDefinition
-import java.util.Optional
 import java.util.concurrent.atomic.AtomicInteger
 
 public class AnthropicBuildingStep(
     mokksy: MokksyServer,
-    buildingStep: BuildingStep<MessageCreateParams.Body>,
-    private val serializer: (Any) -> String,
-) : AbstractBuildingStep<MessageCreateParams.Body, AnthropicMessagesResponseSpecification>(
-        mokksy,
-        buildingStep,
-    ) {
+    buildingStep: BuildingStep<MessageCreateParams>,
+    private val serializer: (Any?) -> String,
+) : AbstractBuildingStep<MessageCreateParams, AnthropicMessagesResponseSpecification>(
+    mokksy,
+    buildingStep,
+) {
     private var counter: AtomicInteger = AtomicInteger(1)
 
     @Suppress("MagicNumber")
@@ -50,33 +47,23 @@ public class AnthropicBuildingStep(
 
             headers += "x-request-id" to randomIdString("req_")
             body =
-                Message
-                    .builder()
-                    .id(chatResponseSpecification.messageId)
-                    .role(JsonValue.from(MessageParam.Role.ASSISTANT))
-                    .model(request.model())
-                    .content(
-                        listOf(
-                            ContentBlock.ofText(
-                                TextBlock
-                                    .builder()
-                                    .text(assistantContent)
-                                    .citations(Optional.empty())
-                                    .build(),
-                            ),
-                        ),
-                    ).stopSequence(Optional.empty())
-                    .stopReason(StopReason.of(stopReason))
-                    .usage(
-                        Usage
-                            .builder()
-                            .cacheCreationInputTokens(0)
-                            .cacheReadInputTokens(0)
-                            .inputTokens(LongRange(10, 1000).random())
-                            .outputTokens(completionTokens)
-                            //.serverToolUse(Optional.empty())
-                            .build(),
-                    ).build()
+                Message(
+                    role = "assistant",
+                    id = chatResponseSpecification.messageId,
+                    content = listOf(
+                        me.kpavlov.aimocks.anthropic.model.TextBlock(
+                            text = assistantContent
+                        )
+                    ),
+                    model = request.model,
+                    stopReason = me.kpavlov.aimocks.anthropic.model.StopReason.valueOf(stopReason.uppercase()),
+                    usage = me.kpavlov.aimocks.anthropic.model.Usage(
+                        outputTokens = completionTokens,
+                        cacheCreationInputTokens = 0,
+                        inputTokens = LongRange(10, 1000).random(),
+                        cacheReadInputTokens = 0,
+                    )
+                )
         }
     }
 
@@ -93,10 +80,10 @@ public class AnthropicBuildingStep(
      *              to an instance of [AnthropicStreamingChatResponseSpecification].
      * @link
      */
-    @OptIn(ExperimentalCoroutinesApi::class)
+    @OptIn(ExperimentalCoroutinesApi::class, InternalAPI::class)
     public infix fun respondsStream(block: AnthropicStreamingChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWithStream {
-            val responseDefinition: StreamResponseDefinition<MessageCreateParams.Body, String> =
+            val responseDefinition: StreamResponseDefinition<MessageCreateParams, String> =
                 this.build()
             val responseSpec =
                 AnthropicStreamingChatResponseSpecification(
@@ -108,7 +95,7 @@ public class AnthropicBuildingStep(
             headers += "Connection" to "keep-alive"
             headers += "x-request-id" to randomIdString("req_")
 
-            val id = counter.addAndGet(1)
+            val id = StreamingResponseHelper.randomIdString("msg_")
 
             val chunkFlow = responseSpec.responseFlow ?: responseSpec.responseChunks?.asFlow()
 
@@ -119,11 +106,15 @@ public class AnthropicBuildingStep(
             flow =
                 prepareFlow(
                     id = id,
-                    model = request.model().asString(),
+                    model = request.model,
                     chunksFlow = chunkFlow,
                     stopReason = responseSpec.stopReason,
-                ).map {
-                    "event: ${it.event}\ndata: ${it.data}\n\n"
+                ).mapNotNull {
+                    val dataJson = Json.encodeToString(
+                        value = it.data,
+                        serializer = AnthropicSseData.serializersModule.serializer()
+                    )
+                    "event: ${it.event}\ndata: ${dataJson}\n\n"
                 }
         }
     }
@@ -132,11 +123,11 @@ public class AnthropicBuildingStep(
      * See [Anthropic example](https://docs.anthropic.com/en/api/messages-streaming#basic-streaming-request)
      */
     private fun prepareFlow(
-        id: Int,
+        id: String,
         model: String,
         chunksFlow: Flow<String>,
         stopReason: String,
-    ): Flow<ServerSentEvent> =
+    ): Flow<TypedServerSentEvent<AnthropicSseData>> =
         flow {
             @Suppress("TooGenericExceptionCaught")
             try {
@@ -144,12 +135,10 @@ public class AnthropicBuildingStep(
                     StreamingResponseHelper.createMessageStartChunk(
                         id = id,
                         model = model,
-                        serializer = serializer,
                     ),
                 )
                 emit(
                     StreamingResponseHelper.createContentBlockStartChunk(
-                        serializer = serializer,
                     ),
                 )
                 emit(
@@ -159,28 +148,24 @@ public class AnthropicBuildingStep(
                     chunksFlow.map {
                         StreamingResponseHelper.createTextDeltaChunk(
                             content = it,
-                            serializer = serializer,
                         )
                     },
                 )
                 emit(
                     StreamingResponseHelper.createContentBlockStopChunk(
-                        serializer = serializer,
                     ),
                 )
                 emit(
                     StreamingResponseHelper.createMessageDeltaChunk(
                         stopReason = stopReason,
                         outputTokens = 100,
-                        serializer = serializer,
                     ),
                 )
                 emit(
                     StreamingResponseHelper.createMessageStopChunk(
-                        serializer = serializer,
                     ),
                 )
-            } catch (e: AnthropicException) {
+            } catch (e: Exception) {
                 logger.error("Failed to build streaming response", e)
                 throw e
             }

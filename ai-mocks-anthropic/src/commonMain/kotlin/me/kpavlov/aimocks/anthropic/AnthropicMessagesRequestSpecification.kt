@@ -1,11 +1,11 @@
 package me.kpavlov.aimocks.anthropic
 
-import com.anthropic.models.messages.MessageCreateParams
+import me.kpavlov.aimocks.anthropic.model.MessageCreateParams
 import me.kpavlov.aimocks.core.ModelRequestSpecification
 
 public open class AnthropicMessagesRequestSpecification(
     public var userId: String? = null,
-) : ModelRequestSpecification<MessageCreateParams.Body>() {
+) : ModelRequestSpecification<MessageCreateParams>() {
     public fun userId(value: String): AnthropicMessagesRequestSpecification =
         apply { this.userId = value }
 

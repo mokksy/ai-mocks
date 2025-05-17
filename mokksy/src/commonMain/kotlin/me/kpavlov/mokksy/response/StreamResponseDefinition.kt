@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.yield
 import kotlin.time.Duration
 
+
 internal const val SEND_BUFFER_CAPACITY = 256
 
 /**
@@ -69,8 +70,9 @@ public open class StreamResponseDefinition<P, T>(
             ?.cancellable()
             ?.buffer(
                 capacity = SEND_BUFFER_CAPACITY,
-                onBufferOverflow = BufferOverflow.SUSPEND,
-            )?.catch { print("Error while sending chunks: $it") }
+                onBufferOverflow = BufferOverflow.SUSPEND
+            )
+            ?.catch { print("Error while sending chunks: $it") }
             ?.collect {
                 writeChunk(writer, it, verbose)
             }
@@ -103,8 +105,9 @@ public open class StreamResponseDefinition<P, T>(
             ?.cancellable()
             ?.buffer(
                 capacity = SEND_BUFFER_CAPACITY,
-                onBufferOverflow = BufferOverflow.SUSPEND,
-            )?.catch { print("Error while sending chunks: $it") }
+                onBufferOverflow = BufferOverflow.SUSPEND
+            )
+            ?.catch { print("Error while sending chunks: $it") }
             ?.collect {
                 val chunk = "$it"
                 session.send(

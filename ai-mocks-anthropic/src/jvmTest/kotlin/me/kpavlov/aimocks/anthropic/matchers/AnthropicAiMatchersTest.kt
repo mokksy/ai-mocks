@@ -1,8 +1,7 @@
 package me.kpavlov.aimocks.anthropic.matchers
 
-import com.anthropic.models.messages.MessageCreateParams
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.matchers.shouldBe
+import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.maxTokensEquals
 import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.modelEquals
 import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.systemMessageContains
@@ -11,13 +10,13 @@ import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.topKEquals
 import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.topPEquals
 import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.userIdEquals
 import me.kpavlov.aimocks.anthropic.AnthropicAiMatchers.userMessageContains
-import org.junit.jupiter.api.Test
+import me.kpavlov.aimocks.anthropic.model.MessageCreateParams
+import kotlin.test.Test
 
 /**
  * See https://docs.anthropic.com/en/api/messages
  */
 class AnthropicAiMatchersTest {
-    private val objectMapper = ObjectMapper().findAndRegisterModules()
 
     @Test
     @Suppress("LongMethod")
@@ -208,9 +207,9 @@ class AnthropicAiMatchersTest {
 
     private fun test(
         payload: String,
-        block: (MessageCreateParams.Body) -> Unit,
+        block: (MessageCreateParams) -> Unit,
     ) {
-        val body = objectMapper.readValue(payload, MessageCreateParams.Body::class.java)
+        val body: MessageCreateParams = Json.decodeFromString(payload)
         block(body)
     }
 }

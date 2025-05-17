@@ -4,7 +4,6 @@ plugins {
     `kotlin-convention`
     `dokka-convention`
     `publish-convention`
-    `netty-convention`
 }
 
 dokka {
@@ -25,17 +24,15 @@ kotlin {
 
         commonTest {
             dependencies {
-                implementation(libs.assertk)
-                implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.kotlinLogging)
+                implementation(libs.kotest.assertions.core)
             }
         }
 
         jvmMain {
             dependencies {
-                api(libs.anthropic.java.core)
+
                 implementation(libs.ktor.server.netty)
-                implementation(libs.ktor.serialization.jackson)
             }
         }
 
@@ -46,6 +43,7 @@ kotlin {
                 implementation(libs.assertj.core)
                 implementation(libs.awaitility.kotlin)
                 implementation(libs.junit.jupiter.params)
+                implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.langchain4j.anthropic)
                 implementation(project.dependencies.platform(libs.langchain4j.bom))
                 implementation(project.dependencies.platform(libs.spring.ai.bom))

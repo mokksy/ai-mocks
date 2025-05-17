@@ -1,173 +1,111 @@
 package me.kpavlov.aimocks.anthropic
 
-import com.anthropic.models.messages.ContentBlock
-import com.anthropic.models.messages.Message
-import com.anthropic.models.messages.MessageDeltaUsage
-import com.anthropic.models.messages.RawContentBlockDeltaEvent
-import com.anthropic.models.messages.RawContentBlockStartEvent
-import com.anthropic.models.messages.RawContentBlockStopEvent
-import com.anthropic.models.messages.RawMessageDeltaEvent
-import com.anthropic.models.messages.RawMessageStartEvent
-import com.anthropic.models.messages.RawMessageStopEvent
-import com.anthropic.models.messages.StopReason
-import com.anthropic.models.messages.TextBlock
-import com.anthropic.models.messages.Usage
-import io.ktor.sse.ServerSentEvent
-import java.util.Optional
+import io.ktor.sse.TypedServerSentEvent
+import me.kpavlov.aimocks.anthropic.model.AnthropicSseData
+import me.kpavlov.aimocks.anthropic.model.AnthropicSseData.ContentBlock
+import me.kpavlov.aimocks.anthropic.model.AnthropicSseData.ContentDelta
+import me.kpavlov.aimocks.anthropic.model.AnthropicSseData.Message
+import me.kpavlov.aimocks.anthropic.model.AnthropicSseData.MessageDelta
+import me.kpavlov.aimocks.anthropic.model.AnthropicSseData.Usage
 
 @Suppress("MagicNumber")
 internal object StreamingResponseHelper {
     internal fun createMessageStartChunk(
-        id: Int,
+        id: String,
         model: String,
-        serializer: (Any) -> String,
-    ): ServerSentEvent {
-        val data =
-            RawMessageStartEvent
-                .builder()
-                .message(
-                    Message
-                        .builder()
-                        .id(id.toString())
-                        .model(model)
-                        .usage(
-                            Usage
-                                .builder()
-                                .inputTokens(25)
-                                .outputTokens(1)
-                                .cacheCreationInputTokens(Optional.empty())
-                                .cacheReadInputTokens(Optional.empty())
-                                //.serverToolUse(Optional.empty())
-                                .build(),
-                        ).addContent(
-                            ContentBlock.ofText(
-                                TextBlock
-                                    .builder()
-                                    .text("")
-                                    .citations(Optional.empty())
-                                    .build(),
-                            ),
-                        ).stopReason(Optional.empty())
-                        .stopSequence(Optional.empty())
-                        .build(),
-                ).build()
-        return ServerSentEvent(
-            event = data._type().asStringOrThrow(),
-            data =
-                serializer.invoke(
-                    data,
-                ),
+    ): TypedServerSentEvent<AnthropicSseData> {
+        val data = AnthropicSseData.MessageStartData(
+            message = Message(
+                id = id,
+                type = "message",
+                role = "assistant",
+                model = model,
+                content = emptyList(),
+                usage = Usage(
+                    inputTokens = 25,
+                    outputTokens = 1
+                )
+            )
+        )
+        return TypedServerSentEvent(
+            event = "message_start",
+            data = data,
         )
     }
 
     internal fun createContentBlockStartChunk(
         index: Long = 0,
-        serializer: (Any) -> String,
-    ): ServerSentEvent {
-        val data =
-            RawContentBlockStartEvent
-                .builder()
-                .index(index)
-                .contentBlock(
-                    TextBlock
-                        .builder()
-                        .text("")
-                        .citations(Optional.empty())
-                        .build(),
-                ).build()
-        return ServerSentEvent(
-            event = data._type().asStringOrThrow(),
-            data =
-                serializer.invoke(
-                    data,
-                ),
+    ): TypedServerSentEvent<AnthropicSseData> {
+        val data = AnthropicSseData.ContentBlockStartData(
+            index = index.toInt(),
+            contentBlock = ContentBlock.Text(
+                text = ""
+            )
+        )
+        return TypedServerSentEvent(
+            event = "content_block_start",
+            data = data,
         )
     }
 
     internal fun createTextDeltaChunk(
         index: Long = 0,
         content: String,
-        serializer: (Any) -> String,
-    ): ServerSentEvent {
-        val data =
-            RawContentBlockDeltaEvent
-                .builder()
-                .index(index)
-                .textDelta(content)
-                .build()
-        return ServerSentEvent(
-            event = data._type().asStringOrThrow(),
-            data = serializer.invoke(data),
+    ): TypedServerSentEvent<AnthropicSseData> {
+        val data = AnthropicSseData.ContentBlockDeltaData(
+            index = index.toInt(),
+            delta = ContentDelta.TextDelta(
+                text = content
+            )
+        )
+        return TypedServerSentEvent(
+            event = "content_block_delta",
+            data = data,
         )
     }
 
     internal fun createMessageDeltaChunk(
         stopReason: String,
         outputTokens: Long,
-        serializer: (Any) -> String,
-    ): ServerSentEvent {
-        val data =
-            RawMessageDeltaEvent
-                .builder()
-                .delta(
-                    RawMessageDeltaEvent.Delta
-                        .builder()
-                        .stopReason(StopReason.of(stopReason))
-                        .stopSequence(Optional.empty())
-                        .build(),
-                ).usage(
-                    MessageDeltaUsage
-                        .builder()
-                        .outputTokens(outputTokens)
-                        //.cacheCreationInputTokens(null)
-                        //.cacheReadInputTokens(null)
-                        //.inputTokens(LongRange(10, 1000).random())
-                        //.serverToolUse(null)
-                        .build(),
-                ).build()
-        return ServerSentEvent(
-            event = data._type().asStringOrThrow(),
-            data = serializer.invoke(data),
+    ): TypedServerSentEvent<AnthropicSseData> {
+        val data = AnthropicSseData.MessageDeltaData(
+            delta = MessageDelta(
+                stopReason = stopReason,
+                stopSequence = null
+            ),
+            usage = Usage(
+                outputTokens = outputTokens.toInt()
+            )
+        )
+        return TypedServerSentEvent(
+            event = "message_delta",
+            data = data,
         )
     }
 
     internal fun createContentBlockStopChunk(
         index: Long = 0,
-        serializer: (Any) -> String,
-    ): ServerSentEvent {
-        val data =
-            RawContentBlockStopEvent
-                .builder()
-                .index(index)
-                .build()
-        return ServerSentEvent(
-            event = data._type().asStringOrThrow(),
-            data =
-                serializer.invoke(
-                    data,
-                ),
+    ): TypedServerSentEvent<AnthropicSseData> {
+        val data = AnthropicSseData.ContentBlockStopData(
+            index = index.toInt()
+        )
+        return TypedServerSentEvent(
+            event = "content_block_stop",
+            data = data,
         )
     }
 
-    internal fun createMessageStopChunk(serializer: (Any) -> String): ServerSentEvent {
-        val data =
-            RawMessageStopEvent
-                .builder()
-                .build()
-        return ServerSentEvent(
-            event = data._type().asStringOrThrow(),
-            data =
-                serializer.invoke(
-                    data,
-                ),
+    internal fun createMessageStopChunk(): TypedServerSentEvent<AnthropicSseData> {
+        return TypedServerSentEvent(
+            event = "message_stop",
+            data = AnthropicSseData.MessageStopData,
         )
     }
 
-    internal fun createPingEvent(): ServerSentEvent =
-        ServerSentEvent(
+    internal fun createPingEvent(): TypedServerSentEvent<AnthropicSseData> =
+        TypedServerSentEvent(
             event = "ping",
-            // language=json
-            data = """{"type":"ping"}""",
+            data = AnthropicSseData.PingData,
         )
 
     internal fun randomIdString(

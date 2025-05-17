@@ -20,7 +20,7 @@ internal class MokksyStreamingIT : AbstractIT({ createKtorSSEClient(it) }) {
     fun `Should respond to stream of Strings (flow)`() =
         runTest {
             mokksy.get {
-                path = beEqual("/streaming-flow")
+                path = beEqual("/streaming-flow-$seed")
             } respondsWithStream {
                 flow =
                     flow {
@@ -32,7 +32,7 @@ internal class MokksyStreamingIT : AbstractIT({ createKtorSSEClient(it) }) {
             }
 
             // when-then
-            verifyStream("/streaming-flow")
+            verifyStream("/streaming-flow-$seed")
         }
 
     private suspend fun verifyStream(uri: String) {
@@ -49,13 +49,13 @@ internal class MokksyStreamingIT : AbstractIT({ createKtorSSEClient(it) }) {
     fun `Should respond to stream of Strings (chunks)`() =
         runTest {
             mokksy.get {
-                path("/streaming-chunks")
+                path("/streaming-chunks-$seed")
             } respondsWithStream {
                 chunks += "One"
                 chunks += "Two"
             }
 
             // when-then
-            verifyStream("/streaming-chunks")
+            verifyStream("/streaming-chunks-$seed")
         }
 }
