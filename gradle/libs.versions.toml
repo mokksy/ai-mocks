@@ -63,6 +63,7 @@ langchain4j-anthropic = { group = "dev.langchain4j", name = "langchain4j-anthrop
 langchain4j-bom = { group = "dev.langchain4j", name = "langchain4j-bom", version.ref = "langchain4j" }
 langchain4j-kotlin = { group = "dev.langchain4j", name = "langchain4j-kotlin" }
 langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai" }
+langchain4j-gemini = { group = "dev.langchain4j", name = "langchain4j-google-ai-gemini" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-dsl = { module = "io.mockk:mockk-dsl", version.ref = "mockk" }
 netty = { group = "io.netty", name = "netty-handler", version.ref = "netty" }
@@ -71,6 +72,7 @@ openai-java = { group = "com.openai", name = "openai-java", version.ref = "opena
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 spring-ai-bom = { group = "org.springframework.ai", name = "spring-ai-bom", version.ref = "spring-ai" }
 spring-ai-openai = { group = "org.springframework.ai", name = "spring-ai-openai" }
+spring-ai-gemini = { group = "org.springframework.ai", name = "spring-ai-vertex-ai-gemini" }
 spring-bom = { group = "org.springframework", name = "spring-framework-bom", version.ref = "spring" }
 
 [plugins]

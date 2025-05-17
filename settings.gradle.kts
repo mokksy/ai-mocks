@@ -7,6 +7,7 @@ include(
     ":ai-mocks-a2a-models",
     ":ai-mocks-anthropic",
     ":ai-mocks-core",
+    ":ai-mocks-gemini",
     ":ai-mocks-openai",
     ":mokksy",
 )
