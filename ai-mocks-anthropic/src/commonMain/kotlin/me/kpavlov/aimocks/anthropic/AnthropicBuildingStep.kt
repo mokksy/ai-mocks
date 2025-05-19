@@ -19,18 +19,14 @@ import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 import me.kpavlov.mokksy.response.StreamResponseDefinition
-import java.util.concurrent.atomic.AtomicInteger
 
 public class AnthropicBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<MessageCreateParams>,
-    private val serializer: (Any?) -> String,
 ) : AbstractBuildingStep<MessageCreateParams, AnthropicMessagesResponseSpecification>(
     mokksy,
     buildingStep,
 ) {
-    private var counter: AtomicInteger = AtomicInteger(1)
-
     @Suppress("MagicNumber")
     @OptIn(ExperimentalStdlibApi::class)
     override infix fun responds(block: AnthropicMessagesResponseSpecification.() -> Unit) {
@@ -95,7 +91,7 @@ public class AnthropicBuildingStep(
             headers += "Connection" to "keep-alive"
             headers += "x-request-id" to randomIdString("req_")
 
-            val id = StreamingResponseHelper.randomIdString("msg_")
+            val id = randomIdString("msg_")
 
             val chunkFlow = responseSpec.responseFlow ?: responseSpec.responseChunks?.asFlow()
 

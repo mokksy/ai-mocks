@@ -218,6 +218,125 @@ fun `test basic conversation`() {
 }
 ```
 
+## Integration with LangChain4j
+
+You may use also LangChain4J Kotlin Extensions:
+
+```kotlin
+// Set up mock response
+anthropic.messages {
+  userMessageContains("Hello")
+} responds {
+  assistantContent = "Hello"
+  delay = 42.milliseconds
+}
+
+// Create the LangChain4j model
+val model: AnthropicChatModel =
+  AnthropicChatModel
+    .builder()
+    .apiKey("foo")
+    .baseUrl(anthropic.baseUrl() + "/v1")
+    .modelName("claude-3-5-haiku-20241022")
+    .build()
+
+// Make the request using Kotlin DSL
+val result =
+  model.chat {
+    messages += userMessage("Say Hello")
+  }
+
+// Verify the response
+result.apply {
+  finishReason() shouldBe FinishReason.STOP
+  tokenUsage() shouldNotBe null
+  aiMessage().text() shouldBe "Hello"
+}
+```
+
+### Stream Responses
+
+Mock streaming responses easily with flow support:
+
+```kotlin
+// Example 1: Using responseChunks
+val userMessage = "What do we need?"
+anthropic.messages {
+  systemMessageContains("You are a person of 60s")
+  userMessageContains(userMessage)
+} respondsStream {
+  responseChunks = listOf("All", " we", " need", " is", " Love")
+}
+
+// Example 2: Using responseFlow
+val userMessage2 = "What is in the sea?"
+anthropic.messages {
+  systemMessageContains("You are a person of 60s")
+  userMessageContains(userMessage2)
+} respondsStream {
+  responseFlow =
+    flow {
+      emit("Yellow")
+      emit(" submarine")
+    }
+}
+
+// Create the streaming model
+val model: AnthropicStreamingChatModel =
+  AnthropicStreamingChatModel
+    .builder()
+    .apiKey("foo")
+    .baseUrl(anthropic.baseUrl() + "/v1")
+    .modelName("claude-3-5-haiku-20241022")
+    .build()
+
+// Method 1: Using Kotlin Flow API
+model
+  .chatFlow {
+    messages += systemMessage("You are a person of 60s")
+    messages += userMessage(userMessage2)
+  }.buffer(capacity = 8096)
+  .collect {
+    when (it) {
+      is StreamingChatModelReply.PartialResponse -> {
+        println("token = ${it.partialResponse}")
+      }
+
+      is StreamingChatModelReply.CompleteResponse -> {
+        println("Completed: $it")
+      }
+
+      is StreamingChatModelReply.Error -> {
+        println("Error: $it")
+      }
+    }
+  }
+
+// Method 2: Using Java-style API with a handler
+model.chat(
+  ChatRequest
+    .builder()
+    .messages(
+      systemMessage("You are a person of 60s"),
+      userMessage(userMessage2)
+    )
+    .build(),
+  object : StreamingChatResponseHandler {
+    override fun onCompleteResponse(completeResponse: ChatResponse) {
+      println("Received CompleteResponse: $completeResponse")
+    }
+
+    override fun onPartialResponse(partialResponse: String) {
+      println("Received partial response: $partialResponse")
+    }
+
+    override fun onError(error: Throwable) {
+      println("Received error: $error")
+    }
+  }
+)
+```
+
 ## Stopping the Server
 
 ```kotlin
