@@ -26,7 +26,7 @@ openrewrite = "7.6.1"
 slf4j = "2.0.17"
 spotless = "7.0.3"
 spring = "6.2.7"
-spring-ai = "1.0.0-RC1"
+spring-ai = "1.0.0"
 
 [libraries]
 anthropic-java-client-okhttp = { group = "com.anthropic", name = "anthropic-java-client-okhttp", version.ref = "anthropic-java" }
@@ -72,6 +72,7 @@ openai-java = { group = "com.openai", name = "openai-java", version.ref = "opena
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 spring-ai-bom = { group = "org.springframework.ai", name = "spring-ai-bom", version.ref = "spring-ai" }
 spring-ai-openai = { group = "org.springframework.ai", name = "spring-ai-openai" }
+spring-ai-client-chat = { group = "org.springframework.ai", name = "spring-ai-client-chat" }
 spring-ai-gemini = { group = "org.springframework.ai", name = "spring-ai-vertex-ai-gemini" }
 spring-bom = { group = "org.springframework", name = "spring-framework-bom", version.ref = "spring" }
 
