@@ -15,11 +15,11 @@ internal abstract class AbstractAnthropicIntegraitonTest {
     protected var maxTokensValue: Long = -1
     protected lateinit var modelName: String
     protected val logger = logger(name = this::class.simpleName!!)
-    protected lateinit var seed: String
+    protected lateinit var seedValue: String
 
     @BeforeEach
     fun beforeEach() {
-        seed = UUID.randomUUID().toString()
+        seedValue = UUID.randomUUID().toString()
         modelName =
             arrayOf(
                 Model.CLAUDE_3_7_SONNET_LATEST.asString(),

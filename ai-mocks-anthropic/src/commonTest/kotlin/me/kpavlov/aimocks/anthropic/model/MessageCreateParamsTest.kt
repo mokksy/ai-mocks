@@ -1,5 +1,7 @@
 package me.kpavlov.aimocks.anthropic.model
 
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
@@ -87,5 +89,34 @@ internal class MessageCreateParamsTest {
         val result = jsonParser.decodeFromString<MessageCreateParams>(json)
         result.model shouldBe "claude-3-5-haiku-20241022"
         result.system shouldBe listOf(MessageCreateParams.SystemPrompt("Let's test invalid_request_error"))
+    }
+    @Test
+    fun `Should deserialize request with empty system array`() {
+        val json =
+            // language=json
+            """
+          {
+              "model" : "claude-3-opus-latest",
+              "messages" : [ {
+                "role" : "user",
+                "content" : [ {
+                  "type" : "text",
+                  "text" : "What is in the sea?"
+                } ]
+              } ],
+              "system" : [ ],
+              "max_tokens" : 1024,
+              "stream" : true
+            }
+            """.trimIndent()
+
+        val result = jsonParser.decodeFromString<MessageCreateParams>(json)
+        result.model shouldBe "claude-3-opus-latest"
+        result.messages.first().content as MessageCreateParams.ContentList shouldNotBeNull {
+            blocks shouldHaveSize 1
+            blocks.first() as? MessageCreateParams.TextBlock shouldNotBeNull  {
+                text shouldBe "What is in the sea?"
+            }
+        }
     }
 }

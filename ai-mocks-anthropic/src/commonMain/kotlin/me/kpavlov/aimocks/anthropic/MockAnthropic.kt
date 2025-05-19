@@ -83,7 +83,6 @@ public open class MockAnthropic(
         return AnthropicBuildingStep(
             buildingStep = requestStep,
             mokksy = mokksy,
-            serializer = { Json.encodeToString(it) },
         )
     }
 }
