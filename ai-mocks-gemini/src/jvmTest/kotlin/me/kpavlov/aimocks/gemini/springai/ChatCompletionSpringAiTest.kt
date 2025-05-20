@@ -1,8 +1,9 @@
 package me.kpavlov.aimocks.gemini.springai
 
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import me.kpavlov.aimocks.gemini.gemini
+import org.springframework.ai.chat.model.ChatResponse
 import org.springframework.ai.chat.prompt.ChatOptions
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
@@ -24,14 +25,13 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
             delay = 42.milliseconds
         }
 
-        val response =
+        val response: ChatResponse? =
             prepareClientRequest()
                 .options(ChatOptions.builder().temperature(temperatureValue).build())
                 .call()
                 .chatResponse()
 
-        response?.result shouldNotBe null
-        response?.result?.apply {
+        response?.result shouldNotBeNull {
             metadata.finishReason shouldBe "STOP"
             output?.text shouldBe "Ahoy there, matey! Hello!"
         }

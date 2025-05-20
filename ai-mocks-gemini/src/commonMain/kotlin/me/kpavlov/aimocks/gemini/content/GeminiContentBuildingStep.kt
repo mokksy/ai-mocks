@@ -34,7 +34,7 @@ public class GeminiContentBuildingStep(
      */
     public override fun responds(block: GeminiContentResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
-            val request = this.request.body
+            val generateContentRequest = this.request.body
             val responseDefinition = this.build()
             val chatResponseSpecification = GeminiContentResponseSpecification(responseDefinition)
             block.invoke(chatResponseSpecification)
@@ -63,7 +63,7 @@ public class GeminiContentBuildingStep(
                         PromptFeedback(
                             safetyRatings = null,
                         ),
-                    modelVersion = "gemini-pro-text-001",
+                    modelVersion = generateContentRequest.model ?: "gemini-pro-text-001",
                 )
         }
     }
