@@ -119,6 +119,7 @@ kotlin {
                 implementation(libs.langchain4j.kotlin)
                 implementation(libs.langchain4j.openai)
                 implementation(libs.openai.java)
+                implementation(libs.spring.ai.client.chat)
                 implementation(libs.spring.ai.openai)
                 implementation(project.dependencies.platform(libs.langchain4j.bom))
                 implementation(project.dependencies.platform(libs.spring.ai.bom))

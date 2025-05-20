@@ -1,5 +1,7 @@
 package me.kpavlov.aimocks.gemini
 
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 internal class GenerateContentResponseTest : AbstractSerializationTest() {
@@ -26,5 +28,12 @@ internal class GenerateContentResponseTest : AbstractSerializationTest() {
             """.trimIndent()
 
         val model = deserializeAndSerialize<GenerateContentResponse>(payload)
+        model.shouldNotBeNull {
+            candidates.size shouldBe 1
+            candidates[0].content.shouldNotBeNull {
+                parts.size shouldBe 1
+                parts[0].text shouldBe "This is the answer to everything"
+            }
+        }
     }
 }
