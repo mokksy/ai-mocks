@@ -14,7 +14,6 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
         gemini.generateContent {
             temperature = temperatureValue
             model = modelName
-//            maxTokens = maxCompletionTokensValue
             project = projectId
             location = locationId
             systemMessageContains("You are a helpful pirate")
@@ -31,9 +30,11 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
                 .call()
                 .chatResponse()
 
-        response?.result shouldNotBeNull {
-            metadata.finishReason shouldBe "STOP"
-            output?.text shouldBe "Ahoy there, matey! Hello!"
+        response shouldNotBeNull {
+            result shouldNotBeNull {
+                metadata.finishReason shouldBe "STOP"
+                output.text shouldBe "Ahoy there, matey! Hello!"
+            }
         }
     }
 }
