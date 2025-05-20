@@ -15,8 +15,7 @@
 
 
 _Mokksy_ and _AI-Mocks_ are mock HTTP and LLM (Large Language Model) servers inspired by WireMock, with support for
-response streaming and Server-Side Events (SSE). They are designed to build, test, and mock OpenAI API responses for
-development purposes.
+response streaming and Server-Side Events (SSE). They are designed to build, test, and mock LLM responses for development purposes.
 
 # Mokksy
 
@@ -155,9 +154,10 @@ assertThat(result.bodyAsText())
 **AI-Mocks** is a specialized mock server implementations (e.g., mocking OpenAI API) built using Mokksy.
 
 It supports mocking following AI services:
-1. [OpenAI](https://platform.openai.com/docs/api-reference/) - [ai-mocks-openai](https://kpavlov.github.io/ai-mocks/docs/ai-mocks-openai/)
-2. [Anthropic](https://docs.anthropic.com/en/api) - [ai-mocks-anthropic](https://kpavlov.github.io/ai-mocks/docs/ai-mocks-anthropic/)
-3. [Agent-to-Agent (A2A) Protocol](https://github.com/google/A2A) - [ai-mocks-a2a](https://kpavlov.github.io/ai-mocks/docs/ai-mocks/a2a/)
+1. [OpenAI](https://platform.openai.com/docs/api-reference/) - [ai-mocks-openai](https://mokksy.dev/docs/ai-mocks/openai/)
+2. [Anthropic](https://docs.anthropic.com/en/api) - [ai-mocks-anthropic](https://mokksy.dev/docs/ai-mocks/anthropic/)
+2. [Google VertexAI Gemini](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference) - [ai-mocks-gemini](https://mokksy.dev/docs/ai-mocks/gemini/)
+3. [Agent-to-Agent (A2A) Protocol](https://github.com/google/A2A) - [ai-mocks-a2a](https://mokksy.dev/docs/ai-mocks/a2a/)
 
 **_NB! Not all API endpoints and parameters are supported!_**
 

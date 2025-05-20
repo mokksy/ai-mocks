@@ -7,5 +7,6 @@ weight: 30
 - Currently supported:
   - [OpenAI API (`ai-mocks-openai`)](./ai-mocks-openai/)
   - [Anthropic API (`ai-mocks-anthropic`)](./ai-mocks-anthropic/)
+  - [Google VertexAI Gemini (`ai-mocks-gemini`)](./ai-mocks-gemini/)
   - [Agent-to-Agent Protocol (A2A) (`a2a`)](./a2a/)
 - Allows developers to mock LLM API responses for testing and development

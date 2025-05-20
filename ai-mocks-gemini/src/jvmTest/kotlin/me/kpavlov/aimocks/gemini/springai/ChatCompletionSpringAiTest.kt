@@ -26,7 +26,9 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
 
         val response: ChatResponse? =
             prepareClientRequest()
-                .options(ChatOptions.builder().temperature(temperatureValue).build())
+                .options(ChatOptions.builder()
+                    .temperature(temperatureValue)
+                    .build())
                 .call()
                 .chatResponse()
 

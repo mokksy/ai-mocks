@@ -63,7 +63,6 @@ internal fun createTestVertexAI(
             .setLlmClientSupplier { llmUtilityServiceClient }
             .setPredictionClientSupplier { predictionClient }
             .setCredentials(ApiKeyCredentials.create("dummy-key"))
-//            .setCredentials(NoCredentials.getInstance())
             .build()
     } catch (e: IOException) {
         throw RuntimeException(e)
