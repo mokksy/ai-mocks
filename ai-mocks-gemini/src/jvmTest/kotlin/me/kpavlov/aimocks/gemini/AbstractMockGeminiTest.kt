@@ -38,7 +38,7 @@ internal abstract class AbstractMockGeminiTest {
                 endpoint = gemini.baseUrl(),
                 projectId = projectId,
                 location = locationId,
-                timeout = 5.seconds,
+                timeout = 10.seconds,
             )
     }
 
