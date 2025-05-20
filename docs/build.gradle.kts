@@ -10,6 +10,7 @@ dependencies {
     dokka(project(":ai-mocks-a2a-models"))
     dokka(project(":ai-mocks-anthropic"))
     dokka(project(":ai-mocks-core"))
+    dokka(project(":ai-mocks-gemini"))
     dokka(project(":ai-mocks-openai"))
 }
 

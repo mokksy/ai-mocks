@@ -61,6 +61,10 @@ jobs:
         with:
           report_paths: '**/test-results/**/TEST-*.xml'
           annotate_only: true
+          detailed_summary: true
+          flaky_summary: true
+          include_empty_in_summary: false
+          skip_success_summary: true
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
