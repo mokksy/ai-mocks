@@ -1,4 +1,6 @@
 [versions]
+google-adk = "0.1.0"
+system-stubs="2.1.8"
 anthropic-java = "1.4.0"
 assertj = "3.27.3"
 assertk = "0.28.1"
@@ -30,6 +32,7 @@ spring-ai = "1.0.0"
 
 [libraries]
 anthropic-java-client-okhttp = { group = "com.anthropic", name = "anthropic-java-client-okhttp", version.ref = "anthropic-java" }
+google-adk = { group = "com.google.adk", name = "google-adk", version.ref = "google-adk" }
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }
 awaitility = { group = "org.awaitility", name = "awaitility", version.ref = "awaitility" }
@@ -57,6 +60,7 @@ ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-double-receive = { module = "io.ktor:ktor-server-double-receive", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 ktor-server-sse = { module = "io.ktor:ktor-server-sse", version.ref = "ktor" }
+system-stubs = { module = "uk.org.webcompere:system-stubs-jupiter", version.ref = "system-stubs" }
 kpavlov-langchain4j-kotlin = { group = "me.kpavlov.langchain4j.kotlin", name = "langchain4j-kotlin", version.ref = "kpavloLangchain4jKotlin" }
 langchain4j-anthropic = { group = "dev.langchain4j", name = "langchain4j-anthropic" }
 langchain4j-bom = { group = "dev.langchain4j", name = "langchain4j-bom", version.ref = "langchain4j" }

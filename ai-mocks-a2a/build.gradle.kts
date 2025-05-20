@@ -50,7 +50,10 @@ kotlin {
         jvmTest {
             dependencies {
                 implementation(kotlin("test"))
+                api(project(":ai-mocks-gemini"))
                 implementation(libs.assertj.core)
+                implementation(libs.google.adk)
+                implementation(libs.system.stubs)
                 implementation(libs.ktor.client.java)
                 implementation(libs.awaitility.kotlin)
                 implementation(libs.junit.jupiter.params)
