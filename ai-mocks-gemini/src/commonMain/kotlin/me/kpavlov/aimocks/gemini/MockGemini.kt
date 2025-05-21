@@ -1,6 +1,6 @@
 package me.kpavlov.aimocks.gemini
 
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.core.AbstractMockLlm
 import me.kpavlov.aimocks.gemini.content.GeminiContentBuildingStep
@@ -27,16 +27,16 @@ public open class MockGemini(
     port: Int = 0,
     verbose: Boolean = true,
 ) : AbstractMockLlm(
-        port = port,
-        configuration =
-            ServerConfiguration(
-                verbose = verbose,
-            ) { config ->
-                config.json(
-                    Json { ignoreUnknownKeys = true },
-                )
-            },
-    ) {
+    port = port,
+    configuration =
+        ServerConfiguration(
+            verbose = verbose,
+        ) { config ->
+            config.json(
+                Json { ignoreUnknownKeys = true },
+            )
+        },
+) {
     /**
      * Java-friendly overload that accepts a Consumer for configuring the chat request.
      */
@@ -60,9 +60,9 @@ public open class MockGemini(
 
                 val model = chatRequestSpec.model
                 @Suppress("MaxLineLength")
-                path(
-                    "/v1/projects/${chatRequestSpec.project}/locations/${chatRequestSpec.location}/publishers/google/models/$model:generateContent",
-                )
+                val pathString: String = chatRequestSpec.path
+                    ?: "/v1/projects/${chatRequestSpec.project}/locations/${chatRequestSpec.location}/publishers/google/models/$model:generateContent"
+                path(pathString)
 
                 body += chatRequestSpec.requestBody
 

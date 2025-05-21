@@ -20,6 +20,7 @@ import me.kpavlov.aimocks.gemini.GenerateContentRequest
 public open class GeminiContentRequestSpecification(
     public var project: String? = null,
     public var location: String? = null,
+    public var path: String? = null,
     maxOutputTokens: Int? = null,
 ) : ModelRequestSpecification<GenerateContentRequest>() {
     public var maxOutputTokens: Int? = maxOutputTokens
@@ -46,5 +47,11 @@ public open class GeminiContentRequestSpecification(
 
     override fun userMessageContains(substring: String) {
         requestBody.add(GeminiContentMatchers.userMessageContains(substring))
+    }
+
+    public fun path(value: String) {
+        apply {
+            this.path = value
+        }
     }
 }
