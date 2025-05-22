@@ -1,7 +1,7 @@
 [versions]
 google-adk = "0.1.0"
 system-stubs="2.1.8"
-anthropic-java = "1.4.0"
+anthropic-java = "2.0.0"
 assertj = "3.27.3"
 assertk = "0.28.1"
 awaitility = "4.3.0"
