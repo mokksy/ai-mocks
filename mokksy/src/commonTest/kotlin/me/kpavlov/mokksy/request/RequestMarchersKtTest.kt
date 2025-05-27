@@ -1,6 +1,8 @@
 package me.kpavlov.mokksy.request
 
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldStartWith
 import me.kpavlov.mokksy.Input
 import org.junit.jupiter.api.Test
 
@@ -25,6 +27,21 @@ class RequestMarchersKtTest {
                         "Object 'Input(name=foo)' should match predicate 'predicateToString'"
                     negatedFailureMessage() shouldBe
                         "Object 'Input(name=foo)' should NOT match predicate 'predicateToString'"
+                }
+            }
+    }@Test
+    fun `Should test successCallMatcher`() {
+        val input = Input("foo")
+
+        successCallMatcher<Input>{ input.shouldNotBeNull() }
+            .apply {
+                toString() shouldStartWith "successCallMatcher("
+                test(input).apply {
+                    passed() shouldBe true
+                    failureMessage() shouldStartWith
+                        "Object 'Input(name=foo)' should satisfy '"
+                    negatedFailureMessage() shouldStartWith
+                        "Object 'Input(name=foo)' should NOT satisfy '"
                 }
             }
     }
