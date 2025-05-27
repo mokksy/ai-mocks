@@ -41,7 +41,6 @@ val serverUrl = mokksy.serverUrl
 mokksy.stop()
 ```
 
-
 ## Responding with Predefined Responses
 
 ### GET Request
@@ -120,6 +119,30 @@ assertThat(result.bodyAsText()).isEqualTo(expectedResponse)
 assertThat(result.headers["Location"]).isEqualTo("/things/$id")
 assertThat(result.headers["Foo"]).isEqualTo("bar")
 ```
+
+### Request Specification Matchers
+
+Mokksy provides various matcher types to specify conditions for matching incoming HTTP requests:
+
+* **Path Matchers**
+  * `path` - Exact match for request path
+  * Example: `path("/things")`
+
+* **Content Matchers**
+  * `bodyContains` - Checks if the body contains specific text
+  * Example: `bodyContains("value")` or `bodyString += contain("value")`
+
+* **Header Matchers**
+  * `containsHeader` - Checks if the request contains a specific header with value
+  * Example: `containsHeader("X-Request-ID", "RequestID")`
+
+* **Predicate Matchers**
+  * `predicateMatcher` - Custom predicate function to match against request body
+  * Example: `bodyMatchesPredicate { it?.name == "foo" }`
+
+* **Call Matchers**
+  * `successCallMatcher` - Matches if a function call with the request body succeeds
+  * Example: `requestSatisfies { input -> input.shouldNotBeNull() }`
 
 ## Server-Side Events (SSE) Response
 

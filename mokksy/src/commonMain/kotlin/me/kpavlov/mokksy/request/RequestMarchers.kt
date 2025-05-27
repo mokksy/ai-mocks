@@ -50,7 +50,7 @@ public infix fun Headers.shouldNotHaveHeader(header: Pair<String, String>) {
  * @param predicate the predicate to evaluate objects against
  * @return a [Matcher] that applies the given predicate to objects for evaluation
  */
-internal fun <T> predicateMatcher(predicate: (T?) -> Boolean): Matcher<T?> =
+public fun <T> predicateMatcher(predicate: (T?) -> Boolean): Matcher<T?> =
     object : Matcher<T?> {
         override fun test(value: T?): MatcherResult =
             MatcherResult(
@@ -64,6 +64,39 @@ internal fun <T> predicateMatcher(predicate: (T?) -> Boolean): Matcher<T?> =
             )
 
         override fun toString(): String = "PredicateMatcher($predicate)"
+    }
+
+/**
+ * Creates a matcher that tests whether the specified function `call` can execute successfully
+ * without throwing an exception when invoked with a given input value.
+ *
+ * @param T The type of the input value being tested.
+ * @param call A function that performs an operation using the input value of type `T?`.
+ *             The matcher tests whether this function can execute successfully without errors.
+ * @return A [Matcher] that evaluates if the `call` function can successfully execute when invoked
+ *         with an input value of type `T?`.
+ */
+public fun <T> successCallMatcher(call: (T?) -> Unit): Matcher<T?> =
+    object : Matcher<T?> {
+        override fun test(value: T?): MatcherResult {
+            val passed = try {
+                call.invoke(value)
+                true
+            } catch (_: Throwable) {
+                false
+            }
+            return MatcherResult(
+                passed,
+                {
+                    "Object '$value' should satisfy '$call'"
+                },
+                {
+                    "Object '$value' should NOT satisfy '$call'"
+                },
+            )
+        }
+
+        override fun toString(): String = "successCallMatcher($call)"
     }
 
 internal fun pathEqual(expected: String): Matcher<String> =

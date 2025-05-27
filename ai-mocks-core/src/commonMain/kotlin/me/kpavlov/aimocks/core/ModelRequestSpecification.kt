@@ -5,6 +5,8 @@ import io.kotest.matchers.string.contain
 import io.kotest.matchers.string.containIgnoringCase
 import me.kpavlov.mokksy.kotest.doesNotContain
 import me.kpavlov.mokksy.kotest.doesNotContainIgnoringCase
+import me.kpavlov.mokksy.request.predicateMatcher
+import me.kpavlov.mokksy.request.successCallMatcher
 
 @Suppress("LongParameterList", "TooManyFunctions")
 public abstract class ModelRequestSpecification<P>(
@@ -85,9 +87,75 @@ public abstract class ModelRequestSpecification<P>(
     public abstract fun systemMessageContains(substring: String)
 
     /**
+     * Specifies that the system/developer message must contain a dynamically constructed string.
+     * The string can be built using a lambda with a [StringBuilder] receiver.
+     *
+     * @param builderAction A lambda with a receiver of type [StringBuilder], used to build the
+     * desired content that the system message should contain.
+     */
+    public inline fun systemMessageContains(builderAction: StringBuilder.() -> Unit) {
+        val stringBuilder = StringBuilder()
+        builderAction.invoke(stringBuilder)
+        systemMessageContains(stringBuilder.toString())
+    }
+
+    /**
      * Specifies that the user's message must contain the provided substring.
      *
      * @param substring The substring that the user's message should contain.
      */
     public abstract fun userMessageContains(substring: String)
+
+    /**
+     * Specifies a condition that the user's message must contain a dynamically constructed string.
+     * The string can be built using a lambda with a [StringBuilder] receiver.
+     *
+     * @param builderAction A lambda with a receiver of type [StringBuilder], used to build the desired content
+     * that the user's message should contain.
+     */
+    public inline fun userMessageContains(builderAction: StringBuilder.() -> Unit) {
+        val stringBuilder = StringBuilder()
+        builderAction.invoke(stringBuilder)
+        userMessageContains(stringBuilder.toString())
+    }
+
+    /**
+     * Adds a condition to verify that the request matches the specified predicate.
+     *
+     * This method allows users to define a custom predicate that will be applied
+     * to the request, enabling more flexible and granular request matching.
+     *
+     * @param predicate A function that takes a request of type P as an input
+     * and returns a Boolean indicating whether the condition is satisfied.
+     * If request is `null` - it returns `false`.
+     */
+    public fun requestMatchesPredicate(predicate: (P) -> Boolean) {
+        requestBody += predicateMatcher { it != null && predicate.invoke(it) }
+    }
+
+    /**
+     * Adds a condition to verify that the request matches the specified matcher.
+     *
+     * This method allows users to define a custom matcher that will be applied
+     * to the request, enabling more flexible and granular request matching.
+     *
+     * @param matcher A matcher that will be applied to the request.
+     */
+    public fun requestMatches(matcher: Matcher<P?>) {
+        requestBody += matcher
+    }
+
+    /**
+     * Adds a condition to verify that the request satisfies the specified call.
+     *
+     * This method allows users to define a custom call that will be applied
+     * to the request, enabling more flexible and granular request matching.
+     * The call is a function that takes a request of type P as an input
+     * and should return successfully to satisfy the condition.
+     *
+     * @param call A function that takes a request of type P as an input.
+     */
+    public fun requestSatisfies(call: (P?) -> Unit) {
+        requestBody += successCallMatcher(call)
+    }
 }

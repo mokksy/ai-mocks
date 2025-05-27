@@ -2,8 +2,10 @@ package me.kpavlov.aimocks.openai.springai
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.types.beOfType
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
+import me.kpavlov.aimocks.openai.ChatCompletionRequest
 import me.kpavlov.aimocks.openai.openai
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
@@ -20,6 +22,9 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
             maxTokens = maxCompletionTokensValue
             systemMessageContains("helpful pirate")
             userMessageContains("say 'Hello!'")
+            requestMatchesPredicate {
+                !it.stream
+            }
         } responds {
             assistantContent = "Ahoy there, matey! Hello!"
             finishReason = "stop"
@@ -46,6 +51,10 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
             maxTokens = maxCompletionTokensValue
             systemMessageContains("helpful pirate")
             userMessageContains("say 'Hello!'")
+            requestMatches(beOfType(ChatCompletionRequest::class))
+            requestSatisfies {
+                it?.stream shouldBe true
+            }
         } respondsStream {
             responseFlow =
                 flow {
