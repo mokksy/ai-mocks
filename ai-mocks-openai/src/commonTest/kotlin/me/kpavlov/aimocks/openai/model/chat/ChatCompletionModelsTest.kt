@@ -1,6 +1,7 @@
 package me.kpavlov.aimocks.openai.model.chat
 
 import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.Json
@@ -15,6 +16,7 @@ internal class ChatCompletionModelsTest {
         }
 
     @Test
+    @Suppress("MaxLineLength")
     fun `Should deserialize ChatCompletionRequest`() {
         val json =
             """
@@ -49,7 +51,89 @@ internal class ChatCompletionModelsTest {
         request.messages[1].role shouldBe ChatCompletionRole.USER
         request.messages[1].content shouldBe "Help me, please"
         request.responseFormat.shouldNotBeNull()
-        request.responseFormat?.type shouldBe "json_object"
+        request.responseFormat.type shouldBe "json_object"
+    }
+
+    @Test
+    @Suppress("LongMethod")
+    fun `Should deserialize ChatCompletionRequest with JsonSchema`() {
+        val json =
+            """
+            {
+              "model" : "gpt-4.1-nano",
+              "messages" : [ {
+                "role" : "system",
+                "content" : "Convert person to JSON"
+              }, {
+                "role" : "user",
+                "content" : "Bob is 25 years old and weighs 0.075 tonnes.\nHis height is one meter eighty-five centimeters.\nHe is married."
+              } ],
+              "temperature" : 0.7,
+              "stream" : false,
+              "max_completion_tokens" : 100,
+              "response_format" : {
+                "type" : "json_schema",
+                "json_schema" : {
+                  "name" : "Person",
+                  "strict" : false,
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "name" : {
+                        "type" : "string",
+                        "nullable": false,
+                        "description" : "Person's name"
+                      },
+                      "age" : {
+                        "type" : "integer",
+                        "description" : "Person's age"
+                      },
+                      "weight" : {
+                        "type" : "number",
+                        "nullable": true,
+                        "description" : "Weight in kilograms"
+                      },
+                      "height" : {
+                        "type" : "number",
+                        "description" : "Height in meters"
+                      },
+                      "married" : {
+                        "type" : "boolean"
+                      }
+                    },
+                    "required" : [ "name",  "age", "weight", "height", "married" ]
+                  }
+                }
+              }
+            }
+            """.trimIndent()
+
+        val request = jsonParser.decodeFromString<ChatCompletionRequest>(json)
+
+        request.model shouldBe "gpt-4.1-nano"
+        request.messages shouldHaveSize 2
+        request.messages[0].role shouldBe ChatCompletionRole.SYSTEM
+        request.messages[0].content shouldBe "Convert person to JSON"
+        request.messages[1].role shouldBe ChatCompletionRole.USER
+        request.messages[1].content shouldBe "Bob is 25 years old and weighs 0.075 tonnes.\nHis height is one meter eighty-five centimeters.\nHe is married."
+        request.temperature shouldBe 0.7
+        request.stream shouldBe false
+        request.maxCompletionTokens shouldBe 100
+        request.responseFormat.shouldNotBeNull {
+            type shouldBe "json_schema"
+            jsonSchema.shouldNotBeNull {
+                name shouldBe "Person"
+                strict shouldBe false
+                schema.shouldNotBeNull {
+                    type shouldBe "object"
+                    properties.shouldNotBeNull {
+                        this.shouldHaveSize(5)
+                        this["name"]?.type shouldBe "string"
+                    }
+                }
+            }
+        }
+
     }
 
     @Test
