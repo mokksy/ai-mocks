@@ -18,7 +18,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class TaskStatusUpdateEvent
     @JvmOverloads
-    constructor(
+    public constructor(
         @SerialName("id")
         val id: TaskId,
         @SerialName("status")

@@ -20,7 +20,7 @@ import me.kpavlov.aimocks.a2a.model.taskStatusUpdateEvent
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.test.Test
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.milliseconds
 
 internal class SendTaskStreamingTest : AbstractTest() {
     /**
@@ -34,7 +34,7 @@ internal class SendTaskStreamingTest : AbstractTest() {
             val taskId: TaskId = "task_12345"
 
             a2aServer.sendTaskStreaming() responds {
-                delayBetweenChunks = 1.seconds
+                delayBetweenChunks = 500.milliseconds
                 responseFlow =
                     flow {
                         emit(

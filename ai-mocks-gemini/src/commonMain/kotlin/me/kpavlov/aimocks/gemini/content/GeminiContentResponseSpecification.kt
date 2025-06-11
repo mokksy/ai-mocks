@@ -9,7 +9,6 @@ import me.kpavlov.aimocks.gemini.Part
 import me.kpavlov.aimocks.gemini.PromptFeedback
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Specification for configuring a Gemini content generation response.
@@ -25,8 +24,11 @@ public class GeminiContentResponseSpecification(
     public var content: String = "This is a mock response from Gemini API.",
     public var finishReason: String = "STOP",
     public var role: String = "model",
-    public var delay: Duration = Duration.ZERO,
-) : ResponseSpecification<GenerateContentRequest, GenerateContentResponse>(response = response) {
+    delay: Duration = Duration.ZERO,
+) : ResponseSpecification<GenerateContentRequest, GenerateContentResponse>(
+    response = response,
+    delay = delay
+) {
     /**
      * Sets the content of the response.
      *
@@ -58,17 +60,6 @@ public class GeminiContentResponseSpecification(
     public fun role(role: String): GeminiContentResponseSpecification =
         apply {
             this.role = role
-        }
-
-    /**
-     * Sets the delay before sending the response.
-     *
-     * @param delayMs The delay in milliseconds.
-     * @return This specification instance for method chaining.
-     */
-    public fun delayMillis(delayMs: Long): GeminiContentResponseSpecification =
-        apply {
-            this.delay = delayMs.milliseconds
         }
 
     /**

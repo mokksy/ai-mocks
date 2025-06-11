@@ -11,8 +11,8 @@ public class AgentCardResponseSpecification(
     response: AbstractResponseDefinition<AgentCard>,
     public var card: AgentCard? = null,
     public var error: JSONRPCError? = null,
-    public var delay: Duration = Duration.ZERO,
-) : ResponseSpecification<Nothing, AgentCard>(response = response) {
+    delay: Duration = Duration.ZERO,
+) : ResponseSpecification<Nothing, AgentCard>(response = response, delay = delay) {
     public fun card(block: AgentCardBuilder.() -> Unit) {
         this.card = AgentCardBuilder().apply(block).build()
     }

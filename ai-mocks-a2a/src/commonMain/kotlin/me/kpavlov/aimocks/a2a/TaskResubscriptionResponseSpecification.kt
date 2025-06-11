@@ -14,5 +14,8 @@ public class TaskResubscriptionResponseSpecification(
     response: AbstractResponseDefinition<String>,
     public var responseFlow: Flow<TaskUpdateEvent>? = null,
     public var delayBetweenChunks: Duration = Duration.ZERO,
-    public var delay: Duration = Duration.ZERO,
-) : ResponseSpecification<TaskResubscriptionRequest, String>(response = response)
+    delay: Duration = Duration.ZERO,
+) : ResponseSpecification<TaskResubscriptionRequest, String>(
+    response = response,
+    delay = delay
+)

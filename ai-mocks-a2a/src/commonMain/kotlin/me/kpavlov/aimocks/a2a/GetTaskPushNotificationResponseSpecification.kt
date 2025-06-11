@@ -14,7 +14,8 @@ public class GetTaskPushNotificationResponseSpecification(
     public var id: RequestId? = null,
     public var result: TaskPushNotificationConfig? = null,
     public var error: JSONRPCError? = null,
-    public var delay: Duration = Duration.ZERO,
+    delay: Duration = Duration.ZERO,
 ) : ResponseSpecification<GetTaskPushNotificationRequest, GetTaskPushNotificationResponse>(
-        response = response,
-    )
+    response = response,
+    delay = delay
+)

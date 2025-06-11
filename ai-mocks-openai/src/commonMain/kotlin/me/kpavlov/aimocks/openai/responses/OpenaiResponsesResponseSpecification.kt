@@ -6,7 +6,6 @@ import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
 import me.kpavlov.aimocks.openai.model.responses.Response
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Represents the specification for an OpenAI API response configuration.
@@ -31,9 +30,12 @@ public class OpenaiResponsesResponseSpecification(
     public var responseFlow: Flow<String>? = null,
     public var responseChunks: List<String>? = null,
     public var delayBetweenChunks: Duration = Duration.ZERO,
-    public var delay: Duration = Duration.ZERO,
+    delay: Duration = Duration.ZERO,
     public var finishReason: String = "stop",
-) : ResponseSpecification<CreateResponseRequest, Response>(response = response) {
+) : ResponseSpecification<CreateResponseRequest, Response>(
+    response = response,
+    delay = delay
+) {
     public fun assistantContent(content: String): OpenaiResponsesResponseSpecification =
         apply {
             this.assistantContent =
@@ -46,8 +48,4 @@ public class OpenaiResponsesResponseSpecification(
                 finishReason
         }
 
-    public fun delayMillis(value: Long): OpenaiResponsesResponseSpecification =
-        apply {
-            this.delay = value.milliseconds
-        }
 }

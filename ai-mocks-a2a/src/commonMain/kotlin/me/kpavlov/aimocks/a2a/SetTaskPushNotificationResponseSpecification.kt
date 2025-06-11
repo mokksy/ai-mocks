@@ -15,10 +15,11 @@ public class SetTaskPushNotificationResponseSpecification(
     public var id: RequestId? = null,
     public var result: TaskPushNotificationConfig? = null,
     public var error: JSONRPCError? = null,
-    public var delay: Duration = Duration.ZERO,
+    delay: Duration = Duration.ZERO,
 ) : ResponseSpecification<SetTaskPushNotificationRequest, SetTaskPushNotificationResponse>(
-        response = response,
-    ) {
+    response = response,
+    delay = delay
+) {
     public fun result(block: TaskPushNotificationConfigBuilder.() -> Unit) {
         result = TaskPushNotificationConfigBuilder().apply(block).build()
     }

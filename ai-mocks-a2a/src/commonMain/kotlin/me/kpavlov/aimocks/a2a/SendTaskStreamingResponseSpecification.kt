@@ -15,8 +15,11 @@ public class SendTaskStreamingResponseSpecification(
     public var responseFlow: Flow<TaskUpdateEvent>? = null,
     public var delayBetweenChunks: Duration = Duration.ZERO,
     public var error: JSONRPCError? = null,
-    public var delay: Duration = Duration.ZERO,
-) : ResponseSpecification<SendTaskStreamingRequest, String>(response = response) {
+    delay: Duration = Duration.ZERO,
+) : ResponseSpecification<SendTaskStreamingRequest, String>(
+    response = response,
+    delay = delay
+) {
     /**
      * Java-friendly setter for [responseFlow].
      */
