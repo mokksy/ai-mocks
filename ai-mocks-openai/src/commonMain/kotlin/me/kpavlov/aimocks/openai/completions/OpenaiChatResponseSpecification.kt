@@ -6,7 +6,6 @@ import me.kpavlov.aimocks.openai.ChatCompletionRequest
 import me.kpavlov.aimocks.openai.ChatResponse
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * A specification class for defining and customizing the response to a chat completion request
@@ -34,9 +33,12 @@ public class OpenaiChatResponseSpecification(
     public var responseFlow: Flow<String>? = null,
     public var responseChunks: List<String>? = null,
     public var delayBetweenChunks: Duration = Duration.ZERO,
-    public var delay: Duration = Duration.ZERO,
+    delay: Duration = Duration.ZERO,
     public var finishReason: String = "stop",
-) : ResponseSpecification<ChatCompletionRequest, ChatResponse>(response = response) {
+) : ResponseSpecification<ChatCompletionRequest, ChatResponse>(
+    response = response,
+    delay = delay,
+) {
     public fun assistantContent(content: String): OpenaiChatResponseSpecification =
         apply {
             this.assistantContent =
@@ -47,10 +49,5 @@ public class OpenaiChatResponseSpecification(
         apply {
             this.finishReason =
                 finishReason
-        }
-
-    public fun delayMillis(value: Long): OpenaiChatResponseSpecification =
-        apply {
-            this.delay = value.milliseconds
         }
 }

@@ -13,8 +13,10 @@ import com.google.genai.types.Content;
 import com.google.genai.types.Part;
 import io.reactivex.rxjava3.core.Flowable;
 import me.kpavlov.aimocks.gemini.MockGemini;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import uk.org.webcompere.systemstubs.environment.EnvironmentVariables;
 import uk.org.webcompere.systemstubs.jupiter.SystemStub;
@@ -26,6 +28,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SystemStubsExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AdkTest {
 
     private static final MockGemini mockGemini = new MockGemini(0, true);
@@ -38,13 +41,18 @@ class AdkTest {
     @SystemStub
     private final EnvironmentVariables environmentVariables = new EnvironmentVariables();
 
-    @BeforeEach
-    void beforeEach() {
+    @BeforeAll
+    void beforeAll() {
         environmentVariables.set("GOOGLE_GENAI_USE_VERTEXAI", "false");
         environmentVariables.set("GOOGLE_API_KEY", "test-key");
         environmentVariables.set("GOOGLE_GEMINI_BASE_URL", mockGemini.baseUrl());
         environmentVariables.set("GOOGLE_CLOUD_PROJECT", projectId);
         environmentVariables.set("GOOGLE_CLOUD_LOCATION", location);
+    }
+
+    @AfterAll
+    void afterAll() {
+        mockGemini.shutdown();
     }
 
     private BaseAgent initAgent() {
