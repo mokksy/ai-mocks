@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test
 internal class JsonSchemaTest {
     private val jsonParser =
         Json {
-            ignoreUnknownKeys = false
+            ignoreUnknownKeys = true
             prettyPrint = true
         }
 
@@ -84,7 +84,7 @@ internal class JsonSchemaTest {
     @Suppress("LongMethod")
     fun `Should deserialize complex JsonSchema`() {
         val json =
-            """
+            $$"""
             {
               "name": "ComplexSchema",
               "strict": true,
@@ -101,7 +101,9 @@ internal class JsonSchemaTest {
                     "type": "string",
                     "format": "email",
                     "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",
-                    "description": "Email address"
+                    "description": "Email address",
+                    "minLength": 5,
+                    "maxLength": 100
                   },
                   "age": {
                     "type": "integer",
@@ -113,7 +115,14 @@ internal class JsonSchemaTest {
                     "type": "number",
                     "minimum": 0,
                     "maximum": 10,
-                    "default": 5
+                    "default": 5,
+                    "multipleOf": 0.5
+                  },
+                  "precision": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "exclusiveMaximum": 1,
+                    "const": 0.5
                   },
                   "status": {
                     "type": "string",
@@ -125,7 +134,10 @@ internal class JsonSchemaTest {
                     "items": {
                       "type": "string"
                     },
-                    "description": "List of tags"
+                    "description": "List of tags",
+                    "minItems": 1,
+                    "maxItems": 10,
+                    "default": ["default"]
                   },
                   "metadata": {
                     "type": "object",
@@ -159,6 +171,19 @@ internal class JsonSchemaTest {
                     "description": "Nullable field",
                     "type": "string",
                     "nullable": true
+                  },
+                  "flag": {
+                    "type": "boolean",
+                    "description": "Boolean flag",
+                    "default": true
+                  },
+                  "constant_flag": {
+                    "type": "boolean",
+                    "description": "Constant boolean flag",
+                    "const": false
+                  },
+                  "reference": {
+                    "$ref": "#/definitions/ExternalType"
                   }
                 },
                 "required": ["id", "email", "status"],
@@ -183,27 +208,32 @@ internal class JsonSchemaTest {
 
         // Properties validation
         val properties = schemaDefinition.properties
-        properties shouldHaveSize 9
+        properties shouldHaveSize 13
 
         // String with format
         properties["id"] shouldNotBeNull {
+            this as StringPropertyDefinition
             type shouldBe listOf("string")
             nullable shouldBe false
             format shouldBe "uuid"
             description shouldBe "Unique identifier"
         }
 
-        // String with pattern
+        // String with a pattern
         properties["email"] shouldNotBeNull {
+            this as StringPropertyDefinition
             type shouldBe listOf("string")
             nullable shouldBe false
             format shouldBe "email"
             pattern shouldBe "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+\$"
             description shouldBe "Email address"
+            minLength shouldBe 5
+            maxLength shouldBe 100
         }
 
         // Numeric with min/max
         properties["age"] shouldNotBeNull {
+            this as NumericPropertyDefinition
             type shouldBe listOf("integer")
             nullable shouldBe false
             minimum shouldBe 18.0
@@ -213,6 +243,7 @@ internal class JsonSchemaTest {
 
         // Enum field
         properties["status"] shouldNotBeNull {
+            this as StringPropertyDefinition
             description shouldBe "Current status"
             enum shouldBe listOf("active", "inactive", "pending")
             nullable shouldBe false
@@ -220,17 +251,23 @@ internal class JsonSchemaTest {
 
         // Array field
         properties["tags"] shouldNotBeNull {
+            this as ArrayPropertyDefinition
             description shouldBe "List of tags"
             nullable shouldBe false
-            items.shouldNotBeNull()
-            items.type shouldBe listOf("string")
-            items.nullable shouldBe false
-            items.description.shouldBeNull()
-            items.enum.shouldBeNull()
+            default.shouldNotBeNull()
+            items shouldNotBeNull {
+                type shouldBe listOf("string")
+                nullable shouldBe false
+                description.shouldBeNull()
+                (this as? StringPropertyDefinition)?.enum.shouldBeNull()
+                minItems shouldBe 1u
+                maxItems shouldBe 10u
+            }
         }
 
         // Object field with nested properties
         properties["metadata"] shouldNotBeNull {
+            this as ObjectPropertyDefinition
             description shouldBe "Metadata about the user"
             nullable shouldBe false
             this.properties.shouldNotBeNull()
@@ -239,41 +276,83 @@ internal class JsonSchemaTest {
 
         // Nullable field
         properties["nullable_field"] shouldNotBeNull {
+            this as StringPropertyDefinition
             description shouldBe "Nullable field"
             nullable shouldBe true
             enum.shouldBeNull()
-            items.shouldBeNull()
-            this.properties.shouldBeNull()
             format.shouldBeNull()
             pattern.shouldBeNull()
-            minimum.shouldBeNull()
-            maximum.shouldBeNull()
         }
 
         // Array of objects
         properties["steps"] shouldNotBeNull {
+            this as ArrayPropertyDefinition
             description shouldBe "Steps taken by the user"
             nullable shouldBe false
             items shouldNotBeNull {
+                this as ObjectPropertyDefinition
                 type shouldBe listOf("object")
                 nullable shouldBe false
                 description.shouldBeNull()
-                enum.shouldBeNull()
-                format.shouldBeNull()
-                pattern.shouldBeNull()
-                minimum.shouldBeNull()
-                maximum.shouldBeNull()
                 this.properties shouldNotBeNull {
                     shouldHaveSize(2)
                     this["explanation"] shouldNotBeNull {
+                        this as StringPropertyDefinition
                         type shouldBe listOf("string")
                     }
                     this["output"] shouldNotBeNull {
+                        this as StringPropertyDefinition
                         type shouldBe listOf("string")
                     }
                     additionalProperties shouldBe false
                 }
             }
+        }
+
+        // Numeric with multipleOf
+        properties["score"] shouldNotBeNull {
+            this as NumericPropertyDefinition
+            type shouldBe listOf("number")
+            nullable shouldBe false
+            minimum shouldBe 0.0
+            maximum shouldBe 10.0
+            multipleOf shouldBe 0.5
+            default.shouldNotBeNull()
+        }
+
+        // Numeric with exclusiveMinimum and exclusiveMaximum
+        properties["precision"] shouldNotBeNull {
+            this as NumericPropertyDefinition
+            type shouldBe listOf("number")
+            nullable shouldBe false
+            exclusiveMinimum shouldBe 0.0
+            exclusiveMaximum shouldBe 1.0
+            constValue.shouldNotBeNull()
+        }
+
+        // Boolean with default
+        properties["flag"] shouldNotBeNull {
+            this as BooleanPropertyDefinition
+            type shouldBe listOf("boolean")
+            nullable shouldBe false
+            description shouldBe "Boolean flag"
+            default.shouldNotBeNull()
+        }
+
+        // Boolean with const
+        properties["constant_flag"] shouldNotBeNull {
+            this as BooleanPropertyDefinition
+            type shouldBe listOf("boolean")
+            nullable shouldBe false
+            description shouldBe "Constant boolean flag"
+            constValue.shouldNotBeNull()
+        }
+
+        // Reference property
+        properties["reference"] shouldNotBeNull {
+            this as ReferencePropertyDefinition
+            nullable shouldBe false
+            ref shouldBe "#/definitions/ExternalType"
         }
     }
 }

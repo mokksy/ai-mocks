@@ -57,6 +57,7 @@ internal class ChatCompletionModelsTest {
     @Test
     @Suppress("LongMethod")
     fun `Should deserialize ChatCompletionRequest with JsonSchema`() {
+        // language=json
         val json =
             """
             {
@@ -115,7 +116,8 @@ internal class ChatCompletionModelsTest {
         request.messages[0].role shouldBe ChatCompletionRole.SYSTEM
         request.messages[0].content shouldBe "Convert person to JSON"
         request.messages[1].role shouldBe ChatCompletionRole.USER
-        request.messages[1].content shouldBe "Bob is 25 years old and weighs 0.075 tonnes.\nHis height is one meter eighty-five centimeters.\nHe is married."
+        request.messages[1].content shouldBe
+            "Bob is 25 years old and weighs 0.075 tonnes.\nHis height is one meter eighty-five centimeters.\nHe is married."
         request.temperature shouldBe 0.7
         request.stream shouldBe false
         request.maxCompletionTokens shouldBe 100
@@ -128,12 +130,11 @@ internal class ChatCompletionModelsTest {
                     type shouldBe "object"
                     properties.shouldNotBeNull {
                         this.shouldHaveSize(5)
-                        this["name"]?.type shouldBe "string"
+                        this["name"]?.type shouldBe listOf("string")
                     }
                 }
             }
         }
-
     }
 
     @Test

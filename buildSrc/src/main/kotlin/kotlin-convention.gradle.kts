@@ -49,7 +49,7 @@ tasks.withType<KotlinCompile>().configureEach {
             listOf(
                 "-Wextra",
                 "-Xjvm-default=all",
-                "-Xmulti-dollar-interpolation" ,
+                "-Xmulti-dollar-interpolation",
             )
     }
 }

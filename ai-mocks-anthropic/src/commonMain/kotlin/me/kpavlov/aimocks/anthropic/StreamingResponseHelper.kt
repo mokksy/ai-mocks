@@ -14,19 +14,22 @@ internal object StreamingResponseHelper {
         id: String,
         model: String,
     ): TypedServerSentEvent<AnthropicSseData> {
-        val data = AnthropicSseData.MessageStartData(
-            message = Message(
-                id = id,
-                type = "message",
-                role = "assistant",
-                model = model,
-                content = emptyList(),
-                usage = Usage(
-                    inputTokens = 25,
-                    outputTokens = 1
-                )
+        val data =
+            AnthropicSseData.MessageStartData(
+                message =
+                    Message(
+                        id = id,
+                        type = "message",
+                        role = "assistant",
+                        model = model,
+                        content = emptyList(),
+                        usage =
+                            Usage(
+                                inputTokens = 25,
+                                outputTokens = 1,
+                            ),
+                    ),
             )
-        )
         return TypedServerSentEvent(
             event = "message_start",
             data = data,
@@ -36,12 +39,14 @@ internal object StreamingResponseHelper {
     internal fun createContentBlockStartChunk(
         index: Long = 0,
     ): TypedServerSentEvent<AnthropicSseData> {
-        val data = AnthropicSseData.ContentBlockStartData(
-            index = index.toInt(),
-            contentBlock = ContentBlock.Text(
-                text = ""
+        val data =
+            AnthropicSseData.ContentBlockStartData(
+                index = index.toInt(),
+                contentBlock =
+                    ContentBlock.Text(
+                        text = "",
+                    ),
             )
-        )
         return TypedServerSentEvent(
             event = "content_block_start",
             data = data,
@@ -52,12 +57,14 @@ internal object StreamingResponseHelper {
         index: Long = 0,
         content: String,
     ): TypedServerSentEvent<AnthropicSseData> {
-        val data = AnthropicSseData.ContentBlockDeltaData(
-            index = index.toInt(),
-            delta = ContentDelta.TextDelta(
-                text = content
+        val data =
+            AnthropicSseData.ContentBlockDeltaData(
+                index = index.toInt(),
+                delta =
+                    ContentDelta.TextDelta(
+                        text = content,
+                    ),
             )
-        )
         return TypedServerSentEvent(
             event = "content_block_delta",
             data = data,
@@ -68,15 +75,18 @@ internal object StreamingResponseHelper {
         stopReason: String,
         outputTokens: Long,
     ): TypedServerSentEvent<AnthropicSseData> {
-        val data = AnthropicSseData.MessageDeltaData(
-            delta = MessageDelta(
-                stopReason = stopReason,
-                stopSequence = null
-            ),
-            usage = Usage(
-                outputTokens = outputTokens.toInt()
+        val data =
+            AnthropicSseData.MessageDeltaData(
+                delta =
+                    MessageDelta(
+                        stopReason = stopReason,
+                        stopSequence = null,
+                    ),
+                usage =
+                    Usage(
+                        outputTokens = outputTokens.toInt(),
+                    ),
             )
-        )
         return TypedServerSentEvent(
             event = "message_delta",
             data = data,
@@ -86,21 +96,21 @@ internal object StreamingResponseHelper {
     internal fun createContentBlockStopChunk(
         index: Long = 0,
     ): TypedServerSentEvent<AnthropicSseData> {
-        val data = AnthropicSseData.ContentBlockStopData(
-            index = index.toInt()
-        )
+        val data =
+            AnthropicSseData.ContentBlockStopData(
+                index = index.toInt(),
+            )
         return TypedServerSentEvent(
             event = "content_block_stop",
             data = data,
         )
     }
 
-    internal fun createMessageStopChunk(): TypedServerSentEvent<AnthropicSseData> {
-        return TypedServerSentEvent(
+    internal fun createMessageStopChunk(): TypedServerSentEvent<AnthropicSseData> =
+        TypedServerSentEvent(
             event = "message_stop",
             data = AnthropicSseData.MessageStopData,
         )
-    }
 
     internal fun createPingEvent(): TypedServerSentEvent<AnthropicSseData> =
         TypedServerSentEvent(

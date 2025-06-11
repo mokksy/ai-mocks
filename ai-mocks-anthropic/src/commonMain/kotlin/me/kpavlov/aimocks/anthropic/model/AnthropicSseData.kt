@@ -17,25 +17,26 @@ import kotlinx.serialization.modules.subclass
 @JsonClassDiscriminator("type")
 public sealed interface AnthropicSseData {
     public companion object {
-        public val serializersModule: SerializersModule = SerializersModule {
+        public val serializersModule: SerializersModule =
+            SerializersModule {
 
-            polymorphic(AnthropicSseData::class) {
-                subclass(MessageStartData::class)
-                subclass(ContentBlockStartData::class)
-                subclass(PingData::class)
-                subclass(ContentBlockDeltaData::class)
-                subclass(ContentBlockStopData::class)
-                subclass(MessageDeltaData::class)
-                subclass(MessageStopData::class)
+                polymorphic(AnthropicSseData::class) {
+                    subclass(MessageStartData::class)
+                    subclass(ContentBlockStartData::class)
+                    subclass(PingData::class)
+                    subclass(ContentBlockDeltaData::class)
+                    subclass(ContentBlockStopData::class)
+                    subclass(MessageDeltaData::class)
+                    subclass(MessageStopData::class)
+                }
+                polymorphic(ContentBlock::class) {
+                    subclass(ContentBlock.Text::class)
+                    subclass(ContentBlock.Image::class)
+                }
+                polymorphic(ContentDelta::class) {
+                    subclass(ContentDelta.TextDelta::class)
+                }
             }
-            polymorphic(ContentBlock::class) {
-                subclass(ContentBlock.Text::class)
-                subclass(ContentBlock.Image::class)
-            }
-            polymorphic(ContentDelta::class) {
-                subclass(ContentDelta.TextDelta::class)
-            }
-        }
     }
 
     /**
@@ -44,7 +45,7 @@ public sealed interface AnthropicSseData {
     @Serializable
     @SerialName("message_start")
     public data class MessageStartData(
-        val message: Message
+        val message: Message,
     ) : AnthropicSseData
 
     /**
@@ -54,7 +55,7 @@ public sealed interface AnthropicSseData {
     @SerialName("content_block_start")
     public data class ContentBlockStartData(
         val index: Int,
-        @SerialName("content_block") val contentBlock: ContentBlock
+        @SerialName("content_block") val contentBlock: ContentBlock,
     ) : AnthropicSseData
 
     /**
@@ -62,8 +63,8 @@ public sealed interface AnthropicSseData {
      */
     @Serializable
     @SerialName("ping")
-    public object PingData
-        : AnthropicSseData
+    public object PingData :
+        AnthropicSseData
 
     /**
      * Data for content_block_delta event
@@ -72,7 +73,7 @@ public sealed interface AnthropicSseData {
     @SerialName("content_block_delta")
     public data class ContentBlockDeltaData(
         val index: Int,
-        val delta: ContentDelta
+        val delta: ContentDelta,
     ) : AnthropicSseData
 
     /**
@@ -81,7 +82,7 @@ public sealed interface AnthropicSseData {
     @Serializable
     @SerialName("content_block_stop")
     public data class ContentBlockStopData(
-        val index: Int
+        val index: Int,
     ) : AnthropicSseData
 
     /**
@@ -91,7 +92,7 @@ public sealed interface AnthropicSseData {
     @SerialName("message_delta")
     public data class MessageDeltaData(
         val delta: MessageDelta,
-        val usage: Usage
+        val usage: Usage,
     ) : AnthropicSseData
 
     /**
@@ -99,7 +100,7 @@ public sealed interface AnthropicSseData {
      */
     @Serializable
     @SerialName("message_stop")
-    public object MessageStopData: AnthropicSseData
+    public object MessageStopData : AnthropicSseData
 
     /**
      * Message object contained in message_start event
@@ -114,7 +115,7 @@ public sealed interface AnthropicSseData {
         val model: String,
         @SerialName("stop_reason") val stopReason: String? = null,
         @SerialName("stop_sequence") val stopSequence: String? = null,
-        val usage: Usage
+        val usage: Usage,
     )
 
     /**
@@ -123,7 +124,7 @@ public sealed interface AnthropicSseData {
     @Serializable
     public data class Usage(
         @SerialName("input_tokens") val inputTokens: Int? = null,
-        @SerialName("output_tokens") val outputTokens: Int? = null
+        @SerialName("output_tokens") val outputTokens: Int? = null,
     )
 
     /**
@@ -132,18 +133,17 @@ public sealed interface AnthropicSseData {
     @Serializable
     @JsonClassDiscriminator("type")
     public sealed class ContentBlock {
-
         @Serializable
         @SerialName("text")
         public data class Text(
-            val text: String
+            val text: String,
         ) : ContentBlock()
 
         @Serializable
         @SerialName("image")
         public data class Image(
             val type: String = "image",
-            val source: ImageSource
+            val source: ImageSource,
         ) : ContentBlock()
     }
 
@@ -154,7 +154,7 @@ public sealed interface AnthropicSseData {
     public data class ImageSource(
         val type: String,
         @SerialName("media_type") val mediaType: String,
-        val data: String
+        val data: String,
     )
 
     /**
@@ -164,11 +164,10 @@ public sealed interface AnthropicSseData {
     @Serializable
     @JsonClassDiscriminator("type")
     public sealed class ContentDelta {
-
         @Serializable
         @SerialName("text_delta")
         public data class TextDelta(
-            val text: String
+            val text: String,
         ) : ContentDelta()
     }
 
@@ -178,7 +177,7 @@ public sealed interface AnthropicSseData {
     @Serializable
     public data class MessageDelta(
         @SerialName("stop_reason") val stopReason: String? = null,
-        @SerialName("stop_sequence") val stopSequence: String? = null
+        @SerialName("stop_sequence") val stopSequence: String? = null,
     )
 
     /**
@@ -187,6 +186,6 @@ public sealed interface AnthropicSseData {
     @Serializable
     public data class SystemPrompt(
         val text: String,
-        val type: String = "text"
+        val type: String = "text",
     )
 }

@@ -22,7 +22,7 @@ public data class Message(
     val stopSequence: String? = null,
     @EncodeDefault
     val type: String = "message",
-    val usage: Usage
+    val usage: Usage,
 )
 
 @Serializable
@@ -33,7 +33,7 @@ public sealed class ContentBlock
 @SerialName("text")
 public data class TextBlock(
     val text: String,
-    val citations: List<Citation>? = null
+    val citations: List<Citation>? = null,
 ) : ContentBlock()
 
 @Serializable
@@ -41,19 +41,19 @@ public data class TextBlock(
 public data class ToolUseBlock(
     val id: String,
     val name: String,
-    val input: Map<String, String>
+    val input: Map<String, String>,
 ) : ContentBlock()
 
 @Serializable
 @SerialName("thinking")
 public data class ThinkingBlock(
-    val thinking: String
+    val thinking: String,
 ) : ContentBlock()
 
 @Serializable
 @SerialName("redacted_thinking")
 public data class RedactedThinkingBlock(
-    val data: String
+    val data: String,
 ) : ContentBlock()
 
 @Serializable
@@ -66,7 +66,7 @@ public data class Citation(
     val endIndex: Int,
     @SerialName("source_type")
     val sourceType: String? = null,
-    val metadata: Map<String, String>? = null
+    val metadata: Map<String, String>? = null,
 )
 
 @Serializable
@@ -86,39 +86,37 @@ public enum class StopReason {
 
     @JsonNames("tool_use")
     @SerialName("tool_use")
-    TOOL_USE;
+    TOOL_USE,
 
-    override fun toString(): String = when (this) {
-        END_TURN -> "end_turn"
-        MAX_TOKENS -> "max_tokens"
-        STOP_SEQUENCE -> "stop_sequence"
-        TOOL_USE -> "tool_use"
-    }
+    ;
+
+    override fun toString(): String =
+        when (this) {
+            END_TURN -> "end_turn"
+            MAX_TOKENS -> "max_tokens"
+            STOP_SEQUENCE -> "stop_sequence"
+            TOOL_USE -> "tool_use"
+        }
 }
 
 @Serializable
 public data class Usage(
     @SerialName("input_tokens")
     val inputTokens: Long,
-
     @SerialName("output_tokens")
     val outputTokens: Long,
-
     @SerialName("cache_creation_input_tokens")
     val cacheCreationInputTokens: Long = 0,
-
     @SerialName("cache_read_input_tokens")
     val cacheReadInputTokens: Long = 0,
-
     @SerialName("server_tool_use")
-    val serverToolUse: ServerToolUseUsage? = null
+    val serverToolUse: ServerToolUseUsage? = null,
 )
 
 @Serializable
 public data class ServerToolUseUsage(
     @SerialName("input_tokens")
     val inputTokens: Long,
-
     @SerialName("output_tokens")
-    val outputTokens: Long
+    val outputTokens: Long,
 )

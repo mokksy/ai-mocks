@@ -16,25 +16,29 @@ public class SystemPromptsSerializer : KSerializer<List<MessageCreateParams.Syst
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("SystemPrompts")
 
     override fun deserialize(decoder: Decoder): List<MessageCreateParams.SystemPrompt> {
-        val jsonDecoder = decoder as? JsonDecoder
-            ?: throw SerializationException("This serializer can only be used with JSON")
+        val jsonDecoder =
+            decoder as? JsonDecoder
+                ?: throw SerializationException("This serializer can only be used with JSON")
 
         val element = jsonDecoder.decodeJsonElement()
 
         return when (element) {
-            is JsonPrimitive -> listOf(
-                MessageCreateParams.SystemPrompt(
-                    text = element.contentOrNull ?: ""
+            is JsonPrimitive ->
+                listOf(
+                    MessageCreateParams.SystemPrompt(
+                        text = element.contentOrNull ?: "",
+                    ),
                 )
-            )
 
-            is JsonArray -> element.map {
-                val propmt = Json.decodeFromJsonElement(
-                    element = it,
-                    deserializer = MessageCreateParams.SystemPrompt.serializer()
-                )
-                propmt
-            }
+            is JsonArray ->
+                element.map {
+                    val propmt =
+                        Json.decodeFromJsonElement(
+                            element = it,
+                            deserializer = MessageCreateParams.SystemPrompt.serializer(),
+                        )
+                    propmt
+                }
 
             else -> throw SerializationException("Expected string or array of strings")
         }
@@ -42,7 +46,7 @@ public class SystemPromptsSerializer : KSerializer<List<MessageCreateParams.Syst
 
     override fun serialize(
         encoder: Encoder,
-        value: List<MessageCreateParams.SystemPrompt>
+        value: List<MessageCreateParams.SystemPrompt>,
     ) {
         TODO("Not implemented")
     }

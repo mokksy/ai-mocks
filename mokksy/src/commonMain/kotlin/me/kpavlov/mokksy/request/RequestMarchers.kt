@@ -79,12 +79,13 @@ public fun <T> predicateMatcher(predicate: (T?) -> Boolean): Matcher<T?> =
 public fun <T> successCallMatcher(call: (T?) -> Unit): Matcher<T?> =
     object : Matcher<T?> {
         override fun test(value: T?): MatcherResult {
-            val passed = try {
-                call.invoke(value)
-                true
-            } catch (_: Throwable) {
-                false
-            }
+            val passed =
+                try {
+                    call.invoke(value)
+                    true
+                } catch (_: Throwable) {
+                    false
+                }
             return MatcherResult(
                 passed,
                 {

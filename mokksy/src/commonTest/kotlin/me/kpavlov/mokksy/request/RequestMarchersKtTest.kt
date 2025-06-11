@@ -29,11 +29,13 @@ class RequestMarchersKtTest {
                         "Object 'Input(name=foo)' should NOT match predicate 'predicateToString'"
                 }
             }
-    }@Test
+    }
+
+    @Test
     fun `Should test successCallMatcher`() {
         val input = Input("foo")
 
-        successCallMatcher<Input>{ input.shouldNotBeNull() }
+        successCallMatcher<Input> { input.shouldNotBeNull() }
             .apply {
                 toString() shouldStartWith "successCallMatcher("
                 test(input).apply {

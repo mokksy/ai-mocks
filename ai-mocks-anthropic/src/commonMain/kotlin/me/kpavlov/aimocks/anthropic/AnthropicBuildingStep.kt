@@ -24,9 +24,9 @@ public class AnthropicBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<MessageCreateParams>,
 ) : AbstractBuildingStep<MessageCreateParams, AnthropicMessagesResponseSpecification>(
-    mokksy,
-    buildingStep,
-) {
+        mokksy,
+        buildingStep,
+    ) {
     @Suppress("MagicNumber")
     @OptIn(ExperimentalStdlibApi::class)
     override infix fun responds(block: AnthropicMessagesResponseSpecification.() -> Unit) {
@@ -46,19 +46,24 @@ public class AnthropicBuildingStep(
                 Message(
                     role = "assistant",
                     id = chatResponseSpecification.messageId,
-                    content = listOf(
-                        me.kpavlov.aimocks.anthropic.model.TextBlock(
-                            text = assistantContent
-                        )
-                    ),
+                    content =
+                        listOf(
+                            me.kpavlov.aimocks.anthropic.model.TextBlock(
+                                text = assistantContent,
+                            ),
+                        ),
                     model = request.model,
-                    stopReason = me.kpavlov.aimocks.anthropic.model.StopReason.valueOf(stopReason.uppercase()),
-                    usage = me.kpavlov.aimocks.anthropic.model.Usage(
-                        outputTokens = completionTokens,
-                        cacheCreationInputTokens = 0,
-                        inputTokens = LongRange(10, 1000).random(),
-                        cacheReadInputTokens = 0,
-                    )
+                    stopReason =
+                        me.kpavlov.aimocks.anthropic.model.StopReason.valueOf(
+                            stopReason.uppercase(),
+                        ),
+                    usage =
+                        me.kpavlov.aimocks.anthropic.model.Usage(
+                            outputTokens = completionTokens,
+                            cacheCreationInputTokens = 0,
+                            inputTokens = LongRange(10, 1000).random(),
+                            cacheReadInputTokens = 0,
+                        ),
                 )
         }
     }
@@ -106,10 +111,11 @@ public class AnthropicBuildingStep(
                     chunksFlow = chunkFlow,
                     stopReason = responseSpec.stopReason,
                 ).mapNotNull {
-                    val dataJson = Json.encodeToString(
-                        value = it.data,
-                        serializer = AnthropicSseData.serializersModule.serializer()
-                    )
+                    val dataJson =
+                        Json.encodeToString(
+                            value = it.data,
+                            serializer = AnthropicSseData.serializersModule.serializer(),
+                        )
                     "event: ${it.event}\ndata: ${dataJson}\n\n"
                 }
         }
@@ -134,8 +140,7 @@ public class AnthropicBuildingStep(
                     ),
                 )
                 emit(
-                    StreamingResponseHelper.createContentBlockStartChunk(
-                    ),
+                    StreamingResponseHelper.createContentBlockStartChunk(),
                 )
                 emit(
                     StreamingResponseHelper.createPingEvent(),
@@ -148,8 +153,7 @@ public class AnthropicBuildingStep(
                     },
                 )
                 emit(
-                    StreamingResponseHelper.createContentBlockStopChunk(
-                    ),
+                    StreamingResponseHelper.createContentBlockStopChunk(),
                 )
                 emit(
                     StreamingResponseHelper.createMessageDeltaChunk(
@@ -158,8 +162,7 @@ public class AnthropicBuildingStep(
                     ),
                 )
                 emit(
-                    StreamingResponseHelper.createMessageStopChunk(
-                    ),
+                    StreamingResponseHelper.createMessageStopChunk(),
                 )
             } catch (e: Exception) {
                 logger.error("Failed to build streaming response", e)

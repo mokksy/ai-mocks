@@ -28,7 +28,7 @@ public class TaskStateSerializer : KSerializer<TaskState> {
     }
 
     override fun deserialize(decoder: Decoder): TaskState =
-        when (val value = decoder.decodeString()) {
+        when (decoder.decodeString()) {
             "submitted" -> TaskState.SUBMITTED
             "working" -> TaskState.WORKING
             "input-required" -> TaskState.INPUT_REQUIRED

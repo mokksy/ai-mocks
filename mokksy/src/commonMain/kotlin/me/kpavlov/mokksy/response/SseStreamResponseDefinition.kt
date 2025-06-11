@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emptyFlow
 import kotlin.time.Duration
 
-
 public open class SseStreamResponseDefinition<P>(
     override val chunkFlow: Flow<ServerSentEvent>? = null,
     delay: Duration = Duration.ZERO,
@@ -32,9 +31,8 @@ public open class SseStreamResponseDefinition<P>(
                     .cancellable()
                     .buffer(
                         capacity = SEND_BUFFER_CAPACITY,
-                        onBufferOverflow = BufferOverflow.SUSPEND
-                    )
-                    .catch { call.application.log.error("Error while sending SSE events", it) }
+                        onBufferOverflow = BufferOverflow.SUSPEND,
+                    ).catch { call.application.log.error("Error while sending SSE events", it) }
                     .collect {
                         if (verbose) {
                             call.application.log.debug("Sending {}: {}", httpStatus, it)

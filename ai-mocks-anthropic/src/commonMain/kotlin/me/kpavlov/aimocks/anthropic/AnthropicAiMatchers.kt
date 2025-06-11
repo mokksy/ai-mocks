@@ -5,7 +5,6 @@ import io.kotest.matchers.MatcherResult
 import me.kpavlov.aimocks.anthropic.model.MessageCreateParams
 
 internal object AnthropicAiMatchers {
-
     fun systemMessageContains(string: String): Matcher<MessageCreateParams?> =
         object : Matcher<MessageCreateParams?> {
             override fun test(value: MessageCreateParams?): MatcherResult {
@@ -138,5 +137,4 @@ internal object AnthropicAiMatchers {
                 TODO()
             }
         }
-
 }
