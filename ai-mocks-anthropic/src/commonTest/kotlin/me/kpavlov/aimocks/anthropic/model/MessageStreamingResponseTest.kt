@@ -14,7 +14,8 @@ internal class MessageStreamingResponseTest {
     @Test
     fun `Should deserialize text request`() {
         // language=json lines
-        val sseData = """
+        val sseData =
+            """
             event: message_start
             data: {"type": "message_start", "message": {"id": "msg_1nZdL29xx5MUA1yADyHTEsnR8uuvGzszyY", "type": "message", "role": "assistant", "content": [], "model": "claude-3-7-sonnet-20250219", "stop_reason": null, "stop_sequence": null, "usage": {"input_tokens": 25, "output_tokens": 1}}}
 
@@ -40,17 +41,19 @@ internal class MessageStreamingResponseTest {
             data: {"type": "message_stop"}
             """.trimIndent()
 
-        val result = sseData.split("\n\n")
-            .filter { it.isNotBlank() }.mapNotNull {
-                val lines = it.split("\n")
-                if (lines.size == 2) {
-                    val jsonData = lines[1].removePrefix("data: ")
-                    jsonParser.decodeFromString<AnthropicSseData>(jsonData)
-                } else {
-                    null
-                }
-            }
-            .toList()
+        val result =
+            sseData
+                .split("\n\n")
+                .filter { it.isNotBlank() }
+                .mapNotNull {
+                    val lines = it.split("\n")
+                    if (lines.size == 2) {
+                        val jsonData = lines[1].removePrefix("data: ")
+                        jsonParser.decodeFromString<AnthropicSseData>(jsonData)
+                    } else {
+                        null
+                    }
+                }.toList()
 
         result.size shouldBe 8
 
@@ -93,13 +96,11 @@ internal class MessageStreamingResponseTest {
                 stopReason shouldBe "end_turn"
                 stopSequence shouldBe null
             }
-           usage.shouldNotBeNull {
+            usage.shouldNotBeNull {
                 outputTokens shouldBe 15
             }
         }
         result[7] as AnthropicSseData.MessageStopData shouldNotBeNull {
         }
     }
-
-
 }

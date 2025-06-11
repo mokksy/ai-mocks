@@ -47,8 +47,9 @@ tasks.withType<KotlinCompile>().configureEach {
         apiVersion = KOTLIN_2_0
         freeCompilerArgs =
             listOf(
-                "-Xjvm-default=all",
                 "-Wextra",
+                "-Xjvm-default=all",
+                "-Xmulti-dollar-interpolation",
             )
     }
 }

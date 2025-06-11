@@ -65,10 +65,8 @@ public data class MessageCreateParams(
      * An object describing metadata about the request.
      */
     public val metadata: Metadata? = null,
-
-    public val tools: List<Map<String, String>>? = null, //todo: use proper models
+    public val tools: List<Map<String, String>>? = null, // todo: use proper models
 ) {
-
     /**
      * System prompt for Claude.
      * A system prompt is a way of providing context and instructions to Claude,
@@ -80,23 +78,20 @@ public data class MessageCreateParams(
          * The text content of the system prompt.
          */
         val text: String,
-
         /**
          * The type of the system prompt. Always "text".
          */
         @EncodeDefault
         val type: String = "text",
-
         /**
          * Create a cache control breakpoint at this content block.
          */
         @SerialName("cache_control")
         val cacheControl: CacheControl? = null,
-
         /**
          * Citations for the system prompt.
          */
-        val citations: List<Citation>? = null
+        val citations: List<Citation>? = null,
     ) {
         /**
          * Cache control configuration.
@@ -107,7 +102,7 @@ public data class MessageCreateParams(
              * The type of cache control. Always "ephemeral".
              */
             @EncodeDefault
-            val type: String = "ephemeral"
+            val type: String = "ephemeral",
         )
 
         /**
@@ -120,38 +115,32 @@ public data class MessageCreateParams(
              */
             @SerialName("cited_text")
             val citedText: String,
-
             /**
              * Index of the document being cited.
              */
             @SerialName("document_index")
             val documentIndex: Int,
-
             /**
              * Optional title of the document being cited.
              */
             @SerialName("document_title")
             val documentTitle: String? = null,
-
             /**
              * End character index in the original text.
              */
             @SerialName("end_char_index")
             val endCharIndex: Int,
-
             /**
              * Start character index in the original text.
              */
             @SerialName("start_char_index")
             val startCharIndex: Int,
-
             /**
              * Type of citation. Always "char_location".
              */
-            val type: String = "char_location"
+            val type: String = "char_location",
         )
     }
-
 
     /**
      * Message object for Claude API.
@@ -244,4 +233,3 @@ public data class MessageCreateParams(
         public val userId: String? = null,
     )
 }
-

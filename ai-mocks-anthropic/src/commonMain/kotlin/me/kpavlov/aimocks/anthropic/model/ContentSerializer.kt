@@ -39,7 +39,7 @@ public class ContentSerializer : KSerializer<MessageCreateParams.Content> {
 
             is JsonArray -> {
                 MessageCreateParams.ContentList(
-                    blocks = jsonElement.map(this::deserializeContentBlock)
+                    blocks = jsonElement.map(this::deserializeContentBlock),
                 )
             }
 
@@ -53,12 +53,11 @@ public class ContentSerializer : KSerializer<MessageCreateParams.Content> {
         }
     }
 
-    private fun deserializeContentBlock(element: JsonElement): MessageCreateParams.ContentBlock {
-        return Json.decodeFromJsonElement(
+    private fun deserializeContentBlock(element: JsonElement): MessageCreateParams.ContentBlock =
+        Json.decodeFromJsonElement(
             element = element,
-            deserializer = MessageCreateParams.ContentBlock.serializer()
+            deserializer = MessageCreateParams.ContentBlock.serializer(),
         )
-    }
 //        MessageCreateParams.ContentBlock(
 //            text = JsonElement.jsonObject["text"]?.jsonPrimitive?.contentOrNull
 //        )

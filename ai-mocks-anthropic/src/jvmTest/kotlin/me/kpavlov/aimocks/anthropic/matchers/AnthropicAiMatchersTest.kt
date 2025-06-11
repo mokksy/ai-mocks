@@ -17,7 +17,6 @@ import kotlin.test.Test
  * See https://docs.anthropic.com/en/api/messages
  */
 class AnthropicAiMatchersTest {
-
     @Test
     @Suppress("LongMethod")
     fun `should parse single user message`() {

@@ -29,8 +29,7 @@ import java.util.concurrent.atomic.AtomicReference
 private const val FLOW_BUFFER_SIZE = 8096
 
 internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegraitonTest() {
-
-    private lateinit var model :  AnthropicStreamingChatModel
+    private lateinit var model: AnthropicStreamingChatModel
 
     private lateinit var systemMessage: String
 
@@ -38,12 +37,12 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegraitonTes
     fun setupModel() {
         systemMessage = "You are a person of 60s $seedValue"
         model =
-        AnthropicStreamingChatModel
-            .builder()
-            .apiKey("foo")
-            .baseUrl(anthropic.baseUrl() + "/v1")
-            .modelName(requireNotNull(modelName))
-            .build()
+            AnthropicStreamingChatModel
+                .builder()
+                .apiKey("foo")
+                .baseUrl(anthropic.baseUrl() + "/v1")
+                .modelName(requireNotNull(modelName))
+                .build()
     }
 
     @Test
@@ -91,9 +90,8 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegraitonTes
                 .builder()
                 .messages(
                     systemMessage(systemMessage),
-                    userMessage(userMessage)
-                )
-                .build(),
+                    userMessage(userMessage),
+                ).build(),
             object : StreamingChatResponseHandler {
                 override fun onCompleteResponse(completeResponse: ChatResponse) {
                     logger.info { "Received CompleteResponse: $completeResponse" }

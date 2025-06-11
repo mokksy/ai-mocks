@@ -89,11 +89,11 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
                 .stream()
                 .filter { it.isContentBlockDelta() }
                 .map {
-                            it
-                                .asContentBlockDelta()
-                                .delta()
-                                .asText()
-                                .text()
+                    it
+                        .asContentBlockDelta()
+                        .delta()
+                        .asText()
+                        .text()
                 }.toList()
 
         logger.info { buffer.joinToString("") }

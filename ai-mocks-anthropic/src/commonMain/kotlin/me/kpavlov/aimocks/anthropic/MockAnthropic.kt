@@ -11,19 +11,19 @@ public open class MockAnthropic(
     port: Int = 0,
     verbose: Boolean = true,
 ) : AbstractMockLlm(
-    port = port,
-    configuration =
-        ServerConfiguration(
-            verbose = verbose,
-        ) { config ->
-            config.json(
-                Json {
-                    prettyPrint = true
-                    ignoreUnknownKeys = true
-                },
-            )
-        },
-) {
+        port = port,
+        configuration =
+            ServerConfiguration(
+                verbose = verbose,
+            ) { config ->
+                config.json(
+                    Json {
+                        prettyPrint = true
+                        ignoreUnknownKeys = true
+                    },
+                )
+            },
+    ) {
     /**
      * Java-friendly overload that accepts a Consumer for configuring the chat request.
      */
