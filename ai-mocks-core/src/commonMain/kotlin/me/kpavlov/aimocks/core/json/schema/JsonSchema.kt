@@ -51,11 +51,20 @@ public data class SchemaDefinition(
  *     </a>
  */
 @Serializable(with = PropertyDefinitionSerializer::class)
-public sealed interface PropertyDefinition {
+public sealed interface PropertyDefinition
+
+/**
+ * Represents a value-based property definition in a JSON Schema.
+ *
+ * This is a sealed interface that extends from [PropertyDefinition] and serves as the base
+ * for properties that define specific types, such as strings, numbers, arrays, objects, and booleans.
+ * Each implementation of this interface allows defining additional type-specific constraints and attributes.
+ */
+public sealed interface ValuePropertyDefinition : PropertyDefinition {
     /**
      * The data type of the property.
      */
-    public val type: List<String>?
+    public val type: List<String>
 
     /**
      * Optional description of the property.
@@ -65,18 +74,18 @@ public sealed interface PropertyDefinition {
     /**
      * Whether the property can be null.
      */
-    public val nullable: Boolean
+    public val nullable: Boolean?
 }
 
 /**
- * Represents a string property in a JSON Schema.
+ * Represents a string property.
  */
 @Serializable
 public data class StringPropertyDefinition(
     @Serializable(with = StringOrListSerializer::class)
     override val type: List<String> = listOf("string"),
     override val description: String? = null,
-    override val nullable: Boolean = false,
+    override val nullable:  Boolean? = null,
     val format: String? = null,
     val enum: List<String>? = null,
     val minLength: Int? = null,
@@ -85,17 +94,17 @@ public data class StringPropertyDefinition(
     val default: JsonElement? = null,
     @SerialName("const")
     val constValue: JsonElement? = null,
-) : PropertyDefinition
+) : ValuePropertyDefinition
 
 /**
- * Represents a numeric property (integer or number) in a JSON Schema.
+ * Represents a numeric property (integer or number).
  */
 @Serializable
 public data class NumericPropertyDefinition(
     @Serializable(with = StringOrListSerializer::class)
     override val type: List<String>,
     override val description: String? = null,
-    override val nullable: Boolean = false,
+    override val nullable:  Boolean? = null,
     val multipleOf: Double? = null,
     val minimum: Double? = null,
     val exclusiveMinimum: Double? = null,
@@ -104,62 +113,58 @@ public data class NumericPropertyDefinition(
     val default: JsonElement? = null,
     @SerialName("const")
     val constValue: JsonElement? = null,
-) : PropertyDefinition
+) : ValuePropertyDefinition
 
 /**
- * Represents an array property in a JSON Schema.
+ * Represents an array property
  */
 @Serializable
 public data class ArrayPropertyDefinition(
     @Serializable(with = StringOrListSerializer::class)
     override val type: List<String> = listOf("array"),
     override val description: String? = null,
-    override val nullable: Boolean = false,
+    override val nullable:  Boolean? = null,
     val items: PropertyDefinition? = null,
     val minItems: UInt? = null,
     val maxItems: UInt? = null,
     val default: JsonElement? = null,
-) : PropertyDefinition
+) : ValuePropertyDefinition
 
 /**
- * Represents an object property in a JSON Schema.
+ * Represents an object property
  */
 @Serializable
 public data class ObjectPropertyDefinition(
     @Serializable(with = StringOrListSerializer::class)
     override val type: List<String> = listOf("object"),
     override val description: String? = null,
-    override val nullable: Boolean = false,
+    override val nullable: Boolean? = null,
     val properties: Map<String, PropertyDefinition>? = null,
     val required: List<String>? = null,
     @SerialName("additionalProperties")
     val additionalProperties: Boolean? = null,
     val default: JsonElement? = null,
-) : PropertyDefinition
+) : ValuePropertyDefinition
 
 /**
- * Represents a reference to another schema definition.
- */
-@Serializable
-public data class ReferencePropertyDefinition(
-    @Serializable(with = StringOrListSerializer::class)
-    override val type: List<String>? = null,
-    override val description: String? = null,
-    override val nullable: Boolean = false,
-    @SerialName("\$ref")
-    val ref: String,
-) : PropertyDefinition
-
-/**
- * Represents a boolean property in a JSON Schema.
+ * Represents a boolean property
  */
 @Serializable
 public data class BooleanPropertyDefinition(
     @Serializable(with = StringOrListSerializer::class)
-    override val type: List<String>? = listOf("boolean"),
+    override val type: List<String> = listOf("boolean"),
     override val description: String? = null,
-    override val nullable: Boolean = false,
+    override val nullable: Boolean? = null,
     val default: JsonElement? = null,
     @SerialName("const")
     val constValue: JsonElement? = null,
+) : ValuePropertyDefinition
+
+/**
+ * Represents a reference to another element
+ */
+@Serializable
+public data class ReferencePropertyDefinition(
+    @SerialName("\$ref")
+    val ref: String,
 ) : PropertyDefinition
