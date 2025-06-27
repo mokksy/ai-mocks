@@ -2,7 +2,6 @@
 
 package me.kpavlov.aimocks.openai
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.EncodeDefault.Mode.ALWAYS
 import kotlinx.serialization.EncodeDefault.Mode.NEVER
@@ -10,6 +9,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Required
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import me.kpavlov.aimocks.core.json.schema.JsonSchema
 import me.kpavlov.aimocks.openai.model.ChatCompletionRole
 import me.kpavlov.aimocks.openai.model.ChatCompletionStreamOptions
 
@@ -214,5 +214,5 @@ public data class CallableFunction(
 public data class ResponseFormat(
     val type: String,
     @SerialName("json_schema")
-    val jsonSchema: Map<String, @Contextual Any>? = null,
+    val jsonSchema: JsonSchema? = null,
 )

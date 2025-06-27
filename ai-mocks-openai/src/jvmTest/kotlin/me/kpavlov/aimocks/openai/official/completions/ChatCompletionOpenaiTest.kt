@@ -1,7 +1,9 @@
 package me.kpavlov.aimocks.openai.official.completions
 
+import com.openai.core.JsonValue
 import com.openai.errors.InternalServerException
 import com.openai.errors.UnexpectedStatusCodeException
+import com.openai.models.ResponseFormatJsonSchema
 import com.openai.models.chat.completions.ChatCompletionCreateParams
 import com.openai.models.chat.completions.ChatCompletionMessageParam
 import com.openai.models.chat.completions.ChatCompletionSystemMessageParam
@@ -171,6 +173,17 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
                 .topP(topPValue)
                 .maxCompletionTokens(maxCompletionTokensValue)
                 .seed(seedValue.toLong())
+                .responseFormat(ResponseFormatJsonSchema.builder()
+                    .jsonSchema(ResponseFormatJsonSchema.JsonSchema
+                        .builder()
+                        .strict(true)
+                        .name("result")
+                        .schema(ResponseFormatJsonSchema.JsonSchema.Schema.builder()
+                            .putAdditionalProperty("a", JsonValue.from("b"))
+                            .build()
+                        )
+                        .build())
+                    .build())
                 .messages(
                     listOf(
                         ChatCompletionMessageParam.ofSystem(

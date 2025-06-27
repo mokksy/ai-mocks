@@ -32,8 +32,8 @@ public data class JsonSchema(
  */
 @Serializable
 public data class SchemaDefinition(
-    val type: String,
-    val properties: Map<String, PropertyDefinition>,
+    val type: String = "object",
+    val properties: Map<String, PropertyDefinition> = emptyMap(),
     val required: List<String> = emptyList(),
     val additionalProperties: Boolean? = null,
     val description: String? = null,
@@ -74,7 +74,7 @@ public sealed interface PropertyDefinition {
 @Serializable
 public data class StringPropertyDefinition(
     @Serializable(with = StringOrListSerializer::class)
-    override val type: List<String>? = listOf("string"),
+    override val type: List<String> = listOf("string"),
     override val description: String? = null,
     override val nullable: Boolean = false,
     val format: String? = null,
@@ -93,7 +93,7 @@ public data class StringPropertyDefinition(
 @Serializable
 public data class NumericPropertyDefinition(
     @Serializable(with = StringOrListSerializer::class)
-    override val type: List<String>? = null,
+    override val type: List<String>,
     override val description: String? = null,
     override val nullable: Boolean = false,
     val multipleOf: Double? = null,
@@ -112,7 +112,7 @@ public data class NumericPropertyDefinition(
 @Serializable
 public data class ArrayPropertyDefinition(
     @Serializable(with = StringOrListSerializer::class)
-    override val type: List<String>? = listOf("array"),
+    override val type: List<String> = listOf("array"),
     override val description: String? = null,
     override val nullable: Boolean = false,
     val items: PropertyDefinition? = null,
@@ -127,7 +127,7 @@ public data class ArrayPropertyDefinition(
 @Serializable
 public data class ObjectPropertyDefinition(
     @Serializable(with = StringOrListSerializer::class)
-    override val type: List<String>? = listOf("object"),
+    override val type: List<String> = listOf("object"),
     override val description: String? = null,
     override val nullable: Boolean = false,
     val properties: Map<String, PropertyDefinition>? = null,
