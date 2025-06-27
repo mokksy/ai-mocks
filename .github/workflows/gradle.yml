@@ -23,7 +23,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 100
+          fetch-depth: 0
+
+      - name: Fetch main branch
+        run: git fetch origin main
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
