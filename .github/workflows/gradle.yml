@@ -24,7 +24,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 100
-          ref: main
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
