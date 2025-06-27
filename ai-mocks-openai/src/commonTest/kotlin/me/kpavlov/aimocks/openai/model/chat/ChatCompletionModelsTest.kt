@@ -5,6 +5,7 @@ import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.Json
+import me.kpavlov.aimocks.core.json.schema.StringPropertyDefinition
 import me.kpavlov.aimocks.openai.model.ChatCompletionRole
 import org.junit.jupiter.api.Test
 
@@ -130,7 +131,11 @@ internal class ChatCompletionModelsTest {
                     type shouldBe "object"
                     properties.shouldNotBeNull {
                         this.shouldHaveSize(5)
-                        this["name"]?.type shouldBe listOf("string")
+                        this["name"] as? StringPropertyDefinition shouldNotBeNull {
+                            type shouldBe listOf("string")
+                            nullable shouldBe false
+                            description shouldBe "Person's name"
+                        }
                     }
                 }
             }

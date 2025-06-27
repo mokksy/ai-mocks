@@ -1,7 +1,8 @@
 package me.kpavlov.aimocks.anthropic.lc4j;
 
+import dev.langchain4j.exception.HttpException;
+import dev.langchain4j.exception.LangChain4jException;
 import dev.langchain4j.model.anthropic.AnthropicChatModel;
-import dev.langchain4j.model.anthropic.internal.client.AnthropicHttpException;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ChatRequest;
 import me.kpavlov.aimocks.anthropic.MockAnthropic;
@@ -44,16 +45,16 @@ class Lc4jChatModelAnthropicErrorsTest {
      */
     @ParameterizedTest
     @CsvSource({
-        "400, invalid_request_error",
-        "401, authentication_error",
-        "403, permission_error",
-        "404, not_found_error",
-        "413, request_too_large",
-        "429, rate_limit_error",
-        "500, api_error",
-        "529, overloaded_error",
+        "400, invalid_request_error, dev.langchain4j.exception.InvalidRequestException",
+        "401, authentication_error, dev.langchain4j.exception.AuthenticationException",
+        "403, permission_error, dev.langchain4j.exception.AuthenticationException",
+        "404, not_found_error, dev.langchain4j.exception.ModelNotFoundException",
+        "413, request_too_large, dev.langchain4j.exception.InvalidRequestException",
+        "429, rate_limit_error, dev.langchain4j.exception.RateLimitException",
+        "500, api_error, dev.langchain4j.exception.InternalServerException",
+        "529, overloaded_error, dev.langchain4j.exception.InternalServerException",
     })
-    void shouldHandleErrorResponse(int httpStatusCode, String type) {
+    void shouldHandleErrorResponse(int httpStatusCode, String type, Class<LangChain4jException> exceptionType) {
         final var question = "Respond with error " + httpStatusCode + ": " + type;
         final var errorMessage = "Error: " + type;
 
@@ -85,13 +86,15 @@ class Lc4jChatModelAnthropicErrorsTest {
             userMessage(question)
         ).build();
 
-        assertThatExceptionOfType(AnthropicHttpException.class)
+        assertThatExceptionOfType(exceptionType)
             .as("Handle Http status code: %s", httpStatusCode)
             // when
             .isThrownBy(() -> model.chat(chatRequest))
             .satisfies(ex -> {
-                assertThat(ex.statusCode()).as("statusCode").isEqualTo(httpStatusCode);
                 assertThat(ex.getMessage()).as("message").isEqualTo(responseBody);
+                assertThat(ex.getCause()).isInstanceOf(HttpException.class).satisfies(cause -> {
+                    assertThat(((HttpException) cause).statusCode()).as("statusCode").isEqualTo(httpStatusCode);
+                });
             });
     }
 

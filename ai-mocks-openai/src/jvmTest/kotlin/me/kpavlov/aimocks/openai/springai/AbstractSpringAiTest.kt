@@ -26,7 +26,7 @@ internal abstract class AbstractSpringAiTest : AbstractMockOpenaiTest() {
             .prompt()
             .system("You are a helpful pirate")
             .user("Just say 'Hello!'")
-            .options<OpenAiChatOptions>(
+            .options(
                 OpenAiChatOptions
                     .builder()
                     .maxCompletionTokens(maxCompletionTokensValue.toInt())

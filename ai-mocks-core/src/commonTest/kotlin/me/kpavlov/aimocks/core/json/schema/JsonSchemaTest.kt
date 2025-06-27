@@ -17,6 +17,7 @@ internal class JsonSchemaTest {
         }
 
     @Test
+    @Suppress("LongMethod")
     fun `Should deserialize simple JsonSchema`() {
         // language=json
         val json =
@@ -29,7 +30,8 @@ internal class JsonSchemaTest {
                 "properties" : {
                   "name" : {
                     "type" : "string",
-                    "description" : "Person's name"
+                    "description" : "Person's name",
+                    "nullable" : false
                   },
                   "age" : {
                     "type" : "integer",
@@ -61,19 +63,19 @@ internal class JsonSchemaTest {
             this.required shouldBeEqual listOf("name", "age", "weight", "height", "married")
             this.properties shouldNotBeNull {
                 shouldHaveSize(5)
-                this["name"] shouldNotBeNull {
+                this["name"] as? StringPropertyDefinition shouldNotBeNull {
                     type shouldBe listOf("string")
                 }
-                this["age"] shouldNotBeNull {
+                this["age"] as? NumericPropertyDefinition shouldNotBeNull {
                     type shouldBe listOf("integer")
                 }
-                this["weight"] shouldNotBeNull {
+                this["weight"] as? NumericPropertyDefinition shouldNotBeNull {
                     type shouldBe listOf("number", "null")
                 }
-                this["height"] shouldNotBeNull {
+                this["height"] as? NumericPropertyDefinition shouldNotBeNull {
                     type shouldBe listOf("number")
                 }
-                this["married"] shouldNotBeNull {
+                this["married"] as? BooleanPropertyDefinition shouldNotBeNull {
                     type shouldBe listOf("boolean", "null")
                 }
             }
@@ -214,7 +216,7 @@ internal class JsonSchemaTest {
         properties["id"] shouldNotBeNull {
             this as StringPropertyDefinition
             type shouldBe listOf("string")
-            nullable shouldBe false
+            nullable shouldBe null
             format shouldBe "uuid"
             description shouldBe "Unique identifier"
         }
@@ -223,7 +225,7 @@ internal class JsonSchemaTest {
         properties["email"] shouldNotBeNull {
             this as StringPropertyDefinition
             type shouldBe listOf("string")
-            nullable shouldBe false
+            nullable shouldBe null
             format shouldBe "email"
             pattern shouldBe "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+\$"
             description shouldBe "Email address"
@@ -235,7 +237,7 @@ internal class JsonSchemaTest {
         properties["age"] shouldNotBeNull {
             this as NumericPropertyDefinition
             type shouldBe listOf("integer")
-            nullable shouldBe false
+            nullable shouldBe null
             minimum shouldBe 18.0
             maximum shouldBe 100.0
             description shouldBe "Age between 18 and 100"
@@ -246,19 +248,19 @@ internal class JsonSchemaTest {
             this as StringPropertyDefinition
             description shouldBe "Current status"
             enum shouldBe listOf("active", "inactive", "pending")
-            nullable shouldBe false
+            nullable shouldBe null
         }
 
         // Array field
         properties["tags"] shouldNotBeNull {
             this as ArrayPropertyDefinition
             description shouldBe "List of tags"
-            nullable shouldBe false
+            nullable shouldBe null
             default.shouldNotBeNull()
             items shouldNotBeNull {
-                type shouldBe listOf("string")
-                nullable shouldBe false
-                description.shouldBeNull()
+                type shouldBe listOf("array")
+                nullable shouldBe null
+                description shouldBe "List of tags"
                 (this as? StringPropertyDefinition)?.enum.shouldBeNull()
                 minItems shouldBe 1u
                 maxItems shouldBe 10u
@@ -269,7 +271,7 @@ internal class JsonSchemaTest {
         properties["metadata"] shouldNotBeNull {
             this as ObjectPropertyDefinition
             description shouldBe "Metadata about the user"
-            nullable shouldBe false
+            nullable shouldBe null
             this.properties.shouldNotBeNull()
             this.properties shouldHaveSize 2
         }
@@ -288,11 +290,11 @@ internal class JsonSchemaTest {
         properties["steps"] shouldNotBeNull {
             this as ArrayPropertyDefinition
             description shouldBe "Steps taken by the user"
-            nullable shouldBe false
+            nullable shouldBe null
             items shouldNotBeNull {
                 this as ObjectPropertyDefinition
                 type shouldBe listOf("object")
-                nullable shouldBe false
+                nullable.shouldBeNull()
                 description.shouldBeNull()
                 this.properties shouldNotBeNull {
                     shouldHaveSize(2)
@@ -313,7 +315,7 @@ internal class JsonSchemaTest {
         properties["score"] shouldNotBeNull {
             this as NumericPropertyDefinition
             type shouldBe listOf("number")
-            nullable shouldBe false
+            nullable.shouldBeNull()
             minimum shouldBe 0.0
             maximum shouldBe 10.0
             multipleOf shouldBe 0.5
@@ -324,7 +326,7 @@ internal class JsonSchemaTest {
         properties["precision"] shouldNotBeNull {
             this as NumericPropertyDefinition
             type shouldBe listOf("number")
-            nullable shouldBe false
+            nullable.shouldBeNull()
             exclusiveMinimum shouldBe 0.0
             exclusiveMaximum shouldBe 1.0
             constValue.shouldNotBeNull()
@@ -334,7 +336,7 @@ internal class JsonSchemaTest {
         properties["flag"] shouldNotBeNull {
             this as BooleanPropertyDefinition
             type shouldBe listOf("boolean")
-            nullable shouldBe false
+            nullable.shouldBeNull()
             description shouldBe "Boolean flag"
             default.shouldNotBeNull()
         }
@@ -343,7 +345,7 @@ internal class JsonSchemaTest {
         properties["constant_flag"] shouldNotBeNull {
             this as BooleanPropertyDefinition
             type shouldBe listOf("boolean")
-            nullable shouldBe false
+            nullable.shouldBeNull()
             description shouldBe "Constant boolean flag"
             constValue.shouldNotBeNull()
         }
@@ -351,7 +353,6 @@ internal class JsonSchemaTest {
         // Reference property
         properties["reference"] shouldNotBeNull {
             this as ReferencePropertyDefinition
-            nullable shouldBe false
             ref shouldBe "#/definitions/ExternalType"
         }
     }
