@@ -1,7 +1,6 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
-import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
     `maven-publish`
@@ -25,7 +24,7 @@ tasks.register<Jar>(name = "dokkaJavadocJar") {
 // https://vanniktech.github.io/gradle-maven-publish-plugin/
 configure<MavenPublishBaseExtension> {
     signAllPublications()
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    publishToMavenCentral()
 
     logger.debug(
         "{}:{}:{} - {}({})",
