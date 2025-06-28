@@ -59,9 +59,16 @@ internal suspend fun handleRequest(
             stubs = stubs,
         )
     } else {
-        application.log.warn(
-            "No matched mapping for request:\n---\n${printRequest(request)}\n---",
-        )
+        if (configuration.verbose) {
+            application.log.warn(
+                "No stubs found for request:\n---\n${printRequest(request)}\n---\nAvailable stubs:\n{}\n",
+                stubs.joinToString("\n---\n"){ it.toLogString() },
+            )
+        } else {
+            application.log.warn(
+                "No matched mapping for request:\n---\n${printRequest(request)}\n---",
+            )
+        }
         failure("No matched mapping for request: ${printRequest(request)}")
     }
 }
@@ -105,6 +112,7 @@ private suspend fun printRequest(request: RoutingRequest): String {
     return """
         |${request.httpMethod} ${request.uri}
         |${request.headers.entries().joinToString("\n") { "${it.key}: ${it.value}" }}
+        |
         |$body
         """.trimMargin()
 }
