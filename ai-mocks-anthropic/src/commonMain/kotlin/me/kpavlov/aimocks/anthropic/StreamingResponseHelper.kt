@@ -22,6 +22,8 @@ internal object StreamingResponseHelper {
                         type = "message",
                         role = "assistant",
                         model = model,
+                        stopReason = null,
+                        stopSequence = null,
                         content = emptyList(),
                         usage =
                             Usage(

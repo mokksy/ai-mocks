@@ -113,7 +113,9 @@ public sealed interface AnthropicSseData {
         @EncodeDefault
         val content: List<ContentBlock> = emptyList(),
         val model: String,
+        @EncodeDefault
         @SerialName("stop_reason") val stopReason: String? = null,
+        @EncodeDefault
         @SerialName("stop_sequence") val stopSequence: String? = null,
         val usage: Usage,
     )
@@ -177,6 +179,7 @@ public sealed interface AnthropicSseData {
     @Serializable
     public data class MessageDelta(
         @SerialName("stop_reason") val stopReason: String? = null,
+        @EncodeDefault
         @SerialName("stop_sequence") val stopSequence: String? = null,
     )
 

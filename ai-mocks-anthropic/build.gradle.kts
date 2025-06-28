@@ -39,7 +39,7 @@ kotlin {
         jvmTest {
             dependencies {
                 implementation(kotlin("test"))
-                implementation(libs.anthropic.java.client.okhttp)
+                implementation(libs.anthropic.java)
                 implementation(libs.assertj.core)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.assertk)

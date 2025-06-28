@@ -116,7 +116,7 @@ public class AnthropicBuildingStep(
                             value = it.data,
                             serializer = AnthropicSseData.serializersModule.serializer(),
                         )
-                    "event: ${it.event}\ndata: ${dataJson}\n\n"
+                    "event: ${it.event}\r\ndata: ${dataJson}\r\n\r\n"
                 }
         }
     }
