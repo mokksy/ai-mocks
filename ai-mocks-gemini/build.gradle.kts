@@ -46,6 +46,7 @@ kotlin {
                 implementation(libs.langchain4j.kotlin)
                 implementation(libs.spring.ai.client.chat)
                 implementation(libs.spring.ai.gemini)
+                implementation(libs.google.genai)
                 implementation(project.dependencies.platform(libs.langchain4j.bom))
                 implementation(project.dependencies.platform(libs.spring.ai.bom))
                 implementation(project.dependencies.platform(libs.spring.bom))

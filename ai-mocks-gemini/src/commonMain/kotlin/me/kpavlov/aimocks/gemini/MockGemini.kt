@@ -5,7 +5,9 @@ import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.core.AbstractMockLlm
 import me.kpavlov.aimocks.gemini.content.GeminiContentBuildingStep
 import me.kpavlov.aimocks.gemini.content.GeminiContentRequestSpecification
+import me.kpavlov.aimocks.gemini.content.GeminiStreamingContentBuildingStep
 import me.kpavlov.mokksy.ServerConfiguration
+import me.kpavlov.mokksy.request.RequestSpecificationBuilder
 import java.util.function.Consumer
 import kotlin.math.abs
 
@@ -27,16 +29,16 @@ public open class MockGemini(
     port: Int = 0,
     verbose: Boolean = true,
 ) : AbstractMockLlm(
-        port = port,
-        configuration =
-            ServerConfiguration(
-                verbose = verbose,
-            ) { config ->
-                config.json(
-                    Json { ignoreUnknownKeys = true },
-                )
-            },
-    ) {
+    port = port,
+    configuration =
+        ServerConfiguration(
+            verbose = verbose,
+        ) { config ->
+            config.json(
+                Json { ignoreUnknownKeys = true },
+            )
+        },
+) {
     /**
      * Java-friendly overload that accepts a Consumer for configuring the chat request.
      */
@@ -55,30 +57,16 @@ public open class MockGemini(
                 name = name,
                 requestType = GenerateContentRequest::class,
             ) {
-                val chatRequestSpec = GeminiContentRequestSpecification()
-                block(chatRequestSpec)
+                val chatRequestSpec = matchRequestSpec(this, block)
 
                 val model = chatRequestSpec.model
 
                 @Suppress("MaxLineLength")
                 val pathString: String =
                     chatRequestSpec.path
-                        ?: "/v1/projects/${chatRequestSpec.project}/locations/${chatRequestSpec.location}/publishers/google/models/$model:generateContent"
+                        ?: "/${chatRequestSpec.apiVersion}/projects/${chatRequestSpec.project}/locations/${chatRequestSpec.location}/publishers/google/models/$model:generateContent"
                 path(pathString)
 
-                body += chatRequestSpec.requestBody
-
-                chatRequestSpec.temperature?.let { temperature ->
-                    bodyMatchesPredicate {
-                        val requestTemperature = it?.generationConfig?.temperature
-                        requestTemperature != null &&
-                            (abs(requestTemperature - temperature) <= EPSILON)
-                    }
-                }
-
-                chatRequestSpec.requestBodyString.forEach {
-                    bodyString += it
-                }
             }
 
         return GeminiContentBuildingStep(
@@ -87,5 +75,56 @@ public open class MockGemini(
         )
     }
 
+    public fun generateContentStream(
+        name: String? = null,
+        block: GeminiContentRequestSpecification.() -> Unit,
+    ): GeminiStreamingContentBuildingStep {
+        val requestStep =
+            mokksy.post(
+                name = name,
+                requestType = GenerateContentRequest::class,
+            ) {
+                val chatRequestSpec = matchRequestSpec(this, block)
+
+                val model = chatRequestSpec.model
+
+                @Suppress("MaxLineLength")
+                val pathString: String =
+                    chatRequestSpec.path
+                        ?: "/${chatRequestSpec.apiVersion}/projects/${chatRequestSpec.project}/locations/${chatRequestSpec.location}/publishers/google/models/$model:streamGenerateContent"
+                path(pathString)
+
+            }
+
+        return GeminiStreamingContentBuildingStep(
+            buildingStep = requestStep,
+            mokksy = mokksy,
+        )
+    }
+
     override fun baseUrl(): String = "http://localhost:${port()}"
+
+    private fun matchRequestSpec(
+        builder: RequestSpecificationBuilder<GenerateContentRequest>,
+        block: GeminiContentRequestSpecification.() -> Unit
+    )
+        : GeminiContentRequestSpecification {
+        val chatRequestSpec = GeminiContentRequestSpecification()
+        block.invoke(chatRequestSpec)
+
+        builder.body += chatRequestSpec.requestBody
+
+        chatRequestSpec.temperature?.let { temperature ->
+            builder.bodyMatchesPredicate {
+                val requestTemperature = it?.generationConfig?.temperature
+                requestTemperature != null &&
+                    (abs(requestTemperature - temperature) <= EPSILON)
+            }
+        }
+
+        chatRequestSpec.requestBodyString.forEach {
+            builder.bodyString += it
+        }
+        return chatRequestSpec
+    }
 }

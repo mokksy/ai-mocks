@@ -4,6 +4,7 @@ import me.kpavlov.aimocks.gemini.AbstractMockGeminiTest
 import org.junit.jupiter.api.BeforeAll
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel
+import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions
 
 internal abstract class AbstractSpringAiTest : AbstractMockGeminiTest() {
     protected lateinit var chatClient: ChatClient
@@ -25,4 +26,10 @@ internal abstract class AbstractSpringAiTest : AbstractMockGeminiTest() {
             .prompt()
             .system("You are a helpful pirate")
             .user("Just say 'Hello!'")
+            .options(
+                VertexAiGeminiChatOptions.builder()
+                    .model(modelName)
+                    .temperature(temperatureValue)
+                    .build()
+            )
 }

@@ -4,13 +4,12 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import me.kpavlov.aimocks.gemini.gemini
 import org.springframework.ai.chat.model.ChatResponse
-import org.springframework.ai.chat.prompt.ChatOptions
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
     @Test
-    fun `Should respond to Chat Completion`() {
+    fun `Should respond to generateContent`() {
         gemini.generateContent {
             temperature = temperatureValue
             model = modelName
@@ -26,12 +25,7 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
 
         val response: ChatResponse? =
             prepareClientRequest()
-                .options(
-                    ChatOptions
-                        .builder()
-                        .temperature(temperatureValue)
-                        .build(),
-                ).call()
+                .call()
                 .chatResponse()
 
         response shouldNotBeNull {

@@ -22,7 +22,7 @@ public abstract class StreamingResponseSpecification<P : Any, T : Any, R : Any>(
      *
      * @param chunks The chunks of content to include in the streaming response.
      */
-    public fun chunks(chunks: List<T>) {
+    public open fun chunks(chunks: List<T>) {
         this.responseChunks = chunks
     }
 
@@ -32,7 +32,7 @@ public abstract class StreamingResponseSpecification<P : Any, T : Any, R : Any>(
      * @param vararg chunks The chunks of content to include in the streaming response.
      * @return This specification instance for method chaining.
      */
-    public fun chunks(vararg chunks: T) {
+    public open fun chunks(vararg chunks: T) {
         this.responseChunks = chunks.toList()
     }
 

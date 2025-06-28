@@ -7,6 +7,7 @@ datafaker = "2.4.3"
 detekt = "1.23.8"
 dokka = "2.0.0"
 finchly = "0.1.1"
+google-genai = "1.6.0"
 google-adk = "0.1.0"
 junitJupiter = "5.13.2"
 kotest = "5.9.1"
@@ -38,6 +39,7 @@ awaitility-kotlin = { group = "org.awaitility", name = "awaitility-kotlin", vers
 datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
 finchly = { module = "me.kpavlov.finchly:finchly", version.ref = "finchly" }
 google-adk = { group = "com.google.adk", name = "google-adk", version.ref = "google-adk" }
+google-genai = { group = "com.google.genai", name = "google-genai", version.ref = "google-genai" }
 junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junitJupiter" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-assertions-json = { module = "io.kotest:kotest-assertions-json", version.ref = "kotest" }

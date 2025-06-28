@@ -1,8 +1,10 @@
 package me.kpavlov.aimocks.gemini.content
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.map
+import me.kpavlov.aimocks.core.StreamingResponseSpecification
+import me.kpavlov.aimocks.gemini.GenerateContentRequest
+import me.kpavlov.mokksy.response.AbstractResponseDefinition
+import kotlin.time.Duration
 
 /**
  * Specification for configuring a streaming Gemini content generation response.
@@ -13,34 +15,20 @@ import kotlinx.coroutines.flow.map
  * @property chunks The chunks of content to include in the streaming response.
  * @property finishReason The reason why the model stopped generating tokens.
  */
-public class GeminiStreamingContentResponseSpecification {
-    public var chunks: List<String> =
-        listOf("This is ", "a mock ", "streaming ", "response ", "from ", "Gemini API.")
+public class GeminiStreamingContentResponseSpecification(
+    response: AbstractResponseDefinition<String>,
+    responseFlow: Flow<String>? = null,
+    responseChunks: List<String>? = null,
+    delayBetweenChunks: Duration = Duration.ZERO,
+    delay: Duration = Duration.ZERO,
     public var finishReason: String = "STOP"
-    public var role: String = "model"
-    public var delayBetweenChunksMs: Long = 100
-
-    /**
-     * Sets the chunks of content for the streaming response.
-     *
-     * @param chunks The chunks of content to include in the streaming response.
-     * @return This specification instance for method chaining.
-     */
-    public fun chunks(chunks: List<String>): GeminiStreamingContentResponseSpecification =
-        apply {
-            this.chunks = chunks
-        }
-
-    /**
-     * Sets the chunks of content for the streaming response.
-     *
-     * @param vararg chunks The chunks of content to include in the streaming response.
-     * @return This specification instance for method chaining.
-     */
-    public fun chunks(vararg chunks: String): GeminiStreamingContentResponseSpecification =
-        apply {
-            this.chunks = chunks.toList()
-        }
+) : StreamingResponseSpecification<GenerateContentRequest, String, String>(
+    response,
+    responseFlow,
+    responseChunks,
+    delayBetweenChunks,
+    delay
+) {
 
     /**
      * Sets the finish reason for the streaming response.
@@ -52,33 +40,4 @@ public class GeminiStreamingContentResponseSpecification {
         apply {
             this.finishReason = finishReason
         }
-
-    /**
-     * Sets the role for the streaming response content.
-     *
-     * @param role The role of the content (e.g., "model").
-     * @return This specification instance for method chaining.
-     */
-    public fun role(role: String): GeminiStreamingContentResponseSpecification =
-        apply {
-            this.role = role
-        }
-
-    /**
-     * Sets the delay between chunks in milliseconds.
-     *
-     * @param delayMs The delay between chunks in milliseconds.
-     * @return This specification instance for method chaining.
-     */
-    public fun delayBetweenChunksMs(delayMs: Long): GeminiStreamingContentResponseSpecification =
-        apply {
-            this.delayBetweenChunksMs = delayMs
-        }
-
-    /**
-     * Creates a flow of chunks for the streaming response.
-     *
-     * @return A flow of chunks for the streaming response.
-     */
-    public fun chunksFlow(): Flow<String> = chunks.asFlow().map { it }
 }
