@@ -137,7 +137,17 @@ public open class RequestSpecification<P : Any>(
                 .passed()
         }
 
-    internal fun toLogString(): String = "method: $method, path: $path, body: $bodyString"
+    internal fun toLogString(): String {
+       return buildList(3) {
+            if (method != null) {
+                add("method: $method")
+            }
+            if (path != null) add("path: $path")
+            if (headers.isNotEmpty()) add("headers: $headers")
+            if (body.isNotEmpty()) add("body: $body")
+            if (bodyString.isNotEmpty()) add("bodyString: $bodyString")
+        }.joinToString(", ")
+    }
 }
 
 public open class RequestSpecificationBuilder<P : Any>(

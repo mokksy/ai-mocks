@@ -8,11 +8,14 @@ import me.kpavlov.aimocks.gemini.GenerateContentRequest
  *
  * Extends [ModelRequestSpecification] specifically for configuring and validating
  * parameters related to `GenerateContentRequest` objects. This includes overriding
- * methods to add matchers for specific conditions such as ensuring messages
+ * methods to add matchers for specific conditions, such as ensuring messages
  * from the system or user contain specified substrings.
  *
  * @constructor Creates an instance with optional parameters for initializing configuration.
- * @property temperature An optional temperature value for controlling randomness in content generation.
+ * @property project Google project ID
+ * @property location Google location
+ * @property path full request path
+ * @property apiVersion Either `v1` or `v1beta1`. Default is `v1`
  * @property maxOutputTokens An optional maximum number of tokens to generate.
  *
  * @author Konstantin Pavlov
@@ -20,7 +23,9 @@ import me.kpavlov.aimocks.gemini.GenerateContentRequest
 public open class GeminiContentRequestSpecification(
     public var project: String? = null,
     public var location: String? = null,
+    public var apiVersion: String = "v1",
     public var path: String? = null,
+    public var seed: Number? = null,
     maxOutputTokens: Int? = null,
 ) : ModelRequestSpecification<GenerateContentRequest>() {
     public var maxOutputTokens: Int? = maxOutputTokens

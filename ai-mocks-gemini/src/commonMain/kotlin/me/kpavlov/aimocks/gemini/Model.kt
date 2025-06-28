@@ -175,7 +175,9 @@ public data class FunctionDeclaration(
 public data class GenerateContentResponse(
     val candidates: List<Candidate>,
     val promptFeedback: PromptFeedback? = null,
+    val usageMetadata: UsageMetadata? = null,
     val modelVersion: String,
+    val responseId: String? = null
 )
 
 /**
@@ -192,6 +194,44 @@ public data class Candidate(
     val finishReason: String? = null,
     @SerialName("safety_ratings")
     val safetyRatings: List<SafetyRating>? = null,
+)
+
+/**
+ * @see <a href="https://ai.google.dev/api/generate-content#UsageMetadata">UsageMetadata spec</a>
+ */
+@Serializable
+public data class UsageMetadata(
+    @SerialName("promptTokenCount")
+    val promptTokenCount: Int? = null,
+    @SerialName("cachedContentTokenCount")
+    val cachedContentTokenCount: Int? = null,
+    @SerialName("candidatesTokenCount")
+    val candidatesTokenCount: Int? = null,
+    @SerialName("toolUsePromptTokenCount")
+    val toolUsePromptTokenCount: Int? = null,
+    @SerialName("thoughtsTokenCount")
+    val thoughtsTokenCount: Int? = null,
+    @SerialName("totalTokenCount")
+    val totalTokenCount: Int? = null,
+    @SerialName("promptTokensDetails")
+    val promptTokensDetails: List<ModalityTokenCount>? = null,
+    @SerialName("cacheTokensDetails")
+    val cacheTokensDetails: List<ModalityTokenCount>? = null,
+    @SerialName("candidatesTokensDetails")
+    val candidatesTokensDetails: List<ModalityTokenCount>? = null,
+    @SerialName("toolUsePromptTokensDetails")
+    val toolUsePromptTokensDetails: List<ModalityTokenCount>? = null,
+)
+
+/**
+ * https://ai.google.dev/api/generate-content#v1beta.ModalityTokenCount
+ */
+@Serializable
+public data class ModalityTokenCount(
+    @SerialName("modality")
+    val modality: Modality,
+    @SerialName("tokenCount")
+    val tokenCount: Int,
 )
 
 /**
@@ -283,6 +323,8 @@ public data class Schema(
 
 /**
  * Modality for the response.
+ *
+ * See: https://ai.google.dev/api/generate-content#Modality
  */
 @Serializable
 public enum class Modality {
