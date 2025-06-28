@@ -66,7 +66,7 @@ public class BuildingStep<P : Any> internal constructor(
                         .apply(block)
                         .build()
                 } catch (e: Exception) {
-                    if (e !is IOException) {
+                    if (e as? IOException == null) {
                         call.application.log.error("Failed to build response for request: $req", e)
                     }
                     throw e
