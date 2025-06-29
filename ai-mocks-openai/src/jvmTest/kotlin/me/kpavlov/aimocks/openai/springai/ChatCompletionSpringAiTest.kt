@@ -52,7 +52,7 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
             systemMessageContains("helpful pirate")
             userMessageContains("say 'Hello!'")
             requestMatches(beOfType(ChatCompletionRequest::class))
-            requestSatisfies {
+            requestSatisfies("Should be streamed") {
                 it?.stream shouldBe true
             }
         } respondsStream {

@@ -1,10 +1,12 @@
 package me.kpavlov.aimocks.gemini.genai
 
-import com.google.genai.types.Content
+import com.google.genai.errors.ClientException
 import com.google.genai.types.GenerateContentConfig
-import com.google.genai.types.Part
+import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.matchers.shouldBe
 import me.kpavlov.aimocks.gemini.gemini
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -33,27 +35,50 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
         val response =
             client.models.generateContent(
                 modelName,
-                "Just say 'Hello!'", GenerateContentConfig.builder()
-                    .seed(seedValue)
-                    .temperature(temperatureValue.toFloat())
-                    .systemInstruction(
-                        Content.builder().role("system")
-                            .parts(Part.fromText("You are a helpful pirate")).build()
-                    )
+                "Just say 'Hello!'",
+                generateContentConfig("You are a helpful pirate")
                     .build()
             )
 
-
-//        val chunkCount =
-//            prepareClientRequest()
-//                .stream()
-//                .chatResponse()
-//                .doOnNext { chunk ->
-//                    chunk.result.output.text?.let(buffer::append)
-//                }.count()
-//                .block(5.seconds.toJavaDuration())
-//
-//        chunkCount shouldBe 4 + 2L // 4 data chunks + opening and closing chunks
         response.text() shouldBe "Ahoy there, matey! Hello!"
     }
+
+    @ParameterizedTest
+    @MethodSource("requestMutators")
+    fun `Should miss response when request does not match`(mutator: GenerateContentConfig.Builder.() -> Unit) {
+
+        gemini.generateContent {
+            temperature = temperatureValue
+            seed = seedValue
+            topK = topKValue
+            topP = topPValue
+            model = modelName
+            project = projectId
+            location = locationId
+            apiVersion = "v1beta1"
+            maxOutputTokens(maxCompletionTokensValue)
+            systemMessageContains("You are a helpful pirate")
+            userMessageContains("Just say 'Hello!'")
+            requestMatchesPredicate { it.generationConfig?.topP == topPValue }
+        } responds {
+            content = "Ahoy there, matey! Hello!"
+            delay = 60.milliseconds
+        }
+
+        val configBuilder = generateContentConfig("You are a helpful pirate")
+        mutator(configBuilder)
+
+
+        val exception = shouldThrowExactly<ClientException> {
+            client.models.generateContent(
+                modelName,
+                "Just say 'Hello!'",
+                configBuilder
+                    .build()
+            )
+        }
+        exception.code() shouldBe 404
+    }
+
+
 }

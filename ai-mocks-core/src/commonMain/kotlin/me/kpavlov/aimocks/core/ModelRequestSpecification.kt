@@ -21,14 +21,25 @@ public abstract class ModelRequestSpecification<P>(
     public fun temperature(temperature: Double): ModelRequestSpecification<P> =
         apply { this.temperature = temperature }
 
-    public fun model(model: String): ModelRequestSpecification<P> = apply { this.model = model }
+    public fun model(model: String): ModelRequestSpecification<P> =
+        apply { this.model = model }
 
     public fun maxTokens(value: Long): ModelRequestSpecification<P> =
         apply { this.maxTokens = value }
 
-    public fun topK(value: Long): ModelRequestSpecification<P> = apply { this.topK = value }
+    public fun maxTokens(value: Number): ModelRequestSpecification<P> =
+        apply { this.maxTokens = value.toLong() }
+
+    public fun topK(value: Long): ModelRequestSpecification<P> =
+        apply { this.topK = value }
 
     public fun topK(value: Number): ModelRequestSpecification<P> =
+        apply { this.topK = value.toLong() }
+
+    public fun topP(value: Double): ModelRequestSpecification<P> =
+        apply { this.topP = value }
+
+    public fun topP(value: Number): ModelRequestSpecification<P> =
         apply { this.topP = value.toDouble() }
 
     /**
@@ -153,9 +164,13 @@ public abstract class ModelRequestSpecification<P>(
      * The call is a function that takes a request of type P as an input
      * and should return successfully to satisfy the condition.
      *
+     * @param description call description
      * @param call A function that takes a request of type P as an input.
      */
-    public fun requestSatisfies(call: (P?) -> Unit) {
-        requestBody += successCallMatcher(call)
+    public fun requestSatisfies(
+        description: String? = null,
+        call: (P?) -> Unit
+    ) {
+        requestBody += successCallMatcher(description = description, call = call)
     }
 }

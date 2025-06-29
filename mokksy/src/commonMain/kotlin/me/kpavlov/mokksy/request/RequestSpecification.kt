@@ -138,7 +138,7 @@ public open class RequestSpecification<P : Any>(
         }
 
     internal fun toLogString(): String {
-       return buildList(3) {
+        return buildList(3) {
             if (method != null) {
                 add("method: $method")
             }
@@ -185,13 +185,20 @@ public open class RequestSpecificationBuilder<P : Any>(
      *
      * The specified predicate will be used to evaluate whether the request body satisfies the defined condition.
      *
+     * @param description The predicate's description. Returned as `toString()` value
      * @param predicate The predicate used to evaluate the request body. It defines the condition
      *                  that the request body must satisfy.
      * @return The same instance of [RequestSpecificationBuilder] with the predicate applied
      *         for further customization.
      */
-    public fun bodyMatchesPredicate(predicate: (P?) -> Boolean): RequestSpecificationBuilder<P> {
-        this.body += predicateMatcher(predicate)
+    public fun bodyMatchesPredicate(
+        description: String? = null,
+        predicate: (P?) -> Boolean
+    ): RequestSpecificationBuilder<P> {
+        this.body += predicateMatcher(
+            description = description,
+            predicate = predicate
+        )
         return this
     }
 
@@ -207,7 +214,7 @@ public open class RequestSpecificationBuilder<P : Any>(
     public fun bodyMatchesPredicates(
         vararg predicate: (P?) -> Boolean,
     ): RequestSpecificationBuilder<P> {
-        predicate.forEach { bodyMatchesPredicate(it) }
+        predicate.forEach { bodyMatchesPredicate(predicate = it) }
         return this
     }
 

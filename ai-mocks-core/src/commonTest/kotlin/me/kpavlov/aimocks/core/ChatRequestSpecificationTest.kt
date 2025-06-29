@@ -97,7 +97,7 @@ class ChatRequestSpecificationTest {
 
     @Test
     fun requestSatisfies() {
-        subject.requestSatisfies { it shouldContain "world" }
+        subject.requestSatisfies("Request should contain 'world'") { it shouldContain "world" }
 
         subject.requestBody.first().let {
             it.test("so, hello world etc") shouldNotBeNull {

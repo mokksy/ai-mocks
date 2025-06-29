@@ -18,9 +18,9 @@ class RequestMarchersKtTest {
     fun `Should test predicate matcher`() {
         val input = Input("foo")
 
-        predicateMatcher<Input>(predicate)
+        predicateMatcher<Input>("my predicate description", predicate)
             .apply {
-                toString() shouldBe "PredicateMatcher(predicateToString)"
+                toString() shouldBe "my predicate description"
                 test(input).apply {
                     passed() shouldBe true
                     failureMessage() shouldBe
@@ -35,9 +35,9 @@ class RequestMarchersKtTest {
     fun `Should test successCallMatcher`() {
         val input = Input("foo")
 
-        successCallMatcher<Input> { input.shouldNotBeNull() }
+        successCallMatcher<Input>("Should not be null") { input.shouldNotBeNull() }
             .apply {
-                toString() shouldStartWith "successCallMatcher("
+                toString() shouldStartWith "Should not be null"
                 test(input).apply {
                     passed() shouldBe true
                     failureMessage() shouldStartWith

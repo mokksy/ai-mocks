@@ -47,10 +47,14 @@ public infix fun Headers.shouldNotHaveHeader(header: Pair<String, String>) {
  * Creates a matcher that evaluates objects against a specified predicate.
  *
  * @param T the type of the object being matched
+ * @param description description of the predicate
  * @param predicate the predicate to evaluate objects against
  * @return a [Matcher] that applies the given predicate to objects for evaluation
  */
-public fun <T> predicateMatcher(predicate: (T?) -> Boolean): Matcher<T?> =
+public fun <T> predicateMatcher(
+    description: String? = null,
+    predicate: (T?) -> Boolean
+): Matcher<T?> =
     object : Matcher<T?> {
         override fun test(value: T?): MatcherResult =
             MatcherResult(
@@ -63,7 +67,8 @@ public fun <T> predicateMatcher(predicate: (T?) -> Boolean): Matcher<T?> =
                 },
             )
 
-        override fun toString(): String = "PredicateMatcher($predicate)"
+        override fun toString(): String = description ?: "PredicateMatcher($predicate)"
+
     }
 
 /**
@@ -71,12 +76,16 @@ public fun <T> predicateMatcher(predicate: (T?) -> Boolean): Matcher<T?> =
  * without throwing an exception when invoked with a given input value.
  *
  * @param T The type of the input value being tested.
+ *  @param description description of the call matcher
  * @param call A function that performs an operation using the input value of type `T?`.
  *             The matcher tests whether this function can execute successfully without errors.
  * @return A [Matcher] that evaluates if the `call` function can successfully execute when invoked
  *         with an input value of type `T?`.
  */
-public fun <T> successCallMatcher(call: (T?) -> Unit): Matcher<T?> =
+public fun <T> successCallMatcher(
+    description: String? = null,
+    call: (T?) -> Unit
+): Matcher<T?> =
     object : Matcher<T?> {
         override fun test(value: T?): MatcherResult {
             val passed =
@@ -97,7 +106,7 @@ public fun <T> successCallMatcher(call: (T?) -> Unit): Matcher<T?> =
             )
         }
 
-        override fun toString(): String = "successCallMatcher($call)"
+        override fun toString(): String = description ?: "successCallMatcher($call)"
     }
 
 internal fun pathEqual(expected: String): Matcher<String> =

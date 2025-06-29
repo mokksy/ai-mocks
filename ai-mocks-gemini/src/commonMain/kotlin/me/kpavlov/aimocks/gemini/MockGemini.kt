@@ -114,11 +114,46 @@ public open class MockGemini(
 
         builder.body += chatRequestSpec.requestBody
 
+        chatRequestSpec.maxOutputTokens?.let { maxOutputTokens ->
+            builder.bodyMatchesPredicate(
+                description = "Max output tokens should be $maxOutputTokens."
+            ) {
+                it?.generationConfig?.maxOutputTokens == maxOutputTokens
+            }
+        }
+
+        chatRequestSpec.seed?.let { seed ->
+            builder.bodyMatchesPredicate(
+                description = "Seed should be $seed."
+            ) {
+                it?.generationConfig?.seed == seed.toInt()
+            }
+        }
+
         chatRequestSpec.temperature?.let { temperature ->
-            builder.bodyMatchesPredicate {
+            builder.bodyMatchesPredicate(
+                description = "Temperature should be within $EPSILON of $temperature."
+            ) {
                 val requestTemperature = it?.generationConfig?.temperature
                 requestTemperature != null &&
                     (abs(requestTemperature - temperature) <= EPSILON)
+            }
+        }
+
+        chatRequestSpec.topP?.let { topP ->
+            builder.bodyMatchesPredicate(
+                description = "topP should be within $EPSILON of $topP."
+            ) {
+                val value = it?.generationConfig?.topP
+                value != null && (abs(value - topP) <= EPSILON)
+            }
+        }
+
+        chatRequestSpec.topK?.let { topK ->
+            builder.bodyMatchesPredicate(
+                description = "Top K should be $topK."
+            ) {
+                it?.generationConfig?.topK?.toLong() == topK
             }
         }
 
