@@ -50,19 +50,28 @@ internal suspend fun handleRequest(
             }.minWithOrNull(StubComparator)
 
     if (matchedStub != null) {
+        matchedStub.configuration.apply {
+            if (removeAfterMatch) {
+                if (stubs.remove(matchedStub) && verbose) {
+                    application.log.debug(
+                        "Removed used stub: {}",
+                        matchedStub.toLogString(),
+                    )
+                }
+            }
+        }
         handleMatchedStub(
             matchedStub = matchedStub,
             serverConfig = configuration,
             application = application,
             request = request,
             context = context,
-            stubs = stubs,
         )
     } else {
         if (configuration.verbose) {
             application.log.warn(
                 "No stubs found for request:\n---\n${printRequest(request)}\n---\nAvailable stubs:\n{}\n",
-                stubs.joinToString("\n---\n"){ it.toLogString() },
+                stubs.joinToString("\n---\n") { it.toLogString() },
             )
         } else {
             application.log.warn(
@@ -80,7 +89,6 @@ private suspend fun handleMatchedStub(
     application: Application,
     request: RoutingRequest,
     context: RoutingContext,
-    stubs: MutableSet<Stub<*, *>>,
 ) {
     val config = matchedStub.configuration
     val verbose = serverConfig.verbose || config.verbose
@@ -94,16 +102,6 @@ private suspend fun handleMatchedStub(
         }
         incrementMatchCount()
         respond(context.call, verbose)
-    }
-
-    if (config.removeAfterMatch) {
-        if (verbose) {
-            application.log.info(
-                "Removing used stub: {}",
-                matchedStub.toLogString(),
-            )
-        }
-        stubs.remove(matchedStub)
     }
 }
 

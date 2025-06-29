@@ -15,7 +15,8 @@ import me.kpavlov.aimocks.gemini.GenerateContentRequest
  * @property project Google project ID
  * @property location Google location
  * @property path full request path
- * @property apiVersion Either `v1` or `v1beta1`. Default is `v1`
+ * @property apiVersion Either `v1` or `v1beta1`. Default is `v1`.
+ *          See [API versions explained](https://ai.google.dev/gemini-api/docs/api-versions)
  * @property maxOutputTokens An optional maximum number of tokens to generate.
  *
  * @author Konstantin Pavlov
@@ -31,9 +32,9 @@ public open class GeminiContentRequestSpecification(
     public var maxOutputTokens: Int? = maxOutputTokens
         private set
 
-    public fun maxOutputTokens(value: Int): GeminiContentRequestSpecification =
+    public fun maxOutputTokens(value: Number): GeminiContentRequestSpecification =
         apply {
-            this.maxOutputTokens = value
+            this.maxOutputTokens = value.toInt()
         }
 
     public fun project(value: String): GeminiContentRequestSpecification =

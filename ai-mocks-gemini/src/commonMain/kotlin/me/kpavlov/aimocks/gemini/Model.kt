@@ -68,7 +68,7 @@ public data class Part(
 public data class GenerationConfig(
     val temperature: Double? = null,
     val topP: Double? = null,
-    val topK: Int? = null,
+    val topK: Float? = null,
     val candidateCount: Int? = null,
     val maxOutputTokens: Int? = null,
     val stopSequences: List<String>? = null,
