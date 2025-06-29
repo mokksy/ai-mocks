@@ -75,26 +75,26 @@ The following tables list all available configuration options for mocking Gemini
 
 #### Request Configuration Options
 
-| Option                                   | Description                                                                        | Default Value |
-|------------------------------------------|------------------------------------------------------------------------------------|---------------|
-| `temperature`                            | Controls randomness of the output. Lower values make output more deterministic.    | `null`        |
-| `model`                                  | The Gemini model to use.                                                           | `null`        |
-| `maxTokens`                              | Maximum number of tokens to generate.                                              | `null`        |
-| `topK`                                   | Limits token selection to the K most likely next tokens.                           | `null`        |
-| `topP`                                   | Limits token selection to tokens with cumulative probability of P.                 | `null`        |
-| `project`                                | Google Cloud project ID.                                                           | `null`        |
-| `location`                               | Google Cloud location.                                                             | `null`        |
-| `apiVersion`                             | API version to use.                                                                | `"v1"`        |
-| `path`                                   | Custom request path.                                                               | `null`        |
-| `seed`                                   | Seed for deterministic generation.                                                 | `null`        |
-| `maxOutputTokens`                        | Maximum number of tokens to generate.                                              | `null`        |
-| `systemMessageContains`                  | Matches requests with system messages containing the specified text.               | N/A           |
-| `userMessageContains`                    | Matches requests with user messages containing the specified text.                 | N/A           |
-| `requestBodyContains`                    | Matches requests with bodies containing the specified text.                        | N/A           |
-| `requestBodyContainsIgnoringCase`        | Matches requests with bodies containing the specified text (case-insensitive).     | N/A           |
-| `requestBodyDoesNotContains`             | Matches requests with bodies not containing the specified text.                    | N/A           |
-| `requestBodyDoesNotContainsIgnoringCase` | Matches requests with bodies not containing the specified text (case-insensitive). | N/A           |
-| `requestMatchesPredicate`                | Matches requests satisfying a custom predicate.                                    | N/A           |
+| Option                                   | Description                                                                        |
+|------------------------------------------|------------------------------------------------------------------------------------|
+| `temperature`                            | Controls randomness of the output. Lower values make output more deterministic.    |
+| `model`                                  | The Gemini model to use.                                                           |
+| `maxTokens`                              | Maximum number of tokens to generate.                                              |
+| `topK`                                   | Limits token selection to the K most likely next tokens.                           |
+| `topP`                                   | Limits token selection to tokens with cumulative probability of P.                 |
+| `project`                                | Google Cloud project ID.                                                           |
+| `location`                               | Google Cloud location.                                                             |
+| `apiVersion`                             | API version to use.                                                                |
+| `path`                                   | Custom request path.                                                               |
+| `seed`                                   | Seed for deterministic generation.                                                 |
+| `maxOutputTokens`                        | Maximum number of tokens to generate.                                              |
+| `systemMessageContains`                  | Matches requests with system messages containing the specified text.               |
+| `userMessageContains`                    | Matches requests with user messages containing the specified text.                 |
+| `requestBodyContains`                    | Matches requests with bodies containing the specified text.                        |
+| `requestBodyContainsIgnoringCase`        | Matches requests with bodies containing the specified text (case-insensitive).     |
+| `requestBodyDoesNotContains`             | Matches requests with bodies not containing the specified text.                    |
+| `requestBodyDoesNotContainsIgnoringCase` | Matches requests with bodies not containing the specified text (case-insensitive). |
+| `requestMatchesPredicate`                | Matches requests satisfying a custom predicate.                                    |
 
 #### Response Configuration Options
 

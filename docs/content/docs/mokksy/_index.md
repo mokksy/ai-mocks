@@ -16,6 +16,37 @@ _Mokksy_ is a mock HTTP server built with [Kotlin](https://kotlinlang.org/) and 
 - Fluent modern Kotlin DSL API
 - Support for simulating streamed responses and [Server-Side Events (SSE)](https://html.spec.whatwg.org/multipage/server-sent-events.html)
 
+## Installation
+
+Add Mokksy to your project dependencies:
+
+{{< tabs "dependencies" >}}
+{{< tab "Gradle" >}}
+
+```kotlin
+// For JVM projects
+testImplementation("me.kpavlov.mokksy:mokksy-jvm:$latestVersion")
+
+// For Kotlin Multiplatform projects
+testImplementation("me.kpavlov.mokksy:mokksy:$latestVersion")
+```
+
+{{< /tab >}}
+{{< tab "Maven" >}}
+
+```xml
+
+<dependency>
+  <groupId>me.kpavlov.mokksy</groupId>
+  <artifactId>mokksy-jvm</artifactId>
+  <version>[LATEST_VERSION]</version>
+  <scope>test</scope>
+</dependency>
+```
+
+{{< /tab >}}
+{{< /tabs >}}
+
 ## Basic Usage
 
 ### Creating Mokksy Server
@@ -181,4 +212,13 @@ assertThat(result.contentType())
     .isEqualTo(ContentType.Text.EventStream.withCharsetIfNeeded(Charsets.UTF_8))
 assertThat(result.bodyAsText())
     .isEqualTo("data: One\r\ndata: Two\r\n")
+```
+
+## Verifying Requests
+
+After your test is complete, you can verify that all expected requests were received:
+
+```kotlin
+// Verify no unmatched requests
+mokksy.checkForUnmatchedRequests()
 ```
