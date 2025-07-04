@@ -14,8 +14,7 @@ import me.kpavlov.aimocks.gemini.GenerateContentResponse
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 import me.kpavlov.mokksy.response.StreamResponseDefinition
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
+import java.util.UUID
 
 /**
  * Building step for configuring responses to Gemini content generation requests.
@@ -34,12 +33,11 @@ public class GeminiStreamingContentBuildingStep(
     buildingStep = buildingStep,
 ) {
 
-    @OptIn(ExperimentalUuidApi::class)
     public infix fun respondsStream(block: GeminiStreamingContentResponseSpecification.() -> Unit) {
         respondsStream(sse = true, block)
     }
 
-    @OptIn(ExperimentalUuidApi::class, FlowPreview::class)
+    @OptIn(FlowPreview::class)
     public fun respondsStream(
         sse: Boolean = true,
         block: GeminiStreamingContentResponseSpecification.() -> Unit
@@ -62,7 +60,7 @@ public class GeminiStreamingContentBuildingStep(
                 error("Either responseChunks or responseFlow must be defined")
             }
             val request = this.request.body
-            val responseId = Uuid.random().toHexString()
+            val responseId = UUID.randomUUID().toString().replace("-", "")
             flow =
                 prepareFlow(
                     responseId = responseId,
