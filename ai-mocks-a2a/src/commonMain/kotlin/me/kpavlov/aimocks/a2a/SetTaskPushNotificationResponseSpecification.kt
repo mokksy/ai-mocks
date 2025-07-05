@@ -6,7 +6,7 @@ import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationRequest
 import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationResponse
 import me.kpavlov.aimocks.a2a.model.TaskPushNotificationConfig
 import me.kpavlov.aimocks.a2a.model.TaskPushNotificationConfigBuilder
-import me.kpavlov.aimocks.core.ResponseSpecification
+import me.kpavlov.aimocks.core.AbstractResponseSpecification
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
 
@@ -16,7 +16,7 @@ public class SetTaskPushNotificationResponseSpecification(
     public var result: TaskPushNotificationConfig? = null,
     public var error: JSONRPCError? = null,
     delay: Duration = Duration.ZERO,
-) : ResponseSpecification<SetTaskPushNotificationRequest, SetTaskPushNotificationResponse>(
+) : AbstractResponseSpecification<SetTaskPushNotificationRequest, SetTaskPushNotificationResponse>(
     response = response,
     delay = delay
 ) {

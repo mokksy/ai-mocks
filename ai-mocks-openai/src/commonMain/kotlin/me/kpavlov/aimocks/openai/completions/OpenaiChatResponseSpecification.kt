@@ -1,6 +1,7 @@
 package me.kpavlov.aimocks.openai.completions
 
 import kotlinx.coroutines.flow.Flow
+import me.kpavlov.aimocks.core.AbstractResponseSpecification
 import me.kpavlov.aimocks.core.ResponseSpecification
 import me.kpavlov.aimocks.openai.ChatCompletionRequest
 import me.kpavlov.aimocks.openai.ChatResponse
@@ -35,7 +36,7 @@ public class OpenaiChatResponseSpecification(
     public var delayBetweenChunks: Duration = Duration.ZERO,
     delay: Duration = Duration.ZERO,
     public var finishReason: String = "stop",
-) : ResponseSpecification<ChatCompletionRequest, ChatResponse>(
+) : AbstractResponseSpecification<ChatCompletionRequest, ChatResponse>(
     response = response,
     delay = delay,
 ) {

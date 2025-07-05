@@ -1,7 +1,7 @@
 package me.kpavlov.aimocks.openai.responses
 
 import kotlinx.coroutines.flow.Flow
-import me.kpavlov.aimocks.core.ResponseSpecification
+import me.kpavlov.aimocks.core.AbstractResponseSpecification
 import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
 import me.kpavlov.aimocks.openai.model.responses.Response
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
@@ -32,7 +32,7 @@ public class OpenaiResponsesResponseSpecification(
     public var delayBetweenChunks: Duration = Duration.ZERO,
     delay: Duration = Duration.ZERO,
     public var finishReason: String = "stop",
-) : ResponseSpecification<CreateResponseRequest, Response>(
+) : AbstractResponseSpecification<CreateResponseRequest, Response>(
     response = response,
     delay = delay
 ) {

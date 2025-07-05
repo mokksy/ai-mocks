@@ -4,8 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import me.kpavlov.aimocks.anthropic.StreamingResponseHelper.randomIdString
 import me.kpavlov.aimocks.anthropic.model.Message
 import me.kpavlov.aimocks.anthropic.model.MessageCreateParams
-import me.kpavlov.aimocks.core.ResponseSpecification
-import me.kpavlov.aimocks.core.StreamingResponseSpecification
+import me.kpavlov.aimocks.core.AbstractResponseSpecification
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
 
@@ -19,7 +18,10 @@ public class AnthropicMessagesResponseSpecification(
     public var delayBetweenChunks: Duration = Duration.ZERO,
     delay: Duration = Duration.ZERO,
     public var stopReason: String = "end_turn",
-) : ResponseSpecification<MessageCreateParams, Message>(response = response, delay = delay) {
+) : AbstractResponseSpecification<MessageCreateParams, Message>(
+    response = response,
+    delay = delay
+) {
     public fun assistantContent(content: String): AnthropicMessagesResponseSpecification =
         apply {
             this.assistantContent =
@@ -33,22 +35,3 @@ public class AnthropicMessagesResponseSpecification(
         }
 }
 
-@Suppress("LongParameterList")
-public class AnthropicStreamingChatResponseSpecification(
-    response: AbstractResponseDefinition<String>,
-    responseFlow: Flow<String>? = null,
-    responseChunks: List<String>? = null,
-    delayBetweenChunks: Duration = Duration.ZERO,
-    delay: Duration = Duration.ZERO,
-    public var stopReason: String = "end_turn",
-    /**
-     * Should send `[DONE]` at the end.
-     */
-    public var sendDone: Boolean = false,
-) : StreamingResponseSpecification<MessageCreateParams, String, String>(
-    response = response,
-    responseFlow = responseFlow,
-    responseChunks = responseChunks,
-    delayBetweenChunks = delayBetweenChunks,
-    delay = delay
-)

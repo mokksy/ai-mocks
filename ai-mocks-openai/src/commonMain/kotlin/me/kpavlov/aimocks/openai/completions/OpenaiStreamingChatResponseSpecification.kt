@@ -1,8 +1,8 @@
 package me.kpavlov.aimocks.openai.completions
 
 import kotlinx.coroutines.flow.Flow
+import me.kpavlov.aimocks.core.AbstractStreamingResponseSpecification
 import me.kpavlov.aimocks.core.ResponseSpecification
-import me.kpavlov.aimocks.core.StreamingResponseSpecification
 import me.kpavlov.aimocks.openai.ChatCompletionRequest
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
@@ -40,7 +40,7 @@ public class OpenaiStreamingChatResponseSpecification(
      * Should send `[DONE]` at the end.
      */
     public var sendDone: Boolean = false,
-) : StreamingResponseSpecification<ChatCompletionRequest, String, String>(
+) : AbstractStreamingResponseSpecification<ChatCompletionRequest, String, String>(
     response = response,
     responseFlow = responseFlow,
     responseChunks = responseChunks,

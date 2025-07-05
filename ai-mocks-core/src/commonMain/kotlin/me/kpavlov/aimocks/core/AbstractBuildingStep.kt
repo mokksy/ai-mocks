@@ -22,7 +22,7 @@ import kotlin.reflect.KClass
  * @property buildingStep A reference to the internally managed building step
  *                        for configuring mock response behavior.
  */
-public abstract class AbstractBuildingStep<P : Any, R : ResponseSpecification<P, *>>(
+public abstract class AbstractBuildingStep<P : Any, R : AbstractResponseSpecification<P, *>>(
     protected val mokksy: MokksyServer,
     protected val buildingStep: BuildingStep<P>,
 ) {
@@ -90,7 +90,7 @@ public abstract class AbstractBuildingStep<P : Any, R : ResponseSpecification<P,
     }
 }
 
-public abstract class AbstractStreamingBuildingStep<P : Any, R : ResponseSpecification<P, *>>(
+public abstract class AbstractStreamingBuildingStep<P : Any, R : AbstractResponseSpecification<P, *>>(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<P>,
 ) : AbstractBuildingStep<P, R>(
