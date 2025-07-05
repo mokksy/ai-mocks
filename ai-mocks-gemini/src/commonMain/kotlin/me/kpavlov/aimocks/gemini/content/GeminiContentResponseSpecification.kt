@@ -1,6 +1,6 @@
 package me.kpavlov.aimocks.gemini.content
 
-import me.kpavlov.aimocks.core.ResponseSpecification
+import me.kpavlov.aimocks.core.AbstractResponseSpecification
 import me.kpavlov.aimocks.gemini.Candidate
 import me.kpavlov.aimocks.gemini.Content
 import me.kpavlov.aimocks.gemini.GenerateContentRequest
@@ -25,7 +25,7 @@ public class GeminiContentResponseSpecification(
     public var finishReason: String = "STOP",
     public var role: String = "model",
     delay: Duration = Duration.ZERO,
-) : ResponseSpecification<GenerateContentRequest, GenerateContentResponse>(
+) : AbstractResponseSpecification<GenerateContentRequest, GenerateContentResponse>(
     response = response,
     delay = delay
 ) {

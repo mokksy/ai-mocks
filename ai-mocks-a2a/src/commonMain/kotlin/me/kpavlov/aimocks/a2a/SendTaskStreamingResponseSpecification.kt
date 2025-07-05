@@ -5,7 +5,7 @@ import kotlinx.coroutines.stream.consumeAsFlow
 import me.kpavlov.aimocks.a2a.model.JSONRPCError
 import me.kpavlov.aimocks.a2a.model.SendTaskStreamingRequest
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
-import me.kpavlov.aimocks.core.ResponseSpecification
+import me.kpavlov.aimocks.core.AbstractResponseSpecification
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import java.util.stream.Stream
 import kotlin.time.Duration
@@ -16,7 +16,7 @@ public class SendTaskStreamingResponseSpecification(
     public var delayBetweenChunks: Duration = Duration.ZERO,
     public var error: JSONRPCError? = null,
     delay: Duration = Duration.ZERO,
-) : ResponseSpecification<SendTaskStreamingRequest, String>(
+) : AbstractResponseSpecification<SendTaskStreamingRequest, String>(
     response = response,
     delay = delay
 ) {

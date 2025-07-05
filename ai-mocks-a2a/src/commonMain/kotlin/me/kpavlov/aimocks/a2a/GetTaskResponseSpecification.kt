@@ -6,7 +6,7 @@ import me.kpavlov.aimocks.a2a.model.JSONRPCError
 import me.kpavlov.aimocks.a2a.model.RequestId
 import me.kpavlov.aimocks.a2a.model.Task
 import me.kpavlov.aimocks.a2a.model.TaskBuilder
-import me.kpavlov.aimocks.core.ResponseSpecification
+import me.kpavlov.aimocks.core.AbstractResponseSpecification
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
 
@@ -16,7 +16,7 @@ public class GetTaskResponseSpecification(
     public var result: Task? = null,
     public var error: JSONRPCError? = null,
     delay: Duration = Duration.ZERO,
-) : ResponseSpecification<GetTaskRequest, GetTaskResponse>(
+) : AbstractResponseSpecification<GetTaskRequest, GetTaskResponse>(
     response = response,
     delay = delay
 ) {

@@ -1,7 +1,7 @@
 package me.kpavlov.aimocks.gemini.content
 
 import kotlinx.coroutines.flow.Flow
-import me.kpavlov.aimocks.core.StreamingResponseSpecification
+import me.kpavlov.aimocks.core.AbstractStreamingResponseSpecification
 import me.kpavlov.aimocks.gemini.GenerateContentRequest
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
@@ -22,7 +22,7 @@ public class GeminiStreamingContentResponseSpecification(
     delayBetweenChunks: Duration = Duration.ZERO,
     delay: Duration = Duration.ZERO,
     public var finishReason: String = "STOP"
-) : StreamingResponseSpecification<GenerateContentRequest, String, String>(
+) : AbstractStreamingResponseSpecification<GenerateContentRequest, String, String>(
     response,
     responseFlow,
     responseChunks,
