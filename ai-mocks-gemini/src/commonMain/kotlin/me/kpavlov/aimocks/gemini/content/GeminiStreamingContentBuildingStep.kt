@@ -1,6 +1,5 @@
 package me.kpavlov.aimocks.gemini.content
 
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
@@ -8,7 +7,7 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.serialization.json.Json
-import me.kpavlov.aimocks.core.AbstractBuildingStep
+import me.kpavlov.aimocks.core.AbstractStreamingBuildingStep
 import me.kpavlov.aimocks.gemini.GenerateContentRequest
 import me.kpavlov.aimocks.gemini.GenerateContentResponse
 import me.kpavlov.mokksy.BuildingStep
@@ -28,16 +27,15 @@ import java.util.UUID
 public class GeminiStreamingContentBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<GenerateContentRequest>,
-) : AbstractBuildingStep<GenerateContentRequest, GeminiStreamingContentResponseSpecification>(
+) : AbstractStreamingBuildingStep<GenerateContentRequest, GeminiStreamingContentResponseSpecification>(
     mokksy = mokksy,
     buildingStep = buildingStep,
 ) {
 
-    public infix fun respondsStream(block: GeminiStreamingContentResponseSpecification.() -> Unit) {
+    public override infix fun respondsStream(block: GeminiStreamingContentResponseSpecification.() -> Unit) {
         respondsStream(sse = true, block)
     }
 
-    @OptIn(FlowPreview::class)
     public fun respondsStream(
         sse: Boolean = true,
         block: GeminiStreamingContentResponseSpecification.() -> Unit
@@ -86,7 +84,6 @@ public class GeminiStreamingContentBuildingStep(
                         }
                     }
         }
-
     }
 
     private fun encodeChunk(
@@ -105,10 +102,6 @@ public class GeminiStreamingContentBuildingStep(
         } else {
             "$json,\r\n"
         }
-    }
-
-    override fun responds(block: GeminiStreamingContentResponseSpecification.() -> Unit) {
-        respondsStream(block)
     }
 
     private fun prepareFlow(

@@ -5,19 +5,20 @@ import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.a2a.model.SendTaskStreamingRequest
 import me.kpavlov.aimocks.a2a.model.SendTaskStreamingResponse
-import me.kpavlov.aimocks.core.AbstractBuildingStep
+import me.kpavlov.aimocks.core.AbstractStreamingBuildingStep
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 
 public class SendTaskStreamingBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<SendTaskStreamingRequest>,
-) : AbstractBuildingStep<SendTaskStreamingRequest, SendTaskStreamingResponseSpecification>(
-        mokksy,
-        buildingStep,
-    ) {
-    override infix fun responds(block: SendTaskStreamingResponseSpecification.() -> Unit) {
-        buildingStep.respondsWithStream<String> {
+) : AbstractStreamingBuildingStep<SendTaskStreamingRequest, SendTaskStreamingResponseSpecification>(
+    mokksy,
+    buildingStep,
+) {
+
+    public override infix fun respondsStream(block: SendTaskStreamingResponseSpecification.() -> Unit) {
+        buildingStep.respondsWithStream {
             val requestBody = request.body
             val responseDefinition = this.build()
             val responseSpecification = SendTaskStreamingResponseSpecification(responseDefinition)

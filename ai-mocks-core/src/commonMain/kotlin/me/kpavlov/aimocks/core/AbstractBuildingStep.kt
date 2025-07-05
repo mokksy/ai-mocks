@@ -89,3 +89,22 @@ public abstract class AbstractBuildingStep<P : Any, R : ResponseSpecification<P,
         }
     }
 }
+
+public abstract class AbstractStreamingBuildingStep<P : Any, R : ResponseSpecification<P, *>>(
+    mokksy: MokksyServer,
+    buildingStep: BuildingStep<P>,
+) : AbstractBuildingStep<P, R>(
+    mokksy = mokksy,
+    buildingStep = buildingStep,
+) {
+
+    public abstract infix fun respondsStream(block: R.() -> Unit)
+
+    public override fun responds(block: R.() -> Unit) {
+        respondsStream(block)
+    }
+
+    public open infix fun respondsStream(consumer: Consumer<R>) {
+        respondsStream { consumer.accept(this) }
+    }
+}
