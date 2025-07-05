@@ -21,8 +21,7 @@ public open class OpenaiChatCompletionRequestSpecification(
 ) : ModelRequestSpecification<ChatCompletionRequest>() {
     public fun seed(value: Int): OpenaiChatCompletionRequestSpecification =
         apply {
-            this.seed =
-                value
+            this.seed = value
         }
 
     override fun systemMessageContains(substring: String) {

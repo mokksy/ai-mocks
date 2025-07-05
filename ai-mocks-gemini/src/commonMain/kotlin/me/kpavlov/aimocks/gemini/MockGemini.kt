@@ -39,6 +39,9 @@ public open class MockGemini(
             )
         },
 ) {
+
+    public constructor(verbose: Boolean = true) : this(port = 0, verbose = verbose)
+
     /**
      * Java-friendly overload that accepts a Consumer for configuring the chat request.
      */
@@ -75,6 +78,20 @@ public open class MockGemini(
         )
     }
 
+    /**
+     * Generates a streaming content response specification for a Gemini content generation request.
+     * This method provides a Java-friendly overload that accepts a `Consumer` for configuring the content request.
+     *
+     * @param name An optional name for the content request. Defaults to `null` if not provided.
+     * @param block A `Consumer` that allows configuration of the `GeminiContentRequestSpecification` for the request.
+     * @return A `GeminiStreamingContentBuildingStep` that represents the next step in configuring the streaming content response.
+     */
+    @JvmOverloads
+    public fun generateContentStream(
+        name: String? = null,
+        block: Consumer<GeminiContentRequestSpecification>,
+    ): GeminiStreamingContentBuildingStep = generateContentStream(name) { block.accept(this) }
+
     public fun generateContentStream(
         name: String? = null,
         block: GeminiContentRequestSpecification.() -> Unit,
@@ -93,7 +110,6 @@ public open class MockGemini(
                     chatRequestSpec.path
                         ?: "/${chatRequestSpec.apiVersion}/projects/${chatRequestSpec.project}/locations/${chatRequestSpec.location}/publishers/google/models/$model:streamGenerateContent"
                 path(pathString)
-
             }
 
         return GeminiStreamingContentBuildingStep(

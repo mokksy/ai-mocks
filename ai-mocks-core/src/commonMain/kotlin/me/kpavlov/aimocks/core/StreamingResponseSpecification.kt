@@ -1,7 +1,9 @@
 package me.kpavlov.aimocks.core
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.stream.consumeAsFlow
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
+import java.util.stream.Stream
 import kotlin.time.Duration
 
 /**
@@ -34,6 +36,10 @@ public abstract class StreamingResponseSpecification<P : Any, T : Any, R : Any>(
      */
     public open fun chunks(vararg chunks: T) {
         this.responseChunks = chunks.toList()
+    }
+
+    public fun stream(stream: Stream<T>) {
+        responseFlow = stream.consumeAsFlow()
     }
 
 }

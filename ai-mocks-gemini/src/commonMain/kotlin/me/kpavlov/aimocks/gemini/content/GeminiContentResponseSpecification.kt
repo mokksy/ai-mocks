@@ -29,6 +29,10 @@ public class GeminiContentResponseSpecification(
     response = response,
     delay = delay
 ) {
+
+    public fun assistantContent(value: String): GeminiContentResponseSpecification =
+        content(value)
+
     /**
      * Sets the content of the response.
      *

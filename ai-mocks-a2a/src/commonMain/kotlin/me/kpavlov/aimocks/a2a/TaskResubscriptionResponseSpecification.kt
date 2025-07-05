@@ -3,7 +3,7 @@ package me.kpavlov.aimocks.a2a
 import kotlinx.coroutines.flow.Flow
 import me.kpavlov.aimocks.a2a.model.TaskResubscriptionRequest
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
-import me.kpavlov.aimocks.core.ResponseSpecification
+import me.kpavlov.aimocks.core.StreamingResponseSpecification
 import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
 
@@ -12,10 +12,13 @@ import kotlin.time.Duration
  */
 public class TaskResubscriptionResponseSpecification(
     response: AbstractResponseDefinition<String>,
-    public var responseFlow: Flow<TaskUpdateEvent>? = null,
-    public var delayBetweenChunks: Duration = Duration.ZERO,
+    responseFlow: Flow<TaskUpdateEvent>? = null,
+    delayBetweenChunks: Duration = Duration.ZERO,
     delay: Duration = Duration.ZERO,
-) : ResponseSpecification<TaskResubscriptionRequest, String>(
+) : StreamingResponseSpecification<TaskResubscriptionRequest, TaskUpdateEvent, String>(
+    responseFlow = responseFlow,
     response = response,
-    delay = delay
+    delayBetweenChunks = delayBetweenChunks,
+    delay = delay,
+    responseChunks = null,
 )

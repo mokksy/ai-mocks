@@ -37,9 +37,34 @@ public open class GeminiContentRequestSpecification(
             this.maxOutputTokens = value.toInt()
         }
 
+    /**
+     * Configures the API version to "v1beta1" for Gemini content-related requests.
+     *
+     * @return An instance of `GeminiContentRequestSpecification` configured with the beta API version.
+     */
+    public fun betaApi(): GeminiContentRequestSpecification = apiVersion("v1beta1")
+
+    /**
+     * Configures the API version to "v1" for Gemini content-related requests.
+     *
+     * @return An instance of `GeminiContentRequestSpecification` configured with the stable API version.
+     */
+    public fun stableApi(): GeminiContentRequestSpecification = apiVersion("v1")
+
+    public fun apiVersion(value: String): GeminiContentRequestSpecification =
+        apply {
+            this.apiVersion = value
+        }
+
+
     public fun project(value: String): GeminiContentRequestSpecification =
         apply {
             this.project = value
+        }
+
+    public fun seed(value: Number): GeminiContentRequestSpecification =
+        apply {
+            this.seed = value
         }
 
     public fun location(value: String): GeminiContentRequestSpecification =
