@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.a2a.model
 
+import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
@@ -10,9 +11,11 @@ internal class AgentCapabilitiesBuilderTest {
         val capabilities = AgentCapabilitiesBuilder().build()
 
         // then
-        capabilities.streaming shouldBe false
-        capabilities.pushNotifications shouldBe false
-        capabilities.stateTransitionHistory shouldBe false
+        assertSoftly(capabilities) {
+            streaming shouldBe false
+            pushNotifications shouldBe false
+            stateTransitionHistory shouldBe false
+        }
     }
 
     @Test
@@ -27,9 +30,11 @@ internal class AgentCapabilitiesBuilderTest {
                 }.build()
 
         // then
-        capabilities.streaming shouldBe true
-        capabilities.pushNotifications shouldBe true
-        capabilities.stateTransitionHistory shouldBe true
+        assertSoftly(capabilities) {
+            streaming shouldBe true
+            pushNotifications shouldBe true
+            stateTransitionHistory shouldBe true
+        }
     }
 
     @Test
@@ -44,8 +49,10 @@ internal class AgentCapabilitiesBuilderTest {
                 }.build()
 
         // then
-        capabilities.streaming shouldBe true
-        capabilities.pushNotifications shouldBe false
-        capabilities.stateTransitionHistory shouldBe true
+        assertSoftly(capabilities) {
+            streaming shouldBe true
+            pushNotifications shouldBe false
+            stateTransitionHistory shouldBe true
+        }
     }
 }

@@ -8,6 +8,7 @@ import com.openai.models.chat.completions.ChatCompletionCreateParams
 import com.openai.models.chat.completions.ChatCompletionMessageParam
 import com.openai.models.chat.completions.ChatCompletionSystemMessageParam
 import com.openai.models.chat.completions.ChatCompletionUserMessageParam
+import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.optional.shouldBePresent
@@ -151,17 +152,20 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
 
         timedValue.duration shouldBeGreaterThan 150.milliseconds
         val exception = timedValue.value
-        exception.statusCode() shouldBe HttpStatusCode.InternalServerError.value
-        exception.code() shouldBePresent {
-            shouldBe("ERR_SOMETHING")
-        }
-        exception.message shouldBe
-            "500: Arrr, blast me barnacles! This be not what ye expect! 🏴‍☠️"
-        exception.param() shouldBePresent {
-            shouldBe("foo")
-        }
-        exception.type() shouldBePresent {
-            shouldBe("server_error")
+
+        assertSoftly(exception) {
+            statusCode() shouldBe HttpStatusCode.InternalServerError.value
+            code() shouldBePresent {
+                shouldBe("ERR_SOMETHING")
+            }
+            message shouldBe
+                "500: Arrr, blast me barnacles! This be not what ye expect! 🏴‍☠️"
+            param() shouldBePresent {
+                shouldBe("foo")
+            }
+            type() shouldBePresent {
+                shouldBe("server_error")
+            }
         }
     }
 

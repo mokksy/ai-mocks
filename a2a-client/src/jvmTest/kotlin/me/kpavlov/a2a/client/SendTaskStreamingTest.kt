@@ -1,5 +1,6 @@
 package me.kpavlov.a2a.client
 
+import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -134,14 +135,16 @@ internal class SendTaskStreamingTest : AbstractTest() {
             collectedEvents.forEach {
                 it.id() shouldBe taskId
             }
-            (collectedEvents.first() as TaskStatusUpdateEvent).let {
-                it.status.state shouldBe "working"
-                it.status.timestamp.shouldNotBeNull()
+            val firstEvent = collectedEvents.first() as TaskStatusUpdateEvent
+            assertSoftly(firstEvent.status) {
+                state shouldBe "working"
+                timestamp.shouldNotBeNull()
             }
-            (collectedEvents.last() as TaskStatusUpdateEvent).let {
-                it.final shouldBe true
-                it.status.state shouldBe "completed"
-                it.status.timestamp.shouldNotBeNull()
+            val lastEvent = collectedEvents.last() as TaskStatusUpdateEvent
+            assertSoftly(lastEvent) {
+                final shouldBe true
+                status.state shouldBe "completed"
+                status.timestamp.shouldNotBeNull()
             }
             val joke =
                 collectedEvents

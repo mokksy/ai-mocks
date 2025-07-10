@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.a2a.model
 
+import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
@@ -15,8 +16,10 @@ internal class AgentProviderBuilderTest {
                 }.build()
 
         // then
-        provider.organization shouldBe "Test Organization"
-        provider.url shouldBe null
+        assertSoftly(provider) {
+            organization shouldBe "Test Organization"
+            url shouldBe null
+        }
     }
 
     @Test
@@ -30,8 +33,10 @@ internal class AgentProviderBuilderTest {
                 }.build()
 
         // then
-        provider.organization shouldBe "Test Organization"
-        provider.url shouldBe "https://example.com"
+        assertSoftly(provider) {
+            organization shouldBe "Test Organization"
+            url shouldBe "https://example.com"
+        }
     }
 
     @Test
