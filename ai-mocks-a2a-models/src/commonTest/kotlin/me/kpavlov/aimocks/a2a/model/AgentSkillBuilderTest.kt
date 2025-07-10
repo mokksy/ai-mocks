@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.a2a.model
 
+import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
@@ -15,13 +16,15 @@ internal class AgentSkillBuilderTest {
             }
 
         // then
-        skill.id shouldBe "skill-123"
-        skill.name shouldBe "Example Skill"
-        skill.description shouldBe null
-        skill.tags shouldBe null
-        skill.examples shouldBe null
-        skill.inputModes shouldBe null
-        skill.outputModes shouldBe null
+        assertSoftly(skill) {
+            id shouldBe "skill-123"
+            name shouldBe "Example Skill"
+            description shouldBe null
+            tags shouldBe null
+            examples shouldBe null
+            inputModes shouldBe null
+            outputModes shouldBe null
+        }
     }
 
     @Test
@@ -39,13 +42,15 @@ internal class AgentSkillBuilderTest {
                 .build()
 
         // then
-        skill.id shouldBe "skill-123"
-        skill.name shouldBe "Example Skill"
-        skill.description shouldBe "This is an example skill"
-        skill.tags shouldBe listOf("example", "demo")
-        skill.examples shouldBe listOf("Example usage 1", "Example usage 2")
-        skill.inputModes shouldBe listOf("text")
-        skill.outputModes shouldBe listOf("text")
+        assertSoftly(skill) {
+            id shouldBe "skill-123"
+            name shouldBe "Example Skill"
+            description shouldBe "This is an example skill"
+            tags shouldBe listOf("example", "demo")
+            examples shouldBe listOf("Example usage 1", "Example usage 2")
+            inputModes shouldBe listOf("text")
+            outputModes shouldBe listOf("text")
+        }
     }
 
     @Test
@@ -83,13 +88,15 @@ internal class AgentSkillBuilderTest {
             }
 
         // then
-        skill.id shouldBe "skill-123"
-        skill.name shouldBe "Example Skill"
-        skill.description shouldBe "This is an example skill"
-        skill.tags shouldBe listOf("example", "demo")
-        skill.examples shouldBe listOf("Example usage 1", "Example usage 2")
-        skill.inputModes shouldBe listOf("text")
-        skill.outputModes shouldBe listOf("text")
+        assertSoftly(skill) {
+            id shouldBe "skill-123"
+            name shouldBe "Example Skill"
+            description shouldBe "This is an example skill"
+            tags shouldBe listOf("example", "demo")
+            examples shouldBe listOf("Example usage 1", "Example usage 2")
+            inputModes shouldBe listOf("text")
+            outputModes shouldBe listOf("text")
+        }
     }
 
     @Test
@@ -107,12 +114,14 @@ internal class AgentSkillBuilderTest {
             }
 
         // then
-        skill.id shouldBe "skill-123"
-        skill.name shouldBe "Example Skill"
-        skill.description shouldBe "This is an example skill"
-        skill.tags shouldBe listOf("example", "demo")
-        skill.examples shouldBe listOf("Example usage 1", "Example usage 2")
-        skill.inputModes shouldBe listOf("text")
-        skill.outputModes shouldBe listOf("text")
+        assertSoftly(skill) {
+            id shouldBe "skill-123"
+            name shouldBe "Example Skill"
+            description shouldBe "This is an example skill"
+            tags shouldBe listOf("example", "demo")
+            examples shouldBe listOf("Example usage 1", "Example usage 2")
+            inputModes shouldBe listOf("text")
+            outputModes shouldBe listOf("text")
+        }
     }
 }

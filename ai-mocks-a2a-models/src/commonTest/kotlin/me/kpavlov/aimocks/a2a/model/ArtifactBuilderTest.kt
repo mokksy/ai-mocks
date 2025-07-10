@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.a2a.model
 
+import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
@@ -17,13 +18,15 @@ internal class ArtifactBuilderTest {
                 .build()
 
         // then
-        artifact.name shouldBe null
-        artifact.description shouldBe null
-        artifact.parts shouldBe listOf(textPart)
-        artifact.index shouldBe 0
-        artifact.append shouldBe null
-        artifact.lastChunk shouldBe null
-        artifact.metadata shouldBe null
+        assertSoftly(artifact) {
+            name shouldBe null
+            description shouldBe null
+            parts shouldBe listOf(textPart)
+            index shouldBe 0
+            append shouldBe null
+            lastChunk shouldBe null
+            metadata shouldBe null
+        }
     }
 
     @Test
@@ -45,13 +48,15 @@ internal class ArtifactBuilderTest {
                 .build()
 
         // then
-        artifact.name shouldBe "artifact-name"
-        artifact.description shouldBe "artifact description"
-        artifact.parts shouldBe listOf(textPart)
-        artifact.index shouldBe 1
-        artifact.append shouldBe true
-        artifact.lastChunk shouldBe false
-        artifact.metadata shouldBe metadata
+        assertSoftly(artifact) {
+            name shouldBe "artifact-name"
+            description shouldBe "artifact description"
+            parts shouldBe listOf(textPart)
+            index shouldBe 1
+            append shouldBe true
+            lastChunk shouldBe false
+            metadata shouldBe metadata
+        }
     }
 
     @Test

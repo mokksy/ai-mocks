@@ -1,5 +1,6 @@
 package me.kpavlov.mokksy
 
+import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.ktor.http.HttpStatusCode
@@ -79,10 +80,10 @@ internal class BuildingStepTest {
     }
 
     private fun verifyStub() {
-        stub.captured.apply {
-            this.configuration.name shouldBe name
-            this.requestSpecification shouldBe request
-            this.responseDefinitionSupplier shouldNotBeNull { }
+        assertSoftly(stub.captured) {
+            configuration.name shouldBe name
+            requestSpecification shouldBe request
+            responseDefinitionSupplier shouldNotBeNull { }
         }
     }
 }

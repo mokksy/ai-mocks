@@ -1,5 +1,7 @@
 package me.kpavlov.aimocks.openai.model.chat
 
+import io.kotest.assertions.assertSoftly
+import io.kotest.assertions.withClue
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
@@ -43,16 +45,27 @@ internal class ChatCompletionModelsTest {
 
         val request = jsonParser.decodeFromString<ChatCompletionRequest>(json)
 
-        request.model shouldBe "gpt-4o-mini"
-        request.temperature shouldBe 0.7
-        request.stream shouldBe false
-        request.messages shouldHaveSize 2
-        request.messages[0].role shouldBe ChatCompletionRole.SYSTEM
-        request.messages[0].content shouldBe "You are a helpful assistant"
-        request.messages[1].role shouldBe ChatCompletionRole.USER
-        request.messages[1].content shouldBe "Help me, please"
-        request.responseFormat.shouldNotBeNull()
-        request.responseFormat.type shouldBe "json_object"
+        assertSoftly(request) {
+            model shouldBe "gpt-4o-mini"
+            temperature shouldBe 0.7
+            stream shouldBe false
+            messages shouldHaveSize 2
+
+            withClue("System message should be correct") {
+                messages[0].role shouldBe ChatCompletionRole.SYSTEM
+                messages[0].content shouldBe "You are a helpful assistant"
+            }
+
+            withClue("User message should be correct") {
+                messages[1].role shouldBe ChatCompletionRole.USER
+                messages[1].content shouldBe "Help me, please"
+            }
+
+            withClue("Response format should be present and correct") {
+                responseFormat.shouldNotBeNull()
+                responseFormat.type shouldBe "json_object"
+            }
+        }
     }
 
     @Test
@@ -112,29 +125,53 @@ internal class ChatCompletionModelsTest {
 
         val request = jsonParser.decodeFromString<ChatCompletionRequest>(json)
 
-        request.model shouldBe "gpt-4.1-nano"
-        request.messages shouldHaveSize 2
-        request.messages[0].role shouldBe ChatCompletionRole.SYSTEM
-        request.messages[0].content shouldBe "Convert person to JSON"
-        request.messages[1].role shouldBe ChatCompletionRole.USER
-        request.messages[1].content shouldBe
-            "Bob is 25 years old and weighs 0.075 tonnes.\nHis height is one meter eighty-five centimeters.\nHe is married."
-        request.temperature shouldBe 0.7
-        request.stream shouldBe false
-        request.maxCompletionTokens shouldBe 100
-        request.responseFormat.shouldNotBeNull {
-            type shouldBe "json_schema"
-            jsonSchema.shouldNotBeNull {
-                name shouldBe "Person"
-                strict shouldBe false
-                schema.shouldNotBeNull {
-                    type shouldBe "object"
-                    properties.shouldNotBeNull {
-                        this.shouldHaveSize(5)
-                        this["name"] as? StringPropertyDefinition shouldNotBeNull {
-                            type shouldBe listOf("string")
-                            nullable shouldBe false
-                            description shouldBe "Person's name"
+        assertSoftly(request) {
+            model shouldBe "gpt-4.1-nano"
+            messages shouldHaveSize 2
+
+            withClue("System message should be correct") {
+                messages[0].role shouldBe ChatCompletionRole.SYSTEM
+                messages[0].content shouldBe "Convert person to JSON"
+            }
+
+            withClue("User message should be correct") {
+                messages[1].role shouldBe ChatCompletionRole.USER
+                messages[1].content shouldBe
+                    "Bob is 25 years old and weighs 0.075 tonnes.\nHis height is one meter eighty-five centimeters.\nHe is married."
+            }
+
+            temperature shouldBe 0.7
+            stream shouldBe false
+            maxCompletionTokens shouldBe 100
+
+            withClue("Response format should be present and correct") {
+                responseFormat.shouldNotBeNull {
+                    type shouldBe "json_schema"
+
+                    withClue("JSON schema should be present and correct") {
+                        jsonSchema.shouldNotBeNull {
+                            name shouldBe "Person"
+                            strict shouldBe false
+
+                            withClue("Schema definition should be correct") {
+                                schema.shouldNotBeNull {
+                                    type shouldBe "object"
+
+                                    withClue("Schema properties should be correct") {
+                                        properties.shouldNotBeNull {
+                                            this.shouldHaveSize(5)
+
+                                            withClue("Name property should be correct") {
+                                                this["name"] as? StringPropertyDefinition shouldNotBeNull {
+                                                    type shouldBe listOf("string")
+                                                    nullable shouldBe false
+                                                    description shouldBe "Person's name"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -176,19 +213,35 @@ internal class ChatCompletionModelsTest {
 
         val response = jsonParser.decodeFromString<ChatResponse>(json)
 
-        response.id shouldBe "chatcmpl-123"
-        response.objectType shouldBe "chat.completions"
-        response.created shouldBe 1677858242
-        response.model shouldBe "gpt-3.5-turbo-0613"
-        response.usage.promptTokens shouldBe 13
-        response.usage.completionTokens shouldBe 7
-        response.usage.totalTokens shouldBe 20
-        response.choices shouldHaveSize 1
-        response.choices[0].index shouldBe 0
-        response.choices[0].finishReason shouldBe "stop"
-        response.choices[0].message.shouldNotBeNull()
-        response.choices[0].message?.role shouldBe ChatCompletionRole.ASSISTANT
-        response.choices[0].message?.content shouldBe "Hello! How can I help you today?"
+        assertSoftly(response) {
+            id shouldBe "chatcmpl-123"
+            objectType shouldBe "chat.completions"
+            created shouldBe 1677858242
+            model shouldBe "gpt-3.5-turbo-0613"
+
+            withClue("Usage statistics should be correct") {
+                assertSoftly(usage) {
+                    promptTokens shouldBe 13
+                    completionTokens shouldBe 7
+                    totalTokens shouldBe 20
+                }
+            }
+
+            choices shouldHaveSize 1
+
+            withClue("First choice should be correct") {
+                assertSoftly(choices[0]) {
+                    index shouldBe 0
+                    finishReason shouldBe "stop"
+
+                    withClue("Message should be present and correct") {
+                        message.shouldNotBeNull()
+                        message?.role shouldBe ChatCompletionRole.ASSISTANT
+                        message?.content shouldBe "Hello! How can I help you today?"
+                    }
+                }
+            }
+        }
     }
 
     @Test
@@ -215,15 +268,25 @@ internal class ChatCompletionModelsTest {
 
         val chunk = jsonParser.decodeFromString<Chunk>(json)
 
-        chunk.id shouldBe "chatcmpl-123"
-        chunk.objectType shouldBe "chat.completion.chunk"
-        chunk.created shouldBe 1677858242
-        chunk.model shouldBe "gpt-3.5-turbo-0613"
-        chunk.systemFingerprint shouldBe "fp_44709d6fcb"
-        chunk.choices shouldHaveSize 1
-        chunk.choices[0].index shouldBe 0
-        chunk.choices[0].delta.shouldNotBeNull()
-        chunk.choices[0].delta?.content shouldBe "Hello"
+        assertSoftly(chunk) {
+            id shouldBe "chatcmpl-123"
+            objectType shouldBe "chat.completion.chunk"
+            created shouldBe 1677858242
+            model shouldBe "gpt-3.5-turbo-0613"
+            systemFingerprint shouldBe "fp_44709d6fcb"
+            choices shouldHaveSize 1
+
+            withClue("First choice should be correct") {
+                assertSoftly(choices[0]) {
+                    index shouldBe 0
+
+                    withClue("Delta should be present and correct") {
+                        delta.shouldNotBeNull()
+                        delta?.content shouldBe "Hello"
+                    }
+                }
+            }
+        }
     }
 
     @Test
@@ -238,8 +301,10 @@ internal class ChatCompletionModelsTest {
 
         val message = jsonParser.decodeFromString<Message>(json)
 
-        message.role shouldBe ChatCompletionRole.ASSISTANT
-        message.content shouldBe "Hello! How can I help you today?"
+        assertSoftly(message) {
+            role shouldBe ChatCompletionRole.ASSISTANT
+            content shouldBe "Hello! How can I help you today?"
+        }
     }
 
     @Test
@@ -261,9 +326,16 @@ internal class ChatCompletionModelsTest {
 
         val tool = jsonParser.decodeFromString<Tool>(json)
 
-        tool.type shouldBe "function"
-        tool.function.name shouldBe "get_weather"
-        tool.function.description shouldBe "Get the current weather in a given location"
-        tool.function.parameters?.size shouldBe 2
+        assertSoftly(tool) {
+            type shouldBe "function"
+
+            withClue("Function should be correct") {
+                assertSoftly(function) {
+                    name shouldBe "get_weather"
+                    description shouldBe "Get the current weather in a given location"
+                    parameters?.size shouldBe 2
+                }
+            }
+        }
     }
 }
