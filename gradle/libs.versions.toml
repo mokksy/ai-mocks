@@ -11,11 +11,11 @@ google-genai = "1.8.0"
 google-adk = "0.2.0"
 junitJupiter = "5.13.3"
 kotest = "5.9.1"
-kotlin = "2.2.0"
+kotlin = "2.1.21"
 kotlinLogging = "7.0.7"
-kotlinx = "1.10.2"
+kotlinxCoroutines = "1.10.2"
 kotlinxDatetime = "0.6.2"
-kotlinxSerialization = "1.9.0"
+kotlinxSerialization = "1.8.1"
 kover = "0.9.1"
 ktor = "3.2.2"
 langchain4j = "1.1.0"
@@ -44,9 +44,9 @@ junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-para
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-assertions-json = { module = "io.kotest:kotest-assertions-json", version.ref = "kotest" }
 kotlinLogging = { module = "io.github.oshai:kotlin-logging", version.ref = "kotlinLogging" }
-kotlinx-coroutines-core-jvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "kotlinx" }
-kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "kotlinx" }
-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx" }
+kotlinx-coroutines-core-jvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }

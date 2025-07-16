@@ -45,6 +45,7 @@ tasks.withType<KotlinCompile>().configureEach {
         jvmTarget = JvmTarget.JVM_17
         languageVersion = KOTLIN_2_0
         apiVersion = KOTLIN_2_0
+        allWarningsAsErrors = true
         freeCompilerArgs =
             listOf(
                 "-Wextra",

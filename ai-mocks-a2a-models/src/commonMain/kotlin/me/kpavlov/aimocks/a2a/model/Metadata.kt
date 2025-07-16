@@ -5,6 +5,7 @@ import me.kpavlov.aimocks.a2a.model.serializers.MapOrPrimitiveSerializer
 
 @JvmInline
 @Serializable
+@Suppress("SERIALIZER_TYPE_INCOMPATIBLE")
 public value class Metadata(
     private val value: Map<
         String,
