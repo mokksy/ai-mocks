@@ -30,7 +30,7 @@ public class PropertyDefinitionSerializer : KSerializer<PropertyDefinition> {
         require(jsonElement is JsonObject) { "Expected JSON object for PropertyDefinition" }
 
         // Check if it's a reference
-        if (jsonElement.containsKey($$"$ref")) {
+        if (jsonElement.containsKey("\$ref")) {
             return decoder.json.decodeFromJsonElement(
                 ReferencePropertyDefinition.serializer(),
                 jsonElement,
