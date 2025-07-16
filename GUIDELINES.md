@@ -42,22 +42,25 @@ development purposes.
 
 ## Development Guidelines
 
-1. **Code Style: Kotlin**
-  - Follow Kotlin coding conventions
-  - Use the provided `.editorconfig` for consistent formatting
-  - Use Kotlin typesafe DSL builders where possible and prioritize fluent builders style over standard builder methods.
+### 1. Code Style
+
+#### Kotlin
+
+- Follow Kotlin coding conventions
+- Use the provided `.editorconfig` for consistent formatting
+- Use Kotlin typesafe DSL builders where possible and prioritize fluent builders style over standard builder methods.
     If DSL builders produce less readable code, use standard setter methods.
-  - Use Kotlin's `val` for immutable properties and `var` for mutable properties
+- Use Kotlin's `val` for immutable properties and `var` for mutable properties
 - Ensure to preserve backward compatibility when making changes
 
-2. **Code Style: Java**
+#### Java
 
 - Use the provided `.editorconfig` for consistent formatting
 - For Java code prefer fluent DSL style over standard bean getters and setter methods
 
 3. **Testing**
   - Write comprehensive tests for new features
-- Write tests on Kotlin with kotlin-test and Kotest-assertions with infix form assertions `shouldBe` instead of
+- Write Kotlin tests with kotlin-test and Kotest-assertions with infix form assertions `shouldBe` instead of
   Assertj's `assertThat(...)`.
 - Use Kotest's `withClue("<failure reason>")` to describe failure reasons, but only when the assertion is NOT obvious.
   Remove obvious cases for simplicity.

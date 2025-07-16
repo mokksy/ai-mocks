@@ -16,13 +16,12 @@
       "enabled": false
     },
     {
-      "description": "Automatically merge minor and patch-level updates",
+      "description": "Automatically merge patch-level updates",
       "matchUpdateTypes": [
-        "minor",
         "patch",
         "digest"
       ],
-      "automerge": true,
+      "automerge": true
     }
   ]
 }
