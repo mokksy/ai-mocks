@@ -25,6 +25,9 @@
    ```shell
    gpgconf --kill gpg-agent
    gpg -K --keyid-format SHORT
+            
+   # Test
+   echo "test" | gpg --clearsign
    ```
 
 3. Push
