@@ -19,7 +19,7 @@ response streaming and Server-Side Events (SSE). They are designed to build, tes
 
 # Mokksy
 
-![mokksy-mascot-256.png](mokksy/docs/mokksy-mascot-256.png)
+![mokksy-mascot-256.png](https://mokksy.dev/mokksy-mascot-256.png)
 
 **[Mokksy](mokksy/README.md)** is a mock HTTP server built with [Kotlin](https://kotlinlang.org/)
 and [Ktor](https://ktor.io/). It addresses the limitations of WireMock by supporting true SSE and streaming responses,
