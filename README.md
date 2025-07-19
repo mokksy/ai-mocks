@@ -6,7 +6,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/100bb4b0f6744188b86f38464a48da93)](https://app.codacy.com/gh/mokksy/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Codacy Coverage](https://app.codacy.com/project/badge/Coverage/100bb4b0f6744188b86f38464a48da93)](https://app.codacy.com/gh/mokksy/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 [![codecov](https://codecov.io/github/mokksy/ai-mocks/graph/badge.svg?token=449G80QY5S)](https://codecov.io/github/mokksy/ai-mocks)
-![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/mokksy/ai-mocks?utm_source=oss&utm_medium=github&utm_campaign=mokksy%2Fai-mocks&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/mokksy/ai-mocks?utm_source=oss&utm_medium=github&utm_campaign=mokksy%2Fai-mocks&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
 [![Documentation](https://img.shields.io/badge/docs-website-blue)](https://mokksy.dev/)
 [![API Reference](https://img.shields.io/badge/api-reference-blue)](https://mokksy.dev/apidocs/)
