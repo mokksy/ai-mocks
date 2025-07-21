@@ -12,6 +12,7 @@ Welcome to the Mokksy and AI-Mocks documentation. This documentation will help y
   - [OpenAI](./ai-mocks/openai/)
   - [Anthropic](./ai-mocks/anthropic/)
   - [Gemini](./ai-mocks/gemini/)
+  - [Ollama](./ai-mocks/ollama/)
   - [Agent-to-Agent Protocol (A2A)](./ai-mocks/a2a/)
 
 ## API Reference

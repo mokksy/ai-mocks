@@ -16,10 +16,15 @@ public abstract class AbstractMockLlm(
             configuration = configuration,
         ) {
             applicationConfigurer?.invoke(this)
-            log.info("Running Mokksy with $engine engine")
+            log.info("Running ${configuration.name} with $engine engine")
         }
 
-    public fun port(): Int = mokksy.port()
+    /**
+ * Returns the port number on which the mock server is running.
+ *
+ * @return The port number used by the mock server.
+ */
+public fun port(): Int = mokksy.port()
 
     public fun shutdown() {
         mokksy.shutdown()

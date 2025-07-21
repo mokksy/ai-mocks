@@ -57,4 +57,42 @@ internal class GetTaskTest : AbstractTest() {
                 )
             response shouldBeEqualToComparingFields expectedReply
         }
+
+    @Test
+    fun `Should get task using id and historyLength parameters`() =
+        runTest {
+            lateinit var expectedTask: Task
+
+            a2aServer.getTask() responds {
+                id = 1
+                result {
+                    id = "tid_12345"
+                    sessionId = null
+                    status {
+                        state = "completed"
+                    }
+                    artifacts +=
+                        artifact {
+                            name = "joke"
+                            parts +=
+                                textPart {
+                                    text = "This is a joke"
+                                }
+                        }
+                }
+                expectedTask = requireNotNull(result) { "Result should not be null" }
+            }
+
+            // Call the overload that takes id and historyLength parameters
+            val taskId = UUID.randomUUID().toString()
+            val historyLength = 3
+            val response = client.getTask(taskId, historyLength)
+
+            val expectedReply =
+                GetTaskResponse(
+                    id = 1,
+                    result = expectedTask,
+                )
+            response shouldBeEqualToComparingFields expectedReply
+        }
 }

@@ -1,5 +1,9 @@
+@file:OptIn(ExperimentalSerializationApi::class)
+
 package me.kpavlov.aimocks.core.json.schema
 
+import kotlinx.serialization.EncodeDefault
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
@@ -32,6 +36,7 @@ public data class JsonSchema(
  */
 @Serializable
 public data class SchemaDefinition(
+    @EncodeDefault
     val type: String = "object",
     val properties: Map<String, PropertyDefinition> = emptyMap(),
     val required: List<String> = emptyList(),
@@ -83,9 +88,10 @@ public sealed interface ValuePropertyDefinition : PropertyDefinition {
 @Serializable
 public data class StringPropertyDefinition(
     @Serializable(with = StringOrListSerializer::class)
+    @EncodeDefault
     override val type: List<String> = listOf("string"),
     override val description: String? = null,
-    override val nullable:  Boolean? = null,
+    override val nullable: Boolean? = null,
     val format: String? = null,
     val enum: List<String>? = null,
     val minLength: Int? = null,
@@ -104,7 +110,7 @@ public data class NumericPropertyDefinition(
     @Serializable(with = StringOrListSerializer::class)
     override val type: List<String>,
     override val description: String? = null,
-    override val nullable:  Boolean? = null,
+    override val nullable: Boolean? = null,
     val multipleOf: Double? = null,
     val minimum: Double? = null,
     val exclusiveMinimum: Double? = null,
@@ -123,7 +129,7 @@ public data class ArrayPropertyDefinition(
     @Serializable(with = StringOrListSerializer::class)
     override val type: List<String> = listOf("array"),
     override val description: String? = null,
-    override val nullable:  Boolean? = null,
+    override val nullable: Boolean? = null,
     val items: PropertyDefinition? = null,
     val minItems: UInt? = null,
     val maxItems: UInt? = null,

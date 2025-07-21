@@ -25,6 +25,8 @@ Mokksy and AI-Mocks are a suite of tools designed for mocking HTTP and LLM (Larg
    - Currently supports:
      - OpenAI API (`ai-mocks-openai`)
      - Anthropic API (`ai-mocks-anthropic`)
+     - Google Gemini API (`ai-mocks-gemini`)
+     - Ollama API (`ai-mocks-ollama`)
      - Agent-to-Agent protocol from Google (`ai-mocks-a2a`, `ai-mocks-a2a-models`)
    - Allows developers to mock LLM API responses for testing and development
 
