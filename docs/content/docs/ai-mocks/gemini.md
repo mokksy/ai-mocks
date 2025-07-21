@@ -28,8 +28,9 @@ implementation("me.kpavlov.aimocks:ai-mocks-gemini-jvm:$latestVersion")
   <version>[LATEST_VERSION]</version>
 </dependency>
 ```
-    {{< /tab >}}
-    {{< /tabs >}}
+
+{{< /tab >}}
+{{< /tabs >}}
 
 ## Content Generation API
 

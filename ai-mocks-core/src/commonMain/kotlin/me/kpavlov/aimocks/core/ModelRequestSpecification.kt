@@ -1,10 +1,13 @@
 package me.kpavlov.aimocks.core
 
+import io.kotest.assertions.json.CompareJsonOptions
+import io.kotest.assertions.json.equalJson
 import io.kotest.matchers.Matcher
 import io.kotest.matchers.string.contain
 import io.kotest.matchers.string.containIgnoringCase
 import me.kpavlov.mokksy.kotest.doesNotContain
 import me.kpavlov.mokksy.kotest.doesNotContainIgnoringCase
+import me.kpavlov.mokksy.kotest.objectEquals
 import me.kpavlov.mokksy.request.predicateMatcher
 import me.kpavlov.mokksy.request.successCallMatcher
 
@@ -52,6 +55,42 @@ public abstract class ModelRequestSpecification<P>(
         apply {
             requestBodyString += contain(substring)
         }
+
+    /**
+     * Specifies the request body to be equal to given object.
+     *
+     * @param requestObject The request body object
+     * @return This specification for method chaining
+     */
+    public fun requestBodyEquals(requestObject: P): ModelRequestSpecification<P> = apply {
+        requestBody += objectEquals(requestObject, name = "request body")
+    }
+
+    /**
+     * Specifies the request body to be exactly equal to the given Json string.
+     *
+     * @param payload The request body object
+     * @return This specification for method chaining
+     */
+    public fun requestBodyEqualsJson(payload: String): ModelRequestSpecification<P> = apply {
+        requestBodyString += equalJson(
+            expected = payload,
+            options = CompareJsonOptions()
+        )
+    }
+
+    /**
+     * Specifies the request body to be exactly equal to the given string.
+     *
+     * @param payload The request body object
+     * @return This specification for method chaining
+     */
+    public fun requestBodyEquals(payload: String): ModelRequestSpecification<P> = apply {
+        requestBodyString += objectEquals(
+            payload,
+            name = "request body"
+        )
+    }
 
     /**
      * Adds a condition to ensure the request body contains the specified substring,

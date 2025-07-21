@@ -46,3 +46,23 @@ public fun doesNotContain(substr: String): Matcher<String?> =
             },
         )
     }
+
+
+/**
+ * Creates a matcher that checks if the actual value is equal to the provided request object.
+ *
+ * @param request The expected object to compare against.
+ * @param name The name of the parameter being checked, used in error messages.
+ * @return A matcher that verifies the actual value matches the request object.
+ */
+public fun <T : Any> objectEquals(request: T?, name: String): Matcher<T?> =
+    object : Matcher<T?> {
+        override fun test(value: T?): MatcherResult =
+            MatcherResult(
+                value == request,
+                { "$name should be equal to $request" },
+                { "$name should NOT be equal to $request" },
+            )
+
+        override fun toString(): String = "$name should be equal to $request"
+    }

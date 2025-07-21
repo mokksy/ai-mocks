@@ -157,8 +157,9 @@ assertThat(result.bodyAsText())
 It supports mocking following AI services:
 1. [OpenAI](https://platform.openai.com/docs/api-reference/) - [ai-mocks-openai](https://mokksy.dev/docs/ai-mocks/openai/)
 2. [Anthropic](https://docs.anthropic.com/en/api) - [ai-mocks-anthropic](https://mokksy.dev/docs/ai-mocks/anthropic/)
-2. [Google VertexAI Gemini](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference) - [ai-mocks-gemini](https://mokksy.dev/docs/ai-mocks/gemini/)
-3. [Agent-to-Agent (A2A) Protocol](https://github.com/google/A2A) - [ai-mocks-a2a](https://mokksy.dev/docs/ai-mocks/a2a/)
+3. [Google VertexAI Gemini](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference) - [ai-mocks-gemini](https://mokksy.dev/docs/ai-mocks/gemini/)
+4. [Ollama](https://github.com/ollama/ollama/blob/main/docs/api.md) - [ai-mocks-ollama](https://mokksy.dev/docs/ai-mocks/ollama/)
+5. [Agent-to-Agent (A2A) Protocol](https://github.com/google/A2A) - [ai-mocks-a2a](https://mokksy.dev/docs/ai-mocks/a2a/)
 
 **_NB! Not all API endpoints and parameters are supported!_**
 

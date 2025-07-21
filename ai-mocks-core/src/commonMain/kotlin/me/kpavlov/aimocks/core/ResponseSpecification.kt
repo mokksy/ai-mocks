@@ -8,7 +8,7 @@ public interface ResponseSpecification {
     /**
      * Sets the delay before sending the response (time to first token).
      *
-     * @param delayMs The delay in milliseconds.
+     * @param value The delay in milliseconds.
      * @return This specification instance for method chaining.
      */
     public fun delayMillis(value: Long)
@@ -27,7 +27,7 @@ public abstract class AbstractResponseSpecification<P : Any, T : Any>(
     /**
      * Sets the delay before sending the response (time to first token).
      *
-     * @param delayMs The delay in milliseconds.
+     * @param value The delay in milliseconds.
      * @return This specification instance for method chaining.
      */
     public override fun delayMillis(value: Long) {

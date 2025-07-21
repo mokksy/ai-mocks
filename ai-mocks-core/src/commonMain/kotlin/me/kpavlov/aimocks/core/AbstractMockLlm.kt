@@ -16,7 +16,7 @@ public abstract class AbstractMockLlm(
             configuration = configuration,
         ) {
             applicationConfigurer?.invoke(this)
-            log.info("Running Mokksy with $engine engine")
+            log.info("Running ${configuration.name} with $engine engine")
         }
 
     public fun port(): Int = mokksy.port()

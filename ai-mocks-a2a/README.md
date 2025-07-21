@@ -4,4 +4,6 @@ A mock server for testing Agent-to-Agent (A2A) protocol integrations.
 
 ## Overview
 
-This library provides a mock server that simulates an A2A protocol endpoint for testing purposes. It allows developers to test their A2A client implementations without connecting to a real A2A server.
+This library provides a local [MockAgentServer](./src/commonMain/kotlin/me/kpavlov/aimocks/a2a/MockAgentServer.kt) for
+simulating [A2A (Agent-to-Agent) API endpoints](https://google.github.io/A2A/). It simplifies testing by allowing you to
+define request expectations and responses without making real network calls.

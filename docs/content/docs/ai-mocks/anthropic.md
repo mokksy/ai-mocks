@@ -8,16 +8,18 @@ toc: true
 
 ## Quick Start
 
-1. **Add Dependency**
-   Include the library in your test dependencies (Maven or Gradle).
+### Add Dependency
 
-    {{< tabs "dependencies" >}}
-    {{< tab "Gradle" >}}
+Include the library in your test dependencies (Maven or Gradle).
+
+{{< tabs "dependencies" >}}
+{{< tab "Gradle" >}}
 ```kotlin
 implementation("me.kpavlov.aimocks:ai-mocks-anthropic-jvm:$latestVersion")
 ```
-    {{< /tab >}}
-    {{< tab "Maven" >}}
+
+{{< /tab >}}
+{{< tab "Maven" >}}
 ```xml
 <dependency>
     <groupId>me.kpavlov.aimocks</groupId>
@@ -25,75 +27,80 @@ implementation("me.kpavlov.aimocks:ai-mocks-anthropic-jvm:$latestVersion")
     <version>[LATEST_VERSION]</version>
 </dependency>
 ```
-    {{< /tab >}}
-    {{< /tabs >}}
 
+{{< /tab >}}
+{{< /tabs >}}
 
-2. **Initialize the Server**
-   ```kotlin
-   val anthropic = MockAnthropic(verbose = true)
-   ```
-  - The server will start on a random free port by default.
-  - You can retrieve the server's base URL via `anthropic.baseUrl()`.
+### Initialize the Server**
 
-3. **Configure Requests and Responses**
+```kotlin
+val anthropic = MockAnthropic(verbose = true)
+```
 
-   Here's an example that sets up a mock "messages" endpoint and defines the response:
-    ```kotlin
-    anthropic.messages {
-        temperature = 0.42
-        model = "claude-3-7-sonnet-latest"
-        maxTokens = 100
-        topP = 0.95
-        topK = 40
-        userId = "user123"
-        systemMessageContains("helpful assistant")
-        userMessageContains("say 'Hello!'")
-    } responds {
-        messageId = "msg_1234567890"
-        assistantContent = "Hello" // response content
-        delay = 200.milliseconds // simulate delay
-        stopReason = "end_turn" // reason for stopping
-    }
-    ```
-    - The `messages { ... }` block sets how the incoming request must look.
-    - The `responds { ... }` block defines what the mock server returns.
+- The server will start on a random free port by default.
+- You can retrieve the server's base URL via `anthropic.baseUrl()`.
 
+### Configure Requests and Responses**
 
-4. **Calling Anthropic API Client**
+Here's an example that sets up a mock "messages" endpoint and defines the response:
 
-    Here's an example that sets up and call official [Anthropic SDK client](https://github.com/anthropics/anthropic-sdk-java):
-    ```kotlin
-    // create Anthropic SDK client
-    val client =
-        AnthropicOkHttpClient
-            .builder()
-            .apiKey("my-anthropic-api-key")
-            .baseUrl(anthropic.baseUrl())
-            .build()
+  ```kotlin
+  anthropic.messages {
+  temperature = 0.42
+  model = "claude-3-7-sonnet-latest"
+  maxTokens = 100
+  topP = 0.95
+  topK = 40
+  userId = "user123"
+  systemMessageContains("helpful assistant")
+  userMessageContains("say 'Hello!'")
+} responds {
+  messageId = "msg_1234567890"
+  assistantContent = "Hello" // response content
+  delay = 200.milliseconds // simulate delay
+  stopReason = "end_turn" // reason for stopping
+}
+  ```
 
-    // prepare Anthropic SDK call
-    val params =
-        MessageCreateParams
-            .builder()
-            .temperature(0.42)
-            .maxTokens(100)
-            .system("You are a helpful assistant.")
-            .addUserMessage("Just say 'Hello!' and nothing else")
-            .model("claude-3-7-sonnet-latest")
-            .build()
+- The `messages { ... }` block sets how the incoming request must look.
+- The `responds { ... }` block defines what the mock server returns.
 
-    val result =
-        client
-            .messages()
-            .create(params)
+### Calling Anthropic API Client
 
-    result
-        .content()
-        .first()
-        .asText()
-        .text() shouldBe "Hello" // kotest matcher
-    ```
+Here's an example that sets up and call
+official [Anthropic SDK client](https://github.com/anthropics/anthropic-sdk-java):
+
+```kotlin
+// create Anthropic SDK client
+val client =
+  AnthropicOkHttpClient
+    .builder()
+    .apiKey("my-anthropic-api-key")
+    .baseUrl(anthropic.baseUrl())
+    .build()
+
+// prepare Anthropic SDK call
+val params =
+  MessageCreateParams
+    .builder()
+    .temperature(0.42)
+    .maxTokens(100)
+    .system("You are a helpful assistant.")
+    .addUserMessage("Just say 'Hello!' and nothing else")
+    .model("claude-3-7-sonnet-latest")
+    .build()
+
+val result =
+  client
+    .messages()
+    .create(params)
+
+result
+  .content()
+  .first()
+  .asText()
+  .text() shouldBe "Hello" // kotest matcher
+```
 
 ## Streaming Responses
 

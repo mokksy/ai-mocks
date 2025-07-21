@@ -6,7 +6,6 @@ import me.kpavlov.mokksy.response.AbstractResponseDefinition
 import java.util.stream.Stream
 import kotlin.time.Duration
 
-
 public interface StreamingResponseSpecification<T : Any> {
     /**
      * Sets the chunks of content for the streaming response.
