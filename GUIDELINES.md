@@ -38,11 +38,12 @@ development purposes.
 - `ai-mocks-openai`: OpenAI API mock implementation
 - `ai-mocks-anthropic`: Anthropic API mock implementation
 - `ai-mocks-gemini`: Google Gemini/GenAI API mock implementation
+- `ai-mocks-ollama`: Ollama API mock implementation
 - `mokksy`: The underlying mock HTTP server
 
 ## Development Guidelines
 
-### 1. Code Style
+### Code Style
 
 #### Kotlin
 
@@ -51,15 +52,19 @@ development purposes.
 - Use Kotlin typesafe DSL builders where possible and prioritize fluent builders style over standard builder methods.
     If DSL builders produce less readable code, use standard setter methods.
 - Use Kotlin's `val` for immutable properties and `var` for mutable properties
+- Use fully qualified imports instead of star imports
 - Ensure to preserve backward compatibility when making changes
 
 #### Java
 
 - Use the provided `.editorconfig` for consistent formatting
-- For Java code prefer fluent DSL style over standard bean getters and setter methods
+- For Java code, prefer fluent DSL style over standard bean getters and setter methods
 
-3. **Testing**
-  - Write comprehensive tests for new features
+### Testing
+
+- Write comprehensive tests for new features
+- Use function `Names with backticks` for test methods in Kotlin, e.g. "fun `should return 200 OK`()"
+- Avoid writing KDocs for tests, keep code self-documenting
 - Write Kotlin tests with kotlin-test and Kotest-assertions with infix form assertions `shouldBe` instead of
   Assertj's `assertThat(...)`.
 - Use Kotest's `withClue("<failure reason>")` to describe failure reasons, but only when the assertion is NOT obvious.
@@ -70,10 +75,14 @@ development purposes.
   - Prioritize test readability
   - When asked to write tests in Java: use JUnit5, Mockito, AssertJ core
 
-4. **Documentation**
-  - Update README files when adding new features
-  - Document API changes in the appropriate module's documentation
+### Documentation
+
+- Update README files when adding new features
+- Document API changes in the appropriate module's documentation
 - Write tutorials in Hugo markdown /docs/content/docs
+- Make sure that in production code interfaces and abstract classes are properly documented. Avoid adding KDocs to
+  override functions to avoid verbosity.
+- Update KDocs when api is changed
 
 ### Project Documentation
 

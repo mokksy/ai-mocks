@@ -1,10 +1,13 @@
 package me.kpavlov.aimocks.core
 
+import io.kotest.assertions.json.CompareJsonOptions
+import io.kotest.assertions.json.equalJson
 import io.kotest.matchers.Matcher
 import io.kotest.matchers.string.contain
 import io.kotest.matchers.string.containIgnoringCase
 import me.kpavlov.mokksy.kotest.doesNotContain
 import me.kpavlov.mokksy.kotest.doesNotContainIgnoringCase
+import me.kpavlov.mokksy.kotest.objectEquals
 import me.kpavlov.mokksy.request.predicateMatcher
 import me.kpavlov.mokksy.request.successCallMatcher
 
@@ -43,15 +46,51 @@ public abstract class ModelRequestSpecification<P>(
         apply { this.topP = value.toDouble() }
 
     /**
-     * Adds a condition to ensure the request body contains the specified substring.
-     *
-     * @param substring The substring that the request body should contain.
-     * @return The current instance of ChatRequestSpecification with the updated condition.
-     */
+         * Adds a matcher to require that the request body string contains the specified substring.
+         *
+         * @param substring The substring that must be present in the request body.
+         * @return This specification instance for fluent chaining.
+         */
     public fun requestBodyContains(substring: String): ModelRequestSpecification<P> =
         apply {
             requestBodyString += contain(substring)
         }
+
+    /**
+     * Adds a matcher to require the request body object to be exactly equal to the specified object.
+     *
+     * @param requestObject The object that the request body must equal.
+     * @return This specification instance for fluent chaining.
+     */
+    public fun requestBodyEquals(requestObject: P): ModelRequestSpecification<P> = apply {
+        requestBody += objectEquals(requestObject, name = "request body")
+    }
+
+    /**
+     * Adds a matcher that requires the request body string to exactly match the specified JSON payload.
+     *
+     * @param payload The expected JSON string for the request body.
+     * @return This specification instance for fluent chaining.
+     */
+    public fun requestBodyEqualsJson(payload: String): ModelRequestSpecification<P> = apply {
+        requestBodyString += equalJson(
+            expected = payload,
+            options = CompareJsonOptions()
+        )
+    }
+
+    /**
+     * Adds a matcher to require the request body string to be exactly equal to the specified value.
+     *
+     * @param payload The exact string the request body must match.
+     * @return This specification instance for fluent chaining.
+     */
+    public fun requestBodyEquals(payload: String): ModelRequestSpecification<P> = apply {
+        requestBodyString += objectEquals(
+            payload,
+            name = "request body"
+        )
+    }
 
     /**
      * Adds a condition to ensure the request body contains the specified substring,

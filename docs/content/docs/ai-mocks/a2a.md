@@ -8,16 +8,18 @@ toc: true
 
 ## Quick Start
 
-1. **Add Dependency**
-   Include the library in your test dependencies (Maven or Gradle).
+### Add Dependency
 
-    {{< tabs "dependencies" >}}
-    {{< tab "Gradle" >}}
+Include the library in your test dependencies (Maven or Gradle).
+
+{{< tabs "dependencies" >}}
+{{< tab "Gradle" >}}
 ```kotlin
 implementation("me.kpavlov.aimocks:ai-mocks-a2a-jvm:$latestVersion")
 ```
-    {{< /tab >}}
-    {{< tab "Maven" >}}
+
+{{< /tab >}}
+{{< tab "Maven" >}}
 ```xml
 <dependency>
     <groupId>me.kpavlov.aimocks</groupId>
@@ -25,22 +27,23 @@ implementation("me.kpavlov.aimocks:ai-mocks-a2a-jvm:$latestVersion")
     <version>[LATEST_VERSION]</version>
 </dependency>
 ```
-    {{< /tab >}}
-    {{< /tabs >}}
 
+{{< /tab >}}
+{{< /tabs >}}
 
-2. **Initialize the Server**
-   ```kotlin
-   val a2aServer = MockAgentServer(verbose = true)
-   ```
-  - The server will start on a random free port by default.
-  - You can retrieve the server's base URL via `a2aServer.baseUrl()`.
+### Initialize the Server
 
-3. **Configure Requests and Responses**
+```kotlin
+val a2aServer = MockAgentServer(verbose = true)
+```
+
+- The server will start on a random free port by default.
+- You can retrieve the server's base URL via `a2aServer.baseUrl()`.
 
 ## HTTP Client Setup
 
-You may use any HTTP client which supports Server-Sent Events (SSE) to make requests to the mock server. Here's how to create a Ktor client for A2A:
+You may use any HTTP client that supports Server-Sent Events (SSE) to make requests to the mock server. Here's how to
+create a Ktor client for A2A:
 
 ```kotlin
 // Create a Ktor client

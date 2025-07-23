@@ -22,8 +22,9 @@ Add Dependency Include the library in your test dependencies (Maven or Gradle).
 ```kotlin
 implementation("me.kpavlov.aimocks:ai-mocks-openai-jvm:$latestVersion")
 ```
-    {{< /tab >}}
-    {{< tab "Maven" >}}
+
+{{< /tab >}}
+{{< tab "Maven" >}}
 ```xml
 <dependency>
   <groupId>me.kpavlov.aimocks</groupId>
@@ -31,8 +32,9 @@ implementation("me.kpavlov.aimocks:ai-mocks-openai-jvm:$latestVersion")
   <version>[LATEST_VERSION]</version>
 </dependency>
 ```
-    {{< /tab >}}
-    {{< /tabs >}}
+
+{{< /tab >}}
+{{< /tabs >}}
 
 ## Chat Completions API
 

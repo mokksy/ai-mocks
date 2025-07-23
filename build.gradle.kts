@@ -30,6 +30,7 @@ dependencies {
     kover(project(":ai-mocks-anthropic"))
     kover(project(":ai-mocks-core"))
     kover(project(":ai-mocks-gemini"))
+    kover(project(":ai-mocks-ollama"))
     kover(project(":ai-mocks-openai"))
     kover(project(":mokksy"))
 }
