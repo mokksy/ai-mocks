@@ -26,10 +26,10 @@ public class OllamaEmbedRequestSpecification {
     public val requestBodyString: MutableList<String> = mutableListOf()
 
     /**
-     * Specifies the model to match in the request.
+     * Sets the model name criterion for matching embedding requests.
      *
-     * @param model The model name
-     * @return This specification for method chaining
+     * @param model The name of the model to match.
+     * @return This specification instance for method chaining.
      */
     public fun model(model: String): OllamaEmbedRequestSpecification {
         this.model = model
@@ -37,11 +37,10 @@ public class OllamaEmbedRequestSpecification {
     }
 
     /**
-     * Specifies the string input to match in the request.
-     * This is used for single string embedding requests.
+     * Sets a single string input for embedding requests, clearing any existing list input.
      *
-     * @param input The string input
-     * @return This specification for method chaining
+     * @param input The string to use as the embedding input.
+     * @return This specification instance for method chaining.
      */
     public fun stringInput(input: String): OllamaEmbedRequestSpecification {
         this.stringInput = input
@@ -50,11 +49,10 @@ public class OllamaEmbedRequestSpecification {
     }
 
     /**
-     * Specifies the list of string inputs to match in the request.
-     * This is used for multiple string embedding requests.
+     * Sets the list of string inputs for embedding, clearing any previously set single string input.
      *
-     * @param inputs The list of string inputs
-     * @return This specification for method chaining
+     * @param inputs The list of strings to use as input for the embedding request.
+     * @return This specification instance for method chaining.
      */
     public fun stringListInput(inputs: List<String>): OllamaEmbedRequestSpecification {
         this.stringListInput = inputs
@@ -63,10 +61,10 @@ public class OllamaEmbedRequestSpecification {
     }
 
     /**
-     * Specifies whether to truncate the input to fit within context length.
+     * Sets whether to truncate the input to fit within the model's context length.
      *
-     * @param truncate Whether to truncate the input
-     * @return This specification for method chaining
+     * @param truncate If true, input will be truncated to fit the context length.
+     * @return This specification instance for method chaining.
      */
     public fun truncate(truncate: Boolean): OllamaEmbedRequestSpecification {
         this.truncate = truncate
@@ -74,10 +72,10 @@ public class OllamaEmbedRequestSpecification {
     }
 
     /**
-     * Specifies additional model parameters to match in the request.
+     * Sets additional model parameters for the embedding request specification.
      *
-     * @param options The model parameters
-     * @return This specification for method chaining
+     * @param options A map of model parameter names to their values.
+     * @return This specification instance for method chaining.
      */
     public fun options(options: Map<String, String>): OllamaEmbedRequestSpecification {
         this.options = options
@@ -85,10 +83,10 @@ public class OllamaEmbedRequestSpecification {
     }
 
     /**
-     * Specifies how long the model will stay loaded into memory.
+     * Sets the duration for which the model remains loaded in memory.
      *
-     * @param keepAlive The keep alive duration
-     * @return This specification for method chaining
+     * @param keepAlive The keep-alive duration string.
+     * @return This specification instance for method chaining.
      */
     public fun keepAlive(keepAlive: String): OllamaEmbedRequestSpecification {
         this.keepAlive = keepAlive
@@ -96,10 +94,10 @@ public class OllamaEmbedRequestSpecification {
     }
 
     /**
-     * Specifies the request body to match.
+     * Sets the full request body for embedding request matching.
      *
-     * @param requestBody The request body
-     * @return This specification for method chaining
+     * @param requestBody The `EmbeddingsRequest` object to use as the request body.
+     * @return This specification instance for method chaining.
      */
     public fun requestBody(requestBody: EmbeddingsRequest): OllamaEmbedRequestSpecification {
         this.requestBody = requestBody
@@ -107,10 +105,10 @@ public class OllamaEmbedRequestSpecification {
     }
 
     /**
-     * Adds a string matcher for the request body.
+     * Adds a string matcher to the list of request body matchers for this specification.
      *
-     * @param bodyString The string matcher
-     * @return This specification for method chaining
+     * @param bodyString The string to match against the request body.
+     * @return This specification instance for method chaining.
      */
     public fun requestBodyString(bodyString: String): OllamaEmbedRequestSpecification {
         this.requestBodyString.add(bodyString)

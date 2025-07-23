@@ -10,17 +10,15 @@ import kotlin.math.sqrt
 public object EmbeddingUtils {
 
     /**
-     * Generates a simple embedding vector from a string.
+     * Generates a deterministic, normalized embedding vector from a string.
      *
-     * This is a deterministic function that converts a string into a vector of floating-point numbers.
-     * The vector is normalized so that its L2 norm (Euclidean length) is approximately 1.0.
+     * Converts the input string into a floating-point vector of the specified dimension, using a repeatable mathematical transformation. The resulting vector has an L2 norm of approximately 1.0. For empty input, returns a zero vector.
      *
-     * Note: This is a simple implementation for testing purposes only and does not produce
-     * semantically meaningful embeddings like real language models would.
+     * Intended for testing purposes only; does not produce semantically meaningful embeddings.
      *
-     * @param input The input string to generate embeddings for
-     * @param dimensions The number of dimensions in the output vector (default: 1536)
-     * @return A list of floating-point numbers representing the embedding vector
+     * @param input The string to convert into an embedding vector.
+     * @param dimensions The number of dimensions for the output vector (default is 1536).
+     * @return A list of floats representing the normalized embedding vector.
      */
     public fun generateEmbedding(input: String, dimensions: Int = 1536): List<Float> {
         if (input.isEmpty()) return List(dimensions) { 0.0f }
@@ -46,18 +44,23 @@ public object EmbeddingUtils {
     }
 
     /**
-     * Generates embedding vectors for a list of strings.
+     * Generates deterministic embedding vectors for a list of input strings.
      *
-     * @param inputs The list of input strings to generate embeddings for
-     * @param dimensions The number of dimensions in each output vector (default: 1536)
-     * @return A list of embedding vectors, one for each input string
+     * Each input string is converted into a normalized float vector of the specified dimension using a deterministic algorithm.
+     *
+     * @param inputs The strings to generate embeddings for.
+     * @param dimensions The number of dimensions for each embedding vector (default is 1536).
+     * @return A list of embedding vectors corresponding to the input strings.
      */
     public fun generateEmbeddings(inputs: List<String>, dimensions: Int = 1536): List<List<Float>> {
         return inputs.map { generateEmbedding(it, dimensions) }
     }
 
     /**
-     * Calculates the magnitude (L2 norm) of a vector.
+     * Computes the L2 norm (Euclidean magnitude) of a float array vector.
+     *
+     * @param vector The input vector.
+     * @return The L2 norm of the vector.
      */
     public fun calculateMagnitude(vector: FloatArray): Float {
         // Calculate sum of squares manually to avoid type conversion issues
@@ -69,7 +72,12 @@ public object EmbeddingUtils {
     }
 
     /**
-     * Calculates the cosine similarity between two vectors.
+     * Computes the cosine similarity between two float vectors of equal dimension.
+     *
+     * @param a The first vector.
+     * @param b The second vector.
+     * @return The cosine similarity value in the range [-1, 1].
+     * @throws IllegalArgumentException if the vectors have different dimensions.
      */
     public fun cosineSimilarity(a: FloatArray, b: FloatArray): Float {
         require(a.size == b.size) { "Vectors must have the same dimension" }

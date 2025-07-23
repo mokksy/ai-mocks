@@ -48,7 +48,13 @@ public open class MockOllama(
         },
 ) {
     /**
-     * Java-friendly overload that accepts a Consumer for configuring the generate request.
+     * Configures a mock `/api/generate` endpoint using a Java `Consumer` to specify the request criteria.
+     *
+     * This overload enables Java interoperability for setting up request matching and response configuration for the generate API.
+     *
+     * @param name An optional name for the mock configuration.
+     * @param block A Java `Consumer` that configures the generate request specification.
+     * @return A building step for further response configuration.
      */
     @JvmOverloads
     public fun generate(
@@ -57,11 +63,13 @@ public open class MockOllama(
     ): OllamaGenerateBuildingStep = generate(name) { block.accept(this) }
 
     /**
-     * Configures a mock for the generate completion endpoint.
+     * Sets up a mock handler for the Ollama `/api/generate` completion endpoint.
      *
-     * @param name An optional name for the mock
-     * @param block A configuration block for specifying the request matching criteria
-     * @return A building step for configuring the response
+     * Allows configuration of request matching criteria such as model, prompt, system, template, and stream fields. Returns a builder step for specifying the mock response.
+     *
+     * @param name Optional identifier for the mock endpoint.
+     * @param block Configuration block for defining request matching rules.
+     * @return A builder step for configuring the mock response.
      */
     public fun generate(
         name: String? = null,
@@ -110,7 +118,11 @@ public open class MockOllama(
     }
 
     /**
-     * Java-friendly overload that accepts a Consumer for configuring the chat request.
+     * Provides a Java-compatible overload for configuring a mock Ollama chat request using a Consumer.
+     *
+     * @param name An optional name for the mock configuration.
+     * @param block A Consumer that configures the chat request specification.
+     * @return A building step for further configuration of the mock chat response.
      */
     @JvmOverloads
     public fun chat(
@@ -119,11 +131,13 @@ public open class MockOllama(
     ): OllamaChatBuildingStep = chat(name) { block.accept(this) }
 
     /**
-     * Configures a mock for the chat completion endpoint.
+     * Sets up a mock handler for the Ollama chat completion (`/api/chat`) endpoint.
      *
-     * @param name An optional name for the mock
-     * @param block A configuration block for specifying the request matching criteria
-     * @return A building step for configuring the response
+     * Allows configuration of request matching criteria such as model, stream, seed, and custom request body content.
+     *
+     * @param name An optional identifier for the mock endpoint.
+     * @param block A configuration block to specify request matching details.
+     * @return A builder step for defining the mock response.
      */
     public fun chat(
         name: String? = null,
@@ -162,7 +176,13 @@ public open class MockOllama(
     }
 
     /**
-     * Java-friendly overload that accepts a Consumer for configuring the embedding request.
+     * Provides a Java-compatible overload for configuring a mock `/api/embed` endpoint using a Consumer.
+     *
+     * Allows Java code to specify the embedding request specification for the mock Ollama embed API.
+     *
+     * @param name Optional name for the mock configuration.
+     * @param block Consumer that configures the embedding request specification.
+     * @return A building step for further response configuration.
      */
     @JvmOverloads
     public fun embed(
@@ -171,13 +191,13 @@ public open class MockOllama(
     ): OllamaEmbedBuildingStep = embed(name) { block.accept(this) }
 
     /**
-     * Configures a mock for the embed endpoint.
+     * Sets up a mock handler for the Ollama `/api/embed` endpoint, allowing configuration of request matching for embedding requests.
      *
-     * This method supports both string and string list inputs for embedding requests.
+     * Supports matching on model, input (string or list), truncate, keep_alive, and options fields in the request body.
      *
-     * @param name An optional name for the mock
-     * @param block A configuration block for specifying the request matching criteria
-     * @return A building step for configuring the response
+     * @param name Optional identifier for the mock configuration.
+     * @param block Lambda to configure the request matching criteria.
+     * @return A builder step for specifying the mock response to embedding requests.
      */
     public fun embed(
         name: String? = null,
@@ -236,5 +256,10 @@ public open class MockOllama(
         )
     }
 
-    override fun baseUrl(): String = "http://localhost:${port()}"
+    /**
+ * Returns the base URL of the mock Ollama server.
+ *
+ * @return The server URL in the format `http://localhost:<port>`.
+ */
+override fun baseUrl(): String = "http://localhost:${port()}"
 }

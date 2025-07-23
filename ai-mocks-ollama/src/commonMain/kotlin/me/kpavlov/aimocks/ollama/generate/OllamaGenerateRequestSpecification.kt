@@ -22,19 +22,29 @@ public class OllamaGenerateRequestSpecification : ModelRequestSpecification<Gene
     public var template: String? = null
     public var stream: Boolean? = null
 
+    /**
+     * Specifies that the system message in the request must contain the given substring.
+     *
+     * @param substring The substring that must be present in the system message.
+     */
     override fun systemMessageContains(substring: String) {
         requestMatchesPredicate { it.system?.contains(substring) == true }
     }
 
+    /**
+     * Specifies that the request's prompt must contain the given substring.
+     *
+     * @param substring The substring that must be present in the prompt.
+     */
     override fun userMessageContains(substring: String) {
         requestMatchesPredicate { it.prompt?.contains(substring) == true }
     }
 
     /**
-     * Specifies the prompt to match in the request.
+     * Sets the prompt text to match in the request.
      *
-     * @param prompt The prompt text
-     * @return This specification for method chaining
+     * @param prompt The prompt text to use as a matching criterion.
+     * @return This specification instance for method chaining.
      */
     public fun prompt(prompt: String): OllamaGenerateRequestSpecification {
         this.prompt = prompt
@@ -42,10 +52,10 @@ public class OllamaGenerateRequestSpecification : ModelRequestSpecification<Gene
     }
 
     /**
-     * Specifies the system message to match in the request.
+     * Sets the system message criterion for matching generate requests.
      *
-     * @param system The system message
-     * @return This specification for method chaining
+     * @param system The system message to match.
+     * @return This specification instance for method chaining.
      */
     public fun system(system: String): OllamaGenerateRequestSpecification {
         this.system = system
@@ -53,10 +63,10 @@ public class OllamaGenerateRequestSpecification : ModelRequestSpecification<Gene
     }
 
     /**
-     * Specifies the template to match in the request.
+     * Sets the template to match in the generate request.
      *
-     * @param template The template
-     * @return This specification for method chaining
+     * @param template The template string to match.
+     * @return This specification instance for method chaining.
      */
     public fun template(template: String): OllamaGenerateRequestSpecification {
         this.template = template
@@ -64,10 +74,10 @@ public class OllamaGenerateRequestSpecification : ModelRequestSpecification<Gene
     }
 
     /**
-     * Specifies whether to match streaming requests.
+     * Sets the stream flag to indicate whether to match streaming requests.
      *
-     * @param stream Whether the request is streaming
-     * @return This specification for method chaining
+     * @param stream True to match streaming requests; false otherwise.
+     * @return This specification instance for method chaining.
      */
     public fun stream(stream: Boolean): OllamaGenerateRequestSpecification {
         this.stream = stream

@@ -24,10 +24,10 @@ public class OllamaGenerateResponseSpecification(
     delay = delay,
 ) {
     /**
-     * Specifies the content of the response.
+     * Sets the response content for the generate completion specification.
      *
-     * @param content The response content
-     * @return This specification for method chaining
+     * @param content The content to use in the mock response.
+     * @return This specification instance for method chaining.
      */
     public fun content(content: String): OllamaGenerateResponseSpecification {
         this.responseContent = content
@@ -35,10 +35,10 @@ public class OllamaGenerateResponseSpecification(
     }
 
     /**
-     * Specifies the reason why the generation completed.
+     * Sets the reason for completion of the generated response.
      *
-     * @param reason The done reason (e.g., "stop", "length")
-     * @return This specification for method chaining
+     * @param reason The reason the generation finished (e.g., "stop", "length").
+     * @return This specification instance for method chaining.
      */
     public fun doneReason(reason: String): OllamaGenerateResponseSpecification {
         this.doneReason = reason

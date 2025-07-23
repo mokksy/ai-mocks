@@ -31,6 +31,15 @@ public class OllamaEmbedBuildingStep(
     buildingStep,
 ) {
 
+    /**
+     * Configures the mock embedding response for an embedding request using the provided specification block.
+     *
+     * The block allows customization of the embedding response, including embeddings, model name, and response delay.
+     * If embeddings are not explicitly set, they are generated for each input string in the request.
+     * The response includes randomized timing and evaluation count values to simulate realistic API behavior.
+     *
+     * @param block Lambda to customize the embedding response specification.
+     */
     override infix fun responds(block: OllamaEmbedResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val request = this.request.body

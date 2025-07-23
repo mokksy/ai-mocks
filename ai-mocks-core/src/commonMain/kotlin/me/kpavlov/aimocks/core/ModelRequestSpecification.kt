@@ -46,31 +46,31 @@ public abstract class ModelRequestSpecification<P>(
         apply { this.topP = value.toDouble() }
 
     /**
-     * Adds a condition to ensure the request body contains the specified substring.
-     *
-     * @param substring The substring that the request body should contain.
-     * @return The current instance of ChatRequestSpecification with the updated condition.
-     */
+         * Adds a matcher to require that the request body string contains the specified substring.
+         *
+         * @param substring The substring that must be present in the request body.
+         * @return This specification instance for fluent chaining.
+         */
     public fun requestBodyContains(substring: String): ModelRequestSpecification<P> =
         apply {
             requestBodyString += contain(substring)
         }
 
     /**
-     * Specifies the request body to be equal to given object.
+     * Adds a matcher to require the request body object to be exactly equal to the specified object.
      *
-     * @param requestObject The request body object
-     * @return This specification for method chaining
+     * @param requestObject The object that the request body must equal.
+     * @return This specification instance for fluent chaining.
      */
     public fun requestBodyEquals(requestObject: P): ModelRequestSpecification<P> = apply {
         requestBody += objectEquals(requestObject, name = "request body")
     }
 
     /**
-     * Specifies the request body to be exactly equal to the given Json string.
+     * Adds a matcher that requires the request body string to exactly match the specified JSON payload.
      *
-     * @param payload The request body object
-     * @return This specification for method chaining
+     * @param payload The expected JSON string for the request body.
+     * @return This specification instance for fluent chaining.
      */
     public fun requestBodyEqualsJson(payload: String): ModelRequestSpecification<P> = apply {
         requestBodyString += equalJson(
@@ -80,10 +80,10 @@ public abstract class ModelRequestSpecification<P>(
     }
 
     /**
-     * Specifies the request body to be exactly equal to the given string.
+     * Adds a matcher to require the request body string to be exactly equal to the specified value.
      *
-     * @param payload The request body object
-     * @return This specification for method chaining
+     * @param payload The exact string the request body must match.
+     * @return This specification instance for fluent chaining.
      */
     public fun requestBodyEquals(payload: String): ModelRequestSpecification<P> = apply {
         requestBodyString += objectEquals(

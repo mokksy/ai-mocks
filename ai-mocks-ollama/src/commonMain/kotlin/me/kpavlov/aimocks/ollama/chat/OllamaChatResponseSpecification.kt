@@ -27,10 +27,10 @@ public class OllamaChatResponseSpecification(
     delay = delay,
 ) {
     /**
-     * Specifies the content of the assistant's response.
+     * Sets the assistant's response content.
      *
-     * @param content The assistant's response content
-     * @return This specification for method chaining
+     * @param content The content to use for the assistant's reply.
+     * @return This specification instance for method chaining.
      */
     public fun content(content: String): OllamaChatResponseSpecification {
         this.assistantContent = content
@@ -38,10 +38,10 @@ public class OllamaChatResponseSpecification(
     }
 
     /**
-     * Specifies the thinking process of the model.
+     * Sets the thinking process content for the assistant's response.
      *
-     * @param thinking The thinking process
-     * @return This specification for method chaining
+     * @param thinking The content representing the assistant's thought process.
+     * @return This specification instance for method chaining.
      */
     public fun thinking(thinking: String): OllamaChatResponseSpecification {
         this.thinking = thinking
@@ -49,10 +49,10 @@ public class OllamaChatResponseSpecification(
     }
 
     /**
-     * Specifies the tool calls to include in the response.
+     * Sets the tool calls to be included in the chat response.
      *
-     * @param toolCalls The tool calls
-     * @return This specification for method chaining
+     * @param toolCalls A list of tool call definitions to attach to the response.
+     * @return This specification instance for method chaining.
      */
     public fun toolCalls(toolCalls: List<Map<String, Any>>): OllamaChatResponseSpecification {
         this.toolCalls = toolCalls
@@ -60,9 +60,9 @@ public class OllamaChatResponseSpecification(
     }
 
     /**
-     * Creates a message object for the response.
+     * Constructs a `Message` representing the assistant's response, including content and optional thinking information.
      *
-     * @return The message object
+     * @return A `Message` object with the role set to "assistant".
      */
     internal fun createMessage(): Message {
         val message = Message(

@@ -17,6 +17,11 @@ public class OllamaChatRequestSpecification : ModelRequestSpecification<ChatRequ
     public var messages: List<Message> = mutableListOf()
     public var stream: Boolean? = null
 
+    /**
+     * Adds a predicate to match requests where any system message contains the specified substring.
+     *
+     * @param substring The substring to search for within the content of system messages.
+     */
     override fun systemMessageContains(substring: String) {
         requestMatchesPredicate {
             it.messages
@@ -27,6 +32,11 @@ public class OllamaChatRequestSpecification : ModelRequestSpecification<ChatRequ
         }
     }
 
+    /**
+     * Adds a predicate to match requests where any user message contains the specified substring.
+     *
+     * @param substring The substring to search for within user message contents.
+     */
     override fun userMessageContains(substring: String) {
         requestMatchesPredicate {
             it.messages
@@ -39,10 +49,10 @@ public class OllamaChatRequestSpecification : ModelRequestSpecification<ChatRequ
 
 
     /**
-     * Specifies the messages to match in the request.
+     * Sets the list of messages to match in the chat request.
      *
-     * @param messages The list of messages
-     * @return This specification for method chaining
+     * @param messages The messages to use as matching criteria.
+     * @return This specification instance for method chaining.
      */
     public fun messages(messages: List<Message>): OllamaChatRequestSpecification {
         this.messages = messages
@@ -50,10 +60,10 @@ public class OllamaChatRequestSpecification : ModelRequestSpecification<ChatRequ
     }
 
     /**
-     * Specifies whether to match streaming requests.
+     * Sets the streaming flag for the request specification.
      *
-     * @param stream Whether the request is streaming
-     * @return This specification for method chaining
+     * @param stream If true, matches streaming requests; if false, matches non-streaming requests.
+     * @return This specification instance for method chaining.
      */
     public fun stream(stream: Boolean): OllamaChatRequestSpecification {
         this.stream = stream
@@ -61,10 +71,10 @@ public class OllamaChatRequestSpecification : ModelRequestSpecification<ChatRequ
     }
 
     /**
-     * Adds a string matcher for the request body.
+     * Adds a matcher that checks if the request body contains the specified string.
      *
-     * @param bodyString The string matcher
-     * @return This specification for method chaining
+     * @param bodyString The substring to match within the request body.
+     * @return This specification instance for method chaining.
      */
     public fun requestBodyString(bodyString: String): OllamaChatRequestSpecification {
         this.requestBodyString += contain(bodyString)
@@ -72,10 +82,10 @@ public class OllamaChatRequestSpecification : ModelRequestSpecification<ChatRequ
     }
 
     /**
-     * Adds a user message to match in the request.
+     * Appends a user message with the specified content to the list of messages to match in the request.
      *
-     * @param content The message content
-     * @return This specification for method chaining
+     * @param content The content of the user message to add.
+     * @return This specification instance for method chaining.
      */
     public fun userMessage(content: String): OllamaChatRequestSpecification {
         val message = Message(role = "user", content = content)
@@ -84,10 +94,10 @@ public class OllamaChatRequestSpecification : ModelRequestSpecification<ChatRequ
     }
 
     /**
-     * Adds a system message to match in the request.
+     * Appends a system message with the specified content to the list of messages to match in the request.
      *
-     * @param content The message content
-     * @return This specification for method chaining
+     * @param content The content of the system message to add.
+     * @return This specification instance for method chaining.
      */
     public fun systemMessage(content: String): OllamaChatRequestSpecification {
         val message = Message(role = "system", content = content)

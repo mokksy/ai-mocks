@@ -39,6 +39,11 @@ public class OllamaChatBuildingStep(
     mokksy,
     buildingStep,
 ) {
+    /**
+     * Configures a single, complete chat response for the mock Ollama chat completion API.
+     *
+     * Applies the provided configuration block to an `OllamaChatResponseSpecification`, generates randomized timing and evaluation metadata, and constructs a `ChatResponse` with the specified model, message, and completion details.
+     */
     @Suppress("MagicNumber")
     override infix fun responds(block: OllamaChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
@@ -75,14 +80,12 @@ public class OllamaChatBuildingStep(
     }
 
     /**
-     * Configures a streaming response for a chat completions request by applying the provided specifications.
+     * Configures a streaming chat completion response using a user-defined specification block.
      *
-     * This function sets up a chunked response where the response is streamed as a series of JSON objects,
-     * often used in streaming chat scenarios. It allows the specification of response content and other
-     * streaming-specific details through a configuration block.
+     * Sets up a chunked HTTP response where chat completion data is streamed as a sequence of JSON objects,
+     * simulating real-time message delivery. The configuration block customizes the streaming behavior and content.
      *
-     * @param block A configuration block that customizes the streaming response by applying specifications
-     *              to an instance of [OllamaStreamingChatResponseSpecification].
+     * @param block A configuration block for customizing the streaming chat response.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     public infix fun respondsStream(block: OllamaStreamingChatResponseSpecification.() -> Unit) {
@@ -111,6 +114,19 @@ public class OllamaChatBuildingStep(
         }
     }
 
+    /**
+     * Constructs a flow of JSON-encoded chat response chunks for streaming, including initial, content, and final chunks.
+     *
+     * The resulting flow emits:
+     *  - An initial empty chunk with `done = false`.
+     *  - Each content chunk from the input flow, wrapped as a chat response with `done = false`.
+     *  - A final empty chunk with `done = true`.
+     * Each chunk is serialized to JSON and followed by two newlines.
+     *
+     * @param model The model name to include in each response chunk.
+     * @param chunksFlow A flow of content strings to be included as response chunks.
+     * @return A flow of JSON-encoded chat response chunks formatted for streaming.
+     */
     private fun prepareFlow(
         model: String,
         chunksFlow: Flow<String>,
@@ -149,6 +165,17 @@ public class OllamaChatBuildingStep(
         }.map { chunk -> Json.encodeToString(chunk) + "\n\n" }
     }
 
+    /**
+     * Creates a `ChatResponse` chunk representing a segment of a chat completion response.
+     *
+     * If `done` is true, the response includes randomized timing and evaluation metadata; otherwise, these fields are null.
+     *
+     * @param model The model identifier for the response.
+     * @param createdAt The timestamp when the chunk is created.
+     * @param content The message content for this chunk.
+     * @param done Indicates whether this is the final chunk in the response.
+     * @return A `ChatResponse` object containing the specified content and metadata.
+     */
     private fun createChunk(
         model: String,
         createdAt: Instant,

@@ -24,10 +24,10 @@ public class OllamaEmbedResponseSpecification(
     delay = delay,
 ) {
     /**
-     * Specifies the embeddings to include in the response.
+     * Sets the embeddings to be included in the response.
      *
-     * @param embeddings The embeddings
-     * @return This specification for method chaining
+     * @param embeddings A list of embedding vectors to use in the response.
+     * @return This specification instance for method chaining.
      */
     public fun embeddings(embeddings: List<List<Float>>): OllamaEmbedResponseSpecification {
         this.embeddings = embeddings
@@ -35,10 +35,10 @@ public class OllamaEmbedResponseSpecification(
     }
 
     /**
-     * Specifies a single or multiple embedding to include in the response.
+     * Sets the embeddings to include in the response using one or more embedding vectors.
      *
-     * @param embedding The embedding
-     * @return This specification for method chaining
+     * @param embedding One or more embedding vectors to be included in the response.
+     * @return This specification instance for method chaining.
      */
     public fun embeddings(vararg embedding: List<Float>): OllamaEmbedResponseSpecification {
         this.embeddings = embedding.toList()
@@ -46,10 +46,10 @@ public class OllamaEmbedResponseSpecification(
     }
 
     /**
-     * Specifies the model name to include in the response.
+     * Sets the model name to be included in the embedding response.
      *
-     * @param model The model name
-     * @return This specification for method chaining
+     * @param model The name of the model to use.
+     * @return This specification instance for method chaining.
      */
     public fun model(model: String): OllamaEmbedResponseSpecification {
         this.model = model

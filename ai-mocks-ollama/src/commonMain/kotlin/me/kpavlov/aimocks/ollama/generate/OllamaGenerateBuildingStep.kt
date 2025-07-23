@@ -39,6 +39,11 @@ public class OllamaGenerateBuildingStep(
     mokksy,
     buildingStep,
 ) {
+    /**
+     * Configures a mock generate completion response for an Ollama generate request.
+     *
+     * Applies the provided configuration block to customize the response content and completion reason, then generates a single-block `GenerateResponse` with randomized timing and evaluation metrics, the current timestamp, and the model from the request.
+     */
     @Suppress("MagicNumber")
     override infix fun responds(block: OllamaGenerateResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
@@ -73,14 +78,11 @@ public class OllamaGenerateBuildingStep(
     }
 
     /**
-     * Configures a streaming response for a generate completions request by applying the provided specifications.
+     * Configures a streaming mock response for a generate completion request using the provided specification block.
      *
-     * This function sets up a chunked response where the response is streamed as a series of JSON objects,
-     * often used in streaming generate scenarios. It allows the specification of response content and other
-     * streaming-specific details through a configuration block.
+     * Sets up a chunked server-sent event (SSE) response, streaming JSON-encoded completion chunks as defined by the configuration. The response stream includes initial, content, and final chunks, and requires either a flow or a list of response chunks to be specified.
      *
-     * @param block A configuration block that customizes the streaming response by applying specifications
-     *              to an instance of [OllamaStreamingGenerateResponseSpecification].
+     * @param block Configuration block for customizing the streaming response via [OllamaStreamingGenerateResponseSpecification].
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     public infix fun respondsStream(block: OllamaStreamingGenerateResponseSpecification.() -> Unit) {
@@ -111,6 +113,18 @@ public class OllamaGenerateBuildingStep(
         }
     }
 
+    /**
+     * Constructs a flow emitting a sequence of JSON-encoded generate response chunks for streaming.
+     *
+     * The flow starts with an initial empty chunk, followed by content chunks for each string in [chunksFlow],
+     * and ends with a final chunk indicating completion and an optional done reason. Each emitted value is a JSON string
+     * followed by two newlines.
+     *
+     * @param model The model identifier to include in each response chunk.
+     * @param chunksFlow A flow of string content chunks to be included in the response.
+     * @param doneReason An optional reason for stream completion, included in the final chunk.
+     * @return A flow of JSON-encoded response chunks formatted for streaming.
+     */
     private fun prepareFlow(
         model: String,
         chunksFlow: Flow<String>,
@@ -147,6 +161,16 @@ public class OllamaGenerateBuildingStep(
         }.map { chunk -> Json.encodeToString(chunk) + "\n\n" }
     }
 
+    /**
+     * Creates a `GenerateResponse` chunk representing an intermediate (not final) part of a streaming response.
+     *
+     * The chunk includes the specified model, creation timestamp, and response content, with `done` set to false.
+     *
+     * @param model The model identifier for the response.
+     * @param createdAt The timestamp when the chunk is created.
+     * @param response The content of the response chunk.
+     * @return A `GenerateResponse` object with `done` set to false.
+     */
     private fun createChunk(
         model: String,
         createdAt: Instant,
@@ -158,6 +182,16 @@ public class OllamaGenerateBuildingStep(
         done = false,
     )
 
+    /**
+     * Creates a final chunk for a streaming generate response, indicating completion.
+     *
+     * The returned [GenerateResponse] has `done` set to true, an empty response string, a fixed context, randomized timing and evaluation metrics, and an optional done reason.
+     *
+     * @param model The model identifier.
+     * @param createdAt The timestamp when the response was created.
+     * @param doneReason Optional reason for completion.
+     * @return A [GenerateResponse] representing the final chunk in a streaming response.
+     */
     private fun createFinalChunk(
         model: String,
         createdAt: Instant,

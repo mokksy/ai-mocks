@@ -6,11 +6,11 @@ import kotlin.time.Duration.Companion.milliseconds
 
 public interface ResponseSpecification {
     /**
-     * Sets the delay before sending the response (time to first token).
-     *
-     * @param value The delay in milliseconds.
-     * @return This specification instance for method chaining.
-     */
+ * Sets the delay before sending the response, in milliseconds.
+ *
+ * @param value The delay duration in milliseconds.
+ * @return This specification instance for method chaining.
+ */
     public fun delayMillis(value: Long)
 }
 
@@ -25,9 +25,9 @@ public abstract class AbstractResponseSpecification<P : Any, T : Any>(
 ) : ResponseSpecification {
 
     /**
-     * Sets the delay before sending the response (time to first token).
+     * Sets the delay before sending the response, in milliseconds.
      *
-     * @param value The delay in milliseconds.
+     * @param value The delay duration in milliseconds.
      * @return This specification instance for method chaining.
      */
     public override fun delayMillis(value: Long) {

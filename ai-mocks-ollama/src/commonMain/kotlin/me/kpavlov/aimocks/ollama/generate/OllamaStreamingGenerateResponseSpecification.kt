@@ -29,10 +29,10 @@ public class OllamaStreamingGenerateResponseSpecification(
     delay = delay,
 ) {
     /**
-     * Specifies the reason why the generation completed.
+     * Sets the reason for completion of the generation response.
      *
-     * @param reason The done reason (e.g., "stop", "length")
-     * @return This specification for method chaining
+     * @param reason The reason the generation finished (e.g., "stop", "length").
+     * @return This specification instance for method chaining.
      */
     public fun doneReason(reason: String): OllamaStreamingGenerateResponseSpecification {
         this.doneReason = reason
