@@ -12,6 +12,11 @@ import me.kpavlov.mokksy.utils.logger.Highlighting.highlightBody
 
 public enum class ColorTheme { LIGHT_ON_DARK, DARK_ON_LIGHT }
 
+/**
+ * Determines whether ANSI color output is supported on the current platform.
+ *
+ * @return `true` if ANSI color codes can be used for output; otherwise, `false`.
+ */
 internal expect fun isColorSupported(): Boolean
 
 public enum class AnsiColor(public val code: String) {
@@ -31,6 +36,14 @@ public enum class AnsiColor(public val code: String) {
     DARK_GRAY("\u001B[90m"),
 }
 
+/**
+ * Wraps the given text with the specified ANSI color code if coloring is enabled.
+ *
+ * @param text The text to colorize.
+ * @param color The ANSI color to apply.
+ * @param enabled Whether to apply colorization; if false, returns the original text.
+ * @return The colorized text if enabled, otherwise the original text.
+ */
 internal fun colorize(text: String, color: AnsiColor, enabled: Boolean = true): String {
     return if (enabled) "${color.code}$text${AnsiColor.RESET.code}" else text
 }
@@ -40,6 +53,11 @@ public open class HttpFormatter(
     protected val useColor: Boolean = isColorSupported(),
 ) {
 
+    /**
+     * Returns the HTTP method name colorized according to its type and the current color settings.
+     *
+     * GET, POST, and DELETE methods are assigned specific colors; other methods are rendered in bold.
+     */
     private fun method(method: HttpMethod): String {
         val color = when (method) {
             HttpMethod.Get -> AnsiColor.BLUE
@@ -66,7 +84,14 @@ public open class HttpFormatter(
         )
     }
 
-    public fun requestLine(method: HttpMethod, path: String): String =
+    /**
+         * Formats an HTTP request line with the method and path, applying colorization based on the selected theme.
+         *
+         * @param method The HTTP method to display.
+         * @param path The request path to display.
+         * @return The formatted and optionally colorized request line.
+         */
+        public fun requestLine(method: HttpMethod, path: String): String =
         "${method(method)} ${
             colorize(
                 path,
@@ -75,7 +100,14 @@ public open class HttpFormatter(
             )
         }"
 
-    public fun header(k: String, values: List<String>): String =
+    /**
+         * Formats an HTTP header line with colorized header name and values.
+         *
+         * @param k The header name.
+         * @param values The list of header values.
+         * @return The formatted and colorized header line as a string.
+         */
+        public fun header(k: String, values: List<String>): String =
         "${colorize(k, colors.headerName, useColor)}: ${
             colorize(
                 values.joinToString(separator = ",", prefix = "[", postfix = "]"),
@@ -84,11 +116,28 @@ public open class HttpFormatter(
             )
         }"
 
+    /**
+     * Formats the HTTP request body, applying syntax highlighting if color output is enabled.
+     *
+     * Returns an empty string if the body is null or blank. If color output is enabled, the body is highlighted according to its content type; otherwise, the raw body string is returned.
+     *
+     * @param body The HTTP request body to format.
+     * @param contentType The content type of the body, used for syntax highlighting.
+     * @return The formatted body string, or an empty string if the body is null or blank.
+     */
     public fun formatBody(body: String?, contentType: ContentType = ContentType.Any): String {
         if (body.isNullOrBlank()) return ""
         return if (useColor) highlightBody(body, contentType) else body
     }
 
+    /**
+     * Formats an HTTP request into a colorized, multi-line string representation.
+     *
+     * The output includes the request line, all headers, and the request body, with color highlighting applied according to the formatter's theme and color settings.
+     *
+     * @param request The HTTP routing request to format.
+     * @return A formatted string representing the full HTTP request.
+     */
     internal suspend fun formatRequest(request: RoutingRequest): String {
         val body = request.call.receive(String::class)
         return """

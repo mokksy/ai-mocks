@@ -16,6 +16,16 @@ import me.kpavlov.mokksy.utils.logger.HttpFormatter
  * @param application The Ktor application instance used for logging and other application-level operations.
  * @param stubs A collection of mappings that specify how incoming requests should be processed and responded to.
  */
+/**
+ * Processes an incoming HTTP request by matching it against available stubs and handling the response.
+ *
+ * Attempts to find the best matching stub for the request. If a match is found, processes the stub and optionally removes it based on configuration. If no match is found, logs the event and triggers a failure.
+ *
+ * @param context The routing context containing the request and response.
+ * @param stubs The set of available stubs to match against.
+ * @param configuration Server configuration settings that influence matching and logging behavior.
+ * @param formatter Formats HTTP requests for logging and error messages.
+ */
 internal suspend fun handleRequest(
     context: RoutingContext,
     application: Application,
@@ -78,6 +88,11 @@ internal suspend fun handleRequest(
     }
 }
 
+/**
+ * Processes a matched stub by logging the match, incrementing its match count, and sending the stubbed response.
+ *
+ * If verbose logging is enabled in either the server or stub configuration, logs detailed information about the matched request and stub.
+ */
 @Suppress("LongParameterList")
 private suspend fun handleMatchedStub(
     matchedStub: Stub<*, *>,
