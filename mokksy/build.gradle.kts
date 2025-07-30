@@ -46,6 +46,7 @@ kotlin {
         jvmMain {
             dependencies {
                 api(project.dependencies.platform(libs.netty.bom))
+                implementation(libs.jansi)
                 implementation(libs.ktor.server.call.logging)
                 implementation(libs.ktor.server.netty)
             }

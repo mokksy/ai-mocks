@@ -29,6 +29,7 @@ spotless = "7.2.1"
 spring = "6.2.9"
 spring-ai = "1.0.1"
 system-stubs = "2.1.8"
+jansi = "2.4.2"
 
 [libraries]
 anthropic-java = { group = "com.anthropic", name = "anthropic-java", version.ref = "anthropic-java" }
@@ -40,6 +41,7 @@ datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
 finchly = { module = "me.kpavlov.finchly:finchly", version.ref = "finchly" }
 google-adk = { group = "com.google.adk", name = "google-adk", version.ref = "google-adk" }
 google-genai = { group = "com.google.genai", name = "google-genai", version.ref = "google-genai" }
+jansi = { module = "org.fusesource.jansi:jansi", version.ref = "jansi" }
 junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junitJupiter" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-assertions-json = { module = "io.kotest:kotest-assertions-json", version.ref = "kotest" }

@@ -9,6 +9,7 @@ import me.kpavlov.aimocks.openai.model.responses.InputImage
 import me.kpavlov.aimocks.openai.model.responses.InputItems
 import me.kpavlov.aimocks.openai.model.responses.InputText
 import me.kpavlov.aimocks.openai.model.responses.Text
+import me.kpavlov.mokksy.utils.ellipsizeMiddle
 
 /**
  * OpenaiResponsesMatchers is a utility object that provides matchers for validating properties of
@@ -66,7 +67,8 @@ internal object OpenaiResponsesMatchers {
                 )
             }
 
-            override fun toString(): String = "InputImage should have URL \"$imageUrl\""
+            override fun toString(): String =
+                "InputImage should have URL \"${imageUrl.ellipsizeMiddle(256)}\""
         }
 
     fun containsInputFileNamed(filename: String): Matcher<CreateResponseRequest?> =

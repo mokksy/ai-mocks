@@ -3,12 +3,9 @@ package me.kpavlov.mokksy
 import io.kotest.assertions.failure
 import io.ktor.server.application.Application
 import io.ktor.server.application.log
-import io.ktor.server.logging.toLogString
-import io.ktor.server.request.httpMethod
-import io.ktor.server.request.receive
-import io.ktor.server.request.uri
 import io.ktor.server.routing.RoutingContext
 import io.ktor.server.routing.RoutingRequest
+import me.kpavlov.mokksy.utils.logger.HttpFormatter
 
 /**
  * Handles an incoming HTTP request by identifying the appropriate mapping based on the request
@@ -24,11 +21,9 @@ internal suspend fun handleRequest(
     application: Application,
     stubs: MutableSet<Stub<*, *>>,
     configuration: ServerConfiguration,
+    formatter: HttpFormatter
 ) {
     val request = context.call.request
-    application.log.info(
-        "Request: ${request.toLogString()}",
-    )
     val matchedStub: Stub<*, *>? =
         stubs
             .filter { stub ->
@@ -41,7 +36,7 @@ internal suspend fun handleRequest(
                                     "Failed to evaluate condition for stub:\n---\n{}\n---" +
                                         "\nand request:\n---\n{}\n---",
                                     stub.toLogString(),
-                                    printRequest(request),
+                                    formatter.formatRequest(request),
                                     it,
                                 )
                             }
@@ -66,19 +61,20 @@ internal suspend fun handleRequest(
             application = application,
             request = request,
             context = context,
+            formatter = formatter
         )
     } else {
         if (configuration.verbose) {
             application.log.warn(
-                "No stubs found for request:\n---\n${printRequest(request)}\n---\nAvailable stubs:\n{}\n",
+                "No stubs found for request:\n---\n${formatter.formatRequest(request)}\n---\nAvailable stubs:\n{}\n",
                 stubs.joinToString("\n---\n") { it.toLogString() },
             )
         } else {
             application.log.warn(
-                "No matched mapping for request:\n---\n${printRequest(request)}\n---",
+                "No matched mapping for request:\n---\n${formatter.formatRequest(request)}\n---",
             )
         }
-        failure("No matched mapping for request: ${printRequest(request)}")
+        failure("No matched mapping for request: ${formatter.formatRequest(request)}")
     }
 }
 
@@ -89,6 +85,7 @@ private suspend fun handleMatchedStub(
     application: Application,
     request: RoutingRequest,
     context: RoutingContext,
+    formatter: HttpFormatter
 ) {
     val config = matchedStub.configuration
     val verbose = serverConfig.verbose || config.verbose
@@ -96,21 +93,11 @@ private suspend fun handleMatchedStub(
     matchedStub.apply {
         if (verbose) {
             application.log.info(
-                "Request matched:\n---\n${printRequest(request)}\n---\nStub: {}",
+                "Request matched:\n---\n${formatter.formatRequest(request)}\n---\nStub: {}",
                 this.toLogString(),
             )
         }
         incrementMatchCount()
         respond(context.call, verbose)
     }
-}
-
-private suspend fun printRequest(request: RoutingRequest): String {
-    val body = request.call.receive(String::class)
-    return """
-        |${request.httpMethod} ${request.uri}
-        |${request.headers.entries().joinToString("\n") { "${it.key}: ${it.value}" }}
-        |
-        |$body
-        """.trimMargin()
 }
