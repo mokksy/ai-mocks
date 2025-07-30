@@ -15,11 +15,12 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api(project(":ai-mocks-a2a-models"))
-                api(libs.ktor.serialization.kotlinx.json)
+                api(libs.ktor.client.content.negotiation)
                 api(libs.ktor.client.core)
                 api(libs.ktor.client.logging)
-                api(libs.ktor.client.content.negotiation)
+                api(libs.ktor.serialization.kotlinx.json)
+                api(project(":ai-mocks-a2a-models"))
+                api(project.dependencies.platform(libs.ktor.bom))
             }
         }
         commonTest {
