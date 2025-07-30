@@ -16,8 +16,9 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api(project(":mokksy"))
                 api(libs.kotlinx.serialization.json)
+                api(project(":mokksy"))
+                api(project.dependencies.platform(libs.ktor.bom))
             }
         }
         commonTest {

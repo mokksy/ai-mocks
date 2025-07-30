@@ -49,24 +49,25 @@ kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
-ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
-ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
-ktor-serialization-jackson = { module = "io.ktor:ktor-serialization-jackson", version.ref = "ktor" }
-ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor" }
-ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
-ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
-ktor-server-double-receive = { module = "io.ktor:ktor-server-double-receive", version.ref = "ktor" }
-ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
-ktor-server-sse = { module = "io.ktor:ktor-server-sse", version.ref = "ktor" }
+ktor-bom = { group = "io.ktor", name = "ktor-bom", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation" }
+ktor-client-core = { module = "io.ktor:ktor-client-core" }
+ktor-client-java = { module = "io.ktor:ktor-client-java" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging" }
+ktor-serialization-jackson = { module = "io.ktor:ktor-serialization-jackson" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json" }
+ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation" }
+ktor-server-core = { module = "io.ktor:ktor-server-core" }
+ktor-server-double-receive = { module = "io.ktor:ktor-server-double-receive" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty" }
+ktor-server-sse = { module = "io.ktor:ktor-server-sse" }
 langchain4j-anthropic = { group = "dev.langchain4j", name = "langchain4j-anthropic" }
 langchain4j-bom = { group = "dev.langchain4j", name = "langchain4j-bom", version.ref = "langchain4j" }
 langchain4j-gemini = { group = "dev.langchain4j", name = "langchain4j-google-ai-gemini" }
 langchain4j-kotlin = { group = "dev.langchain4j", name = "langchain4j-kotlin" }
-langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai" }
 langchain4j-ollama = { group = "dev.langchain4j", name = "langchain4j-ollama" }
+langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-dsl = { module = "io.mockk:mockk-dsl", version.ref = "mockk" }
 netty-bom = { group = "io.netty", name = "netty-bom", version.ref = "netty" }
@@ -75,8 +76,8 @@ slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 spring-ai-bom = { group = "org.springframework.ai", name = "spring-ai-bom", version.ref = "spring-ai" }
 spring-ai-client-chat = { group = "org.springframework.ai", name = "spring-ai-client-chat" }
 spring-ai-gemini = { group = "org.springframework.ai", name = "spring-ai-vertex-ai-gemini" }
-spring-ai-openai = { group = "org.springframework.ai", name = "spring-ai-openai" }
 spring-ai-ollama = { group = "org.springframework.ai", name = "spring-ai-ollama" }
+spring-ai-openai = { group = "org.springframework.ai", name = "spring-ai-openai" }
 spring-bom = { group = "org.springframework", name = "spring-framework-bom", version.ref = "spring" }
 system-stubs = { module = "uk.org.webcompere:system-stubs-jupiter", version.ref = "system-stubs" }
 

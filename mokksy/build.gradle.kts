@@ -23,6 +23,7 @@ kotlin {
                 api(libs.ktor.server.core)
                 implementation(libs.ktor.server.double.receive)
                 api(libs.ktor.server.content.negotiation)
+                implementation(project.dependencies.platform(libs.ktor.bom))
                 implementation(libs.ktor.serialization.kotlinx.json)
                 implementation(libs.ktor.server.sse)
             }
@@ -44,9 +45,9 @@ kotlin {
 
         jvmMain {
             dependencies {
-                implementation(libs.ktor.server.netty)
+                api(project.dependencies.platform(libs.netty.bom))
                 implementation(libs.ktor.server.call.logging)
-                implementation(project.dependencies.platform(libs.netty.bom))
+                implementation(libs.ktor.server.netty)
             }
         }
 

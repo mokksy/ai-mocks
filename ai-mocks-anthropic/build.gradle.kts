@@ -16,8 +16,9 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api(project(":ai-mocks-core"))
                 api(libs.ktor.serialization.kotlinx.json)
+                api(project(":ai-mocks-core"))
+                api(project.dependencies.platform(libs.ktor.bom))
                 implementation(libs.ktor.server.sse)
             }
         }

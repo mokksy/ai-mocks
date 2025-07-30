@@ -13,84 +13,14 @@ dokka {
     }
 }
 
-/*
-tasks.withType<KotlinCompile> {
-    dependsOn(tasks.openApiGenerate)
-}
-
-tasks.withType<DokkaGenerateTask> {
-    dependsOn(tasks.openApiGenerate)
-}
-
-tasks.named("jvmSourcesJar") {
-    dependsOn(tasks.openApiGenerate)
-}
-
-openApiGenerate {
-    generatorName = "kotlin"
-    // https://github.com/openai/openai-openapi/blob/master/openapi.yaml
-    remoteInputSpec =
-        "https://raw.githubusercontent.com/openai/openai-openapi/refs/heads/master/openapi.yaml"
-//        "https://raw.githubusercontent.com/openai/openai-openapi/refs/heads/update-2024-11-04/openapi.yaml"
-
-    outputDir =
-        layout.buildDirectory
-            .dir("generated-sources")
-            .get()
-            .asFile.path
-
-    modelPackage = "me.kpavlov.aimocks.openai.model"
-    generateModelTests = false
-    generateModelDocumentation = false
-    cleanupOutput = true
-    skipValidateSpec = true
-    library = "multiplatform"
-    globalProperties.set(
-        mapOf(
-            "models" to // generate only models
-                listOf(
-                    "Annotation",
-                    "ChatCompletionRole",
-                    "ChatCompletionStreamOptions",
-                    "Error",
-                    "FileCitation",
-                    "FilePath",
-                    "OutputContent",
-                    "OutputMessage",
-                    "OutputText",
-                    "Reasoning",
-                    "Reasoning",
-                    "ReasoningEffort",
-                    "Refusal",
-                    "ResponseError",
-                    "ResponseErrorCode",
-                    "UrlCitation",
-                ).joinToString(","),
-        ),
-    )
-    configOptions.set(
-        mapOf(
-            "enumPropertyNaming" to "UPPERCASE",
-            "dateLibrary" to "kotlinx-datetime",
-            "explicitApi" to "true",
-        ),
-    )
-}
-*/
 kotlin {
 
     sourceSets {
         commonMain {
-            /*
-            val generatedDir =
-                layout.buildDirectory.dir(
-                    "generated-sources/src/commonMain/kotlin",
-                )
-            kotlin.srcDir(generatedDir)
-             */
             dependencies {
-                api(project(":ai-mocks-core"))
                 api(libs.ktor.serialization.kotlinx.json)
+                api(project(":ai-mocks-core"))
+                api(project.dependencies.platform(libs.ktor.bom))
             }
         }
 
