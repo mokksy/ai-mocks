@@ -47,7 +47,15 @@ internal object OpenaiResponsesMatchers {
                 it as? T
             }
 
-    fun containsInputImageWithUrl(imageUrl: String): Matcher<CreateResponseRequest?> =
+    /**
+         * Returns a matcher that checks whether a `CreateResponseRequest` contains an `InputImage` with the specified URL.
+         *
+         * The matcher succeeds if the request's input includes an `InputImage` whose `imageUrl` exactly matches the provided value.
+         *
+         * @param imageUrl The URL to match against the `InputImage` items in the request.
+         * @return A Kotest matcher for validating the presence of an image with the given URL.
+         */
+        fun containsInputImageWithUrl(imageUrl: String): Matcher<CreateResponseRequest?> =
         object : Matcher<CreateResponseRequest?> {
             override fun test(value: CreateResponseRequest?): MatcherResult {
                 val passed =
@@ -71,7 +79,15 @@ internal object OpenaiResponsesMatchers {
                 "InputImage should have URL \"${imageUrl.ellipsizeMiddle(256)}\""
         }
 
-    fun containsInputFileNamed(filename: String): Matcher<CreateResponseRequest?> =
+    /**
+         * Returns a matcher that checks if a `CreateResponseRequest` contains an input file with the specified filename.
+         *
+         * The matcher succeeds if any `InputFile` in the request's input has a filename matching the provided value.
+         *
+         * @param filename The name of the file to search for in the request input.
+         * @return A matcher that verifies the presence of a file with the given filename.
+         */
+        fun containsInputFileNamed(filename: String): Matcher<CreateResponseRequest?> =
         object : Matcher<CreateResponseRequest?> {
             override fun test(value: CreateResponseRequest?): MatcherResult {
                 val passed =

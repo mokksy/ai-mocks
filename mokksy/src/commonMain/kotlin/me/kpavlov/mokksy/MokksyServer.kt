@@ -29,7 +29,18 @@ import kotlin.reflect.KClass
 
 private const val DEFAULT_HOST = "0.0.0.0"
 
-internal expect fun createEmbeddedServer(
+/**
+     * Creates and returns an embedded Ktor server instance with the specified host, port, server configuration, and application module.
+     *
+     * This function is platform-specific and must be implemented for each supported target.
+     *
+     * @param host The host address to bind the server to.
+     * @param port The port number to listen on.
+     * @param configuration The server configuration settings.
+     * @param module The application module to install in the server.
+     * @return An embedded server instance configured with the provided parameters.
+     */
+    internal expect fun createEmbeddedServer(
     host: String = DEFAULT_HOST,
     port: Int,
     configuration: ServerConfiguration,
@@ -39,6 +50,13 @@ internal expect fun createEmbeddedServer(
     out ApplicationEngine.Configuration,
     >
 
+/**
+ * Configures content negotiation for the server using the provided configuration.
+ *
+ * Platform-specific implementations should install and set up content negotiation plugins as needed.
+ *
+ * @param config The content negotiation configuration to apply.
+ */
 internal expect fun configureContentNegotiation(config: ContentNegotiationConfig)
 
 public typealias ApplicationConfigurer = (Application.() -> Unit)
@@ -137,10 +155,10 @@ constructor(
     }
 
     /**
-     * Registers a stub in the collection of stubs.
-     * Ensures that duplicates are not allowed.
+     * Adds a stub to the server's collection, asserting that it is not a duplicate.
      *
-     * @param stub The stub instance to be added to the collection.
+     * @param stub The stub to register.
+     * @throws AssertionError if the stub is already registered.
      */
     private fun registerStub(stub: Stub<*, *>) {
         val added = stubs.add(stub)
@@ -148,21 +166,20 @@ constructor(
     }
 
     /**
-     * Retrieves the resolved port on which the server is running.
-     *
-     * @return The currently configured port number for the server.
-     */
+ * Returns the actual port number the server is bound to after startup.
+ *
+ * @return The resolved server port.
+ */
     public fun port(): Int = resolvedPort
 
     /**
-     * Creates a `RequestSpecification` with the specified HTTP method and additional configuration
-     * defined by the given block, and returns a new `BuildingStep` instance for further customization.
+     * Creates a request specification for the given HTTP method and request type, and returns a building step for further stub configuration.
      *
-     * * @param name An optional name assigned to the Stub for identification or debugging purposes.
-     * @param httpMethod The `HttpMethod` to match for the request specification.
-     *  @param requestType The class type of the request body.
-     * @param block A lambda used to configure the `RequestSpecificationBuilder`.
-     * @return A [BuildingStep] instance initialized with the generated request specification.
+     * @param configuration The stub configuration to use for this request specification.
+     * @param httpMethod The HTTP method to match for incoming requests.
+     * @param requestType The class type of the expected request body.
+     * @param block Lambda to configure the request specification builder.
+     * @return A building step for further customization and stub registration.
      */
     public fun <P : Any> method(
         configuration: StubConfiguration,
@@ -185,14 +202,14 @@ constructor(
     }
 
     /**
-     * Creates a building step for a stub configuration with the specified parameters.
-     *
-     * @param name An optional name for the stub configuration.
-     * @param httpMethod The HTTP method associated with the request.
-     * @param requestType The class type of the request payload.
-     * @param block A block for specifying request details using a RequestSpecificationBuilder.
-     * @return A BuildingStep instance configured with the provided parameters.
-     */
+         * Defines a stubbed HTTP request specification for the given method and request type, optionally naming the stub.
+         *
+         * @param name Optional identifier for the stub.
+         * @param httpMethod The HTTP method to match (e.g., GET, POST).
+         * @param requestType The expected type of the request payload.
+         * @param block Lambda to configure the request specification.
+         * @return A building step for further stub configuration and registration.
+         */
     public fun <P : Any> method(
         name: String? = null,
         httpMethod: HttpMethod,
@@ -207,14 +224,12 @@ constructor(
         )
 
     /**
-     * Configures an HTTP GET request specification using the provided block and returns a `BuildingStep`
-     * instance for further customization.
-     *
-     * @param P type of the request payload
-     * @param requestType The class type of the request body.
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
-     * @return A `BuildingStep` instance initialized with the generated request specification.
-     */
+         * Registers a stub for an HTTP GET request with the specified configuration and request type.
+         *
+         * @param requestType The class representing the expected request body type.
+         * @param block Lambda to configure the request specification for the GET request.
+         * @return A `BuildingStep` for further customization and response definition.
+         */
     public fun <P : Any> get(
         configuration: StubConfiguration,
         requestType: KClass<P>,
@@ -228,14 +243,13 @@ constructor(
         )
 
     /**
-     * Configures an HTTP GET request specification using the provided block and returns a `BuildingStep`
-     * instance for further customization.
-     *
-     * @param P type of the request payload
-     * @param requestType The class type of the request body.
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
-     * @return A `BuildingStep` instance initialized with the generated request specification.
-     */
+         * Defines a stub for an HTTP GET request with the specified request type and configuration block.
+         *
+         * @param name Optional name for the stub, used for identification.
+         * @param requestType The class of the expected request body.
+         * @param block Lambda to configure the request specification.
+         * @return A `BuildingStep` for further stub customization.
+         */
     public fun <P : Any> get(
         name: String? = null,
         requestType: KClass<P>,
@@ -249,12 +263,10 @@ constructor(
         )
 
     /**
-     * Configures HTTP GET request specification using the provided block and returns a `BuildingStep`
-     * for further customization. This method serves as a convenience shortcut.
-     *
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
-     * @return A `BuildingStep` instance initialized with the generated request specification.
-     */
+         * Defines a stub for an HTTP GET request with a string body using the provided configuration block.
+         *
+         * Returns a `BuildingStep` for further customization of the stubbed GET request.
+         */
     public fun get(
         block: RequestSpecificationBuilder<String>.() -> Unit,
     ): BuildingStep<String> =
@@ -265,13 +277,12 @@ constructor(
         )
 
     /**
-     * Configures HTTP GET request specification using the provided block and returns a `BuildingStep`
-     * for further customization. This method serves as a convenience shortcut.
-     *
-     * @param configuration The configuration to be used for the request.
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
-     * @return A [BuildingStep] instance initialized with the generated request specification.
-     */
+         * Defines a stub for an HTTP GET request with the specified configuration and request specification builder.
+         *
+         * @param configuration The stub configuration for this GET request.
+         * @param block Lambda to configure the request specification builder.
+         * @return A [BuildingStep] for further customization of the stub.
+         */
     public fun get(
         configuration: StubConfiguration,
         block: RequestSpecificationBuilder<String>.() -> Unit,
@@ -283,15 +294,13 @@ constructor(
         )
 
     /**
-     * Configures an HTTP POST request specification using the provided block and returns a `BuildingStep`
-     * instance for further customization. This method uses the HTTP POST method to define the request
-     * specification within the provided lambda.
-     *
-     * @param P type of the request payload.
-     * @param requestType The class type of the request body.
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the POST request.
-     * @return A `BuildingStep` instance initialized with the generated request specification.
-     */
+         * Defines a stub for an HTTP POST request with the specified request type and configuration block.
+         *
+         * @param name Optional name for the stub.
+         * @param requestType The class of the request body to match.
+         * @param block Lambda to configure the request specification.
+         * @return A `BuildingStep` for further stub customization.
+         */
     public fun <P : Any> post(
         name: String? = null,
         requestType: KClass<P>,
@@ -305,15 +314,13 @@ constructor(
         )
 
     /**
-     * Sends a POST request using the provided configuration,
-     * request type, and block to define the request specification.
-     *
-     * @param configuration The configuration settings for the request, including endpoint and other details.
-     * @param requestType The class type of the request body.
-     * @param block A lambda function to define the specifics of the request,
-     * such as headers, query parameters, etc.
-     * @return A [BuildingStep] instance representing the constructed POST request.
-     */
+         * Defines a POST request stub with the specified configuration and request type.
+         *
+         * @param configuration Stub configuration specifying endpoint and matching criteria.
+         * @param requestType The class of the expected request body.
+         * @param block Lambda to configure the request specification details.
+         * @return A [BuildingStep] for further stub setup or response definition.
+         */
     public fun <P : Any> post(
         configuration: StubConfiguration,
         requestType: KClass<P>,
@@ -327,26 +334,23 @@ constructor(
         )
 
     /**
-     * Configures an HTTP POST request specification using the provided block and returns a `BuildingStep`
-     * for further customization. This method serves as a convenience shortcut.
+     * Defines a stub for an HTTP POST request with a string request body.
      *
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
-     * @return A `BuildingStep` instance initialized with the generated request specification.
+     * @param block Lambda to configure the request specification builder.
+     * @return A building step for further customization of the POST request stub.
      */
     public fun post(
         block: RequestSpecificationBuilder<String>.() -> Unit,
     ): BuildingStep<String> = this.post(name = null, requestType = String::class, block = block)
 
     /**
-     * Configures an HTTP DELETE request specification using the provided block and returns a `BuildingStep`
-     * instance for further customization. This method uses the HTTP DELETE method to define the request
-     * specification within the provided lambda.
-     *
-     * @param P type of the request payload.
-     * @param requestType The class type of the request body.
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the DELETE request.
-     * @return A `BuildingStep` instance initialized with the generated request specification.
-     */
+         * Defines a stub for an HTTP DELETE request with the specified request type and configuration block.
+         *
+         * @param name Optional name for the stub.
+         * @param requestType The class of the request body to match.
+         * @param block Lambda to configure the request specification.
+         * @return A `BuildingStep` for further stub customization.
+         */
     public fun <P : Any> delete(
         name: String? = null,
         requestType: KClass<P>,
@@ -360,13 +364,10 @@ constructor(
         )
 
     /**
-     * Executes an HTTP DELETE request with the specified configuration and request type.
-     *
-     * @param configuration The configuration settings for the request.
-     * @param requestType The class of the request type that will be processed.
-     * @param block A lambda to configure the request specification for the DELETE request.
-     * @return A BuildingStep instance representing the configured DELETE request.
-     */
+         * Registers a stub for an HTTP DELETE request with the specified configuration and request type.
+         *
+         * @return A BuildingStep for further configuration or response definition of the DELETE request stub.
+         */
     public fun <P : Any> delete(
         configuration: StubConfiguration,
         requestType: KClass<P>,
@@ -380,27 +381,24 @@ constructor(
         )
 
     /**
-     * Configures an HTTP DELETE request specification using the provided block and returns a `BuildingStep`
-     * for further customization. This method serves as a convenience shortcut.
-     *
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
-     * @return A `BuildingStep` instance initialized with the generated request specification.
-     */
+         * Defines a stub for an HTTP DELETE request with a string request body.
+         *
+         * @param block Lambda to configure the request specification builder.
+         * @return A building step for further stub customization.
+         */
     public fun delete(
         block: RequestSpecificationBuilder<String>.() -> Unit,
     ): BuildingStep<String> =
         this.delete(name = null, requestType = String::class, block = block)
 
     /**
-     * Configures an HTTP PATCH request specification using the provided block and returns a `BuildingStep`
-     * instance for further customization. This method uses the HTTP PATCH method to define the request
-     * specification within the provided lambda.
-     *
-     * @param P type of the request payload.
-     *  @param requestType The class type of the request body.
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the PATCH request.
-     * @return A `BuildingStep` instance initialized with the generated request specification.
-     */
+         * Defines a stub for an HTTP PATCH request with the specified request type and configuration block.
+         *
+         * @param name Optional name for the stub.
+         * @param requestType The class of the request payload.
+         * @param block Lambda to configure the request specification.
+         * @return A building step for further stub customization.
+         */
     public fun <P : Any> patch(
         name: String? = null,
         requestType: KClass<P>,
@@ -414,14 +412,10 @@ constructor(
         )
 
     /**
-     * Builds and returns a BuildingStep for a PATCH HTTP request with the provided configuration, request type,
-     * and custom request specification block.
-     *
-     * @param configuration The stub configuration that contains the setup details for the request.
-     * @param requestType The KClass type of the request body.
-     * @param block A lambda block to define the request specification.
-     * @return A [BuildingStep] instance representing the constructed PATCH request.
-     */
+         * Creates a stub for a PATCH HTTP request with the specified configuration, request type, and request specification.
+         *
+         * @return A [BuildingStep] for further configuring the PATCH request stub.
+         */
     public fun <P : Any> patch(
         configuration: StubConfiguration,
         requestType: KClass<P>,
@@ -435,26 +429,24 @@ constructor(
         )
 
     /**
-     * Configures an HTTP PATCH request specification using the provided block and returns a `BuildingStep`
-     * for further customization. This method serves as a convenience shortcut.
-     *
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
-     * @return A `BuildingStep` instance initialized with the generated request specification.
-     */
+         * Defines a PATCH request stub with a string request body using the provided configuration block.
+         *
+         * @param block Lambda to configure the request specification builder for the PATCH request.
+         * @return A `BuildingStep` for further customization of the PATCH request stub.
+         */
     public fun patch(
         block: RequestSpecificationBuilder<String>.() -> Unit,
     ): BuildingStep<String> =
         this.patch(name = null, requestType = String::class, block = block)
 
     /**
-     * Configures an HTTP PUT request specification using the provided block and returns a `BuildingStep`
-     * instance for further customization. This method uses the HTTP PUT method to define the request
-     * specification within the provided lambda.
-     *
-     * @param P type of the request payload
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the PUT request.
-     * @return A `BuildingStep` instance initialized with the generated request specification.
-     */
+         * Defines a stub for an HTTP PUT request with the specified request type and configuration block.
+         *
+         * @param name Optional name for the stub.
+         * @param requestType The class of the request payload.
+         * @param block Lambda to configure the request specification.
+         * @return A `BuildingStep` for further customization of the stub.
+         */
     public fun <P : Any> put(
         name: String? = null,
         requestType: KClass<P>,
@@ -468,13 +460,13 @@ constructor(
         )
 
     /**
-     * Executes an HTTP PUT request with the provided configuration and request specifications.
-     *
-     * @param configuration The stub configuration to be used for the request.
-     * @param requestType The class type of the request payload.
-     * @param block A configuration block to build the request specifications.
-     * @return A [BuildingStep] instance for further processing of the request.
-     */
+         * Defines a stub for an HTTP PUT request with the specified configuration and request type.
+         *
+         * @param configuration The stub configuration for this request.
+         * @param requestType The class representing the request payload type.
+         * @param block Lambda to configure the request specification.
+         * @return A [BuildingStep] for further stub setup.
+         */
     public fun <P : Any> put(
         configuration: StubConfiguration,
         requestType: KClass<P>,
@@ -488,26 +480,23 @@ constructor(
         )
 
     /**
-     * Configures an HTTP PUT request specification using the provided block and returns a `BuildingStep`
-     * for further customization. This method serves as a convenience shortcut.
+     * Defines a stub for an HTTP PUT request with a string request body.
      *
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
-     * @return A `BuildingStep` instance initialized with the generated request specification.
+     * @param block Lambda to configure the request specification builder.
+     * @return A building step for further stub customization.
      */
     public fun put(
         block: RequestSpecificationBuilder<String>.() -> Unit,
     ): BuildingStep<String> = this.put(name = null, requestType = String::class, block = block)
 
     /**
-     * Configures an HTTP HEAD request specification using the provided block and returns a `BuildingStep`
-     * instance for further customization. This method uses the HTTP HEAD method to define the request
-     * specification within the provided lambda.
-     *
-     * @param P type of the request payload
-     *  @param requestType The class type of the request body.
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the HEAD request.
-     * @return A `BuildingStep` instance initialized with the generated request specification.
-     */
+         * Defines a stub for an HTTP HEAD request with the specified request type and configuration block.
+         *
+         * @param name Optional name for the stub.
+         * @param requestType The class of the request body.
+         * @param block Lambda to configure the request specification.
+         * @return A `BuildingStep` for further customization of the stub.
+         */
     public fun <P : Any> head(
         name: String? = null,
         requestType: KClass<P>,
@@ -521,13 +510,13 @@ constructor(
         )
 
     /**
-     * Constructs a HEAD HTTP request with the provided configuration, request type, and specification block.
-     *
-     * @param configuration The configuration for the stubbed request.
-     * @param requestType The class type of the request payload.
-     * @param block A lambda that specifies the request parameters.
-     * @return A [BuildingStep] instance representing the constructed request.
-     */
+         * Defines a stub for a HEAD HTTP request with the specified configuration and request type.
+         *
+         * @param configuration The stub configuration for this request.
+         * @param requestType The class representing the request payload type.
+         * @param block Lambda to configure the request specification.
+         * @return A [BuildingStep] for further stub setup.
+         */
     public fun <P : Any> head(
         configuration: StubConfiguration,
         requestType: KClass<P>,
@@ -541,26 +530,23 @@ constructor(
         )
 
     /**
-     * Configures an HTTP HEAD request specification using the provided block and returns a `BuildingStep`
-     * for further customization. This method serves as a convenience shortcut.
+     * Defines a stub for an HTTP HEAD request with a string request body.
      *
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
-     * @return A `BuildingStep` instance initialized with the generated request specification.
+     * @param block Lambda to configure the request specification builder.
+     * @return A building step for further customization of the HEAD request stub.
      */
     public fun head(
         block: RequestSpecificationBuilder<String>.() -> Unit,
     ): BuildingStep<String> = this.head(name = null, requestType = String::class, block = block)
 
     /**
-     * Configures an HTTP OPTIONS request specification using the provided block and returns a `BuildingStep`
-     * instance for further customization. This method uses the HTTP OPTIONS method to define the request
-     * specification within the provided lambda.
-     *
-     * @param P type of the request payload
-     *  @param requestType The class type of the request body.
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the OPTIONS request.
-     * @return A `BuildingStep` instance initialized with the generated request specification.
-     */
+         * Defines a stub for an HTTP OPTIONS request with the specified request type and configuration block.
+         *
+         * @param name Optional name for the stub.
+         * @param requestType The class of the request payload.
+         * @param block Lambda to configure the request specification.
+         * @return A `BuildingStep` for further customization of the stub.
+         */
     public fun <P : Any> options(
         name: String? = null,
         requestType: KClass<P>,
@@ -574,13 +560,13 @@ constructor(
         )
 
     /**
-     * Configures and executes an HTTP OPTIONS request based on the given parameters.
-     *
-     * @param configuration The configuration settings to use for the request.
-     * @param requestType The class type of the request body.
-     * @param block A lambda to build and modify the request specifications.
-     * @return A [BuildingStep] object representing the state after configuring the OPTIONS request.
-     */
+         * Defines a stub for an HTTP OPTIONS request with the specified configuration and request type.
+         *
+         * @param configuration Stub configuration settings for this request.
+         * @param requestType The class representing the expected request body type.
+         * @param block Lambda to configure the request specification.
+         * @return A [BuildingStep] for further stub setup or response definition.
+         */
     public fun <P : Any> options(
         configuration: StubConfiguration,
         requestType: KClass<P>,
@@ -594,23 +580,23 @@ constructor(
         )
 
     /**
-     * Configures an HTTP HEAD request specification using the provided block and returns a `BuildingStep`
-     * for further customization. This method serves as a convenience shortcut.
-     *
-     * @param block A lambda used to configure the `RequestSpecificationBuilder` for the GET request.
-     * @return A `BuildingStep` instance initialized with the generated request specification.
-     */
+         * Defines an HTTP OPTIONS request stub with a string request body using the provided configuration block.
+         *
+         * @param block Lambda to configure the request specification builder for the OPTIONS request.
+         * @return A `BuildingStep` for further customization of the stub.
+         */
     public fun options(
         block: RequestSpecificationBuilder<String>.() -> Unit,
     ): BuildingStep<String> =
         this.options(name = null, requestType = String::class, block = block)
 
     /**
-     * Retrieves a list of all request specifications that have not been matched to any incoming requests.
-     * A request is considered unmatched if its match count is zero.
-     *
-     * @return A list of unmatched request specifications.
-     */
+             * Returns all request specifications that have not matched any incoming requests.
+             *
+             * A request specification is considered unmatched if its associated stub's match count is zero.
+             *
+             * @return A list of unmatched request specifications.
+             */
     public fun findAllUnmatchedRequests(): List<RequestSpecification<*>> =
         stubs
             .filter {
@@ -619,11 +605,9 @@ constructor(
             .toList()
 
     /**
-     * Resets the match counts for all mappings in the server. Each mapping's match count
-     * is set to zero, effectively clearing any record of previous matches.
+     * Resets the match count of all registered stubs to zero.
      *
-     * This is useful for resetting the state of the server when reinitializing or performing
-     * testing scenarios.
+     * Use this to clear match history before running new tests or scenarios.
      */
     public fun resetMatchCounts() {
         stubs
@@ -633,16 +617,9 @@ constructor(
     }
 
     /**
-     * Checks for any unmatched requests by retrieving all request specifications that
-     * have not been matched to incoming requests and verifies that the list of unmatched
-     * requests is empty.
+     * Verifies that all registered request stubs have been matched at least once.
      *
-     * This method ensures that all request mappings have been used as expected. If
-     * there are unmatched requests, this would indicate that some defined mappings were
-     * not triggered during the testing or execution process.
-     *
-     * Uses the `findAllUnmatchedRequests` function to identify unmatched requests and
-     * asserts that no unmatched requests exist.
+     * Throws an error if any request specification was not triggered during execution, listing all unmatched requests.
      */
     public fun checkForUnmatchedRequests() {
         val unmatchedRequests = findAllUnmatchedRequests()
@@ -659,11 +636,9 @@ constructor(
     }
 
     /**
-     * Shuts down the server by stopping its execution.
+     * Stops the embedded server and releases its resources.
      *
-     * This method halts any ongoing operations of the server,
-     * effectively terminating its current state and releasing any occupied resources.
-     * It should be invoked to safely stop the server when it is no longer necessary.
+     * Call this method to terminate the server when it is no longer needed.
      */
     public fun shutdown() {
         server.stop()

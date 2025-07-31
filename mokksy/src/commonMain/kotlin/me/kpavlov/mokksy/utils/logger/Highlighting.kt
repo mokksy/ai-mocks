@@ -3,6 +3,15 @@ package me.kpavlov.mokksy.utils.logger
 import io.ktor.http.ContentType
 
 public object Highlighting {
+    /**
+     * Applies ANSI color highlighting to an HTTP body string based on its content type.
+     *
+     * For JSON content, syntax highlighting is applied to keys and values. For form URL-encoded data, keys and values are colored distinctly. Other content types are displayed in light gray.
+     *
+     * @param body The HTTP body content to highlight.
+     * @param contentType The content type of the body.
+     * @return The highlighted body string with ANSI color codes.
+     */
     public fun highlightBody(body: String, contentType: ContentType): String {
         return when {
             contentType.match(ContentType.Application.Json) -> highlightJson(body)
@@ -11,6 +20,14 @@ public object Highlighting {
         }
     }
 
+    /**
+     * Applies ANSI color highlighting to a JSON string for terminal output.
+     *
+     * Keys are colored magenta, string values green, numeric values blue, and boolean/null values yellow.
+     *
+     * @param json The JSON string to highlight.
+     * @return The JSON string with ANSI color codes applied for syntax highlighting.
+     */
     private fun highlightJson(json: String): String {
         val keyColor = AnsiColor.MAGENTA
         val stringValColor = AnsiColor.GREEN
@@ -44,6 +61,15 @@ public object Highlighting {
         }
     }
 
+    /**
+     * Applies ANSI color highlighting to URL-encoded form data.
+     *
+     * Splits the input string into key-value pairs separated by '&' and colors keys in yellow and values in green.
+     * Pairs that do not contain exactly one '=' are left unchanged.
+     *
+     * @param data The URL-encoded form data to highlight.
+     * @return The highlighted form data as a string with ANSI color codes.
+     */
     private fun highlightForm(data: String): String {
         return data.split("&").joinToString("&") {
             val parts = it.split("=")
