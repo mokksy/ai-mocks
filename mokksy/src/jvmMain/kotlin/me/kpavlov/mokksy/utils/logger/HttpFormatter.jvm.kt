@@ -7,4 +7,6 @@ import org.fusesource.jansi.Ansi
  *
  * @return `true` if ANSI color support is detected; otherwise, `false`.
  */
-internal actual fun isColorSupported(): Boolean = Ansi.isDetected()
+internal actual fun isColorSupported(): Boolean =
+    runCatching { Ansi::class.java.getMethod("isDetected").invoke(null) as Boolean }
+        .getOrDefault(false)

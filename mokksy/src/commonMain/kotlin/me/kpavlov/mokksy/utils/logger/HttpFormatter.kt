@@ -4,7 +4,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.server.request.contentType
 import io.ktor.server.request.httpMethod
-import io.ktor.server.request.receive
+import io.ktor.server.request.receiveText
 import io.ktor.server.request.uri
 import io.ktor.server.routing.RoutingRequest
 import me.kpavlov.mokksy.utils.logger.Highlighting.highlightBody
@@ -139,13 +139,15 @@ public open class HttpFormatter(
      * @return A formatted string representing the full HTTP request.
      */
     internal suspend fun formatRequest(request: RoutingRequest): String {
-        val body = request.call.receive(String::class)
-        return """
-        |${requestLine(request.httpMethod, request.uri)}
-        |${request.headers.entries().joinToString("\n") { header(it.key, it.value) }}
-        |
-        |${formatBody(body, request.contentType())}
-        """.trimMargin()
+        val body = request.call.receiveText()
+        return buildString {
+            appendLine(requestLine(request.httpMethod, request.uri))
+            request.headers.entries().forEach {
+                appendLine(header(it.key, it.value))
+            }
+            appendLine()
+            appendLine(formatBody(body, request.contentType()))
+        }
     }
 
 
