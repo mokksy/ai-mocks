@@ -9,6 +9,9 @@ import me.kpavlov.aimocks.openai.model.responses.InputImage
 import me.kpavlov.aimocks.openai.model.responses.InputItems
 import me.kpavlov.aimocks.openai.model.responses.InputText
 import me.kpavlov.aimocks.openai.model.responses.Text
+import me.kpavlov.mokksy.utils.ellipsizeMiddle
+
+private const val IMAGE_URL_MAX_LENGTH = 256
 
 /**
  * OpenaiResponsesMatchers is a utility object that provides matchers for validating properties of
@@ -46,13 +49,22 @@ internal object OpenaiResponsesMatchers {
                 it as? T
             }
 
+    /**
+     * Returns a matcher that checks whether a `CreateResponseRequest` contains an `InputImage` with the specified URL.
+     *
+     * The matcher succeeds if the request's input includes an `InputImage`
+     * whose `imageUrl` exactly matches the provided value.
+     *
+     * @param imageUrl The URL to match against the `InputImage` items in the request.
+     * @return A Kotest matcher for validating the presence of an image with the given URL.
+     */
     fun containsInputImageWithUrl(imageUrl: String): Matcher<CreateResponseRequest?> =
         object : Matcher<CreateResponseRequest?> {
             override fun test(value: CreateResponseRequest?): MatcherResult {
                 val passed =
                     if (value == null) {
                         false
-                    } else if ((value.input is InputItems) == false) {
+                    } else if (value.input !is InputItems) {
                         false
                     } else {
                         val images = extractInputItem<InputImage>(value)
@@ -61,21 +73,42 @@ internal object OpenaiResponsesMatchers {
 
                 return MatcherResult(
                     passed,
-                    { "Input should contain image with url \"$imageUrl\"" },
-                    { "Input should NOT contain image with url \"$imageUrl\"" },
+                    {
+                        "Input should contain image with url \"${
+                            imageUrl.ellipsizeMiddle(
+                                IMAGE_URL_MAX_LENGTH
+                            )
+                        }\""
+                    },
+                    {
+                        "Input should NOT contain image with url \"${
+                            imageUrl.ellipsizeMiddle(
+                                IMAGE_URL_MAX_LENGTH
+                            )
+                        }\""
+                    },
                 )
             }
 
-            override fun toString(): String = "InputImage should have URL \"$imageUrl\""
+            override fun toString(): String =
+                "InputImage should have URL \"${imageUrl.ellipsizeMiddle(IMAGE_URL_MAX_LENGTH)}\""
         }
 
+    /**
+     * Returns a matcher that checks if a `CreateResponseRequest` contains an input file with the specified filename.
+     *
+     * The matcher succeeds if any `InputFile` in the request's input has a filename matching the provided value.
+     *
+     * @param filename The name of the file to search for in the request input.
+     * @return A matcher that verifies the presence of a file with the given filename.
+     */
     fun containsInputFileNamed(filename: String): Matcher<CreateResponseRequest?> =
         object : Matcher<CreateResponseRequest?> {
             override fun test(value: CreateResponseRequest?): MatcherResult {
                 val passed =
                     if (value == null) {
                         false
-                    } else if ((value.input is InputItems) == false) {
+                    } else if (value.input !is InputItems) {
                         false
                     } else {
                         val files = extractInputItem<InputFile>(value)
@@ -98,7 +131,7 @@ internal object OpenaiResponsesMatchers {
                 val passed =
                     if (value == null) {
                         false
-                    } else if ((value.input is InputItems) == false) {
+                    } else if (value.input !is InputItems) {
                         false
                     } else {
                         val files = extractInputItem<InputFile>(value)
