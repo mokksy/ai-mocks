@@ -12,7 +12,7 @@ import java.util.concurrent.Flow;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static me.kpavlov.a2a.client.A2AClient_jvmKt.sendTaskStreamingAsJavaFlow;
+import static me.kpavlov.a2a.client.A2AClient_jvmKt.sendStreamingMessageAsJavaFlow;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
@@ -23,7 +23,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  * Due to Java-Kotlin interoperability limitations, this test is simplified and doesn't
  * fully replicate the functionality of the Kotlin test.
  */
-class SendTaskStreamingJavaTest extends AbstractJavaTest {
+class SendMessageStreamingJavaTest extends AbstractJavaTest {
 
     /**
      * This test demonstrates the structure of a test that would send a task streaming request.
@@ -31,12 +31,12 @@ class SendTaskStreamingJavaTest extends AbstractJavaTest {
      * The test demonstrates Java-Kotlin interoperability and fully replicate the functionality of the Kotlin test.
      */
     @Test
-    public void shouldSendTaskStreaming() throws InterruptedException {
+    public void shouldSendMessageStreaming() throws InterruptedException {
         String taskId = "task_12345";
         String sessionId = "session_12345";
 
         // 1. Configure the mock server to respond with a stream of events
-        a2aServer.sendTaskStreaming().responds(responseSpec -> {
+        a2aServer.sendMessageStreaming().responds(responseSpec -> {
 
             final Stream<TaskUpdateEvent> stream = Stream.of(
                 new TaskStatusUpdateEvent(
@@ -47,6 +47,7 @@ class SendTaskStreamingJavaTest extends AbstractJavaTest {
                 new TaskArtifactUpdateEvent(
                     taskId,
                     new Artifact(
+                        "art_1234",
                         "joke",
                         new TextPart(
                             "This"
@@ -59,6 +60,7 @@ class SendTaskStreamingJavaTest extends AbstractJavaTest {
                 new TaskArtifactUpdateEvent(
                     taskId,
                     new Artifact(
+                        "art_1234",
                         "joke",
                         new TextPart(
                             "is"
@@ -71,6 +73,7 @@ class SendTaskStreamingJavaTest extends AbstractJavaTest {
                 new TaskArtifactUpdateEvent(
                     taskId,
                     new Artifact(
+                        "art_1234",
                         "joke",
                         new TextPart(
                             "a"
@@ -83,6 +86,7 @@ class SendTaskStreamingJavaTest extends AbstractJavaTest {
                 new TaskArtifactUpdateEvent(
                     taskId,
                     new Artifact(
+                        "art_1234",
                         "joke",
                         new TextPart(
                             "joke"
@@ -102,9 +106,7 @@ class SendTaskStreamingJavaTest extends AbstractJavaTest {
         });
 
         // 2. Create task parameters
-        final var taskSendParams = new TaskSendParams(
-            "111",
-            sessionId,
+        final var taskSendParams = new MessageSendParams(
             new Message(
                 Message.Role.user,
                 List.of(new TextPart("Tell me a joke"))
@@ -114,7 +116,7 @@ class SendTaskStreamingJavaTest extends AbstractJavaTest {
         // 3. Call the client's sendTaskStreaming method
         final var events = new ConcurrentLinkedDeque<>();
 
-        final var flow = sendTaskStreamingAsJavaFlow(
+        final var flow = sendStreamingMessageAsJavaFlow(
             client,
             taskSendParams,
             Executors.newFixedThreadPool(1)

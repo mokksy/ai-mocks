@@ -177,18 +177,22 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
                 .topP(topPValue)
                 .maxCompletionTokens(maxCompletionTokensValue)
                 .seed(seedValue.toLong())
-                .responseFormat(ResponseFormatJsonSchema.builder()
-                    .jsonSchema(ResponseFormatJsonSchema.JsonSchema
+                .responseFormat(
+                    ResponseFormatJsonSchema
                         .builder()
-                        .strict(true)
-                        .name("result")
-                        .schema(ResponseFormatJsonSchema.JsonSchema.Schema.builder()
-                            .putAdditionalProperty("a", JsonValue.from("b"))
-                            .build()
-                        )
-                        .build())
-                    .build())
-                .messages(
+                        .jsonSchema(
+                            ResponseFormatJsonSchema.JsonSchema
+                                .builder()
+                                .strict(true)
+                                .name("result")
+                                .schema(
+                                    ResponseFormatJsonSchema.JsonSchema.Schema
+                                        .builder()
+                                        .putAdditionalProperty("a", JsonValue.from("b"))
+                                        .build(),
+                                ).build(),
+                        ).build(),
+                ).messages(
                     listOf(
                         ChatCompletionMessageParam.ofSystem(
                             ChatCompletionSystemMessageParam

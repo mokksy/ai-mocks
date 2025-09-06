@@ -26,14 +26,14 @@ public data class GetTaskPushNotificationRequest(
     val id: RequestId? = null,
     @SerialName("method")
     @EncodeDefault
-    val method: String = "tasks/pushNotification/get",
+    val method: String = "tasks/pushNotificationConfig/get",
     @SerialName("params")
     val params: TaskIdParams,
 ) : A2ARequest {
     init {
         require(jsonrpc == "2.0") { "jsonrpc not constant value 2.0 - $jsonrpc" }
-        require(method == "tasks/pushNotification/get") {
-            "method not constant value \"tasks/pushNotification/get\" - $method"
+        require(method == "tasks/pushNotificationConfig/get") {
+            "method not constant value \"tasks/pushNotificationConfig/get\" - $method"
         }
     }
 }

@@ -12,7 +12,7 @@ internal class FilePartBuilderTest {
             FileContent(
                 name = "example.txt",
                 mimeType = "text/plain",
-                bytes = "Hello World".encodeToByteArray(),
+                data = "Hello World".encodeToByteArray(),
             )
 
         // when
@@ -33,7 +33,7 @@ internal class FilePartBuilderTest {
             FileContent(
                 name = "example.txt",
                 mimeType = "text/plain",
-                bytes = "Hello World".encodeToByteArray(),
+                data = "Hello World".encodeToByteArray(),
             )
         val metadata = Metadata.of("metaKey" to "metaValue")
 
@@ -68,7 +68,7 @@ internal class FilePartBuilderTest {
         // then
         filePart.file.name shouldBe "example.txt"
         filePart.file.mimeType shouldBe "text/plain"
-        filePart.file.bytes shouldBe bytes
+        filePart.file.data shouldBe bytes
         filePart.file.uri shouldBe null
         filePart.metadata shouldBe null
     }
@@ -99,7 +99,7 @@ internal class FilePartBuilderTest {
         // then
         filePart.file.name shouldBe "example.txt"
         filePart.file.mimeType shouldBe "text/plain"
-        filePart.file.bytes shouldBe bytes
+        filePart.file.data shouldBe bytes
         filePart.file.uri shouldBe null
         filePart.metadata shouldBe null
     }
@@ -123,7 +123,7 @@ internal class FilePartBuilderTest {
         // then
         filePart.file.name shouldBe "example.txt"
         filePart.file.mimeType shouldBe "text/plain"
-        filePart.file.bytes shouldBe bytes
+        filePart.file.data shouldBe bytes
         filePart.file.uri shouldBe null
         filePart.metadata shouldBe Metadata.of("metaKey" to "metaValue")
     }

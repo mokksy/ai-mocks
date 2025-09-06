@@ -28,7 +28,7 @@ public data class EmbeddingsRequest(
     val truncate: Boolean? = true,
     val options: ModelOptions? = null,
     @SerialName("keep_alive")
-    val keepAlive: String? = null
+    val keepAlive: String? = null,
 )
 
 /**
@@ -55,5 +55,5 @@ public data class EmbeddingsResponse(
     @SerialName("prompt_eval_count")
     val promptEvalCount: Int? = null,
     @SerialName("prompt_eval_duration")
-    val promptEvalDuration: Long? = null
+    val promptEvalDuration: Long? = null,
 )

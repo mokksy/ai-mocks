@@ -6,8 +6,7 @@ import me.kpavlov.aimocks.core.ModelRequestSpecification
 public open class AnthropicMessagesRequestSpecification(
     public var userId: String? = null,
 ) : ModelRequestSpecification<MessageCreateParams>() {
-    public fun userId(value: String): AnthropicMessagesRequestSpecification =
-        apply { this.userId = value }
+    public fun userId(value: String): AnthropicMessagesRequestSpecification = apply { this.userId = value }
 
     override fun systemMessageContains(substring: String) {
         requestBody.add(AnthropicAiMatchers.systemMessageContains(substring))

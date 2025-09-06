@@ -59,8 +59,7 @@ public enum class ChatCompletionRole(
         /**
          * Converts the provided [data] to a [String] on success, null otherwise.
          */
-        public fun encode(data: kotlin.Any?): kotlin.String? =
-            if (data is ChatCompletionRole) "$data" else null
+        public fun encode(data: kotlin.Any?): kotlin.String? = if (data is ChatCompletionRole) "$data" else null
 
         /**
          * Returns a valid [ChatCompletionRole] for [data], null otherwise.

@@ -16,25 +16,26 @@ import kotlin.time.toJavaDuration
 internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
     @Test
     fun `Should respond with stream to generateContentStream`() {
-        gemini.generateContentStream {
-            temperature = temperatureValue
-            model = modelName
-            project = projectId
-            location = locationId
-            systemMessageContains("You are a helpful pirate")
-            userMessageContains("Just say 'Hello!'")
-        }.respondsStream(sse = false) {
-            responseFlow =
-                flow {
-                    emit("Ahoy")
-                    emit(" there,")
-                    delay(100.milliseconds)
-                    emit(" matey!")
-                    emit(" Hello!")
-                }
-            delay = 60.milliseconds
-            delayBetweenChunks = 50.milliseconds
-        }
+        gemini
+            .generateContentStream {
+                temperature = temperatureValue
+                model = modelName
+                project = projectId
+                location = locationId
+                systemMessageContains("You are a helpful pirate")
+                userMessageContains("Just say 'Hello!'")
+            }.respondsStream(sse = false) {
+                responseFlow =
+                    flow {
+                        emit("Ahoy")
+                        emit(" there,")
+                        delay(100.milliseconds)
+                        emit(" matey!")
+                        emit(" Hello!")
+                    }
+                delay = 60.milliseconds
+                delayBetweenChunks = 50.milliseconds
+            }
 
         val buffer = StringBuffer()
         val chunkCount =
@@ -43,7 +44,8 @@ internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
                 .chatResponse()
                 .doOnNext { chunk ->
                     logger.debug { "✅ Received chunk: $chunk" }
-                    chunk.result.output.text?.let(buffer::append)
+                    chunk.result.output.text
+                        ?.let(buffer::append)
                 }.count()
                 .block(5.seconds.toJavaDuration())
 

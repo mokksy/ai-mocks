@@ -41,10 +41,9 @@ public class OpenaiStreamingChatResponseSpecification(
      */
     public var sendDone: Boolean = false,
 ) : AbstractStreamingResponseSpecification<ChatCompletionRequest, String, String>(
-    response = response,
-    responseFlow = responseFlow,
-    responseChunks = responseChunks,
-    delayBetweenChunks=delayBetweenChunks,
-    delay = delay,
-
-)
+        response = response,
+        responseFlow = responseFlow,
+        responseChunks = responseChunks,
+        delayBetweenChunks = delayBetweenChunks,
+        delay = delay,
+    )

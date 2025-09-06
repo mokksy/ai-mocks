@@ -46,7 +46,6 @@ public class OllamaChatRequestSpecification : ModelRequestSpecification<ChatRequ
         }
     }
 
-
     /**
      * Sets the list of messages to match in the chat request.
      *

@@ -162,11 +162,12 @@ internal class ChatCompletionModelsTest {
                                             this.shouldHaveSize(5)
 
                                             withClue("Name property should be correct") {
-                                                this["name"] as? StringPropertyDefinition shouldNotBeNull {
-                                                    type shouldBe listOf("string")
-                                                    nullable shouldBe false
-                                                    description shouldBe "Person's name"
-                                                }
+                                                this["name"] as? StringPropertyDefinition shouldNotBeNull
+                                                    {
+                                                        type shouldBe listOf("string")
+                                                        nullable shouldBe false
+                                                        description shouldBe "Person's name"
+                                                    }
                                             }
                                         }
                                     }

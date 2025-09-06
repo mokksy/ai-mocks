@@ -15,7 +15,7 @@ internal class GetTaskPushNotificationTest : AbstractSerializationTest() {
             {
               "jsonrpc": "2.0",
               "id": 1,
-              "method":"tasks/pushNotification/get",
+              "method":"tasks/pushNotificationConfig/get",
               "params": {
                 "id": "de38c76d-d54c-436c-8b9f-4c2703648d64"
               }

@@ -12,13 +12,15 @@ public object Highlighting {
      * @param contentType The content type of the body.
      * @return The highlighted body string with ANSI color codes.
      */
-    public fun highlightBody(body: String, contentType: ContentType): String {
-        return when {
+    public fun highlightBody(
+        body: String,
+        contentType: ContentType,
+    ): String =
+        when {
             contentType.match(ContentType.Application.Json) -> highlightJson(body)
             contentType.match(ContentType.Application.FormUrlEncoded) -> highlightForm(body)
             else -> colorize(body, AnsiColor.LIGHT_GRAY)
         }
-    }
 
     /**
      * Applies ANSI color highlighting to a JSON string for terminal output.
@@ -34,10 +36,11 @@ public object Highlighting {
         val numberValColor = AnsiColor.BLUE
         val boolNullColor = AnsiColor.YELLOW
 
-        val regex = Regex(
-            "\"(.*?)\"(\\s*):(\\s*)(\".*?\"|\\d+(\\.\\d+)?|true|false|null)",
-            RegexOption.DOT_MATCHES_ALL
-        )
+        val regex =
+            Regex(
+                "\"(.*?)\"(\\s*):(\\s*)(\".*?\"|\\d+(\\.\\d+)?|true|false|null)",
+                RegexOption.DOT_MATCHES_ALL,
+            )
 
         return regex.replace(json) { match ->
             val key = match.groupValues[1]
@@ -47,15 +50,17 @@ public object Highlighting {
 
             val coloredKey = colorize("\"$key\"", keyColor)
 
-            val coloredValue = when {
-                value.startsWith("\"") -> colorize(value, stringValColor)
-                value == "true" || value == "false" || value == "null" -> colorize(
-                    value,
-                    boolNullColor
-                )
+            val coloredValue =
+                when {
+                    value.startsWith("\"") -> colorize(value, stringValColor)
+                    value == "true" || value == "false" || value == "null" ->
+                        colorize(
+                            value,
+                            boolNullColor,
+                        )
 
-                else -> colorize(value, numberValColor)
-            }
+                    else -> colorize(value, numberValColor)
+                }
 
             "$coloredKey$spaceBeforeColon:$spaceAfterColon$coloredValue"
         }
@@ -70,15 +75,15 @@ public object Highlighting {
      * @param data The URL-encoded form data to highlight.
      * @return The highlighted form data as a string with ANSI color codes.
      */
-    private fun highlightForm(data: String): String {
-        return data.split("&").joinToString("&") {
+    private fun highlightForm(data: String): String =
+        data.split("&").joinToString("&") {
             val parts = it.split("=")
             if (parts.size == 2) {
                 val key = colorize(parts[0], AnsiColor.YELLOW)
                 val value = colorize(parts[1], AnsiColor.GREEN)
                 "$key=$value"
-            } else it
+            } else {
+                it
+            }
         }
-    }
 }
-

@@ -94,7 +94,7 @@ public enum class ResponseErrorCode(
         public fun decode(data: Any?): ResponseErrorCode? =
             data?.let {
                 val normalizedData = "$it".lowercase()
-                values().firstOrNull { value ->
+                ResponseErrorCode.entries.firstOrNull { value ->
                     it == value || normalizedData == "$value".lowercase()
                 }
             }

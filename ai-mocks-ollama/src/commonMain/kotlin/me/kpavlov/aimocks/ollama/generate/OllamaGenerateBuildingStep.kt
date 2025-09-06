@@ -36,9 +36,9 @@ public class OllamaGenerateBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<GenerateRequest>,
 ) : AbstractBuildingStep<GenerateRequest, OllamaGenerateResponseSpecification>(
-    mokksy,
-    buildingStep,
-) {
+        mokksy,
+        buildingStep,
+    ) {
     /**
      * Configures a mock generate completion response for an Ollama generate request.
      *
@@ -175,12 +175,13 @@ public class OllamaGenerateBuildingStep(
         model: String,
         createdAt: Instant,
         response: String,
-    ): GenerateResponse = GenerateResponse(
-        model = model,
-        createdAt = createdAt,
-        response = response,
-        done = false,
-    )
+    ): GenerateResponse =
+        GenerateResponse(
+            model = model,
+            createdAt = createdAt,
+            response = response,
+            done = false,
+        )
 
     /**
      * Creates a final chunk for a streaming generate response, indicating completion.
@@ -196,18 +197,19 @@ public class OllamaGenerateBuildingStep(
         model: String,
         createdAt: Instant,
         doneReason: String? = null,
-    ): GenerateResponse = GenerateResponse(
-        model = model,
-        createdAt = createdAt,
-        response = "",
-        done = true,
-        doneReason = doneReason,
-        context = listOf(1, 2, 3),
-        totalDuration = nextInt(10, 5000).toLong(),
-        loadDuration = nextInt(10, 1000).toLong(),
-        promptEvalCount = nextInt(1, 200),
-        promptEvalDuration = nextInt(10, 5000).toLong(),
-        evalCount = nextInt(1, 500),
-        evalDuration = nextInt(10, 5000).toLong(),
-    )
+    ): GenerateResponse =
+        GenerateResponse(
+            model = model,
+            createdAt = createdAt,
+            response = "",
+            done = true,
+            doneReason = doneReason,
+            context = listOf(1, 2, 3),
+            totalDuration = nextInt(10, 5000).toLong(),
+            loadDuration = nextInt(10, 1000).toLong(),
+            promptEvalCount = nextInt(1, 200),
+            promptEvalDuration = nextInt(10, 5000).toLong(),
+            evalCount = nextInt(1, 500),
+            evalDuration = nextInt(10, 5000).toLong(),
+        )
 }

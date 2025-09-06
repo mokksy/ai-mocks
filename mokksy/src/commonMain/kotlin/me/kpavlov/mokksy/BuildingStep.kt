@@ -91,9 +91,7 @@ public class BuildingStep<P : Any> internal constructor(
      * @param block A lambda function applied to a [me.kpavlov.mokksy.response.StreamingResponseDefinitionBuilder],
      * used to configure the streaming response definition.
      */
-    public infix fun <T : Any> respondsWithStream(
-        block: StreamingResponseDefinitionBuilder<P, T>.() -> Unit,
-    ) {
+    public infix fun <T : Any> respondsWithStream(block: StreamingResponseDefinitionBuilder<P, T>.() -> Unit) {
         val stub =
             Stub(
                 configuration = configuration,

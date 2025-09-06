@@ -20,11 +20,11 @@ public abstract class AbstractMockLlm(
         }
 
     /**
- * Returns the port number on which the mock server is running.
- *
- * @return The port number used by the mock server.
- */
-public fun port(): Int = mokksy.port()
+     * Returns the port number on which the mock server is running.
+     *
+     * @return The port number used by the mock server.
+     */
+    public fun port(): Int = mokksy.port()
 
     public fun shutdown() {
         mokksy.shutdown()

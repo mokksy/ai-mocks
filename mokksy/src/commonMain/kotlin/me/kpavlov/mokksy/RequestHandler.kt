@@ -24,7 +24,7 @@ internal suspend fun handleRequest(
     application: Application,
     stubs: MutableSet<Stub<*, *>>,
     configuration: ServerConfiguration,
-    formatter: HttpFormatter
+    formatter: HttpFormatter,
 ) {
     val request = context.call.request
     val matchedStub: Stub<*, *>? =
@@ -64,12 +64,14 @@ internal suspend fun handleRequest(
             application = application,
             request = request,
             context = context,
-            formatter = formatter
+            formatter = formatter,
         )
     } else {
         if (configuration.verbose) {
             application.log.warn(
-                "No stubs found for request:\n---\n${formatter.formatRequest(request)}\n---\nAvailable stubs:\n{}\n",
+                "No stubs found for request:\n---\n${formatter.formatRequest(
+                    request,
+                )}\n---\nAvailable stubs:\n{}\n",
                 stubs.joinToString("\n---\n") { it.toLogString() },
             )
         } else {
@@ -95,7 +97,7 @@ private suspend fun handleMatchedStub(
     application: Application,
     request: RoutingRequest,
     context: RoutingContext,
-    formatter: HttpFormatter
+    formatter: HttpFormatter,
 ) {
     val config = matchedStub.configuration
     val verbose = serverConfig.verbose || config.verbose

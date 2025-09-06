@@ -1,6 +1,5 @@
 package me.kpavlov.aimocks.a2a.model.serializers
 
-import TaskStateSerializer
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.a2a.model.TaskState

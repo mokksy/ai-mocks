@@ -8,18 +8,18 @@ import me.kpavlov.mokksy.utils.logger.Highlighting.highlightBody
 import kotlin.test.Test
 
 internal class HighlightingTest {
-
     @Test
     fun `should highlight JSON key-value pairs with correct colors and retain spaces`() {
         // language=json
-        val input = """
+        val input =
+            """
             {
                 "name"  :  "Alice",
                 "age":42,
                 "active" : true,
                 "nickname" : null
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val result = highlightBody(input, ContentType.Application.Json)
 
@@ -70,8 +70,8 @@ internal class HighlightingTest {
         }
     }
 
-    private fun colorize(text: String, color: AnsiColor): String {
-        return "${color.code}$text\u001B[0m"
-    }
+    private fun colorize(
+        text: String,
+        color: AnsiColor,
+    ): String = "${color.code}$text\u001B[0m"
 }
-

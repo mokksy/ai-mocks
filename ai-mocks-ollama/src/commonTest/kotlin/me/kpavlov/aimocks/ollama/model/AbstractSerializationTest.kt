@@ -19,9 +19,10 @@ internal abstract class AbstractSerializationTest {
      * @return The deserialized model object
      */
     protected inline fun <reified T : Any> deserializeAndSerialize(payload: String): T {
-        val json = Json {
-            ignoreUnknownKeys = false
-        }
+        val json =
+            Json {
+                ignoreUnknownKeys = false
+            }
         val model: T = json.decodeFromString(payload)
 
         model.shouldNotBeNull()

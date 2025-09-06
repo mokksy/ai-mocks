@@ -9,7 +9,6 @@ import io.ktor.server.request.uri
 import io.ktor.server.routing.RoutingRequest
 import me.kpavlov.mokksy.utils.logger.Highlighting.highlightBody
 
-
 public enum class ColorTheme { LIGHT_ON_DARK, DARK_ON_LIGHT }
 
 /**
@@ -19,7 +18,9 @@ public enum class ColorTheme { LIGHT_ON_DARK, DARK_ON_LIGHT }
  */
 internal expect fun isColorSupported(): Boolean
 
-public enum class AnsiColor(public val code: String) {
+public enum class AnsiColor(
+    public val code: String,
+) {
     RESET("\u001B[0m"),
     STRONGER("\u001B[1m"),
     PALE("\u001B[2m"),
@@ -44,75 +45,86 @@ public enum class AnsiColor(public val code: String) {
  * @param enabled Whether to apply colorization; if false, returns the original text.
  * @return The colorized text if enabled, otherwise the original text.
  */
-internal fun colorize(text: String, color: AnsiColor, enabled: Boolean = true): String {
-    return if (enabled) "${color.code}$text${AnsiColor.RESET.code}" else text
-}
+internal fun colorize(
+    text: String,
+    color: AnsiColor,
+    enabled: Boolean = true,
+): String = if (enabled) "${color.code}$text${AnsiColor.RESET.code}" else text
 
 public open class HttpFormatter(
     theme: ColorTheme = ColorTheme.LIGHT_ON_DARK,
     protected val useColor: Boolean = isColorSupported(),
 ) {
-
     /**
      * Returns the HTTP method name colorized according to its type and the current color settings.
      *
      * GET, POST, and DELETE methods are assigned specific colors; other methods are rendered in bold.
      */
     private fun method(method: HttpMethod): String {
-        val color = when (method) {
-            HttpMethod.Get -> AnsiColor.BLUE
-            HttpMethod.Post -> AnsiColor.GREEN
-            HttpMethod.Delete -> AnsiColor.RED
-            else -> AnsiColor.STRONGER
-        }
+        val color =
+            when (method) {
+                HttpMethod.Get -> AnsiColor.BLUE
+                HttpMethod.Post -> AnsiColor.GREEN
+                HttpMethod.Delete -> AnsiColor.RED
+                else -> AnsiColor.STRONGER
+            }
         return colorize(method.value, color, useColor)
     }
 
-    protected val colors: ColorScheme = when (theme) {
-        ColorTheme.LIGHT_ON_DARK -> ColorScheme(
-            path = AnsiColor.STRONGER,
-            headerName = AnsiColor.YELLOW,
-            headerValue = AnsiColor.PALE,
-            body = AnsiColor.LIGHT_GRAY
-        )
+    protected val colors: ColorScheme =
+        when (theme) {
+            ColorTheme.LIGHT_ON_DARK ->
+                ColorScheme(
+                    path = AnsiColor.STRONGER,
+                    headerName = AnsiColor.YELLOW,
+                    headerValue = AnsiColor.PALE,
+                    body = AnsiColor.LIGHT_GRAY,
+                )
 
-        ColorTheme.DARK_ON_LIGHT -> ColorScheme(
-            path = AnsiColor.STRONGER,
-            headerName = AnsiColor.BLACK,
-            headerValue = AnsiColor.PALE,
-            body = AnsiColor.LIGHT_GRAY
-        )
-    }
+            ColorTheme.DARK_ON_LIGHT ->
+                ColorScheme(
+                    path = AnsiColor.STRONGER,
+                    headerName = AnsiColor.BLACK,
+                    headerValue = AnsiColor.PALE,
+                    body = AnsiColor.LIGHT_GRAY,
+                )
+        }
 
     /**
-         * Formats an HTTP request line with the method and path, applying colorization based on the selected theme.
-         *
-         * @param method The HTTP method to display.
-         * @param path The request path to display.
-         * @return The formatted and optionally colorized request line.
-         */
-        public fun requestLine(method: HttpMethod, path: String): String =
+     * Formats an HTTP request line with the method and path, applying colorization based on the selected theme.
+     *
+     * @param method The HTTP method to display.
+     * @param path The request path to display.
+     * @return The formatted and optionally colorized request line.
+     */
+    public fun requestLine(
+        method: HttpMethod,
+        path: String,
+    ): String =
         "${method(method)} ${
             colorize(
                 path,
                 colors.path,
-                useColor
+                useColor,
             )
         }"
 
     /**
-         * Formats an HTTP header line with colorized header name and values.
-         *
-         * @param k The header name.
-         * @param values The list of header values.
-         * @return The formatted and colorized header line as a string.
-         */
-        public fun header(k: String, values: List<String>): String =
+     * Formats an HTTP header line with colorized header name and values.
+     *
+     * @param k The header name.
+     * @param values The list of header values.
+     * @return The formatted and colorized header line as a string.
+     */
+    public fun header(
+        k: String,
+        values: List<String>,
+    ): String =
         "${colorize(k, colors.headerName, useColor)}: ${
             colorize(
                 values.joinToString(separator = ",", prefix = "[", postfix = "]"),
                 colors.headerValue,
-                useColor
+                useColor,
             )
         }"
 
@@ -125,7 +137,10 @@ public open class HttpFormatter(
      * @param contentType The content type of the body, used for syntax highlighting.
      * @return The formatted body string, or an empty string if the body is null or blank.
      */
-    public fun formatBody(body: String?, contentType: ContentType = ContentType.Any): String {
+    public fun formatBody(
+        body: String?,
+        contentType: ContentType = ContentType.Any,
+    ): String {
         if (body.isNullOrBlank()) return ""
         return if (useColor) highlightBody(body, contentType) else body
     }
@@ -150,16 +165,10 @@ public open class HttpFormatter(
         }
     }
 
-
     public data class ColorScheme(
         val path: AnsiColor,
         val headerName: AnsiColor,
         val headerValue: AnsiColor,
-        val body: AnsiColor
+        val body: AnsiColor,
     )
 }
-
-
-
-
-

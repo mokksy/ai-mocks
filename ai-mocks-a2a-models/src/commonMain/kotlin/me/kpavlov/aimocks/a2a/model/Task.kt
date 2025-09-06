@@ -12,6 +12,7 @@
 package me.kpavlov.aimocks.a2a.model
 
 import kotlinx.serialization.Contextual
+import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -21,10 +22,19 @@ public data class Task(
     val id: TaskId,
     @SerialName("sessionId")
     val sessionId: SessionId? = null,
+    @SerialName("contextId")
+    val contextId: ContextId? = null,
+    @SerialName("messageId")
+    val messageId: MessageId? = null,
     @SerialName("status")
     val status: TaskStatus,
     @SerialName("artifacts")
     val artifacts: List<Artifact>? = null,
+    @SerialName("history")
+    val history: List<Message>? = null,
+    @SerialName("kind")
+    @EncodeDefault
+    val kind: String = "task",
     @Contextual
     @SerialName("metadata")
     val metadata: Metadata? = null,

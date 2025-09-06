@@ -36,9 +36,9 @@ public class OllamaChatBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<ChatRequest>,
 ) : AbstractBuildingStep<ChatRequest, OllamaChatResponseSpecification>(
-    mokksy,
-    buildingStep,
-) {
+        mokksy,
+        buildingStep,
+    ) {
     /**
      * Configures a single, complete chat response for the mock Ollama chat completion API.
      *
@@ -49,9 +49,10 @@ public class OllamaChatBuildingStep(
         buildingStep.respondsWith {
             val request = this.request.body
             val responseDefinition = this.build()
-            val chatResponseSpecification = OllamaChatResponseSpecification(
-                response = responseDefinition as AbstractResponseDefinition<ChatResponse>
-            )
+            val chatResponseSpecification =
+                OllamaChatResponseSpecification(
+                    response = responseDefinition as AbstractResponseDefinition<ChatResponse>,
+                )
             block.invoke(chatResponseSpecification)
             delay = chatResponseSpecification.delay
 
@@ -93,7 +94,7 @@ public class OllamaChatBuildingStep(
             val responseDefinition = this.build()
             val responseSpec =
                 OllamaStreamingChatResponseSpecification(
-                    response = responseDefinition as AbstractResponseDefinition<String>
+                    response = responseDefinition as AbstractResponseDefinition<String>,
                 )
             block.invoke(responseSpec)
 

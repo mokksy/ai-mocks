@@ -91,9 +91,8 @@ public fun jsonRPCResponse(init: Consumer<JSONRPCResponseBuilder>): JSONRPCRespo
  * @param init The lambda to configure the JSON-RPC response.
  * @return A new [JSONRPCResponse] instance.
  */
-public fun JSONRPCResponse.Companion.create(
-    init: JSONRPCResponseBuilder.() -> Unit,
-): JSONRPCResponse = JSONRPCResponseBuilder().apply(init).build()
+public fun JSONRPCResponse.Companion.create(init: JSONRPCResponseBuilder.() -> Unit): JSONRPCResponse =
+    JSONRPCResponseBuilder().apply(init).build()
 
 /**
  * Java-friendly DSL extension for [JSONRPCResponse.Companion].
@@ -101,9 +100,7 @@ public fun JSONRPCResponse.Companion.create(
  * @param init The consumer to configure the JSON-RPC response.
  * @return A new [JSONRPCResponse] instance.
  */
-public fun JSONRPCResponse.Companion.create(
-    init: Consumer<JSONRPCResponseBuilder>,
-): JSONRPCResponse {
+public fun JSONRPCResponse.Companion.create(init: Consumer<JSONRPCResponseBuilder>): JSONRPCResponse {
     val builder = JSONRPCResponseBuilder()
     init.accept(builder)
     return builder.build()

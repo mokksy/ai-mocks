@@ -9,16 +9,14 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Clock.System
 import me.kpavlov.aimocks.a2a.model.Message
+import me.kpavlov.aimocks.a2a.model.MessageSendParams
 import me.kpavlov.aimocks.a2a.model.TaskArtifactUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskId
-import me.kpavlov.aimocks.a2a.model.TaskSendParams
 import me.kpavlov.aimocks.a2a.model.TaskStatusUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TextPart
-import me.kpavlov.aimocks.a2a.model.create
 import me.kpavlov.aimocks.a2a.model.taskArtifactUpdateEvent
 import me.kpavlov.aimocks.a2a.model.taskStatusUpdateEvent
-import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
@@ -34,7 +32,7 @@ internal class SendTaskStreamingTest : AbstractTest() {
         runTest {
             val taskId: TaskId = "task_12345"
 
-            a2aServer.sendTaskStreaming() responds {
+            a2aServer.sendMessageStreaming() responds {
                 delayBetweenChunks = 500.milliseconds
                 responseFlow =
                     flow {
@@ -113,8 +111,7 @@ internal class SendTaskStreamingTest : AbstractTest() {
             }
 
             val taskParams =
-                TaskSendParams.create {
-                    id = UUID.randomUUID().toString()
+                MessageSendParams.create {
                     message {
                         role = Message.Role.user
                         parts +=
@@ -125,7 +122,7 @@ internal class SendTaskStreamingTest : AbstractTest() {
                 }
 
             val collectedEvents = ConcurrentLinkedQueue<TaskUpdateEvent>()
-            client.sendTaskStreaming(taskParams).collect { event ->
+            client.sendStreamingMessage(params = taskParams).collect { event ->
                 logger.info { "Event from server: $event" }
                 collectedEvents.add(event)
                 handleEvent(event)

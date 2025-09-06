@@ -29,17 +29,16 @@ public open class MockGemini(
     port: Int = 0,
     verbose: Boolean = true,
 ) : AbstractMockLlm(
-    port = port,
-    configuration =
-        ServerConfiguration(
-            verbose = verbose,
-        ) { config ->
-            config.json(
-                Json { ignoreUnknownKeys = true },
-            )
-        },
-) {
-
+        port = port,
+        configuration =
+            ServerConfiguration(
+                verbose = verbose,
+            ) { config ->
+                config.json(
+                    Json { ignoreUnknownKeys = true },
+                )
+            },
+    ) {
     public constructor(verbose: Boolean = true) : this(port = 0, verbose = verbose)
 
     /**
@@ -69,7 +68,6 @@ public open class MockGemini(
                     chatRequestSpec.path
                         ?: "/${chatRequestSpec.apiVersion}/projects/${chatRequestSpec.project}/locations/${chatRequestSpec.location}/publishers/google/models/$model:generateContent"
                 path(pathString)
-
             }
 
         return GeminiContentBuildingStep(
@@ -87,6 +85,7 @@ public open class MockGemini(
      * @return A `GeminiStreamingContentBuildingStep` that represents the next step in configuring the streaming content response.
      */
     @JvmOverloads
+    @Suppress("MaxLineLength")
     public fun generateContentStream(
         name: String? = null,
         block: Consumer<GeminiContentRequestSpecification>,
@@ -122,9 +121,8 @@ public open class MockGemini(
 
     private fun matchRequestSpec(
         builder: RequestSpecificationBuilder<GenerateContentRequest>,
-        block: GeminiContentRequestSpecification.() -> Unit
-    )
-        : GeminiContentRequestSpecification {
+        block: GeminiContentRequestSpecification.() -> Unit,
+    ): GeminiContentRequestSpecification {
         val chatRequestSpec = GeminiContentRequestSpecification()
         block.invoke(chatRequestSpec)
 
@@ -132,7 +130,7 @@ public open class MockGemini(
 
         chatRequestSpec.maxOutputTokens?.let { maxOutputTokens ->
             builder.bodyMatchesPredicate(
-                description = "Max output tokens should be $maxOutputTokens."
+                description = "Max output tokens should be $maxOutputTokens.",
             ) {
                 it?.generationConfig?.maxOutputTokens == maxOutputTokens
             }
@@ -140,7 +138,7 @@ public open class MockGemini(
 
         chatRequestSpec.seed?.let { seed ->
             builder.bodyMatchesPredicate(
-                description = "Seed should be $seed."
+                description = "Seed should be $seed.",
             ) {
                 it?.generationConfig?.seed == seed.toInt()
             }
@@ -148,7 +146,7 @@ public open class MockGemini(
 
         chatRequestSpec.temperature?.let { temperature ->
             builder.bodyMatchesPredicate(
-                description = "Temperature should be within $EPSILON of $temperature."
+                description = "Temperature should be within $EPSILON of $temperature.",
             ) {
                 val requestTemperature = it?.generationConfig?.temperature
                 requestTemperature != null &&
@@ -158,7 +156,7 @@ public open class MockGemini(
 
         chatRequestSpec.topP?.let { topP ->
             builder.bodyMatchesPredicate(
-                description = "topP should be within $EPSILON of $topP."
+                description = "topP should be within $EPSILON of $topP.",
             ) {
                 val value = it?.generationConfig?.topP
                 value != null && (abs(value - topP) <= EPSILON)
@@ -167,7 +165,7 @@ public open class MockGemini(
 
         chatRequestSpec.topK?.let { topK ->
             builder.bodyMatchesPredicate(
-                description = "Top K should be $topK."
+                description = "Top K should be $topK.",
             ) {
                 it?.generationConfig?.topK?.toLong() == topK
             }

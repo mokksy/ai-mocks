@@ -40,9 +40,7 @@ public class SetTaskPushNotificationRequestBuilder {
      * @param init The lambda to configure the task push notification config.
      * @return This builder instance for method chaining.
      */
-    public fun params(
-        init: TaskPushNotificationConfigBuilder.() -> Unit,
-    ): SetTaskPushNotificationRequestBuilder =
+    public fun params(init: TaskPushNotificationConfigBuilder.() -> Unit): SetTaskPushNotificationRequestBuilder =
         apply {
             params = TaskPushNotificationConfig.create(init)
         }
@@ -53,9 +51,7 @@ public class SetTaskPushNotificationRequestBuilder {
      * @param init The consumer to configure the task push notification config.
      * @return This builder instance for method chaining.
      */
-    public fun params(
-        init: Consumer<TaskPushNotificationConfigBuilder>,
-    ): SetTaskPushNotificationRequestBuilder =
+    public fun params(init: Consumer<TaskPushNotificationConfigBuilder>): SetTaskPushNotificationRequestBuilder =
         apply {
             val builder = TaskPushNotificationConfigBuilder()
             init.accept(builder)

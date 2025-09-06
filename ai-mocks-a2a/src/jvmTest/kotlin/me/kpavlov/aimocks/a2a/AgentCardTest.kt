@@ -33,6 +33,10 @@ internal class AgentCardTest : AbstractTest() {
                         streaming = true
                         pushNotifications = true
                         stateTransitionHistory = true
+                        authentication {
+                            schemes += "basic"
+                            credentials = "test-credentials"
+                        }
                     }
                     skills +=
                         skill {
@@ -53,7 +57,7 @@ internal class AgentCardTest : AbstractTest() {
 
             val response =
                 a2aClient
-                    .get("/.well-known/agent.json") {
+                    .get("/.well-known/agent-card.json") {
                     }.call
                     .response
                     .body<String>()

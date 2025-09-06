@@ -26,12 +26,10 @@ public class GeminiContentResponseSpecification(
     public var role: String = "model",
     delay: Duration = Duration.ZERO,
 ) : AbstractResponseSpecification<GenerateContentRequest, GenerateContentResponse>(
-    response = response,
-    delay = delay
-) {
-
-    public fun assistantContent(value: String): GeminiContentResponseSpecification =
-        content(value)
+        response = response,
+        delay = delay,
+    ) {
+    public fun assistantContent(value: String): GeminiContentResponseSpecification = content(value)
 
     /**
      * Sets the content of the response.

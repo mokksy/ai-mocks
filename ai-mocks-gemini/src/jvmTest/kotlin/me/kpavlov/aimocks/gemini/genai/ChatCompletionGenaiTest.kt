@@ -10,7 +10,6 @@ import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
-
 /**
  * Some examples:
  * - https://github.com/googleapis/java-genai?tab=readme-ov-file#generate-content
@@ -37,7 +36,7 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
                 modelName,
                 "Just say 'Hello!'",
                 generateContentConfig("You are a helpful pirate")
-                    .build()
+                    .build(),
             )
 
         response.text() shouldBe "Ahoy there, matey! Hello!"
@@ -46,7 +45,6 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
     @ParameterizedTest
     @MethodSource("requestMutators")
     fun `Should miss response when request does not match`(mutator: GenerateContentConfig.Builder.() -> Unit) {
-
         gemini.generateContent {
             temperature = temperatureValue
             seed = seedValue
@@ -68,17 +66,15 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
         val configBuilder = generateContentConfig("You are a helpful pirate")
         mutator(configBuilder)
 
-
-        val exception = shouldThrowExactly<ClientException> {
-            client.models.generateContent(
-                modelName,
-                "Just say 'Hello!'",
-                configBuilder
-                    .build()
-            )
-        }
+        val exception =
+            shouldThrowExactly<ClientException> {
+                client.models.generateContent(
+                    modelName,
+                    "Just say 'Hello!'",
+                    configBuilder
+                        .build(),
+                )
+            }
         exception.code() shouldBe 404
     }
-
-
 }

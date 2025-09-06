@@ -37,7 +37,7 @@ public data class ChatRequest(
     @EncodeDefault
     val stream: Boolean = true,
     @SerialName("keep_alive")
-    val keepAlive: String? = null
+    val keepAlive: String? = null,
 )
 
 /**
@@ -59,7 +59,7 @@ public data class Message(
     @SerialName("tool_calls")
     val toolCalls: List<ToolCall>? = null,
     @SerialName("tool_name")
-    val toolName: String? = null
+    val toolName: String? = null,
 )
 
 /**
@@ -72,7 +72,7 @@ public data class Message(
 public data class Tool(
     @EncodeDefault
     val type: String = "function",
-    val function: FunctionDefinition
+    val function: FunctionDefinition,
 )
 
 /**
@@ -86,7 +86,7 @@ public data class Tool(
 public data class FunctionDefinition(
     val name: String,
     val description: String? = null,
-    val parameters: SchemaDefinition
+    val parameters: SchemaDefinition,
 )
 
 /**
@@ -101,7 +101,7 @@ public data class ToolCall(
     val id: String,
     @EncodeDefault
     val type: String = "function",
-    val function: FunctionCall
+    val function: FunctionCall,
 )
 
 /**
@@ -113,7 +113,7 @@ public data class ToolCall(
 @Serializable
 public data class FunctionCall(
     val name: String,
-    val arguments: String
+    val arguments: String,
 )
 
 /**
@@ -150,5 +150,5 @@ public data class ChatResponse(
     @SerialName("eval_count")
     val evalCount: Int? = null,
     @SerialName("eval_duration")
-    val evalDuration: Long? = null
+    val evalDuration: Long? = null,
 )

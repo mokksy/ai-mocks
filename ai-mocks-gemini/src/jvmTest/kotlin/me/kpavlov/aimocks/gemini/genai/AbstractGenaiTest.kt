@@ -16,37 +16,41 @@ internal abstract class AbstractGenaiTest : AbstractMockGeminiTest() {
 
     @BeforeAll
     fun createChatClient() {
-        client = Client.builder()
-            .project(projectId)
-            .location(locationId)
-            .credentials(
-                GoogleCredentials.create(
-                    AccessToken.newBuilder().setTokenValue("dummy-token").build()
-                )
-            )
-            .vertexAI(true)
-            .httpOptions(HttpOptions.builder().baseUrl(gemini.baseUrl()).build())
-            .build()
+        client =
+            Client
+                .builder()
+                .project(projectId)
+                .location(locationId)
+                .credentials(
+                    GoogleCredentials.create(
+                        AccessToken.newBuilder().setTokenValue("dummy-token").build(),
+                    ),
+                ).vertexAI(true)
+                .httpOptions(HttpOptions.builder().baseUrl(gemini.baseUrl()).build())
+                .build()
     }
 
     protected fun generateContentConfig(systemPrompt: String): GenerateContentConfig.Builder =
-        GenerateContentConfig.builder()
+        GenerateContentConfig
+            .builder()
             .seed(seedValue)
             .maxOutputTokens(maxCompletionTokensValue.toInt())
             .temperature(temperatureValue.toFloat())
             .topK(topKValue.toFloat())
             .topP(topPValue.toFloat())
             .systemInstruction(
-                Content.builder().role("system")
-                    .parts(Part.fromText(systemPrompt)).build()
+                Content
+                    .builder()
+                    .role("system")
+                    .parts(Part.fromText(systemPrompt))
+                    .build(),
             )
 
-    protected fun requestMutators(): Array<GenerateContentConfig.Builder.() -> Unit> {
-        return arrayOf(
+    protected fun requestMutators(): Array<GenerateContentConfig.Builder.() -> Unit> =
+        arrayOf(
             { topK(topKValue.toFloat() + 1) },
             { topP(topPValue.toFloat() + 1) },
             { temperature(temperatureValue.toFloat() / 2.0f) },
             { maxOutputTokens(maxCompletionTokensValue.toInt() + 1) },
         )
-    }
 }

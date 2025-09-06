@@ -21,6 +21,12 @@ public data class Message
     constructor(
         @SerialName("role")
         val role: Role,
+        @SerialName("messageId")
+        val messageId: MessageId? = null,
+        @SerialName("taskId")
+        val taskId: TaskId? = null,
+        @SerialName("contextId")
+        val contextId: ContextId? = null,
         @SerialName("parts")
         val parts: List<Part>,
         @Contextual

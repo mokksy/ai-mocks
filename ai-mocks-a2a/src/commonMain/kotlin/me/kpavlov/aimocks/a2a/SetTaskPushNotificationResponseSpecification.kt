@@ -17,9 +17,9 @@ public class SetTaskPushNotificationResponseSpecification(
     public var error: JSONRPCError? = null,
     delay: Duration = Duration.ZERO,
 ) : AbstractResponseSpecification<SetTaskPushNotificationRequest, SetTaskPushNotificationResponse>(
-    response = response,
-    delay = delay
-) {
+        response = response,
+        delay = delay,
+    ) {
     public fun result(block: TaskPushNotificationConfigBuilder.() -> Unit) {
         result = TaskPushNotificationConfigBuilder().apply(block).build()
     }

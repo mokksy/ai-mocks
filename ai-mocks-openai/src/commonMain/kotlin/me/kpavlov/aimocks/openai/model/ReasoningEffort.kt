@@ -52,8 +52,7 @@ public enum class ReasoningEffort(
         /**
          * Converts the provided [data] to a [String] on success, null otherwise.
          */
-        public fun encode(data: kotlin.Any?): kotlin.String? =
-            if (data is ReasoningEffort) "$data" else null
+        public fun encode(data: kotlin.Any?): kotlin.String? = if (data is ReasoningEffort) "$data" else null
 
         /**
          * Returns a valid [ReasoningEffort] for [data], null otherwise.

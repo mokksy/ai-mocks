@@ -20,9 +20,9 @@ public class OllamaGenerateResponseSpecification(
     public var doneReason: String? = "stop",
     delay: Duration = 0.seconds,
 ) : AbstractResponseSpecification<GenerateRequest, GenerateResponse>(
-    response = response,
-    delay = delay,
-) {
+        response = response,
+        delay = delay,
+    ) {
     /**
      * Sets the response content for the generate completion specification.
      *

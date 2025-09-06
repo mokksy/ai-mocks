@@ -33,8 +33,7 @@ public data class OutputContent(
     // The text output from the model.
     @SerialName(value = "text") @Required val text: kotlin.String,
     // The annotations of the text output.
-    @SerialName(value = "annotations") @Required val annotations:
-        kotlin.collections.List<Annotation>,
+    @SerialName(value = "annotations") @Required val annotations: kotlin.collections.List<Annotation>,
     // The refusal explanationfrom the model.
     @SerialName(value = "refusal") val refusal: kotlin.String? = null,
 ) {

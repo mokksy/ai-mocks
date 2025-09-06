@@ -137,8 +137,8 @@ public open class RequestSpecification<P : Any>(
                 .passed()
         }
 
-    internal fun toLogString(): String {
-        return buildList(3) {
+    internal fun toLogString(): String =
+        buildList(3) {
             if (method != null) {
                 add("method: $method")
             }
@@ -147,7 +147,6 @@ public open class RequestSpecification<P : Any>(
             if (body.isNotEmpty()) add("body: $body")
             if (bodyString.isNotEmpty()) add("bodyString: $bodyString")
         }.joinToString(", ")
-    }
 }
 
 public open class RequestSpecificationBuilder<P : Any>(
@@ -193,12 +192,13 @@ public open class RequestSpecificationBuilder<P : Any>(
      */
     public fun bodyMatchesPredicate(
         description: String? = null,
-        predicate: (P?) -> Boolean
+        predicate: (P?) -> Boolean,
     ): RequestSpecificationBuilder<P> {
-        this.body += predicateMatcher(
-            description = description,
-            predicate = predicate
-        )
+        this.body +=
+            predicateMatcher(
+                description = description,
+                predicate = predicate,
+            )
         return this
     }
 
@@ -211,9 +211,7 @@ public open class RequestSpecificationBuilder<P : Any>(
      * @return The same instance of [RequestSpecificationBuilder] with the predicates applied
      *         for further customization.
      */
-    public fun bodyMatchesPredicates(
-        vararg predicate: (P?) -> Boolean,
-    ): RequestSpecificationBuilder<P> {
+    public fun bodyMatchesPredicates(vararg predicate: (P?) -> Boolean): RequestSpecificationBuilder<P> {
         predicate.forEach { bodyMatchesPredicate(predicate = it) }
         return this
     }

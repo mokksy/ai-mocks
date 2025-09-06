@@ -9,7 +9,6 @@ import kotlin.math.abs
 import kotlin.test.Test
 
 internal class EmbeddingUtilsTest {
-
     @Test
     fun `generateEmbedding should create a vector of the specified dimension`() {
         // Given
@@ -100,6 +99,4 @@ internal class EmbeddingUtilsTest {
             abs(magnitude - 1.0f) shouldBeLessThan 0.01f
         }
     }
-
-
 }

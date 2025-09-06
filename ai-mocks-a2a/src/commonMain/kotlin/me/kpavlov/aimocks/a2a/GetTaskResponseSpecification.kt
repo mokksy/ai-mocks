@@ -17,9 +17,9 @@ public class GetTaskResponseSpecification(
     public var error: JSONRPCError? = null,
     delay: Duration = Duration.ZERO,
 ) : AbstractResponseSpecification<GetTaskRequest, GetTaskResponse>(
-    response = response,
-    delay = delay
-) {
+        response = response,
+        delay = delay,
+    ) {
     public fun task(block: TaskBuilder.() -> Unit) {
         require(result == null) { "Task is already defined" }
         result = TaskBuilder().apply(block).build()

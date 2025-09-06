@@ -31,7 +31,7 @@ internal class SetTaskPushNotificationRequestBuilderTest {
                     ),
             )
         request.jsonrpc shouldBe "2.0"
-        request.method shouldBe "tasks/pushNotification/set"
+        request.method shouldBe "tasks/pushNotificationConfig/set"
     }
 
     @Test
@@ -62,7 +62,7 @@ internal class SetTaskPushNotificationRequestBuilderTest {
                     ),
             )
         request.jsonrpc shouldBe "2.0"
-        request.method shouldBe "tasks/pushNotification/set"
+        request.method shouldBe "tasks/pushNotificationConfig/set"
     }
 
     @Test
@@ -103,7 +103,7 @@ internal class SetTaskPushNotificationRequestBuilderTest {
                     ),
             )
         request.jsonrpc shouldBe "2.0"
-        request.method shouldBe "tasks/pushNotification/set"
+        request.method shouldBe "tasks/pushNotificationConfig/set"
     }
 
     @Test
@@ -132,6 +132,6 @@ internal class SetTaskPushNotificationRequestBuilderTest {
                     ),
             )
         request.jsonrpc shouldBe "2.0"
-        request.method shouldBe "tasks/pushNotification/set"
+        request.method shouldBe "tasks/pushNotificationConfig/set"
     }
 }

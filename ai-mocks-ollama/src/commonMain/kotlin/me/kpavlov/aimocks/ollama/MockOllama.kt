@@ -33,20 +33,20 @@ public open class MockOllama(
     port: Int = 0,
     verbose: Boolean = true,
 ) : AbstractMockLlm(
-    port = port,
-    configuration =
-        ServerConfiguration(
-            verbose = verbose,
-            name = "MockOllama"
-        ) { config ->
-            config.json(
-                Json {
-                    ignoreUnknownKeys = true
-                    prettyPrint = true
-                },
-            )
-        },
-) {
+        port = port,
+        configuration =
+            ServerConfiguration(
+                verbose = verbose,
+                name = "MockOllama",
+            ) { config ->
+                config.json(
+                    Json {
+                        ignoreUnknownKeys = true
+                        prettyPrint = true
+                    },
+                )
+            },
+    ) {
     /**
      * Configures a mock `/api/generate` endpoint using a Java `Consumer` to specify the request criteria.
      *

@@ -19,9 +19,9 @@ public class AnthropicMessagesResponseSpecification(
     delay: Duration = Duration.ZERO,
     public var stopReason: String = "end_turn",
 ) : AbstractResponseSpecification<MessageCreateParams, Message>(
-    response = response,
-    delay = delay
-) {
+        response = response,
+        delay = delay,
+    ) {
     public fun assistantContent(content: String): AnthropicMessagesResponseSpecification =
         apply {
             this.assistantContent =
@@ -34,4 +34,3 @@ public class AnthropicMessagesResponseSpecification(
                 finishReason
         }
 }
-

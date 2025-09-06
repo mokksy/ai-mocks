@@ -21,6 +21,8 @@ public class AgentCardBuilder {
     public var defaultInputModes: List<String> = listOf("text")
     public var defaultOutputModes: List<String> = listOf("text")
     public var skills: MutableList<AgentSkill> = mutableListOf()
+    public var signatures: MutableList<String>? = null
+    public var supportsAuthenticatedExtendedCard: Boolean? = null
 
     /**
      * Sets the name of the agent.
@@ -144,6 +146,42 @@ public class AgentCardBuilder {
         }
 
     /**
+     * Sets the signatures for the agent card.
+     *
+     * @param signatures The list of signatures.
+     * @return This builder instance for method chaining.
+     */
+    public fun signatures(signatures: List<String>): AgentCardBuilder =
+        apply {
+            this.signatures = signatures.toMutableList()
+        }
+
+    /**
+     * Adds a signature to the agent card.
+     *
+     * @param signature The signature to add.
+     * @return This builder instance for method chaining.
+     */
+    public fun addSignature(signature: String): AgentCardBuilder =
+        apply {
+            if (this.signatures == null) {
+                this.signatures = mutableListOf()
+            }
+            this.signatures!!.add(signature)
+        }
+
+    /**
+     * Sets whether the agent supports authenticated extended card.
+     *
+     * @param supportsAuthenticatedExtendedCard Whether authenticated extended card is supported.
+     * @return This builder instance for method chaining.
+     */
+    public fun supportsAuthenticatedExtendedCard(supportsAuthenticatedExtendedCard: Boolean): AgentCardBuilder =
+        apply {
+            this.supportsAuthenticatedExtendedCard = supportsAuthenticatedExtendedCard
+        }
+
+    /**
      * Builds an [AgentCard] instance with the configured parameters.
      *
      * @param validate Whether to validate the required parameters.
@@ -169,6 +207,8 @@ public class AgentCardBuilder {
             defaultInputModes = defaultInputModes,
             defaultOutputModes = defaultOutputModes,
             skills = skills,
+            signatures = signatures,
+            supportsAuthenticatedExtendedCard = supportsAuthenticatedExtendedCard,
         )
     }
 
@@ -178,8 +218,7 @@ public class AgentCardBuilder {
      * @param block The lambda to configure the skill.
      * @return The created skill.
      */
-    public fun skill(block: AgentSkillBuilder.() -> Unit): AgentSkill =
-        AgentSkillBuilder().apply(block).build()
+    public fun skill(block: AgentSkillBuilder.() -> Unit): AgentSkill = AgentSkillBuilder().apply(block).build()
 
     /**
      * Creates a skill using the provided Java-friendly Consumer.
@@ -260,8 +299,7 @@ public class AgentCardBuilder {
  * @param init The lambda to configure the agent card.
  * @return A new [AgentCard] instance.
  */
-public inline fun agentCard(init: AgentCardBuilder.() -> Unit): AgentCard =
-    AgentCardBuilder().apply(init).build()
+public inline fun agentCard(init: AgentCardBuilder.() -> Unit): AgentCard = AgentCardBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [AgentCard].

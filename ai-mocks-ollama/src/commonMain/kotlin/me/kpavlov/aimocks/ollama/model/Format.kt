@@ -26,9 +26,9 @@ public sealed interface Format {
     @Serializable
     public object Json : Format {
         /**
- * Returns the string representation "json".
- */
-override fun toString(): String = "json"
+         * Returns the string representation "json".
+         */
+        override fun toString(): String = "json"
     }
 
     /**
@@ -37,16 +37,19 @@ override fun toString(): String = "json"
      * @property schema The JSON schema definition
      */
     @Serializable
-    public data class Schema(val schema: JsonSchema) : Format
+    public data class Schema(
+        val schema: JsonSchema,
+    ) : Format
 }
 
 /**
  * Custom serializer for [Format] that can handle either a string "json" or a JSON schema object.
  */
 internal class FormatSerializer : KSerializer<Format> {
-    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Format") {
-        // Polymorphic format: either "json" string or JSON schema object
-    }
+    override val descriptor: SerialDescriptor =
+        buildClassSerialDescriptor("Format") {
+            // Polymorphic format: either "json" string or JSON schema object
+        }
 
     /**
      * Deserializes a `Format` instance from JSON, accepting either the string `"json"` or a JSON schema object.
@@ -56,8 +59,9 @@ internal class FormatSerializer : KSerializer<Format> {
      * @throws SerializationException If the decoder is not a `JsonDecoder` or if the input is neither `"json"` nor a valid JSON schema object.
      */
     override fun deserialize(decoder: Decoder): Format {
-        val jsonDecoder = decoder as? JsonDecoder
-            ?: throw SerializationException("FormatSerializer requires JsonDecoder")
+        val jsonDecoder =
+            decoder as? JsonDecoder
+                ?: throw SerializationException("FormatSerializer requires JsonDecoder")
 
         val element = jsonDecoder.decodeJsonElement()
 
@@ -70,7 +74,9 @@ internal class FormatSerializer : KSerializer<Format> {
                 Format.Schema(jsonSchema)
             }
 
-            else -> throw SerializationException("Expected 'json' string or a JSON schema object, but got: $element")
+            else -> throw SerializationException(
+                "Expected 'json' string or a JSON schema object, but got: $element",
+            )
         }
     }
 
@@ -81,9 +87,13 @@ internal class FormatSerializer : KSerializer<Format> {
      * @param value The [Format] instance to serialize.
      * @throws SerializationException If the encoder is not a [JsonEncoder].
      */
-    override fun serialize(encoder: Encoder, value: Format) {
-        val jsonEncoder = encoder as? JsonEncoder
-            ?: throw SerializationException("FormatSerializer requires JsonEncoder")
+    override fun serialize(
+        encoder: Encoder,
+        value: Format,
+    ) {
+        val jsonEncoder =
+            encoder as? JsonEncoder
+                ?: throw SerializationException("FormatSerializer requires JsonEncoder")
 
         when (value) {
             is Format.Json -> {

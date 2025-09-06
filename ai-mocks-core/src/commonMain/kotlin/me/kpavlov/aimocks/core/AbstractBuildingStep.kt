@@ -54,9 +54,7 @@ public abstract class AbstractBuildingStep<P : Any, R : AbstractResponseSpecific
      * used to configure the error response properties
      * such as the body, status, headers, and other attributes.
      */
-    public open infix fun <T : Any> respondsError(
-        block: ResponseDefinitionBuilder<P, T>.() -> Unit,
-    ) {
+    public open infix fun <T : Any> respondsError(block: ResponseDefinitionBuilder<P, T>.() -> Unit) {
         buildingStep.respondsWith {
             block(this)
         }
@@ -81,9 +79,7 @@ public abstract class AbstractBuildingStep<P : Any, R : AbstractResponseSpecific
      *
      * @param R The type of the response body for the error response.
      */
-    public open infix fun <R : Any> respondsError(
-        block: Consumer<ResponseDefinitionBuilder<P, R>>,
-    ) {
+    public open infix fun <R : Any> respondsError(block: Consumer<ResponseDefinitionBuilder<P, R>>) {
         buildingStep.respondsWith {
             block.accept(this)
         }
@@ -94,10 +90,9 @@ public abstract class AbstractStreamingBuildingStep<P : Any, R : AbstractRespons
     mokksy: MokksyServer,
     buildingStep: BuildingStep<P>,
 ) : AbstractBuildingStep<P, R>(
-    mokksy = mokksy,
-    buildingStep = buildingStep,
-) {
-
+        mokksy = mokksy,
+        buildingStep = buildingStep,
+    ) {
     public abstract infix fun respondsStream(block: R.() -> Unit)
 
     public override fun responds(block: R.() -> Unit) {

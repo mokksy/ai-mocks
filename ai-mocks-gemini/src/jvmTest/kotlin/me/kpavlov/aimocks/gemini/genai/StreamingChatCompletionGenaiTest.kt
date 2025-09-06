@@ -49,7 +49,7 @@ internal class StreamingChatCompletionGenaiTest : AbstractGenaiTest() {
                 modelName,
                 "Just say 'Hello!'",
                 generateContentConfig("You are a helpful pirate")
-                    .build()
+                    .build(),
             )
 
         response.joinToString(separator = "") {
@@ -88,14 +88,15 @@ internal class StreamingChatCompletionGenaiTest : AbstractGenaiTest() {
         val configBuilder = generateContentConfig("You are a helpful pirate")
         mutator(configBuilder)
 
-        val exception = shouldThrowExactly<ClientException> {
-            client.models.generateContentStream(
-                modelName,
-                "Just say 'Hello!'",
-                configBuilder
-                    .build()
-            )
-        }
+        val exception =
+            shouldThrowExactly<ClientException> {
+                client.models.generateContentStream(
+                    modelName,
+                    "Just say 'Hello!'",
+                    configBuilder
+                        .build(),
+                )
+            }
         exception.code() shouldBe 404
     }
 }

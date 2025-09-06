@@ -33,8 +33,7 @@ public data class OutputText(
     // The text output from the model.
     @SerialName(value = "text") @Required val text: kotlin.String,
     // The annotations of the text output.
-    @SerialName(value = "annotations") @Required val annotations:
-        kotlin.collections.List<Annotation>,
+    @SerialName(value = "annotations") @Required val annotations: kotlin.collections.List<Annotation>,
 ) {
     /**
      * The type of the output text. Always `output_text`.

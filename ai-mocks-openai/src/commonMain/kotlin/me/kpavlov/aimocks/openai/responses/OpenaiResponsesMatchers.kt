@@ -35,9 +35,7 @@ internal object OpenaiResponsesMatchers {
             override fun toString(): String = "Instructions should contain \"$string\""
         }
 
-    private inline fun <reified T : InputContent> extractInputItem(
-        value: CreateResponseRequest,
-    ): List<T>? =
+    private inline fun <reified T : InputContent> extractInputItem(value: CreateResponseRequest): List<T>? =
         value
             .input
             .let {
@@ -76,14 +74,14 @@ internal object OpenaiResponsesMatchers {
                     {
                         "Input should contain image with url \"${
                             imageUrl.ellipsizeMiddle(
-                                IMAGE_URL_MAX_LENGTH
+                                IMAGE_URL_MAX_LENGTH,
                             )
                         }\""
                     },
                     {
                         "Input should NOT contain image with url \"${
                             imageUrl.ellipsizeMiddle(
-                                IMAGE_URL_MAX_LENGTH
+                                IMAGE_URL_MAX_LENGTH,
                             )
                         }\""
                     },

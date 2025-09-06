@@ -43,6 +43,9 @@ development purposes.
 
 ## Development Guidelines
 
+- Use `git mv` command when renaming files to preserve git history, if possible
+- Never commit or push changes to git automatically. It should be done manually.
+
 ### Code Style
 
 #### Kotlin
@@ -51,6 +54,7 @@ development purposes.
 - Use the provided `.editorconfig` for consistent formatting
 - Use Kotlin typesafe DSL builders where possible and prioritize fluent builders style over standard builder methods.
     If DSL builders produce less readable code, use standard setter methods.
+- Prefer DSL builder style (method with lambda blocks) over constructors, if possible.
 - Use Kotlin's `val` for immutable properties and `var` for mutable properties
 - Use fully qualified imports instead of star imports
 - Ensure to preserve backward compatibility when making changes
@@ -65,8 +69,9 @@ development purposes.
 - Write comprehensive tests for new features
 - Use function `Names with backticks` for test methods in Kotlin, e.g. "fun `should return 200 OK`()"
 - Avoid writing KDocs for tests, keep code self-documenting
-- Write Kotlin tests with kotlin-test and Kotest-assertions with infix form assertions `shouldBe` instead of
-  Assertj's `assertThat(...)`.
+- Write Kotlin tests with [kotlin-test](https://github.com/JetBrains/kotlin/tree/master/libraries/kotlin.test),
+  [mockk](https://mockk.io/) and [Kotest-assertions](https://kotest.io/docs/assertions/assertions.html)
+  with infix form assertions `shouldBe` instead of `assertEquals`.
 - Use Kotest's `withClue("<failure reason>")` to describe failure reasons, but only when the assertion is NOT obvious.
   Remove obvious cases for simplicity.
 - Use `assertSoftly(subject) { ... }` to perform multiple assertions. Never use `assertSoftly { }` to verify properties
@@ -82,7 +87,11 @@ development purposes.
 - Write tutorials in Hugo markdown /docs/content/docs
 - Make sure that in production code interfaces and abstract classes are properly documented. Avoid adding KDocs to
   override functions to avoid verbosity.
-- Update KDocs when api is changed
+- Update KDocs when api is changed.
+- When referring classes in KDoc, use references: `[SendMessageRequest]` instead of `SendMessageRequest`.
+- Add brief code examples to KDoc
+- Add links to specifications, if known. Double-check that the link actual and pointing exactly to the specification.
+  Never add broken or not accurate links.
 
 ### Project Documentation
 
@@ -136,7 +145,8 @@ The publishing process is handled by the GitHub Actions workflow in `.github/wor
 When creating or updating documentation, focus on the following aspects:
 
 1. **API Documentation**:
-  - Ensure all public APIs have proper KDoc/JavaDoc comments
+
+- Ensure all public APIs have proper KDoc/Javadoc comments
   - Include examples of how to use the API
   - Document parameters, return values, and exceptions
   - Explain the purpose and behavior of each class and method

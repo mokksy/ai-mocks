@@ -24,8 +24,7 @@ public class TaskNotificationHistory(
 
     internal fun isNotEmpty(): Boolean = !isEmpty()
 
-    internal fun find(predicate: (TaskUpdateEvent) -> Boolean): TaskUpdateEvent? =
-        events.find(predicate)
+    internal fun find(predicate: (TaskUpdateEvent) -> Boolean): TaskUpdateEvent? = events.find(predicate)
 
     internal fun extract(predicate: (TaskUpdateEvent) -> Boolean): List<TaskUpdateEvent> {
         events.filter(predicate).also { found ->

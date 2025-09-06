@@ -11,15 +11,15 @@ import io.ktor.http.contentType
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.coroutines.test.runTest
 import me.kpavlov.aimocks.a2a.model.Message
-import me.kpavlov.aimocks.a2a.model.SendTaskResponse
+import me.kpavlov.aimocks.a2a.model.SendMessageResponse
 import me.kpavlov.aimocks.a2a.model.Task
 import me.kpavlov.aimocks.a2a.model.create
 import me.kpavlov.aimocks.a2a.model.invalidRequestError
-import me.kpavlov.aimocks.a2a.model.sendTaskRequest
+import me.kpavlov.aimocks.a2a.model.sendMessageRequest
 import java.util.UUID
 import kotlin.test.Test
 
-internal class SendTaskTest : AbstractTest() {
+internal class SendMessageTest : AbstractTest() {
     /**
      * https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task
      */
@@ -40,7 +40,7 @@ internal class SendTaskTest : AbstractTest() {
                 }
 
             val reply =
-                SendTaskResponse.create {
+                SendMessageResponse.create {
                     id = 1
                     result {
                         id = "tid_12345"
@@ -66,7 +66,7 @@ internal class SendTaskTest : AbstractTest() {
                 a2aClient
                     .post("/") {
                         val jsonRpcRequest =
-                            sendTaskRequest {
+                            sendMessageRequest {
                                 id = "1"
                                 params {
                                     id = UUID.randomUUID().toString()
@@ -85,7 +85,7 @@ internal class SendTaskTest : AbstractTest() {
                     .response
 
             response.status shouldBe HttpStatusCode.OK
-            val payload = response.body<SendTaskResponse>()
+            val payload = response.body<SendMessageResponse>()
             payload shouldBeEqualToComparingFields reply
         }
 
@@ -104,7 +104,7 @@ internal class SendTaskTest : AbstractTest() {
                 a2aClient
                     .post("/") {
                         val jsonRpcRequest =
-                            sendTaskRequest {
+                            sendMessageRequest {
                                 id = "1"
                                 params {
                                     id = UUID.randomUUID().toString()
@@ -120,10 +120,10 @@ internal class SendTaskTest : AbstractTest() {
                     .response
 
             response.status shouldBe HttpStatusCode.OK
-            val payload = response.body<SendTaskResponse>()
+            val payload = response.body<SendMessageResponse>()
 
             val expectedReply =
-                SendTaskResponse.create {
+                SendMessageResponse.create {
                     id = 1
                     error =
                         invalidRequestError {

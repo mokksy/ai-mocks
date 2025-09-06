@@ -84,9 +84,7 @@ public inline fun taskResubscriptionRequest(
  * @param init The consumer to configure the task resubscription request.
  * @return A new [TaskResubscriptionRequest] instance.
  */
-public fun taskResubscriptionRequest(
-    init: Consumer<TaskResubscriptionRequestBuilder>,
-): TaskResubscriptionRequest {
+public fun taskResubscriptionRequest(init: Consumer<TaskResubscriptionRequestBuilder>): TaskResubscriptionRequest {
     val builder = TaskResubscriptionRequestBuilder()
     init.accept(builder)
     return builder.build()
