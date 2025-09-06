@@ -1,13 +1,30 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
 import com.diffplug.gradle.spotless.SpotlessExtension
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
 }
 
 kotlin {
+
+    compilerOptions {
+        languageVersion = KOTLIN_2_0
+        apiVersion = KOTLIN_2_0
+        allWarningsAsErrors = true
+        extraWarnings = true
+        freeCompilerArgs =
+            listOf(
+                "-Wextra",
+                "-Xjvm-default=all",
+                "-Xmulti-dollar-interpolation",
+            )
+    }
+    coreLibrariesVersion = "2.0.10"
+
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
@@ -16,6 +33,10 @@ kotlin {
     withSourcesJar(publish = true)
 
     jvm {
+        compilerOptions {
+            javaParameters = true
+            jvmTarget = JvmTarget.JVM_17
+        }
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
         }
@@ -37,21 +58,6 @@ configure<SpotlessExtension> {
     format("misc") {
         target("*.md", ".gitignore")
         trimTrailingWhitespace()
-    }
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-    compilerOptions {
-        jvmTarget = JvmTarget.JVM_17
-        languageVersion = KOTLIN_2_0
-        apiVersion = KOTLIN_2_0
-        allWarningsAsErrors = true
-        freeCompilerArgs =
-            listOf(
-                "-Wextra",
-                "-Xjvm-default=all",
-                "-Xmulti-dollar-interpolation",
-            )
     }
 }
 
