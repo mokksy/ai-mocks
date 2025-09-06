@@ -87,8 +87,7 @@ public class DataPartBuilder {
  * @param init The lambda to configure the data part
  * @return A new DataPart instance
  */
-public inline fun dataPart(init: DataPartBuilder.() -> Unit): DataPart =
-    DataPartBuilder().apply(init).build()
+public inline fun dataPart(init: DataPartBuilder.() -> Unit): DataPart = DataPartBuilder().apply(init).build()
 
 /**
  * Creates a new DataPart using the Java-friendly Consumer.
@@ -108,8 +107,7 @@ public fun dataPart(init: Consumer<DataPartBuilder>): DataPart {
  * @param init The lambda to configure the data part
  * @return A new DataPart instance
  */
-public fun DataPart.Companion.create(init: DataPartBuilder.() -> Unit): DataPart =
-    DataPartBuilder().apply(init).build()
+public fun DataPart.Companion.create(init: DataPartBuilder.() -> Unit): DataPart = DataPartBuilder().apply(init).build()
 
 /**
  * Creates a new DataPart using the Java-friendly Consumer.

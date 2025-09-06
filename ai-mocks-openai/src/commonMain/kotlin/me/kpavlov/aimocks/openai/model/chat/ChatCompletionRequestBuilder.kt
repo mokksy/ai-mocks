@@ -198,9 +198,7 @@ public class ChatCompletionRequestBuilder {
      * @param streamOptions The stream options.
      * @return This builder instance for method chaining.
      */
-    public fun streamOptions(
-        streamOptions: ChatCompletionStreamOptions,
-    ): ChatCompletionRequestBuilder {
+    public fun streamOptions(streamOptions: ChatCompletionStreamOptions): ChatCompletionRequestBuilder {
         this.streamOptions = streamOptions
         return this
     }

@@ -73,8 +73,7 @@ public class TextPartBuilder {
  * @param init The lambda to configure the text part
  * @return A new TextPart instance
  */
-public inline fun textPart(init: TextPartBuilder.() -> Unit): TextPart =
-    TextPartBuilder().apply(init).build()
+public inline fun textPart(init: TextPartBuilder.() -> Unit): TextPart = TextPartBuilder().apply(init).build()
 
 /**
  * Creates a new TextPart using the Java-friendly Consumer.
@@ -94,8 +93,7 @@ public fun textPart(init: Consumer<TextPartBuilder>): TextPart {
  * @param init The lambda to configure the text part
  * @return A new TextPart instance
  */
-public fun TextPart.Companion.create(init: TextPartBuilder.() -> Unit): TextPart =
-    TextPartBuilder().apply(init).build()
+public fun TextPart.Companion.create(init: TextPartBuilder.() -> Unit): TextPart = TextPartBuilder().apply(init).build()
 
 /**
  * Creates a new TextPart using the Java-friendly Consumer.

@@ -115,9 +115,8 @@ public fun getTaskResponse(init: Consumer<GetTaskResponseBuilder>): GetTaskRespo
  * @param init The lambda to configure the get task response.
  * @return A new [GetTaskResponse] instance.
  */
-public fun GetTaskResponse.Companion.create(
-    init: GetTaskResponseBuilder.() -> Unit,
-): GetTaskResponse = GetTaskResponseBuilder().apply(init).build()
+public fun GetTaskResponse.Companion.create(init: GetTaskResponseBuilder.() -> Unit): GetTaskResponse =
+    GetTaskResponseBuilder().apply(init).build()
 
 /**
  * Java-friendly DSL extension for [GetTaskResponse.Companion].
@@ -125,9 +124,7 @@ public fun GetTaskResponse.Companion.create(
  * @param init The consumer to configure the get task response.
  * @return A new [GetTaskResponse] instance.
  */
-public fun GetTaskResponse.Companion.create(
-    init: Consumer<GetTaskResponseBuilder>,
-): GetTaskResponse {
+public fun GetTaskResponse.Companion.create(init: Consumer<GetTaskResponseBuilder>): GetTaskResponse {
     val builder = GetTaskResponseBuilder()
     init.accept(builder)
     return builder.build()

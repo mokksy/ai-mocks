@@ -19,7 +19,7 @@ internal class ChatCompletionLc4jTest : AbstractMockGeminiTest() {
         model =
             GoogleAiGeminiChatModel
                 .builder()
-                //TODO: .baseUrl(gemini.baseUrl())
+                // TODO: .baseUrl(gemini.baseUrl())
                 .apiKey("foo")
                 .build()
     }

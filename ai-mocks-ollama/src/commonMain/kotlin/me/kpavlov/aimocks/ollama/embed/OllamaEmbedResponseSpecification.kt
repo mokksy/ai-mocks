@@ -20,9 +20,9 @@ public class OllamaEmbedResponseSpecification(
     public var model: String? = null,
     delay: Duration = 0.seconds,
 ) : AbstractResponseSpecification<EmbeddingsRequest, EmbeddingsResponse>(
-    response = response,
-    delay = delay,
-) {
+        response = response,
+        delay = delay,
+    ) {
     /**
      * Sets the embeddings to be included in the response.
      *

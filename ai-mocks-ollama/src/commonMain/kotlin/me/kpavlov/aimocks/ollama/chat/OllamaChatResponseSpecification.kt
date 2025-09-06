@@ -23,9 +23,9 @@ public class OllamaChatResponseSpecification(
     public var finishReason: String? = "stop",
     delay: Duration = 0.seconds,
 ) : AbstractResponseSpecification<ChatRequest, ChatResponse>(
-    response = response,
-    delay = delay,
-) {
+        response = response,
+        delay = delay,
+    ) {
     /**
      * Sets the assistant's response content.
      *
@@ -65,11 +65,12 @@ public class OllamaChatResponseSpecification(
      * @return A `Message` object with the role set to "assistant".
      */
     internal fun createMessage(): Message {
-        val message = Message(
-            role = "assistant",
-            content = assistantContent,
-            thinking = thinking
-        )
+        val message =
+            Message(
+                role = "assistant",
+                content = assistantContent,
+                thinking = thinking,
+            )
 
         return message
     }

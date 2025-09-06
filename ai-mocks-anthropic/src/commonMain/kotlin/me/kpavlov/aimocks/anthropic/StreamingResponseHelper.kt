@@ -38,9 +38,7 @@ internal object StreamingResponseHelper {
         )
     }
 
-    internal fun createContentBlockStartChunk(
-        index: Long = 0,
-    ): TypedServerSentEvent<AnthropicSseData> {
+    internal fun createContentBlockStartChunk(index: Long = 0): TypedServerSentEvent<AnthropicSseData> {
         val data =
             AnthropicSseData.ContentBlockStartData(
                 index = index.toInt(),
@@ -95,9 +93,7 @@ internal object StreamingResponseHelper {
         )
     }
 
-    internal fun createContentBlockStopChunk(
-        index: Long = 0,
-    ): TypedServerSentEvent<AnthropicSseData> {
+    internal fun createContentBlockStopChunk(index: Long = 0): TypedServerSentEvent<AnthropicSseData> {
         val data =
             AnthropicSseData.ContentBlockStopData(
                 index = index.toInt(),

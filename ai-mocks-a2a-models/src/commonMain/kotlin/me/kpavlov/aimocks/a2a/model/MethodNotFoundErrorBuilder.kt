@@ -12,8 +12,7 @@ import java.util.function.Consumer
  * }
  * ```
  */
-public class MethodNotFoundErrorBuilder :
-    JSONRPCErrorBuilder<MethodNotFoundError, MethodNotFoundErrorBuilder>() {
+public class MethodNotFoundErrorBuilder : JSONRPCErrorBuilder<MethodNotFoundError, MethodNotFoundErrorBuilder>() {
     /**
      * Builds a [MethodNotFoundError] instance with the configured parameters.
      *
@@ -31,9 +30,8 @@ public class MethodNotFoundErrorBuilder :
  * @param init The lambda to configure the method not found error.
  * @return A new [MethodNotFoundError] instance.
  */
-public inline fun methodNotFoundError(
-    init: MethodNotFoundErrorBuilder.() -> Unit,
-): MethodNotFoundError = MethodNotFoundErrorBuilder().apply(init).build()
+public inline fun methodNotFoundError(init: MethodNotFoundErrorBuilder.() -> Unit): MethodNotFoundError =
+    MethodNotFoundErrorBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [MethodNotFoundError].

@@ -33,9 +33,7 @@ internal object AnthropicAiMatchers {
                 )
             }
 
-            private fun findUserMessages(
-                value: MessageCreateParams?,
-            ): List<MessageCreateParams.Content> =
+            private fun findUserMessages(value: MessageCreateParams?): List<MessageCreateParams.Content> =
                 value
                     ?.messages
                     ?.filter { it.role == "user" }

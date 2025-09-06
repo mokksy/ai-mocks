@@ -222,12 +222,10 @@ public data class Response
 public data class Usage(
     // The number of input tokens.
     @SerialName(value = "input_tokens") @Required val inputTokens: Int,
-    @SerialName(value = "input_tokens_details") @Required val inputTokensDetails:
-        InputTokensDetails,
+    @SerialName(value = "input_tokens_details") @Required val inputTokensDetails: InputTokensDetails,
     // The number of output tokens.
     @SerialName(value = "output_tokens") @Required val outputTokens: Int,
-    @SerialName(value = "output_tokens_details") @Required val outputTokensDetails:
-        OutputTokensDetails,
+    @SerialName(value = "output_tokens_details") @Required val outputTokensDetails: OutputTokensDetails,
     // The total number of tokens used.
     @SerialName(value = "total_tokens") @Required val totalTokens: Int,
 )

@@ -4,7 +4,11 @@ title: "Agent2Agent Protocol"
 toc: true
 ---
 
-[MockAgentServer](https://github.com/mokksy/ai-mocks/blob/main/ai-mocks-a2a/src/commonMain/kotlin/me/kpavlov/aimocks/a2a/MockAgentServer.kt) provides a local mock server for simulating [A2A (Agent-to-Agent) API endpoints](https://google.github.io/A2A/). It simplifies testing by allowing you to define request expectations and responses without making real network calls.
+[MockAgentServer](https://github.com/mokksy/ai-mocks/blob/main/ai-mocks-a2a/src/commonMain/kotlin/me/kpavlov/aimocks/a2a/MockAgentServer.kt) provides a local mock server for simulating [A2A (Agent-to-Agent) API](https://a2a-protocol.org/latest/specification/) endpoints.
+It simplifies testing by allowing you to define request expectations and responses without making real network calls.
+
+**NB!** The server only supports [JSON-RPC 2.0 transport](https://a2a-protocol.org/latest/specification/#321-json-rpc-20-transport).
+Supported A2A protocol version is **0.3.0**.
 
 ## Quick Start
 
@@ -46,13 +50,14 @@ You may use any HTTP client that supports Server-Sent Events (SSE) to make reque
 create a Ktor client for A2A:
 
 ```kotlin
-// Create a Ktor client
+// Create a Ktor client configured for A2A
 val a2aClient = HttpClient(Java) {
+    val json = Json {
+        prettyPrint = true
+        isLenient = true
+    }
     install(ContentNegotiation) {
-        Json {
-            prettyPrint = true
-            isLenient = true
-        }
+        json(json)
     }
     install(SSE) {
         showRetryEvents()
@@ -66,7 +71,7 @@ val a2aClient = HttpClient(Java) {
 
 ## Agent Card Endpoint
 
-The Agent Card endpoint provides information about the agent's capabilities, skills, and authentication mechanisms. Remote Agents that support A2A are required to publish an **Agent Card** in JSON format describing the agent's capabilities/skills and authentication mechanism. Clients use the Agent Card information to identify the best agent that can perform a task and leverage A2A to communicate with that remote agent.
+The [Agent Card endpoint](https://a2a-protocol.org/latest/specification/#55-agentcard-object-structure) provides information about the agent's capabilities, skills, and authentication mechanisms. Remote Agents that support A2A are required to publish an **Agent Card** in JSON format describing the agent's capabilities/skills and authentication mechanism. Clients use the Agent Card information to identify the best agent that can perform a task and leverage A2A to communicate with that remote agent.
 
 Mock Server configuration:
 ```kotlin
@@ -77,6 +82,8 @@ val agentCard = AgentCard.create {
     url = a2aServer.baseUrl()
     documentationUrl = "https://example.com/documentation"
     version = "0.0.1"
+    signatures = listOf("sig1", "sig2")
+    supportsAuthenticatedExtendedCard = true
     provider {
         organization = "Acme, Inc."
         url = "https://example.com/organization"
@@ -93,7 +100,7 @@ val agentCard = AgentCard.create {
     skills += skill {
         id = "walk"
         name = "Walk the walk"
-      }
+    }
     skills += skill {
         id = "talk"
         name = "Talk the talk"
@@ -112,7 +119,7 @@ Client call example:
 ```kotlin
 // Make a GET request to the Agent Card endpoint
 val response = a2aClient
-    .get("/.well-known/agent.json") {
+  .get("/.well-known/agent-card.json") {
     }.call
     .response
     .body<String>()
@@ -123,7 +130,7 @@ val receivedCard = Json.decodeFromString<AgentCard>(response)
 
 ## Get Task Endpoint
 
-The Get Task endpoint allows clients to retrieve information about a specific task. Clients may use this method to retrieve the generated Artifacts for a Task. The agent determines the retention window for Tasks previously submitted to it. The client may also request the last N items of history of the Task which will include all Messages, in order, sent by client and server.
+The [Get Task endpoint](https://a2a-protocol.org/latest/specification/#73-tasksget) allows clients to retrieve information about a specific task. Clients may use this method to retrieve the generated Artifacts for a Task. The agent determines the retention window for Tasks previously submitted to it. The client may also request the last N items of history of the Task which will include all Messages, in order, sent by client and server.
 
 Mock Server configuration:
 
@@ -184,9 +191,9 @@ val body = response.body<String>()
 val payload = Json.decodeFromString<GetTaskResponse>(body)
 ```
 
-## Send Task Endpoint
+## Send Message Endpoint
 
-The Send Task endpoint allows clients to send a task to the agent for processing. This method allows a client to send content to a remote agent to start a new Task, resume an interrupted Task or reopen a completed Task. A Task interrupt may be caused due to an agent requiring additional user input or a runtime error.
+The [Send Message endpoint](https://a2a-protocol.org/latest/specification/#71-messagesend) allows clients to send a message to the agent for processing. This method allows a client to send content to a remote agent to start a new Task, resume an interrupted Task or reopen a completed Task. A Task interrupt may be caused due to an agent requiring additional user input or a runtime error.
 
 Mock Server configuration:
 
@@ -207,7 +214,7 @@ val task = Task.create {
 }
 
 // Configure the mock server to respond with the task
-a2aServer.sendTask() responds {
+a2aServer.sendMessage() responds {
   id = 1
   result = task
 }
@@ -216,21 +223,22 @@ a2aServer.sendTask() responds {
 Client call example:
 
 ```kotlin
-// Create a SendTaskRequest object using the builder function
-val jsonRpcRequest = SendTaskRequest.create {
+// Create a SendMessageRequest object using the builder function
+val jsonRpcRequest = sendMessageRequest {
     id = "1"
     params {
         id = UUID.randomUUID().toString()
         message {
             role = Message.Role.user
-            parts += textPart {
-                text = "Tell me a joke"
-            }
+            parts += text { "Tell me a joke" }
+            parts += file { uri = "https://example.com/readme.md" }
+            parts += file { bytes = "1234".toByteArray() }
+            parts += data { mapOf("foo" to "bar") }
         }
     }
 }
 
-// Make a POST request to the Send Task endpoint
+// Make a POST request to the Send Message endpoint
 val response = a2aClient
     .post("/") {
         contentType(ContentType.Application.Json)
@@ -238,14 +246,14 @@ val response = a2aClient
     }.call
     .response
 
-// Parse the response into a SendTaskResponse object
+// Parse the response into a SendMessageResponse object
 val body = response.body<String>()
-val payload = Json.decodeFromString<SendTaskResponse>(body)
+val payload = Json.decodeFromString<SendMessageResponse>(body)
 ```
 
-## Send Task Streaming Endpoint
+## Send Message Streaming Endpoint
 
-The Send Task Streaming endpoint allows clients to send a task to the agent for processing and receive streaming updates. For clients and remote agents capable of communicating over HTTP with Server-Sent Events (SSE), clients can send the RPC request with method `tasks/sendSubscribe` when creating a new Task. The remote agent can respond with a stream of TaskStatusUpdateEvents (to communicate status changes or instructions/requests) and TaskArtifactUpdateEvents (to stream generated results).
+The [Send Message Streaming endpoint](https://a2a-protocol.org/latest/specification/#72-messagestream) allows clients to send a message to the agent for processing and receive streaming updates. For clients and remote agents capable of communicating over HTTP with Server-Sent Events (SSE), clients can send the RPC request with method `message/stream` when creating a new Task. The remote agent can respond with a stream of TaskStatusUpdateEvents (to communicate status changes or instructions/requests) and TaskArtifactUpdateEvents (to stream generated results).
 
 Mock Server configuration:
 
@@ -253,7 +261,7 @@ Mock Server configuration:
 // Configure the mock server to respond with streaming updates
 val taskId = "task_12345"
 
-a2aServer.sendTaskStreaming() responds {
+a2aServer.sendMessageStreaming() responds {
     delayBetweenChunks = 1.seconds
     responseFlow = flow {
       emit(
@@ -333,23 +341,20 @@ Client call example:
 // Create a collection to store the events
 var collectedEvents = ConcurrentLinkedQueue<TaskUpdateEvent>()
 
-// Make a POST request to the Send Task Streaming endpoint with SSE
+// Make a POST request to the Send Message Streaming endpoint with SSE
 a2aClient.sse(
     request = {
         url { a2aServer.baseUrl() }
         method = HttpMethod.Post
-        val payload = SendTaskStreamingRequest(
+        val payload = SendStreamingMessageRequest(
             id = "1",
-            params = TaskSendParams.create {
-                id = UUID.randomUUID().toString()
-                message = Message(
-                    role = Message.Role.user,
-                    parts = listOf(
-                        TextPart(
-                            text = "Tell me a joke",
-                        ),
-                    ),
-                )
+            params = MessageSendParams.create {
+                message {
+                    role = Message.Role.user
+                    parts += textPart {
+                        text = "Tell me a joke"
+                    }
+                }
             },
         )
         body = TextContent(
@@ -393,7 +398,7 @@ private fun handleEvent(event: TaskUpdateEvent): Boolean {
 
 ## Cancel Task Endpoint
 
-The Cancel Task endpoint allows clients to cancel a task that is in progress. A client may choose to cancel previously submitted Tasks, for example when the user no longer needs the result or wants to stop a long-running task.
+The [Cancel Task endpoint](https://a2a-protocol.org/latest/specification/#74-taskscancel) allows clients to cancel a task that is in progress. A client may choose to cancel previously submitted Tasks, for example when the user no longer needs the result or wants to stop a long-running task.
 
 Mock Server configuration:
 
@@ -435,7 +440,7 @@ val payload = Json.decodeFromString<CancelTaskResponse>(body)
 
 ## Set Task Push Notification Endpoint
 
-The Set Task Push Notification endpoint allows clients to configure push notifications for a task. Clients may configure a push notification URL for receiving updates on Task status changes. This is particularly useful for long-running tasks where the client may not want to maintain an open connection.
+The [Set Task Push Notification endpoint](https://a2a-protocol.org/latest/specification/#75-taskspushnotificationconfigset) allows clients to configure push notifications for a task. Clients may configure a push notification URL for receiving updates on Task status changes. This is particularly useful for long-running tasks where the client may not want to maintain an open connection.
 
 Mock Server configuration:
 
@@ -508,7 +513,7 @@ val payload = Json.decodeFromString<SetTaskPushNotificationResponse>(body)
 
 ## Get Task Push Notification Endpoint
 
-The Get Task Push Notification endpoint allows clients to retrieve the push notification configuration for a specific task. Clients may retrieve the currently configured push notification configuration for a Task using this method, which is useful for verifying or displaying the current notification settings.
+The [Get Task Push Notification endpoint](https://a2a-protocol.org/latest/specification/#76-taskspushnotificationconfigget) allows clients to retrieve the push notification configuration for a specific task. Clients may retrieve the currently configured push notification configuration for a Task using this method, which is useful for verifying or displaying the current notification settings.
 
 Mock Server configuration:
 
@@ -559,7 +564,7 @@ val payload = Json.decodeFromString<GetTaskPushNotificationResponse>(body)
 
 ## Task Resubscription Endpoint
 
-The Task Resubscription endpoint allows clients to resubscribe to streaming updates for a task that was previously created. This is useful when a client loses connection and needs to resume receiving updates for an ongoing task. A disconnected client may resubscribe to a remote agent that supports streaming to receive Task updates via Server-Sent Events (SSE).
+The [Task Resubscription endpoint](https://a2a-protocol.org/latest/specification/#79-tasksresubscribe) allows clients to resubscribe to streaming updates for a task that was previously created. This is useful when a client loses connection and needs to resume receiving updates for an ongoing task. A disconnected client may resubscribe to a remote agent that supports streaming to receive Task updates via Server-Sent Events (SSE).
 
 Mock Server configuration:
 

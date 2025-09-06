@@ -21,15 +21,14 @@ public class GeminiStreamingContentResponseSpecification(
     responseChunks: List<String>? = null,
     delayBetweenChunks: Duration = Duration.ZERO,
     delay: Duration = Duration.ZERO,
-    public var finishReason: String = "STOP"
+    public var finishReason: String = "STOP",
 ) : AbstractStreamingResponseSpecification<GenerateContentRequest, String, String>(
-    response,
-    responseFlow,
-    responseChunks,
-    delayBetweenChunks,
-    delay
-) {
-
+        response,
+        responseFlow,
+        responseChunks,
+        delayBetweenChunks,
+        delay,
+    ) {
     /**
      * Sets the finish reason for the streaming response.
      *

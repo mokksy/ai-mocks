@@ -12,8 +12,7 @@ import java.util.function.Consumer
  * }
  * ```
  */
-public class InvalidRequestErrorBuilder :
-    JSONRPCErrorBuilder<InvalidRequestError, InvalidRequestErrorBuilder>() {
+public class InvalidRequestErrorBuilder : JSONRPCErrorBuilder<InvalidRequestError, InvalidRequestErrorBuilder>() {
     /**
      * Builds an [InvalidRequestError] instance with the configured parameters.
      *
@@ -31,9 +30,8 @@ public class InvalidRequestErrorBuilder :
  * @param init The lambda to configure the invalid request error.
  * @return A new [InvalidRequestError] instance.
  */
-public inline fun invalidRequestError(
-    init: InvalidRequestErrorBuilder.() -> Unit,
-): InvalidRequestError = InvalidRequestErrorBuilder().apply(init).build()
+public inline fun invalidRequestError(init: InvalidRequestErrorBuilder.() -> Unit): InvalidRequestError =
+    InvalidRequestErrorBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [InvalidRequestError].
@@ -53,9 +51,8 @@ public fun invalidRequestError(init: Consumer<InvalidRequestErrorBuilder>): Inva
  * @param init The lambda to configure the invalid request error.
  * @return A new [InvalidRequestError] instance.
  */
-public fun InvalidRequestError.Companion.create(
-    init: InvalidRequestErrorBuilder.() -> Unit,
-): InvalidRequestError = InvalidRequestErrorBuilder().apply(init).build()
+public fun InvalidRequestError.Companion.create(init: InvalidRequestErrorBuilder.() -> Unit): InvalidRequestError =
+    InvalidRequestErrorBuilder().apply(init).build()
 
 /**
  * Java-friendly DSL extension for [InvalidRequestError.Companion].
@@ -63,9 +60,7 @@ public fun InvalidRequestError.Companion.create(
  * @param init The consumer to configure the invalid request error.
  * @return A new [InvalidRequestError] instance.
  */
-public fun InvalidRequestError.Companion.create(
-    init: Consumer<InvalidRequestErrorBuilder>,
-): InvalidRequestError {
+public fun InvalidRequestError.Companion.create(init: Consumer<InvalidRequestErrorBuilder>): InvalidRequestError {
     val builder = InvalidRequestErrorBuilder()
     init.accept(builder)
     return builder.build()

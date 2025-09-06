@@ -11,6 +11,7 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
+import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -19,6 +20,9 @@ import kotlinx.serialization.Serializable
 public data class DataPart
     @JvmOverloads
     constructor(
+        @SerialName("kind")
+        @EncodeDefault
+        val kind: String = "data",
         @SerialName("data")
         val data: Data,
         @SerialName("metadata")

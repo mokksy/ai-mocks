@@ -21,36 +21,28 @@ public abstract class ModelRequestSpecification<P>(
     public val requestBody: MutableList<Matcher<P?>> = mutableListOf(),
     public val requestBodyString: MutableList<Matcher<String?>> = mutableListOf(),
 ) {
-    public fun temperature(temperature: Double): ModelRequestSpecification<P> =
-        apply { this.temperature = temperature }
+    public fun temperature(temperature: Double): ModelRequestSpecification<P> = apply { this.temperature = temperature }
 
-    public fun model(model: String): ModelRequestSpecification<P> =
-        apply { this.model = model }
+    public fun model(model: String): ModelRequestSpecification<P> = apply { this.model = model }
 
-    public fun maxTokens(value: Long): ModelRequestSpecification<P> =
-        apply { this.maxTokens = value }
+    public fun maxTokens(value: Long): ModelRequestSpecification<P> = apply { this.maxTokens = value }
 
-    public fun maxTokens(value: Number): ModelRequestSpecification<P> =
-        apply { this.maxTokens = value.toLong() }
+    public fun maxTokens(value: Number): ModelRequestSpecification<P> = apply { this.maxTokens = value.toLong() }
 
-    public fun topK(value: Long): ModelRequestSpecification<P> =
-        apply { this.topK = value }
+    public fun topK(value: Long): ModelRequestSpecification<P> = apply { this.topK = value }
 
-    public fun topK(value: Number): ModelRequestSpecification<P> =
-        apply { this.topK = value.toLong() }
+    public fun topK(value: Number): ModelRequestSpecification<P> = apply { this.topK = value.toLong() }
 
-    public fun topP(value: Double): ModelRequestSpecification<P> =
-        apply { this.topP = value }
+    public fun topP(value: Double): ModelRequestSpecification<P> = apply { this.topP = value }
 
-    public fun topP(value: Number): ModelRequestSpecification<P> =
-        apply { this.topP = value.toDouble() }
+    public fun topP(value: Number): ModelRequestSpecification<P> = apply { this.topP = value.toDouble() }
 
     /**
-         * Adds a matcher to require that the request body string contains the specified substring.
-         *
-         * @param substring The substring that must be present in the request body.
-         * @return This specification instance for fluent chaining.
-         */
+     * Adds a matcher to require that the request body string contains the specified substring.
+     *
+     * @param substring The substring that must be present in the request body.
+     * @return This specification instance for fluent chaining.
+     */
     public fun requestBodyContains(substring: String): ModelRequestSpecification<P> =
         apply {
             requestBodyString += contain(substring)
@@ -62,9 +54,10 @@ public abstract class ModelRequestSpecification<P>(
      * @param requestObject The object that the request body must equal.
      * @return This specification instance for fluent chaining.
      */
-    public fun requestBodyEquals(requestObject: P): ModelRequestSpecification<P> = apply {
-        requestBody += objectEquals(requestObject, name = "request body")
-    }
+    public fun requestBodyEquals(requestObject: P): ModelRequestSpecification<P> =
+        apply {
+            requestBody += objectEquals(requestObject, name = "request body")
+        }
 
     /**
      * Adds a matcher that requires the request body string to exactly match the specified JSON payload.
@@ -72,12 +65,14 @@ public abstract class ModelRequestSpecification<P>(
      * @param payload The expected JSON string for the request body.
      * @return This specification instance for fluent chaining.
      */
-    public fun requestBodyEqualsJson(payload: String): ModelRequestSpecification<P> = apply {
-        requestBodyString += equalJson(
-            expected = payload,
-            options = CompareJsonOptions()
-        )
-    }
+    public fun requestBodyEqualsJson(payload: String): ModelRequestSpecification<P> =
+        apply {
+            requestBodyString +=
+                equalJson(
+                    expected = payload,
+                    options = CompareJsonOptions(),
+                )
+        }
 
     /**
      * Adds a matcher to require the request body string to be exactly equal to the specified value.
@@ -85,12 +80,14 @@ public abstract class ModelRequestSpecification<P>(
      * @param payload The exact string the request body must match.
      * @return This specification instance for fluent chaining.
      */
-    public fun requestBodyEquals(payload: String): ModelRequestSpecification<P> = apply {
-        requestBodyString += objectEquals(
-            payload,
-            name = "request body"
-        )
-    }
+    public fun requestBodyEquals(payload: String): ModelRequestSpecification<P> =
+        apply {
+            requestBodyString +=
+                objectEquals(
+                    payload,
+                    name = "request body",
+                )
+        }
 
     /**
      * Adds a condition to ensure the request body contains the specified substring,
@@ -111,9 +108,7 @@ public abstract class ModelRequestSpecification<P>(
      * @param substring The substring that the request body should contain, case-insensitive.
      * @return The current instance of ChatRequestSpecification with the updated condition.
      */
-    public fun requestBodyDoesNotContainsIgnoringCase(
-        substring: String,
-    ): ModelRequestSpecification<P> =
+    public fun requestBodyDoesNotContainsIgnoringCase(substring: String): ModelRequestSpecification<P> =
         apply {
             requestBodyString += doesNotContainIgnoringCase(substring)
         }
@@ -208,7 +203,7 @@ public abstract class ModelRequestSpecification<P>(
      */
     public fun requestSatisfies(
         description: String? = null,
-        call: (P?) -> Unit
+        call: (P?) -> Unit,
     ) {
         requestBody += successCallMatcher(description = description, call = call)
     }

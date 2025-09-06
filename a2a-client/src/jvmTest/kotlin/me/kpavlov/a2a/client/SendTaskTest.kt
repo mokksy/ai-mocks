@@ -3,10 +3,9 @@ package me.kpavlov.a2a.client
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import kotlinx.coroutines.test.runTest
 import me.kpavlov.aimocks.a2a.model.Message
-import me.kpavlov.aimocks.a2a.model.SendTaskResponse
+import me.kpavlov.aimocks.a2a.model.SendMessageResponse
 import me.kpavlov.aimocks.a2a.model.Task
 import me.kpavlov.aimocks.a2a.model.create
-import java.util.UUID
 import kotlin.test.Test
 
 internal class SendTaskTest : AbstractTest() {
@@ -34,7 +33,7 @@ internal class SendTaskTest : AbstractTest() {
                 }
 
             val reply =
-                SendTaskResponse(
+                SendMessageResponse(
                     id = 1,
                     result = task,
                 )
@@ -45,8 +44,7 @@ internal class SendTaskTest : AbstractTest() {
             }
 
             val taskParams =
-                me.kpavlov.aimocks.a2a.model.TaskSendParams.create {
-                    id = UUID.randomUUID().toString()
+                me.kpavlov.aimocks.a2a.model.MessageSendParams.create {
                     message {
                         role = Message.Role.user
                         parts +=
@@ -56,7 +54,7 @@ internal class SendTaskTest : AbstractTest() {
                     }
                 }
 
-            val payload = client.sendTask(taskParams)
+            val payload = client.sendMessage(taskParams)
             logger.info { "response = $payload" }
             payload shouldBeEqualToComparingFields reply
         }

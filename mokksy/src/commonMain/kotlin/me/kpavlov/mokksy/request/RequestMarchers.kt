@@ -53,7 +53,7 @@ public infix fun Headers.shouldNotHaveHeader(header: Pair<String, String>) {
  */
 public fun <T> predicateMatcher(
     description: String? = null,
-    predicate: (T?) -> Boolean
+    predicate: (T?) -> Boolean,
 ): Matcher<T?> =
     object : Matcher<T?> {
         override fun test(value: T?): MatcherResult =
@@ -68,7 +68,6 @@ public fun <T> predicateMatcher(
             )
 
         override fun toString(): String = description ?: "PredicateMatcher($predicate)"
-
     }
 
 /**
@@ -84,7 +83,7 @@ public fun <T> predicateMatcher(
  */
 public fun <T> successCallMatcher(
     description: String? = null,
-    call: (T?) -> Unit
+    call: (T?) -> Unit,
 ): Matcher<T?> =
     object : Matcher<T?> {
         override fun test(value: T?): MatcherResult {

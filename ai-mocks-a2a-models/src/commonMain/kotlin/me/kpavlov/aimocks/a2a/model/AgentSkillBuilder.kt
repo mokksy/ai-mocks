@@ -9,16 +9,17 @@ import java.util.function.Consumer
  * making it easier to configure agent skills.
  *
  * Example usage:
- * ```kotlin
- * val skill = AgentSkillBuilder()
- *     .id("skill-123")
- *     .name("Example Skill")
- *     .description("This is an example skill")
- *     .tags(listOf("example", "demo"))
- *     .examples(listOf("Example usage 1", "Example usage 2"))
- *     .inputModes(listOf("text"))
- *     .outputModes(listOf("text"))
- *     .create()
+ * ```
+ * val skill = AgentSkill.build {
+ *     id("skill-123")
+ *     name("Example Skill")
+ *     description("This is an example skill")
+ *     tags(listOf("example", "demo"))
+ *     examples(listOf("Example usage 1", "Example usage 2"))
+ *     inputModes(listOf("text"))
+ *     outputModes(listOf("text"))
+ *     security(listOf("oauth2", "api-key"))
+ * }
  * ```
  */
 public class AgentSkillBuilder {
@@ -29,6 +30,7 @@ public class AgentSkillBuilder {
     public var examples: List<String>? = null
     public var inputModes: List<String>? = null
     public var outputModes: List<String>? = null
+    public var security: List<String>? = null
 
     /**
      * Sets the ID of the skill.
@@ -108,6 +110,17 @@ public class AgentSkillBuilder {
         }
 
     /**
+     * Sets the security requirements of the skill.
+     *
+     * @param security The security requirements of the skill.
+     * @return This builder instance for method chaining.
+     */
+    public fun security(security: List<String>): AgentSkillBuilder =
+        apply {
+            this.security = security
+        }
+
+    /**
      * Builds an [AgentSkill] instance with the configured parameters.
      *
      * @return A new [AgentSkill] instance.
@@ -125,6 +138,7 @@ public class AgentSkillBuilder {
             examples = examples,
             inputModes = inputModes,
             outputModes = outputModes,
+            security = security,
         )
     }
 }
@@ -135,8 +149,7 @@ public class AgentSkillBuilder {
  * @param init The lambda to configure the agent skill.
  * @return A new [AgentSkill] instance.
  */
-public inline fun agentSkill(init: AgentSkillBuilder.() -> Unit): AgentSkill =
-    AgentSkillBuilder().apply(init).build()
+public inline fun agentSkill(init: AgentSkillBuilder.() -> Unit): AgentSkill = AgentSkillBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [AgentSkill].

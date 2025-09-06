@@ -19,7 +19,7 @@ public object ListModelsRequest
  */
 @Serializable
 public data class ListModelsResponse(
-    val models: List<ModelInfo>
+    val models: List<ModelInfo>,
 )
 
 /**
@@ -37,7 +37,7 @@ public data class ModelInfo(
     val modified: String? = null,
     val size: Long? = null,
     val digest: String? = null,
-    val details: ModelDetails? = null
+    val details: ModelDetails? = null,
 )
 
 /**
@@ -57,7 +57,7 @@ public data class ModelDetails(
     @SerialName("parameter_size")
     val parameterSize: String? = null,
     @SerialName("quantization_level")
-    val quantizationLevel: String? = null
+    val quantizationLevel: String? = null,
 )
 
 /**
@@ -67,7 +67,7 @@ public data class ModelDetails(
  */
 @Serializable
 public data class ShowModelRequest(
-    val name: String
+    val name: String,
 )
 
 /**
@@ -85,7 +85,7 @@ public data class ShowModelResponse(
     val parameters: Map<String, String>? = null,
     val template: String? = null,
     val system: String? = null,
-    val license: String? = null
+    val license: String? = null,
 )
 
 /**
@@ -97,7 +97,7 @@ public data class ShowModelResponse(
 @Serializable
 public data class CopyModelRequest(
     val source: String,
-    val destination: String
+    val destination: String,
 )
 
 /**
@@ -113,7 +113,7 @@ public object CopyModelResponse
  */
 @Serializable
 public data class DeleteModelRequest(
-    val name: String
+    val name: String,
 )
 
 /**
@@ -133,7 +133,7 @@ public object DeleteModelResponse
 public data class PullModelRequest(
     val name: String,
     val insecure: Boolean? = null,
-    val stream: Boolean = true
+    val stream: Boolean = true,
 )
 
 /**
@@ -149,7 +149,7 @@ public data class PullModelResponse(
     val status: String,
     val digest: String? = null,
     val total: Long? = null,
-    val completed: Long? = null
+    val completed: Long? = null,
 )
 
 /**
@@ -163,7 +163,7 @@ public data class PullModelResponse(
 public data class PushModelRequest(
     val name: String,
     val insecure: Boolean? = null,
-    val stream: Boolean = true
+    val stream: Boolean = true,
 )
 
 /**
@@ -179,7 +179,7 @@ public data class PushModelResponse(
     val status: String,
     val digest: String? = null,
     val total: Long? = null,
-    val completed: Long? = null
+    val completed: Long? = null,
 )
 
 /**
@@ -193,7 +193,7 @@ public data class PushModelResponse(
 public data class CreateModelRequest(
     val name: String,
     val modelfile: String,
-    val stream: Boolean = true
+    val stream: Boolean = true,
 )
 
 /**
@@ -209,7 +209,7 @@ public data class CreateModelResponse(
     val status: String,
     val digest: String? = null,
     val total: Long? = null,
-    val completed: Long? = null
+    val completed: Long? = null,
 )
 
 /**
@@ -225,7 +225,7 @@ public object ListRunningModelsRequest
  */
 @Serializable
 public data class ListRunningModelsResponse(
-    val models: List<RunningModelInfo>
+    val models: List<RunningModelInfo>,
 )
 
 /**
@@ -239,7 +239,7 @@ public data class ListRunningModelsResponse(
 public data class RunningModelInfo(
     val name: String,
     val id: String,
-    val created: String
+    val created: String,
 )
 
 /**
@@ -255,5 +255,5 @@ public object VersionRequest
  */
 @Serializable
 public data class VersionResponse(
-    val version: String
+    val version: String,
 )

@@ -56,7 +56,6 @@ public open class GeminiContentRequestSpecification(
             this.apiVersion = value
         }
 
-
     public fun project(value: String): GeminiContentRequestSpecification =
         apply {
             this.project = value

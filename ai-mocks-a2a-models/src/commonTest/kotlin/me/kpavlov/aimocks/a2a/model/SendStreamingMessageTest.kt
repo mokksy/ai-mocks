@@ -7,51 +7,45 @@ import kotlin.test.Test
 /**
  * https://github.com/google/A2A/blob/gh-pages/documentation.md#streaming-support
  */
-internal class SendTaskStreamingTest : AbstractSerializationTest() {
+internal class SendStreamingMessageTest : AbstractSerializationTest() {
     @Test
-    fun `Deserialize and Serialize SendTaskStreamingRequest`() {
+    fun `Deserialize and Serialize SendStreamingMessageRequest`() {
         // language=json
         val payload =
             """
             {
               "jsonrpc": "2.0",
               "id": 2,
-              "method":"tasks/sendSubscribe",
+              "method":"message/stream",
               "params": {
-                "id": "de38c76d-d54c-436c-8b9f-4c2703648d64",
-                "sessionId": "c295ea44-7543-4f78-b524-7a38915ad6e4",
                 "message": {
                   "role":"user",
                   "parts": [{
-                    "type":"text",
+                    "kind":"text",
                     "text": "write a long paper describing the attached pictures"
                   },{
-                    "type":"file",
+                    "kind":"file",
                     "file": {
                        "mimeType": "image/png",
-                       "bytes": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
+                       "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
                     }
                   }]
                 },
-                "metadata": {
-                  "foo": "bar",
-                  "fee": 42
+                "configuration": {
+                  "blocking": false
                 }
               }
             }
             """.trimIndent()
 
-        val model = deserializeAndSerialize<SendTaskStreamingRequest>(payload)
-        model.method shouldBe "tasks/sendSubscribe"
-        model.params.id shouldBe "de38c76d-d54c-436c-8b9f-4c2703648d64"
-        model.params.sessionId shouldBe "c295ea44-7543-4f78-b524-7a38915ad6e4"
+        val model = deserializeAndSerialize<SendStreamingMessageRequest>(payload)
+        model.method shouldBe "message/stream"
         model.params.message.role.name shouldBe "user"
         model.params.message.parts.size shouldBe 2
         (model.params.message.parts[0] as? TextPart)?.text shouldBe
             "write a long paper describing the attached pictures"
         (model.params.message.parts[1] as? FilePart)?.file?.mimeType shouldBe "image/png"
-        model.params.metadata?.get("foo") shouldBe "bar"
-        model.params.metadata?.get("fee") shouldBe 42
+        model.params.configuration?.blocking shouldBe false
     }
 
     @Test
@@ -85,7 +79,7 @@ internal class SendTaskStreamingTest : AbstractSerializationTest() {
               "id": "1",
               "artifact": {
                 "parts": [
-                  {"type":"text", "text": "<section 1...>"}
+                  {"kind":"text", "text": "<section 1...>"}
                 ],
                 "index": 0,
                 "append": false,

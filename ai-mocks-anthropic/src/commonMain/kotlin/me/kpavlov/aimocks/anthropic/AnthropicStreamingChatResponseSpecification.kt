@@ -19,9 +19,9 @@ public class AnthropicStreamingChatResponseSpecification(
      */
     public var sendDone: Boolean = false,
 ) : AbstractStreamingResponseSpecification<MessageCreateParams, String, String>(
-    response = response,
-    responseFlow = responseFlow,
-    responseChunks = responseChunks,
-    delayBetweenChunks = delayBetweenChunks,
-    delay = delay
-)
+        response = response,
+        responseFlow = responseFlow,
+        responseChunks = responseChunks,
+        delayBetweenChunks = delayBetweenChunks,
+        delay = delay,
+    )

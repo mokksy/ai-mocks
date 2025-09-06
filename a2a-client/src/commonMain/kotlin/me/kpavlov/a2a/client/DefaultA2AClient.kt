@@ -21,10 +21,11 @@ import me.kpavlov.aimocks.a2a.model.GetTaskPushNotificationRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskPushNotificationResponse
 import me.kpavlov.aimocks.a2a.model.GetTaskRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskResponse
+import me.kpavlov.aimocks.a2a.model.MessageSendParams
 import me.kpavlov.aimocks.a2a.model.PushNotificationConfig
-import me.kpavlov.aimocks.a2a.model.SendTaskRequest
-import me.kpavlov.aimocks.a2a.model.SendTaskResponse
-import me.kpavlov.aimocks.a2a.model.SendTaskStreamingRequest
+import me.kpavlov.aimocks.a2a.model.SendMessageRequest
+import me.kpavlov.aimocks.a2a.model.SendMessageResponse
+import me.kpavlov.aimocks.a2a.model.SendStreamingMessageRequest
 import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationRequest
 import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationResponse
 import me.kpavlov.aimocks.a2a.model.TaskId
@@ -32,11 +33,12 @@ import me.kpavlov.aimocks.a2a.model.TaskIdParams
 import me.kpavlov.aimocks.a2a.model.TaskPushNotificationConfig
 import me.kpavlov.aimocks.a2a.model.TaskQueryParams
 import me.kpavlov.aimocks.a2a.model.TaskResubscriptionRequest
-import me.kpavlov.aimocks.a2a.model.TaskSendParams
 import me.kpavlov.aimocks.a2a.model.TaskStatusUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
 import me.kpavlov.aimocks.a2a.model.create
 import java.util.UUID
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Default implementation of the A2AClient interface.
@@ -46,7 +48,7 @@ import java.util.UUID
  * @property json The JSON serializer/deserializer.
  */
 @Suppress("TooManyFunctions", "unused")
-public class DefaultA2AClient(
+public open class DefaultA2AClient(
     override val httpClient: HttpClient,
     private val baseUrl: String,
     private val json: Json =
@@ -56,32 +58,35 @@ public class DefaultA2AClient(
         },
     private val requestConfigurer: HttpRequestBuilder.() -> Unit = { },
 ) : A2AClient {
+    @OptIn(ExperimentalUuidApi::class)
+    protected open fun generateRequestId(): String = "req-${Uuid.random().toHexString()}"
+
     override suspend fun getAgentCard(): AgentCard {
         val response =
-            httpClient.get("$baseUrl/.well-known/agent.json") {
+            httpClient.get("$baseUrl/.well-known/agent-card.json") {
                 requestConfigurer.invoke(this)
             }
         return response.body<AgentCard>()
     }
 
-    override suspend fun sendTask(params: TaskSendParams): SendTaskResponse =
-        sendTask(
+    override suspend fun sendMessage(params: MessageSendParams): SendMessageResponse =
+        sendMessage(
             request =
-                SendTaskRequest.create {
-                    this.id = "1"
+                SendMessageRequest.create {
+                    this.id = generateRequestId()
                     this.params = params
                 },
         )
 
-    public override suspend fun sendTask(request: SendTaskRequest): SendTaskResponse {
+    public override suspend fun sendMessage(request: SendMessageRequest): SendMessageResponse {
         val response =
             httpClient.post(baseUrl) {
                 contentType(ContentType.Application.Json)
-                setBody(json.encodeToString(SendTaskRequest.serializer(), request))
+                setBody(json.encodeToString(SendMessageRequest.serializer(), request))
                 requestConfigurer.invoke(this)
             }
 
-        return response.body<SendTaskResponse>()
+        return response.body<SendMessageResponse>()
     }
 
     override suspend fun getTask(
@@ -90,7 +95,7 @@ public class DefaultA2AClient(
     ): GetTaskResponse {
         val request =
             GetTaskRequest(
-                id = "1",
+                id = generateRequestId(),
                 params =
                     TaskQueryParams(
                         id = id,
@@ -140,7 +145,7 @@ public class DefaultA2AClient(
     ): SetTaskPushNotificationResponse {
         val request =
             SetTaskPushNotificationRequest(
-                id = "1",
+                id = generateRequestId(),
                 params =
                     TaskPushNotificationConfig(
                         id = id,
@@ -167,7 +172,7 @@ public class DefaultA2AClient(
     override suspend fun getTaskPushNotification(id: TaskId): GetTaskPushNotificationResponse {
         val request =
             GetTaskPushNotificationRequest(
-                id = "1",
+                id = generateRequestId(),
                 params =
                     TaskIdParams(
                         id = id,
@@ -190,24 +195,22 @@ public class DefaultA2AClient(
         return response.body<GetTaskPushNotificationResponse>()
     }
 
-    override fun sendTaskStreaming(params: TaskSendParams): Flow<TaskUpdateEvent> {
-        val payload =
-            SendTaskStreamingRequest(
-                id = "1",
-                params = params,
-            )
-
-        return sendTaskStreaming(payload)
+    override fun sendStreamingMessage(params: MessageSendParams): Flow<TaskUpdateEvent> {
+        val request =
+            SendStreamingMessageRequest.create {
+                this.id = generateRequestId()
+                this.params = params
+            }
+        return sendStreamingMessage(request)
     }
 
-    public override fun sendTaskStreaming(
-        request: SendTaskStreamingRequest,
-    ): Flow<TaskUpdateEvent> = receiveTaskUpdateEvents(request, requestConfigurer)
+    public override fun sendStreamingMessage(request: SendStreamingMessageRequest): Flow<TaskUpdateEvent> =
+        receiveTaskUpdateEvents(request, requestConfigurer)
 
     override fun resubscribeToTask(id: TaskId): Flow<TaskUpdateEvent> {
         val request =
             TaskResubscriptionRequest(
-                id = "1",
+                id = generateRequestId(),
                 params = TaskQueryParams(id = id),
             )
         return receiveTaskUpdateEvents(request, requestConfigurer)

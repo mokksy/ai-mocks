@@ -42,6 +42,7 @@ internal class CancelTaskTest : AbstractSerializationTest() {
                 "status": {
                   "state": "canceled"
                 },
+                "kind": "task",
                 "metadata": {}
               }
             }

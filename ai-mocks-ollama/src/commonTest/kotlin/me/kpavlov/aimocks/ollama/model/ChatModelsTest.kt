@@ -15,28 +15,29 @@ internal class ChatModelsTest : AbstractSerializationTest() {
     @Test
     fun `Deserialize and Serialize ChatRequest`() {
         // language=json
-        val payload = """
-        {
-          "model": "llama3.2",
-          "messages": [
+        val payload =
+            """
             {
-              "role": "system",
-              "content": "You are a helpful assistant."
-            },
-            {
-              "role": "user",
-              "content": "Why is the sky blue?"
+              "model": "llama3.2",
+              "messages": [
+                {
+                  "role": "system",
+                  "content": "You are a helpful assistant."
+                },
+                {
+                  "role": "user",
+                  "content": "Why is the sky blue?"
+                }
+              ],
+              "format": "json",
+              "options": {
+                "temperature": 0.7,
+                "top_p": 0.9
+              },
+              "stream": false,
+              "keep_alive": "10m"
             }
-          ],
-          "format": "json",
-          "options": {
-            "temperature": 0.7,
-            "top_p": 0.9
-          },
-          "stream": false,
-          "keep_alive": "10m"
-        }
-        """.trimIndent()
+            """.trimIndent()
 
         val model = deserializeAndSerialize<ChatRequest>(payload)
         model.model shouldBe "llama3.2"
@@ -55,64 +56,64 @@ internal class ChatModelsTest : AbstractSerializationTest() {
     @Test
     fun `Deserialize and Serialize ChatRequest 2`() {
         // language=json
-        val payload = """
-        {
-          "model" : "mistral",
-          "messages" : [ {
-            "role" : "user",
-            "content" : "Hello"
-          } ],
-          "options" : {
-            "temperature" : 0.40528726585876296,
-            "top_p" : 0.40024988370637504,
-            "stop" : [ ]
-          },
-          "stream" : true,
-          "tools" : [ ]
-        }
-        """.trimIndent()
+        val payload =
+            """
+            {
+              "model" : "mistral",
+              "messages" : [ {
+                "role" : "user",
+                "content" : "Hello"
+              } ],
+              "options" : {
+                "temperature" : 0.40528726585876296,
+                "top_p" : 0.40024988370637504,
+                "stop" : [ ]
+              },
+              "stream" : true,
+              "tools" : [ ]
+            }
+            """.trimIndent()
 
         val model = deserializeAndSerialize<ChatRequest>(payload)
         model shouldNotBeNull {
-
         }
-
     }
 
     @Test
     fun `Deserialize and Serialize ChatRequest with tools`() {
         // language=json
-        val payload = """
-        {
-          "model": "llama3.2",
-          "messages": [
+        val payload =
+            """
             {
-              "role": "user",
-              "content": "what is the weather in tokyo?"
-            }
-          ],
-          "tools": [
-            {
-              "type": "function",
-              "function": {
-                "name": "get_weather",
-                "description": "Get the weather in a given city",
-                "parameters": {
-                  "type": "object",
-                  "properties": {
-                    "city": {
-                      "type": "string",
-                      "description": "The city to get the weather for"
-                    }
-                  },
-                  "required": ["city"]
+              "model": "llama3.2",
+              "messages": [
+                {
+                  "role": "user",
+                  "content": "what is the weather in tokyo?"
                 }
-              }
+              ],
+              "tools": [
+                {
+                  "type": "function",
+                  "function": {
+                    "name": "get_weather",
+                    "description": "Get the weather in a given city",
+                    "parameters": {
+                      "type": "object",
+                      "properties": {
+                        "city": {
+                          "type": "string",
+                          "description": "The city to get the weather for"
+                        }
+                      },
+                      "required": ["city"]
+                    }
+                  }
+                }
+              ],
+              "stream": true
             }
-          ],
-          "stream": true
-        }
-        """.trimIndent()
+            """.trimIndent()
 
         val model = deserializeAndSerialize<ChatRequest>(payload)
         model.model shouldBe "llama3.2"
@@ -121,17 +122,31 @@ internal class ChatModelsTest : AbstractSerializationTest() {
         model.messages[0].content shouldBe "what is the weather in tokyo?"
         model.tools?.size shouldBe 1
         model.tools?.get(0)?.type shouldBe "function"
-        model.tools?.get(0)?.function?.name shouldBe "get_weather"
-        model.tools?.get(0)?.function?.description shouldBe "Get the weather in a given city"
+        model.tools
+            ?.get(0)
+            ?.function
+            ?.name shouldBe "get_weather"
+        model.tools
+            ?.get(0)
+            ?.function
+            ?.description shouldBe "Get the weather in a given city"
 
         // Check SchemaDefinition properties
-        val parameters = model.tools?.get(0)?.function?.parameters
+        val parameters =
+            model.tools
+                ?.get(0)
+                ?.function
+                ?.parameters
         parameters?.type shouldBe "object"
         parameters?.properties?.size shouldBe 1
-        parameters?.properties?.get("city")
+        parameters
+            ?.properties
+            ?.get("city")
             ?.shouldBeInstanceOf<me.kpavlov.aimocks.core.json.schema.StringPropertyDefinition>()
         val cityProperty =
-            parameters?.properties?.get("city") as me.kpavlov.aimocks.core.json.schema.StringPropertyDefinition
+            parameters?.properties?.get(
+                "city",
+            ) as me.kpavlov.aimocks.core.json.schema.StringPropertyDefinition
         cityProperty.description shouldBe "The city to get the weather for"
         parameters.required shouldBe listOf("city")
 
@@ -141,23 +156,24 @@ internal class ChatModelsTest : AbstractSerializationTest() {
     @Test
     fun `Deserialize and Serialize ChatResponse`() {
         // language=json
-        val payload = """
-        {
-          "model": "llama3.2",
-          "created_at": "2023-08-04T19:22:45.499127Z",
-          "message": {
-            "role": "assistant",
-            "content": "The sky appears blue because of a Rayleigh scattering."
-          },
-          "done": true,
-          "total_duration": 4883583458,
-          "load_duration": 1334875,
-          "prompt_eval_count": 26,
-          "prompt_eval_duration": 342546000,
-          "eval_count": 282,
-          "eval_duration": 4535599000
-        }
-        """.trimIndent()
+        val payload =
+            """
+            {
+              "model": "llama3.2",
+              "created_at": "2023-08-04T19:22:45.499127Z",
+              "message": {
+                "role": "assistant",
+                "content": "The sky appears blue because of a Rayleigh scattering."
+              },
+              "done": true,
+              "total_duration": 4883583458,
+              "load_duration": 1334875,
+              "prompt_eval_count": 26,
+              "prompt_eval_duration": 342546000,
+              "eval_count": 282,
+              "eval_duration": 4535599000
+            }
+            """.trimIndent()
 
         val model = deserializeAndSerialize<ChatResponse>(payload)
         model.model shouldBe "llama3.2"
@@ -176,33 +192,34 @@ internal class ChatModelsTest : AbstractSerializationTest() {
     @Test
     fun `Deserialize and Serialize ChatResponse with tool calls`() {
         // language=json
-        val payload = """
-        {
-          "model": "llama3.2",
-          "created_at": "2025-07-07T20:22:19.184789Z",
-          "message": {
-            "role": "assistant",
-            "content": "",
-            "tool_calls": [
-              {
-                "id": "call_123",
-                "type": "function",
-                "function": {
-                  "name": "get_weather",
-                  "arguments": "{\"city\":\"Tokyo\"}"
-                }
-              }
-            ]
-          },
-          "done": true,
-          "total_duration": 4883583458,
-          "load_duration": 1334875,
-          "prompt_eval_count": 26,
-          "prompt_eval_duration": 342546000,
-          "eval_count": 282,
-          "eval_duration": 4535599000
-        }
-        """.trimIndent()
+        val payload =
+            """
+            {
+              "model": "llama3.2",
+              "created_at": "2025-07-07T20:22:19.184789Z",
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "tool_calls": [
+                  {
+                    "id": "call_123",
+                    "type": "function",
+                    "function": {
+                      "name": "get_weather",
+                      "arguments": "{\"city\":\"Tokyo\"}"
+                    }
+                  }
+                ]
+              },
+              "done": true,
+              "total_duration": 4883583458,
+              "load_duration": 1334875,
+              "prompt_eval_count": 26,
+              "prompt_eval_duration": 342546000,
+              "eval_count": 282,
+              "eval_duration": 4535599000
+            }
+            """.trimIndent()
 
         val model = deserializeAndSerialize<ChatResponse>(payload)
         model.model shouldBe "llama3.2"
@@ -210,10 +227,20 @@ internal class ChatModelsTest : AbstractSerializationTest() {
         model.message.role shouldBe "assistant"
         model.message.content shouldBe ""
         model.message.toolCalls?.size shouldBe 1
-        model.message.toolCalls?.get(0)?.id shouldBe "call_123"
-        model.message.toolCalls?.get(0)?.type shouldBe "function"
-        model.message.toolCalls?.get(0)?.function?.name shouldBe "get_weather"
-        model.message.toolCalls?.get(0)?.function?.arguments shouldBe "{\"city\":\"Tokyo\"}"
+        model.message.toolCalls
+            ?.get(0)
+            ?.id shouldBe "call_123"
+        model.message.toolCalls
+            ?.get(0)
+            ?.type shouldBe "function"
+        model.message.toolCalls
+            ?.get(0)
+            ?.function
+            ?.name shouldBe "get_weather"
+        model.message.toolCalls
+            ?.get(0)
+            ?.function
+            ?.arguments shouldBe "{\"city\":\"Tokyo\"}"
         model.done shouldBe true
     }
 }

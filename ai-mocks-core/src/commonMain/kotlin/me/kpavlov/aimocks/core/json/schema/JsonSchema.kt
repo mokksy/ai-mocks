@@ -171,6 +171,6 @@ public data class BooleanPropertyDefinition(
  */
 @Serializable
 public data class ReferencePropertyDefinition(
-    @SerialName("\$ref")
+    @SerialName($$"$ref")
     val ref: String,
 ) : PropertyDefinition

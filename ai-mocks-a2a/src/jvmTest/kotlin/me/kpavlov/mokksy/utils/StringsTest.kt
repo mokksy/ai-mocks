@@ -12,9 +12,11 @@ class StringsTest {
         "abcdefghi, abcdefghi",
         "abcdefghijklmnopqrst, abcd...rst",
     )
-    fun testShortStringUnchanged(input: String?, expected: String?) {
+    fun testShortStringUnchanged(
+        input: String?,
+        expected: String?,
+    ) {
         val result = input.ellipsizeMiddle(10)
         result shouldBe expected
     }
-
 }

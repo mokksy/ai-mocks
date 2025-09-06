@@ -8,7 +8,6 @@ import kotlin.math.sqrt
  */
 @Suppress("MagicNumber")
 public object EmbeddingUtils {
-
     /**
      * Generates a deterministic, normalized embedding vector from a string.
      *
@@ -20,21 +19,25 @@ public object EmbeddingUtils {
      * @param dimensions The number of dimensions for the output vector (default is 1536).
      * @return A list of floats representing the normalized embedding vector.
      */
-    public fun generateEmbedding(input: String, dimensions: Int = 1536): List<Float> {
+    public fun generateEmbedding(
+        input: String,
+        dimensions: Int = 1536,
+    ): List<Float> {
         if (input.isEmpty()) return List(dimensions) { 0.0f }
 
         val hash = input.hashCode()
         val charSum = input.sumOf { it.code }
 
         var norm = 0.0f
-        val result = FloatArray(dimensions) { i ->
-            val pos = i.toFloat() / dimensions
-            // Reduced input range to sin() to avoid periodicity collapse
-            val angle = (hash * 0.001f) + (charSum * 0.001f) + pos
-            val value = sin(angle * 6.2831f) // sin(2πx), keeps values in [-1, 1]
-            norm += value * value
-            value
-        }
+        val result =
+            FloatArray(dimensions) { i ->
+                val pos = i.toFloat() / dimensions
+                // Reduced input range to sin() to avoid periodicity collapse
+                val angle = (hash * 0.001f) + (charSum * 0.001f) + pos
+                val value = sin(angle * 6.2831f) // sin(2πx), keeps values in [-1, 1]
+                norm += value * value
+                value
+            }
         norm = sqrt(norm)
         result.forEachIndexed { index, value ->
             result[index] = (value / norm)
@@ -52,9 +55,10 @@ public object EmbeddingUtils {
      * @param dimensions The number of dimensions for each embedding vector (default is 1536).
      * @return A list of embedding vectors corresponding to the input strings.
      */
-    public fun generateEmbeddings(inputs: List<String>, dimensions: Int = 1536): List<List<Float>> {
-        return inputs.map { generateEmbedding(it, dimensions) }
-    }
+    public fun generateEmbeddings(
+        inputs: List<String>,
+        dimensions: Int = 1536,
+    ): List<List<Float>> = inputs.map { generateEmbedding(it, dimensions) }
 
     /**
      * Computes the L2 norm (Euclidean magnitude) of a float array vector.
@@ -79,7 +83,10 @@ public object EmbeddingUtils {
      * @return The cosine similarity value in the range [-1, 1].
      * @throws IllegalArgumentException if the vectors have different dimensions.
      */
-    public fun cosineSimilarity(a: FloatArray, b: FloatArray): Float {
+    public fun cosineSimilarity(
+        a: FloatArray,
+        b: FloatArray,
+    ): Float {
         require(a.size == b.size) { "Vectors must have the same dimension" }
 
         // Calculate dot product manually to avoid type conversion issues

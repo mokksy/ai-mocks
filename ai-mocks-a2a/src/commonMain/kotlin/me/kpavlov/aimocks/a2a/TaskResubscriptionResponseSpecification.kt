@@ -16,9 +16,9 @@ public class TaskResubscriptionResponseSpecification(
     delayBetweenChunks: Duration = Duration.ZERO,
     delay: Duration = Duration.ZERO,
 ) : AbstractStreamingResponseSpecification<TaskResubscriptionRequest, TaskUpdateEvent, String>(
-    responseFlow = responseFlow,
-    response = response,
-    delayBetweenChunks = delayBetweenChunks,
-    delay = delay,
-    responseChunks = null,
-)
+        responseFlow = responseFlow,
+        response = response,
+        delayBetweenChunks = delayBetweenChunks,
+        delay = delay,
+        responseChunks = null,
+    )

@@ -55,7 +55,7 @@ internal class TaskUpdateEventSerializerTest : AbstractSerializationTest() {
               "id": "1",
               "artifact": {
                 "parts": [
-                  {"type":"text", "text": "<section 1...>"}
+                  {"kind":"text", "text": "<section 1...>"}
                 ],
                 "index": 0,
                 "append": false,

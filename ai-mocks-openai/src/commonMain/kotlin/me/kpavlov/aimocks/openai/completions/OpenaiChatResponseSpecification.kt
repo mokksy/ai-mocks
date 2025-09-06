@@ -37,9 +37,9 @@ public class OpenaiChatResponseSpecification(
     delay: Duration = Duration.ZERO,
     public var finishReason: String = "stop",
 ) : AbstractResponseSpecification<ChatCompletionRequest, ChatResponse>(
-    response = response,
-    delay = delay,
-) {
+        response = response,
+        delay = delay,
+    ) {
     public fun assistantContent(content: String): OpenaiChatResponseSpecification =
         apply {
             this.assistantContent =

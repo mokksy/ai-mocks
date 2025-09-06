@@ -19,9 +19,9 @@ public class OllamaStreamingChatResponseSpecification(
     delayBetweenChunks: Duration = 0.1.seconds,
     delay: Duration = 0.seconds,
 ) : AbstractStreamingResponseSpecification<ChatRequest, String, String>(
-    response = response,
-    responseFlow = responseFlow,
-    responseChunks = responseChunks,
-    delayBetweenChunks = delayBetweenChunks,
-    delay = delay,
-)
+        response = response,
+        responseFlow = responseFlow,
+        responseChunks = responseChunks,
+        delayBetweenChunks = delayBetweenChunks,
+        delay = delay,
+    )

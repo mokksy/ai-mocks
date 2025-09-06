@@ -28,17 +28,16 @@ public class GeminiStreamingContentBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<GenerateContentRequest>,
 ) : AbstractStreamingBuildingStep<GenerateContentRequest, GeminiStreamingContentResponseSpecification>(
-    mokksy = mokksy,
-    buildingStep = buildingStep,
-) {
-
+        mokksy = mokksy,
+        buildingStep = buildingStep,
+    ) {
     public override infix fun respondsStream(block: GeminiStreamingContentResponseSpecification.() -> Unit) {
         respondsStream(sse = true, block)
     }
 
     public fun respondsStream(
         sse: Boolean = true,
-        block: GeminiStreamingContentResponseSpecification.() -> Unit
+        block: GeminiStreamingContentResponseSpecification.() -> Unit,
     ) {
         buildingStep.respondsWithStream {
             val responseDefinition: StreamResponseDefinition<GenerateContentRequest, String> =
@@ -65,24 +64,23 @@ public class GeminiStreamingContentBuildingStep(
                     model = request.model,
                     chunksFlow = chunkFlow,
                     finishReason = responseSpec.finishReason,
-                )
-                    .map {
-                        encodeChunk(it, sse = sse, lastChunk = false)
+                ).map {
+                    encodeChunk(it, sse = sse, lastChunk = false)
+                }.onStart {
+                    if (!sse) {
+                        emit("[")
                     }
-                    .onStart {
-                        if (!sse) {
-                            emit("[")
-                        }
-                    }.onCompletion {
-                        val chunk = generateFinalContentResponse(
+                }.onCompletion {
+                    val chunk =
+                        generateFinalContentResponse(
                             finishReason = responseSpec.finishReason,
                             responseId = responseId,
                         )
-                        emit(encodeChunk(chunk, sse = sse, lastChunk = true))
-                        if (!sse) {
-                            emit("]")
-                        }
+                    emit(encodeChunk(chunk, sse = sse, lastChunk = true))
+                    if (!sse) {
+                        emit("]")
                     }
+                }
         }
     }
 
@@ -91,10 +89,11 @@ public class GeminiStreamingContentBuildingStep(
         sse: Boolean,
         lastChunk: Boolean = false,
     ): String {
-        val json = Json.encodeToString(
-            value = chunk,
-            serializer = GenerateContentResponse.serializer(),
-        )
+        val json =
+            Json.encodeToString(
+                value = chunk,
+                serializer = GenerateContentResponse.serializer(),
+            )
         return if (sse) {
             "data: $json\r\n\r\n"
         } else if (lastChunk) {
@@ -108,9 +107,9 @@ public class GeminiStreamingContentBuildingStep(
         responseId: String,
         model: String?,
         chunksFlow: Flow<String>,
-        finishReason: String?
-    ): Flow<GenerateContentResponse> {
-        return chunksFlow.mapNotNull { text ->
+        finishReason: String?,
+    ): Flow<GenerateContentResponse> =
+        chunksFlow.mapNotNull { text ->
             generateContentResponse(
                 assistantContent = text,
                 finishReason = finishReason?.uppercase(),
@@ -118,5 +117,4 @@ public class GeminiStreamingContentBuildingStep(
                 responseId = responseId,
             )
         }
-    }
 }

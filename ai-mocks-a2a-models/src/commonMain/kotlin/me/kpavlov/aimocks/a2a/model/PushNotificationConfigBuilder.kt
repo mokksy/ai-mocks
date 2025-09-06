@@ -9,11 +9,15 @@ import java.util.function.Consumer
  * making it easier to configure push notification settings.
  *
  * Example usage:
- * ```kotlin
- * val config = PushNotificationConfigBuilder()
- *     .url("https://example.org/notifications")
- *     .token("auth-token")
- *     .create()
+ * ```
+ * val config = PushNotificationConfig.build {
+ *     url("https://example.org/notifications")
+ *     token("auth-token")
+ *     authentication {
+ *         type = AuthenticationInfo.Type.bearer
+ *         token = "bearer-token"
+ *     }
+ * }
  * ```
  */
 public class PushNotificationConfigBuilder {
@@ -86,9 +90,8 @@ public class PushNotificationConfigBuilder {
  * @param init The lambda to configure the push notification config.
  * @return A new [PushNotificationConfig] instance.
  */
-public inline fun pushNotificationConfig(
-    init: PushNotificationConfigBuilder.() -> Unit,
-): PushNotificationConfig = PushNotificationConfigBuilder().apply(init).build()
+public inline fun pushNotificationConfig(init: PushNotificationConfigBuilder.() -> Unit): PushNotificationConfig =
+    PushNotificationConfigBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [PushNotificationConfig].
@@ -96,9 +99,7 @@ public inline fun pushNotificationConfig(
  * @param init The consumer to configure the push notification config.
  * @return A new [PushNotificationConfig] instance.
  */
-public fun pushNotificationConfig(
-    init: Consumer<PushNotificationConfigBuilder>,
-): PushNotificationConfig {
+public fun pushNotificationConfig(init: Consumer<PushNotificationConfigBuilder>): PushNotificationConfig {
     val builder = PushNotificationConfigBuilder()
     init.accept(builder)
     return builder.build()

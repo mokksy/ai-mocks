@@ -11,14 +11,15 @@ import java.util.function.Consumer
  * making it easier to construct complex task statuses with many parameters.
  *
  * Example usage:
- * ```kotlin
- * val taskStatus = TaskStatusBuilder()
- *     .apply {
- *         state = "completed"
- *         message = messageBuilder.create()
- *         timestamp = Instant.parse("2023-01-01T00:00:00Z")
+ * ```
+ * val status = TaskStatus.create {
+ *     state = TaskState.working
+ *     timestamp = System.currentTimeMillis()
+ *     message {
+ *         role = Message.Role.agent
+ *         textPart("Processing your request...")
  *     }
- *     .create()
+ * }
  * ```
  */
 public class TaskStatusBuilder {
@@ -93,8 +94,7 @@ public class TaskStatusBuilder {
  * @param init The lambda to configure the task status.
  * @return A new [TaskStatus] instance.
  */
-public inline fun taskStatus(init: TaskStatusBuilder.() -> Unit): TaskStatus =
-    TaskStatusBuilder().apply(init).build()
+public inline fun taskStatus(init: TaskStatusBuilder.() -> Unit): TaskStatus = TaskStatusBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [TaskStatus].

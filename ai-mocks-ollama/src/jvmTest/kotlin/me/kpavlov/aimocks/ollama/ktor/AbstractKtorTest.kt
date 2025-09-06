@@ -21,21 +21,24 @@ internal abstract class AbstractKtorTest : AbstractMockOllamaTest() {
      * - ContentNegotiation for JSON serialization/deserialization
      * - Logging for request/response logging
      */
-    protected val client = HttpClient {
-        // Install ContentNegotiation plugin for JSON serialization/deserialization
-        install(ContentNegotiation) {
-            json(Json {
-                ignoreUnknownKeys = true
-                prettyPrint = true
-                isLenient = true
-            })
+    protected val client =
+        HttpClient {
+            // Install ContentNegotiation plugin for JSON serialization/deserialization
+            install(ContentNegotiation) {
+                json(
+                    Json {
+                        ignoreUnknownKeys = true
+                        prettyPrint = true
+                        isLenient = true
+                    },
+                )
+            }
+            // Install Logging plugin for request/response logging
+            install(Logging) {
+                level = LogLevel.ALL
+            }
+            install(UserAgent) {
+                agent = "Ktor tests"
+            }
         }
-        // Install Logging plugin for request/response logging
-        install(Logging) {
-            level = LogLevel.ALL
-        }
-        install(UserAgent) {
-            agent = "Ktor tests"
-        }
-    }
 }

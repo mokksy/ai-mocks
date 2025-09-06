@@ -27,6 +27,5 @@ public fun ByteArray.asBase64DataUrl(mimeType: MimeType): String {
  * @see [data: URLs](https://developer.mozilla.org/en-US/docs/Web/URI/Reference/Schemes/data)
  */
 @JvmOverloads
-public fun URL.asBase64DataUrl(
-    mimeType: MimeType = ContentType.defaultForFilePath(this.path).asMimeType(),
-): String = readBytes().asBase64DataUrl(mimeType)
+public fun URL.asBase64DataUrl(mimeType: MimeType = ContentType.defaultForFilePath(this.path).asMimeType()): String =
+    readBytes().asBase64DataUrl(mimeType)

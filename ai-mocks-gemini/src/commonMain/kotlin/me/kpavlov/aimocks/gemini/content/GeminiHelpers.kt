@@ -6,7 +6,6 @@ import me.kpavlov.aimocks.gemini.GenerateContentResponse
 import me.kpavlov.aimocks.gemini.Part
 import me.kpavlov.aimocks.gemini.PromptFeedback
 
-
 internal fun generateContentResponse(
     assistantContent: String,
     finishReason: String? = null,
@@ -35,7 +34,7 @@ internal fun generateContentResponse(
                 safetyRatings = null,
             ),
         modelVersion = modelVersion ?: "gemini-pro-text-001",
-        responseId = responseId
+        responseId = responseId,
     )
 }
 
@@ -66,7 +65,6 @@ internal fun generateFinalContentResponse(
                 safetyRatings = null,
             ),
         modelVersion = modelVersion ?: "gemini-pro-text-001",
-        responseId = responseId
+        responseId = responseId,
     )
 }
-

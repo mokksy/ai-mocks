@@ -33,9 +33,9 @@ public class OpenaiResponsesResponseSpecification(
     delay: Duration = Duration.ZERO,
     public var finishReason: String = "stop",
 ) : AbstractResponseSpecification<CreateResponseRequest, Response>(
-    response = response,
-    delay = delay
-) {
+        response = response,
+        delay = delay,
+    ) {
     public fun assistantContent(content: String): OpenaiResponsesResponseSpecification =
         apply {
             this.assistantContent =
@@ -47,5 +47,4 @@ public class OpenaiResponsesResponseSpecification(
             this.finishReason =
                 finishReason
         }
-
 }

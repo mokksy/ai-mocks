@@ -6,9 +6,9 @@ import kotlin.test.Test
 /**
  * https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task
  */
-internal class SendTaskResponseTest : AbstractSerializationTest() {
+internal class SendMessageResponseTest : AbstractSerializationTest() {
     @Test
-    fun `Deserialize and Serialize SendTaskResponse`() {
+    fun `Deserialize and Serialize SendMessageResponse`() {
         // language=json
         val payload =
             """
@@ -25,16 +25,17 @@ internal class SendTaskResponseTest : AbstractSerializationTest() {
                   "index": 1,
                   "name":"joke",
                   "parts": [{
-                      "type":"text",
+                      "kind":"text",
                       "text":"Why did the chicken cross the road? To get to the other side!"
                     }]
                   }],
+                "kind": "task",
                 "metadata": {}
               }
             }
             """.trimIndent()
 
-        val model = deserializeAndSerialize<SendTaskResponse>(payload)
+        val model = deserializeAndSerialize<SendMessageResponse>(payload)
         model.id shouldBe 1
         model.result?.id shouldBe "de38c76d-d54c-436c-8b9f-4c2703648d64"
         model.result?.sessionId shouldBe "c295ea44-7543-4f78-b524-7a38915ad6e4"

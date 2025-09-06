@@ -38,7 +38,6 @@ public abstract class AbstractStreamingResponseSpecification<P : Any, T : Any, R
     delay: Duration = Duration.ZERO,
 ) : AbstractResponseSpecification<P, R>(response = response, delay = delay),
     StreamingResponseSpecification<T> {
-
     public override fun chunks(chunks: List<T>) {
         this.responseChunks = chunks
     }
@@ -56,5 +55,4 @@ public abstract class AbstractStreamingResponseSpecification<P : Any, T : Any, R
     public override fun stream(stream: Stream<T>) {
         responseFlow = stream.consumeAsFlow()
     }
-
 }

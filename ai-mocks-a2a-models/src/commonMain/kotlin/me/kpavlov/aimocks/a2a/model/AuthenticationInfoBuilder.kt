@@ -55,9 +55,8 @@ public class AuthenticationInfoBuilder {
  * @param init The lambda to configure the authentication info.
  * @return A new [AuthenticationInfo] instance.
  */
-public inline fun authenticationInfo(
-    init: AuthenticationInfoBuilder.() -> Unit,
-): AuthenticationInfo = AuthenticationInfoBuilder().apply(init).build()
+public inline fun authenticationInfo(init: AuthenticationInfoBuilder.() -> Unit): AuthenticationInfo =
+    AuthenticationInfoBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [AuthenticationInfo].
@@ -77,9 +76,8 @@ public fun authenticationInfo(init: Consumer<AuthenticationInfoBuilder>): Authen
  * @param init The lambda to configure the authentication info.
  * @return A new AuthenticationInfo instance.
  */
-public fun AuthenticationInfo.Companion.create(
-    init: AuthenticationInfoBuilder.() -> Unit,
-): AuthenticationInfo = AuthenticationInfoBuilder().apply(init).build()
+public fun AuthenticationInfo.Companion.create(init: AuthenticationInfoBuilder.() -> Unit): AuthenticationInfo =
+    AuthenticationInfoBuilder().apply(init).build()
 
 /**
  * Creates a new AuthenticationInfo using the provided Java-friendly Consumer.
@@ -87,9 +85,7 @@ public fun AuthenticationInfo.Companion.create(
  * @param init A consumer for building an AuthenticationInfo instance using the AuthenticationInfoBuilder.
  * @return A newly created AuthenticationInfo instance.
  */
-public fun AuthenticationInfo.Companion.create(
-    init: Consumer<AuthenticationInfoBuilder>,
-): AuthenticationInfo {
+public fun AuthenticationInfo.Companion.create(init: Consumer<AuthenticationInfoBuilder>): AuthenticationInfo {
     val builder = AuthenticationInfoBuilder()
     init.accept(builder)
     return builder.build()

@@ -14,22 +14,20 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Clock.System
 import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.a2a.model.Message
-import me.kpavlov.aimocks.a2a.model.SendTaskStreamingRequest
+import me.kpavlov.aimocks.a2a.model.MessageSendParams
+import me.kpavlov.aimocks.a2a.model.SendStreamingMessageRequest
 import me.kpavlov.aimocks.a2a.model.TaskArtifactUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskId
-import me.kpavlov.aimocks.a2a.model.TaskSendParams
 import me.kpavlov.aimocks.a2a.model.TaskStatusUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TextPart
-import me.kpavlov.aimocks.a2a.model.create
 import me.kpavlov.aimocks.a2a.model.taskArtifactUpdateEvent
 import me.kpavlov.aimocks.a2a.model.taskStatusUpdateEvent
-import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 
-internal class SendTaskStreamingTest : AbstractTest() {
+internal class SendMessageStreamingTest : AbstractTest() {
     /**
      * https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task
      */
@@ -40,7 +38,7 @@ internal class SendTaskStreamingTest : AbstractTest() {
         runTest {
             val taskId: TaskId = "task_12345"
 
-            a2aServer.sendTaskStreaming() responds {
+            a2aServer.sendMessageStreaming() responds {
                 delayBetweenChunks = 1.seconds
                 responseFlow =
                     flow {
@@ -124,11 +122,10 @@ internal class SendTaskStreamingTest : AbstractTest() {
                     url { a2aServer.baseUrl() }
                     method = HttpMethod.Post
                     val payload =
-                        SendTaskStreamingRequest(
+                        SendStreamingMessageRequest(
                             id = "1",
                             params =
-                                TaskSendParams.create {
-                                    id = UUID.randomUUID().toString()
+                                MessageSendParams.create {
                                     message {
                                         role = Message.Role.user
                                         parts +=

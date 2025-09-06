@@ -183,14 +183,16 @@ public data class ResponseFormat(
 )
 
 /**
- * Controls which (if any) function is called by the model.
- * "none" means the model will not call a function and instead generates a message.
- * "auto" means the model can pick between generating a message or calling a function.
- * Specifying a particular function via `{"type": "function", "function": {"name": "my_function"}}`
- * forces the model to call that function.
+ * Represents a sealed class that defines choices for tools used in a process or operation.
  *
- * @property type The type of the tool choice, always "function" for now.
- * @property function The function to be called.
+ * This class serves as the base for specifying different tool-related choices.
+ * Possible options include automatic tool selection, no tool usage, or specifying
+ * a function-based tool choice.
+ *
+ * Subclasses:
+ * - [Auto]: Represents the automatic tool selection mode.
+ * - [None]: Represents a state where no tool is selected.
+ * - [Function]: Represents a specific tool choice based on a [ToolChoiceFunction].
  */
 @Serializable
 public sealed class ToolChoice {

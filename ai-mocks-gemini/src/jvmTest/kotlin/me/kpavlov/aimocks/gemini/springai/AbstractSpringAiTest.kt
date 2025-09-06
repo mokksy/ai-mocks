@@ -27,9 +27,10 @@ internal abstract class AbstractSpringAiTest : AbstractMockGeminiTest() {
             .system("You are a helpful pirate")
             .user("Just say 'Hello!'")
             .options(
-                VertexAiGeminiChatOptions.builder()
+                VertexAiGeminiChatOptions
+                    .builder()
                     .model(modelName)
                     .temperature(temperatureValue)
-                    .build()
+                    .build(),
             )
 }

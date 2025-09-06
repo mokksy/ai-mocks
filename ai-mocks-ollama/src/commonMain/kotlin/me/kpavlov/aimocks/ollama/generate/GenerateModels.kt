@@ -43,7 +43,7 @@ public data class GenerateRequest(
     val raw: Boolean? = null,
     @SerialName("keep_alive")
     val keepAlive: String? = null,
-    val context: List<Int>? = null
+    val context: List<Int>? = null,
 )
 
 /**
@@ -83,5 +83,5 @@ public data class GenerateResponse(
     @SerialName("eval_count")
     val evalCount: Int? = null,
     @SerialName("eval_duration")
-    val evalDuration: Long? = null
+    val evalDuration: Long? = null,
 )

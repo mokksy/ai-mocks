@@ -26,8 +26,8 @@ lint:prepare
 # https://docs.openrewrite.org/recipes/maven/bestpractices
 .PHONY: format
 format:prepare
-	./gradlew spotlessApply rewriteRun
 	ktlint --format "!**/build/**"
+	./gradlew spotlessApply rewriteRun
 
 .PHONY: prepare
 prepare:

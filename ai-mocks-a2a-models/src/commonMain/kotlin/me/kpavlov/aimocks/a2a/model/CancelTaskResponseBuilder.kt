@@ -94,9 +94,8 @@ public class CancelTaskResponseBuilder {
  * @param init The lambda to configure the cancel task response.
  * @return A new [CancelTaskResponse] instance.
  */
-public inline fun cancelTaskResponse(
-    init: CancelTaskResponseBuilder.() -> Unit,
-): CancelTaskResponse = CancelTaskResponseBuilder().apply(init).build()
+public inline fun cancelTaskResponse(init: CancelTaskResponseBuilder.() -> Unit): CancelTaskResponse =
+    CancelTaskResponseBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [CancelTaskResponse].
@@ -116,9 +115,8 @@ public fun cancelTaskResponse(init: Consumer<CancelTaskResponseBuilder>): Cancel
  * @param init The lambda to configure the cancel task response.
  * @return A new [CancelTaskResponse] instance.
  */
-public fun CancelTaskResponse.Companion.create(
-    init: CancelTaskResponseBuilder.() -> Unit,
-): CancelTaskResponse = CancelTaskResponseBuilder().apply(init).build()
+public fun CancelTaskResponse.Companion.create(init: CancelTaskResponseBuilder.() -> Unit): CancelTaskResponse =
+    CancelTaskResponseBuilder().apply(init).build()
 
 /**
  * Java-friendly DSL extension for [CancelTaskResponse.Companion].
@@ -126,9 +124,7 @@ public fun CancelTaskResponse.Companion.create(
  * @param init The consumer to configure the cancel task response.
  * @return A new [CancelTaskResponse] instance.
  */
-public fun CancelTaskResponse.Companion.create(
-    init: Consumer<CancelTaskResponseBuilder>,
-): CancelTaskResponse {
+public fun CancelTaskResponse.Companion.create(init: Consumer<CancelTaskResponseBuilder>): CancelTaskResponse {
     val builder = CancelTaskResponseBuilder()
     init.accept(builder)
     return builder.build()

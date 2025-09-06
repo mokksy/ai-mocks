@@ -95,9 +95,7 @@ public inline fun taskPushNotificationConfig(
  * @param init The consumer to configure the task push notification config.
  * @return A new [TaskPushNotificationConfig] instance.
  */
-public fun taskPushNotificationConfig(
-    init: Consumer<TaskPushNotificationConfigBuilder>,
-): TaskPushNotificationConfig {
+public fun taskPushNotificationConfig(init: Consumer<TaskPushNotificationConfigBuilder>): TaskPushNotificationConfig {
     val builder = TaskPushNotificationConfigBuilder()
     init.accept(builder)
     return builder.build()

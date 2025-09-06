@@ -18,10 +18,9 @@ public class GeminiContentBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<GenerateContentRequest>,
 ) : AbstractBuildingStep<GenerateContentRequest, GeminiContentResponseSpecification>(
-    mokksy = mokksy,
-    buildingStep = buildingStep,
-) {
-
+        mokksy = mokksy,
+        buildingStep = buildingStep,
+    ) {
     /**
      * Configures a regular (non-streaming) response to a Gemini content generation request.
      *
@@ -37,11 +36,12 @@ public class GeminiContentBuildingStep(
             val assistantContent = chatResponseSpecification.content
             delay = chatResponseSpecification.delay
 
-            body = generateContentResponse(
-                assistantContent = assistantContent,
-                finishReason = chatResponseSpecification.finishReason.uppercase(),
-                modelVersion = generateContentRequest.model,
-            )
+            body =
+                generateContentResponse(
+                    assistantContent = assistantContent,
+                    finishReason = chatResponseSpecification.finishReason.uppercase(),
+                    modelVersion = generateContentRequest.model,
+                )
         }
     }
 }

@@ -16,23 +16,24 @@ internal class GenerateModelsTest : AbstractSerializationTest() {
     @Test
     fun `Deserialize and Serialize GenerateRequest`() {
         // language=json
-        val payload = """
-        {
-          "model": "llama3.2",
-          "prompt": "Why is the sky blue?",
-          "system": "You are a helpful assistant",
-          "template": "{{ .System }}\n\n{{ .Prompt }}",
-          "context": [1, 2, 3],
-          "options": {
-            "temperature": 0.7,
-            "top_p": 0.9
-          },
-          "format": "json",
-          "stream": false,
-          "raw": true,
-          "keep_alive": "10m"
-        }
-        """.trimIndent()
+        val payload =
+            """
+            {
+              "model": "llama3.2",
+              "prompt": "Why is the sky blue?",
+              "system": "You are a helpful assistant",
+              "template": "{{ .System }}\n\n{{ .Prompt }}",
+              "context": [1, 2, 3],
+              "options": {
+                "temperature": 0.7,
+                "top_p": 0.9
+              },
+              "format": "json",
+              "stream": false,
+              "raw": true,
+              "keep_alive": "10m"
+            }
+            """.trimIndent()
 
         val model = deserializeAndSerialize<GenerateRequest>(payload)
         model.model shouldBe "llama3.2"
@@ -40,10 +41,11 @@ internal class GenerateModelsTest : AbstractSerializationTest() {
         model.system shouldBe "You are a helpful assistant"
         model.template shouldBe "{{ .System }}\n\n{{ .Prompt }}"
         model.context shouldBe listOf(1, 2, 3)
-        model.options shouldBe ModelOptions(
-            temperature = 0.7,
-            topP = 0.9,
-        )
+        model.options shouldBe
+            ModelOptions(
+                temperature = 0.7,
+                topP = 0.9,
+            )
         model.format.shouldBeInstanceOf<Format.Json>()
         model.stream shouldBe false
         model.raw shouldBe true
@@ -53,39 +55,41 @@ internal class GenerateModelsTest : AbstractSerializationTest() {
     @Test
     fun `Deserialize and Serialize GenerateRequest with JSON Schema format`() {
         // language=json
-        val payload = """
-        {
-          "model": "llama3.2",
-          "prompt": "Describe a person",
-          "format": {
-            "name": "person_schema",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "description": "The person's name"
-                },
-                "age": {
-                  "type": "number",
-                  "description": "The person's age"
-                },
-                "occupation": {
-                  "type": "string",
-                  "description": "The person's occupation"
+        val payload =
+            """
+            {
+              "model": "llama3.2",
+              "prompt": "Describe a person",
+              "format": {
+                "name": "person_schema",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "The person's name"
+                    },
+                    "age": {
+                      "type": "number",
+                      "description": "The person's age"
+                    },
+                    "occupation": {
+                      "type": "string",
+                      "description": "The person's occupation"
+                    }
+                  },
+                  "required": ["name", "age"]
                 }
-              },
-              "required": ["name", "age"]
+              }
             }
-          }
-        }
-        """.trimIndent()
+            """.trimIndent()
 
         // For this test, we'll just verify that the deserialized object has the expected values
         // without comparing the serialized output with the original JSON
-        val json = Json {
-            ignoreUnknownKeys = true
-        }
+        val json =
+            Json {
+                ignoreUnknownKeys = true
+            }
         val model: GenerateRequest = json.decodeFromString(payload)
 
         model.shouldNotBeNull()
@@ -99,43 +103,48 @@ internal class GenerateModelsTest : AbstractSerializationTest() {
         formatSchema.schema.schema.required shouldBe listOf("name", "age")
 
         // Verify that the properties have the expected values
-        val nameProperty = formatSchema.schema.schema.properties["name"]
-            ?.shouldBeInstanceOf<me.kpavlov.aimocks.core.json.schema.StringPropertyDefinition>()
+        val nameProperty =
+            formatSchema.schema.schema.properties["name"]
+                ?.shouldBeInstanceOf<me.kpavlov.aimocks.core.json.schema.StringPropertyDefinition>()
         nameProperty?.description shouldBe "The person's name"
 
-        val ageProperty = formatSchema.schema.schema.properties["age"]
-            ?.shouldBeInstanceOf<me.kpavlov.aimocks.core.json.schema.NumericPropertyDefinition>()
+        val ageProperty =
+            formatSchema.schema.schema.properties["age"]
+                ?.shouldBeInstanceOf<me.kpavlov.aimocks.core.json.schema.NumericPropertyDefinition>()
         ageProperty?.description shouldBe "The person's age"
 
-        val occupationProperty = formatSchema.schema.schema.properties["occupation"]
-            ?.shouldBeInstanceOf<me.kpavlov.aimocks.core.json.schema.StringPropertyDefinition>()
+        val occupationProperty =
+            formatSchema.schema.schema.properties["occupation"]
+                ?.shouldBeInstanceOf<me.kpavlov.aimocks.core.json.schema.StringPropertyDefinition>()
         occupationProperty?.description shouldBe "The person's occupation"
     }
 
     @Test
     fun `Deserialize and Serialize GenerateResponse`() {
         // language=json
-        val payload = """
-        {
-          "model": "llama3.2",
-          "created_at": "2023-08-04T19:22:45.499127Z",
-          "response": "The sky appears blue because of a phenomenon called Rayleigh scattering. As sunlight travels through the Earth's atmosphere, the shorter blue wavelengths of light are scattered more efficiently by air molecules than the longer wavelengths (like red or yellow). This scattered blue light reaches our eyes from all directions in the sky, making the sky appear blue.",
-          "done": true,
-          "done_reason": "stop",
-          "context": [1, 2, 3],
-          "total_duration": 5043500667,
-          "load_duration": 5025959,
-          "prompt_eval_count": 26,
-          "prompt_eval_duration": 325953000,
-          "eval_count": 290,
-          "eval_duration": 4709213000
-        }
-        """.trimIndent()
+        val payload =
+            """
+            {
+              "model": "llama3.2",
+              "created_at": "2023-08-04T19:22:45.499127Z",
+              "response": "The sky appears blue because of a phenomenon called Rayleigh scattering. As sunlight travels through the Earth's atmosphere, the shorter blue wavelengths of light are scattered more efficiently by air molecules than the longer wavelengths (like red or yellow). This scattered blue light reaches our eyes from all directions in the sky, making the sky appear blue.",
+              "done": true,
+              "done_reason": "stop",
+              "context": [1, 2, 3],
+              "total_duration": 5043500667,
+              "load_duration": 5025959,
+              "prompt_eval_count": 26,
+              "prompt_eval_duration": 325953000,
+              "eval_count": 290,
+              "eval_duration": 4709213000
+            }
+            """.trimIndent()
 
         val model = deserializeAndSerialize<GenerateResponse>(payload)
         model.model shouldBe "llama3.2"
         model.createdAt shouldBe Instant.parse("2023-08-04T19:22:45.499127Z")
-        model.response shouldBe "The sky appears blue because of a phenomenon called Rayleigh scattering. As sunlight travels through the Earth's atmosphere, the shorter blue wavelengths of light are scattered more efficiently by air molecules than the longer wavelengths (like red or yellow). This scattered blue light reaches our eyes from all directions in the sky, making the sky appear blue."
+        model.response shouldBe
+            "The sky appears blue because of a phenomenon called Rayleigh scattering. As sunlight travels through the Earth's atmosphere, the shorter blue wavelengths of light are scattered more efficiently by air molecules than the longer wavelengths (like red or yellow). This scattered blue light reaches our eyes from all directions in the sky, making the sky appear blue."
         model.done shouldBe true
         model.doneReason shouldBe "stop"
         model.context shouldBe listOf(1, 2, 3)

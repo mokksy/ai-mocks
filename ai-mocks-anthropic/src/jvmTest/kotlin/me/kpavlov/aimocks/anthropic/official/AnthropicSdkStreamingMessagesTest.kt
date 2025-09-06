@@ -86,12 +86,13 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
         val buffer = mutableListOf<String>()
         client
             .messages()
-            .createStreaming(params).use { streamResponse ->
-                streamResponse.stream()
+            .createStreaming(params)
+            .use { streamResponse ->
+                streamResponse
+                    .stream()
                     .peek { chunk ->
                         logger.trace { "✅ $chunk" }
-                    }
-                    .filter { it.isContentBlockDelta() }
+                    }.filter { it.isContentBlockDelta() }
                     .forEachOrdered { chunk ->
                         chunk
                             .asContentBlockDelta()

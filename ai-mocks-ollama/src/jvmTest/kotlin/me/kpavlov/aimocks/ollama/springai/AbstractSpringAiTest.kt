@@ -26,7 +26,8 @@ internal abstract class AbstractSpringAiTest : AbstractMockOllamaTest() {
             .system("You are a helpful pirate")
             .user("Just say 'Hello!'")
             .options(
-                ChatOptions.builder()
+                ChatOptions
+                    .builder()
                     .temperature(temperatureValue)
                     .model(modelName)
                     .build(),

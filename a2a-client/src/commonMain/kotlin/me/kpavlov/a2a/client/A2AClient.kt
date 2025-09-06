@@ -9,14 +9,14 @@ import me.kpavlov.aimocks.a2a.model.GetTaskPushNotificationRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskPushNotificationResponse
 import me.kpavlov.aimocks.a2a.model.GetTaskRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskResponse
+import me.kpavlov.aimocks.a2a.model.MessageSendParams
 import me.kpavlov.aimocks.a2a.model.PushNotificationConfig
-import me.kpavlov.aimocks.a2a.model.SendTaskRequest
-import me.kpavlov.aimocks.a2a.model.SendTaskResponse
-import me.kpavlov.aimocks.a2a.model.SendTaskStreamingRequest
+import me.kpavlov.aimocks.a2a.model.SendMessageRequest
+import me.kpavlov.aimocks.a2a.model.SendMessageResponse
+import me.kpavlov.aimocks.a2a.model.SendStreamingMessageRequest
 import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationRequest
 import me.kpavlov.aimocks.a2a.model.SetTaskPushNotificationResponse
 import me.kpavlov.aimocks.a2a.model.TaskId
-import me.kpavlov.aimocks.a2a.model.TaskSendParams
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
 
 /**
@@ -41,7 +41,7 @@ public interface A2AClient {
      * Gets the agent card from the server.
      *
      * Agent cards provide metadata about an agent, including its capabilities,
-     * identity, and other relevant information according to the A2A protocol.
+     * identity, and other relevant information, according to the A2A protocol.
      * This metadata helps other agents understand how to interact with this agent.
      *
      * @return The agent card containing agent metadata.
@@ -49,26 +49,28 @@ public interface A2AClient {
     public suspend fun getAgentCard(): AgentCard
 
     /**
-     * Sends a task to the server.
+     * Sends a message to an agent using the A2A protocol's message/send method.
      *
-     * This method creates a new task on the A2A server with the specified parameters.
-     * Tasks represent work items that agents can process asynchronously.
+     * This is the primary method for agent-to-agent communication in the A2A protocol.
+     * It allows sending messages containing text, files, or structured data to another agent.
      *
-     * @param params The parameters for sending the task, including input data and requirements.
+     * @param params The parameters for sending the message, including the message content.
      * @return The response containing the created task with assigned ID and initial status.
+     * @see [A2A Protocol - Send a Message](https://a2a-protocol.org/latest/specification/)
      */
-    public suspend fun sendTask(params: TaskSendParams): SendTaskResponse
+    public suspend fun sendMessage(params: MessageSendParams): SendMessageResponse
 
     /**
-     * Sends a task to the server using a pre-constructed request object.
+     * Sends a message to an agent using a pre-constructed request object.
      *
      * This method allows for more control over the request, including setting a custom
      * request ID and complete request parameters.
      *
-     * @param request The fully constructed task request containing ID and parameters.
+     * @param request The fully constructed message request containing ID and parameters.
      * @return The response containing the created task with assigned ID and initial status.
+     * @see [A2A Protocol - Send a Message](https://a2a-protocol.org/latest/specification/)
      */
-    public suspend fun sendTask(request: SendTaskRequest): SendTaskResponse
+    public suspend fun sendMessage(request: SendMessageRequest): SendMessageResponse
 
     /**
      * Gets a task from the server.
@@ -171,27 +173,28 @@ public interface A2AClient {
     ): GetTaskPushNotificationResponse
 
     /**
-     * Sends a task to the server and subscribes to streaming updates.
+     * Sends a message to an agent with streaming updates using the A2A protocol's message/stream method.
      *
-     * This method creates a new task and establishes a streaming connection that provides
-     * real-time updates about the task's progress. The connection uses Server-Sent Events (SSE)
-     * to deliver updates as they occur without requiring polling.
+     * This method creates a new message and establishes a streaming connection that provides
+     * real-time updates about the task's progress via Server-Sent Events (SSE).
      *
-     * @param params The parameters for sending the task, including input data and requirements.
+     * @param params The parameters for sending the message, including input data and requirements.
      * @return A flow of task update events that emits as the task progresses until completion.
+     * @see [A2A Protocol - Streaming Messages](https://a2a-protocol.org/latest/specification/)
      */
-    public fun sendTaskStreaming(params: TaskSendParams): Flow<TaskUpdateEvent>
+    public fun sendStreamingMessage(params: MessageSendParams): Flow<TaskUpdateEvent>
 
     /**
-     * Sends a task to the server and subscribes to streaming updates using a pre-constructed request object.
+     * Sends a message to an agent with streaming updates using a pre-constructed request object.
      *
      * This method allows for more control over the request, including setting a custom
      * request ID and complete streaming parameters.
      *
-     * @param request The fully constructed streaming request containing ID and task parameters.
+     * @param request The fully constructed streaming message request containing ID and parameters.
      * @return A flow of task update events that emits as the task progresses until completion.
+     * @see [A2A Protocol - Streaming Messages](https://a2a-protocol.org/latest/specification/)
      */
-    public fun sendTaskStreaming(request: SendTaskStreamingRequest): Flow<TaskUpdateEvent>
+    public fun sendStreamingMessage(request: SendStreamingMessageRequest): Flow<TaskUpdateEvent>
 
     /**
      * Resubscribes to streaming updates for a task.

@@ -6,4 +6,6 @@ package me.kpavlov.aimocks.a2a.model
 public typealias RequestId = Any
 public typealias TaskId = String
 public typealias SessionId = String
+public typealias MessageId = String
+public typealias ContextId = String
 public typealias SkillId = String

@@ -27,10 +27,9 @@ public class OllamaEmbedBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<EmbeddingsRequest>,
 ) : AbstractBuildingStep<EmbeddingsRequest, OllamaEmbedResponseSpecification>(
-    mokksy,
-    buildingStep,
-) {
-
+        mokksy,
+        buildingStep,
+    ) {
     /**
      * Configures the mock embedding response for an embedding request using the provided specification block.
      *
@@ -47,8 +46,9 @@ public class OllamaEmbedBuildingStep(
             val embedResponseSpecification =
                 OllamaEmbedResponseSpecification(responseDefinition)
             block.invoke(embedResponseSpecification)
-            val embeddings = embedResponseSpecification.embeddings
-                ?: request.input.map { EmbeddingUtils.generateEmbedding(it) }
+            val embeddings =
+                embedResponseSpecification.embeddings
+                    ?: request.input.map { EmbeddingUtils.generateEmbedding(it) }
             val modelName = embedResponseSpecification.model ?: request.model
             delay = embedResponseSpecification.delay
 

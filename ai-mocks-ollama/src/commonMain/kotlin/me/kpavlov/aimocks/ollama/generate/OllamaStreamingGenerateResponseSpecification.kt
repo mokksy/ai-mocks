@@ -22,12 +22,12 @@ public class OllamaStreamingGenerateResponseSpecification(
     delay: Duration = 0.seconds,
     public var doneReason: String? = "stop",
 ) : AbstractStreamingResponseSpecification<GenerateRequest, String, String>(
-    response = response,
-    responseFlow = responseFlow,
-    responseChunks = responseChunks,
-    delayBetweenChunks = delayBetweenChunks,
-    delay = delay,
-) {
+        response = response,
+        responseFlow = responseFlow,
+        responseChunks = responseChunks,
+        delayBetweenChunks = delayBetweenChunks,
+        delay = delay,
+    ) {
     /**
      * Sets the reason for completion of the generation response.
      *

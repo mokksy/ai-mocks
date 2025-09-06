@@ -1,8 +1,8 @@
 package me.kpavlov.aimocks.a2a.model
 
-import TaskStateSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import me.kpavlov.aimocks.a2a.model.serializers.TaskStateSerializer
 
 @Serializable(with = TaskStateSerializer::class)
 public enum class TaskState(

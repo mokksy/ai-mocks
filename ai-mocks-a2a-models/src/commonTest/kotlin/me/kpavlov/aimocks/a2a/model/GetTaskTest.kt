@@ -47,10 +47,11 @@ internal class GetTaskTest : AbstractSerializationTest() {
                 "artifacts": [{
                   "index": 1,
                   "parts": [{
-                    "type":"text",
+                    "kind":"text",
                     "text":"Why did the chicken cross the road? To get to the other side!"
                   }]
                 }],
+                "kind": "task",
                 "metadata": {}
               }
             }

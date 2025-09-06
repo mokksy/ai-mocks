@@ -177,7 +177,7 @@ public data class GenerateContentResponse(
     val promptFeedback: PromptFeedback? = null,
     val usageMetadata: UsageMetadata? = null,
     val modelVersion: String,
-    val responseId: String? = null
+    val responseId: String? = null,
 )
 
 /**
