@@ -19,12 +19,11 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
     fun `Should respond with stream to generateContent`() {
         gemini.generateContent {
             temperature = temperatureValue
-            seed = seedValue
             model = modelName
             project = projectId
             location = locationId
             apiVersion = "v1beta1"
-            systemMessageContains("You are a helpful pirate")
+            systemMessageContains("You are a helpful pirate. $seedValue")
             userMessageContains("Just say 'Hello!'")
         } responds {
             content = "Ahoy there, matey! Hello!"
@@ -35,7 +34,7 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
             client.models.generateContent(
                 modelName,
                 "Just say 'Hello!'",
-                generateContentConfig("You are a helpful pirate")
+                generateContentConfig("You are a helpful pirate. $seedValue")
                     .build(),
             )
 

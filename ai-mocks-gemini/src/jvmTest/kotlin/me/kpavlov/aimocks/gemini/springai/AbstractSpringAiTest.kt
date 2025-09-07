@@ -24,7 +24,7 @@ internal abstract class AbstractSpringAiTest : AbstractMockGeminiTest() {
     protected fun prepareClientRequest(): ChatClient.ChatClientRequestSpec =
         chatClient
             .prompt()
-            .system("You are a helpful pirate")
+            .system("You are a helpful pirate. $seedValue")
             .user("Just say 'Hello!'")
             .options(
                 VertexAiGeminiChatOptions
