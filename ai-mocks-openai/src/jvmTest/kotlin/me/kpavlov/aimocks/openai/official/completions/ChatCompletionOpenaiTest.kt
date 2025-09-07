@@ -171,6 +171,7 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
 
     private fun createChatCompletionRequestParams(): ChatCompletionCreateParams {
         val params =
+            @Suppress("deprecation")
             ChatCompletionCreateParams
                 .builder()
                 .temperature(temperatureValue)
