@@ -117,7 +117,7 @@ internal class TaskPushNotificationConfigBuilderTest {
     fun `should build using companion object build function`() {
         // when
         val config =
-            TaskPushNotificationConfig.build {
+            TaskPushNotificationConfig.create {
                 id = "task-123"
                 pushNotificationConfig {
                     url = "https://example.org/notifications"

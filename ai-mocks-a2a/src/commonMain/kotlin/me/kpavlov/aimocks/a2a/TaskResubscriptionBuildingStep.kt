@@ -19,7 +19,9 @@ public class TaskResubscriptionBuildingStep(
         mokksy,
         buildingStep,
     ) {
-    public override infix fun respondsStream(block: TaskResubscriptionResponseSpecification.() -> Unit) {
+    public override infix fun respondsStream(
+        block: TaskResubscriptionResponseSpecification.() -> Unit,
+    ) {
         buildingStep.respondsWithStream {
             val requestBody = request.body
             val responseDefinition = this.build()

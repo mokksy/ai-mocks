@@ -22,7 +22,7 @@ internal class PushNotificationConfigBuilderTest {
     fun `should build PushNotificationConfig with all parameters`() {
         // when
         val config =
-            PushNotificationConfig.build {
+            PushNotificationConfig.create {
                 url = "https://example.org/notifications"
                 token = "auth-token"
             }

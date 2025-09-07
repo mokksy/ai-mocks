@@ -12,7 +12,8 @@ import java.util.function.Consumer
  * }
  * ```
  */
-public class InvalidParamsErrorBuilder : JSONRPCErrorBuilder<InvalidParamsError, InvalidParamsErrorBuilder>() {
+public class InvalidParamsErrorBuilder :
+    JSONRPCErrorBuilder<InvalidParamsError, InvalidParamsErrorBuilder>() {
     /**
      * Builds an [InvalidParamsError] instance with the configured parameters.
      *
@@ -30,8 +31,9 @@ public class InvalidParamsErrorBuilder : JSONRPCErrorBuilder<InvalidParamsError,
  * @param init The lambda to configure the invalid params error.
  * @return A new [InvalidParamsError] instance.
  */
-public inline fun invalidParamsError(init: InvalidParamsErrorBuilder.() -> Unit): InvalidParamsError =
-    InvalidParamsErrorBuilder().apply(init).build()
+public inline fun invalidParamsError(
+    init: InvalidParamsErrorBuilder.() -> Unit,
+): InvalidParamsError = InvalidParamsErrorBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [InvalidParamsError].

@@ -23,7 +23,9 @@ public class SendStreamingMessageResponseSpecification(
     /**
      * Java-friendly setter for [responseFlow].
      */
-    public fun responseFlow(flow: Flow<TaskUpdateEvent>): SendStreamingMessageResponseSpecification =
+    public fun responseFlow(
+        flow: Flow<TaskUpdateEvent>,
+    ): SendStreamingMessageResponseSpecification =
         apply {
             this.responseFlow = flow
         }
@@ -31,7 +33,11 @@ public class SendStreamingMessageResponseSpecification(
     public fun delayBetweenChunks(delay: Duration): SendStreamingMessageResponseSpecification =
         apply { this.delayBetweenChunks = delay }
 
-    public fun delay(delay: Duration): SendStreamingMessageResponseSpecification = apply { this.delay = delay }
+    public fun delay(delay: Duration): SendStreamingMessageResponseSpecification =
+        apply {
+            this.delay =
+                delay
+        }
 
     public fun stream(stream: Stream<TaskUpdateEvent>): SendStreamingMessageResponseSpecification =
         apply { this.responseFlow = stream.consumeAsFlow() }

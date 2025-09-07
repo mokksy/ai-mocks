@@ -5,7 +5,9 @@ import kotlinx.coroutines.runBlocking
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
 import java.util.concurrent.Flow
 
-public fun SendStreamingMessageResponseSpecification.publisher(publisher: Flow.Publisher<TaskUpdateEvent>) {
+public fun SendStreamingMessageResponseSpecification.publisher(
+    publisher: Flow.Publisher<TaskUpdateEvent>,
+) {
     responseFlow =
         flow {
             publisher.subscribe(

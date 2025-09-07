@@ -149,7 +149,8 @@ public class AgentSkillBuilder {
  * @param init The lambda to configure the agent skill.
  * @return A new [AgentSkill] instance.
  */
-public inline fun agentSkill(init: AgentSkillBuilder.() -> Unit): AgentSkill = AgentSkillBuilder().apply(init).build()
+public inline fun agentSkill(init: AgentSkillBuilder.() -> Unit): AgentSkill =
+    AgentSkillBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [AgentSkill].

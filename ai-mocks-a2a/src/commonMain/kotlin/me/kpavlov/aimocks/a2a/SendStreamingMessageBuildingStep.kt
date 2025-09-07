@@ -16,7 +16,9 @@ public class SendStreamingMessageBuildingStep(
         mokksy,
         buildingStep,
     ) {
-    public override infix fun respondsStream(block: SendStreamingMessageResponseSpecification.() -> Unit) {
+    public override infix fun respondsStream(
+        block: SendStreamingMessageResponseSpecification.() -> Unit,
+    ) {
         buildingStep.respondsWithStream {
             val requestBody = request.body
             val responseDefinition = this.build()

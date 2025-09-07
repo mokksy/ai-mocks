@@ -53,7 +53,9 @@ public class SendStreamingMessageRequestBuilder {
      * @param init The lambda to configure the message send params.
      * @return This builder instance for method chaining.
      */
-    public fun params(init: MessageSendParamsBuilder.() -> Unit): SendStreamingMessageRequestBuilder =
+    public fun params(
+        init: MessageSendParamsBuilder.() -> Unit,
+    ): SendStreamingMessageRequestBuilder =
         apply {
             this.params = MessageSendParams.build(init)
         }
@@ -64,7 +66,9 @@ public class SendStreamingMessageRequestBuilder {
      * @param init The consumer to configure the message send params.
      * @return This builder instance for method chaining.
      */
-    public fun params(init: Consumer<MessageSendParamsBuilder>): SendStreamingMessageRequestBuilder =
+    public fun params(
+        init: Consumer<MessageSendParamsBuilder>,
+    ): SendStreamingMessageRequestBuilder =
         apply {
             val builder = MessageSendParamsBuilder()
             init.accept(builder)

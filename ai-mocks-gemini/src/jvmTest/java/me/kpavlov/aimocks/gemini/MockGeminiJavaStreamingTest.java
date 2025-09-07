@@ -53,6 +53,8 @@ class MockGeminiJavaStreamingTest {
     private long topKValue;
     private long maxCompletionTokensValue;
     private String modelName;
+    private String systemMessage;
+    private String userMessage;
 
     @BeforeEach
     void beforeEach() {
@@ -68,12 +70,14 @@ class MockGeminiJavaStreamingTest {
         topKValue = RANDOM.nextLong(1, 42);
         temperatureValue = RANDOM.nextDouble(0.0, 1.0);
         maxCompletionTokensValue = RANDOM.nextLong(100, 500);
+
+        systemMessage = "You are a helpful pirate." + seedValue;
+        userMessage = "Just say 'Hello!'" + seedValue;
     }
 
     @Test
     void shouldRespondWithStreamToGenerateContentStream() {
         // Configure the mock server to respond with a stream
-        final var systemMessage = "You are a helpful pirate." + seedValue;
         MOCK.generateContentStream(req -> {
             req.temperature(temperatureValue);
             req.apiVersion("v1beta1");
@@ -81,11 +85,10 @@ class MockGeminiJavaStreamingTest {
             req.maxOutputTokens(maxCompletionTokensValue);
             req.model(modelName);
             req.project(PROJECT_ID);
-            req.seed(seedValue);
             req.systemMessageContains(systemMessage);
             req.topK(topKValue);
             req.topP(topPValue);
-            req.userMessageContains("Just say 'Hello!'");
+            req.userMessageContains(userMessage);
         }).respondsStream(response -> {
             response.stream(
                 Stream.of("Ahoy", " there,", " matey!", " Hello!")
@@ -100,7 +103,7 @@ class MockGeminiJavaStreamingTest {
         try (
             ResponseStream<GenerateContentResponse> responseStream = CLIENT.models.generateContentStream(
                 modelName,
-                "Just say 'Hello!'",
+                userMessage,
                 config
             )) {
 
@@ -130,11 +133,11 @@ class MockGeminiJavaStreamingTest {
             req.model(modelName);
             req.project(PROJECT_ID);
             req.seed(seedValue);
-            req.systemMessageContains("You are a helpful pirate");
+            req.systemMessageContains(systemMessage);
             req.temperature(temperatureValue);
             req.topK(topKValue);
             req.topP(topPValue);
-            req.userMessageContains("Just say 'Hello!'");
+            req.userMessageContains(userMessage);
         }).respondsStream(response -> {
             response.stream(
                 Stream.of("Ahoy", " there,", " matey!", " Hello!")
@@ -151,7 +154,7 @@ class MockGeminiJavaStreamingTest {
         assertThatThrownBy(() -> {
             try (var ignored = CLIENT.models.generateContentStream(
                 modelName,
-                "Just say 'Hello!'",
+                userMessage,
                 config
             )) {
                 fail("No stream should be returned");

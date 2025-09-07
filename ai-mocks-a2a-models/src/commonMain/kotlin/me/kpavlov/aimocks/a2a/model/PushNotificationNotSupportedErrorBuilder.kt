@@ -36,7 +36,8 @@ public class PushNotificationNotSupportedErrorBuilder :
  */
 public inline fun pushNotificationNotSupportedError(
     init: PushNotificationNotSupportedErrorBuilder.() -> Unit,
-): PushNotificationNotSupportedError = PushNotificationNotSupportedErrorBuilder().apply(init).build()
+): PushNotificationNotSupportedError =
+    PushNotificationNotSupportedErrorBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [PushNotificationNotSupportedError].
@@ -60,7 +61,8 @@ public fun pushNotificationNotSupportedError(
  */
 public fun PushNotificationNotSupportedError.Companion.create(
     init: PushNotificationNotSupportedErrorBuilder.() -> Unit,
-): PushNotificationNotSupportedError = PushNotificationNotSupportedErrorBuilder().apply(init).build()
+): PushNotificationNotSupportedError =
+    PushNotificationNotSupportedErrorBuilder().apply(init).build()
 
 /**
  * Java-friendly DSL extension for [PushNotificationNotSupportedError.Companion].

@@ -93,8 +93,9 @@ public class SendMessageRequestBuilder {
  * @param init The lambda to configure the send message request.
  * @return A new [SendMessageRequest] instance.
  */
-public inline fun sendMessageRequest(init: SendMessageRequestBuilder.() -> Unit): SendMessageRequest =
-    SendMessageRequestBuilder().apply(init).build()
+public inline fun sendMessageRequest(
+    init: SendMessageRequestBuilder.() -> Unit,
+): SendMessageRequest = SendMessageRequestBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [SendMessageRequest].
@@ -114,8 +115,9 @@ public fun sendMessageRequest(init: Consumer<SendMessageRequestBuilder>): SendMe
  * @param block A configuration block for building a SendMessageRequest instance using the SendMessageRequestBuilder.
  * @return A newly created SendMessageRequest instance.
  */
-public fun SendMessageRequest.Companion.create(block: SendMessageRequestBuilder.() -> Unit): SendMessageRequest =
-    SendMessageRequestBuilder().apply(block).build()
+public fun SendMessageRequest.Companion.create(
+    block: SendMessageRequestBuilder.() -> Unit,
+): SendMessageRequest = SendMessageRequestBuilder().apply(block).build()
 
 /**
  * Creates a new instance of a SendMessageRequest using the provided Java-friendly Consumer.
@@ -123,7 +125,9 @@ public fun SendMessageRequest.Companion.create(block: SendMessageRequestBuilder.
  * @param block A consumer for building a SendMessageRequest instance using the SendMessageRequestBuilder.
  * @return A newly created SendMessageRequest instance.
  */
-public fun SendMessageRequest.Companion.create(block: Consumer<SendMessageRequestBuilder>): SendMessageRequest {
+public fun SendMessageRequest.Companion.create(
+    block: Consumer<SendMessageRequestBuilder>,
+): SendMessageRequest {
     val builder = SendMessageRequestBuilder()
     block.accept(builder)
     return builder.build()

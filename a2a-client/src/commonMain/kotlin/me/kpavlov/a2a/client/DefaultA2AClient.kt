@@ -204,8 +204,9 @@ public open class DefaultA2AClient(
         return sendStreamingMessage(request)
     }
 
-    public override fun sendStreamingMessage(request: SendStreamingMessageRequest): Flow<TaskUpdateEvent> =
-        receiveTaskUpdateEvents(request, requestConfigurer)
+    public override fun sendStreamingMessage(
+        request: SendStreamingMessageRequest,
+    ): Flow<TaskUpdateEvent> = receiveTaskUpdateEvents(request, requestConfigurer)
 
     override fun resubscribeToTask(id: TaskId): Flow<TaskUpdateEvent> {
         val request =

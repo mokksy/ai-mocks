@@ -54,6 +54,7 @@ public data class TaskStatus
              * @param init The lambda to configure the task status.
              * @return A new TaskStatus instance.
              */
-            public fun build(init: TaskStatusBuilder.() -> Unit): TaskStatus = TaskStatusBuilder().apply(init).build()
+            public fun build(init: TaskStatusBuilder.() -> Unit): TaskStatus =
+                TaskStatusBuilder().apply(init).build()
         }
     }

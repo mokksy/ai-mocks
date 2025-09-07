@@ -18,7 +18,8 @@ public class UnsupportedOperationError : JSONRPCError {
     @JvmOverloads
     public constructor(data: Data? = null) : super(-32004, "This operation is not supported", null)
 
-    public fun copy(data: Data? = this.data): UnsupportedOperationError = UnsupportedOperationError(data)
+    public fun copy(data: Data? = this.data): UnsupportedOperationError =
+        UnsupportedOperationError(data)
 
     private companion object
 }

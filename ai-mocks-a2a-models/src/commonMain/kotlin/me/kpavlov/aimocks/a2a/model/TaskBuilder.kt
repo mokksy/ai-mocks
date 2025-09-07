@@ -117,7 +117,8 @@ public class TaskBuilder {
      * @param block The lambda to configure the artifact.
      * @return The created artifact.
      */
-    public fun artifact(block: ArtifactBuilder.() -> Unit): Artifact = ArtifactBuilder().apply(block).build()
+    public fun artifact(block: ArtifactBuilder.() -> Unit): Artifact =
+        ArtifactBuilder().apply(block).build()
 
     /**
      * Creates an artifact using the provided Java-friendly Consumer and adds it to the task.
@@ -190,7 +191,8 @@ public fun task(init: Consumer<TaskBuilder>): Task {
  * @param block A configuration block for building a Task instance using the TaskBuilder.
  * @return A newly created Task instance.
  */
-public fun Task.Companion.create(block: TaskBuilder.() -> Unit): Task = TaskBuilder().apply(block).build()
+public fun Task.Companion.create(block: TaskBuilder.() -> Unit): Task =
+    TaskBuilder().apply(block).build()
 
 /**
  * Creates a new instance of a Task using the provided Java-friendly Consumer.

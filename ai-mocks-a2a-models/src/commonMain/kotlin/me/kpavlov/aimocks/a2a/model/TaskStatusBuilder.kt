@@ -94,7 +94,8 @@ public class TaskStatusBuilder {
  * @param init The lambda to configure the task status.
  * @return A new [TaskStatus] instance.
  */
-public inline fun taskStatus(init: TaskStatusBuilder.() -> Unit): TaskStatus = TaskStatusBuilder().apply(init).build()
+public inline fun taskStatus(init: TaskStatusBuilder.() -> Unit): TaskStatus =
+    TaskStatusBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [TaskStatus].

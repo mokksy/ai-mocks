@@ -124,8 +124,9 @@ public class SendMessageResponseBuilder {
  * @param init The lambda to configure the send message response.
  * @return A new [SendMessageResponse] instance.
  */
-public inline fun sendMessageResponse(init: SendMessageResponseBuilder.() -> Unit): SendMessageResponse =
-    SendMessageResponseBuilder().apply(init).build()
+public inline fun sendMessageResponse(
+    init: SendMessageResponseBuilder.() -> Unit,
+): SendMessageResponse = SendMessageResponseBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [SendMessageResponse].
@@ -145,8 +146,9 @@ public fun sendMessageResponse(init: Consumer<SendMessageResponseBuilder>): Send
  * @param block A configuration block for building a SendMessageResponse instance using the SendMessageResponseBuilder.
  * @return A newly created SendMessageResponse instance.
  */
-public fun SendMessageResponse.Companion.create(block: SendMessageResponseBuilder.() -> Unit): SendMessageResponse =
-    SendMessageResponseBuilder().apply(block).build()
+public fun SendMessageResponse.Companion.create(
+    block: SendMessageResponseBuilder.() -> Unit,
+): SendMessageResponse = SendMessageResponseBuilder().apply(block).build()
 
 /**
  * Creates a new instance of a SendMessageResponse using the provided Java-friendly Consumer.
@@ -154,7 +156,9 @@ public fun SendMessageResponse.Companion.create(block: SendMessageResponseBuilde
  * @param block A consumer for building a SendMessageResponse instance using the SendMessageResponseBuilder.
  * @return A newly created SendMessageResponse instance.
  */
-public fun SendMessageResponse.Companion.create(block: Consumer<SendMessageResponseBuilder>): SendMessageResponse {
+public fun SendMessageResponse.Companion.create(
+    block: Consumer<SendMessageResponseBuilder>,
+): SendMessageResponse {
     val builder = SendMessageResponseBuilder()
     block.accept(builder)
     return builder.build()

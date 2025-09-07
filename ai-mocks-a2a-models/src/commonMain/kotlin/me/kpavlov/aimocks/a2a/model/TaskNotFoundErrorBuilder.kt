@@ -12,7 +12,8 @@ import java.util.function.Consumer
  * }
  * ```
  */
-public class TaskNotFoundErrorBuilder : JSONRPCErrorBuilder<TaskNotFoundError, TaskNotFoundErrorBuilder>() {
+public class TaskNotFoundErrorBuilder :
+    JSONRPCErrorBuilder<TaskNotFoundError, TaskNotFoundErrorBuilder>() {
     /**
      * Builds a [TaskNotFoundError] instance with the configured parameters.
      *
