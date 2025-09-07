@@ -56,6 +56,7 @@ internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
 
     private fun verifyStreamingCall() {
         val params =
+            @Suppress("deprecation")
             ChatCompletionCreateParams
                 .builder()
                 .streamOptions(
