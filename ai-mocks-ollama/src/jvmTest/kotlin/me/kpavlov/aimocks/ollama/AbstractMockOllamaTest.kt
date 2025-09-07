@@ -11,6 +11,7 @@ internal abstract class AbstractMockOllamaTest {
     protected var temperatureValue: Double = -1.0
     protected var seedValue: Int = 42
     protected var topPValue: Double = -1.0
+    protected var topKValue: Long = -1
     protected lateinit var modelName: String
     protected lateinit var embeddingModelName: String
     protected val logger = KotlinLogging.logger(name = this::class.simpleName!!)
@@ -21,6 +22,7 @@ internal abstract class AbstractMockOllamaTest {
         modelName = arrayOf("llama3", "llama3.1", "llama3.2", "mistral", "gemma").random()
         embeddingModelName = arrayOf("llama3", "llama3.1", "llama3.2", "all-minilm").random()
         topPValue = Random.nextDouble(0.1, 1.0)
+        topKValue = Random.nextLong(1, 999)
         temperatureValue = Random.nextDouble(0.0, 1.0)
         seedValue = Random.nextInt(1, 100500)
         startTimestamp = java.time.Instant.now()

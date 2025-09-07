@@ -20,9 +20,7 @@ public class StringOrListSerializer : KSerializer<List<String>> {
             decoder as? JsonDecoder
                 ?: throw SerializationException("This serializer can only be used with JSON")
 
-        val element = jsonDecoder.decodeJsonElement()
-
-        return when (element) {
+        return when (val element = jsonDecoder.decodeJsonElement()) {
             is JsonPrimitive -> listOf(element.contentOrNull ?: "")
             is JsonArray ->
                 element.map {

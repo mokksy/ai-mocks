@@ -159,6 +159,18 @@ public open class MockOllama(
                     bodyString += containJsonKeyValue("options.seed", it)
                 }
 
+                chatRequestSpec.temperature?.let {
+                    bodyString += containJsonKeyValue("options.temperature", it)
+                }
+
+                chatRequestSpec.topP?.let {
+                    bodyString += containJsonKeyValue("options.top_p", it)
+                }
+
+                chatRequestSpec.topK?.let {
+                    bodyString += containJsonKeyValue("options.top_k", it)
+                }
+
                 body += chatRequestSpec.requestBody
                 bodyString += chatRequestSpec.requestBodyString
             }

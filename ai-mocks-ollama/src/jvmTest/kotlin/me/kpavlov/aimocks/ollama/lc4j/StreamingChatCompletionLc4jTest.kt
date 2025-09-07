@@ -10,22 +10,25 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.runTest
 import me.kpavlov.aimocks.ollama.AbstractMockOllamaTest
 import me.kpavlov.aimocks.ollama.mockOllama
-import org.junit.jupiter.api.Disabled
 import kotlin.test.Test
 import kotlin.test.fail
 import kotlin.time.Duration.Companion.milliseconds
 
-@Disabled("todo: Make it work")
 internal class StreamingChatCompletionLc4jTest : AbstractMockOllamaTest() {
     private val model by lazy {
         OllamaStreamingChatModel
             .builder()
+            .customHeaders(mapOf(
+                "Content-Type" to "application/json", // add lost header
+            ))
             .baseUrl(mockOllama.baseUrl())
             .modelName(modelName)
             .temperature(temperatureValue)
             .logRequests(true)
             .logResponses(true)
             .topP(topPValue)
+            .seed(seedValue)
+            .topK(topKValue.toInt())
             .build()
     }
 
@@ -39,6 +42,9 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOllamaTest() {
                 seed = seedValue
                 temperature = temperatureValue
                 userMessageContains("Hello")
+                topP = topPValue
+                topK = topKValue
+                stream = true
             } respondsStream {
                 responseFlow =
                     expectedResponse
@@ -69,7 +75,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOllamaTest() {
                     }
                 }
             tokens
-                .joinToString()
+                .joinToString("")
                 .removeSuffix(" ") shouldBe expectedResponse
         }
 }

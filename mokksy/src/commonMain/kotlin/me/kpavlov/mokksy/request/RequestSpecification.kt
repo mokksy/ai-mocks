@@ -79,12 +79,20 @@ public open class RequestSpecification<P : Any>(
                     .passed()
             }
         } catch (e: ContentTransformationException) {
+            @Suppress("TooGenericExceptionCaught")
+            val bodyText =
+                try {
+                    request.call.receiveText()
+                } catch (ex: Exception) {
+                    "Unable to read body: ${ex.message}"
+                }
             request.call.application.log
                 .debug(
-                    "Request payload can not be transformed to {}: {}. Request body: {}",
+                    "Request payload can not be transformed to {}: {}. Request body: {}. Cause: {}",
                     requestType,
                     e.message,
-                    request.call.receiveText(),
+                    bodyText,
+                    e.cause?.message ?: "No cause available",
                     e,
                 )
             false
@@ -211,7 +219,9 @@ public open class RequestSpecificationBuilder<P : Any>(
      * @return The same instance of [RequestSpecificationBuilder] with the predicates applied
      *         for further customization.
      */
-    public fun bodyMatchesPredicates(vararg predicate: (P?) -> Boolean): RequestSpecificationBuilder<P> {
+    public fun bodyMatchesPredicates(
+        vararg predicate: (P?) -> Boolean,
+    ): RequestSpecificationBuilder<P> {
         predicate.forEach { bodyMatchesPredicate(predicate = it) }
         return this
     }
