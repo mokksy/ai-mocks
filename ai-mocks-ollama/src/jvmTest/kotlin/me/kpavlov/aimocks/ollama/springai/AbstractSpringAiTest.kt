@@ -3,8 +3,8 @@ package me.kpavlov.aimocks.ollama.springai
 import me.kpavlov.aimocks.ollama.AbstractMockOllamaTest
 import me.kpavlov.aimocks.ollama.mockOllama
 import org.springframework.ai.chat.client.ChatClient
-import org.springframework.ai.chat.prompt.ChatOptions
 import org.springframework.ai.ollama.api.OllamaApi
+import org.springframework.ai.ollama.api.OllamaOptions
 
 internal val chatClient =
     ChatClient
@@ -26,10 +26,13 @@ internal abstract class AbstractSpringAiTest : AbstractMockOllamaTest() {
             .system("You are a helpful pirate")
             .user("Just say 'Hello!'")
             .options(
-                ChatOptions
+                OllamaOptions
                     .builder()
                     .temperature(temperatureValue)
+                    .seed(seedValue)
                     .model(modelName)
+                    .topK(topKValue.toInt())
+                    .topP(topPValue)
                     .build(),
             )
 }

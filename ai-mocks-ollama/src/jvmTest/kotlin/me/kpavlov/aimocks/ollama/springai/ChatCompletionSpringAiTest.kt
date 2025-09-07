@@ -10,6 +10,7 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
     fun `Should respond to Chat Completion`() {
         mockOllama.chat {
             temperature = temperatureValue
+            seed = seedValue
             model = modelName
             systemMessageContains("helpful pirate")
             userMessageContains("say 'Hello!'")

@@ -80,6 +80,30 @@ internal class ChatModelsTest : AbstractSerializationTest() {
     }
 
     @Test
+    fun `Deserialize and Serialize ChatRequest 3`() {
+        // language=json
+        val payload =
+            """
+            {
+              "model" : "mistral",
+              "messages" : [ {
+                "role" : "user",
+                "content" : "Hello"
+              } ],
+              "options" : {
+                "stop" : [ ]
+              },
+              "stream" : true,
+              "tools" : [ ]
+            }
+            """.trimIndent()
+
+        val model = deserializeAndSerialize<ChatRequest>(payload)
+        model shouldNotBeNull {
+        }
+    }
+
+    @Test
     fun `Deserialize and Serialize ChatRequest with tools`() {
         // language=json
         val payload =

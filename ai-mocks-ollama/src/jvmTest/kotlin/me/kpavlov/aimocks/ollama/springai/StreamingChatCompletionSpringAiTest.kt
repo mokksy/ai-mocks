@@ -4,13 +4,11 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import me.kpavlov.aimocks.ollama.mockOllama
-import org.junit.jupiter.api.Disabled
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toJavaDuration
 
-@Disabled("todo: Make it work")
 internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
     @Test
     fun `Should respond with stream to Chat Completion`() {
@@ -18,8 +16,11 @@ internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
             temperature = temperatureValue
             seed = seedValue
             model = modelName
+            topK = topKValue
+            topP = topPValue
             systemMessageContains("helpful pirate")
             userMessageContains("say 'Hello!'")
+            stream = true
         } respondsStream {
             responseFlow =
                 flow {
@@ -31,7 +32,6 @@ internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
                 }
             delay = 60.milliseconds
             delayBetweenChunks = 15.milliseconds
-//            finishReason = "stop"
         }
 
         val buffer = StringBuffer()
@@ -44,7 +44,9 @@ internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
                         buffer.append(it)
                     }
                 }.count()
-                .block(5.seconds.toJavaDuration())
+                .doOnError {
+                    logger.error(it) { "Error receiving a stream" }
+                }.block(5.seconds.toJavaDuration())
 
         chunkCount shouldBe 4 + 2L // 4 data chunks + opening and closing chunks
         buffer.toString() shouldBe "Ahoy there, matey! Hello!"
