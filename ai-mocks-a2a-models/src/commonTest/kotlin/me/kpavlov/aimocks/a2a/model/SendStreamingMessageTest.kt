@@ -5,7 +5,7 @@ import kotlinx.datetime.Instant
 import kotlin.test.Test
 
 /**
- * https://github.com/google/A2A/blob/gh-pages/documentation.md#streaming-support
+ * https://a2a-protocol.org/latest/specification/#72-messagestream
  */
 internal class SendStreamingMessageTest : AbstractSerializationTest() {
     @Test

@@ -4,7 +4,7 @@ import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 /**
- * https://github.com/google/A2A/blob/gh-pages/documentation.md#sample-methods-and-json-responses
+ * https://a2a-protocol.org/latest/specification/#71-messagesend
  */
 internal class MessageSendTest : AbstractSerializationTest() {
     @Test

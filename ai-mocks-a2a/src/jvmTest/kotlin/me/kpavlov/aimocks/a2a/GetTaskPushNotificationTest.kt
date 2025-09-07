@@ -21,7 +21,7 @@ import kotlin.test.Test
 
 internal class GetTaskPushNotificationTest : AbstractTest() {
     /**
-     * https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task
+     * https://a2a-protocol.org/latest/specification/#76-taskspushnotificationconfigget
      */
     @Test
     fun `Should get TaskPushNotification config`() =

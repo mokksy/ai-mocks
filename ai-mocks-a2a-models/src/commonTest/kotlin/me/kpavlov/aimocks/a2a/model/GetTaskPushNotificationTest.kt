@@ -4,7 +4,7 @@ import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 /**
- * https://github.com/google/A2A/blob/gh-pages/documentation.md#get-task-push-notifications
+ * https://a2a-protocol.org/latest/specification/#76-taskspushnotificationconfigget
  */
 internal class GetTaskPushNotificationTest : AbstractSerializationTest() {
     @Test

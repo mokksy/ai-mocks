@@ -17,7 +17,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * Java version of the SendTaskStreamingTest.
- * See <a href="https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task">A2A: Send a Task</a>
+ * See <a href="https://a2a-protocol.org/latest/specification/#72-messagestream">A2A: Send Message Streaming</a>
  * <p>
  * This test demonstrates how to set up a Java test for the A2A client.
  * Due to Java-Kotlin interoperability limitations, this test is simplified and doesn't
@@ -113,7 +113,7 @@ class SendMessageStreamingJavaTest extends AbstractJavaTest {
             )
         );
 
-        // 3. Call the client's sendTaskStreaming method
+        // 3. Call the client's sendStreamingMessage method
         final var events = new ConcurrentLinkedDeque<>();
 
         final var flow = sendStreamingMessageAsJavaFlow(
