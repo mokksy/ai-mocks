@@ -93,8 +93,9 @@ public fun taskQueryParams(init: Consumer<TaskQueryParamsBuilder>): TaskQueryPar
  * @param init The lambda to configure the task query params.
  * @return A new [TaskQueryParams] instance.
  */
-public fun TaskQueryParams.Companion.create(init: TaskQueryParamsBuilder.() -> Unit): TaskQueryParams =
-    TaskQueryParamsBuilder().apply(init).build()
+public fun TaskQueryParams.Companion.create(
+    init: TaskQueryParamsBuilder.() -> Unit,
+): TaskQueryParams = TaskQueryParamsBuilder().apply(init).build()
 
 /**
  * Java-friendly DSL extension for [TaskQueryParams.Companion].
@@ -102,7 +103,9 @@ public fun TaskQueryParams.Companion.create(init: TaskQueryParamsBuilder.() -> U
  * @param init The consumer to configure the task query params.
  * @return A new [TaskQueryParams] instance.
  */
-public fun TaskQueryParams.Companion.create(init: Consumer<TaskQueryParamsBuilder>): TaskQueryParams {
+public fun TaskQueryParams.Companion.create(
+    init: Consumer<TaskQueryParamsBuilder>,
+): TaskQueryParams {
     val builder = TaskQueryParamsBuilder()
     init.accept(builder)
     return builder.build()

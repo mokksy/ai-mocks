@@ -101,13 +101,16 @@ public class TaskStatusUpdateEventBuilder {
 /**
  * Top-level DSL function for creating [TaskStatusUpdateEvent].
  */
-public inline fun taskStatusUpdateEvent(init: TaskStatusUpdateEventBuilder.() -> Unit): TaskStatusUpdateEvent =
-    TaskStatusUpdateEventBuilder().apply(init).build()
+public inline fun taskStatusUpdateEvent(
+    init: TaskStatusUpdateEventBuilder.() -> Unit,
+): TaskStatusUpdateEvent = TaskStatusUpdateEventBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [TaskStatusUpdateEvent].
  */
-public fun taskStatusUpdateEvent(init: Consumer<TaskStatusUpdateEventBuilder>): TaskStatusUpdateEvent {
+public fun taskStatusUpdateEvent(
+    init: Consumer<TaskStatusUpdateEventBuilder>,
+): TaskStatusUpdateEvent {
     val builder = TaskStatusUpdateEventBuilder()
     init.accept(builder)
     return builder.build()

@@ -176,7 +176,9 @@ public class AgentCardBuilder {
      * @param supportsAuthenticatedExtendedCard Whether authenticated extended card is supported.
      * @return This builder instance for method chaining.
      */
-    public fun supportsAuthenticatedExtendedCard(supportsAuthenticatedExtendedCard: Boolean): AgentCardBuilder =
+    public fun supportsAuthenticatedExtendedCard(
+        supportsAuthenticatedExtendedCard: Boolean,
+    ): AgentCardBuilder =
         apply {
             this.supportsAuthenticatedExtendedCard = supportsAuthenticatedExtendedCard
         }
@@ -218,7 +220,8 @@ public class AgentCardBuilder {
      * @param block The lambda to configure the skill.
      * @return The created skill.
      */
-    public fun skill(block: AgentSkillBuilder.() -> Unit): AgentSkill = AgentSkillBuilder().apply(block).build()
+    public fun skill(block: AgentSkillBuilder.() -> Unit): AgentSkill =
+        AgentSkillBuilder().apply(block).build()
 
     /**
      * Creates a skill using the provided Java-friendly Consumer.
@@ -299,7 +302,8 @@ public class AgentCardBuilder {
  * @param init The lambda to configure the agent card.
  * @return A new [AgentCard] instance.
  */
-public inline fun agentCard(init: AgentCardBuilder.() -> Unit): AgentCard = AgentCardBuilder().apply(init).build()
+public inline fun agentCard(init: AgentCardBuilder.() -> Unit): AgentCard =
+    AgentCardBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [AgentCard].

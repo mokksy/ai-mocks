@@ -117,8 +117,9 @@ public fun TaskArtifactUpdateEvent.Companion.create(
  * @param init The lambda to configure the TaskArtifactUpdateEvent.
  * @return A new TaskArtifactUpdateEvent instance.
  */
-public inline fun taskArtifactUpdateEvent(init: TaskArtifactUpdateEventBuilder.() -> Unit): TaskArtifactUpdateEvent =
-    TaskArtifactUpdateEventBuilder().apply(init).build()
+public inline fun taskArtifactUpdateEvent(
+    init: TaskArtifactUpdateEventBuilder.() -> Unit,
+): TaskArtifactUpdateEvent = TaskArtifactUpdateEventBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [TaskArtifactUpdateEvent].
@@ -126,7 +127,9 @@ public inline fun taskArtifactUpdateEvent(init: TaskArtifactUpdateEventBuilder.(
  * @param init The consumer to configure the TaskArtifactUpdateEvent.
  * @return A new TaskArtifactUpdateEvent instance.
  */
-public fun taskArtifactUpdateEvent(init: Consumer<TaskArtifactUpdateEventBuilder>): TaskArtifactUpdateEvent {
+public fun taskArtifactUpdateEvent(
+    init: Consumer<TaskArtifactUpdateEventBuilder>,
+): TaskArtifactUpdateEvent {
     val builder = TaskArtifactUpdateEventBuilder()
     init.accept(builder)
     return builder.build()

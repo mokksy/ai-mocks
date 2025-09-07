@@ -48,7 +48,8 @@ public class MessageBuilder {
         return this
     }
 
-    public fun textPart(block: TextPartBuilder.() -> Unit): TextPart = TextPartBuilder().apply(block).build()
+    public fun textPart(block: TextPartBuilder.() -> Unit): TextPart =
+        TextPartBuilder().apply(block).build()
 
     public fun textPart(block: Consumer<TextPartBuilder>): TextPart {
         val builder = TextPartBuilder()
@@ -58,7 +59,8 @@ public class MessageBuilder {
 
     public fun text(block: () -> String): TextPart = TextPartBuilder().text(block.invoke()).build()
 
-    public fun filePart(block: FilePartBuilder.() -> Unit): FilePart = FilePartBuilder().apply(block).build()
+    public fun filePart(block: FilePartBuilder.() -> Unit): FilePart =
+        FilePartBuilder().apply(block).build()
 
     public fun filePart(block: Consumer<FilePartBuilder>): FilePart {
         val builder = FilePartBuilder()
@@ -71,7 +73,8 @@ public class MessageBuilder {
             this.file(block)
         }
 
-    public fun dataPart(block: DataPartBuilder.() -> Unit): DataPart = DataPartBuilder().apply(block).build()
+    public fun dataPart(block: DataPartBuilder.() -> Unit): DataPart =
+        DataPartBuilder().apply(block).build()
 
     public fun dataPart(block: Consumer<DataPartBuilder>): DataPart {
         val builder = DataPartBuilder()
@@ -108,7 +111,8 @@ public class MessageBuilder {
  * @param init The lambda to configure the message.
  * @return A new [Message] instance.
  */
-public inline fun message(init: MessageBuilder.() -> Unit): Message = MessageBuilder().apply(init).build()
+public inline fun message(init: MessageBuilder.() -> Unit): Message =
+    MessageBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [Message].
@@ -128,7 +132,8 @@ public fun message(init: Consumer<MessageBuilder>): Message {
  * @param init The lambda to configure the message.
  * @return A new [Message] instance.
  */
-public fun Message.Companion.create(init: MessageBuilder.() -> Unit): Message = MessageBuilder().apply(init).build()
+public fun Message.Companion.create(init: MessageBuilder.() -> Unit): Message =
+    MessageBuilder().apply(init).build()
 
 /**
  * Java-friendly DSL extension for [Message.Companion].

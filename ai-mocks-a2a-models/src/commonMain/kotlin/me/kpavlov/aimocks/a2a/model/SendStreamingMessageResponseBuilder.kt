@@ -66,7 +66,9 @@ public class SendStreamingMessageResponseBuilder {
      * @param init The lambda to configure the task status update event.
      * @return This builder instance for method chaining.
      */
-    public fun taskStatusUpdate(init: TaskStatusUpdateEventBuilder.() -> Unit): SendStreamingMessageResponseBuilder =
+    public fun taskStatusUpdate(
+        init: TaskStatusUpdateEventBuilder.() -> Unit,
+    ): SendStreamingMessageResponseBuilder =
         apply {
             this.result = TaskStatusUpdateEvent.create(init)
         }
@@ -77,7 +79,9 @@ public class SendStreamingMessageResponseBuilder {
      * @param init The consumer to configure the task status update event.
      * @return This builder instance for method chaining.
      */
-    public fun taskStatusUpdate(init: Consumer<TaskStatusUpdateEventBuilder>): SendStreamingMessageResponseBuilder =
+    public fun taskStatusUpdate(
+        init: Consumer<TaskStatusUpdateEventBuilder>,
+    ): SendStreamingMessageResponseBuilder =
         apply {
             val builder = TaskStatusUpdateEventBuilder()
             init.accept(builder)

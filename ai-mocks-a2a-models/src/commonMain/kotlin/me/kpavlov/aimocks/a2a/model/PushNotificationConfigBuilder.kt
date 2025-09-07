@@ -90,8 +90,9 @@ public class PushNotificationConfigBuilder {
  * @param init The lambda to configure the push notification config.
  * @return A new [PushNotificationConfig] instance.
  */
-public inline fun pushNotificationConfig(init: PushNotificationConfigBuilder.() -> Unit): PushNotificationConfig =
-    PushNotificationConfigBuilder().apply(init).build()
+public inline fun pushNotificationConfig(
+    init: PushNotificationConfigBuilder.() -> Unit,
+): PushNotificationConfig = PushNotificationConfigBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [PushNotificationConfig].
@@ -99,7 +100,9 @@ public inline fun pushNotificationConfig(init: PushNotificationConfigBuilder.() 
  * @param init The consumer to configure the push notification config.
  * @return A new [PushNotificationConfig] instance.
  */
-public fun pushNotificationConfig(init: Consumer<PushNotificationConfigBuilder>): PushNotificationConfig {
+public fun pushNotificationConfig(
+    init: Consumer<PushNotificationConfigBuilder>,
+): PushNotificationConfig {
     val builder = PushNotificationConfigBuilder()
     init.accept(builder)
     return builder.build()

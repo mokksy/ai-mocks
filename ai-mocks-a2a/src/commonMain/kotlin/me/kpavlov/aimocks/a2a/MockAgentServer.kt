@@ -5,6 +5,7 @@ import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.a2a.model.CancelTaskRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskPushNotificationRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskRequest
+import me.kpavlov.aimocks.a2a.model.ListTaskPushNotificationConfigRequest
 import me.kpavlov.aimocks.a2a.model.PushNotificationConfig
 import me.kpavlov.aimocks.a2a.model.SendMessageRequest
 import me.kpavlov.aimocks.a2a.model.SendStreamingMessageRequest
@@ -364,6 +365,25 @@ public open class MockAgentServer private constructor(
                 }
 
         return SetTaskPushNotificationBuildingStep(
+            buildingStep = requestStep,
+            mokksy = mokksy,
+        )
+    }
+
+    @JvmOverloads
+    public fun listTaskPushNotificationConfig(
+        name: String? = null,
+    ): ListTaskPushNotificationConfigBuildingStep {
+        val requestStep =
+            mokksy
+                .post(name = name, requestType = ListTaskPushNotificationConfigRequest::class) {
+                    path("/")
+                    bodyMatchesPredicate {
+                        it?.method == "tasks/pushNotificationConfig/list"
+                    }
+                }
+
+        return ListTaskPushNotificationConfigBuildingStep(
             buildingStep = requestStep,
             mokksy = mokksy,
         )

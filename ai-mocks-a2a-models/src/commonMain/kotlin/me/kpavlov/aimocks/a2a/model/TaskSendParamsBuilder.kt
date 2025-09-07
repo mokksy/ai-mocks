@@ -85,7 +85,9 @@ public class TaskSendParamsBuilder {
      * @param init The lambda to configure the push notification config.
      * @return The updated [TaskSendParamsBuilder] instance for method chaining.
      */
-    public fun pushNotification(init: PushNotificationConfigBuilder.() -> Unit): TaskSendParamsBuilder =
+    public fun pushNotification(
+        init: PushNotificationConfigBuilder.() -> Unit,
+    ): TaskSendParamsBuilder =
         apply {
             this.pushNotification = PushNotificationConfig.build(init)
         }
@@ -96,7 +98,9 @@ public class TaskSendParamsBuilder {
      * @param init The consumer to configure the push notification config.
      * @return The updated [TaskSendParamsBuilder] instance for method chaining.
      */
-    public fun pushNotification(init: Consumer<PushNotificationConfigBuilder>): TaskSendParamsBuilder =
+    public fun pushNotification(
+        init: Consumer<PushNotificationConfigBuilder>,
+    ): TaskSendParamsBuilder =
         apply {
             val builder = PushNotificationConfigBuilder()
             init.accept(builder)
@@ -140,8 +144,9 @@ public class TaskSendParamsBuilder {
  * @param block A configuration block for building a TaskSendParams instance using the TaskSendParamsBuilder.
  * @return A newly created TaskSendParams instance.
  */
-public fun TaskSendParams.Companion.create(block: TaskSendParamsBuilder.() -> Unit): TaskSendParams =
-    TaskSendParamsBuilder().apply(block).build()
+public fun TaskSendParams.Companion.create(
+    block: TaskSendParamsBuilder.() -> Unit,
+): TaskSendParams = TaskSendParamsBuilder().apply(block).build()
 
 /**
  * Creates a new instance of a TaskSendParams using the provided Java-friendly Consumer.

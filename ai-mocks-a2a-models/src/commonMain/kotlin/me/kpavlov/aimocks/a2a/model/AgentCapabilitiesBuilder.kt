@@ -95,8 +95,9 @@ public fun agentCapabilities(init: Consumer<AgentCapabilitiesBuilder>): AgentCap
  * @param block A configuration block for building an AgentCapabilities instance using the AgentCapabilitiesBuilder.
  * @return A newly created AgentCapabilities instance.
  */
-public fun AgentCapabilities.Companion.create(block: AgentCapabilitiesBuilder.() -> Unit): AgentCapabilities =
-    AgentCapabilitiesBuilder().apply(block).build()
+public fun AgentCapabilities.Companion.create(
+    block: AgentCapabilitiesBuilder.() -> Unit,
+): AgentCapabilities = AgentCapabilitiesBuilder().apply(block).build()
 
 /**
  * Creates a new instance of an AgentCapabilities using the provided Java-friendly Consumer.
@@ -104,7 +105,9 @@ public fun AgentCapabilities.Companion.create(block: AgentCapabilitiesBuilder.()
  * @param block A consumer for building an AgentCapabilities instance using the AgentCapabilitiesBuilder.
  * @return A newly created AgentCapabilities instance.
  */
-public fun AgentCapabilities.Companion.create(block: Consumer<AgentCapabilitiesBuilder>): AgentCapabilities {
+public fun AgentCapabilities.Companion.create(
+    block: Consumer<AgentCapabilitiesBuilder>,
+): AgentCapabilities {
     val builder = AgentCapabilitiesBuilder()
     block.accept(builder)
     return builder.build()

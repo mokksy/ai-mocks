@@ -97,7 +97,8 @@ public class FilePartBuilder {
  * @param init The lambda to configure the file part
  * @return A new FilePart instance
  */
-public inline fun filePart(init: FilePartBuilder.() -> Unit): FilePart = FilePartBuilder().apply(init).build()
+public inline fun filePart(init: FilePartBuilder.() -> Unit): FilePart =
+    FilePartBuilder().apply(init).build()
 
 /**
  * Creates a new FilePart using the Java-friendly Consumer.
@@ -117,7 +118,8 @@ public fun filePart(init: Consumer<FilePartBuilder>): FilePart {
  * @param init The lambda to configure the file part
  * @return A new FilePart instance
  */
-public fun FilePart.Companion.create(init: FilePartBuilder.() -> Unit): FilePart = FilePartBuilder().apply(init).build()
+public fun FilePart.Companion.create(init: FilePartBuilder.() -> Unit): FilePart =
+    FilePartBuilder().apply(init).build()
 
 /**
  * Creates a new FilePart using the Java-friendly Consumer.

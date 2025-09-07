@@ -41,7 +41,9 @@ public inline fun unsupportedOperationError(
  * @param init The consumer to configure the unsupported operation error.
  * @return A new [UnsupportedOperationError] instance.
  */
-public fun unsupportedOperationError(init: Consumer<UnsupportedOperationErrorBuilder>): UnsupportedOperationError {
+public fun unsupportedOperationError(
+    init: Consumer<UnsupportedOperationErrorBuilder>,
+): UnsupportedOperationError {
     val builder = UnsupportedOperationErrorBuilder()
     init.accept(builder)
     return builder.build()

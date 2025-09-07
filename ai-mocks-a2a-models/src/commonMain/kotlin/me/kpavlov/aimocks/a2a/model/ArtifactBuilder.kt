@@ -80,7 +80,8 @@ public class ArtifactBuilder {
      * @param block The lambda to configure the text part.
      * @return The created text part.
      */
-    public fun textPart(block: TextPartBuilder.() -> Unit): TextPart = TextPartBuilder().apply(block).build()
+    public fun textPart(block: TextPartBuilder.() -> Unit): TextPart =
+        TextPartBuilder().apply(block).build()
 
     /**
      * Creates a text part using the provided Java-friendly Consumer.
@@ -112,7 +113,8 @@ public class ArtifactBuilder {
      * @param block The lambda to configure the file part.
      * @return The created file part.
      */
-    public fun filePart(block: FilePartBuilder.() -> Unit): FilePart = FilePartBuilder().apply(block).build()
+    public fun filePart(block: FilePartBuilder.() -> Unit): FilePart =
+        FilePartBuilder().apply(block).build()
 
     /**
      * Creates a file part using the provided Java-friendly Consumer.
@@ -132,7 +134,8 @@ public class ArtifactBuilder {
      * @param block The lambda to configure the data part.
      * @return The created data part.
      */
-    public fun dataPart(block: DataPartBuilder.() -> Unit): DataPart = DataPartBuilder().apply(block).build()
+    public fun dataPart(block: DataPartBuilder.() -> Unit): DataPart =
+        DataPartBuilder().apply(block).build()
 
     /**
      * Creates a data part using the provided Java-friendly Consumer.
@@ -217,7 +220,8 @@ public class ArtifactBuilder {
  * @param init The lambda to configure the artifact.
  * @return A new [Artifact] instance.
  */
-public inline fun artifact(init: ArtifactBuilder.() -> Unit): Artifact = ArtifactBuilder().apply(init).build()
+public inline fun artifact(init: ArtifactBuilder.() -> Unit): Artifact =
+    ArtifactBuilder().apply(init).build()
 
 /**
  * Java-friendly top-level DSL function for creating [Artifact].
@@ -237,7 +241,8 @@ public fun artifact(init: Consumer<ArtifactBuilder>): Artifact {
  * @param init The lambda to configure the artifact.
  * @return A new Artifact instance.
  */
-public fun Artifact.Companion.create(init: ArtifactBuilder.() -> Unit): Artifact = ArtifactBuilder().apply(init).build()
+public fun Artifact.Companion.create(init: ArtifactBuilder.() -> Unit): Artifact =
+    ArtifactBuilder().apply(init).build()
 
 /**
  * Creates a new Artifact using the provided Java-friendly Consumer.

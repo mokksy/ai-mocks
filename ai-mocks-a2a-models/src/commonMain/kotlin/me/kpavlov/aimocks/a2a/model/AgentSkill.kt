@@ -36,6 +36,7 @@ public data class AgentSkill(
          * @param init The lambda to configure the agent skill.
          * @return A new AgentSkill instance.
          */
-        public fun build(init: AgentSkillBuilder.() -> Unit): AgentSkill = AgentSkillBuilder().apply(init).build()
+        public fun build(init: AgentSkillBuilder.() -> Unit): AgentSkill =
+            AgentSkillBuilder().apply(init).build()
     }
 }

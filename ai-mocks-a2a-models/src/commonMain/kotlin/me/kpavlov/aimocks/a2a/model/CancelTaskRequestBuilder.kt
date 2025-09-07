@@ -88,8 +88,9 @@ public fun cancelTaskRequest(init: Consumer<CancelTaskRequestBuilder>): CancelTa
  * @param init The lambda to configure the cancel task request.
  * @return A new [CancelTaskRequest] instance.
  */
-public fun CancelTaskRequest.Companion.create(init: CancelTaskRequestBuilder.() -> Unit): CancelTaskRequest =
-    CancelTaskRequestBuilder().apply(init).build()
+public fun CancelTaskRequest.Companion.create(
+    init: CancelTaskRequestBuilder.() -> Unit,
+): CancelTaskRequest = CancelTaskRequestBuilder().apply(init).build()
 
 /**
  * Java-friendly DSL extension for [CancelTaskRequest.Companion].
@@ -97,7 +98,9 @@ public fun CancelTaskRequest.Companion.create(init: CancelTaskRequestBuilder.() 
  * @param init The consumer to configure the cancel task request.
  * @return A new [CancelTaskRequest] instance.
  */
-public fun CancelTaskRequest.Companion.create(init: Consumer<CancelTaskRequestBuilder>): CancelTaskRequest {
+public fun CancelTaskRequest.Companion.create(
+    init: Consumer<CancelTaskRequestBuilder>,
+): CancelTaskRequest {
     val builder = CancelTaskRequestBuilder()
     init.accept(builder)
     return builder.build()
