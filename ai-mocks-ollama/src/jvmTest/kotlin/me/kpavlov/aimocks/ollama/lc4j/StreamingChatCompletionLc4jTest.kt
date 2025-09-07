@@ -18,12 +18,16 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOllamaTest() {
     private val model by lazy {
         OllamaStreamingChatModel
             .builder()
+            .customHeaders(mapOf(
+                "Content-Type" to "application/json", // add lost header
+            ))
             .baseUrl(mockOllama.baseUrl())
             .modelName(modelName)
             .temperature(temperatureValue)
             .logRequests(true)
             .logResponses(true)
             .topP(topPValue)
+            .seed(seedValue)
             .topK(topKValue.toInt())
             .build()
     }
@@ -71,7 +75,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOllamaTest() {
                     }
                 }
             tokens
-                .joinToString()
+                .joinToString("")
                 .removeSuffix(" ") shouldBe expectedResponse
         }
 }

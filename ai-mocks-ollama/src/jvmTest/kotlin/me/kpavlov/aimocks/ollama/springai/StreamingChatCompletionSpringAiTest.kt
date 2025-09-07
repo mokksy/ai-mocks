@@ -39,11 +39,12 @@ internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
             prepareClientRequest()
                 .stream()
                 .chatResponse()
-                .doOnNext {
-                    it.result.output.text?.let {
+                .doOnNext { chatResponse ->
+                    chatResponse.result.output.text?.let {
                         buffer.append(it)
                     }
                 }.count()
+                .checkpoint("StreamingChatCompletion stream")
                 .doOnError {
                     logger.error(it) { "Error receiving a stream" }
                 }.block(5.seconds.toJavaDuration())

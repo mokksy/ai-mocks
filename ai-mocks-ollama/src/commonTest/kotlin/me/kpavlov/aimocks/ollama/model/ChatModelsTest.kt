@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.ollama.model
 
+import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -67,6 +68,7 @@ internal class ChatModelsTest : AbstractSerializationTest() {
               "options" : {
                 "temperature" : 0.40528726585876296,
                 "top_p" : 0.40024988370637504,
+                "top_k" : 123,
                 "stop" : [ ]
               },
               "stream" : true,
@@ -76,6 +78,13 @@ internal class ChatModelsTest : AbstractSerializationTest() {
 
         val model = deserializeAndSerialize<ChatRequest>(payload)
         model shouldNotBeNull {
+            stream shouldBe true
+            options shouldNotBeNull {
+                stop?.shouldHaveSize(0)
+                temperature shouldBe 0.40528726585876296
+                topP shouldBe 0.40024988370637504
+                topK shouldBe 123
+            }
         }
     }
 
@@ -100,6 +109,13 @@ internal class ChatModelsTest : AbstractSerializationTest() {
 
         val model = deserializeAndSerialize<ChatRequest>(payload)
         model shouldNotBeNull {
+            stream shouldBe true
+            options shouldNotBeNull {
+                stop?.size shouldBe 0
+                temperature shouldBe null
+                topP shouldBe null
+                topK shouldBe null
+            }
         }
     }
 
