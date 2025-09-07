@@ -20,16 +20,16 @@ import me.kpavlov.aimocks.a2a.model.serializers.RequestIdSerializer
 public data class GetTaskRequest(
     @SerialName("jsonrpc")
     @EncodeDefault
-    val jsonrpc: String = "2.0",
+    override val jsonrpc: String = "2.0",
     @SerialName("id")
     @Serializable(with = RequestIdSerializer::class)
-    val id: RequestId? = null,
+    override val id: RequestId? = null,
     @SerialName("method")
     @EncodeDefault
-    val method: String = "tasks/get",
+    override val method: String = "tasks/get",
     @SerialName("params")
     val params: TaskQueryParams,
-) : A2ARequest {
+) : A2ARequest{
     init {
         require(jsonrpc == "2.0") { "jsonrpc not constant value 2.0 - $jsonrpc" }
         require(method == "tasks/get") { "method not constant value tasks/get - $method" }

@@ -52,10 +52,8 @@ public class PartSerializer : KSerializer<Part> {
             jsonElement["kind"]
                 ?: throw SerializationException("Missing 'kind' discriminator in Part JSON")
 
-        val kind = kindElement.jsonPrimitive.content
-
         // Determine which subclass to use based on the "kind" value
-        return when (kind) {
+        return when (val kind = kindElement.jsonPrimitive.content) {
             "text" -> jsonDecoder.json.decodeFromJsonElement(textPartSerializer, jsonElement)
             "file" -> jsonDecoder.json.decodeFromJsonElement(filePartSerializer, jsonElement)
             "data" -> jsonDecoder.json.decodeFromJsonElement(dataPartSerializer, jsonElement)

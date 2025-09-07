@@ -20,13 +20,13 @@ import me.kpavlov.aimocks.a2a.model.serializers.RequestIdSerializer
 public data class CancelTaskRequest(
     @SerialName("jsonrpc")
     @EncodeDefault
-    val jsonrpc: String = "2.0",
+    override val jsonrpc: String = "2.0",
     @SerialName("id")
     @Serializable(with = RequestIdSerializer::class)
-    val id: RequestId? = null,
+    override val id: RequestId? = null,
     @SerialName("method")
     @EncodeDefault
-    val method: String = "tasks/cancel",
+    override val method: String = "tasks/cancel",
     @SerialName("params")
     val params: TaskIdParams,
 ) : A2ARequest {

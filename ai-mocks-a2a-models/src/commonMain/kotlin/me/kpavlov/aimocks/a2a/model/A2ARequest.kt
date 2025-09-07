@@ -11,16 +11,15 @@
  */
 package me.kpavlov.aimocks.a2a.model
 
+import kotlinx.serialization.EncodeDefault
+import kotlinx.serialization.SerialName
+
 public interface A2ARequest {
-    public data class A(
-        val jsonrpc: String = "2.0",
-        val id: Any? = null,
-        val method: String = "tasks/send",
-        val params: TaskSendParams,
-    ) : A2ARequest {
-        init {
-            require(jsonrpc == "2.0") { "jsonrpc not constant value 2.0 - $jsonrpc" }
-            require(method == "tasks/send") { "method not constant value tasks/send - $method" }
-        }
-    }
+    @SerialName("jsonrpc")
+    @EncodeDefault
+    public val jsonrpc: String
+        get() = "2.0"
+    public val id: RequestId?
+    public val method: String
+//    public val params: Any
 }

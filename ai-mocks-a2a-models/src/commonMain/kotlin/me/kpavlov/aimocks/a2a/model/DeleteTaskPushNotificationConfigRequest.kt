@@ -1,5 +1,5 @@
 /*
- * ListTaskPushNotificationConfigRequest.kt
+ * DeleteTaskPushNotificationConfigRequest.kt
  */
 package me.kpavlov.aimocks.a2a.model
 
@@ -9,10 +9,10 @@ import kotlinx.serialization.Serializable
 import me.kpavlov.aimocks.a2a.model.serializers.RequestIdSerializer
 
 /**
- * https://a2a-protocol.org/latest/specification/#77-taskspushnotificationconfiglist
+ * https://a2a-protocol.org/latest/specification/#78-taskspushnotificationconfigdelete
  */
 @Serializable
-public data class ListTaskPushNotificationConfigRequest(
+public data class DeleteTaskPushNotificationConfigRequest(
     @SerialName("jsonrpc")
     @EncodeDefault
     override val jsonrpc: String = "2.0",
@@ -21,14 +21,14 @@ public data class ListTaskPushNotificationConfigRequest(
     override val id: RequestId? = null,
     @SerialName("method")
     @EncodeDefault
-    override val method: String = "tasks/pushNotificationConfig/list",
+    override val method: String = "tasks/pushNotificationConfig/delete",
     @SerialName("params")
-    val params: ListTaskPushNotificationConfigParams? = null,
+    val params: DeleteTaskPushNotificationConfigParams? = null,
 ) : A2ARequest {
     init {
         require(jsonrpc == "2.0") { "jsonrpc not constant value 2.0 - $jsonrpc" }
-        require(method == "tasks/pushNotificationConfig/list") {
-            "method not constant value \"tasks/pushNotificationConfig/list\" - $method"
+        require(method == "tasks/pushNotificationConfig/delete") {
+            "method not constant value \"tasks/pushNotificationConfig/delete\" - $method"
         }
     }
 

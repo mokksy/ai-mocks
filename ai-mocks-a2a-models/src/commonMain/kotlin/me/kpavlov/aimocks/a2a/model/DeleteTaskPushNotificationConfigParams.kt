@@ -1,0 +1,19 @@
+/*
+ * DeleteTaskPushNotificationConfigParams.kt
+ */
+package me.kpavlov.aimocks.a2a.model
+
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
+
+/**
+ * https://a2a-protocol.org/latest/specification/#781-deletetaskpushnotificationconfigparams-object-taskspushnotificationconfigdelete
+ */
+@Serializable
+public data class DeleteTaskPushNotificationConfigParams(
+    @SerialName("id")
+    val id: TaskId,
+    @SerialName("metadata")
+    val metadata: Map<String, JsonElement>? = null,
+)

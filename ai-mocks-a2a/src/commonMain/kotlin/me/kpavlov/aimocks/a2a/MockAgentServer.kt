@@ -3,6 +3,8 @@ package me.kpavlov.aimocks.a2a
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.a2a.model.CancelTaskRequest
+import me.kpavlov.aimocks.a2a.model.DeleteTaskPushNotificationConfigRequest
+import me.kpavlov.aimocks.a2a.model.GetAuthenticatedExtendedCardRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskPushNotificationRequest
 import me.kpavlov.aimocks.a2a.model.GetTaskRequest
 import me.kpavlov.aimocks.a2a.model.ListTaskPushNotificationConfigRequest
@@ -389,6 +391,25 @@ public open class MockAgentServer private constructor(
         )
     }
 
+    @JvmOverloads
+    public fun deleteTaskPushNotificationConfig(
+        name: String? = null,
+    ): DeleteTaskPushNotificationConfigBuildingStep {
+        val requestStep =
+            mokksy
+                .post(name = name, requestType = DeleteTaskPushNotificationConfigRequest::class) {
+                    path("/")
+                    bodyMatchesPredicate {
+                        it?.method == "tasks/pushNotificationConfig/delete"
+                    }
+                }
+
+        return DeleteTaskPushNotificationConfigBuildingStep(
+            mokksy = mokksy,
+            buildingStep = requestStep,
+        )
+    }
+
     /**
      * Configures the behavior of the mocking server to handle
      * [Resubscribe to a Task](https://a2a-protocol.org/latest/specification/) requests.
@@ -435,6 +456,25 @@ public open class MockAgentServer private constructor(
         return TaskResubscriptionBuildingStep(
             buildingStep = requestStep,
             mokksy = mokksy,
+        )
+    }
+
+    @JvmOverloads
+    public fun getAuthenticatedExtendedCard(
+        name: String? = null,
+    ): GetAuthenticatedExtendedCardBuildingStep {
+        val requestStep =
+            mokksy
+                .post(name = name, requestType = GetAuthenticatedExtendedCardRequest::class) {
+                    path("/")
+                    bodyMatchesPredicate {
+                        it?.method == "agent/getAuthenticatedExtendedCard"
+                    }
+                }
+
+        return GetAuthenticatedExtendedCardBuildingStep(
+            mokksy = mokksy,
+            buildingStep = requestStep,
         )
     }
 

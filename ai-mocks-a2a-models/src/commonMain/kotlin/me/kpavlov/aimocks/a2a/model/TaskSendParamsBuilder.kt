@@ -89,7 +89,7 @@ public class TaskSendParamsBuilder {
         init: PushNotificationConfigBuilder.() -> Unit,
     ): TaskSendParamsBuilder =
         apply {
-            this.pushNotification = PushNotificationConfig.build(init)
+            this.pushNotification = PushNotificationConfig.create(init)
         }
 
     /**

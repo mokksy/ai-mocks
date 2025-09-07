@@ -128,15 +128,3 @@ public fun TaskPushNotificationConfig.Companion.create(
     block.accept(builder)
     return builder.build()
 }
-
-/**
- * Creates a new instance of a TaskPushNotificationConfig using the provided configuration block.
- * This is a convenience function for the companion object.
- *
- * @param block A configuration block for building a TaskPushNotificationConfig instance
- * using the TaskPushNotificationConfigBuilder.
- * @return A newly created TaskPushNotificationConfig instance.
- */
-public fun TaskPushNotificationConfig.Companion.build(
-    block: TaskPushNotificationConfigBuilder.() -> Unit,
-): TaskPushNotificationConfig = TaskPushNotificationConfigBuilder().apply(block).build()

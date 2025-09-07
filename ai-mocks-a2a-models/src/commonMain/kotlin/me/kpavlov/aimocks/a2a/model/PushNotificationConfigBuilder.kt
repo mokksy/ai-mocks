@@ -132,15 +132,3 @@ public fun PushNotificationConfig.Companion.create(
     block.accept(builder)
     return builder.build()
 }
-
-/**
- * Creates a new instance of a PushNotificationConfig using the provided configuration block.
- * This is a convenience function for the companion object.
- *
- * @param block A configuration block for building a PushNotificationConfig instance
- * using the PushNotificationConfigBuilder.
- * @return A newly created PushNotificationConfig instance.
- */
-public fun PushNotificationConfig.Companion.build(
-    block: PushNotificationConfigBuilder.() -> Unit,
-): PushNotificationConfig = PushNotificationConfigBuilder().apply(block).build()

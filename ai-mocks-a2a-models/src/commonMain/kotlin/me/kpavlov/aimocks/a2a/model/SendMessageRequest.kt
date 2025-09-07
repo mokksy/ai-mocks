@@ -24,13 +24,13 @@ import me.kpavlov.aimocks.a2a.model.serializers.RequestIdSerializer
 public data class SendMessageRequest(
     @SerialName("jsonrpc")
     @EncodeDefault
-    val jsonrpc: String = "2.0",
+    override val jsonrpc: String = "2.0",
     @SerialName("id")
     @Serializable(with = RequestIdSerializer::class)
-    val id: RequestId? = null,
+    override val id: RequestId? = null,
     @SerialName("method")
     @EncodeDefault
-    val method: String = "message/send",
+    override val method: String = "message/send",
     @SerialName("params")
     val params: MessageSendParams,
 ) : A2ARequest {

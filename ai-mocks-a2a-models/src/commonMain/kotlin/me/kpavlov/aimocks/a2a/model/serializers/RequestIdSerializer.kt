@@ -21,11 +21,9 @@ public class RequestIdSerializer : KSerializer<RequestId?> {
     override fun deserialize(decoder: Decoder): RequestId? {
         val jsonDecoder =
             decoder as? JsonDecoder ?: throw SerializationException("Expected JSON decoder")
-        val element = jsonDecoder.decodeJsonElement()
-
-        return when {
-            element is JsonNull -> null
-            element is JsonPrimitive -> {
+        return when (val element = jsonDecoder.decodeJsonElement()) {
+            is JsonNull -> null
+            is JsonPrimitive -> {
                 // Try to convert to Int first, if not possible, use as String
                 element.intOrNull ?: element.content
             }

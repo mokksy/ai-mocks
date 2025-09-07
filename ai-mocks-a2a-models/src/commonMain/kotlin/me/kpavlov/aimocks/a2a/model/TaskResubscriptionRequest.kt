@@ -20,13 +20,13 @@ import me.kpavlov.aimocks.a2a.model.serializers.RequestIdSerializer
 public data class TaskResubscriptionRequest(
     @SerialName("jsonrpc")
     @EncodeDefault
-    val jsonrpc: String = "2.0",
+    override val jsonrpc: String = "2.0",
     @SerialName("id")
     @Serializable(with = RequestIdSerializer::class)
-    var id: RequestId? = null,
+    override var id: RequestId? = null,
     @SerialName("method")
     @EncodeDefault
-    val method: String = "tasks/resubscribe",
+    override val method: String = "tasks/resubscribe",
     @SerialName("params")
     val params: TaskQueryParams,
 ) : A2ARequest {

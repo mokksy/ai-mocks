@@ -45,6 +45,7 @@ development purposes.
 
 - Use `git mv` command when renaming files to preserve git history, if possible
 - Never commit or push changes to git automatically. It should be done manually.
+- Ensure new code follows existing code style and design patterns.
 
 ### Code Style
 
@@ -74,6 +75,7 @@ development purposes.
   with infix form assertions `shouldBe` instead of `assertEquals`.
 - Use Kotest's `withClue("<failure reason>")` to describe failure reasons, but only when the assertion is NOT obvious.
   Remove obvious cases for simplicity.
+- If multiple assertions are maid against nullable field, first check for null, e.g.: `params shoulNotBeNull { params.id shouldBe 1 }`
 - Use `assertSoftly(subject) { ... }` to perform multiple assertions. Never use `assertSoftly { }` to verify properties
   of
   different subjects, or when there is only one assertion per subject. Avoid using `assertSoftly(this) { ... }`
