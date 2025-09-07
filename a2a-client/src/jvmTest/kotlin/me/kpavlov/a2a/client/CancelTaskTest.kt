@@ -11,7 +11,7 @@ import kotlin.test.Test
 
 internal class CancelTaskTest : AbstractTest() {
     /**
-     * https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task
+     * https://a2a-protocol.org/latest/specification/#74-taskscancel
      */
     @Test
     fun `Should cancel task`() =

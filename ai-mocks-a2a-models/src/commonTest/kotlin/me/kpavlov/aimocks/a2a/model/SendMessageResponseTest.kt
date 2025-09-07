@@ -4,7 +4,7 @@ import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 /**
- * https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task
+ * https://a2a-protocol.org/latest/specification/#71-messagesend
  */
 internal class SendMessageResponseTest : AbstractSerializationTest() {
     @Test

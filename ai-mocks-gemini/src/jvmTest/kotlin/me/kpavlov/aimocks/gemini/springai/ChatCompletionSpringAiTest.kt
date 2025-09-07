@@ -10,12 +10,13 @@ import kotlin.time.Duration.Companion.milliseconds
 internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
     @Test
     fun `Should respond to generateContent`() {
+        val systemMessage = "You are a helpful pirate. $seedValue"
         gemini.generateContent {
             temperature = temperatureValue
             model = modelName
             project = projectId
             location = locationId
-            systemMessageContains("You are a helpful pirate")
+            systemMessageContains(systemMessage)
             userMessageContains("Just say 'Hello!'")
         } responds {
             content = "Ahoy there, matey! Hello!"

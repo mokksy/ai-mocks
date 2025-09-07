@@ -5,7 +5,7 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import kotlinx.serialization.json.Json
 
 /**
- * https://github.com/google/A2A/blob/gh-pages/documentation.md#sample-methods-and-json-responses
+ * https://a2a-protocol.org/latest/specification/
  */
 internal abstract class AbstractSerializationTest {
     protected inline fun <reified T : Any> deserializeAndSerialize(payload: String): T {

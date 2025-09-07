@@ -8,9 +8,9 @@ import me.kpavlov.aimocks.a2a.model.Task
 import me.kpavlov.aimocks.a2a.model.create
 import kotlin.test.Test
 
-internal class SendTaskTest : AbstractTest() {
+internal class SendMessageTest : AbstractTest() {
     /**
-     * https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task
+     * https://a2a-protocol.org/latest/specification/#71-messagesend
      */
     @Test
     @Suppress("LongMethod")
@@ -38,7 +38,7 @@ internal class SendTaskTest : AbstractTest() {
                     result = task,
                 )
 
-            a2aServer.sendTask() responds {
+            a2aServer.sendMessage() responds {
                 id = 1
                 result = task
             }

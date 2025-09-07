@@ -33,7 +33,7 @@ development purposes.
 
 - `ai-mocks-a2a-client`: Agent2Agent (A2A) client. Used for testing
 - `ai-mocks-a2a`: Agent2Agent (A2A) protocol mocks
-- `ai-mocks-a2a-models`: Agent2Agent (A2A) protocol models
+- `ai-mocks-a2a-models`: Agent2Agent (A2A) protocol models. Copy of [A2A specification](ai-mocks-a2a-models/a2a-specification-0.3.0.md)
 - `ai-mocks-core`: Core functionality shared across AI-Mocks implementations
 - `ai-mocks-openai`: OpenAI API mock implementation
 - `ai-mocks-anthropic`: Anthropic API mock implementation

@@ -36,9 +36,11 @@ class MockGeminiJavaTest {
 
     private double temperature;
     private long maxTokens;
+    private int seed;
 
     @BeforeEach
     void beforeEach() {
+        seed = RANDOM.nextInt(1000);
         temperature = RANDOM.nextDouble(0.0, 1.0);
         maxTokens = RANDOM.nextLong(100, 500);
     }
@@ -46,6 +48,7 @@ class MockGeminiJavaTest {
     @Test
     void shouldRespondToChatCompletion() {
         final var modelName = "gemini-x";
+        final var userPrompt = "Hello, " + seed;
         MOCK_GEMINI.generateContent(req -> {
             req.project(projectId);
             req.location(locationId);
@@ -53,10 +56,10 @@ class MockGeminiJavaTest {
             req.betaApi();
             req.temperature(temperature);
             req.maxOutputTokens(maxTokens);
-            req.userMessageContains("Hello");
+            req.userMessageContains(userPrompt);
             req.requestMatchesPredicate(it -> it.getContents().size() == 1);
         }).responds(response -> {
-            response.assistantContent("Hey!");
+            response.assistantContent("Hey, " + seed + "!");
             response.finishReason("stop");
             response.delayMillis(42);
         });
@@ -72,10 +75,10 @@ class MockGeminiJavaTest {
 
         final var result = CLIENT.models.generateContent(
             modelName,
-            "Hello",
+            userPrompt,
             params
         );
 
-        assertThat(result.text()).isEqualTo("Hey!");
+        assertThat(result.text()).isEqualTo("Hey, " + seed + "!");
     }
 }

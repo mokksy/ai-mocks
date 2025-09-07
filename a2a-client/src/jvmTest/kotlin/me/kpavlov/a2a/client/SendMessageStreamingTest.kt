@@ -21,9 +21,9 @@ import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
-internal class SendTaskStreamingTest : AbstractTest() {
+internal class SendMessageStreamingTest : AbstractTest() {
     /**
-     * https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task
+     * https://a2a-protocol.org/latest/specification/#72-messagestream
      */
     @OptIn(InternalAPI::class)
     @Test

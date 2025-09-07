@@ -21,11 +21,11 @@ import kotlin.test.Test
 
 internal class SendMessageTest : AbstractTest() {
     /**
-     * https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task
+     * https://a2a-protocol.org/latest/specification/#71-messagesend
      */
     @Test
     @Suppress("LongMethod")
-    fun `Should send task`() =
+    fun `Should send message`() =
         runTest {
             val task =
                 Task.create {
@@ -57,7 +57,7 @@ internal class SendMessageTest : AbstractTest() {
                     }
                 }
 
-            a2aServer.sendTask() responds {
+            a2aServer.sendMessage() responds {
                 id = 1
                 result = task
             }
@@ -90,9 +90,9 @@ internal class SendMessageTest : AbstractTest() {
         }
 
     @Test
-    fun `Should fail to send task`() =
+    fun `Should fail to send message`() =
         runTest {
-            a2aServer.sendTask() responds {
+            a2aServer.sendMessage() responds {
                 id = 1
                 error =
                     invalidRequestError {

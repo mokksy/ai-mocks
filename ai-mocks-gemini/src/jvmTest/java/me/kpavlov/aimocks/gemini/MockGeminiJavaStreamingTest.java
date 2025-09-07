@@ -73,6 +73,7 @@ class MockGeminiJavaStreamingTest {
     @Test
     void shouldRespondWithStreamToGenerateContentStream() {
         // Configure the mock server to respond with a stream
+        final var systemMessage = "You are a helpful pirate." + seedValue;
         MOCK.generateContentStream(req -> {
             req.temperature(temperatureValue);
             req.apiVersion("v1beta1");
@@ -81,7 +82,7 @@ class MockGeminiJavaStreamingTest {
             req.model(modelName);
             req.project(PROJECT_ID);
             req.seed(seedValue);
-            req.systemMessageContains("You are a helpful pirate");
+            req.systemMessageContains(systemMessage);
             req.topK(topKValue);
             req.topP(topPValue);
             req.userMessageContains("Just say 'Hello!'");
@@ -93,7 +94,7 @@ class MockGeminiJavaStreamingTest {
         });
 
         // Create request configuration
-        GenerateContentConfig config = generateContentConfig("You are a helpful pirate");
+        GenerateContentConfig config = generateContentConfig(systemMessage);
 
         // Call the streaming API
         try (
