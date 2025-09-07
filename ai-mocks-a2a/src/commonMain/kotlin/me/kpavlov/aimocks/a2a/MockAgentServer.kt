@@ -125,7 +125,9 @@ public open class MockAgentServer private constructor(
      *         for agent card requests using `AgentCardResponseSpecification`.
      * @see [A2A Protocol - Agent Card](https://a2a-protocol.org/latest/specification/)
      */
-    public fun agentCard(name: String? = null): AbstractBuildingStep<Nothing, AgentCardResponseSpecification> {
+    public fun agentCard(
+        name: String? = null,
+    ): AbstractBuildingStep<Nothing, AgentCardResponseSpecification> {
         val requestStep =
             mokksy.get(
                 name = name,
@@ -171,7 +173,7 @@ public open class MockAgentServer private constructor(
      * )
      *
      * // Configure the mock server to respond with the task
-     * a2aServer.sendTask() responds {
+     * a2aServer.sendMessage() responds {
      *     id = 1
      *     result = task
      * }
@@ -181,7 +183,7 @@ public open class MockAgentServer private constructor(
      * @see [A2A Protocol - Send a Message](https://a2a-protocol.org/latest/specification/)
      */
     @JvmOverloads
-    public fun sendTask(name: String? = null): SendMessageBuildingStep {
+    public fun sendMessage(name: String? = null): SendMessageBuildingStep {
         val requestStep =
             mokksy
                 .post(name = name, requestType = SendMessageRequest::class) {
@@ -196,48 +198,6 @@ public open class MockAgentServer private constructor(
             mokksy = mokksy,
         )
     }
-
-    /**
-     * Configures the behavior of the mocking server
-     * to handle [message/send](https://a2a-protocol.org/latest/specification/) requests.
-     *
-     * This method simulates the behavior of the A2A protocol's message/send endpoint,
-     * which is the primary method for agent-to-agent communication.
-     * It allows defining how the server should respond to a "send message" JSON-RPC request by chaining
-     * a response configuration using the `responds` method of the returned `SendTaskBuildingStep`.
-     *
-     * Example usage:
-     * ```kotlin
-     * // Create a Task object
-     * val task = Task(
-     *     id = "tid_12345",
-     *     sessionId = null,
-     *     status = TaskStatus(state = "completed"),
-     *     artifacts = listOf(
-     *         Artifact(
-     *             name = "joke",
-     *             parts = listOf(
-     *                 TextPart(
-     *                     text = "This is a joke",
-     *                 ),
-     *             ),
-     *         ),
-     *     ),
-     * )
-     *
-     * // Configure the mock server to respond with the task
-     * a2aServer.sendMessage() responds {
-     *     id = 1
-     *     result = task
-     * }
-     * ```
-     *
-     * @param name An optional identifier for the configured request.
-     * @return An instance of `SendTaskBuildingStep` to define the response behavior for message/send requests.
-     * @see [A2A Protocol - Send a Message](https://a2a-protocol.org/latest/specification/)
-     */
-    @JvmOverloads
-    public fun sendMessage(name: String? = null): SendMessageBuildingStep = sendTask(name)
 
     @JvmOverloads
     public fun cancelTask(name: String? = null): CancelTaskBuildingStep {
@@ -313,11 +273,13 @@ public open class MockAgentServer private constructor(
      * ```
      *
      * @param name An optional identifier for the configured request.
-     * @return An instance of `SendTaskStreamingBuildingStep` to define the response behavior for message/stream requests.
+     * @return An instance of `SendTaskStreamingBuildingStep` to define the response behavior
+     * for message/stream requests.
      * @see [A2A Protocol - Streaming Messages](https://a2a-protocol.org/latest/specification/)
      */
     @JvmOverloads
-    public fun sendStreamingMessage(name: String? = null): SendStreamingMessageBuildingStep = sendMessageStreaming(name)
+    public fun sendStreamingMessage(name: String? = null): SendStreamingMessageBuildingStep =
+        sendMessageStreaming(name)
 
     /**
      * Configures the behavior of the mocking server to handle
@@ -456,7 +418,8 @@ public open class MockAgentServer private constructor(
         )
     }
 
-    public fun getTaskNotifications(taskId: TaskId): TaskNotificationHistory = notificationListener.getByTaskId(taskId)
+    public fun getTaskNotifications(taskId: TaskId): TaskNotificationHistory =
+        notificationListener.getByTaskId(taskId)
 
     @JvmOverloads
     public suspend fun sendPushNotification(
