@@ -23,6 +23,7 @@ kotlin {
                 api(libs.ktor.server.content.negotiation)
                 api(project(":ai-mocks-a2a-models"))
                 api(project(":ai-mocks-core"))
+                api(project.dependencies.platform(libs.ktor.bom))
                 implementation(libs.ktor.server.sse)
             }
         }

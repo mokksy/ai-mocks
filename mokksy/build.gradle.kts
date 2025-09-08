@@ -20,11 +20,11 @@ kotlin {
             dependencies {
                 api(libs.kotest.assertions.core)
                 api(libs.kotest.assertions.json)
-                api(libs.ktor.server.core)
-                implementation(libs.ktor.server.double.receive)
                 api(libs.ktor.server.content.negotiation)
-                implementation(project.dependencies.platform(libs.ktor.bom))
+                api(libs.ktor.server.core)
+                api(project.dependencies.platform(libs.ktor.bom))
                 implementation(libs.ktor.serialization.kotlinx.json)
+                implementation(libs.ktor.server.double.receive)
                 implementation(libs.ktor.server.sse)
             }
         }
@@ -45,7 +45,7 @@ kotlin {
 
         jvmMain {
             dependencies {
-                api(project.dependencies.platform(libs.netty.bom))
+                implementation(project.dependencies.platform(libs.netty.bom))
                 implementation(libs.jansi)
                 implementation(libs.ktor.server.call.logging)
                 implementation(libs.ktor.server.netty)
