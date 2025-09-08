@@ -107,6 +107,8 @@ public class OllamaChatBuildingStep(
                 error("Either responseChunks or responseFlow must be defined")
             }
             val request = this.request.body
+            delayBetweenChunks = responseSpec.delayBetweenChunks
+            delay = responseSpec.delay
             flow =
                 prepareFlow(
                     model = request.model,
@@ -116,7 +118,8 @@ public class OllamaChatBuildingStep(
     }
 
     /**
-     * Constructs a flow of JSON-encoded chat response chunks for streaming, including initial, content, and final chunks.
+     * Constructs a flow of JSON-encoded chat response chunks for streaming,
+     * including initial, content, and final chunks.
      *
      * The resulting flow emits:
      *  - An initial empty chunk with `done = false`.
@@ -163,7 +166,7 @@ public class OllamaChatBuildingStep(
                     done = true,
                 ),
             )
-        }.map { chunk -> Json.encodeToString(chunk) + "\n\n" }
+        }.map { chunk -> Json.encodeToString(chunk) + "\r\n" }
     }
 
     /**

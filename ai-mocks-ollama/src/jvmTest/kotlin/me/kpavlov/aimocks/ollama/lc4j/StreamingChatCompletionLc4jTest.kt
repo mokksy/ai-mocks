@@ -1,5 +1,7 @@
 package me.kpavlov.aimocks.ollama.lc4j
 
+import assertk.assertThat
+import assertk.assertions.isGreaterThanOrEqualTo
 import dev.langchain4j.data.message.UserMessage.userMessage
 import dev.langchain4j.kotlin.model.chat.StreamingChatModelReply
 import dev.langchain4j.kotlin.model.chat.chatFlow
@@ -13,15 +15,17 @@ import me.kpavlov.aimocks.ollama.mockOllama
 import kotlin.test.Test
 import kotlin.test.fail
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.measureTime
 
 internal class StreamingChatCompletionLc4jTest : AbstractMockOllamaTest() {
     private val model by lazy {
         OllamaStreamingChatModel
             .builder()
-            .customHeaders(mapOf(
-                "Content-Type" to "application/json", // add lost header
-            ))
-            .baseUrl(mockOllama.baseUrl())
+            .customHeaders(
+                mapOf(
+                    "Content-Type" to "application/json", // add lost header
+                ),
+            ).baseUrl(mockOllama.baseUrl())
             .modelName(modelName)
             .temperature(temperatureValue)
             .logRequests(true)
@@ -37,6 +41,10 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOllamaTest() {
         runTest {
             // Configure mock response
             val expectedResponse = "Hello, how can I help you today?"
+
+            val delayBetweenChunks = 100.milliseconds
+            val initialDelay = 500.milliseconds
+
             mockOllama.chat {
                 model = modelName
                 seed = seedValue
@@ -51,31 +59,39 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOllamaTest() {
                         .splitToSequence(" ")
                         .asFlow()
                         .map { "$it " }
-                delay = 42.milliseconds
+                this.delay = initialDelay
+                this.delayBetweenChunks = delayBetweenChunks
             }
 
             // Use langchain4j Ollama client to send a request
             val tokens = mutableListOf<String>()
-            model
-                .chatFlow {
-                    messages += userMessage("Hello")
-                }.collect { reply ->
-                    when (reply) {
-                        is StreamingChatModelReply.PartialResponse -> {
-                            tokens += reply.partialResponse
-                        }
+            val executionTime =
+                measureTime {
+                    model
+                        .chatFlow {
+                            messages += userMessage("Hello")
+                        }.collect { reply ->
+                            when (reply) {
+                                is StreamingChatModelReply.PartialResponse -> {
+                                    tokens += reply.partialResponse
+                                }
 
-                        is StreamingChatModelReply.CompleteResponse -> {
-                            reply.response.modelName() shouldBe modelName
-                        }
+                                is StreamingChatModelReply.CompleteResponse -> {
+                                    reply.response.modelName() shouldBe modelName
+                                }
 
-                        is StreamingChatModelReply.Error -> {
-                            fail("Error: $reply", reply.cause)
+                                is StreamingChatModelReply.Error -> {
+                                    fail("Error: $reply", reply.cause)
+                                }
+                            }
                         }
-                    }
+                    tokens
+                        .joinToString("")
+                        .removeSuffix(" ") shouldBe expectedResponse
                 }
-            tokens
-                .joinToString("")
-                .removeSuffix(" ") shouldBe expectedResponse
+
+            assertThat(executionTime).isGreaterThanOrEqualTo(
+                initialDelay + delayBetweenChunks * tokens.size,
+            )
         }
 }
