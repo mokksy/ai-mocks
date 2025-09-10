@@ -47,6 +47,7 @@ public data class MessageSendParams
              * @param init The lambda to configure the message send params.
              * @return A new MessageSendParams instance.
              */
+            @JvmStatic
             public fun build(init: MessageSendParamsBuilder.() -> Unit): MessageSendParams =
                 MessageSendParamsBuilder().apply(init).build()
 
@@ -56,6 +57,7 @@ public data class MessageSendParams
              * @param block A configuration block for building a MessageSendParams instance using the MessageSendParamsBuilder.
              * @return A newly created MessageSendParams instance.
              */
+            @JvmStatic
             public fun create(block: MessageSendParamsBuilder.() -> Unit): MessageSendParams =
                 MessageSendParamsBuilder().apply(block).build()
         }

@@ -46,8 +46,15 @@ val a2aServer = MockAgentServer(verbose = true)
 
 ## HTTP Client Setup
 
-You may use any HTTP client that supports Server-Sent Events (SSE) to make requests to the mock server. Here's how to
-create a Ktor client for A2A:
+You may use any HTTP client that supports Server-Sent Events (SSE) to make requests to the mock server. The AI-Mocks A2A
+library provides a convenient function to create a Ktor client configured for A2A:
+
+```kotlin
+// Create a Ktor client configured for A2A
+val a2aClient = createA2AClient(url = a2aServer.baseUrl())
+```
+
+Alternatively, you can create the client manually:
 
 ```kotlin
 // Create a Ktor client configured for A2A
@@ -82,15 +89,9 @@ val agentCard = AgentCard.create {
     url = a2aServer.baseUrl()
     documentationUrl = "https://example.com/documentation"
     version = "0.0.1"
-    signatures = listOf("sig1", "sig2")
-    supportsAuthenticatedExtendedCard = true
     provider {
         organization = "Acme, Inc."
         url = "https://example.com/organization"
-    }
-    authentication {
-        schemes = listOf("none", "bearer")
-        credentials = "test-token"
     }
     capabilities {
         streaming = true
@@ -100,10 +101,14 @@ val agentCard = AgentCard.create {
     skills += skill {
         id = "walk"
         name = "Walk the walk"
+      description = "I can walk"
+      tags = listOf("move")
     }
     skills += skill {
         id = "talk"
         name = "Talk the talk"
+      description = "I can talk"
+      tags = listOf("communicate")
     }
 }
 
@@ -144,6 +149,7 @@ a2aServer.getTask() responds {
         status {
             state = "completed"
         }
+      contextId = "ctx_12345"
         artifacts += artifact {
             name = "joke"
             parts += textPart {
@@ -200,11 +206,12 @@ Mock Server configuration:
 ```kotlin
 // Create a Task object
 val task = Task.create {
-  id("tid_12345")
+  id = "tid_12345"
+  contextId = "ctx_12345"
   status {
-    state("completed")
+    state = "completed"
   }
-  artifacts += artifact {
+  artifact {
     name = "joke"
     parts += text { "This is a joke" }
     parts += file { uri = "https://example.com/readme.md" }
@@ -227,7 +234,6 @@ Client call example:
 val jsonRpcRequest = sendMessageRequest {
     id = "1"
     params {
-        id = UUID.randomUUID().toString()
         message {
             role = Message.Role.user
             parts += text { "Tell me a joke" }
@@ -269,7 +275,7 @@ a2aServer.sendMessageStreaming() responds {
           id = taskId
           status {
             state = "working"
-            timestamp = System.now()
+            timestamp = Clock.System.now()
           }
         }
       )
@@ -282,7 +288,7 @@ a2aServer.sendMessageStreaming() responds {
               text = "This"
             }
           }
-        },
+        }
       )
       emit(
         taskArtifactUpdateEvent {
@@ -294,7 +300,7 @@ a2aServer.sendMessageStreaming() responds {
             }
             append = true
           }
-        },
+        }
       )
       emit(
         taskArtifactUpdateEvent {
@@ -306,7 +312,7 @@ a2aServer.sendMessageStreaming() responds {
             }
             append = true
           }
-        },
+        }
       )
       emit(
         taskArtifactUpdateEvent {
@@ -319,14 +325,14 @@ a2aServer.sendMessageStreaming() responds {
             append = true
             lastChunk = true
           }
-        },
+        }
       )
       emit(
         taskStatusUpdateEvent {
           id = taskId
           status {
             state = "completed"
-            timestamp = System.now()
+            timestamp = Clock.System.now()
           }
           final = true
         }
@@ -410,6 +416,7 @@ a2aServer.cancelTask() responds {
         id = "tid_12345"
         sessionId = UUID.randomUUID().toString()
         status = TaskStatus(state = "canceled")
+      contextId = UUID.randomUUID().toString()
     }
 }
 ```
@@ -438,7 +445,7 @@ val body = response.body<String>()
 val payload = Json.decodeFromString<CancelTaskResponse>(body)
 ```
 
-## Set Task Push Notification Endpoint
+## Set Task Push Notification Config Endpoint
 
 The [Set Task Push Notification endpoint](https://a2a-protocol.org/latest/specification/#75-taskspushnotificationconfigset) allows clients to configure push notifications for a task. Clients may configure a push notification URL for receiving updates on Task status changes. This is particularly useful for long-running tasks where the client may not want to maintain an open connection.
 
@@ -511,7 +518,7 @@ val body = response.body<String>()
 val payload = Json.decodeFromString<SetTaskPushNotificationResponse>(body)
 ```
 
-## Get Task Push Notification Endpoint
+## Get Task Push Notification Config Endpoint
 
 The [Get Task Push Notification endpoint](https://a2a-protocol.org/latest/specification/#76-taskspushnotificationconfigget) allows clients to retrieve the push notification configuration for a specific task. Clients may retrieve the currently configured push notification configuration for a Task using this method, which is useful for verifying or displaying the current notification settings.
 
@@ -562,6 +569,101 @@ val body = response.body<String>()
 val payload = Json.decodeFromString<GetTaskPushNotificationResponse>(body)
 ```
 
+## List Task Push Notification Config Endpoint
+
+The [List Task Push Notification Config endpoint](https://a2a-protocol.org/latest/specification/#77-taskspushnotificationconfiglist)
+allows clients to list configured push notification destinations. This can be useful to inspect or manage existing
+configurations.
+
+Mock Server configuration:
+
+```kotlin
+// Configure the mock server to respond with a list of push notification configs
+val taskId: TaskId = "task_12345"
+
+a2aServer.listTaskPushNotificationConfig() responds {
+  id = 1
+  result = listOf(
+    TaskPushNotificationConfig.create {
+      id = taskId
+      pushNotificationConfig {
+        url = "https://example.com/callback"
+        token = "abc.def.jk"
+        authentication {
+          schemes += "Bearer"
+        }
+      }
+    }
+  )
+}
+```
+
+Client call example:
+
+```kotlin
+// Build a ListTaskPushNotificationConfigRequest
+val jsonRpcRequest = ListTaskPushNotificationConfigRequest(
+  id = "1",
+  params = ListTaskPushNotificationConfigParams.create {
+    limit(10)
+    offset(0)
+  },
+)
+
+// Make a POST request to the List Task Push Notification Config endpoint
+val response = a2aClient
+  .post("/") {
+    contentType(ContentType.Application.Json)
+    setBody(Json.encodeToString(jsonRpcRequest))
+  }.call
+  .response
+
+// Parse the response
+val body = response.body<String>()
+val payload = Json.decodeFromString<ListTaskPushNotificationConfigResponse>(body)
+```
+
+## Delete Task Push Notification Config Endpoint
+
+The [Delete Task Push Notification Config endpoint](https://a2a-protocol.org/latest/specification/#78-taskspushnotificationconfigdelete)
+allows clients to delete the configured push notification destination for a task.
+
+Mock Server configuration:
+
+```kotlin
+// Configure the mock server to respond to delete push notification config
+val taskId: TaskId = "task_12345"
+
+a2aServer.deleteTaskPushNotificationConfig() responds {
+  id = 1
+  // success without error
+}
+```
+
+Client call example:
+
+```kotlin
+// Build a DeleteTaskPushNotificationConfigRequest
+val jsonRpcRequest = DeleteTaskPushNotificationConfigRequest(
+  id = "1",
+  params = deleteTaskPushNotificationConfigParams {
+    id(taskId)
+  },
+)
+
+// Make a POST request to the Delete Task Push Notification Config endpoint
+val response = a2aClient
+  .post("/") {
+    contentType(ContentType.Application.Json)
+    setBody(Json.encodeToString(jsonRpcRequest))
+  }.call
+  .response
+
+// Parse the response
+val body = response.body<String>()
+val payload = Json.decodeFromString<DeleteTaskPushNotificationConfigResponse>(body)
+```
+
 ## Task Resubscription Endpoint
 
 The [Task Resubscription endpoint](https://a2a-protocol.org/latest/specification/#79-tasksresubscribe) allows clients to resubscribe to streaming updates for a task that was previously created. This is useful when a client loses connection and needs to resume receiving updates for an ongoing task. A disconnected client may resubscribe to a remote agent that supports streaming to receive Task updates via Server-Sent Events (SSE).
@@ -580,7 +682,7 @@ a2aServer.taskResubscription() responds {
                 id = taskId
                 status {
                     state = "working"
-                    timestamp = System.now()
+                  timestamp = Clock.System.now()
                 }
             }
         )
@@ -601,7 +703,7 @@ a2aServer.taskResubscription() responds {
                 id = taskId
                 status {
                     state = "completed"
-                    timestamp = System.now()
+                  timestamp = Clock.System.now()
                 }
                 final = true
             }
@@ -695,7 +797,7 @@ val taskUpdateEvent = taskArtifactUpdateEvent {
         lastChunk = true
     }
 }
-a2aServer.sendPushNotification(event=taskUpdateEvent)
+a2aServer.sendPushNotification(event = taskUpdateEvent)
 ```
 
 ### Verifying Notifications

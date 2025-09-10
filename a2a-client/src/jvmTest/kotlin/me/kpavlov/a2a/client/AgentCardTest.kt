@@ -22,10 +22,6 @@ internal class AgentCardTest : AbstractTest() {
                         organization = "Acme, Inc."
                         url = "https://example.com/organization"
                     }
-                    authentication {
-                        schemes = listOf("none", "bearer")
-                        credentials = "test-token"
-                    }
                     capabilities {
                         streaming = true
                         pushNotifications = true
@@ -35,11 +31,15 @@ internal class AgentCardTest : AbstractTest() {
                         skill {
                             id = "walk"
                             name = "Walk the walk"
+                            description = "Can Walk"
+                            tags = listOf("movement")
                         }
                     skills +=
                         skill {
                             id = "talk"
                             name = "Talk the talk"
+                            description = "Can Talk"
+                            tags = listOf("communication")
                         }
                 }
 

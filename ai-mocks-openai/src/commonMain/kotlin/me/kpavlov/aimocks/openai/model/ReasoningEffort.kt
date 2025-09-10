@@ -52,11 +52,13 @@ public enum class ReasoningEffort(
         /**
          * Converts the provided [data] to a [String] on success, null otherwise.
          */
+        @JvmStatic
         public fun encode(data: kotlin.Any?): kotlin.String? = if (data is ReasoningEffort) "$data" else null
 
         /**
          * Returns a valid [ReasoningEffort] for [data], null otherwise.
          */
+        @JvmStatic
         public fun decode(data: kotlin.Any?): ReasoningEffort? =
             data?.let {
                 val normalizedData = "$it".lowercase()

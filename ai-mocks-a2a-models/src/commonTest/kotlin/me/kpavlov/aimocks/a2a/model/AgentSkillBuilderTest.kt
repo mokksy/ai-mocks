@@ -13,14 +13,16 @@ internal class AgentSkillBuilderTest {
             AgentSkill.create {
                 id = "skill-123"
                 name = "Example Skill"
+                description = "Some skill description"
+                tags = listOf("Tag1", "Tag2")
             }
 
         // then
         assertSoftly(skill) {
             id shouldBe "skill-123"
             name shouldBe "Example Skill"
-            description shouldBe null
-            tags shouldBe null
+            description shouldBe "Some skill description"
+            tags shouldBe listOf("Tag1", "Tag2")
             examples shouldBe null
             inputModes shouldBe null
             outputModes shouldBe null

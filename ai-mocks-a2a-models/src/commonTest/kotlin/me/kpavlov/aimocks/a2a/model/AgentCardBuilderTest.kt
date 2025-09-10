@@ -28,7 +28,6 @@ internal class AgentCardBuilderTest {
             description shouldBe null
             provider shouldBe null
             documentationUrl shouldBe null
-            authentication shouldBe null
             defaultInputModes shouldBe listOf("text")
             defaultOutputModes shouldBe listOf("text")
             skills shouldBe emptyList()
@@ -55,10 +54,6 @@ internal class AgentCardBuilderTest {
                         pushNotifications = true
                         stateTransitionHistory = true
                     }
-                    authentication {
-                        schemes = listOf("oauth2")
-                        credentials = "some-credentials"
-                    }
                     defaultInputModes = listOf("text", "image")
                     defaultOutputModes = listOf("text", "audio")
                     skills +=
@@ -66,6 +61,7 @@ internal class AgentCardBuilderTest {
                             id = "skill-123"
                             name = "Test Skill"
                             description = "A test skill"
+                            tags = listOf("test-tag")
                         }
                 }.build()
 
@@ -82,9 +78,6 @@ internal class AgentCardBuilderTest {
             capabilities.streaming shouldBe true
             capabilities.pushNotifications shouldBe true
             capabilities.stateTransitionHistory shouldBe true
-            authentication shouldNotBe null
-            authentication?.schemes shouldBe listOf("oauth2")
-            authentication?.credentials shouldBe "some-credentials"
             defaultInputModes shouldBe listOf("text", "image")
             defaultOutputModes shouldBe listOf("text", "audio")
             skills.size shouldBe 1

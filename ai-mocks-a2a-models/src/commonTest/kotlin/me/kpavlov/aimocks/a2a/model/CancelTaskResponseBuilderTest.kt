@@ -12,6 +12,7 @@ internal class CancelTaskResponseBuilderTest {
                 id = "request-123"
                 result {
                     id = "task-123"
+                    contextId = "ctx-123"
                     status {
                         state = "canceled"
                     }
@@ -24,7 +25,7 @@ internal class CancelTaskResponseBuilderTest {
             Task(
                 id = "task-123",
                 status = TaskStatus(state = "canceled"),
-                artifacts = emptyList(),
+                contextId = "ctx-123",
             )
         response.error shouldBe null
         response.jsonrpc shouldBe "2.0"
@@ -58,6 +59,7 @@ internal class CancelTaskResponseBuilderTest {
             Task(
                 id = "task-123",
                 status = TaskStatus(state = "canceled"),
+                contextId = "ctx-123",
             )
         val error =
             JSONRPCError(
@@ -86,6 +88,7 @@ internal class CancelTaskResponseBuilderTest {
                 id = "request-123"
                 result {
                     id = "task-123"
+                    contextId = "ctx-123"
                     status {
                         state = "canceled"
                     }
@@ -98,7 +101,7 @@ internal class CancelTaskResponseBuilderTest {
             Task(
                 id = "task-123",
                 status = TaskStatus(state = "canceled"),
-                artifacts = emptyList(),
+                contextId = "ctx-123",
             )
         response.error shouldBe null
         response.jsonrpc shouldBe "2.0"
@@ -112,6 +115,7 @@ internal class CancelTaskResponseBuilderTest {
                 id = "request-123"
                 result {
                     id = "task-123"
+                    contextId = "ctx-123"
                     status {
                         state = "canceled"
                     }
@@ -124,7 +128,7 @@ internal class CancelTaskResponseBuilderTest {
             Task(
                 id = "task-123",
                 status = TaskStatus(state = "canceled"),
-                artifacts = emptyList(),
+                contextId = "ctx-123",
             )
         response.error shouldBe null
         response.jsonrpc shouldBe "2.0"

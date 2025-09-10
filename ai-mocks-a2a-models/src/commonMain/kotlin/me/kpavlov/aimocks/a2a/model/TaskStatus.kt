@@ -12,49 +12,62 @@
 package me.kpavlov.aimocks.a2a.model
 
 import kotlinx.datetime.Instant
-import kotlinx.datetime.toKotlinInstant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Represents the status of a task at a specific point in time.
+ */
 @Serializable
 public data class TaskStatus
-    @JvmOverloads
-    constructor(
-        @SerialName("state")
-        val state: String,
-        @SerialName("message")
-        val message: Message? = null,
-        @SerialName("timestamp")
-        val timestamp: Instant? = null,
-    ) {
-        public constructor(
+@JvmOverloads
+constructor(
+    /**
+     * The current state of the task's lifecycle.
+     *
+     * @see [TaskState]
+     */
+    @SerialName("state")
+    val state: String,
+
+    /**
+     * An optional, human-readable message providing more details about the current status.
+     */
+    @SerialName("message")
+    val message: Message? = null,
+
+    /**
+     * An ISO 8601 datetime string indicating when this status was recorded.
+     *
+     * @sample "2023-10-27T10:00:00Z"
+     */
+    @SerialName("timestamp")
+    val timestamp: Instant? = null,
+) {
+    public companion object {
+
+        /**
+         * Creates a new TaskStatus using the DSL builder.
+         *
+         * @param init The lambda to configure the task status.
+         * @return A new TaskStatus instance.
+         */
+        @JvmStatic
+        public fun build(init: TaskStatusBuilder.() -> Unit): TaskStatus =
+            TaskStatusBuilder().apply(init).build()
+
+        @JvmStatic
+        public fun of(
             state: String,
-            timestamp: java.time.Instant,
-        ) : this(state = state, message = null, timestamp = timestamp.toKotlinInstant())
-
-        init {
-            require(state in cg_array0) { "state not in enumerated values - $state" }
-        }
-
-        public companion object {
-            private val cg_array0 =
-                setOf(
-                    "submitted",
-                    "working",
-                    "input-required",
-                    "completed",
-                    "canceled",
-                    "failed",
-                    "unknown",
-                )
-
-            /**
-             * Creates a new TaskStatus using the DSL builder.
-             *
-             * @param init The lambda to configure the task status.
-             * @return A new TaskStatus instance.
-             */
-            public fun build(init: TaskStatusBuilder.() -> Unit): TaskStatus =
-                TaskStatusBuilder().apply(init).build()
+            message: Message? = null,
+            timestamp: java.time.Instant? = null,
+        ): TaskStatus {
+            return TaskStatus(
+                state,
+                message,
+                timestamp?.toEpochMilli()
+                    ?.let { Instant.fromEpochMilliseconds(it) }
+            )
         }
     }
+}

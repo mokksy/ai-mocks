@@ -67,7 +67,7 @@ tasks.withType<Test>().configureEach {
     forkEvery = 100
     testLogging {
         showStandardStreams = true
-        events("passed", "skipped", "failed")
+        events("failed")
     }
     systemProperty("kotest.output.ansi", "true")
     reports {

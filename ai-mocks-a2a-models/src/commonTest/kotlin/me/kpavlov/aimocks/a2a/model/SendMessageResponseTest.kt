@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.a2a.model
 
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
@@ -17,7 +18,7 @@ internal class SendMessageResponseTest : AbstractSerializationTest() {
               "id": 1,
               "result": {
                 "id": "de38c76d-d54c-436c-8b9f-4c2703648d64",
-                "sessionId": "c295ea44-7543-4f78-b524-7a38915ad6e4",
+                "contextId": "c295ea44-7543-4f78-b524-7a38915ad6e4",
                 "status": {
                   "state": "completed"
                 },
@@ -37,26 +38,25 @@ internal class SendMessageResponseTest : AbstractSerializationTest() {
 
         val model = deserializeAndSerialize<SendMessageResponse>(payload)
         model.id shouldBe 1
-        model.result?.id shouldBe "de38c76d-d54c-436c-8b9f-4c2703648d64"
-        model.result?.sessionId shouldBe "c295ea44-7543-4f78-b524-7a38915ad6e4"
-        model.result?.status?.state shouldBe "completed"
-        model.result?.artifacts?.size shouldBe 1
-        model.result
-            ?.artifacts
-            ?.get(0)
-            ?.name shouldBe "joke"
-        model.result
-            ?.artifacts
-            ?.get(0)
-            ?.parts
-            ?.size shouldBe 1
-        val part =
-            model.result
-                ?.artifacts
+        model.result shouldNotBeNull {
+            id shouldBe "de38c76d-d54c-436c-8b9f-4c2703648d64"
+            contextId shouldBe "c295ea44-7543-4f78-b524-7a38915ad6e4"
+            status.state shouldBe "completed"
+            artifacts?.size shouldBe 1
+            artifacts
+                ?.get(0)
+                ?.name shouldBe "joke"
+            artifacts
                 ?.get(0)
                 ?.parts
-                ?.get(0)
-        (part as? TextPart)?.text shouldBe
-            "Why did the chicken cross the road? To get to the other side!"
+                ?.size shouldBe 1
+            val part =
+                artifacts
+                    ?.get(0)
+                    ?.parts
+                    ?.get(0)
+            (part as? TextPart)?.text shouldBe
+                "Why did the chicken cross the road? To get to the other side!"
+        }
     }
 }

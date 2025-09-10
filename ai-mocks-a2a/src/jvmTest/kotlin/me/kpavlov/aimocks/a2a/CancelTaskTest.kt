@@ -23,13 +23,13 @@ internal class CancelTaskTest : AbstractTest() {
     @Test
     fun `Should cancel task`() =
         runTest {
-            val sessionId = UUID.randomUUID().toString()
+            val contextId = UUID.randomUUID().toString()
 
             a2aServer.cancelTask() responds {
                 id = 1
                 result {
                     id = "tid_12345"
-                    this.sessionId = sessionId
+                    this.contextId = contextId
                     status {
                         state = "canceled"
                     }
@@ -59,7 +59,7 @@ internal class CancelTaskTest : AbstractTest() {
                     id = 1
                     result {
                         id = "tid_12345"
-                        this.sessionId = sessionId
+                        this.contextId = contextId
                         status {
                             state = "canceled"
                         }

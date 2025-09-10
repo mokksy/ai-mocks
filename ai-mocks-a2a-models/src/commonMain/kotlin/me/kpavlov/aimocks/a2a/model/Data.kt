@@ -20,10 +20,13 @@ public value class Data(
     public companion object {
         private val EMPTY: Data = Data(emptyMap())
 
+        @JvmStatic
         public fun empty(): Data = EMPTY
 
+        @JvmStatic
         public fun of(vararg pairs: Pair<String, Any>): Data = Data(mapOf(*pairs))
 
+        @JvmStatic
         public fun of(map: Map<String, Any>): Data = Data(map)
     }
 }

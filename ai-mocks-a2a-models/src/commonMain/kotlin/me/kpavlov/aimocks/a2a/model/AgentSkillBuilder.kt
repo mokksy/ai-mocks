@@ -30,7 +30,7 @@ public class AgentSkillBuilder {
     public var examples: List<String>? = null
     public var inputModes: List<String>? = null
     public var outputModes: List<String>? = null
-    public var security: List<String>? = null
+    public var security: List<Map<String, List<String>>>? = null
 
     /**
      * Sets the ID of the skill.
@@ -115,7 +115,7 @@ public class AgentSkillBuilder {
      * @param security The security requirements of the skill.
      * @return This builder instance for method chaining.
      */
-    public fun security(security: List<String>): AgentSkillBuilder =
+    public fun security(security: List<Map<String, List<String>>>): AgentSkillBuilder =
         apply {
             this.security = security
         }
@@ -129,12 +129,14 @@ public class AgentSkillBuilder {
     public fun build(): AgentSkill {
         requireNotNull(id) { "Skill ID is required" }
         requireNotNull(name) { "Skill name is required" }
+        requireNotNull(description) { "Description is required" }
+        requireNotNull(tags) { "Tags are required" }
 
         return AgentSkill(
             id = id!!,
             name = name!!,
-            description = description,
-            tags = tags,
+            description = description!!,
+            tags = tags!!,
             examples = examples,
             inputModes = inputModes,
             outputModes = outputModes,

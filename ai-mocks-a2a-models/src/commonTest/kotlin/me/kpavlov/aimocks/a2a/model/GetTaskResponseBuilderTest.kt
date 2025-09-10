@@ -22,6 +22,7 @@ internal class GetTaskResponseBuilderTest {
         val task =
             Task(
                 id = "task-123",
+                contextId = "ctx-123",
                 status = TaskStatus(state = "completed"),
             )
 
@@ -68,6 +69,7 @@ internal class GetTaskResponseBuilderTest {
         val task =
             Task(
                 id = "task-123",
+                contextId = "ctx-123",
                 status = TaskStatus(state = "completed"),
             )
         val error =
@@ -99,6 +101,7 @@ internal class GetTaskResponseBuilderTest {
                 .id("request-123")
                 .result {
                     id = "task-123"
+                    contextId = "ctx-123"
                     status {
                         state = "completed"
                     }
@@ -109,8 +112,8 @@ internal class GetTaskResponseBuilderTest {
         response.result shouldBe
             Task(
                 id = "task-123",
+                contextId = "ctx-123",
                 status = TaskStatus(state = "completed"),
-                artifacts = emptyList(),
             )
         response.error shouldBe null
         response.jsonrpc shouldBe "2.0"
@@ -124,6 +127,7 @@ internal class GetTaskResponseBuilderTest {
                 id("request-123")
                 result {
                     id = "task-123"
+                    contextId = "ctx-123"
                     status {
                         state = "completed"
                     }
@@ -135,8 +139,8 @@ internal class GetTaskResponseBuilderTest {
         response.result shouldBe
             Task(
                 id = "task-123",
+                contextId = "ctx-123",
                 status = TaskStatus(state = "completed"),
-                artifacts = emptyList(),
             )
         response.error shouldBe null
         response.jsonrpc shouldBe "2.0"
@@ -150,6 +154,7 @@ internal class GetTaskResponseBuilderTest {
                 id("request-123")
                 result {
                     id = "task-123"
+                    contextId = "ctx-123"
                     status {
                         state = "completed"
                     }
@@ -161,8 +166,8 @@ internal class GetTaskResponseBuilderTest {
         response.result shouldBe
             Task(
                 id = "task-123",
+                contextId = "ctx-123",
                 status = TaskStatus(state = "completed"),
-                artifacts = emptyList(),
             )
         response.error shouldBe null
         response.jsonrpc shouldBe "2.0"

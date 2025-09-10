@@ -10,7 +10,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * Transport types supported by the A2A protocol.
+ * TransportProtocol types supported by the A2A protocol.
  *
  * This enum defines the different transport mechanisms that can be used
  * for agent-to-agent communication according to the A2A specification.

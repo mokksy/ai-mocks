@@ -171,7 +171,7 @@ internal class A2ASpecificationSerializationTest : AbstractSerializationTest() {
                       "kind": "file",
                       "file": {
                         "mimeType": "image/png",
-                        "data": "${Base64.Mime.encode(Random.nextBytes(10))}"
+                        "bytes": "${Base64.Mime.encode(Random.nextBytes(10))}"
                       }
                     }
                   ],
@@ -219,7 +219,7 @@ internal class A2ASpecificationSerializationTest : AbstractSerializationTest() {
                         "kind": "file",
                         "file": {
                           "mimeType": "image/png",
-                          "data": "${Base64.Mime.encode(Random.nextBytes(10))}"
+                          "bytes": "${Base64.Mime.encode(Random.nextBytes(10))}"
                         }
                       }
                     ],
