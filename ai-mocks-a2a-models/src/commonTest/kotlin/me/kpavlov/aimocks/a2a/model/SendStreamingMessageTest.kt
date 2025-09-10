@@ -27,7 +27,7 @@ internal class SendStreamingMessageTest : AbstractSerializationTest() {
                     "kind":"file",
                     "file": {
                        "mimeType": "image/png",
-                       "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
+                       "bytes": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
                     }
                   }]
                 },

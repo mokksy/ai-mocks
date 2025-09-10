@@ -21,7 +21,7 @@ internal class FileContentBuilderTest {
         // then
         fileContent.name shouldBe "example.txt"
         fileContent.mimeType shouldBe "text/plain"
-        fileContent.data shouldBe bytes
+        fileContent.bytes shouldBe bytes
         fileContent.uri shouldBe null
     }
 
@@ -38,7 +38,7 @@ internal class FileContentBuilderTest {
         // then
         fileContent.name shouldBe "example.txt"
         fileContent.mimeType shouldBe "text/plain"
-        fileContent.data shouldBe null
+        fileContent.bytes shouldBe null
         fileContent.uri shouldBe "https://example.com/file.txt"
     }
 
@@ -56,7 +56,7 @@ internal class FileContentBuilderTest {
         // then
         fileContent.name shouldBe null
         fileContent.mimeType shouldBe null
-        fileContent.data shouldBe bytes
+        fileContent.bytes shouldBe bytes
         fileContent.uri shouldBe null
     }
 
@@ -98,7 +98,7 @@ internal class FileContentBuilderTest {
         // then
         fileContent.name shouldBe "example.txt"
         fileContent.mimeType shouldBe "text/plain"
-        fileContent.data shouldBe bytes
+        fileContent.bytes shouldBe bytes
         fileContent.uri shouldBe null
     }
 
@@ -115,7 +115,7 @@ internal class FileContentBuilderTest {
         // then
         fileContent.name shouldBe "example.txt"
         fileContent.mimeType shouldBe "text/plain"
-        fileContent.data shouldBe null
+        fileContent.bytes shouldBe null
         fileContent.uri shouldBe "https://example.com/file.txt"
     }
 }

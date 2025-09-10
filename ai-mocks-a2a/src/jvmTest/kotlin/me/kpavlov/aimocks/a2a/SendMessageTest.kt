@@ -30,6 +30,7 @@ internal class SendMessageTest : AbstractTest() {
             val task =
                 Task.create {
                     id = "tid_12345"
+                    contextId = "ctx_12345"
                     status {
                         state = "completed"
                     }
@@ -44,6 +45,7 @@ internal class SendMessageTest : AbstractTest() {
                     id = 1
                     result {
                         id = "tid_12345"
+                        contextId = "ctx_12345"
                         status {
                             state = "completed"
                         }

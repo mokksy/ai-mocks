@@ -42,6 +42,7 @@ public data class InputText(
          * @param text The text input to the model.
          * @return A new [InputText] instance.
          */
+        @JvmStatic
         public fun of(text: String): InputText = InputText(text = text)
     }
 }
@@ -89,6 +90,7 @@ public data class InputImage(
          * @param detail The detail level of the image.
          * @return A new [InputImage] instance.
          */
+        @JvmStatic
         public fun ofUrl(
             imageUrl: String,
             detail: Detail = Detail.AUTO,
@@ -101,6 +103,7 @@ public data class InputImage(
          * @param detail The detail level of the image.
          * @return A new [InputImage] instance.
          */
+        @JvmStatic
         public fun ofFileId(
             fileId: String,
             detail: Detail = Detail.AUTO,
@@ -131,6 +134,7 @@ public data class InputFile(
          * @param fileId The ID of the file to be sent to the model.
          * @return A new [InputFile] instance.
          */
+        @JvmStatic
         public fun ofFileId(fileId: String): InputFile = InputFile(fileId = fileId)
 
         /**
@@ -140,6 +144,7 @@ public data class InputFile(
          * @param fileData The content of the file to be sent to the model.
          * @return A new [InputFile] instance.
          */
+        @JvmStatic
         public fun ofFileData(
             filename: String,
             fileData: String,
@@ -185,6 +190,7 @@ public data class InputAudio(
          * @param format The format of the audio data.
          * @return A new [InputAudio] instance.
          */
+        @JvmStatic
         public fun of(
             data: String,
             format: Format,
@@ -196,6 +202,7 @@ public data class InputAudio(
          * @param data Base64-encoded audio data.
          * @return A new [InputAudio] instance with MP3 format.
          */
+        @JvmStatic
         public fun ofMp3(data: String): InputAudio = of(data = data, format = Format.MP3)
 
         /**
@@ -204,6 +211,7 @@ public data class InputAudio(
          * @param data Base64-encoded audio data.
          * @return A new [InputAudio] instance with WAV format.
          */
+        @JvmStatic
         public fun ofWav(data: String): InputAudio = of(data = data, format = Format.WAV)
     }
 }

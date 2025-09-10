@@ -7,17 +7,38 @@ import me.kpavlov.aimocks.a2a.model.serializers.ByteArrayAsBase64Serializer
 /**
  * Represents the content of a file, either as base64 encoded bytes or a URI.
  *
- * Either 'data' or 'uri' should be provided, but not both.
+ * This is a union type that can represent either:
+ * - [FileWithBytes]: File content provided directly as base64-encoded bytes
+ * - [FileWithUri]: File content located at a specific URI
+ *
+ * Either 'bytes' or 'uri' should be provided, but not both.
  */
 @Serializable
 public data class FileContent(
+    /**
+     * An optional name for the file (e.g., "document.pdf").
+     */
     @SerialName("name")
     val name: String? = null,
+
+    /**
+     * The MIME type of the file (e.g., "application/pdf").
+     */
     @SerialName("mimeType")
     val mimeType: String? = null,
+
+    /**
+     * The base64-encoded content of the file.
+     * Present when representing a [FileWithBytes].
+     */
     @Serializable(with = ByteArrayAsBase64Serializer::class)
-    @SerialName("data")
-    val data: ByteArray? = null,
+    @SerialName("bytes")
+    val bytes: ByteArray? = null,
+
+    /**
+     * A URL pointing to the file's content.
+     * Present when representing a [FileWithUri].
+     */
     @SerialName("uri")
     val uri: String? = null,
 ) {
@@ -46,7 +67,7 @@ public data class FileContent(
             "name=$name, " +
             "uri=$uri, " +
             "mimeType=$mimeType, " +
-            "bytes=${if (data != null) "${data.size} bytes" else "null"}" +
+            "bytes=${if (bytes != null) "${bytes.size} bytes" else "null"}" +
             ")"
 
     public companion object

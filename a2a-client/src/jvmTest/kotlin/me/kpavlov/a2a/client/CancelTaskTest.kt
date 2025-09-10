@@ -22,7 +22,7 @@ internal class CancelTaskTest : AbstractTest() {
                 id = 1
                 result {
                     id = "tid_12345"
-                    sessionId = UUID.randomUUID().toString()
+                    contextId = UUID.randomUUID().toString()
                     status = TaskStatus(state = "canceled")
                 }
                 expectedTask = requireNotNull(result) { "Result should not be null" }

@@ -84,7 +84,7 @@ public class FileContentBuilder {
         return FileContent(
             name = name,
             mimeType = mimeType,
-            data = bytes,
+            bytes = bytes,
             uri = uri,
         )
     }

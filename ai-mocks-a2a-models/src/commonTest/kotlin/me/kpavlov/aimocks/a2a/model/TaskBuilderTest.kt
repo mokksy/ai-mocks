@@ -11,6 +11,7 @@ internal class TaskBuilderTest {
         val task =
             TaskBuilder()
                 .id("task-123")
+                .contextId("context-123")
                 .status {
                     state("completed")
                 }.build()
@@ -18,8 +19,8 @@ internal class TaskBuilderTest {
         // then
         task.id shouldBe "task-123"
         task.status shouldBe TaskStatus(state = "completed")
-        task.sessionId shouldBe null
-        task.artifacts shouldBe emptyList()
+        task.contextId shouldBe "context-123"
+        task.artifacts shouldBe null
         task.metadata shouldBe null
     }
 
@@ -35,7 +36,7 @@ internal class TaskBuilderTest {
         val task =
             TaskBuilder()
                 .id("task-123")
-                .sessionId("session-456")
+                .contextId("ctx-456")
                 .status(status)
                 .addArtifact(artifact)
                 .metadata(metadata)
@@ -43,7 +44,7 @@ internal class TaskBuilderTest {
 
         // then
         task.id shouldBe "task-123"
-        task.sessionId shouldBe "session-456"
+        task.contextId shouldBe "ctx-456"
         task.status shouldBe status
         task.artifacts shouldBe listOf(artifact)
         task.metadata shouldBe metadata
@@ -61,6 +62,7 @@ internal class TaskBuilderTest {
         val task =
             TaskBuilder()
                 .id("task-123")
+                .contextId("ctx-456")
                 .status {
                     state("completed")
                 }.addArtifact(artifact1)
@@ -87,6 +89,7 @@ internal class TaskBuilderTest {
         val task =
             TaskBuilder()
                 .id("task-123")
+                .contextId("ctx-456")
                 .status {
                     state("completed")
                 }.artifacts(artifacts)
@@ -124,7 +127,7 @@ internal class TaskBuilderTest {
         val task =
             task {
                 id("task-123")
-                sessionId("session-456")
+                contextId("ctx-456")
                 status {
                     state("completed")
                 }
@@ -132,9 +135,9 @@ internal class TaskBuilderTest {
 
         // then
         task.id shouldBe "task-123"
-        task.sessionId shouldBe "session-456"
+        task.contextId shouldBe "ctx-456"
         task.status shouldBe TaskStatus(state = "completed")
-        task.artifacts shouldBe emptyList()
+        task.artifacts shouldBe null
         task.metadata shouldBe null
     }
 
@@ -144,7 +147,7 @@ internal class TaskBuilderTest {
         val task =
             Task.create {
                 id("task-123")
-                sessionId("session-456")
+                contextId("ctx-456")
                 status {
                     state("completed")
                 }
@@ -152,9 +155,9 @@ internal class TaskBuilderTest {
 
         // then
         task.id shouldBe "task-123"
-        task.sessionId shouldBe "session-456"
+        task.contextId shouldBe "ctx-456"
         task.status shouldBe TaskStatus(state = "completed")
-        task.artifacts shouldBe emptyList()
+        task.artifacts shouldBe null
         task.metadata shouldBe null
     }
 }

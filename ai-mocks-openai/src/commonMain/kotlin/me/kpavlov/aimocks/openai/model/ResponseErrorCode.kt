@@ -86,11 +86,13 @@ public enum class ResponseErrorCode(
         /**
          * Converts the provided [data] to a [String] on success, null otherwise.
          */
+        @JvmStatic
         public fun encode(data: Any?): String? = if (data is ResponseErrorCode) "$data" else null
 
         /**
          * Returns a valid [ResponseErrorCode] for [data], null otherwise.
          */
+        @JvmStatic
         public fun decode(data: Any?): ResponseErrorCode? =
             data?.let {
                 val normalizedData = "$it".lowercase()

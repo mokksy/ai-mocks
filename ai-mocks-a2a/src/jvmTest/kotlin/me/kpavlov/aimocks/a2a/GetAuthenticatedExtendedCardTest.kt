@@ -11,15 +11,17 @@ import io.ktor.http.contentType
 import kotlinx.coroutines.test.runTest
 import me.kpavlov.aimocks.a2a.model.AgentCard
 import me.kpavlov.aimocks.a2a.model.AgentProvider
+import me.kpavlov.aimocks.a2a.model.Data
 import me.kpavlov.aimocks.a2a.model.GetAuthenticatedExtendedCardRequest
 import me.kpavlov.aimocks.a2a.model.GetAuthenticatedExtendedCardResponse
-import me.kpavlov.aimocks.a2a.model.agentAuthentication
 import me.kpavlov.aimocks.a2a.model.agentCapabilities
+import me.kpavlov.aimocks.a2a.model.agentCardSignature
 import me.kpavlov.aimocks.a2a.model.agentSkill
 import me.kpavlov.aimocks.a2a.model.getAuthenticatedExtendedCardRequest
 import me.kpavlov.aimocks.a2a.model.invalidParamsError
 import kotlin.test.Test
 
+@Suppress("LongMethod")
 internal class GetAuthenticatedExtendedCardTest : AbstractTest() {
     /**
      * https://a2a-protocol.org/latest/specification/#710-agentgetauthenticatedextendedcard
@@ -44,11 +46,7 @@ internal class GetAuthenticatedExtendedCardTest : AbstractTest() {
                             streaming = true
                             pushNotifications = true
                         },
-                    authentication =
-                        agentAuthentication {
-                            schemes = listOf("none", "bearer")
-                            credentials = "test-token"
-                        },
+
                     defaultInputModes = listOf("text", "voice"),
                     defaultOutputModes = listOf("text", "audio"),
                     skills =
@@ -57,44 +55,26 @@ internal class GetAuthenticatedExtendedCardTest : AbstractTest() {
                                 id = "test-skill"
                                 name = "Test Skill"
                                 description = "A test skill for demonstration"
+                                tags = listOf("test")
                             },
                         ),
-                    signatures = listOf("sig1", "sig2"),
+                    signatures = listOf(
+                        agentCardSignature {
+                            header = Data.of("a" to "b", "foo" to 42)
+                            protectedHeader = "e30"
+                            signature = "sig1"
+                        },
+                        agentCardSignature {
+                            protectedHeader = "e30"
+                            signature = "sig2"
+                        },
+                    ),
                     supportsAuthenticatedExtendedCard = true,
                 )
 
             a2aServer.getAuthenticatedExtendedCard() responds {
                 id = 1
-                result {
-                    name = "Test Agent"
-                    description = "Test Agent Description"
-                    url = "https://example.com/agent"
-                    provider {
-                        organization = "Test Organization"
-                        url = "https://example.com/organization"
-                    }
-                    version = "1.0.0"
-                    documentationUrl = "https://example.com/docs"
-                    capabilities {
-                        streaming = true
-                        pushNotifications = true
-                    }
-                    authentication {
-                        schemes = listOf("none", "bearer")
-                        credentials = "test-token"
-                    }
-                    defaultInputModes = listOf("text", "voice")
-                    defaultOutputModes = listOf("text", "audio")
-                    addSkill(
-                        agentSkill {
-                            id = "test-skill"
-                            name = "Test Skill"
-                            description = "A test skill for demonstration"
-                        },
-                    )
-                    signatures = mutableListOf("sig1", "sig2")
-                    supportsAuthenticatedExtendedCard = true
-                }
+                result = agentCard
             }
 
             val response =

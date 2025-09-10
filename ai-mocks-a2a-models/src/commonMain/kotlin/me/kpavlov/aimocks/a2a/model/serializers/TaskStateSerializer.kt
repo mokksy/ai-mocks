@@ -25,6 +25,8 @@ public class TaskStateSerializer : KSerializer<TaskState> {
                 TaskState.CANCELED -> "canceled"
                 TaskState.FAILED -> "failed"
                 TaskState.UNKNOWN -> "unknown"
+                TaskState.REJECTED -> "rejected"
+                TaskState.AUTH_REQUIRED -> "auth-required"
             }
         encoder.encodeString(serialName)
     }

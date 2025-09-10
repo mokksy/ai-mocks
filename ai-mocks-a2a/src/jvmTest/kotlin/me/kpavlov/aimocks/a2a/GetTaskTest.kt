@@ -28,7 +28,7 @@ internal class GetTaskTest : AbstractTest() {
                 id = 1
                 result {
                     id = "tid_12345"
-                    sessionId = null
+                    contextId = "ctx_12345"
                     status {
                         state = "completed"
                     }
@@ -69,7 +69,7 @@ internal class GetTaskTest : AbstractTest() {
                     id = 1
                     result {
                         id = "tid_12345"
-                        sessionId = null
+                        contextId = "ctx_12345"
                         status {
                             state = "completed"
                         }

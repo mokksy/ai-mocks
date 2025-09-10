@@ -38,7 +38,7 @@ internal class CancelTaskTest : AbstractSerializationTest() {
               "id": 1,
               "result": {
                 "id": "de38c76d-d54c-436c-8b9f-4c2703648d64",
-                "sessionId": "c295ea44-7543-4f78-b524-7a38915ad6e4",
+                "contextId": "c295ea44-7543-4f78-b524-7a38915ad6e4",
                 "status": {
                   "state": "canceled"
                 },
@@ -51,7 +51,7 @@ internal class CancelTaskTest : AbstractSerializationTest() {
         val model = deserializeAndSerialize<CancelTaskResponse>(payload)
         model.id shouldBe 1
         model.result?.id shouldBe "de38c76d-d54c-436c-8b9f-4c2703648d64"
-        model.result?.sessionId shouldBe "c295ea44-7543-4f78-b524-7a38915ad6e4"
+        model.result?.contextId shouldBe "c295ea44-7543-4f78-b524-7a38915ad6e4"
         model.result?.status?.state shouldBe "canceled"
     }
 }

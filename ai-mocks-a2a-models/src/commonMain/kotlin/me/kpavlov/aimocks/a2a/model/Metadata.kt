@@ -18,8 +18,10 @@ public value class Metadata(
     public companion object {
         private val EMPTY: Metadata = Metadata(emptyMap())
 
+        @JvmStatic
         public fun empty(): Metadata = EMPTY
 
+        @JvmStatic
         public fun of(vararg pairs: Pair<String, Any>): Metadata = Metadata(mapOf(*pairs))
     }
 }

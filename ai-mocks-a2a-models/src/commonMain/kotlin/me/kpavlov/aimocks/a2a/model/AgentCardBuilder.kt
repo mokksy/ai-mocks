@@ -13,16 +13,20 @@ public class AgentCardBuilder {
     public var name: String? = null
     public var description: String? = null
     public var url: String? = null
+    public var preferredTransport: Transport = Transport.JSONRPC
+    public var additionalInterfaces: MutableList<AgentInterface>? = null
+    public var iconUrl: String? = null
     public var provider: AgentProvider? = null
     public var version: String? = null
     public var documentationUrl: String? = null
     public var capabilities: AgentCapabilities? = null
-    public var authentication: AgentAuthentication? = null
     public var defaultInputModes: List<String> = listOf("text")
     public var defaultOutputModes: List<String> = listOf("text")
     public var skills: MutableList<AgentSkill> = mutableListOf()
-    public var signatures: MutableList<String>? = null
-    public var supportsAuthenticatedExtendedCard: Boolean? = null
+    public var security: List<Map<String, List<String>>>? = null
+    public var securitySchemes: Map<String, SecurityScheme>? = null
+    public var signatures: MutableList<AgentCardSignature>? = null
+    public var supportsAuthenticatedExtendedCard: Boolean = false
 
     /**
      * Sets the name of the agent.
@@ -102,17 +106,6 @@ public class AgentCardBuilder {
         }
 
     /**
-     * Sets the authentication of the agent.
-     *
-     * @param authentication The authentication of the agent.
-     * @return This builder instance for method chaining.
-     */
-    public fun authentication(authentication: AgentAuthentication): AgentCardBuilder =
-        apply {
-            this.authentication = authentication
-        }
-
-    /**
      * Sets the default input modes of the agent.
      *
      * @param defaultInputModes The default input modes of the agent.
@@ -151,7 +144,7 @@ public class AgentCardBuilder {
      * @param signatures The list of signatures.
      * @return This builder instance for method chaining.
      */
-    public fun signatures(signatures: List<String>): AgentCardBuilder =
+    public fun signatures(signatures: List<AgentCardSignature>): AgentCardBuilder =
         apply {
             this.signatures = signatures.toMutableList()
         }
@@ -162,7 +155,7 @@ public class AgentCardBuilder {
      * @param signature The signature to add.
      * @return This builder instance for method chaining.
      */
-    public fun addSignature(signature: String): AgentCardBuilder =
+    public fun addSignature(signature: AgentCardSignature): AgentCardBuilder =
         apply {
             if (this.signatures == null) {
                 this.signatures = mutableListOf()
@@ -193,6 +186,7 @@ public class AgentCardBuilder {
     public fun build(validate: Boolean = false): AgentCard {
         if (validate) {
             requireNotNull(name) { "name must not be null" }
+            requireNotNull(description) { "description must not be null" }
             requireNotNull(url) { "url must not be null" }
             requireNotNull(version) { "version must not be null" }
             requireNotNull(capabilities) { "capabilities must not be null" }
@@ -201,14 +195,18 @@ public class AgentCardBuilder {
             name = name!!,
             description = description,
             url = url!!,
+            preferredTransport = preferredTransport,
+            additionalInterfaces = additionalInterfaces,
+            iconUrl = iconUrl,
             provider = provider,
             version = version!!,
             documentationUrl = documentationUrl,
             capabilities = capabilities!!,
-            authentication = authentication,
             defaultInputModes = defaultInputModes,
             defaultOutputModes = defaultOutputModes,
             skills = skills,
+            security = security,
+            securitySchemes = securitySchemes,
             signatures = signatures,
             supportsAuthenticatedExtendedCard = supportsAuthenticatedExtendedCard,
         )
@@ -253,26 +251,6 @@ public class AgentCardBuilder {
         val builder = AgentProviderBuilder()
         block.accept(builder)
         provider = builder.build()
-    }
-
-    /**
-     * Configures the authentication using the provided configuration block.
-     *
-     * @param block The lambda to configure the authentication.
-     */
-    public fun authentication(block: AgentAuthenticationBuilder.() -> Unit) {
-        authentication = AgentAuthenticationBuilder().apply(block).build()
-    }
-
-    /**
-     * Configures the authentication using the provided Java-friendly Consumer.
-     *
-     * @param block The consumer to configure the authentication.
-     */
-    public fun authentication(block: Consumer<AgentAuthenticationBuilder>) {
-        val builder = AgentAuthenticationBuilder()
-        block.accept(builder)
-        authentication = builder.build()
     }
 
     /**

@@ -59,11 +59,13 @@ public enum class ChatCompletionRole(
         /**
          * Converts the provided [data] to a [String] on success, null otherwise.
          */
+        @JvmStatic
         public fun encode(data: kotlin.Any?): kotlin.String? = if (data is ChatCompletionRole) "$data" else null
 
         /**
          * Returns a valid [ChatCompletionRole] for [data], null otherwise.
          */
+        @JvmStatic
         public fun decode(data: kotlin.Any?): ChatCompletionRole? =
             data?.let {
                 val normalizedData = "$it".lowercase()

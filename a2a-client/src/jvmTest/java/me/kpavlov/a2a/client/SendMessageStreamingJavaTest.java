@@ -5,6 +5,7 @@ import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.Executors;
@@ -98,7 +99,7 @@ class SendMessageStreamingJavaTest extends AbstractJavaTest {
 
                 new TaskStatusUpdateEvent(
                     taskId,
-                    new TaskStatus("completed", Instant.now()),
+                    TaskStatus.of("completed", new Message(Message.Role.agent, Collections.singletonList(new TextPart("Done"))), Instant.now()),
                     true // final event
                 )
             );

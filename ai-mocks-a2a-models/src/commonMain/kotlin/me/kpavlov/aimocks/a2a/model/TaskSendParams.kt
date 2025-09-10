@@ -40,6 +40,7 @@ public data class TaskSendParams
              * @param init The lambda to configure the task send params.
              * @return A new TaskSendParams instance.
              */
+            @JvmStatic
             public fun build(init: TaskSendParamsBuilder.() -> Unit): TaskSendParams =
                 TaskSendParamsBuilder().apply(init).build()
         }

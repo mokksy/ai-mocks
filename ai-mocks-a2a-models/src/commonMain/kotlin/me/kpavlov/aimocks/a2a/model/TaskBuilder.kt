@@ -12,7 +12,7 @@ import java.util.function.Consumer
  * ```
  * val task = Task.create {
  *     id("task-456")
- *     sessionId("session-789")
+ *     contextId("ctx-789")
  *     status {
  *         state = TaskState.working
  *         timestamp = System.currentTimeMillis()
@@ -27,10 +27,11 @@ import java.util.function.Consumer
 @Suppress("TooManyFunctions")
 public class TaskBuilder {
     public var id: String? = null
-    public var sessionId: String? = null
+    public var contextId: String? = null
     public var status: TaskStatus? = null
     public var artifacts: MutableList<Artifact> = mutableListOf()
     public var metadata: Metadata? = null
+    public val history: MutableList<Message> = mutableListOf()
 
     /**
      * Sets the ID of the task.
@@ -43,15 +44,9 @@ public class TaskBuilder {
             this.id = id
         }
 
-    /**
-     * Sets the session ID of the task.
-     *
-     * @param sessionId The session identifier for the task.
-     * @return This builder instance for method chaining.
-     */
-    public fun sessionId(sessionId: String): TaskBuilder =
+    public fun contextId(contextId: String): TaskBuilder =
         apply {
-            this.sessionId = sessionId
+            this.contextId = contextId
         }
 
     /**
@@ -111,6 +106,11 @@ public class TaskBuilder {
             this.artifacts.add(artifact)
         }
 
+    public fun addToHistory(message: Message): TaskBuilder =
+        apply {
+            this.history.add(message)
+        }
+
     /**
      * Creates an artifact using the provided configuration block and adds it to the task.
      *
@@ -150,17 +150,19 @@ public class TaskBuilder {
      * @return A new [Task] instance.
      * @throws IllegalArgumentException If validate is true and required parameters are missing.
      */
-    public fun build(validate: Boolean = false): Task {
+    public fun build(validate: Boolean = true): Task {
         if (validate) {
             requireNotNull(id) { "Task ID is required" }
+            requireNotNull(contextId) { "Context ID status is required" }
             requireNotNull(status) { "Task status is required" }
         }
         return Task(
             id = id!!,
-            sessionId = sessionId,
+            contextId = contextId!!,
             status = status!!,
-            artifacts = artifacts,
+            artifacts = artifacts.ifEmpty { null },
             metadata = metadata,
+            history = history.ifEmpty { null }
         )
     }
 }

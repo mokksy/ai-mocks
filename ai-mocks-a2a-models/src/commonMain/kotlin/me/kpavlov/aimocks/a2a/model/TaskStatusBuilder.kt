@@ -75,17 +75,22 @@ public class TaskStatusBuilder {
      * Builds a [TaskStatus] instance with the configured parameters.
      *
      * @return A new [TaskStatus] instance.
-     * @throws IllegalArgumentException If required parameters are missing.
+     * @throws IllegalArgumentException When required parameters are missing.
      */
     public fun build(): TaskStatus {
-        requireNotNull(state) { "State is required" }
-
+        val stateString = requireNotNull(state) {
+            "State is required"
+        }
+        requireNotNull(TaskState.fromString(value = stateString)) {
+            "Unknown task state: $stateString"
+        }
         return TaskStatus(
-            state = state!!,
+            state = stateString,
             message = message,
             timestamp = timestamp,
         )
     }
+
 }
 
 /**
