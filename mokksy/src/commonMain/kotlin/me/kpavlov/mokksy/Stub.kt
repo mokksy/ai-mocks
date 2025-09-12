@@ -6,8 +6,6 @@ import me.kpavlov.mokksy.response.ResponseDefinitionSupplier
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 
-private val counter = AtomicLong()
-
 /**
  * Represents a mapping between an inbound request specification and an outbound response definition.
  *
@@ -28,6 +26,10 @@ internal data class Stub<P : Any, T : Any>(
     val requestSpecification: RequestSpecification<P>,
     val responseDefinitionSupplier: ResponseDefinitionSupplier<T>,
 ) : Comparable<Stub<*, *>> {
+    private companion object {
+        private val counter = AtomicLong()
+    }
+
     /**
      * Represents the order of creation for an instance of the containing class.
      * This property is initialized with an incrementing value to ensure each instance
