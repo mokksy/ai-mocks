@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.ollama.chat
 
+import io.kotest.matchers.doubles.plusOrMinus
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -7,13 +8,12 @@ import kotlinx.serialization.json.Json
 import kotlin.test.Test
 
 internal class ChatRequestDeserializationTest {
-    private val json = Json { ignoreUnknownKeys = true }
+    private val json = Json { ignoreUnknownKeys = false }
 
     // MockOllama's exact JSON configuration
     private val mockOllamaJson =
         Json {
             ignoreUnknownKeys = false
-            prettyPrint = true
         }
 
     @Test
@@ -46,9 +46,9 @@ internal class ChatRequestDeserializationTest {
         request.messages.size shouldBe 2
         request.stream shouldBe true
         request.options shouldNotBeNull {
-            temperature shouldBe 0.30081615737430945
+            temperature shouldBe (0.30081615737430945 plusOrMinus 1e-12)
             topK shouldBe 404
-            topP shouldBe 0.30994638421186493
+            topP shouldBe (0.30994638421186493 plusOrMinus 1e-12)
         }
     }
 
@@ -78,11 +78,12 @@ internal class ChatRequestDeserializationTest {
         request.model shouldBe "llama3.1"
         request.messages.size shouldBe 1
         request.stream shouldBe true
-        request.options shouldNotBe null
-        request.options!!.temperature shouldBe 0.015273115109424307
-        request.options!!.topK shouldBe 721
-        request.options!!.topP shouldBe 0.4836426825417919
-        request.options!!.stop shouldBe emptyList()
+        request.options shouldNotBeNull {
+            temperature shouldBe (0.015273115109424307 plusOrMinus 1e-12)
+            topK shouldBe 721
+            topP shouldBe (0.4836426825417919 plusOrMinus 1e-12)
+            stop shouldBe emptyList()
+        }
     }
 
     @Test
@@ -111,10 +112,11 @@ internal class ChatRequestDeserializationTest {
         request.model shouldBe "llama3.1"
         request.messages.size shouldBe 1
         request.stream shouldBe true
-        request.options shouldNotBe null
-        request.options!!.temperature shouldBe 0.015273115109424307
-        request.options!!.topK shouldBe 721
-        request.options!!.topP shouldBe 0.4836426825417919
-        request.options!!.stop shouldBe emptyList()
+        request.options shouldNotBeNull {
+            temperature shouldBe (0.015273115109424307 plusOrMinus 1e-12)
+            topK shouldBe 721
+            topP shouldBe (0.4836426825417919 plusOrMinus 1e-12)
+            stop shouldBe emptyList()
+        }
     }
 }

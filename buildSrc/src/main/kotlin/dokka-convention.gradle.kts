@@ -20,7 +20,7 @@ dokka {
             url("https://api.ktor.io/ktor-client/")
             packageListUrl("https://api.ktor.io/package-list")
         }
-
+        
         externalDocumentationLinks.register("kotlinx-coroutines") {
             url("https://kotlinlang.org/api/kotlinx.coroutines/")
             packageListUrl("https://kotlinlang.org/api/kotlinx.coroutines/package-list")
