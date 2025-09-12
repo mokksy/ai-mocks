@@ -18,6 +18,10 @@ dependencies {
 dokka {
     moduleName.set("AI-Mocks")
 
+    pluginsConfiguration.html {
+        footerMessage = "Copyright © 2025 Konstantin Pavlov"
+    }
+
     dokkaPublications.html {
         outputDirectory = layout.projectDirectory.dir("public/apidocs")
     }
