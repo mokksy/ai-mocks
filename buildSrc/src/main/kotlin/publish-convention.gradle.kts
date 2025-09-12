@@ -58,6 +58,7 @@ configure<MavenPublishBaseExtension> {
         developers {
             developer {
                 id = "kpavlov"
+                roles = setOf("author", "developer")
                 name = "Konstantin Pavlov"
                 url = "https://github.com/kpavlov"
             }
