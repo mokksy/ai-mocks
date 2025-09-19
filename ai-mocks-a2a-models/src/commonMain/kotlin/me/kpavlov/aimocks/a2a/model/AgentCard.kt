@@ -24,7 +24,7 @@ public data class AgentCard(
     /**
      * A human-readable name for the agent.
      *
-     * @sample "Recipe Agent"
+     * Example: "Recipe Agent"
      */
     @SerialName("name")
     val name: String,
@@ -33,7 +33,7 @@ public data class AgentCard(
      * A human-readable description of the agent, assisting users and other agents
      * in understanding its purpose.
      *
-     * @sample "Agent that helps users with recipes and cooking."
+     * Example: "Agent that helps users with recipes and cooking."
      */
     @SerialName("description")
     val description: String? = null,
@@ -42,7 +42,7 @@ public data class AgentCard(
      * The preferred endpoint URL for interacting with the agent.
      * This URL MUST support the transport specified by 'preferredTransport'.
      *
-     * @sample "https://api.example.com/a2a/v1"
+     * Example: "https://api.example.com/a2a/v1"
      */
     @SerialName("url")
     val url: String,
@@ -88,7 +88,7 @@ public data class AgentCard(
     /**
      * The agent's own version number. The format is defined by the provider.
      *
-     * @sample "1.0.0"
+     * Example: "1.0.0"
      */
     @SerialName("version")
     val version: String,
@@ -132,7 +132,7 @@ public data class AgentCard(
      * set of security requirements that must be present on a request. This allows specifying,
      * for example, "callers must either use OAuth OR an API Key AND mTLS."
      *
-     * @sample
+     * Example:
      * ```
      * [
      *   {
