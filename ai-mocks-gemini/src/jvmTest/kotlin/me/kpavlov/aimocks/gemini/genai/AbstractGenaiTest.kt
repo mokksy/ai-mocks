@@ -9,26 +9,21 @@ import com.google.genai.types.HttpOptions
 import com.google.genai.types.Part
 import me.kpavlov.aimocks.gemini.AbstractMockGeminiTest
 import me.kpavlov.aimocks.gemini.gemini
-import org.junit.jupiter.api.BeforeAll
+import kotlin.random.Random
 
 internal abstract class AbstractGenaiTest : AbstractMockGeminiTest() {
-    protected lateinit var client: Client
-
-    @BeforeAll
-    fun createChatClient() {
-        client =
-            Client
-                .builder()
-                .project(projectId)
-                .location(locationId)
-                .credentials(
-                    GoogleCredentials.create(
-                        AccessToken.newBuilder().setTokenValue("dummy-token").build(),
-                    ),
-                ).vertexAI(true)
-                .httpOptions(HttpOptions.builder().baseUrl(gemini.baseUrl()).build())
-                .build()
-    }
+    protected val client =
+        Client
+            .builder()
+            .project(projectId)
+            .location(locationId)
+            .credentials(
+                GoogleCredentials.create(
+                    AccessToken.newBuilder().setTokenValue("dummy-token").build(),
+                ),
+            ).vertexAI(true)
+            .httpOptions(HttpOptions.builder().baseUrl(gemini.baseUrl()).build())
+            .build()
 
     protected fun generateContentConfig(systemPrompt: String): GenerateContentConfig.Builder =
         GenerateContentConfig
@@ -48,9 +43,9 @@ internal abstract class AbstractGenaiTest : AbstractMockGeminiTest() {
 
     protected fun requestMutators(): Array<GenerateContentConfig.Builder.() -> Unit> =
         arrayOf(
-            { topK(topKValue.toFloat() + 1) },
-            { topP(topPValue.toFloat() + 1) },
-            { temperature(temperatureValue.toFloat() / 2.0f) },
-            { maxOutputTokens(maxCompletionTokensValue.toInt() + 1) },
+            { topK(Random.nextDouble(0.1, 1.0).toFloat()) },
+            { topP(Random.nextDouble(0.1, 1.0).toFloat()) },
+            { temperature(Random.nextDouble(0.1, 1.0).toFloat()) },
+            { maxOutputTokens(Random.nextInt(100, 500)) },
         )
 }

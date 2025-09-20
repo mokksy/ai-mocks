@@ -31,7 +31,7 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
         }
 
         val response =
-            client.models.generateContent(
+        client.models.generateContent(
                 modelName,
                 "Just say 'Hello!'",
                 generateContentConfig("You are a helpful pirate. $seedValue")
@@ -43,7 +43,9 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
 
     @ParameterizedTest
     @MethodSource("requestMutators")
-    fun `Should miss response when request does not match`(mutator: GenerateContentConfig.Builder.() -> Unit) {
+    fun `Should miss response when request does not match`(
+        mutator: GenerateContentConfig.Builder.() -> Unit,
+    ) {
         gemini.generateContent {
             temperature = temperatureValue
             seed = seedValue

@@ -11,11 +11,7 @@ import com.openai.models.responses.ResponseInputText
 import io.kotest.matchers.resource.resourceAsBytes
 import io.kotest.matchers.string.shouldContainIgnoringCase
 import me.kpavlov.aimocks.openai.openai
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.TestInstance.Lifecycle
-import java.net.URL
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlin.time.measureTimedValue
@@ -24,19 +20,12 @@ import kotlin.time.measureTimedValue
 private const val WIKIPEDIA_IMAGE_URL =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
 
-@TestInstance(Lifecycle.PER_CLASS)
 internal class ResponsesImageInputTest : AbstractOpenaiResponsesTest() {
-    private lateinit var base64Image: String
-    private lateinit var imageResource: URL
-    private lateinit var base64ImageUrl: String
+    private val imageResource = this.javaClass.getResource("/pipiro.jpg")!!
 
     @OptIn(ExperimentalEncodingApi::class)
-    @BeforeAll
-    fun beforeAll() {
-        imageResource = this.javaClass.getResource("/pipiro.jpg")!!
-        base64Image = Base64.UrlSafe.encode(resourceAsBytes("/pipiro.jpg"))
-        base64ImageUrl = "data:image/jpeg;base64,$base64Image"
-    }
+    private val base64Image = Base64.UrlSafe.encode(resourceAsBytes("/pipiro.jpg"))
+    private val base64ImageUrl = "data:image/jpeg;base64,$base64Image"
 
     @Test
     @Suppress("LongMethod")
