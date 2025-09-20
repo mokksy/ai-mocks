@@ -10,28 +10,15 @@ import com.openai.models.responses.ResponseInputText
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.string.shouldContainIgnoringCase
 import me.kpavlov.aimocks.openai.openai
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
-import java.net.URL
 import java.util.UUID
-import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlin.time.measureTimedValue
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class ResponsesFileInputTest : AbstractOpenaiResponsesTest() {
-    private lateinit var imageResource: URL
-    private lateinit var filename: String
-    private lateinit var fileId: String
-
-    @OptIn(ExperimentalEncodingApi::class)
-    @BeforeAll
-    fun beforeAll() {
-        imageResource = this.javaClass.getResource("/pipiro.jpg")!!
-        filename = imageResource.file
-        fileId = UUID.randomUUID().toString()
-    }
+    private val imageResource = this.javaClass.getResource("/pipiro.jpg")!!
+    private val filename = imageResource.file
+    private val fileId = UUID.randomUUID().toString()
 
     @BeforeEach
     fun setupMock() {

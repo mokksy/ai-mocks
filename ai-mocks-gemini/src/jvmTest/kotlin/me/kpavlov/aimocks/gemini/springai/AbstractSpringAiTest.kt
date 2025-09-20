@@ -1,25 +1,21 @@
 package me.kpavlov.aimocks.gemini.springai
 
 import me.kpavlov.aimocks.gemini.AbstractMockGeminiTest
-import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.TestInstance
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal abstract class AbstractSpringAiTest : AbstractMockGeminiTest() {
-    protected lateinit var chatClient: ChatClient
-
-    @BeforeAll
-    fun createChatClient() {
-        chatClient =
-            ChatClient
-                .builder(
-                    VertexAiGeminiChatModel
-                        .builder()
-                        .vertexAI(vertexAI)
-                        .build(),
-                ).build()
-    }
+    protected val chatClient: ChatClient =
+        ChatClient
+            .builder(
+                VertexAiGeminiChatModel
+                    .builder()
+                    .vertexAI(vertexAI)
+                    .build(),
+            ).build()
 
     protected fun prepareClientRequest(): ChatClient.ChatClientRequestSpec =
         chatClient

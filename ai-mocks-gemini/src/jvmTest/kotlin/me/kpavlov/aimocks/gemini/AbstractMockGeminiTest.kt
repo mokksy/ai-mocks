@@ -1,9 +1,7 @@
 package me.kpavlov.aimocks.gemini
 
-import com.google.cloud.vertexai.VertexAI
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
 import java.time.Instant
@@ -23,24 +21,16 @@ internal abstract class AbstractMockGeminiTest {
     protected val logger = KotlinLogging.logger(name = this::class.simpleName!!)
     protected lateinit var startTimestamp: Instant
 
-    protected lateinit var projectId: String
-    protected lateinit var locationId: String
+    protected val projectId: String = "1234567890"
+    protected val locationId: String = "amsterdam-central1"
 
-    protected lateinit var vertexAI: VertexAI
-
-    @BeforeAll
-    fun beforeAll() {
-        projectId = "1234567890"
-        locationId = "us-central1"
-
-        vertexAI =
-            createTestVertexAI(
-                endpoint = gemini.baseUrl(),
-                projectId = projectId,
-                location = locationId,
-                timeout = 10.seconds,
-            )
-    }
+    protected val vertexAI =
+        createTestVertexAI(
+            endpoint = gemini.baseUrl(),
+            projectId = projectId,
+            location = locationId,
+            timeout = 10.seconds,
+        )
 
     @BeforeEach
     fun beforeEach() {
