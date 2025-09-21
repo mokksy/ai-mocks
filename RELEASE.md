@@ -13,7 +13,7 @@
    SONATYPE_PASSWORD=...
    
    ./gradlew clean build sourcesJar check publishToMavenCentral \
-    --stacktrace --warning-mode=all \
+    --stacktrace --rerun-tasks --warning-mode=all \
     -PmavenCentralUsername="$SONATYPE_USERNAME" \
     -PmavenCentralPassword="$SONATYPE_PASSWORD"
    ```

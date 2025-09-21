@@ -20,7 +20,8 @@ import kotlin.time.Duration.Companion.milliseconds
  * @property headers A mutable list of header key-value pairs to be included in the response.
  */
 public abstract class AbstractResponseDefinitionBuilder<P, T>(
-    public var httpStatus: HttpStatusCode,
+    public var httpStatusCode: Int = 200,
+    public var httpStatus: HttpStatusCode = HttpStatusCode.fromValue(httpStatusCode),
     public val headers: MutableList<Pair<String, String>>,
     public var delay: Duration = Duration.ZERO,
 ) {
@@ -68,7 +69,8 @@ public abstract class AbstractResponseDefinitionBuilder<P, T>(
  * @property contentType Optional MIME type of the response.
  * Defaults to `ContentType.Application.Json` if not specified.
  * @property body The body of the response. Can be null.
- * @param httpStatus The HTTP status code of the response. Defaults to `HttpStatusCode.OK`.
+ * @property httpStatusCode The HTTP status code of the response as Int, defaulting to 200.
+ * @property httpStatus The HTTP status code of the response, defaulting to [HttpStatusCode.OK].
  * @param headers A mutable list of additional custom headers for the response.
  *
  * Inherits functionality from [AbstractResponseDefinitionBuilder] to allow additional header manipulations
@@ -78,13 +80,19 @@ public open class ResponseDefinitionBuilder<P : Any, T : Any>(
     public val request: CapturedRequest<P>,
     public var contentType: ContentType? = null,
     public var body: T? = null,
-    httpStatus: HttpStatusCode = HttpStatusCode.OK,
+    httpStatusCode: Int = 200,
+    httpStatus: HttpStatusCode = HttpStatusCode.fromValue(httpStatusCode),
     headers: MutableList<Pair<String, String>> = mutableListOf(),
-) : AbstractResponseDefinitionBuilder<P, T>(httpStatus = httpStatus, headers = headers) {
+) : AbstractResponseDefinitionBuilder<P, T>(
+        httpStatusCode = httpStatusCode,
+        httpStatus = httpStatus,
+        headers = headers,
+    ) {
     public override fun build(): ResponseDefinition<P, T> =
         ResponseDefinition(
             body = body,
             contentType = contentType ?: ContentType.Application.Json,
+            httpStatusCode = httpStatusCode,
             httpStatus = httpStatus,
             headers = headersLambda,
             headerList = Collections.unmodifiableList(headers),

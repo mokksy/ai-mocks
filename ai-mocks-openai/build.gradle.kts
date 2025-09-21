@@ -5,6 +5,7 @@ plugins {
     `dokka-convention`
     `publish-convention`
     `netty-convention`
+    `shadow-convention`
     // id("org.openapi.generator") version "7.12.0"
 }
 
@@ -55,6 +56,21 @@ kotlin {
                 implementation(project.dependencies.platform(libs.spring.ai.bom))
                 implementation(project.dependencies.platform(libs.spring.bom))
                 runtimeOnly(libs.slf4j.simple)
+            }
+        }
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("shadow") {
+            artifactId = "${project.name}-standalone"
+            artifact(tasks.named("shadowJar")) {
+                classifier = ""
+                extension = "jar"
+            }
+            artifact(tasks["jvmSourcesJar"]) {
+                classifier = "sources"
             }
         }
     }

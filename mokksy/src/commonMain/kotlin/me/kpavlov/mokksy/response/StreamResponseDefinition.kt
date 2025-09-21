@@ -34,6 +34,8 @@ internal const val SEND_BUFFER_CAPACITY = 256
  * @property chunkFlow A `Flow` of chunks to be streamed as part of the response.
  * @property chunks A list of chunks representing the response data to be sent.
  * @property delayBetweenChunks Delay between the transmission of each chunk.
+ * @property httpStatusCode The HTTP status code of the response as Int, defaulting to 200.
+ * @property httpStatus The HTTP status code of the response, defaulting to [HttpStatusCode.OK].
  * @constructor Initializes a streaming response definition with the specified flow, chunk list, content type,
  *              HTTP status code, and headers.
  *
@@ -46,16 +48,18 @@ public open class StreamResponseDefinition<P, T>(
     public val chunks: List<T>? = null,
     public val delayBetweenChunks: Duration = Duration.ZERO,
     contentType: ContentType = ContentType.Text.EventStream.withCharset(Charsets.UTF_8),
-    httpStatus: HttpStatusCode = HttpStatusCode.OK,
+    httpStatusCode: Int = 200,
+    httpStatus: HttpStatusCode = HttpStatusCode.fromValue(httpStatusCode),
     headers: (ResponseHeaders.() -> Unit)? = null,
     headerList: List<Pair<String, String>> = emptyList<Pair<String, String>>(),
     delay: Duration,
 ) : AbstractResponseDefinition<T>(
-        contentType,
-        httpStatus,
-        headers,
-        headerList,
-        delay,
+        contentType = contentType,
+        httpStatusCode = httpStatusCode,
+        httpStatus = httpStatus,
+        headers = headers,
+        headerList = headerList,
+        delay = delay,
     ) {
     internal suspend fun writeChunksFromFlow(
         writer: ByteWriteChannel,
