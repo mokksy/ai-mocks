@@ -10,7 +10,7 @@
     <properties>
         <java.version>17</java.version>
         <maven.compiler.release>${java.version}</maven.compiler.release>
-        <mokksy.version>0.5.0-Beta02</mokksy.version>
+        <mokksy.version>0.5.0-SNAPSHOT</mokksy.version>
     </properties>
     <dependencyManagement>
         <dependencies>
