@@ -18,6 +18,7 @@ import kotlin.time.Duration
  * @param T The type of the response body.
  * @property contentType The MIME type of the response content with a default to [ContentType.Application.Json].
  * @property body The body of the response, which can be null.
+ * @property httpStatusCode The HTTP status code of the response as Int, defaulting to 200.
  * @property httpStatus The HTTP status code of the response, defaulting to [HttpStatusCode.OK].
  * @property headers A lambda function for configuring additional response headers using [ResponseHeaders].
  * Defaults to null.
@@ -27,16 +28,18 @@ import kotlin.time.Duration
 public open class ResponseDefinition<P, T>(
     contentType: ContentType = ContentType.Application.Json,
     public val body: T? = null,
-    httpStatus: HttpStatusCode = HttpStatusCode.OK,
+    httpStatusCode: Int = 200,
+    httpStatus: HttpStatusCode = HttpStatusCode.fromValue(httpStatusCode),
     headers: (ResponseHeaders.() -> Unit)? = null,
     headerList: List<Pair<String, String>> = emptyList<Pair<String, String>>(),
     delay: Duration,
 ) : AbstractResponseDefinition<T>(
-        contentType,
-        httpStatus,
-        headers,
-        headerList,
-        delay,
+        contentType = contentType,
+        httpStatusCode = httpStatusCode,
+        httpStatus = httpStatus,
+        headers = headers,
+        headerList = headerList,
+        delay = delay,
     ) {
     override suspend fun writeResponse(
         call: ApplicationCall,

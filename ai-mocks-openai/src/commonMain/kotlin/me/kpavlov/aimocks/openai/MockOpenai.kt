@@ -31,6 +31,7 @@ public open class MockOpenai(
         port = port,
         configuration =
             ServerConfiguration(
+                name = "MockOpenai",
                 verbose = verbose,
             ) { config ->
                 config.json(

@@ -1,6 +1,8 @@
 .PHONY: build
 build:
-	./gradlew clean build dokkaJavadocJar sourcesJar koverHtmlReport
+	rm -rf ~/.m2/repository/me/kpavlov/aimocks ~/.m2/repository/me/kpavlov/mokksy && \
+	./gradlew --rerun-tasks clean build publishToMavenLocal koverHtmlReport && \
+	(cd ai-mocks-openai/samples/shadow && mvn test)
 
 .PHONY: test
 test:
@@ -43,7 +45,7 @@ pom:
 .PHONY: publish
 publish:
 	rm -rf ~/.m2/repository/me/kpavlov/aimocks  ~/.m2/repository/me/kpavlov/mokksy
-	./gradlew clean build check sourcesJar publishToMavenLocal
+	./gradlew --rerun-tasks clean build check sourcesJar publishToMavenLocal
 	echo "Publishing 📢"
 	## https://vanniktech.github.io/gradle-maven-publish-plugin/central/#configuring-maven-central
 	# ./gradlew publishToMavenCentral \

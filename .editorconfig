@@ -18,13 +18,15 @@ insert_final_newline = true
 trim_trailing_whitespace = false
 
 [*.java]
-indent_size = 4
+indent_size = tab
+tab_width = 4
 ij_java_names_count_to_use_import_on_demand = 2147483647
 ij_java_packages_to_use_import_on_demand = unset
 
 # noinspection EditorConfigKeyCorrectness
 [*.{kt,kts}]
-indent_size = 4
+indent_size = tab
+tab_width = 4
 max_line_length = 100
 ij_kotlin_name_count_to_use_star_import = 2147483647
 ij_kotlin_name_count_to_use_star_import_for_members = 2147483647
@@ -36,8 +38,9 @@ ktlint_function_naming_ignore_when_annotated_with = "Test"
 max_line_length = off
 ij_kotlin_name_count_to_use_star_import = unset
 ij_kotlin_name_count_to_use_star_import_for_members = unset
-ij_kotlin_packages_to_use_import_on_demand = kotlinx.serialization,kotlinx.serialization.descriptors,kotlinx.serialization.encoding
+ij_kotlin_packages_to_use_import_on_demand = kotlinx.serialization, kotlinx.serialization.descriptors, kotlinx.serialization.encoding
 insert_final_newline = unset
-# no-trailing-spaces:
-# in
-# standard:no-multi-spaces: 2
+
+[*.xml]
+tab_width = 4
+indent_size = tab

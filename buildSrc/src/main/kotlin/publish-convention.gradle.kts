@@ -43,15 +43,15 @@ configure<MavenPublishBaseExtension> {
     )
 
     pom {
-        name.set(project.name)
-        description.set(project.description)
-        url.set("https://github.com/mokksy/ai-mocks")
-        inceptionYear.set("2025")
+        name = project.name
+        description = project.description
+        url = "https://mokksy.dev"
+        inceptionYear = "2025"
 
         licenses {
             license {
-                name.set("MIT License")
-                url.set("https://opensource.org/licenses/MIT")
+                name = "MIT License"
+                url = "https://opensource.org/licenses/MIT"
             }
         }
 
@@ -65,9 +65,14 @@ configure<MavenPublishBaseExtension> {
         }
 
         scm {
-            connection.set("scm:git:git://github.com/mokksy/ai-mocks.git")
-            developerConnection.set("scm:git:ssh://github.com/mokksy/ai-mocks.git")
-            url.set("https://github.com/mokksy/ai-mocks")
+            connection = "scm:git:git://github.com/mokksy/ai-mocks.git"
+            developerConnection = "scm:git:ssh://github.com/mokksy/ai-mocks.git"
+            url = "https://github.com/mokksy/ai-mocks"
+        }
+
+        issueManagement {
+            url = "https://github.com/mokksy/ai-mocks/issues"
+            system = "GitHub"
         }
     }
 }

@@ -4,6 +4,7 @@ plugins {
     `kotlin-convention`
     `dokka-convention`
     `publish-convention`
+    `shadow-convention`
 }
 
 kotlin {
@@ -58,6 +59,21 @@ kotlin {
                 implementation(libs.ktor.serialization.kotlinx.json)
 
                 runtimeOnly(libs.slf4j.simple)
+            }
+        }
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("shadow") {
+            artifactId = "${project.name}-standalone"
+            artifact(tasks.named("shadowJar")) {
+                classifier = ""
+                extension = "jar"
+            }
+            artifact(tasks["jvmSourcesJar"]) {
+                classifier = "sources"
             }
         }
     }

@@ -5,6 +5,7 @@ plugins {
     `dokka-convention`
     `publish-convention`
     `netty-convention`
+    `shadow-convention`
 }
 
 dokka {
@@ -59,6 +60,21 @@ kotlin {
                 implementation(libs.awaitility.kotlin)
                 implementation(libs.junit.jupiter.params)
                 runtimeOnly(libs.slf4j.simple)
+            }
+        }
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("shadow") {
+            artifactId = "${project.name}-standalone"
+            artifact(tasks.named("shadowJar")) {
+                classifier = ""
+                extension = "jar"
+            }
+            artifact(tasks["jvmSourcesJar"]) {
+                classifier = "sources"
             }
         }
     }
