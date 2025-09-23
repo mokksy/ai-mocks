@@ -27,8 +27,7 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(kotlin("test"))
-                api(libs.kotest.assertions.core)
-                api(libs.kotest.assertions.json)
+                implementation(project(":test-utils"))
                 implementation(libs.assertk)
                 implementation(libs.kotlinLogging)
             }

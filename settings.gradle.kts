@@ -9,6 +9,7 @@ include(
     ":ai-mocks-gemini",
     ":ai-mocks-ollama",
     ":ai-mocks-openai",
+    ":test-utils",
     ":docs",
     ":mokksy",
 )

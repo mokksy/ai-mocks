@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.a2a.model
 
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.shouldBe
 import kotlinx.datetime.Instant
 import kotlin.io.encoding.Base64
@@ -13,7 +14,7 @@ import kotlin.test.Test
  * shown in the official specification examples.
  */
 @OptIn(ExperimentalEncodingApi::class)
-internal class A2ASpecificationSerializationTest : AbstractSerializationTest() {
+internal class A2ASpecificationSerializationTest {
     @Test
     fun `Deserialize and Serialize message send request with messageId from spec`() {
         // Example from Section 9.2 Basic Execution (Synchronous / Polling Style)

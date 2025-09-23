@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.gemini.content
 
+import me.kpavlov.aimocks.core.AbstractInferenceRequestSpecification
 import me.kpavlov.aimocks.core.ModelRequestSpecification
 import me.kpavlov.aimocks.gemini.GenerateContentRequest
 
@@ -28,7 +29,7 @@ public open class GeminiContentRequestSpecification(
     public var path: String? = null,
     public var seed: Number? = null,
     maxOutputTokens: Int? = null,
-) : ModelRequestSpecification<GenerateContentRequest>() {
+) : AbstractInferenceRequestSpecification<GenerateContentRequest>() {
     public var maxOutputTokens: Int? = maxOutputTokens
         private set
 

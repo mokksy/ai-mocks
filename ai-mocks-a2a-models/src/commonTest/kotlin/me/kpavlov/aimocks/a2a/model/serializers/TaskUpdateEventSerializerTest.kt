@@ -4,14 +4,13 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import kotlinx.datetime.Instant
 import kotlinx.serialization.json.Json
-import me.kpavlov.aimocks.a2a.model.AbstractSerializationTest
 import me.kpavlov.aimocks.a2a.model.TaskArtifactUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskStatusUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TaskUpdateEvent
 import me.kpavlov.aimocks.a2a.model.TextPart
 import kotlin.test.Test
 
-internal class TaskUpdateEventSerializerTest : AbstractSerializationTest() {
+internal class TaskUpdateEventSerializerTest {
     @Test
     fun `Deserialize TaskStatusUpdateEvent as TaskUpdateEvent`() {
         // language=json

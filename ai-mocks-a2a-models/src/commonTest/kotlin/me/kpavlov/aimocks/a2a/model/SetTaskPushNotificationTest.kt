@@ -1,12 +1,13 @@
 package me.kpavlov.aimocks.a2a.model
 
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 /**
  * https://a2a-protocol.org/latest/specification/#75-taskspushnotificationconfigset
  */
-internal class SetTaskPushNotificationTest : AbstractSerializationTest() {
+internal class SetTaskPushNotificationTest {
     @Test
     fun `Deserialize and Serialize SetTaskPushNotificationRequest`() {
         // language=json

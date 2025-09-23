@@ -1,12 +1,13 @@
 package me.kpavlov.aimocks.a2a.model
 
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 /**
  * https://a2a-protocol.org/latest/specification/#71-messagesend
  */
-internal class MessageSendTest : AbstractSerializationTest() {
+internal class MessageSendTest {
     @Test
     fun `Deserialize and Serialize with integer id`() {
         // language=json

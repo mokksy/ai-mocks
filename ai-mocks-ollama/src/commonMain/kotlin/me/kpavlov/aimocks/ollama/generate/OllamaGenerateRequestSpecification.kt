@@ -1,6 +1,6 @@
 package me.kpavlov.aimocks.ollama.generate
 
-import me.kpavlov.aimocks.core.ModelRequestSpecification
+import me.kpavlov.aimocks.core.AbstractInferenceRequestSpecification
 
 /**
  * Specification for matching generate completion requests.
@@ -14,7 +14,7 @@ import me.kpavlov.aimocks.core.ModelRequestSpecification
  * @property requestBody The request body to match
  * @property requestBodyString Additional string matchers for the request body
  */
-public class OllamaGenerateRequestSpecification : ModelRequestSpecification<GenerateRequest>() {
+public class OllamaGenerateRequestSpecification : AbstractInferenceRequestSpecification<GenerateRequest>() {
     public var template: String? = null
     public var stream: Boolean? = null
 

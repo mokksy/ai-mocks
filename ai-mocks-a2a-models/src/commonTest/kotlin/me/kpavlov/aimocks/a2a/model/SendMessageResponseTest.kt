@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.a2a.model
 
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
@@ -7,7 +8,7 @@ import kotlin.test.Test
 /**
  * https://a2a-protocol.org/latest/specification/#71-messagesend
  */
-internal class SendMessageResponseTest : AbstractSerializationTest() {
+internal class SendMessageResponseTest {
     @Test
     fun `Deserialize and Serialize SendMessageResponse`() {
         // language=json

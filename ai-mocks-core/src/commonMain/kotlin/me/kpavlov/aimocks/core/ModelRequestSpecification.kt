@@ -11,31 +11,22 @@ import me.kpavlov.mokksy.kotest.objectEquals
 import me.kpavlov.mokksy.request.predicateMatcher
 import me.kpavlov.mokksy.request.successCallMatcher
 
-@Suppress("LongParameterList", "TooManyFunctions")
+/**
+ * Represents a specification model for processing and asserting certain conditions on a request body.
+ *
+ * This abstract class allows configuring conditions for matching and validating the attributes
+ * or structure of the request body, either as a whole object or in its string representation.
+ * Suitable for cases where flexible request validation is needed.
+ *
+ * @param P The type parameter specifying the type of object the request body is expected to be.
+ */
+@Suppress("TooManyFunctions")
 public abstract class ModelRequestSpecification<P>(
-    public var temperature: Double? = null,
-    public var maxTokens: Long? = null,
-    public var topK: Long? = null,
-    public var topP: Double? = null,
     public var model: String? = null,
     public val requestBody: MutableList<Matcher<P?>> = mutableListOf(),
     public val requestBodyString: MutableList<Matcher<String?>> = mutableListOf(),
 ) {
-    public fun temperature(temperature: Double): ModelRequestSpecification<P> = apply { this.temperature = temperature }
-
     public fun model(model: String): ModelRequestSpecification<P> = apply { this.model = model }
-
-    public fun maxTokens(value: Long): ModelRequestSpecification<P> = apply { this.maxTokens = value }
-
-    public fun maxTokens(value: Number): ModelRequestSpecification<P> = apply { this.maxTokens = value.toLong() }
-
-    public fun topK(value: Long): ModelRequestSpecification<P> = apply { this.topK = value }
-
-    public fun topK(value: Number): ModelRequestSpecification<P> = apply { this.topK = value.toLong() }
-
-    public fun topP(value: Double): ModelRequestSpecification<P> = apply { this.topP = value }
-
-    public fun topP(value: Number): ModelRequestSpecification<P> = apply { this.topP = value.toDouble() }
 
     /**
      * Adds a matcher to require that the request body string contains the specified substring.
@@ -108,7 +99,9 @@ public abstract class ModelRequestSpecification<P>(
      * @param substring The substring that the request body should contain, case-insensitive.
      * @return The current instance of ChatRequestSpecification with the updated condition.
      */
-    public fun requestBodyDoesNotContainsIgnoringCase(substring: String): ModelRequestSpecification<P> =
+    public fun requestBodyDoesNotContainsIgnoringCase(
+        substring: String,
+    ): ModelRequestSpecification<P> =
         apply {
             requestBodyString += doesNotContainIgnoringCase(substring)
         }
@@ -123,46 +116,6 @@ public abstract class ModelRequestSpecification<P>(
         apply {
             requestBodyString += doesNotContain(substring)
         }
-
-    /**
-     * Specifies that the system/developer message must contain the provided string.
-     *
-     * @param substring The substring that the system message should contain.
-     */
-    public abstract fun systemMessageContains(substring: String)
-
-    /**
-     * Specifies that the system/developer message must contain a dynamically constructed string.
-     * The string can be built using a lambda with a [StringBuilder] receiver.
-     *
-     * @param builderAction A lambda with a receiver of type [StringBuilder], used to build the
-     * desired content that the system message should contain.
-     */
-    public inline fun systemMessageContains(builderAction: StringBuilder.() -> Unit) {
-        val stringBuilder = StringBuilder()
-        builderAction.invoke(stringBuilder)
-        systemMessageContains(stringBuilder.toString())
-    }
-
-    /**
-     * Specifies that the user's message must contain the provided substring.
-     *
-     * @param substring The substring that the user's message should contain.
-     */
-    public abstract fun userMessageContains(substring: String)
-
-    /**
-     * Specifies a condition that the user's message must contain a dynamically constructed string.
-     * The string can be built using a lambda with a [StringBuilder] receiver.
-     *
-     * @param builderAction A lambda with a receiver of type [StringBuilder], used to build the desired content
-     * that the user's message should contain.
-     */
-    public inline fun userMessageContains(builderAction: StringBuilder.() -> Unit) {
-        val stringBuilder = StringBuilder()
-        builderAction.invoke(stringBuilder)
-        userMessageContains(stringBuilder.toString())
-    }
 
     /**
      * Adds a condition to verify that the request matches the specified predicate.

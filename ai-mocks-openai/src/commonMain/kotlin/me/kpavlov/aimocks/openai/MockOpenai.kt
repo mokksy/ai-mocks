@@ -6,7 +6,10 @@ import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.core.AbstractMockLlm
 import me.kpavlov.aimocks.openai.completions.OpenaiChatCompletionRequestSpecification
 import me.kpavlov.aimocks.openai.completions.OpenaiChatCompletionsBuildingStep
+import me.kpavlov.aimocks.openai.model.moderation.CreateModerationRequest
 import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
+import me.kpavlov.aimocks.openai.moderation.OpenaiModerationBuildingStep
+import me.kpavlov.aimocks.openai.moderation.OpenaiModerationRequestSpecification
 import me.kpavlov.aimocks.openai.responses.OpenaiResponsesBuildingStep
 import me.kpavlov.aimocks.openai.responses.OpenaiResponsesRequestSpecification
 import me.kpavlov.mokksy.ServerConfiguration
@@ -125,6 +128,43 @@ public open class MockOpenai(
             }
 
         return OpenaiResponsesBuildingStep(
+            buildingStep = requestStep,
+            mokksy = mokksy,
+        )
+    }
+
+    @JvmOverloads
+    public fun moderation(
+        name: String? = null,
+        block: Consumer<OpenaiModerationRequestSpecification>,
+    ): OpenaiModerationBuildingStep = moderation(name) { block.accept(this) }
+
+    public fun moderation(
+        name: String? = null,
+        block: OpenaiModerationRequestSpecification.() -> Unit,
+    ): OpenaiModerationBuildingStep {
+        val requestStep =
+            mokksy.post(
+                name = name,
+                requestType = CreateModerationRequest::class,
+            ) {
+                val reqSpec = OpenaiModerationRequestSpecification()
+                block(reqSpec)
+
+                path("/v1/moderations")
+
+                body += reqSpec.requestBody
+
+                reqSpec.model?.let {
+                    bodyString += containJsonKeyValue("model", it)
+                }
+
+                reqSpec.requestBodyString.forEach {
+                    bodyString += it
+                }
+            }
+
+        return OpenaiModerationBuildingStep(
             buildingStep = requestStep,
             mokksy = mokksy,
         )

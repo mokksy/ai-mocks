@@ -19,7 +19,6 @@ internal class ChatCompletionModelsTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
     fun `Should deserialize ChatCompletionRequest`() {
         val json =
             """

@@ -1,10 +1,11 @@
 package me.kpavlov.aimocks.gemini
 
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
-internal class GenerateContentResponseTest : AbstractSerializationTest() {
+internal class GenerateContentResponseTest {
     @Test
     fun `Deserialize and Serialize GenerateContentResponse`() {
         // language=json

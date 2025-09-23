@@ -15,7 +15,7 @@ import kotlin.test.Test
  * - Lists of Parts with mixed types
  * - Proper "kind" discriminator usage
  */
-internal class PartSerializationTest : AbstractSerializationTest() {
+internal class PartSerializationTest {
     private val partSerializer = PartSerializer()
 
     @Test
