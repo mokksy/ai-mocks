@@ -1,6 +1,6 @@
 package me.kpavlov.aimocks.ollama.chat
 
-import me.kpavlov.aimocks.core.ModelRequestSpecification
+import me.kpavlov.aimocks.core.AbstractInferenceRequestSpecification
 
 /**
  * Specification for matching chat completion requests.
@@ -11,7 +11,7 @@ import me.kpavlov.aimocks.core.ModelRequestSpecification
  * @property messages The messages to match in the request
  * @property stream Whether to match streaming requests
  */
-public class OllamaChatRequestSpecification : ModelRequestSpecification<ChatRequest>() {
+public class OllamaChatRequestSpecification : AbstractInferenceRequestSpecification<ChatRequest>() {
     public var seed: Int? = null
     public var messages: List<Message> = mutableListOf()
     public var stream: Boolean? = null

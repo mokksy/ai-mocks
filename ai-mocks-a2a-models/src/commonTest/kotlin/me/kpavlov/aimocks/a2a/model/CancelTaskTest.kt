@@ -1,12 +1,13 @@
 package me.kpavlov.aimocks.a2a.model
 
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 /**
  * https://a2a-protocol.org/latest/specification/#74-taskscancel
  */
-internal class CancelTaskTest : AbstractSerializationTest() {
+internal class CancelTaskTest {
     @Test
     fun `Deserialize and Serialize CancelTaskRequest`() {
         // language=json

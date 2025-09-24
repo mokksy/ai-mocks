@@ -8,16 +8,13 @@ import io.kotest.matchers.string.shouldStartWith
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class ChatRequestSpecificationTest {
+class ModelRequestSpecificationTest {
     lateinit var subject: ModelRequestSpecification<String>
 
     @BeforeTest
     fun before() {
         subject =
             object : ModelRequestSpecification<String>() {
-                override fun systemMessageContains(substring: String) = TODO()
-
-                override fun userMessageContains(substring: String) = TODO()
             }
     }
 

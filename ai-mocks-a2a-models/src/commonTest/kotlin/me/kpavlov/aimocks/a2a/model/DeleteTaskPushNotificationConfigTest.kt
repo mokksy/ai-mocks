@@ -1,12 +1,13 @@
 package me.kpavlov.aimocks.a2a.model
 
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 /**
  * https://a2a-protocol.org/latest/specification/#78-taskspushnotificationconfigdelete
  */
-internal class DeleteTaskPushNotificationConfigTest : AbstractSerializationTest() {
+internal class DeleteTaskPushNotificationConfigTest {
     @Test
     fun `Deserialize and Serialize DeleteTaskPushNotificationConfigRequest`() {
         // language=json

@@ -1,12 +1,13 @@
 package me.kpavlov.aimocks.gemini
 
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
-internal class GenerateContentRequestTest : AbstractSerializationTest() {
+internal class GenerateContentRequestTest {
     @Test
-    fun `Deserialize and Serialize CancelTaskRequest`() {
+    fun `Deserialize and Serialize GenerateContentRequest`() {
         // language=json
         val payload =
             """

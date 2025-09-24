@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.a2a.model
 
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
@@ -7,7 +8,7 @@ import kotlin.test.Test
 /**
  * https://a2a-protocol.org/latest/specification/#73-tasksget
  */
-internal class GetTaskTest : AbstractSerializationTest() {
+internal class GetTaskTest {
     @Test
     fun `Deserialize and Serialize GetTaskRequest`() {
         // language=json
@@ -78,6 +79,5 @@ internal class GetTaskTest : AbstractSerializationTest() {
             (part as? TextPart)?.text shouldBe
                 "Why did the chicken cross the road? To get to the other side!"
         }
-
     }
 }

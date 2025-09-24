@@ -1,11 +1,11 @@
 package me.kpavlov.aimocks.anthropic
 
 import me.kpavlov.aimocks.anthropic.model.MessageCreateParams
-import me.kpavlov.aimocks.core.ModelRequestSpecification
+import me.kpavlov.aimocks.core.AbstractInferenceRequestSpecification
 
 public open class AnthropicMessagesRequestSpecification(
     public var userId: String? = null,
-) : ModelRequestSpecification<MessageCreateParams>() {
+) : AbstractInferenceRequestSpecification<MessageCreateParams>() {
     public fun userId(value: String): AnthropicMessagesRequestSpecification = apply { this.userId = value }
 
     override fun systemMessageContains(substring: String) {

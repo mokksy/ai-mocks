@@ -1,4 +1,3 @@
-
 plugins {
     base
     alias(libs.plugins.detekt)
@@ -25,6 +24,7 @@ subprojects {
 
 dependencies {
     kover(project(":a2a-client"))
+    kover(project(":test-utils"))
     kover(project(":ai-mocks-a2a"))
     kover(project(":ai-mocks-a2a-models"))
     kover(project(":ai-mocks-anthropic"))
