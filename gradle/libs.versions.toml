@@ -1,6 +1,6 @@
 [versions]
 anthropic-java = "2.7.0"
-assertj = "3.27.5"
+assertj = "3.27.6"
 assertk = "0.28.1"
 awaitility = "4.3.0"
 datafaker = "2.5.0"
