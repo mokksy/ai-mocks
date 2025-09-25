@@ -16,13 +16,14 @@ import kotlin.time.toJavaDuration
 internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
     @Test
     fun `Should respond with stream to generateContentStream`() {
+        val systemMessage = "You are a helpful pirate. $seedValue"
         gemini
             .generateContentStream {
                 temperature = temperatureValue
                 model = modelName
                 project = projectId
                 location = locationId
-                systemMessageContains("You are a helpful pirate")
+                systemMessageContains(systemMessage)
                 userMessageContains("Just say 'Hello!'")
             }.respondsStream(sse = false) {
                 responseFlow =
@@ -39,7 +40,7 @@ internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
 
         val buffer = StringBuffer()
         val chunkCount =
-            prepareClientRequest()
+            prepareClientRequest(systemMessage)
                 .stream()
                 .chatResponse()
                 .doOnNext { chunk ->

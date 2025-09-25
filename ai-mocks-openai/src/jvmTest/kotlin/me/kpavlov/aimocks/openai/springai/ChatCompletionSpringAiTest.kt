@@ -20,25 +20,25 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
             seed = seedValue
             model = modelName
             maxTokens = maxCompletionTokensValue
-            systemMessageContains("helpful pirate")
+            systemMessageContains("helpful merchant")
             userMessageContains("say 'Hello!'")
             requestMatchesPredicate {
                 !it.stream
             }
         } responds {
-            assistantContent = "Ahoy there, matey! Hello!"
+            assistantContent = "Hello there! Welcome to our shop! How can I assist you today?"
             finishReason = "stop"
         }
 
         val response =
-            prepareClientRequest()
+            prepareClientRequest("You are a helpful merchant")
                 .call()
                 .chatResponse()
 
         response?.result shouldNotBe null
         response?.result?.apply {
             metadata.finishReason shouldBe "STOP"
-            output?.text shouldBe "Ahoy there, matey! Hello!"
+            output.text shouldBe "Hello there! Welcome to our shop! How can I assist you today?"
         }
     }
 
@@ -71,11 +71,11 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
 
         val buffer = StringBuffer()
         val chunkCount =
-            prepareClientRequest()
+            prepareClientRequest("You are a helpful pirate")
                 .stream()
                 .chatResponse()
-                .doOnNext {
-                    it.result.output.text?.let {
+                .doOnNext { chunk ->
+                    chunk.result.output.text?.let {
                         buffer.append(it)
                     }
                 }.count()

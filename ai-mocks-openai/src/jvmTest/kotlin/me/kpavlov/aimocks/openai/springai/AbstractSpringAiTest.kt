@@ -21,10 +21,10 @@ internal val chatClient =
         ).build()
 
 internal abstract class AbstractSpringAiTest : AbstractMockOpenaiTest() {
-    protected fun prepareClientRequest(): ChatClient.ChatClientRequestSpec =
+    protected fun prepareClientRequest(systemPrompt: String): ChatClient.ChatClientRequestSpec =
         chatClient
             .prompt()
-            .system("You are a helpful pirate")
+            .system(systemPrompt)
             .user("Just say 'Hello!'")
             .options(
                 OpenAiChatOptions

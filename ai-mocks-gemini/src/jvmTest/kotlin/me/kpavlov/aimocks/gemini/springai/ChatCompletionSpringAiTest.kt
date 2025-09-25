@@ -25,7 +25,7 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
         }
 
         val response: ChatResponse? =
-            prepareClientRequest()
+            prepareClientRequest(systemMessage)
                 .call()
                 .chatResponse()
 

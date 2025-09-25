@@ -35,7 +35,7 @@ internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
 
         val buffer = StringBuffer()
         val chunkCount =
-            prepareClientRequest()
+            prepareClientRequest("You are a helpful pirate")
                 .stream()
                 .chatResponse()
                 .doOnNext {
