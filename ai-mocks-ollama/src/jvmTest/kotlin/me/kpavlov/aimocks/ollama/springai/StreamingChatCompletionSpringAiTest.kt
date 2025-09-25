@@ -18,7 +18,7 @@ internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
             model = modelName
             topK = topKValue
             topP = topPValue
-            systemMessageContains("helpful pirate")
+            systemMessageContains("unhelpful orc")
             userMessageContains("say 'Hello!'")
             stream = true
         } respondsStream {
@@ -36,7 +36,7 @@ internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
 
         val buffer = StringBuffer()
         val chunkCount =
-            prepareClientRequest()
+            prepareClientRequest("You are a unhelpful orc")
                 .stream()
                 .chatResponse()
                 .doOnNext { chatResponse ->

@@ -23,7 +23,7 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
         }
 
         val response =
-            prepareClientRequest()
+            prepareClientRequest("You are a helpful pirate")
                 .call()
                 .chatResponse()
 

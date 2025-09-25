@@ -20,10 +20,10 @@ internal val chatClient =
         ).build()
 
 internal abstract class AbstractSpringAiTest : AbstractMockOllamaTest() {
-    protected fun prepareClientRequest(): ChatClient.ChatClientRequestSpec =
+    protected fun prepareClientRequest(systemMessage: String): ChatClient.ChatClientRequestSpec =
         chatClient
             .prompt()
-            .system("You are a helpful pirate")
+            .system(systemMessage)
             .user("Just say 'Hello!'")
             .options(
                 OllamaOptions
