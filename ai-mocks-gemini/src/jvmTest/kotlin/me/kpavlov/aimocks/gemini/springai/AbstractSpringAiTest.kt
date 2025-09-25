@@ -17,10 +17,10 @@ internal abstract class AbstractSpringAiTest : AbstractMockGeminiTest() {
                     .build(),
             ).build()
 
-    protected fun prepareClientRequest(): ChatClient.ChatClientRequestSpec =
+    protected fun prepareClientRequest(systemMessage: String): ChatClient.ChatClientRequestSpec =
         chatClient
             .prompt()
-            .system("You are a helpful pirate. $seedValue")
+            .system(systemMessage)
             .user("Just say 'Hello!'")
             .options(
                 VertexAiGeminiChatOptions
