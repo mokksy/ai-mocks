@@ -1,5 +1,6 @@
 package me.kpavlov.mokksy.response
 
+import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
@@ -14,12 +15,15 @@ import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emptyFlow
+import me.kpavlov.mokksy.utils.logger.HttpFormatter
 import kotlin.time.Duration
 
 public open class SseStreamResponseDefinition<P>(
     override val chunkFlow: Flow<ServerSentEvent>? = null,
+    private val chunkContentType: ContentType? = null,
     delay: Duration = Duration.ZERO,
-) : StreamResponseDefinition<P, ServerSentEvent>(delay = delay) {
+    formatter: HttpFormatter,
+) : StreamResponseDefinition<P, ServerSentEvent>(delay = delay, formatter = formatter) {
     override suspend fun writeResponse(
         call: ApplicationCall,
         verbose: Boolean,

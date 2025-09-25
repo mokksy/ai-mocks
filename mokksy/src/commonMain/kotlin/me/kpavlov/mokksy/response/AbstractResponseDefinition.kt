@@ -9,21 +9,20 @@ import kotlin.time.Duration
 internal typealias ResponseDefinitionSupplier<T> = (
     ApplicationCall,
 ) -> AbstractResponseDefinition<T>
-
 /**
  * Represents the base definition of an HTTP response in a mapping between a request and its corresponding response.
  * Provides the required attributes and behavior for configuring HTTP responses, including status code, headers,
  * and content type. This class serves as the foundation for more specialized response definitions.
  *
  * @param T The type of the response data.
- * @property contentType The MIME type of the response content. Defaults to `null`.
+ * @property contentType The MIME type of the response content.
  * @property httpStatusCode The HTTP status code of the response as Int, defaulting to 200.
  * @property httpStatus The HTTP status code of the response. Defaults to [HttpStatusCode.OK].
  * @property headers A lambda function for configuring the response headers. Defaults to `null`.
  * @property headerList A list of header key-value pairs to populate the response headers. Defaults to an empty list.
  */
 public abstract class AbstractResponseDefinition<T>(
-    public val contentType: ContentType? = null,
+    public val contentType: ContentType,
     public val httpStatusCode: Int = 200,
     public val httpStatus: HttpStatusCode = HttpStatusCode.fromValue(httpStatusCode),
     public val headers: (ResponseHeaders.() -> Unit)? = null,

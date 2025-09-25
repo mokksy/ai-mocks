@@ -1,5 +1,7 @@
 package me.kpavlov.aimocks.gemini.content
 
+import io.ktor.sse.TypedServerSentEvent
+import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
@@ -84,22 +86,22 @@ public class GeminiStreamingContentBuildingStep(
         }
     }
 
+    @OptIn(InternalAPI::class)
     private fun encodeChunk(
         chunk: GenerateContentResponse,
         sse: Boolean,
         lastChunk: Boolean = false,
     ): String {
-        val json =
-            Json.encodeToString(
-                value = chunk,
-                serializer = GenerateContentResponse.serializer(),
-            )
         return if (sse) {
-            "data: $json\r\n\r\n"
+            TypedServerSentEvent(
+                data = chunk,
+            ).toString {
+                Json.encodeToString(it)
+            }
         } else if (lastChunk) {
-            json
+            Json.encodeToString(value = chunk)
         } else {
-            "$json,\r\n"
+            "${Json.encodeToString(value = chunk)},\r\n"
         }
     }
 
