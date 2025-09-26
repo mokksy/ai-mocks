@@ -197,6 +197,7 @@ public open class MokksyServer
                 requestSpecification = requestSpec,
                 registerStub = this::registerStub,
                 requestType = requestType,
+                formatter = httpFormatter,
             )
         }
 

@@ -2,10 +2,12 @@ package me.kpavlov.mokksy.utils.logger
 
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.contentType
 import io.ktor.server.request.httpMethod
 import io.ktor.server.request.receiveText
 import io.ktor.server.request.uri
+import io.ktor.server.response.ResponseHeaders
 import io.ktor.server.routing.RoutingRequest
 import me.kpavlov.mokksy.utils.logger.Highlighting.highlightBody
 
@@ -109,6 +111,16 @@ public open class HttpFormatter(
             )
         }"
 
+    public fun responseLine(
+        httpVersion: String,
+        status: HttpStatusCode,
+    ): String =
+        colorize(
+            "$httpVersion ${status.value} ${status.description}",
+            AnsiColor.STRONGER,
+            useColor,
+        )
+
     /**
      * Formats an HTTP header line with colorized header name and values.
      *
@@ -131,7 +143,9 @@ public open class HttpFormatter(
     /**
      * Formats the HTTP request body, applying syntax highlighting if color output is enabled.
      *
-     * Returns an empty string if the body is null or blank. If color output is enabled, the body is highlighted according to its content type; otherwise, the raw body string is returned.
+     * Returns an empty string if the body is null or blank.
+     * If color output is enabled, the body is highlighted according to its content type;
+     * otherwise, the raw body string is returned.
      *
      * @param body The HTTP request body to format.
      * @param contentType The content type of the body, used for syntax highlighting.
@@ -148,7 +162,8 @@ public open class HttpFormatter(
     /**
      * Formats an HTTP request into a colorized, multi-line string representation.
      *
-     * The output includes the request line, all headers, and the request body, with color highlighting applied according to the formatter's theme and color settings.
+     * The output includes the request line, all headers, and the request body,
+     * with color highlighting applied according to the formatter's theme and color settings.
      *
      * @param request The HTTP routing request to format.
      * @return A formatted string representing the full HTTP request.
@@ -157,12 +172,45 @@ public open class HttpFormatter(
         val body = request.call.receiveText()
         return buildString {
             appendLine(requestLine(request.httpMethod, request.uri))
-            request.headers.entries().forEach {
-                appendLine(header(it.key, it.value))
+            request.headers.entries().forEach { (key, value) ->
+                appendLine(header(key, value))
             }
             appendLine()
             appendLine(formatBody(body, request.contentType()))
         }
+    }
+
+    internal fun formatResponseHeader(
+        httpVersion: String,
+        status: HttpStatusCode,
+        headers: ResponseHeaders,
+    ): String =
+        buildString {
+            appendLine(responseLine(httpVersion, status))
+            headers.allValues().entries().forEach { (key, value) ->
+                appendLine(header(key, value))
+            }
+        }
+
+    internal fun formatResponse(
+        httpVersion: String,
+        status: HttpStatusCode,
+        headers: ResponseHeaders,
+        body: String?,
+        contentType: ContentType,
+    ): String =
+        buildString {
+            append(formatResponseHeader(httpVersion, status, headers))
+            appendLine()
+            appendLine(formatBody(body = body, contentType = contentType))
+        }
+
+    internal fun formatResponseChunk(
+        chunk: String?,
+        contentType: ContentType = ContentType.Text.Plain,
+    ): String {
+        if (chunk.isNullOrBlank()) return ""
+        return if (useColor) highlightBody(chunk, contentType) else chunk
     }
 
     public data class ColorScheme(

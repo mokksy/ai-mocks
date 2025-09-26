@@ -5,10 +5,13 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.withCharset
 import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.log
+import io.ktor.server.request.httpVersion
 import io.ktor.server.response.ResponseHeaders
 import io.ktor.server.response.cacheControl
 import io.ktor.server.response.respondBytesWriter
 import io.ktor.server.sse.ServerSSESession
+import io.ktor.util.logging.Logger
 import io.ktor.utils.io.ByteWriteChannel
 import io.ktor.utils.io.writeStringUtf8
 import kotlinx.coroutines.channels.BufferOverflow
@@ -19,6 +22,7 @@ import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.yield
+import me.kpavlov.mokksy.utils.logger.HttpFormatter
 import kotlin.time.Duration
 
 internal const val SEND_BUFFER_CAPACITY = 256
@@ -48,11 +52,13 @@ public open class StreamResponseDefinition<P, T>(
     public val chunks: List<T>? = null,
     public val delayBetweenChunks: Duration = Duration.ZERO,
     contentType: ContentType = ContentType.Text.EventStream.withCharset(Charsets.UTF_8),
+    private val chunkContentType: ContentType? = null,
     httpStatusCode: Int = 200,
     httpStatus: HttpStatusCode = HttpStatusCode.fromValue(httpStatusCode),
     headers: (ResponseHeaders.() -> Unit)? = null,
     headerList: List<Pair<String, String>> = emptyList<Pair<String, String>>(),
     delay: Duration,
+    private val formatter: HttpFormatter,
 ) : AbstractResponseDefinition<T>(
         contentType = contentType,
         httpStatusCode = httpStatusCode,
@@ -62,6 +68,7 @@ public open class StreamResponseDefinition<P, T>(
         delay = delay,
     ) {
     internal suspend fun writeChunksFromFlow(
+        logger: Logger,
         writer: ByteWriteChannel,
         verbose: Boolean,
     ) {
@@ -74,9 +81,14 @@ public open class StreamResponseDefinition<P, T>(
             ?.buffer(
                 capacity = SEND_BUFFER_CAPACITY,
                 onBufferOverflow = BufferOverflow.SUSPEND,
-            )?.catch { print("Error while sending chunks: $it") }
+            )?.catch { logger.warn("Error while sending chunks: $it") }
             ?.collect {
-                writeChunk(writer, it, verbose)
+                writeChunk(
+                    writer = writer,
+                    value = it,
+                    verbose = verbose,
+                    logger = logger,
+                )
             }
     }
 
@@ -84,12 +96,27 @@ public open class StreamResponseDefinition<P, T>(
         writer: ByteWriteChannel,
         value: T,
         verbose: Boolean,
+        logger: Logger,
         serialize: (T) -> String = { "$it" },
     ) {
+        val serializedValue = serialize(value)
         if (verbose) {
-            print("$value")
+            val type =
+                chunkContentType
+                    ?: when (value) {
+                        is CharSequence -> ContentType.Text.Plain
+                        else -> ContentType.Application.Json
+                    }
+            logger.debug(
+                "Writing chunk:\n ${
+                    formatter.formatResponseChunk(
+                        chunk = serializedValue,
+                        contentType = type,
+                    )
+                }",
+            )
         }
-        writer.writeStringUtf8(serialize(value))
+        writer.writeStringUtf8(serializedValue)
         writer.flush()
         yield()
         if (delayBetweenChunks.isPositive()) {
@@ -124,12 +151,19 @@ public open class StreamResponseDefinition<P, T>(
     internal suspend fun writeChunksFromList(
         writer: ByteWriteChannel,
         verbose: Boolean,
+        logger: Logger,
+        chunkContentType: ContentType?,
     ) {
         if (this.delay.isPositive()) {
             delay(delay)
         }
         chunks?.forEach {
-            writeChunk(writer, it, verbose)
+            writeChunk(
+                writer = writer,
+                value = it,
+                verbose = verbose,
+                logger = logger,
+            )
         }
     }
 
@@ -144,7 +178,22 @@ public open class StreamResponseDefinition<P, T>(
                     status = this.httpStatus,
                     contentType = this.contentType,
                 ) {
-                    writeChunksFromFlow(writer = this, verbose)
+                    if (verbose) {
+                        call.application.log.debug(
+                            "Sending:\n---\n${
+                                formatter.formatResponseHeader(
+                                    httpVersion = call.request.httpVersion,
+                                    headers = call.response.headers,
+                                    status = httpStatus,
+                                )
+                            }",
+                        )
+                    }
+                    writeChunksFromFlow(
+                        writer = this,
+                        verbose = verbose,
+                        logger = call.application.log,
+                    )
                 }
             }
 
@@ -154,7 +203,12 @@ public open class StreamResponseDefinition<P, T>(
                     status = this.httpStatus,
                     contentType = this.contentType,
                 ) {
-                    writeChunksFromList(this, verbose)
+                    writeChunksFromList(
+                        writer = this,
+                        verbose = verbose,
+                        logger = call.application.log,
+                        chunkContentType = chunkContentType,
+                    )
                 }
             }
         }

@@ -64,6 +64,7 @@ ktor-server-core = { module = "io.ktor:ktor-server-core" }
 ktor-server-double-receive = { module = "io.ktor:ktor-server-double-receive" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty" }
 ktor-server-sse = { module = "io.ktor:ktor-server-sse" }
+ktor-sse = { module = "io.ktor:ktor-sse" }
 langchain4j-anthropic = { group = "dev.langchain4j", name = "langchain4j-anthropic" }
 langchain4j-bom = { group = "dev.langchain4j", name = "langchain4j-bom", version.ref = "langchain4j" }
 langchain4j-gemini = { group = "dev.langchain4j", name = "langchain4j-google-ai-gemini" }
