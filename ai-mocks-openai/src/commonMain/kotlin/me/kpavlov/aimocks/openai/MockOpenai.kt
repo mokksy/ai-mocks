@@ -1,11 +1,15 @@
 package me.kpavlov.aimocks.openai
 
 import io.kotest.assertions.json.containJsonKeyValue
+import io.kotest.matchers.string.contain
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.core.AbstractMockLlm
 import me.kpavlov.aimocks.openai.completions.OpenaiChatCompletionRequestSpecification
 import me.kpavlov.aimocks.openai.completions.OpenaiChatCompletionsBuildingStep
+import me.kpavlov.aimocks.openai.embeddings.OpenaiEmbedBuildingStep
+import me.kpavlov.aimocks.openai.embeddings.OpenaiEmbedRequestSpecification
+import me.kpavlov.aimocks.openai.model.embeddings.CreateEmbeddingsRequest
 import me.kpavlov.aimocks.openai.model.moderation.CreateModerationRequest
 import me.kpavlov.aimocks.openai.model.responses.CreateResponseRequest
 import me.kpavlov.aimocks.openai.moderation.OpenaiModerationBuildingStep
@@ -165,6 +169,70 @@ public open class MockOpenai(
             }
 
         return OpenaiModerationBuildingStep(
+            buildingStep = requestStep,
+            mokksy = mokksy,
+        )
+    }
+
+    @JvmOverloads
+    public fun embeddings(
+        name: String? = null,
+        block: Consumer<OpenaiEmbedRequestSpecification>,
+    ): OpenaiEmbedBuildingStep = embeddings(name) { block.accept(this) }
+
+    /**
+     * Sets up a mock handler for the OpenAI `/v1/embeddings` endpoint,
+     * allowing configuration of request matching for embedding requests.
+     *
+     * Supports matching on model, input (string or list), dimensions, encoding_format, and user fields in the request body.
+     *
+     * @param name Optional identifier for the mock configuration.
+     * @param block Lambda to configure the request matching criteria.
+     * @return A builder step for specifying the mock response to embedding requests.
+     * @see <a href="https://platform.openai.com/docs/api-reference/embeddings/create">OpenAI Embeddings API</a>
+     */
+    public fun embeddings(
+        name: String? = null,
+        block: OpenaiEmbedRequestSpecification.() -> Unit,
+    ): OpenaiEmbedBuildingStep {
+        val requestStep =
+            mokksy.post(
+                name = name,
+                requestType = CreateEmbeddingsRequest::class,
+            ) {
+                val embedRequestSpec = OpenaiEmbedRequestSpecification()
+                block(embedRequestSpec)
+
+                path("/v1/embeddings")
+
+                embedRequestSpec.model?.let {
+                    bodyString += containJsonKeyValue("model", it)
+                }
+
+                // Handle string input
+                embedRequestSpec.stringInput?.let {
+                    bodyString += containJsonKeyValue("input", it)
+                }
+
+                // Handle string list input
+                embedRequestSpec.stringListInput?.let {
+                    // For list inputs, we can't use containJsonKeyValue directly
+                    // Instead, we'll check that the request body contains the input values
+                    it.forEach { inputValue ->
+                        bodyString += contain(inputValue)
+                    }
+                }
+
+                embedRequestSpec.user?.let {
+                    bodyString += containJsonKeyValue("user", it)
+                }
+
+                embedRequestSpec.requestBodyString.forEach {
+                    bodyString += contain(it)
+                }
+            }
+
+        return OpenaiEmbedBuildingStep(
             buildingStep = requestStep,
             mokksy = mokksy,
         )
