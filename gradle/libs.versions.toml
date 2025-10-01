@@ -27,7 +27,7 @@ openrewrite = "7.17.0"
 slf4j = "2.0.17"
 spotless = "8.0.0"
 spring = "6.2.11"
-spring-ai = "1.0.2"
+spring-ai = "1.0.3"
 system-stubs = "2.1.8"
 jansi = "2.4.2"
 
