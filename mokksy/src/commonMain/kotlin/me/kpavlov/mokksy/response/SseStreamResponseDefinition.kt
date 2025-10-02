@@ -20,10 +20,15 @@ import kotlin.time.Duration
 
 public open class SseStreamResponseDefinition<P>(
     override val chunkFlow: Flow<ServerSentEvent>? = null,
-    private val chunkContentType: ContentType? = null,
+    chunkContentType: ContentType? = null,
     delay: Duration = Duration.ZERO,
     formatter: HttpFormatter,
-) : StreamResponseDefinition<P, ServerSentEvent>(delay = delay, formatter = formatter) {
+) : StreamResponseDefinition<P, ServerSentEvent>(
+        chunkFlow = chunkFlow,
+        chunkContentType = chunkContentType,
+        delay = delay,
+        formatter = formatter,
+    ) {
     override suspend fun writeResponse(
         call: ApplicationCall,
         verbose: Boolean,

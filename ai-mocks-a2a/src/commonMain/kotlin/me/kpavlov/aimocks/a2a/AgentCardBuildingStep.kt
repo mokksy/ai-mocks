@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.a2a
 
+import io.ktor.http.ContentType
 import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
@@ -13,6 +14,7 @@ public class AgentCardBuildingStep(
             val responseDefinition = this.build()
             val responseSpecification = AgentCardResponseSpecification(responseDefinition)
             block.invoke(responseSpecification)
+            contentType = ContentType.Application.Json
             body = requireNotNull(responseSpecification.card) { "Card must be defined" }
         }
     }

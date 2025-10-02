@@ -6,7 +6,6 @@ import io.ktor.server.response.ResponseHeaders
 import kotlinx.coroutines.flow.Flow
 import me.kpavlov.mokksy.CapturedRequest
 import me.kpavlov.mokksy.utils.logger.HttpFormatter
-import java.util.Collections
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -146,7 +145,7 @@ public open class StreamingResponseDefinitionBuilder<P : Any, T>(
             chunks = chunks.toList(),
             httpStatus = httpStatus,
             headers = headersLambda,
-            headerList = Collections.unmodifiableList(headers),
+            headerList = headers.toList(),
             delayBetweenChunks = delayBetweenChunks,
             delay = delay,
             formatter = formatter,
