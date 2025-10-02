@@ -4,10 +4,12 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.log
+import io.ktor.server.request.httpVersion
 import io.ktor.server.response.ResponseHeaders
 import io.ktor.server.response.respond
 import io.ktor.util.cio.ChannelWriteException
 import kotlinx.coroutines.delay
+import me.kpavlov.mokksy.utils.logger.HttpFormatter
 import kotlin.time.Duration
 
 /**
@@ -33,6 +35,7 @@ public open class ResponseDefinition<P, T>(
     headers: (ResponseHeaders.() -> Unit)? = null,
     headerList: List<Pair<String, String>> = emptyList<Pair<String, String>>(),
     delay: Duration,
+    private val formatter: HttpFormatter,
 ) : AbstractResponseDefinition<T>(
         contentType = contentType,
         httpStatusCode = httpStatusCode,
@@ -48,13 +51,25 @@ public open class ResponseDefinition<P, T>(
         if (this.delay.isPositive()) {
             delay(delay)
         }
+        val effectiveBody = responseBody ?: body
         if (verbose) {
-            call.application.log.debug("Sending {}: {}", httpStatus, body)
+            call.application.log.debug(
+                "Sending:\n---\n${
+                    formatter.formatResponse(
+                        httpVersion = call.request.httpVersion,
+                        headers = call.response.headers,
+                        contentType = this.contentType,
+                        status = httpStatus,
+                        body = effectiveBody?.toString(),
+                    )
+                }---\n",
+            )
         }
         try {
+            val payload: Any = effectiveBody ?: ""
             call.respond(
                 status = httpStatus,
-                message = body ?: "" as Any,
+                message = payload,
             )
         } catch (e: ChannelWriteException) {
             // We can't do anything about it

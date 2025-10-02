@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.openai.embeddings
 
+import io.ktor.http.ContentType
 import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.aimocks.core.EmbeddingUtils
 import me.kpavlov.aimocks.openai.model.embeddings.CreateEmbeddingsRequest
@@ -55,6 +56,7 @@ public class OpenaiEmbedBuildingStep(
                 responseSpecification.embeddings
                     ?: request.input.map { EmbeddingUtils.generateEmbedding(it) }
             delay = responseSpecification.delay
+            contentType = ContentType.Application.Json
 
             val promptTokens = nextInt(1, 100)
             val totalTokens = nextInt(promptTokens, promptTokens + 500)

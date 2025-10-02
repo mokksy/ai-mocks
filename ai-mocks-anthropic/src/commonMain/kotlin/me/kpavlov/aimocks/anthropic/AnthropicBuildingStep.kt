@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.anthropic
 
+import io.ktor.http.ContentType
 import io.ktor.sse.TypedServerSentEvent
 import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -40,7 +41,7 @@ public class AnthropicBuildingStep(
             val stopReason = chatResponseSpecification.stopReason
             val completionTokens = LongRange(1, 10).random()
             delay = chatResponseSpecification.delay
-
+            contentType = ContentType.Application.Json
             headers += "x-request-id" to randomIdString("req_")
             body =
                 Message(

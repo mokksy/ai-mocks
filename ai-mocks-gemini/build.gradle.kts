@@ -17,6 +17,7 @@ kotlin {
         commonMain {
             dependencies {
                 api(libs.ktor.serialization.kotlinx.json)
+                api(libs.ktor.sse)
                 api(project(":ai-mocks-core"))
                 api(project.dependencies.platform(libs.ktor.bom))
             }

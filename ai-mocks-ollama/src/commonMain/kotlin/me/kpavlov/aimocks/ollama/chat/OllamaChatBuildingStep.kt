@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.ollama.chat
 
+import io.ktor.http.ContentType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -55,6 +56,7 @@ public class OllamaChatBuildingStep(
                 )
             block.invoke(chatResponseSpecification)
             delay = chatResponseSpecification.delay
+            contentType = ContentType.Application.Json
 
             val promptEvalCount = nextInt(1, 200)
             val evalCount = nextInt(1, 500)

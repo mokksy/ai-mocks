@@ -5,6 +5,7 @@ import io.ktor.sse.ServerSentEventMetadata
 import me.kpavlov.mokksy.request.RequestSpecification
 import me.kpavlov.mokksy.response.ResponseDefinitionBuilder
 import me.kpavlov.mokksy.response.StreamingResponseDefinitionBuilder
+import me.kpavlov.mokksy.utils.logger.HttpFormatter
 import java.io.IOException
 import kotlin.reflect.KClass
 
@@ -25,6 +26,7 @@ public class BuildingStep<P : Any> internal constructor(
     private val configuration: StubConfiguration,
     private val requestSpecification: RequestSpecification<P>,
     private val registerStub: (Stub<*, *>) -> Unit,
+    private val formatter: HttpFormatter,
 ) {
     /**
      * @param P The type of the request payload.
@@ -37,11 +39,13 @@ public class BuildingStep<P : Any> internal constructor(
         name: String?,
         requestSpecification: RequestSpecification<P>,
         registerStub: (Stub<*, *>) -> Unit,
+        formatter: HttpFormatter,
     ) : this(
         requestType = requestType,
         configuration = StubConfiguration(name),
         requestSpecification = requestSpecification,
         registerStub = registerStub,
+        formatter = formatter,
     )
 
     /**
@@ -62,8 +66,10 @@ public class BuildingStep<P : Any> internal constructor(
                 val req = CapturedRequest(call.request, requestType)
                 @SuppressWarnings("TooGenericExceptionCaught")
                 try {
-                    ResponseDefinitionBuilder<P, T>(request = req)
-                        .apply(block)
+                    ResponseDefinitionBuilder<P, T>(
+                        request = req,
+                        formatter = formatter,
+                    ).apply(block)
                         .build()
                 } catch (e: Exception) {
                     if (e as? IOException == null) {
@@ -91,15 +97,19 @@ public class BuildingStep<P : Any> internal constructor(
      * @param block A lambda function applied to a [me.kpavlov.mokksy.response.StreamingResponseDefinitionBuilder],
      * used to configure the streaming response definition.
      */
-    public infix fun <T : Any> respondsWithStream(block: StreamingResponseDefinitionBuilder<P, T>.() -> Unit) {
+    public infix fun <T : Any> respondsWithStream(
+        block: StreamingResponseDefinitionBuilder<P, T>.() -> Unit,
+    ) {
         val stub =
             Stub(
                 configuration = configuration,
                 requestSpecification = requestSpecification,
             ) { call ->
                 val req = CapturedRequest(call.request, requestType)
-                StreamingResponseDefinitionBuilder<P, T>(request = req)
-                    .apply(block)
+                StreamingResponseDefinitionBuilder<P, T>(
+                    request = req,
+                    formatter = formatter,
+                ).apply(block)
                     .build()
             }
 

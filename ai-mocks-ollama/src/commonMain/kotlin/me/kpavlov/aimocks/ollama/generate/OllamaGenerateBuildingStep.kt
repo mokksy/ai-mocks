@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.ollama.generate
 
+import io.ktor.http.ContentType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -55,6 +56,7 @@ public class OllamaGenerateBuildingStep(
             val responseContent = generateResponseSpecification.responseContent
             val doneReason = generateResponseSpecification.doneReason
             delay = generateResponseSpecification.delay
+            contentType = ContentType.Application.Json
 
             val promptEvalCount = nextInt(1, 200)
             val evalCount = nextInt(1, 500)

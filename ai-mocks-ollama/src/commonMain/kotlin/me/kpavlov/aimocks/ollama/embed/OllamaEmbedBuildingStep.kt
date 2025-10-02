@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.ollama.embed
 
+import io.ktor.http.ContentType
 import kotlinx.datetime.Clock
 import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.aimocks.core.EmbeddingUtils
@@ -51,6 +52,7 @@ public class OllamaEmbedBuildingStep(
                     ?: request.input.map { EmbeddingUtils.generateEmbedding(it) }
             val modelName = embedResponseSpecification.model ?: request.model
             delay = embedResponseSpecification.delay
+            contentType = ContentType.Application.Json
 
             @Suppress("MagicNumber")
             val promptEvalCount = nextInt(1, 200)

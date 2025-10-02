@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.openai.moderation
 
+import io.ktor.http.ContentType
 import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.aimocks.openai.model.moderation.CreateModerationRequest
 import me.kpavlov.aimocks.openai.model.moderation.Moderation
@@ -30,6 +31,7 @@ public class OpenaiModerationBuildingStep(
             val spec = OpenaiModerationResponseSpecification(responseDefinition)
             block.invoke(spec)
             delay = spec.delay
+            contentType = ContentType.Application.Json
             val id = spec.id ?: "modr-${Integer.toHexString(counter.addAndGet(1))}"
             val createdModel = spec.model
             val result: ModerationResult = spec.toResult()
