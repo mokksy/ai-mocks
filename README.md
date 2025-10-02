@@ -161,7 +161,15 @@ It supports mocking following AI services:
 4. [Ollama](https://github.com/ollama/ollama/blob/main/docs/api.md) - [ai-mocks-ollama](https://mokksy.dev/docs/ai-mocks/ollama/)
 5. [Agent-to-Agent (A2A) Protocol](https://a2a-protocol.org/latest/specification/) - [ai-mocks-a2a](https://mokksy.dev/docs/ai-mocks/a2a/)
 
-**_NB! Not all API endpoints and parameters are supported!_**
+## Feature Support Matrix
+
+| Feature              | OpenAI    | Anthropic | Gemini | Ollama   | A2A                                  |
+|----------------------|-----------|-----------|--------|----------|--------------------------------------|
+| **Chat Completions** | ✅         | ✅         | ✅      | ✅        | ✅                                    |
+| **Streaming**        | ✅         | ✅         | ✅      | ✅        | ✅                                    |
+| **Embeddings**       | ✅         | ❌         | ❌      | ✅        | ❌                                    |
+| **Moderation**       | ✅         | ❌         | ❌      | ❌        | ❌                                    |
+| **Additional APIs**  | Responses | -         | -      | Generate | Full A2A Protocol<br/>(11 endpoints) |
 
 ## How to build
 
