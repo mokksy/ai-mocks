@@ -5,7 +5,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.response.ResponseHeaders
 import kotlinx.coroutines.flow.Flow
 import me.kpavlov.mokksy.CapturedRequest
-import java.util.Collections
+import me.kpavlov.mokksy.utils.logger.HttpFormatter
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -50,6 +50,7 @@ public abstract class AbstractResponseDefinitionBuilder<P, T>(
     }
 
     public fun httpStatus(status: Int) {
+        this.httpStatusCode = status
         this.httpStatus = HttpStatusCode.fromValue(status)
     }
 
@@ -66,8 +67,7 @@ public abstract class AbstractResponseDefinitionBuilder<P, T>(
  *
  * @param P The type of the request body.
  * @param T The type of the response body.
- * @property contentType Optional MIME type of the response.
- * Defaults to `ContentType.Application.Json` if not specified.
+ * @property contentType Optional MIME type of the response. Defaults to `null` if not specified.
  * @property body The body of the response. Can be null.
  * @property httpStatusCode The HTTP status code of the response as Int, defaulting to 200.
  * @property httpStatus The HTTP status code of the response, defaulting to [HttpStatusCode.OK].
@@ -83,6 +83,7 @@ public open class ResponseDefinitionBuilder<P : Any, T : Any>(
     httpStatusCode: Int = 200,
     httpStatus: HttpStatusCode = HttpStatusCode.fromValue(httpStatusCode),
     headers: MutableList<Pair<String, String>> = mutableListOf(),
+    private val formatter: HttpFormatter,
 ) : AbstractResponseDefinitionBuilder<P, T>(
         httpStatusCode = httpStatusCode,
         httpStatus = httpStatus,
@@ -95,8 +96,9 @@ public open class ResponseDefinitionBuilder<P : Any, T : Any>(
             httpStatusCode = httpStatusCode,
             httpStatus = httpStatus,
             headers = headersLambda,
-            headerList = Collections.unmodifiableList(headers),
+            headerList = headers.toList(),
             delay = delay,
+            formatter = formatter,
         )
 }
 
@@ -120,7 +122,12 @@ public open class StreamingResponseDefinitionBuilder<P : Any, T>(
     public var delayBetweenChunks: Duration = Duration.ZERO,
     httpStatus: HttpStatusCode = HttpStatusCode.OK,
     headers: MutableList<Pair<String, String>> = mutableListOf(),
-) : AbstractResponseDefinitionBuilder<P, T>(httpStatus = httpStatus, headers = headers) {
+    public val chunkContentType: ContentType? = null,
+    private val formatter: HttpFormatter,
+) : AbstractResponseDefinitionBuilder<P, T>(
+        httpStatus = httpStatus,
+        headers = headers,
+    ) {
     /**
      * Builds an instance of `StreamResponseDefinition`.
      *
@@ -139,8 +146,10 @@ public open class StreamingResponseDefinitionBuilder<P : Any, T>(
             chunks = chunks.toList(),
             httpStatus = httpStatus,
             headers = headersLambda,
-            headerList = Collections.unmodifiableList(headers),
+            headerList = headers.toList(),
             delayBetweenChunks = delayBetweenChunks,
             delay = delay,
+            formatter = formatter,
+            chunkContentType = chunkContentType,
         )
 }

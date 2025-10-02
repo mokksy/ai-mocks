@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.openai.responses
 
+import io.ktor.http.ContentType
 import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.aimocks.openai.model.OutputContent
 import me.kpavlov.aimocks.openai.model.OutputMessage
@@ -43,6 +44,7 @@ public class OpenaiResponsesBuildingStep(
             block.invoke(chatResponseSpecification)
             val assistantContent = chatResponseSpecification.assistantContent
             delay = chatResponseSpecification.delay
+            contentType = ContentType.Application.Json
 
             val inputTokens = Random.Default.nextInt(1, 200)
             val outputTokens = Random.Default.nextInt(1, request.maxOutputTokens ?: 1500)

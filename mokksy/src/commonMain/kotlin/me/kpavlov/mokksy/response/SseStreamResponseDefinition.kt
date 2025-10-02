@@ -1,7 +1,7 @@
 package me.kpavlov.mokksy.response
 
+import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.log
 import io.ktor.server.response.header
@@ -14,12 +14,20 @@ import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emptyFlow
+import me.kpavlov.mokksy.utils.logger.HttpFormatter
 import kotlin.time.Duration
 
 public open class SseStreamResponseDefinition<P>(
     override val chunkFlow: Flow<ServerSentEvent>? = null,
+    chunkContentType: ContentType? = null,
     delay: Duration = Duration.ZERO,
-) : StreamResponseDefinition<P, ServerSentEvent>(delay = delay) {
+    formatter: HttpFormatter,
+) : StreamResponseDefinition<P, ServerSentEvent>(
+        chunkFlow = chunkFlow,
+        chunkContentType = chunkContentType,
+        delay = delay,
+        formatter = formatter,
+    ) {
     override suspend fun writeResponse(
         call: ApplicationCall,
         verbose: Boolean,
@@ -35,7 +43,7 @@ public open class SseStreamResponseDefinition<P>(
                     ).catch { call.application.log.error("Error while sending SSE events", it) }
                     .collect {
                         if (verbose) {
-                            call.application.log.debug("Sending {}: {}", httpStatus, it)
+                            call.application.log.debug("Sending $httpStatus: $it")
                         }
                         send(it)
                     }
@@ -57,7 +65,7 @@ public open class SseStreamResponseDefinition<P>(
         call.response.header(HttpHeaders.CacheControl, "no-store")
         call.response.header(HttpHeaders.Connection, "keep-alive")
         call.response.header("X-Accel-Buffering", "no")
-        call.response.status(HttpStatusCode.OK)
+        call.response.status(httpStatus)
         call.respond(content)
     }
 }

@@ -9,6 +9,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import me.kpavlov.mokksy.request.RequestSpecification
+import me.kpavlov.mokksy.utils.logger.HttpFormatter
 import java.util.UUID
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -51,6 +52,7 @@ internal class BuildingStepTest {
                 requestSpecification = request,
                 registerStub = addStubCallback,
                 requestType = Input::class,
+                formatter = HttpFormatter(),
             )
     }
 
