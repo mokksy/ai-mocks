@@ -14,12 +14,19 @@ import me.kpavlov.aimocks.openai.ChatCompletionRequest
  *
  * @constructor Creates an instance with optional parameters for initializing configuration.
  * @property seed An optional seed value for deterministic behavior in chat completions.
- *
+ * @see <a href="https://platform.openai.com/docs/api-reference/chat/create">Create Chat Completion</a>
  * @author Konstantin Pavlov
  */
 public open class OpenaiChatCompletionRequestSpecification(
     public var seed: Int? = null,
 ) : AbstractInferenceRequestSpecification<ChatCompletionRequest>() {
+    /**
+     * Sets the seed value for deterministic behavior in chat completions.
+     *
+     * @param value The seed value to use for reproducible results.
+     * @return This specification instance for method chaining.
+     * @see <a href="https://platform.openai.com/docs/api-reference/chat/create#chat-create-seed">seed parameter</a>
+     */
     public fun seed(value: Int): OpenaiChatCompletionRequestSpecification =
         apply {
             this.seed = value

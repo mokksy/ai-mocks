@@ -8,6 +8,13 @@ import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 import java.util.concurrent.atomic.AtomicInteger
 
+/**
+ * Builder step for configuring mock responses to OpenAI moderation requests.
+ *
+ * @param mokksy The mock server instance.
+ * @param buildingStep The underlying building step for moderation requests.
+ * @see <a href="https://platform.openai.com/docs/api-reference/moderations">OpenAI Moderations API</a>
+ */
 public class OpenaiModerationBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<CreateModerationRequest>,

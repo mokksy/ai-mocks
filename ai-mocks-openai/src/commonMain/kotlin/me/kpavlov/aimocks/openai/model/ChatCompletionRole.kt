@@ -22,6 +22,7 @@ import kotlinx.serialization.Serializable
  * The role of the author of a message
  *
  * Values: DEVELOPER,SYSTEM,USER,ASSISTANT,TOOL,FUNCTION
+ * @see <a href="https://platform.openai.com/docs/api-reference/chat/create#chat-create-messages-role">Message Role</a>
  */
 @Serializable
 public enum class ChatCompletionRole(

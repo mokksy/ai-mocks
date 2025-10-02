@@ -10,8 +10,10 @@ AI-Mocks OpenAI is a specialized mock server implementation for mocking the Open
 frameworks: [LangChain4j](https://github.com/langchain4j/langchain4j)
 and [Spring AI](https://docs.spring.io/spring-ai/reference/api/chatclient.html).
 
-Currently, it supports [ChatCompletion](https://platform.openai.com/docs/api-reference/chat/create)
-and [Streaming ChatCompletion](https://platform.openai.com/docs/api-reference/chat/streaming) requests.
+Currently, it supports:
+- [Chat Completions](https://platform.openai.com/docs/api-reference/chat/create) (streaming and non-streaming)
+- [Embeddings](https://platform.openai.com/docs/api-reference/embeddings/create)
+- [Moderations](https://platform.openai.com/docs/api-reference/moderations/create)
 
 ## Quick Start
 
@@ -297,3 +299,111 @@ output?.text shouldBe "Ahoy there, matey! Hello!"
 ```
 
 Check for examples in the [integration tests](https://github.com/mokksy/ai-mocks/tree/main/ai-mocks-openai/src/jvmTest/kotlin/me/kpavlov/aimocks/openai/springai).
+
+## Embeddings API
+
+Mock the OpenAI [Embeddings API](https://platform.openai.com/docs/api-reference/embeddings) to test your embeddings generation:
+
+### Basic Embedding Response
+
+```kotlin
+// Set up mock server
+val openai = MockOpenai(verbose = true)
+
+// Define mock response for embedding request
+openai.embeddings {
+    model = "text-embedding-3-small"
+    stringInput("Hello world")
+} responds {
+    delay = 200.milliseconds
+    embeddings(
+        listOf(0.1f, 0.2f, 0.3f)
+    )
+}
+
+// Create OpenAI client
+val client: OpenAIClient =
+    OpenAIOkHttpClient
+        .builder()
+        .apiKey("dummy-key")
+        .baseUrl(openai.baseUrl())
+        .responseValidation(true)
+        .build()
+
+// Make embedding request
+val params = EmbeddingCreateParams
+    .builder()
+    .model("text-embedding-3-small")
+    .input(EmbeddingCreateParams.Input.ofString("Hello world"))
+    .build()
+
+val result = client
+    .embeddings()
+    .create(params)
+
+// Verify results
+result.model() // "text-embedding-3-small"
+result.data()[0].embedding() // [0.1, 0.2, 0.3]
+result.data()[0].index() // 0
+```
+
+### Multiple Embeddings
+
+You can mock multiple embeddings for batch input:
+
+```kotlin
+openai.embeddings {
+    model = "text-embedding-3-small"
+    stringListInput(listOf("Hello", "world"))
+} responds {
+    delay = 100.milliseconds
+    embeddings(
+        listOf(0.1f, 0.2f, 0.3f),
+        listOf(0.4f, 0.5f, 0.6f)
+    )
+}
+
+val params = EmbeddingCreateParams
+    .builder()
+    .model("text-embedding-3-small")
+    .input(EmbeddingCreateParams.Input.ofArrayOfStrings(listOf("Hello", "world")))
+    .build()
+
+val result = client
+    .embeddings()
+    .create(params)
+
+// Returns 2 embeddings
+result.data().size // 2
+result.data()[0].embedding() // [0.1, 0.2, 0.3]
+result.data()[1].embedding() // [0.4, 0.5, 0.6]
+```
+
+### Error Scenarios
+
+Test error handling for embeddings:
+
+```kotlin
+openai.embeddings {
+    model = "text-embedding-3-small"
+    stringInput("invalid input")
+} respondsError(String::class) {
+    body = "Invalid input!"
+    contentType = ContentType.Text.Plain
+    httpStatus = HttpStatusCode.BadRequest
+    delay = 200.milliseconds
+}
+
+// This will throw BadRequestException
+val params = EmbeddingCreateParams
+    .builder()
+    .model("text-embedding-3-small")
+    .input(EmbeddingCreateParams.Input.ofString("invalid input"))
+    .build()
+
+try {
+    client.embeddings().create(params)
+} catch (e: BadRequestException) {
+    // Handle error
+}
+```

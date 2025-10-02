@@ -25,6 +25,7 @@ import kotlin.time.Duration
  * @param delayBetweenChunks The delay applied between emitting each response chunk from the flow.
  * @param delay The global delay applied to the response before sending it.
  * @param finishReason The reason indicating why the completion process finished, such as "stop".
+ * @see <a href="https://platform.openai.com/docs/api-reference/chat/object">Chat Completion Object</a>
  * @author Konstantin Pavlov
  */
 @Suppress("LongParameterList")

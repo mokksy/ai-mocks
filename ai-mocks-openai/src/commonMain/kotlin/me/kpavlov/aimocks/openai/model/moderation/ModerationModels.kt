@@ -7,7 +7,11 @@ import kotlinx.serialization.Serializable
 import me.kpavlov.mokksy.serializers.StringOrListSerializer
 
 /**
- * https://platform.openai.com/docs/api-reference/moderations/create
+ * Represents a request to classify text and/or images for policy violations.
+ *
+ * @property input The input(s) to classify. Can be a single string or an array of strings.
+ * @property model The moderation model to use (e.g., "text-moderation-latest").
+ * @see <a href="https://platform.openai.com/docs/api-reference/moderations/create">Create Moderation</a>
  */
 @Serializable
 public data class CreateModerationRequest(
@@ -63,6 +67,12 @@ public data class ModerationResult(
     public val categoryAppliedInputTypes: Map<ModerationCategory, List<InputType>> = emptyMap(),
 )
 
+/**
+ * Represents a moderation category used to classify content violations.
+ *
+ * @property name The name of the moderation category.
+ * @see <a href="https://platform.openai.com/docs/api-reference/moderations/object#moderations/object-results-categories">Moderation Categories</a>
+ */
 @JvmInline
 @Serializable
 public value class ModerationCategory(
@@ -87,6 +97,11 @@ public value class ModerationCategory(
     }
 }
 
+/**
+ * Represents the type of input being moderated.
+ *
+ * @see <a href="https://platform.openai.com/docs/api-reference/moderations/object#moderations/object-results-category_applied_input_types">Category Applied Input Types</a>
+ */
 public enum class InputType {
     @SerialName("image")
     IMAGE,

@@ -15,7 +15,6 @@ import me.kpavlov.aimocks.ollama.generate.GenerateRequest
 import me.kpavlov.aimocks.ollama.generate.OllamaGenerateBuildingStep
 import me.kpavlov.aimocks.ollama.generate.OllamaGenerateRequestSpecification
 import me.kpavlov.mokksy.ServerConfiguration
-import java.util.function.Consumer
 
 /**
  * Mock implementation of an Ollama-compatible service for testing purposes.
@@ -47,21 +46,6 @@ public open class MockOllama(
                 )
             },
     ) {
-    /**
-     * Configures a mock `/api/generate` endpoint using a Java `Consumer` to specify the request criteria.
-     *
-     * This overload enables Java interoperability for setting up request matching
-     * and response configuration for the generate API.
-     *
-     * @param name An optional name for the mock configuration.
-     * @param block A Java `Consumer` that configures the generate request specification.
-     * @return A building step for further response configuration.
-     */
-    @JvmOverloads
-    public fun generate(
-        name: String? = null,
-        block: Consumer<OllamaGenerateRequestSpecification>,
-    ): OllamaGenerateBuildingStep = generate(name) { block.accept(this) }
 
     /**
      * Sets up a mock handler for the Ollama `/api/generate` completion endpoint.
@@ -110,19 +94,6 @@ public open class MockOllama(
             mokksy = mokksy,
         )
     }
-
-    /**
-     * Provides a Java-compatible overload for configuring a mock Ollama chat request using a Consumer.
-     *
-     * @param name An optional name for the mock configuration.
-     * @param block A Consumer that configures the chat request specification.
-     * @return A building step for further configuration of the mock chat response.
-     */
-    @JvmOverloads
-    public fun chat(
-        name: String? = null,
-        block: Consumer<OllamaChatRequestSpecification>,
-    ): OllamaChatBuildingStep = chat(name) { block.accept(this) }
 
     /**
      * Sets up a mock handler for the Ollama chat completion (`/api/chat`) endpoint.
@@ -180,21 +151,6 @@ public open class MockOllama(
             mokksy = mokksy,
         )
     }
-
-    /**
-     * Provides a Java-compatible overload for configuring a mock `/api/embed` endpoint using a Consumer.
-     *
-     * Allows Java code to specify the embedding request specification for the mock Ollama embed API.
-     *
-     * @param name Optional name for the mock configuration.
-     * @param block Consumer that configures the embedding request specification.
-     * @return A building step for further response configuration.
-     */
-    @JvmOverloads
-    public fun embed(
-        name: String? = null,
-        block: Consumer<OllamaEmbedRequestSpecification>,
-    ): OllamaEmbedBuildingStep = embed(name) { block.accept(this) }
 
     /**
      * Sets up a mock handler for the Ollama `/api/embed` endpoint,

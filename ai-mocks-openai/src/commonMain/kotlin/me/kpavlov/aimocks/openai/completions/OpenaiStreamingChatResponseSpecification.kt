@@ -26,6 +26,7 @@ import kotlin.time.Duration
  * @param finishReason A descriptor to indicate the reason for completion of the response, such as "stop".
  * @param sendDone A flag indicating whether the special marker `[DONE]`
  * should be sent at the end of the streaming response.
+ * @see <a href="https://platform.openai.com/docs/api-reference/chat/streaming">Chat Completion Streaming</a>
  * @author Konstantin Pavlov
  */
 @Suppress("LongParameterList")

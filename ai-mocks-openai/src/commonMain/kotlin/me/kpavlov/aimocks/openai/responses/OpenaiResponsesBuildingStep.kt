@@ -22,6 +22,7 @@ import kotlin.random.Random
  *
  * @param mokksy The instance of `MokksyServer` used for this building step.
  * @param buildingStep The building step associated with configuring responses of type `CreateResponseRequest`.
+ * @see <a href="https://platform.openai.com/docs/api-reference/responses">Responses API</a>
  * @author Konstantin Pavlov
  */
 public class OpenaiResponsesBuildingStep(

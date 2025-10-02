@@ -21,6 +21,7 @@ import kotlin.time.Duration
  * @param delayBetweenChunks The delay applied between sending chunks of the response. Defaults to `Duration.ZERO`.
  * @param delay A general delay for the response. Defaults to `Duration.ZERO`.
  * @param finishReason The reason for the response termination. Defaults to "stop".
+ * @see <a href="https://platform.openai.com/docs/api-reference/responses/object">Response Object</a>
  * @author Konstantin Pavlov
  */
 @Suppress("LongParameterList")
