@@ -88,6 +88,7 @@ public open class StreamResponseDefinition<P, T>(
                     value = it,
                     verbose = verbose,
                     logger = logger,
+                    chunkContentTypeOverride = chunkContentType,
                 )
             }
     }
@@ -97,12 +98,14 @@ public open class StreamResponseDefinition<P, T>(
         value: T,
         verbose: Boolean,
         logger: Logger,
+        chunkContentTypeOverride: ContentType? = null,
         serialize: (T) -> String = { "$it" },
     ) {
         val serializedValue = serialize(value)
         if (verbose) {
             val type =
-                chunkContentType
+                chunkContentTypeOverride
+                    ?: chunkContentType
                     ?: when (value) {
                         is CharSequence -> ContentType.Text.Plain
                         else -> ContentType.Application.Json
@@ -163,6 +166,7 @@ public open class StreamResponseDefinition<P, T>(
                 value = it,
                 verbose = verbose,
                 logger = logger,
+                chunkContentTypeOverride = chunkContentType,
             )
         }
     }

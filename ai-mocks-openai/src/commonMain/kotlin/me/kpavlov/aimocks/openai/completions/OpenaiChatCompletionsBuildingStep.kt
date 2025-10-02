@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.openai.completions
 
+import io.ktor.http.ContentType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -63,6 +64,7 @@ public class OpenaiChatCompletionsBuildingStep(
             val assistantContent = chatResponseSpecification.assistantContent
             val finishReason = chatResponseSpecification.finishReason
             delay = chatResponseSpecification.delay
+            contentType = ContentType.Application.Json
 
             val promptTokens = nextInt(1, 200)
             val completionTokens = nextInt(1, request.maxCompletionTokens ?: 500)

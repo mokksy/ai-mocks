@@ -1,5 +1,6 @@
 package me.kpavlov.aimocks.gemini.content
 
+import io.ktor.http.ContentType
 import me.kpavlov.aimocks.core.AbstractBuildingStep
 import me.kpavlov.aimocks.gemini.GenerateContentRequest
 import me.kpavlov.mokksy.BuildingStep
@@ -35,7 +36,7 @@ public class GeminiContentBuildingStep(
             block.invoke(chatResponseSpecification)
             val assistantContent = chatResponseSpecification.content
             delay = chatResponseSpecification.delay
-
+            contentType = ContentType.Application.Json
             body =
                 generateContentResponse(
                     assistantContent = assistantContent,
