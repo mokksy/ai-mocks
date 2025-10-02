@@ -5,6 +5,8 @@ import me.kpavlov.aimocks.openai.model.moderation.CreateModerationRequest
 
 /**
  * Request specification for OpenAI Moderation endpoint.
+ *
+ * @see <a href="https://platform.openai.com/docs/api-reference/moderations/create">Create Moderation</a>
  */
 public class OpenaiModerationRequestSpecification :
     ModelRequestSpecification<CreateModerationRequest>() {

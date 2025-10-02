@@ -12,6 +12,8 @@ import kotlin.time.Duration
 
 /**
  * Response specification for OpenAI Moderation endpoint.
+ *
+ * @see <a href="https://platform.openai.com/docs/api-reference/moderations/object">Moderation Object</a>
  */
 public class OpenaiModerationResponseSpecification(
     response: AbstractResponseDefinition<Moderation>,
