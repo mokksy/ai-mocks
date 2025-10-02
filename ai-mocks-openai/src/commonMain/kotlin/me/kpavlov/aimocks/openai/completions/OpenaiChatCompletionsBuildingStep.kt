@@ -43,7 +43,7 @@ private var counter: AtomicInteger = AtomicInteger(1)
  * @param mokksy The mock server instance used for handling mock request and response lifecycle.
  * @param buildingStep The underlying building step for managing and supporting response configurations
  *                     for OpenAI Chat Completion requests.
- *
+ * @see <a href="https://platform.openai.com/docs/api-reference/chat">Chat Completions API</a>
  * @author Konstantin Pavlov
  */
 public class OpenaiChatCompletionsBuildingStep(

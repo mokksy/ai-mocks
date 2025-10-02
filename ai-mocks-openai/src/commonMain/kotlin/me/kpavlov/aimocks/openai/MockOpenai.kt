@@ -29,6 +29,7 @@ import java.util.function.Consumer
  * @param port The port on which the mock server will run. Defaults to 0, which allows the server to select
  *             an available port.
  * @param verbose Controls whether the mock server's operations are logged in detail. Defaults to true.
+ * @see <a href="https://platform.openai.com/docs/api-reference">OpenAI API Reference</a>
  * @author Konstantin Pavlov
  */
 public open class MockOpenai(
@@ -55,6 +56,19 @@ public open class MockOpenai(
         block: Consumer<OpenaiChatCompletionRequestSpecification>,
     ): OpenaiChatCompletionsBuildingStep = completion(name) { block.accept(this) }
 
+    /**
+     * Configures and constructs a mock handler for the OpenAI `/v1/chat/completions` endpoint.
+     *
+     * This method allows you to define specifications and criteria for chat completion requests,
+     * enabling controlled responses for testing and simulations.
+     *
+     * @param name An optional identifier for the mock configuration. Defaults to `null` if not provided.
+     * @param block A lambda function to configure the specifications for the chat completion request,
+     *              using the `OpenaiChatCompletionRequestSpecification` object.
+     * @return An instance of `OpenaiChatCompletionsBuildingStep`, representing a builder step
+     *         for configuring mock response behavior.
+     * @see <a href="https://platform.openai.com/docs/api-reference/chat/create">Create Chat Completion</a>
+     */
     public fun completion(
         name: String? = null,
         block: OpenaiChatCompletionRequestSpecification.() -> Unit,
@@ -98,6 +112,17 @@ public open class MockOpenai(
         )
     }
 
+    /**
+     * Sets up a mock handler for the OpenAI `/v1/responses` endpoint,
+     * allowing configuration of request matching for response generation requests.
+     *
+     * This endpoint is used to generate responses based on input files and instructions.
+     *
+     * @param name Optional identifier for the mock configuration.
+     * @param block Lambda to configure the request matching criteria.
+     * @return A builder step for specifying the mock response to response generation requests.
+     * @see <a href="https://platform.openai.com/docs/api-reference/responses/create">OpenAI Responses API</a>
+     */
     public fun responses(
         name: String? = null,
         block: OpenaiResponsesRequestSpecification.() -> Unit,
@@ -137,12 +162,30 @@ public open class MockOpenai(
         )
     }
 
+    /**
+     * Java-friendly overload that accepts a Consumer for configuring the moderation request.
+     *
+     * @param name Optional identifier for the mock configuration.
+     * @param block Consumer to configure the request matching criteria.
+     * @return A builder step for specifying the mock response to moderation requests.
+     */
     @JvmOverloads
     public fun moderation(
         name: String? = null,
         block: Consumer<OpenaiModerationRequestSpecification>,
     ): OpenaiModerationBuildingStep = moderation(name) { block.accept(this) }
 
+    /**
+     * Sets up a mock handler for the OpenAI `/v1/moderations` endpoint,
+     * allowing configuration of request matching for moderation requests.
+     *
+     * This endpoint classifies if input text or images violate OpenAI's usage policies.
+     *
+     * @param name Optional identifier for the mock configuration.
+     * @param block Lambda to configure the request matching criteria.
+     * @return A builder step for specifying the mock response to moderation requests.
+     * @see <a href="https://platform.openai.com/docs/api-reference/moderations/create">OpenAI Moderations API</a>
+     */
     public fun moderation(
         name: String? = null,
         block: OpenaiModerationRequestSpecification.() -> Unit,
@@ -174,6 +217,13 @@ public open class MockOpenai(
         )
     }
 
+    /**
+     * Java-friendly overload that accepts a Consumer for configuring the embedding request.
+     *
+     * @param name Optional identifier for the mock configuration.
+     * @param block Consumer to configure the request matching criteria.
+     * @return A builder step for specifying the mock response to embedding requests.
+     */
     @JvmOverloads
     public fun embeddings(
         name: String? = null,
@@ -184,13 +234,15 @@ public open class MockOpenai(
      * Sets up a mock handler for the OpenAI `/v1/embeddings` endpoint,
      * allowing configuration of request matching for embedding requests.
      *
-     * Supports matching on model, input (string or list), dimensions, encoding_format, and user fields in the request body.
+     * Supports matching on model, input (string or list), dimensions, encoding_format,
+     * and user fields in the request body.
      *
      * @param name Optional identifier for the mock configuration.
      * @param block Lambda to configure the request matching criteria.
      * @return A builder step for specifying the mock response to embedding requests.
      * @see <a href="https://platform.openai.com/docs/api-reference/embeddings/create">OpenAI Embeddings API</a>
      */
+    @JvmOverloads
     public fun embeddings(
         name: String? = null,
         block: OpenaiEmbedRequestSpecification.() -> Unit,
@@ -216,7 +268,7 @@ public open class MockOpenai(
 
                 // Handle string list input
                 embedRequestSpec.stringListInput?.let {
-                    // For list inputs, we can't use containJsonKeyValue directly
+                    // For list inputs, we can't use containJsonKeyValue directly.
                     // Instead, we'll check that the request body contains the input values
                     it.forEach { inputValue ->
                         bodyString += contain(inputValue)
@@ -237,6 +289,10 @@ public open class MockOpenai(
             mokksy = mokksy,
         )
     }
+
+    public fun MockOpenai.moderation(
+        block: Consumer<OpenaiModerationRequestSpecification>,
+    ): OpenaiModerationBuildingStep = moderation(block)
 
     override fun baseUrl(): String = "http://localhost:${port()}/v1"
 }

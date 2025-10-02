@@ -12,6 +12,7 @@ import java.net.URL
  *
  * @constructor Initializes the specification with optional parameters.
  * @param seed An optional random seed value for reproducible results.
+ * @see <a href="https://platform.openai.com/docs/api-reference/responses/create">Create Response</a>
  * @author Konstantin Pavlov
  */
 public open class OpenaiResponsesRequestSpecification(
@@ -44,6 +45,11 @@ public open class OpenaiResponsesRequestSpecification(
         requestBody.add(OpenaiResponsesMatchers.containsInputFileNamed(filename))
     }
 
+    /**
+     * Checks if the input contains a file with the specified file ID.
+     *
+     * @param fileId The ID of the file to check for in the input.
+     */
     public fun containsInputFileWithId(fileId: String) {
         requestBody.add(OpenaiResponsesMatchers.containsInputFileWithId(fileId))
     }
