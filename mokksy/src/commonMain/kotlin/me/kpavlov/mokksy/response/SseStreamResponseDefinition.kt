@@ -2,7 +2,6 @@ package me.kpavlov.mokksy.response
 
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.log
 import io.ktor.server.response.header
@@ -44,7 +43,7 @@ public open class SseStreamResponseDefinition<P>(
                     ).catch { call.application.log.error("Error while sending SSE events", it) }
                     .collect {
                         if (verbose) {
-                            call.application.log.debug("Sending {}: {}", httpStatus, it)
+                            call.application.log.debug("Sending $httpStatus: $it")
                         }
                         send(it)
                     }
@@ -66,7 +65,7 @@ public open class SseStreamResponseDefinition<P>(
         call.response.header(HttpHeaders.CacheControl, "no-store")
         call.response.header(HttpHeaders.Connection, "keep-alive")
         call.response.header("X-Accel-Buffering", "no")
-        call.response.status(HttpStatusCode.OK)
+        call.response.status(httpStatus)
         call.respond(content)
     }
 }

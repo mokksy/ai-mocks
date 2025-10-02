@@ -50,6 +50,7 @@ public abstract class AbstractResponseDefinitionBuilder<P, T>(
     }
 
     public fun httpStatus(status: Int) {
+        this.httpStatusCode = status
         this.httpStatus = HttpStatusCode.fromValue(status)
     }
 

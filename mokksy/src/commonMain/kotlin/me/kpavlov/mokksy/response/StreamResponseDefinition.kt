@@ -175,6 +175,11 @@ public open class StreamResponseDefinition<P, T>(
         call: ApplicationCall,
         verbose: Boolean,
     ) {
+        // Apply configured headers
+        headers?.invoke(call.response.headers)
+        for ((name, value) in headerList) {
+            call.response.headers.append(name, value)
+        }
         when {
             chunkFlow != null -> {
                 call.response.cacheControl(CacheControl.NoCache(null))

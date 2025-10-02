@@ -51,6 +51,7 @@ public open class ResponseDefinition<P, T>(
         if (this.delay.isPositive()) {
             delay(delay)
         }
+        val effectiveBody = responseBody ?: body
         if (verbose) {
             call.application.log.debug(
                 "Sending:\n---\n${
@@ -59,15 +60,16 @@ public open class ResponseDefinition<P, T>(
                         headers = call.response.headers,
                         contentType = this.contentType,
                         status = httpStatus,
-                        body = body?.toString(),
+                        body = effectiveBody?.toString(),
                     )
                 }---\n",
             )
         }
         try {
+            val payload: Any = effectiveBody ?: ""
             call.respond(
                 status = httpStatus,
-                message = body ?: "" as Any,
+                message = payload,
             )
         } catch (e: ChannelWriteException) {
             // We can't do anything about it
