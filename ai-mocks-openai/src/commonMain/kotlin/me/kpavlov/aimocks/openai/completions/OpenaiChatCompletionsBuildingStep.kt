@@ -18,6 +18,7 @@ import me.kpavlov.aimocks.openai.Delta
 import me.kpavlov.aimocks.openai.Message
 import me.kpavlov.aimocks.openai.Usage
 import me.kpavlov.aimocks.openai.model.ChatCompletionRole
+import me.kpavlov.aimocks.openai.model.chat.MessageContent
 import me.kpavlov.mokksy.BuildingStep
 import me.kpavlov.mokksy.MokksyServer
 import me.kpavlov.mokksy.response.StreamResponseDefinition
@@ -98,7 +99,7 @@ public class OpenaiChatCompletionsBuildingStep(
                                 message =
                                     Message(
                                         role = ChatCompletionRole.ASSISTANT,
-                                        content = assistantContent,
+                                        content = MessageContent.Text(assistantContent),
                                     ),
                                 finishReason = finishReason,
                             ),

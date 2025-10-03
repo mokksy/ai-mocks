@@ -1,5 +1,7 @@
 package me.kpavlov.aimocks.openai.embeddings
 
+import io.kotest.matchers.Matcher
+import io.kotest.matchers.equals.beEqual
 import me.kpavlov.aimocks.openai.model.embeddings.CreateEmbeddingsRequest
 
 /**
@@ -14,7 +16,7 @@ import me.kpavlov.aimocks.openai.model.embeddings.CreateEmbeddingsRequest
  * @property dimensions The number of dimensions the resulting output embeddings should have
  * @property encodingFormat The format to return the embeddings in
  * @property user A unique identifier representing your end-user
- * @property requestBody The request body to match
+ * @property requestBody The request body matchers
  * @property requestBodyString Additional string matchers for the request body
  *
  * @see <a href="https://platform.openai.com/docs/api-reference/embeddings/create">OpenAI Embeddings API</a>
@@ -27,8 +29,8 @@ public class OpenaiEmbedRequestSpecification {
 
     public var encodingFormat: String? = null
     public var user: String? = null
-    public var requestBody: CreateEmbeddingsRequest? = null
-    public val requestBodyString: MutableList<String> = mutableListOf()
+    public val requestBody: MutableList<Matcher<CreateEmbeddingsRequest?>> = mutableListOf()
+    public val requestBodyString: MutableList<Matcher<String?>> = mutableListOf()
 
     /**
      * Sets the model ID criterion for matching embedding requests.
@@ -93,6 +95,30 @@ public class OpenaiEmbedRequestSpecification {
     }
 
     /**
+     * Adds a matcher that checks if the input contains the specified substring.
+     *
+     * This method is useful for matching embedding requests where the input text contains
+     * specific words or phrases, without requiring an exact match of the entire input.
+     *
+     * Example:
+     * ```kotlin
+     * openai.embeddings {
+     *     model = "text-embedding-3-small"
+     *     inputContains("Hello")
+     *     inputContains("world")
+     * } responds {
+     *     embeddings(listOf(0.1f, 0.2f, 0.3f))
+     * }
+     * ```
+     *
+     * @param substring The substring that must be present in the input text.
+     * @see <a href="https://platform.openai.com/docs/api-reference/embeddings/create#embeddings-create-input">input parameter</a>
+     */
+    public fun inputContains(substring: String) {
+        requestBody.add(OpenaiEmbeddingsMatchers.inputContains(substring))
+    }
+
+    /**
      * Sets the user identifier for the embedding request.
      *
      * @param value A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
@@ -112,7 +138,7 @@ public class OpenaiEmbedRequestSpecification {
      * @see <a href="https://platform.openai.com/docs/api-reference/embeddings/create">OpenAI Embeddings API</a>
      */
     public fun requestBody(requestBody: CreateEmbeddingsRequest): OpenaiEmbedRequestSpecification {
-        this.requestBody = requestBody
+        this.requestBody += beEqual(requestBody)
         return this
     }
 
@@ -123,7 +149,20 @@ public class OpenaiEmbedRequestSpecification {
      * @return This specification instance for method chaining.
      */
     public fun requestBodyString(bodyString: String): OpenaiEmbedRequestSpecification {
-        this.requestBodyString.add(bodyString)
+        this.requestBodyString += beEqual(bodyString)
+        return this
+    }
+
+    /**
+     * Adds a string matcher to the list of request body matchers for this specification.
+     *
+     * @param bodyString The string pattern to match against the serialized request body.
+     * @return This specification instance for method chaining.
+     */
+    public fun requestBodyContains(bodyString: String): OpenaiEmbedRequestSpecification {
+        this.requestBodyString +=
+            io.kotest.matchers.string
+                .contain(bodyString)
         return this
     }
 }

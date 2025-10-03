@@ -6,9 +6,21 @@ import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.EncodeDefault.Mode.ALWAYS
 import kotlinx.serialization.EncodeDefault.Mode.NEVER
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Required
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.JsonEncoder
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.decodeFromJsonElement
 import me.kpavlov.aimocks.core.json.schema.JsonSchema
 import me.kpavlov.aimocks.openai.model.ChatCompletionRole
 import me.kpavlov.aimocks.openai.model.ChatCompletionStreamOptions
@@ -77,20 +89,121 @@ public data class ChatCompletionRequest(
 )
 
 /**
+ * Represents a content part in a message.
+ *
+ * Content can be text, images, audio, or other media types.
+ * Each content part has a type field that identifies its structure.
+ *
+ * @see <a href="https://platform.openai.com/docs/api-reference/chat/create">OpenAI Chat API</a>
+ */
+@Serializable
+public sealed class ContentPart {
+    /**
+     * Text content part.
+     *
+     * @property type The type of content, always "text".
+     * @property text The text content.
+     */
+    @Serializable
+    @SerialName("text")
+    public data class Text(
+        @EncodeDefault(ALWAYS)
+        val type: String = "text",
+        val text: String,
+    ) : ContentPart()
+
+    /**
+     * Output text content part (used in assistant responses).
+     *
+     * @property type The type of content, always "output_text".
+     * @property text The output text content.
+     * @property annotations Optional list of annotations for the text.
+     */
+    @Serializable
+    @SerialName("output_text")
+    public data class OutputText(
+        @EncodeDefault(ALWAYS)
+        val type: String = "output_text",
+        val text: String,
+        val annotations: List<String> = emptyList(),
+    ) : ContentPart()
+
+    /**
+     * Image URL content part.
+     *
+     * @property type The type of content, always "image_url".
+     * @property imageUrl The image URL object containing the URL and optional detail level.
+     */
+    @Serializable
+    @SerialName("image_url")
+    public data class ImageUrl(
+        @EncodeDefault(ALWAYS)
+        val type: String = "image_url",
+        @SerialName("image_url")
+        val imageUrl: ImageUrlObject,
+    ) : ContentPart()
+
+    /**
+     * Input audio content part.
+     *
+     * @property type The type of content, always "input_audio".
+     * @property inputAudio The audio input object containing the audio data.
+     */
+    @Serializable
+    @SerialName("input_audio")
+    public data class InputAudio(
+        @EncodeDefault(ALWAYS)
+        val type: String = "input_audio",
+        @SerialName("input_audio")
+        val inputAudio: AudioInputObject,
+    ) : ContentPart()
+}
+
+/**
+ * Represents an image URL object.
+ *
+ * @property url The URL of the image or base64 encoded image data.
+ * @property detail Optional detail level for image processing ("auto", "low", or "high").
+ */
+@Serializable
+public data class ImageUrlObject(
+    val url: String,
+    val detail: String? = null,
+)
+
+/**
+ * Represents an audio input object.
+ *
+ * @property data Base64 encoded audio data.
+ * @property format The format of the audio data (e.g., "wav", "mp3").
+ */
+@Serializable
+public data class AudioInputObject(
+    val data: String,
+    val format: String,
+)
+
+/**
  * Represents a message in a chat conversation.
  *
+ * According to the OpenAI specification, the content field can be either:
+ * - A string for simple text messages
+ * - An array of [ContentPart] objects for multimodal messages (text, images, audio, etc.)
+ *
  * @property role The role of the message sender (system, user, assistant, etc.).
- * @property content The content of the message.
+ * @property content The content of the message as either a string or array of content parts.
  * @property refusal Optional refusal message if the content was refused.
  * @property toolCalls Optional list of tool calls made in this message.
  * @property name Optional name of the author of this message.
  * @property toolCallId Optional ID of the tool call this message is responding to.
+ * @see <a href="https://platform.openai.com/docs/api-reference/chat/create">OpenAI Chat API</a>
  * @author Konstantin Pavlov
  */
 @Serializable
 public data class Message(
     val role: ChatCompletionRole,
-    val content: String,
+    @Serializable(MessageContentSerializer::class)
+    val content: MessageContent,
     val refusal: String? = null,
     @SerialName("tool_calls")
     val toolCalls: List<ToolCall>? = null,
@@ -98,6 +211,63 @@ public data class Message(
     @SerialName("tool_call_id")
     val toolCallId: String? = null,
 )
+
+/**
+ * Represents the content of a message, which can be either a simple string or an array of content parts.
+ */
+@Serializable
+public sealed class MessageContent {
+    /**
+     * Simple string content.
+     */
+    @Serializable
+    public data class Text(
+        val text: String,
+    ) : MessageContent()
+
+    /**
+     * Array of content parts for multimodal messages.
+     */
+    @Serializable
+    public data class Parts(
+        val parts: List<ContentPart>,
+    ) : MessageContent()
+
+    /**
+     * Extracts all text content from the message, regardless of whether it's a simple string
+     * or an array of content parts.
+     *
+     * For [Text], returns the text directly.
+     * For [Parts], concatenates all text from text-based content parts.
+     *
+     * @return The concatenated text content, or empty string if no text is available.
+     */
+    public fun asText(): String =
+        when (this) {
+            is Text -> text
+            is Parts ->
+                parts
+                    .mapNotNull { part ->
+                        when (part) {
+                            is ContentPart.Text -> part.text
+                            is ContentPart.OutputText -> part.text
+                            else -> null
+                        }
+                    }.joinToString(" ")
+        }
+
+    /**
+     * Checks if the message content contains the specified substring.
+     *
+     * @param substring The substring to search for.
+     * @param ignoreCase Whether to ignore case when searching (default: false).
+     * @return `true` if the content contains the substring, `false` otherwise.
+     */
+    public fun contains(
+        substring: String,
+        ignoreCase: Boolean = false,
+    ): Boolean = asText().contains(substring, ignoreCase)
+}
 
 /**
  * Represents metadata for a request.
@@ -363,3 +533,89 @@ public data class TokenDetails(
     @SerialName("cached_tokens")
     val cachedTokens: Int? = null,
 )
+
+/**
+ * Custom serializer for [MessageContent] that handles both string and array formats.
+ *
+ * According to the OpenAI specification, message content can be:
+ * - A simple string (serialized as JSON string)
+ * - An array of content parts (serialized as JSON array)
+ *
+ * This serializer automatically converts between these formats.
+ */
+public class MessageContentSerializer : KSerializer<MessageContent> {
+    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("MessageContent")
+
+    override fun deserialize(decoder: Decoder): MessageContent {
+        val jsonDecoder =
+            decoder as? JsonDecoder
+                ?: throw SerializationException("This serializer can only be used with JSON")
+
+        return when (val element = jsonDecoder.decodeJsonElement()) {
+            is JsonPrimitive -> {
+                // Simple string content
+                MessageContent.Text(element.contentOrNull ?: "")
+            }
+
+            is JsonArray -> {
+                // Array of content parts
+                val parts =
+                    element.map { partElement ->
+                        jsonDecoder.json.decodeFromJsonElement<ContentPart>(partElement)
+                    }
+                MessageContent.Parts(parts)
+            }
+
+            else -> throw SerializationException("Expected string or array for message content")
+        }
+    }
+
+    override fun serialize(
+        encoder: Encoder,
+        value: MessageContent,
+    ) {
+        val jsonEncoder =
+            encoder as? JsonEncoder
+                ?: throw SerializationException("This serializer can only be used with JSON")
+
+        when (value) {
+            is MessageContent.Text -> {
+                jsonEncoder.encodeJsonElement(JsonPrimitive(value.text))
+            }
+
+            is MessageContent.Parts -> {
+                val array =
+                    JsonArray(
+                        value.parts.map { part ->
+                            when (part) {
+                                is ContentPart.Text ->
+                                    jsonEncoder.json.encodeToJsonElement(
+                                        ContentPart.Text.serializer(),
+                                        part,
+                                    )
+
+                                is ContentPart.OutputText ->
+                                    jsonEncoder.json.encodeToJsonElement(
+                                        ContentPart.OutputText.serializer(),
+                                        part,
+                                    )
+
+                                is ContentPart.ImageUrl ->
+                                    jsonEncoder.json.encodeToJsonElement(
+                                        ContentPart.ImageUrl.serializer(),
+                                        part,
+                                    )
+
+                                is ContentPart.InputAudio ->
+                                    jsonEncoder.json.encodeToJsonElement(
+                                        ContentPart.InputAudio.serializer(),
+                                        part,
+                                    )
+                            }
+                        },
+                    )
+                jsonEncoder.encodeJsonElement(array)
+            }
+        }
+    }
+}

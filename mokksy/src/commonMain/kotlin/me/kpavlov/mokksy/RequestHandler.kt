@@ -3,6 +3,7 @@ package me.kpavlov.mokksy
 import io.kotest.assertions.failure
 import io.ktor.server.application.Application
 import io.ktor.server.application.log
+import io.ktor.server.logging.toLogString
 import io.ktor.server.routing.RoutingContext
 import io.ktor.server.routing.RoutingRequest
 import me.kpavlov.mokksy.utils.logger.HttpFormatter
@@ -69,17 +70,17 @@ internal suspend fun handleRequest(
     } else {
         if (configuration.verbose) {
             application.log.warn(
-                "No stubs found for request:\n---\n${formatter.formatRequest(
-                    request,
-                )}\n---\nAvailable stubs:\n{}\n",
+                "NO STUBS FOUND for the request:\n---\n$${
+                    formatter.formatRequest(request)
+                }\n---\nAvailable stubs:\n{}\n",
                 stubs.joinToString("\n---\n") { it.toLogString() },
             )
         } else {
             application.log.warn(
-                "No matched mapping for request:\n---\n${formatter.formatRequest(request)}\n---",
+                "No matched mapping for request:\n---\n${request.toLogString()}\n---",
             )
         }
-        failure("No matched mapping for request: ${formatter.formatRequest(request)}")
+        failure("No matched mapping for request: ${request.toLogString()}")
     }
 }
 

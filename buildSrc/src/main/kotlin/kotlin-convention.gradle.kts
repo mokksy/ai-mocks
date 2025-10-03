@@ -36,6 +36,10 @@ kotlin {
         compilerOptions {
             javaParameters = true
             jvmTarget = JvmTarget.JVM_17
+            // Enable debug symbols and line number information
+            freeCompilerArgs.addAll(
+                "-Xdebug",
+            )
         }
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()

@@ -112,25 +112,59 @@ println(result)
 
 With AI-Mocks it is possible to test negative scenarios, such as erroneous responses and delays.
 
+### Custom Error Response
+
 ```kotlin
 openai.completion {
   temperature = 0.7
   seed = 42
   model = "gpt-4o-mini"
   maxTokens = 100
-  topP = 0.95
   systemMessageContains("helpful assistant")
   userMessageContains("say 'Hello!'")
-} respondsError {
+} respondsError(String::class) {
   body =
     // language=json
     """
     {
-      "caramba": "Arrr, blast me barnacles! This be not what ye expect! 🏴‍☠️"
+      "type": "error",
+      "code": "ERR_SOMETHING",
+      "message": "Arrr, blast me barnacles! This be not what ye expect! 🏴‍☠️",
+      "param": null
     }
     """.trimIndent()
-  delay = 1.seconds
-  httpStatus = HttpStatusCode.PaymentRequired
+  contentType = ContentType.Text.Plain
+  delay = 100.milliseconds
+  httpStatus = HttpStatusCode.PreconditionFailed
+}
+```
+
+### OpenAI-Compatible Error Response
+
+```kotlin
+openai.completion {
+  temperature = 0.7
+  seed = 42
+  model = "gpt-4o-mini"
+  maxTokens = 100
+  systemMessageContains("helpful assistant")
+  userMessageContains("say 'Hello!'")
+} respondsError(String::class) {
+  body =
+    // language=json
+    """
+    {
+        "error": {
+           "type": "server_error",
+          "code": "ERR_SOMETHING",
+          "message": "Arrr, blast me barnacles! This be not what ye expect! 🏴‍☠️",
+          "param": "foo"
+        }
+    }
+    """.trimIndent()
+  delay = 150.milliseconds
+  contentType = ContentType.Application.Json
+  httpStatus = HttpStatusCode.InternalServerError
 }
 ```
 
@@ -165,69 +199,84 @@ println(result)
 
 ### Stream Responses
 
-Mock streaming responses easily with flow support:
+Mock streaming responses easily with flow support or a list of chunks.
+
+#### Streaming with List of Chunks
 
 ```kotlin
-// configure mock openai
 openai.completion {
   temperature = 0.7
   model = "gpt-4o-mini"
-  maxTokens = 100
   topP = 0.95
-  topK = 40
-  seed = 42
-  userMessageContains("What is in the sea?")
 } respondsStream {
-  responseFlow =
-    flow {
-      emit("Yellow")
-      emit(" submarine")
-    }
+  responseChunks = listOf("All", " we", " need", " is", " Love")
+  delay = 50.milliseconds
+  delayBetweenChunks = 10.milliseconds
   finishReason = "stop"
-  delay = 60.milliseconds
-  delayBetweenChunks = 15.milliseconds
-
-  // send "[DONE]" as last message to finish the stream in openai4j
-  sendDone = true
 }
 
-// create streaming model (a client)
-val model: OpenAiStreamingChatModel =
-  OpenAiStreamingChatModel
+// Create OpenAI client
+val client: OpenAIClient =
+  OpenAIOkHttpClient
     .builder()
-    .apiKey("foo")
+    .apiKey("dummy-key")
     .baseUrl(openai.baseUrl())
     .build()
 
-// call streaming model
-model
-  .chatFlow {
-    parameters =
-      ChatRequestParameters
-        .builder()
-        .temperature(0.7)
-        .modelName("gpt-4o-mini")
-        .maxTokens(100)
-        .topP(0.95)
-        .topK(40)
-        .seed(42)
-        .build()
-    messages += userMessage("What is in the sea?")
-  }.collect {
-    when (it) {
-      is PartialResponse -> {
-        println("token = ${it.token}")
-      }
+// Make streaming request
+val params =
+  ChatCompletionCreateParams
+    .builder()
+    .temperature(0.7)
+    .topP(0.95)
+    .seed(42)
+    .messages(
+      listOf(
+        ChatCompletionMessageParam.ofUser(
+          ChatCompletionUserMessageParam
+            .builder()
+            .content("What do we need?")
+            .build(),
+        ),
+      ),
+    ).model("gpt-4o-mini")
+    .build()
 
-      is CompleteResponse -> {
-        println("Completed: $it")
-      }
-
-      else -> {
-        println("Something else = $it")
-      }
-    }
+val result = StringBuilder()
+client
+  .chat()
+  .completions()
+  .createStreaming(params)
+  .use { response ->
+    response
+      .stream()
+      .flatMap { it.choices().stream() }
+      .flatMap { it.delta().content().stream() }
+      .forEach { result.append(it) }
   }
+
+// Result: "All we need is Love"
+```
+
+#### Streaming with Kotlin Flow
+
+```kotlin
+openai.completion {
+  temperature = 0.7
+  model = "gpt-4o-mini"
+} respondsStream {
+  responseFlow =
+    flow {
+      emit("All")
+      emit(" we")
+      emit(" need")
+      emit(" is")
+      emit(" Love")
+    }
+  delay = 60.milliseconds
+  delayBetweenChunks = 15.milliseconds
+  finishReason = "stop"
+}
 ```
 
 ## Integration with Spring-AI
@@ -313,6 +362,7 @@ val openai = MockOpenai(verbose = true)
 // Define mock response for embedding request
 openai.embeddings {
     model = "text-embedding-3-small"
+    inputContains("Hello")
     stringInput("Hello world")
 } responds {
     delay = 200.milliseconds
@@ -379,6 +429,21 @@ result.data()[0].embedding() // [0.1, 0.2, 0.3]
 result.data()[1].embedding() // [0.4, 0.5, 0.6]
 ```
 
+### Advanced Input Matching
+
+You can use `inputContains()` to match requests where the input contains specific substrings:
+
+```kotlin
+openai.embeddings {
+    model = "text-embedding-3-small"
+    inputContains("Hello")
+    inputContains("world")
+    stringInput("Hello world")
+} responds {
+    embeddings(listOf(0.1f, 0.2f, 0.3f))
+}
+```
+
 ### Error Scenarios
 
 Test error handling for embeddings:
@@ -386,9 +451,9 @@ Test error handling for embeddings:
 ```kotlin
 openai.embeddings {
     model = "text-embedding-3-small"
-    stringInput("invalid input")
+    stringInput("boom")
 } respondsError(String::class) {
-    body = "Invalid input!"
+    body = "Kaboom!"
     contentType = ContentType.Text.Plain
     httpStatus = HttpStatusCode.BadRequest
     delay = 200.milliseconds
@@ -403,6 +468,87 @@ val params = EmbeddingCreateParams
 
 try {
     client.embeddings().create(params)
+} catch (e: BadRequestException) {
+    // Handle error
+}
+```
+
+## Moderations API
+
+Mock the OpenAI [Moderations API](https://platform.openai.com/docs/api-reference/moderations) to test content moderation:
+
+### Basic Moderation Response
+
+```kotlin
+// Set up mock server
+val openai = MockOpenai(verbose = true)
+
+// Define mock response for moderation request
+openai.moderation {
+    model = "omni-moderation-latest"
+    inputContains("Hello world")
+} responds {
+    flagged = true
+    delay = 200.milliseconds
+    category(name = "harassment", score = 0.1, inputTypes = listOf(TEXT))
+    category(
+        name = ModerationCategory.SEXUAL,
+        score = 0.2,
+        inputTypes = listOf(TEXT, InputType.IMAGE)
+    )
+}
+
+// Create OpenAI client
+val client: OpenAIClient =
+    OpenAIOkHttpClient
+        .builder()
+        .apiKey("dummy-key")
+        .baseUrl(openai.baseUrl())
+        .responseValidation(true)
+        .build()
+
+// Make moderation request
+val params =
+    ModerationCreateParams
+        .builder()
+        .model("omni-moderation-latest")
+        .input("Hello world")
+        .build()
+
+val result = client
+    .moderations()
+    .create(params)
+
+// Verify results
+result.model() // "omni-moderation-latest"
+result.results()[0].flagged() // true
+result.results()[0].categories().harassment() // true
+result.results()[0].categoryScores().harassment() // 0.1
+result.results()[0].categoryAppliedInputTypes().harassment() // [TEXT]
+```
+
+### Moderation Error Scenarios
+
+```kotlin
+openai.moderation {
+    model = "omni-moderation-latest"
+    inputContains("boom")
+} respondsError(String::class) {
+    body = "Kaboom!"
+    contentType = ContentType.Text.Plain
+    httpStatus = HttpStatusCode.BadRequest
+    delay = 200.milliseconds
+}
+
+// This will throw BadRequestException
+val params = ModerationCreateParams
+    .builder()
+    .model("omni-moderation-latest")
+    .input("boom")
+    .build()
+
+try {
+    client.moderations().create(params)
 } catch (e: BadRequestException) {
     // Handle error
 }

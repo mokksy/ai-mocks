@@ -62,6 +62,21 @@ public class ChatCompletionRequestBuilder {
         role: ChatCompletionRole,
         content: String,
     ): ChatCompletionRequestBuilder {
+        messages.add(Message(role, MessageContent.Text(content)))
+        return this
+    }
+
+    /**
+     * Adds a message with structured content parts to the conversation.
+     *
+     * @param role The role of the message sender.
+     * @param content The structured message content.
+     * @return This builder instance for method chaining.
+     */
+    public fun addMessage(
+        role: ChatCompletionRole,
+        content: MessageContent,
+    ): ChatCompletionRequestBuilder {
         messages.add(Message(role, content))
         return this
     }

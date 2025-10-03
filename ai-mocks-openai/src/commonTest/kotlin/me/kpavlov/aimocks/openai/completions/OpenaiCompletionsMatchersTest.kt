@@ -4,6 +4,7 @@ import io.kotest.matchers.shouldBe
 import me.kpavlov.aimocks.openai.ChatCompletionRequest
 import me.kpavlov.aimocks.openai.Message
 import me.kpavlov.aimocks.openai.model.ChatCompletionRole
+import me.kpavlov.aimocks.openai.model.chat.MessageContent
 import kotlin.test.Test
 
 class OpenaiCompletionsMatchersTest {
@@ -15,7 +16,7 @@ class OpenaiCompletionsMatchersTest {
             ChatCompletionRequest(
                 messages =
                     listOf(
-                        Message(role = ChatCompletionRole.SYSTEM, content = "actual content"),
+                        Message(role = ChatCompletionRole.SYSTEM, content = MessageContent.Text("actual content")),
                     ),
                 model = "gpt-4",
             )
@@ -40,7 +41,7 @@ class OpenaiCompletionsMatchersTest {
                     listOf(
                         Message(
                             role = ChatCompletionRole.SYSTEM,
-                            content = "This contains expected content here",
+                            content = MessageContent.Text("This contains expected content here"),
                         ),
                     ),
                 model = "gpt-4",
@@ -61,7 +62,7 @@ class OpenaiCompletionsMatchersTest {
             ChatCompletionRequest(
                 messages =
                     listOf(
-                        Message(role = ChatCompletionRole.USER, content = "actual content"),
+                        Message(role = ChatCompletionRole.USER, content = MessageContent.Text("actual content")),
                     ),
                 model = "gpt-4",
             )
