@@ -69,9 +69,10 @@ internal suspend fun handleRequest(
         )
     } else {
         if (configuration.verbose) {
-            val formattedRequest = formatter.formatRequest(request)
             application.log.warn(
-                "NO STUBS FOUND for the request:\n---\n$formattedRequest\n---\nAvailable stubs:\n{}\n",
+                "NO STUBS FOUND for the request:\n---\n$${
+                    formatter.formatRequest(request)
+                }\n---\nAvailable stubs:\n{}\n",
                 stubs.joinToString("\n---\n") { it.toLogString() },
             )
         } else {

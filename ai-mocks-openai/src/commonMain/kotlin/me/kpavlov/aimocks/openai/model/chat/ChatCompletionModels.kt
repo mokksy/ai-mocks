@@ -221,13 +221,17 @@ public sealed class MessageContent {
      * Simple string content.
      */
     @Serializable
-    public data class Text(val text: String) : MessageContent()
+    public data class Text(
+        val text: String,
+    ) : MessageContent()
 
     /**
      * Array of content parts for multimodal messages.
      */
     @Serializable
-    public data class Parts(val parts: List<ContentPart>) : MessageContent()
+    public data class Parts(
+        val parts: List<ContentPart>,
+    ) : MessageContent()
 
     /**
      * Extracts all text content from the message, regardless of whether it's a simple string
@@ -552,13 +556,16 @@ public class MessageContentSerializer : KSerializer<MessageContent> {
                 // Simple string content
                 MessageContent.Text(element.contentOrNull ?: "")
             }
+
             is JsonArray -> {
                 // Array of content parts
-                val parts = element.map { partElement ->
-                    jsonDecoder.json.decodeFromJsonElement<ContentPart>(partElement)
-                }
+                val parts =
+                    element.map { partElement ->
+                        jsonDecoder.json.decodeFromJsonElement<ContentPart>(partElement)
+                    }
                 MessageContent.Parts(parts)
             }
+
             else -> throw SerializationException("Expected string or array for message content")
         }
     }
@@ -575,19 +582,35 @@ public class MessageContentSerializer : KSerializer<MessageContent> {
             is MessageContent.Text -> {
                 jsonEncoder.encodeJsonElement(JsonPrimitive(value.text))
             }
+
             is MessageContent.Parts -> {
                 val array =
                     JsonArray(
                         value.parts.map { part ->
                             when (part) {
                                 is ContentPart.Text ->
-                                    jsonEncoder.json.encodeToJsonElement(ContentPart.Text.serializer(), part)
+                                    jsonEncoder.json.encodeToJsonElement(
+                                        ContentPart.Text.serializer(),
+                                        part,
+                                    )
+
                                 is ContentPart.OutputText ->
-                                    jsonEncoder.json.encodeToJsonElement(ContentPart.OutputText.serializer(), part)
+                                    jsonEncoder.json.encodeToJsonElement(
+                                        ContentPart.OutputText.serializer(),
+                                        part,
+                                    )
+
                                 is ContentPart.ImageUrl ->
-                                    jsonEncoder.json.encodeToJsonElement(ContentPart.ImageUrl.serializer(), part)
+                                    jsonEncoder.json.encodeToJsonElement(
+                                        ContentPart.ImageUrl.serializer(),
+                                        part,
+                                    )
+
                                 is ContentPart.InputAudio ->
-                                    jsonEncoder.json.encodeToJsonElement(ContentPart.InputAudio.serializer(), part)
+                                    jsonEncoder.json.encodeToJsonElement(
+                                        ContentPart.InputAudio.serializer(),
+                                        part,
+                                    )
                             }
                         },
                     )

@@ -75,12 +75,11 @@ development purposes.
   with infix form assertions `shouldBe` instead of `assertEquals`.
 - Use Kotest's `withClue("<failure reason>")` to describe failure reasons, but only when the assertion is NOT obvious.
   Remove obvious cases for simplicity.
-- If multiple assertions exist against nullable field, first check for null, e.g.: `params shoulNotBeNull { params.id shouldBe 1 }`
+- If multiple assertions exist against nullable field, first check for null, e.g.: `params shouldNotBeNull { params.id shouldBe 1 }`
 - For testing json serialization use [Kotest-assertions-json](https://kotest.io/docs/assertions/json/json-overview.html) 
   assertions, e.g. `shouldEqualJson` and never compare substrings.
 - Use `assertSoftly(subject) { ... }` to perform multiple assertions. Never use `assertSoftly { }` to verify properties
-  of
-  different subjects, or when there is only one assertion per subject. Avoid using `assertSoftly(this) { ... }`
+  of different subjects, or when there is only one assertion per subject. Avoid using `assertSoftly(this) { ... }`
   - Prioritize test readability
   - When asked to write tests in Java: use JUnit5, Mockito, AssertJ core
 

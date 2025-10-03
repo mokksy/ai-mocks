@@ -15,9 +15,9 @@ internal object OpenaiEmbeddingsMatchers {
                                 it.contains(string)
                             } != null,
                     { "Input should contain \"$string\"" },
-                    { "Input should contain not contain \"$string\"" },
+                    { "Input should not contain \"$string\"" },
                 )
 
-            override fun toString(): String = "Input should contain contain \"$string\""
+            override fun toString(): String = "Input should contain \"$string\""
         }
 }
