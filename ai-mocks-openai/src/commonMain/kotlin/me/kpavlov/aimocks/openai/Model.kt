@@ -9,6 +9,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Required
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 import me.kpavlov.aimocks.core.json.schema.JsonSchema
 import me.kpavlov.aimocks.openai.model.ChatCompletionRole
 import me.kpavlov.aimocks.openai.model.ChatCompletionStreamOptions
@@ -238,7 +239,7 @@ public data class FunctionObject(
     @SerialName(value = "name") @Required val name: String,
     @SerialName(value = "description") val description: String? = null,
     @SerialName(value = "parameters")
-    val parameters: Map<String, String>? = null,
+    val parameters: JsonElement? = null,
     @SerialName(value = "strict") val strict: Boolean? = false,
 )
 

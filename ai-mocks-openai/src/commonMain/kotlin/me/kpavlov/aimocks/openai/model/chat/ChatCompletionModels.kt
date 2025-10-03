@@ -17,10 +17,13 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonEncoder
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.jsonPrimitive
 import me.kpavlov.aimocks.core.json.schema.JsonSchema
 import me.kpavlov.aimocks.openai.model.ChatCompletionRole
 import me.kpavlov.aimocks.openai.model.ChatCompletionStreamOptions
@@ -299,7 +302,7 @@ public data class Tool(
  *
  * @property name The name of the function.
  * @property description Optional description of what the function does.
- * @property parameters Optional parameters the function accepts.
+ * @property parameters Optional parameters the function accepts, described as a JSON Schema object.
  * @property strict Whether to enable strict schema adherence.
  */
 @Serializable
@@ -307,7 +310,7 @@ public data class FunctionObject(
     @SerialName(value = "name") @Required val name: String,
     @SerialName(value = "description") val description: String? = null,
     @SerialName(value = "parameters")
-    val parameters: Map<String, String>? = null,
+    val parameters: JsonElement? = null,
     @SerialName(value = "strict") val strict: Boolean? = false,
 )
 
@@ -364,7 +367,7 @@ public data class ResponseFormat(
  * - [None]: Represents a state where no tool is selected.
  * - [Function]: Represents a specific tool choice based on a [ToolChoiceFunction].
  */
-@Serializable
+@Serializable(with = ToolChoiceSerializer::class)
 public sealed class ToolChoice {
     @Serializable
     @SerialName("auto")
@@ -390,6 +393,90 @@ public sealed class ToolChoice {
 public data class ToolChoiceFunction(
     val name: String,
 )
+
+/**
+ * Custom serializer for [ToolChoice] that handles both string and object formats.
+ *
+ * According to the OpenAI specification, tool_choice can be:
+ * - A simple string ("auto" or "none")
+ * - An object with type "function" and a function field
+ *
+ * This serializer automatically converts between these formats.
+ */
+public class ToolChoiceSerializer : KSerializer<ToolChoice> {
+    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("ToolChoice")
+
+    override fun deserialize(decoder: Decoder): ToolChoice {
+        val jsonDecoder =
+            decoder as? JsonDecoder
+                ?: throw SerializationException("This serializer can only be used with JSON")
+
+        return when (val element = jsonDecoder.decodeJsonElement()) {
+            is JsonPrimitive -> {
+                when (element.contentOrNull) {
+                    "auto" -> ToolChoice.Auto
+                    "none" -> ToolChoice.None
+                    else -> throw SerializationException(
+                        "Unknown tool choice: ${element.contentOrNull}",
+                    )
+                }
+            }
+
+            is JsonObject -> {
+                val type = element["type"]?.jsonPrimitive?.contentOrNull ?: "function"
+                if (type != "function") {
+                    throw SerializationException("Unknown tool choice type: $type")
+                }
+                val functionElement =
+                    element["function"]
+                        ?: throw SerializationException("tool_choice.function is required")
+                val function =
+                    jsonDecoder.json.decodeFromJsonElement(
+                        ToolChoiceFunction.serializer(),
+                        functionElement,
+                    )
+                ToolChoice.Function(function)
+            }
+
+            else -> throw SerializationException("Unsupported tool choice payload: $element")
+        }
+    }
+
+    override fun serialize(
+        encoder: Encoder,
+        value: ToolChoice,
+    ) {
+        val jsonEncoder =
+            encoder as? JsonEncoder
+                ?: throw SerializationException("This serializer can only be used with JSON")
+
+        when (value) {
+            is ToolChoice.Auto -> {
+                jsonEncoder.encodeJsonElement(JsonPrimitive("auto"))
+            }
+
+            is ToolChoice.None -> {
+                jsonEncoder.encodeJsonElement(JsonPrimitive("none"))
+            }
+
+            is ToolChoice.Function -> {
+                val functionElement =
+                    jsonEncoder.json.encodeToJsonElement(
+                        ToolChoiceFunction.serializer(),
+                        value.function,
+                    )
+                jsonEncoder.encodeJsonElement(
+                    JsonObject(
+                        mapOf(
+                            "type" to JsonPrimitive("function"),
+                            "function" to functionElement,
+                        ),
+                    ),
+                )
+            }
+        }
+    }
+}
 
 /**
  * Represents a response to a chat completion request.
