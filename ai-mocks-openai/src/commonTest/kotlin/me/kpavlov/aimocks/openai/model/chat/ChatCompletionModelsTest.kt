@@ -1,11 +1,13 @@
 package me.kpavlov.aimocks.openai.model.chat
 
 import io.kotest.assertions.assertSoftly
+import io.kotest.assertions.json.shouldEqualJson
 import io.kotest.assertions.withClue
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.instanceOf
 import kotlinx.serialization.json.Json
 import me.kpavlov.aimocks.core.json.schema.StringPropertyDefinition
 import me.kpavlov.aimocks.openai.model.ChatCompletionRole
@@ -52,17 +54,60 @@ internal class ChatCompletionModelsTest {
 
             withClue("System message should be correct") {
                 messages[0].role shouldBe ChatCompletionRole.SYSTEM
-                messages[0].content shouldBe "You are a helpful assistant"
+                messages[0].content shouldBe MessageContent.Text("You are a helpful assistant")
             }
 
             withClue("User message should be correct") {
                 messages[1].role shouldBe ChatCompletionRole.USER
-                messages[1].content shouldBe "Help me, please"
+                messages[1].content shouldBe MessageContent.Text("Help me, please")
             }
 
             withClue("Response format should be present and correct") {
                 responseFormat.shouldNotBeNull()
                 responseFormat.type shouldBe "json_object"
+            }
+        }
+    }
+
+    @Test
+    fun `Should deserialize structured ChatCompletionRequest`() {
+        val systemMessage = "You're a witty and wise assistant.\nYou are built with **RAG**"
+        val json =
+            """
+            {"messages":[
+            {"role":"system","content":"$systemMessage"},
+            {"role":"user","content":[
+              {"type":"text","text":"User's input: ```To be or not to be?```.\nUse attachment as relevant context"},
+              {"type":"text","text":"# Magical Bow\n\nThe magical bow shoots not ordinary arrows but light charges."}
+            ]},
+            {"role":"user","content":"To be or not to be, 82460322?"}
+            ],
+            "model":"gpt-4.1-mini","stream":false}
+            """.trimIndent()
+
+        val request = jsonParser.decodeFromString<ChatCompletionRequest>(json)
+
+        assertSoftly(request) {
+            model shouldBe "gpt-4.1-mini"
+            temperature shouldBe 1.0
+            stream shouldBe false
+            messages shouldHaveSize 3
+
+            withClue("System message should be correct") {
+                messages[0].role shouldBe ChatCompletionRole.SYSTEM
+                messages[0].content shouldBe MessageContent.Text(systemMessage)
+            }
+
+            withClue("First user message should be correct") {
+                messages[1].role shouldBe ChatCompletionRole.USER
+                val expectedContent = messages[1].content
+                expectedContent.asText() shouldBe
+                    "User's input: ```To be or not to be?```.\nUse attachment as relevant context # Magical Bow\n\nThe magical bow shoots not ordinary arrows but light charges."
+            }
+
+            withClue("Second user message should be correct") {
+                messages[2].role shouldBe ChatCompletionRole.USER
+                messages[2].content shouldBe MessageContent.Text("To be or not to be, 82460322?")
             }
         }
     }
@@ -130,13 +175,15 @@ internal class ChatCompletionModelsTest {
 
             withClue("System message should be correct") {
                 messages[0].role shouldBe ChatCompletionRole.SYSTEM
-                messages[0].content shouldBe "Convert person to JSON"
+                messages[0].content shouldBe MessageContent.Text("Convert person to JSON")
             }
 
             withClue("User message should be correct") {
                 messages[1].role shouldBe ChatCompletionRole.USER
                 messages[1].content shouldBe
-                    "Bob is 25 years old and weighs 0.075 tonnes.\nHis height is one meter eighty-five centimeters.\nHe is married."
+                    MessageContent.Text(
+                        "Bob is 25 years old and weighs 0.075 tonnes.\nHis height is one meter eighty-five centimeters.\nHe is married.",
+                    )
             }
 
             temperature shouldBe 0.7
@@ -224,6 +271,14 @@ internal class ChatCompletionModelsTest {
                     promptTokens shouldBe 13
                     completionTokens shouldBe 7
                     totalTokens shouldBe 20
+
+                    withClue("Completion tokens details should be correct") {
+                        assertSoftly(completionTokensDetails) {
+                            reasoningTokens shouldBe 5
+                            acceptedPredictionTokens shouldBe 1
+                            rejectedPredictionTokens shouldBe 1
+                        }
+                    }
                 }
             }
 
@@ -237,7 +292,8 @@ internal class ChatCompletionModelsTest {
                     withClue("Message should be present and correct") {
                         message.shouldNotBeNull()
                         message?.role shouldBe ChatCompletionRole.ASSISTANT
-                        message?.content shouldBe "Hello! How can I help you today?"
+                        message?.content shouldBe
+                            MessageContent.Text("Hello! How can I help you today?")
                     }
                 }
             }
@@ -279,6 +335,7 @@ internal class ChatCompletionModelsTest {
             withClue("First choice should be correct") {
                 assertSoftly(choices[0]) {
                     index shouldBe 0
+                    finishReason shouldBe null
 
                     withClue("Delta should be present and correct") {
                         delta.shouldNotBeNull()
@@ -303,8 +360,92 @@ internal class ChatCompletionModelsTest {
 
         assertSoftly(message) {
             role shouldBe ChatCompletionRole.ASSISTANT
-            content shouldBe "Hello! How can I help you today?"
+            content shouldBe MessageContent.Text("Hello! How can I help you today?")
         }
+    }
+
+    @Test
+    fun `Should deserialize Message with array of content parts`() {
+        val json =
+            """
+            {
+              "role": "assistant",
+              "content": [
+                {
+                  "type": "output_text",
+                  "text": "Under the soft glow of the moon, Luna the unicorn danced through fields of twinkling stardust, leaving trails of dreams for every child asleep.",
+                  "annotations": []
+                }
+              ]
+            }
+            """.trimIndent()
+
+        val message = jsonParser.decodeFromString<Message>(json)
+
+        assertSoftly(message) {
+            role shouldBe ChatCompletionRole.ASSISTANT
+            withClue("Content should be Parts with one OutputText part") {
+                content shouldBe instanceOf<MessageContent.Parts>()
+                val parts = (content as MessageContent.Parts).parts
+                parts shouldHaveSize 1
+                parts[0] shouldBe instanceOf<ContentPart.OutputText>()
+                val outputText = parts[0] as ContentPart.OutputText
+                outputText.text shouldBe
+                    "Under the soft glow of the moon, Luna the unicorn danced through fields of twinkling stardust, leaving trails of dreams for every child asleep."
+                outputText.annotations shouldBe emptyList()
+            }
+        }
+    }
+
+    @Test
+    fun `Should serialize Message with text content as string`() {
+        val message =
+            Message(
+                role = ChatCompletionRole.ASSISTANT,
+                content = MessageContent.Text("Hello, world!"),
+            )
+
+        val json = jsonParser.encodeToString(Message.serializer(), message)
+
+        json shouldEqualJson
+            """
+            {
+              "role": "assistant",
+              "content": "Hello, world!"
+            }
+            """.trimIndent()
+    }
+
+    @Test
+    fun `Should serialize Message with content parts as array`() {
+        val message =
+            Message(
+                role = ChatCompletionRole.ASSISTANT,
+                content =
+                    MessageContent.Parts(
+                        listOf(
+                            ContentPart.OutputText(
+                                text = "Test message",
+                                annotations = emptyList(),
+                            ),
+                        ),
+                    ),
+            )
+
+        val json = jsonParser.encodeToString(Message.serializer(), message)
+
+        json shouldEqualJson
+            """
+            {
+              "role": "assistant",
+              "content": [
+                {
+                  "type": "output_text",
+                  "text": "Test message"
+                }
+              ]
+            }
+            """.trimIndent()
     }
 
     @Test
@@ -334,6 +475,13 @@ internal class ChatCompletionModelsTest {
                     name shouldBe "get_weather"
                     description shouldBe "Get the current weather in a given location"
                     parameters?.size shouldBe 2
+
+                    withClue("Function parameters should be correct") {
+                        parameters?.get("location") shouldBe
+                            "The city and state, e.g. San Francisco, CA"
+                        parameters?.get("unit") shouldBe
+                            "The temperature unit to use. Infer this from the user's location."
+                    }
                 }
             }
         }

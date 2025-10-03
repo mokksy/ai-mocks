@@ -78,31 +78,28 @@ public open class MockOpenai(
                 name = name,
                 requestType = ChatCompletionRequest::class,
             ) {
-                val chatRequestSpec = OpenaiChatCompletionRequestSpecification()
-                block(chatRequestSpec)
+                val requestSpec = OpenaiChatCompletionRequestSpecification()
+                block(requestSpec)
 
                 path("/v1/chat/completions")
 
-                body += chatRequestSpec.requestBody
+                body += requestSpec.requestBody
+                bodyString += requestSpec.requestBodyString
 
-                chatRequestSpec.temperature?.let {
+                requestSpec.temperature?.let {
                     bodyString += containJsonKeyValue("temperature", it)
                 }
 
-                chatRequestSpec.maxTokens?.let {
+                requestSpec.maxTokens?.let {
                     bodyString += containJsonKeyValue("max_completion_tokens", it)
                 }
 
-                chatRequestSpec.seed?.let {
+                requestSpec.seed?.let {
                     bodyString += containJsonKeyValue("seed", it)
                 }
 
-                chatRequestSpec.model?.let {
+                requestSpec.model?.let {
                     bodyString += containJsonKeyValue("model", it)
-                }
-
-                chatRequestSpec.requestBodyString.forEach {
-                    bodyString += it
                 }
             }
 
@@ -237,6 +234,31 @@ public open class MockOpenai(
      * Supports matching on model, input (string or list), dimensions, encoding_format,
      * and user fields in the request body.
      *
+     * Example with single string input:
+     * ```kotlin
+     * openai.embeddings {
+     *     model = "text-embedding-3-small"
+     *     inputContains("Hello")
+     *     stringInput("Hello world")
+     * } responds {
+     *     delay = 200.milliseconds
+     *     embeddings(listOf(0.1f, 0.2f, 0.3f))
+     * }
+     * ```
+     *
+     * Example with list of strings:
+     * ```kotlin
+     * openai.embeddings {
+     *     model = "text-embedding-3-small"
+     *     stringListInput(listOf("Hello", "world"))
+     * } responds {
+     *     embeddings(
+     *         listOf(0.1f, 0.2f, 0.3f),
+     *         listOf(0.4f, 0.5f, 0.6f)
+     *     )
+     * }
+     * ```
+     *
      * @param name Optional identifier for the mock configuration.
      * @param block Lambda to configure the request matching criteria.
      * @return A builder step for specifying the mock response to embedding requests.
@@ -279,9 +301,8 @@ public open class MockOpenai(
                     bodyString += containJsonKeyValue("user", it)
                 }
 
-                embedRequestSpec.requestBodyString.forEach {
-                    bodyString += contain(it)
-                }
+                body += embedRequestSpec.requestBody
+                bodyString += embedRequestSpec.requestBodyString
             }
 
         return OpenaiEmbedBuildingStep(

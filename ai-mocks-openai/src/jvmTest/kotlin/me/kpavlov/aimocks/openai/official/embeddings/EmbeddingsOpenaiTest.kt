@@ -1,16 +1,19 @@
 package me.kpavlov.aimocks.openai.official.embeddings
 
 import com.openai.errors.BadRequestException
+import com.openai.errors.NotFoundException
 import com.openai.models.embeddings.EmbeddingCreateParams
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.comparables.shouldBeGreaterThanOrEqualTo
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import me.kpavlov.aimocks.openai.official.AbstractOpenaiTest
 import me.kpavlov.aimocks.openai.openai
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.measureTimedValue
@@ -21,6 +24,8 @@ internal class EmbeddingsOpenaiTest : AbstractOpenaiTest() {
         val input = "Hello world $seedValue"
         openai.embeddings {
             model = "text-embedding-3-small"
+            inputContains("Hello")
+            inputContains(input)
             stringInput(input)
         } responds {
             delay = 200.milliseconds
@@ -50,6 +55,34 @@ internal class EmbeddingsOpenaiTest : AbstractOpenaiTest() {
         val embedding = result.data().first()
         embedding.embedding() shouldBe listOf(0.1f, 0.2f, 0.3f)
         embedding.index() shouldBe 0
+    }
+
+    @Test
+    fun `Should respond 404 to embeddings request when input not matched`() {
+        val input = "Hello world $seedValue"
+        openai.embeddings {
+            model = "text-embedding-3-small"
+            inputContains("Hello2")
+        } responds {
+            delay = 50.milliseconds
+            embeddings(
+                listOf(0.1f, 0.2f, 0.3f),
+            )
+        }
+        val params =
+            EmbeddingCreateParams
+                .builder()
+                .model("text-embedding-3-small")
+                .input(EmbeddingCreateParams.Input.ofString(input))
+                .build()
+
+        val exception =
+            assertThrows<NotFoundException> {
+                client
+                    .embeddings()
+                    .create(params)
+            }
+        exception.message shouldContain "404:"
     }
 
     @Test
