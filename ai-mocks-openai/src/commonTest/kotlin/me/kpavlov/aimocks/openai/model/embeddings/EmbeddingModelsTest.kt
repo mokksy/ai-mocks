@@ -10,7 +10,7 @@ internal class EmbeddingModelsTest {
     private val jsonParser =
         Json {
             ignoreUnknownKeys = true
-            prettyPrint = true
+            prettyPrint = false
         }
 
     /**
