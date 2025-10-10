@@ -52,7 +52,7 @@ testImplementation("me.kpavlov.mokksy:mokksy:$latestVersion")
 ### Creating Mokksy Server
 
 ```kotlin
-// Create a Mokksy instance
+// Create and start MokksyServer instance
 val mokksy = Mokksy()
 
 // Configure a response for a GET request
@@ -62,14 +62,11 @@ mokksy.get {
   body = """{"response": "Pong"}"""
 }
 
-// Start the server
-mokksy.start()
-
 // Use the server URL in your client
-val serverUrl = mokksy.serverUrl
+val serverUrl = mokksy.baseUrl
 
-// Stop the server when done
-mokksy.stop()
+// Shutdown the server when done
+mokksy.shutdown()
 ```
 
 ## Responding with Predefined Responses
@@ -99,8 +96,8 @@ val result = client.get("/ping") {
 }
 
 // then
-assertThat(result.status).isEqualTo(HttpStatusCode.OK)
-assertThat(result.bodyAsText()).isEqualTo(expectedResponse)
+result.status shouldBe HttpStatusCode.OK
+result.bodyAsText() shouldBe expectedResponse
 ```
 
 ### POST Request
