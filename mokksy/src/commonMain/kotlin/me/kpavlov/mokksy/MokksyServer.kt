@@ -170,6 +170,8 @@ public open class MokksyServer
          */
         public fun port(): Int = resolvedPort
 
+        public fun baseUrl(): String = "http://127.0.0.1:$resolvedPort"
+
         /**
          * Creates a request specification for the given HTTP method and request type,
          * and returns a building step for further stub configuration.
@@ -268,7 +270,9 @@ public open class MokksyServer
          *
          * Returns a `BuildingStep` for further customization of the stubbed GET request.
          */
-        public fun get(block: RequestSpecificationBuilder<String>.() -> Unit): BuildingStep<String> =
+        public fun get(
+            block: RequestSpecificationBuilder<String>.() -> Unit,
+        ): BuildingStep<String> =
             this.get(
                 name = null,
                 requestType = String::class,
@@ -338,8 +342,9 @@ public open class MokksyServer
          * @param block Lambda to configure the request specification builder.
          * @return A building step for further customization of the POST request stub.
          */
-        public fun post(block: RequestSpecificationBuilder<String>.() -> Unit): BuildingStep<String> =
-            this.post(name = null, requestType = String::class, block = block)
+        public fun post(
+            block: RequestSpecificationBuilder<String>.() -> Unit,
+        ): BuildingStep<String> = this.post(name = null, requestType = String::class, block = block)
 
         /**
          * Defines a stub for an HTTP DELETE request with the specified request type and configuration block.
@@ -384,7 +389,9 @@ public open class MokksyServer
          * @param block Lambda to configure the request specification builder.
          * @return A building step for further stub customization.
          */
-        public fun delete(block: RequestSpecificationBuilder<String>.() -> Unit): BuildingStep<String> =
+        public fun delete(
+            block: RequestSpecificationBuilder<String>.() -> Unit,
+        ): BuildingStep<String> =
             this.delete(name = null, requestType = String::class, block = block)
 
         /**
@@ -431,7 +438,9 @@ public open class MokksyServer
          * @param block Lambda to configure the request specification builder for the PATCH request.
          * @return A `BuildingStep` for further customization of the PATCH request stub.
          */
-        public fun patch(block: RequestSpecificationBuilder<String>.() -> Unit): BuildingStep<String> =
+        public fun patch(
+            block: RequestSpecificationBuilder<String>.() -> Unit,
+        ): BuildingStep<String> =
             this.patch(name = null, requestType = String::class, block = block)
 
         /**
@@ -480,8 +489,9 @@ public open class MokksyServer
          * @param block Lambda to configure the request specification builder.
          * @return A building step for further stub customization.
          */
-        public fun put(block: RequestSpecificationBuilder<String>.() -> Unit): BuildingStep<String> =
-            this.put(name = null, requestType = String::class, block = block)
+        public fun put(
+            block: RequestSpecificationBuilder<String>.() -> Unit,
+        ): BuildingStep<String> = this.put(name = null, requestType = String::class, block = block)
 
         /**
          * Defines a stub for an HTTP HEAD request with the specified request type and configuration block.
@@ -529,8 +539,9 @@ public open class MokksyServer
          * @param block Lambda to configure the request specification builder.
          * @return A building step for further customization of the HEAD request stub.
          */
-        public fun head(block: RequestSpecificationBuilder<String>.() -> Unit): BuildingStep<String> =
-            this.head(name = null, requestType = String::class, block = block)
+        public fun head(
+            block: RequestSpecificationBuilder<String>.() -> Unit,
+        ): BuildingStep<String> = this.head(name = null, requestType = String::class, block = block)
 
         /**
          * Defines a stub for an HTTP OPTIONS request with the specified request type and configuration block.
@@ -578,7 +589,9 @@ public open class MokksyServer
          * @param block Lambda to configure the request specification builder for the OPTIONS request.
          * @return A `BuildingStep` for further customization of the stub.
          */
-        public fun options(block: RequestSpecificationBuilder<String>.() -> Unit): BuildingStep<String> =
+        public fun options(
+            block: RequestSpecificationBuilder<String>.() -> Unit,
+        ): BuildingStep<String> =
             this.options(name = null, requestType = String::class, block = block)
 
         /**
@@ -635,3 +648,9 @@ public open class MokksyServer
             server.stop()
         }
     }
+
+/**
+ * A typealias for MokksyServer, allowing the use of `Mokksy`
+ * as an alternative, more concise name for referencing the `MokksyServer` class.
+ */
+public typealias Mokksy = MokksyServer

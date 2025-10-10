@@ -36,9 +36,9 @@ public abstract class AbstractMockLlm(
 
     /**
      * Provides the base URL of the mock server to be provided
-     * to language model client.
+     * to a language model client.
      *
      * @return The base URL as a string.
      */
-    public open fun baseUrl(): String = "http://localhost:${port()}"
+    public open fun baseUrl(): String = mokksy.baseUrl()
 }

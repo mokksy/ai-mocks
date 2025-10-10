@@ -7,8 +7,8 @@ import kotlin.random.Random
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 
-val mokksy: MokksyServer =
-    MokksyServer(verbose = true) {
+val mokksy: Mokksy =
+    Mokksy(verbose = true) {
         it.log.info("Running Mokksy server with ${it.engine} engine")
     }
 
