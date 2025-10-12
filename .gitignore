@@ -208,3 +208,7 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+
+## Junie
+/test_*.*
+/debug_*.*

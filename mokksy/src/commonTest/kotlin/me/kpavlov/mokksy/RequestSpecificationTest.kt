@@ -21,9 +21,12 @@ import kotlinx.serialization.json.Json
 import me.kpavlov.mokksy.request.RequestSpecification
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.api.parallel.Execution
+import org.junit.jupiter.api.parallel.ExecutionMode
 import kotlin.test.Test
 
 @ExtendWith(MockKExtension::class)
+@Execution(ExecutionMode.SAME_THREAD)
 class RequestSpecificationTest {
     @MockK
     lateinit var request: ApplicationRequest

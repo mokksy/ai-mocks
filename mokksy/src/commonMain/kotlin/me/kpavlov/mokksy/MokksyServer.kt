@@ -27,7 +27,7 @@ import me.kpavlov.mokksy.utils.logger.HttpFormatter
 import java.util.concurrent.ConcurrentSkipListSet
 import kotlin.reflect.KClass
 
-private const val DEFAULT_HOST = "0.0.0.0"
+private const val DEFAULT_HOST = "127.0.0.1"
 
 /**
  * Creates and returns an embedded Ktor server instance
@@ -35,15 +35,15 @@ private const val DEFAULT_HOST = "0.0.0.0"
  *
  * This function is platform-specific and must be implemented for each supported target.
  *
- * @param host The host address to bind the server to.
- * @param port The port number to listen on.
+ * @param host The host name on which the server will run. Default value is [DEFAULT_HOST] (`127.0.0.1`).
+ * @param port The port number on which the server will run. Default value is `0` - randomly assigned port.
  * @param configuration The server configuration settings.
  * @param module The application module to install in the server.
  * @return An embedded server instance configured with the provided parameters.
  */
 internal expect fun createEmbeddedServer(
     host: String = DEFAULT_HOST,
-    port: Int,
+    port: Int = 0,
     configuration: ServerConfiguration,
     module: Application.() -> Unit,
 ): EmbeddedServer<
@@ -67,7 +67,8 @@ public typealias ApplicationConfigurer = (Application.() -> Unit)
  * Provides functionality to configure request specifications for different HTTP methods and manage request matching.
  *
  * @constructor Initializes the server with the specified parameters and starts it.
- * @param port The port number on which the server will run. Defaults to 0 (randomly assigned port).
+ * @param host The host name on which the server will run. Default value is [DEFAULT_HOST] (`127.0.0.1`).
+ * @param port The port number on which the server will run. Default value is `0` - randomly assigned port.
  * @param configuration Server configuration options
  * @param wait Determines whether the server startup process should block the current thread. Defaults to false.
  * @param configurer A lambda function for setting custom configurations for the server's application module.
@@ -76,8 +77,8 @@ public typealias ApplicationConfigurer = (Application.() -> Unit)
 public open class MokksyServer
     @JvmOverloads
     constructor(
-        port: Int = 0,
         host: String = DEFAULT_HOST,
+        port: Int = 0,
         configuration: ServerConfiguration,
         wait: Boolean = false,
         configurer: ApplicationConfigurer = {},
@@ -147,7 +148,7 @@ public open class MokksyServer
                 resolvedPort =
                     server.engine
                         .resolvedConnectors()
-                        .first()
+                        .single()
                         .port
             }
         }
@@ -623,7 +624,8 @@ public open class MokksyServer
         /**
          * Verifies that all registered request stubs have been matched at least once.
          *
-         * Throws an error if any request specification was not triggered during execution, listing all unmatched requests.
+         * Throws an error if any request specification was not triggered during execution,
+         * listing all unmatched requests.
          */
         public fun checkForUnmatchedRequests() {
             val unmatchedRequests = findAllUnmatchedRequests()

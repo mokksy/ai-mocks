@@ -9,49 +9,11 @@ import io.ktor.server.request.receiveText
 import io.ktor.server.request.uri
 import io.ktor.server.response.ResponseHeaders
 import io.ktor.server.routing.RoutingRequest
-import me.kpavlov.mokksy.utils.logger.Highlighting.highlightBody
-
-public enum class ColorTheme { LIGHT_ON_DARK, DARK_ON_LIGHT }
-
-/**
- * Determines whether ANSI color output is supported on the current platform.
- *
- * @return `true` if ANSI color codes can be used for output; otherwise, `false`.
- */
-internal expect fun isColorSupported(): Boolean
-
-public enum class AnsiColor(
-    public val code: String,
-) {
-    RESET("\u001B[0m"),
-    STRONGER("\u001B[1m"),
-    PALE("\u001B[2m"),
-    BLACK("\u001B[30m"),
-    RED("\u001B[31m"),
-    GREEN("\u001B[32m"),
-    YELLOW("\u001B[33m"),
-    BLUE("\u001B[34m"),
-    MAGENTA("\u001B[35m"),
-    CYAN("\u001B[36m"),
-    WHITE("\u001B[37m"),
-    LIGHT_GRAY("\u001B[37m"),
-    LIGHT_GRAY_BOLD("\u001B[37;1m"),
-    DARK_GRAY("\u001B[90m"),
-}
-
-/**
- * Wraps the given text with the specified ANSI color code if coloring is enabled.
- *
- * @param text The text to colorize.
- * @param color The ANSI color to apply.
- * @param enabled Whether to apply colorization; if false, returns the original text.
- * @return The colorized text if enabled, otherwise the original text.
- */
-internal fun colorize(
-    text: String,
-    color: AnsiColor,
-    enabled: Boolean = true,
-): String = if (enabled) "${color.code}$text${AnsiColor.RESET.code}" else text
+import me.kpavlov.mokksy.utils.highlight.AnsiColor
+import me.kpavlov.mokksy.utils.highlight.ColorTheme
+import me.kpavlov.mokksy.utils.highlight.Highlighting.highlightBody
+import me.kpavlov.mokksy.utils.highlight.colorize
+import me.kpavlov.mokksy.utils.highlight.isColorSupported
 
 public open class HttpFormatter(
     theme: ColorTheme = ColorTheme.LIGHT_ON_DARK,
@@ -70,7 +32,7 @@ public open class HttpFormatter(
                 HttpMethod.Delete -> AnsiColor.RED
                 else -> AnsiColor.STRONGER
             }
-        return colorize(method.value, color, useColor)
+        return method.value.colorize(color, useColor)
     }
 
     protected val colors: ColorScheme =
@@ -104,8 +66,7 @@ public open class HttpFormatter(
         path: String,
     ): String =
         "${method(method)} ${
-            colorize(
-                path,
+            path.colorize(
                 colors.path,
                 useColor,
             )
@@ -115,8 +76,7 @@ public open class HttpFormatter(
         httpVersion: String,
         status: HttpStatusCode,
     ): String =
-        colorize(
-            "$httpVersion ${status.value} ${status.description}",
+        "$httpVersion ${status.value} ${status.description}".colorize(
             AnsiColor.STRONGER,
             useColor,
         )
@@ -132,12 +92,12 @@ public open class HttpFormatter(
         k: String,
         values: List<String>,
     ): String =
-        "${colorize(k, colors.headerName, useColor)}: ${
-            colorize(
-                values.joinToString(separator = ",", prefix = "[", postfix = "]"),
-                colors.headerValue,
-                useColor,
-            )
+        "${k.colorize(colors.headerName, useColor)}: ${
+            values.joinToString(separator = ",", prefix = "[", postfix = "]")
+                .colorize(
+                    colors.headerValue,
+                    useColor,
+                )
         }"
 
     /**
