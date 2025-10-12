@@ -52,22 +52,29 @@ testImplementation("me.kpavlov.mokksy:mokksy:$latestVersion")
 ### Creating Mokksy Server
 
 ```kotlin
-// Create and start MokksyServer instance
+// Create and start Mokksy instance
 val mokksy = Mokksy()
 
 // Configure a response for a GET request
 mokksy.get {
   path = beEqual("/ping")
 } respondsWith {
+  // language=json
   body = """{"response": "Pong"}"""
 }
 
 // Use the server URL in your client
 val serverUrl = mokksy.baseUrl
 
-// Shutdown the server when done
+// [create a client and send a request here]
+
+// Shutdown Mokksy when done
 mokksy.shutdown()
 ```
+
+This snippet shows how to use the Mokksy server for testing.  
+It starts and configures a server so that any HTTP GET request to `/ping` returns `{"response": "Pong"}`.  
+It also retrieves the server’s base URL for client requests and demonstrates how to shut down the server after testing.
 
 ## Responding with Predefined Responses
 
@@ -218,4 +225,25 @@ After your test is complete, you can verify that all expected requests were rece
 ```kotlin
 // Verify no unmatched requests
 mokksy.checkForUnmatchedRequests()
+```
+
+If there is an unexpected request to the mock, then AssertionError will be thrown.
+
+It's a good practice to run it after every test:
+
+```kotlin
+class MyTest {
+    
+    private val mokksy = Mokksy()
+  
+    @AfterEach
+    fun afterEach() {
+      mokksy.verifyNoUnmatchedRequests()
+    }
+  
+    @Test
+    fun testSomething() {
+        TODO("Write your test here")
+    }
+}
 ```
