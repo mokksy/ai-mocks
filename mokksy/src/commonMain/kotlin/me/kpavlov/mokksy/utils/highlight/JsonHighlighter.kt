@@ -238,9 +238,7 @@ internal object JsonHighlighter {
     @JvmStatic
     private fun isNumber(buffer: StringBuilder): Boolean {
         if (buffer.isEmpty()) return false
-
-        val firstChar = buffer[0]
-        if (firstChar != '-' && !firstChar.isDigit()) return false
+        if (!isValidNumberStart(buffer[0])) return false
 
         var hasDigit = false
         var hasDot = false
@@ -252,17 +250,17 @@ internal object JsonHighlighter {
             when (char) {
                 in '0'..'9' -> hasDigit = true
                 '.' -> {
-                    if (hasDot || hasExp) return false
+                    if (!isValidDot(hasDot, hasExp)) return false
                     hasDot = true
                 }
 
                 'e', 'E' -> {
-                    if (hasExp || !hasDigit) return false
+                    if (!isValidExponent(hasExp, hasDigit)) return false
                     hasExp = true
                 }
 
                 '-', '+' -> {
-                    if (i != 0 && prevChar != 'e' && prevChar != 'E') return false
+                    if (!isValidSign(i, prevChar)) return false
                 }
 
                 else -> return false
@@ -271,6 +269,23 @@ internal object JsonHighlighter {
         }
         return hasDigit
     }
+
+    private fun isValidNumberStart(c: Char): Boolean = c == '-' || c.isDigit()
+
+    private fun isValidDot(
+        hasDot: Boolean,
+        hasExp: Boolean,
+    ): Boolean = !hasDot && !hasExp
+
+    private fun isValidExponent(
+        hasExp: Boolean,
+        hasDigit: Boolean,
+    ): Boolean = !hasExp && hasDigit
+
+    private fun isValidSign(
+        index: Int,
+        prevChar: Char,
+    ): Boolean = index == 0 || prevChar == 'e' || prevChar == 'E'
 
     @JvmStatic
     private fun StringBuilder.contentEquals(str: String): Boolean {
