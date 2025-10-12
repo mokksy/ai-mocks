@@ -57,7 +57,7 @@ val mokksy = Mokksy()
 
 // Configure a response for a GET request
 mokksy.get {
-  path = beEqual("/ping")
+  path("/ping")
 } respondsWith {
   // language=json
   body = """{"response": "Pong"}"""
@@ -238,7 +238,7 @@ class MyTest {
   
     @AfterEach
     fun afterEach() {
-      mokksy.verifyNoUnmatchedRequests()
+      mokksy.checkForUnmatchedRequests()
     }
   
     @Test
