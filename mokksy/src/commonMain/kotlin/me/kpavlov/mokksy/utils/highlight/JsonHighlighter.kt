@@ -216,8 +216,6 @@ internal object JsonHighlighter {
     private fun determineValueColor(buffer: StringBuilder): AnsiColor? {
         if (buffer.isEmpty()) return null
 
-        val first = buffer[0]
-
         // Check for boolean/null keywords first
         when (buffer.length) {
             4 -> {
@@ -234,44 +232,45 @@ internal object JsonHighlighter {
         }
 
         // Check if it's a number
-        return if (isNumber(first, buffer)) numberValColor else null
+        return if (isNumber(buffer)) numberValColor else null
     }
 
     @JvmStatic
-    private fun isNumber(
-        firstChar: Char,
-        buffer: StringBuilder,
-    ): Boolean {
-        if (!isValidNumberStart(firstChar)) return false
+    private fun isNumber(buffer: StringBuilder): Boolean {
+        if (buffer.isEmpty()) return false
+
+        val firstChar = buffer[0]
+        if (firstChar != '-' && !firstChar.isDigit()) return false
 
         var hasDigit = false
         var hasDot = false
         var hasExp = false
+        var prevChar = '\u0000'
 
-        for (i in 0 until buffer.length) {
+        for (i in buffer.indices) {
             val char = buffer[i]
             when (char) {
-                '-', '+' -> {
-                    if (i == 0) continue
-                    val prevChar = buffer[i - 1]
-                    if (prevChar != 'e' && prevChar != 'E') return false
-                }
+                in '0'..'9' -> hasDigit = true
                 '.' -> {
                     if (hasDot || hasExp) return false
                     hasDot = true
                 }
+
                 'e', 'E' -> {
                     if (hasExp || !hasDigit) return false
                     hasExp = true
                 }
-                in '0'..'9' -> hasDigit = true
+
+                '-', '+' -> {
+                    if (i != 0 && prevChar != 'e' && prevChar != 'E') return false
+                }
+
                 else -> return false
             }
+            prevChar = char
         }
         return hasDigit
     }
-
-    private fun isValidNumberStart(c: Char): Boolean = c == '-' || c.isDigit()
 
     @JvmStatic
     private fun StringBuilder.contentEquals(str: String): Boolean {
