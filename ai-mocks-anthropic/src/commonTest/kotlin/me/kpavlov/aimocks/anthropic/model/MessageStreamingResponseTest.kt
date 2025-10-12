@@ -46,7 +46,7 @@ internal class MessageStreamingResponseTest {
                 .split("\n\n")
                 .filter { it.isNotBlank() }
                 .mapNotNull {
-                    val lines = it.split("\n")
+                    val lines = it.split('\n')
                     if (lines.size == 2) {
                         val jsonData = lines[1].removePrefix("data: ")
                         jsonParser.decodeFromString<AnthropicSseData>(jsonData)

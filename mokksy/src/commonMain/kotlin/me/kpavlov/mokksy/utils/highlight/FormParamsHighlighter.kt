@@ -15,8 +15,8 @@ internal object FormParamsHighlighter {
         data: String,
         useColor: Boolean = isColorSupported(),
     ): String =
-        data.split("&").joinToString("&") {
-            val parts = it.split("=", limit = 2)
+        data.split('&').joinToString("&") {
+            val parts = it.split('=', limit = 2)
             if (parts.size == 2) {
                 val key = parts[0].colorize(AnsiColor.YELLOW, enabled = useColor)
                 val value = parts[1].colorize(AnsiColor.GREEN, enabled = useColor)

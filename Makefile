@@ -4,6 +4,11 @@ build:
 	./gradlew --rerun-tasks clean build publishToMavenLocal koverHtmlReport && \
 	(cd ai-mocks-openai/samples/shadow && mvn test)
 
+
+.PHONY: clean
+clean:
+	./gradlew clean
+
 .PHONY: test
 test:
 	./gradlew check

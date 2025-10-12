@@ -166,7 +166,7 @@ internal object JsonHighlighter {
         var inQuotes = true
         var escaped = false
 
-        while (pos < json.length && pos - startPos <= 1000) {
+        while (pos < json.length) {
             val c = json[pos]
 
             when {
@@ -252,10 +252,9 @@ internal object JsonHighlighter {
             val char = buffer[i]
             when (char) {
                 '-', '+' -> {
-                    if (i != 0) {
-                        val prevChar = buffer[i - 1]
-                        if (prevChar != 'e' && prevChar != 'E') return false
-                    }
+                    if (i == 0) continue
+                    val prevChar = buffer[i - 1]
+                    if (prevChar != 'e' && prevChar != 'E') return false
                 }
                 '.' -> {
                     if (hasDot || hasExp) return false
