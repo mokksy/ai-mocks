@@ -1,0 +1,116 @@
+package dev.mokksy.aimocks.a2a
+
+import dev.mokksy.aimocks.a2a.model.AuthenticationInfo
+import dev.mokksy.aimocks.a2a.model.GetTaskPushNotificationRequest
+import dev.mokksy.aimocks.a2a.model.GetTaskPushNotificationResponse
+import dev.mokksy.aimocks.a2a.model.PushNotificationConfig
+import dev.mokksy.aimocks.a2a.model.TaskId
+import dev.mokksy.aimocks.a2a.model.TaskIdParams
+import dev.mokksy.aimocks.a2a.model.TaskPushNotificationConfig
+import dev.mokksy.aimocks.a2a.model.invalidParamsError
+import io.kotest.matchers.equality.shouldBeEqualToComparingFields
+import io.kotest.matchers.equals.shouldBeEqual
+import io.ktor.client.call.body
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.contentType
+import kotlinx.coroutines.test.runTest
+import kotlin.test.Test
+
+internal class GetTaskPushNotificationTest : AbstractTest() {
+    /**
+     * https://a2a-protocol.org/latest/specification/#76-taskspushnotificationconfigget
+     */
+    @Test
+    fun `Should get TaskPushNotification config`() =
+        runTest {
+            val taskId: TaskId = "task_12345"
+            val config =
+                TaskPushNotificationConfig(
+                    id = taskId,
+                    pushNotificationConfig =
+                        PushNotificationConfig(
+                            url = "https://example.com/callback",
+                            token = "abc.def.jk",
+                            authentication =
+                                AuthenticationInfo(
+                                    schemes = listOf("Bearer"),
+                                ),
+                        ),
+                )
+
+            a2aServer.getTaskPushNotification() responds {
+                id = 1
+                result = config
+            }
+
+            val response =
+                a2aClient
+                    .post("/") {
+                        val jsonRpcRequest =
+                            GetTaskPushNotificationRequest(
+                                id = "1",
+                                params =
+                                    TaskIdParams(
+                                        id = taskId,
+                                    ),
+                            )
+                        contentType(ContentType.Application.Json)
+                        setBody(jsonRpcRequest)
+                    }.call
+                    .response
+
+            response.status.shouldBeEqual(HttpStatusCode.OK)
+            val payload = response.body<GetTaskPushNotificationResponse>()
+            payload shouldBeEqualToComparingFields
+                GetTaskPushNotificationResponse(
+                    id = 1,
+                    result = config,
+                )
+        }
+
+    @Test
+    fun `Should fail to get TaskPushNotification config`() =
+        runTest {
+            val taskId: TaskId = "task_12345"
+
+            a2aServer.getTaskPushNotification() responds {
+                id = 1
+                error =
+                    invalidParamsError {
+                        message = "Invalid parameters"
+                    }
+            }
+
+            val response =
+                a2aClient
+                    .post("/") {
+                        val jsonRpcRequest =
+                            GetTaskPushNotificationRequest(
+                                id = "1",
+                                params =
+                                    TaskIdParams(
+                                        id = taskId,
+                                    ),
+                            )
+                        contentType(ContentType.Application.Json)
+                        setBody(jsonRpcRequest)
+                    }.call
+                    .response
+
+            response.status.shouldBeEqual(HttpStatusCode.OK)
+            val payload = response.body<GetTaskPushNotificationResponse>()
+
+            val expectedReply =
+                GetTaskPushNotificationResponse(
+                    id = 1,
+                    error =
+                        invalidParamsError {
+                            message = "Invalid parameters"
+                        },
+                )
+            payload shouldBeEqualToComparingFields expectedReply
+        }
+}

@@ -19,14 +19,14 @@ Include the library in your test dependencies (Maven or Gradle).
 {{< tabs "dependencies" >}}
 {{< tab "Gradle" >}}
 ```kotlin
-implementation("me.kpavlov.aimocks:ai-mocks-a2a-jvm:$latestVersion")
+implementation("dev.mokksy.aimocks:ai-mocks-a2a-jvm:$latestVersion")
 ```
 
 {{< /tab >}}
 {{< tab "Maven" >}}
 ```xml
 <dependency>
-    <groupId>me.kpavlov.aimocks</groupId>
+    <groupId>dev.mokksy.aimocks</groupId>
     <artifactId>ai-mocks-a2a-jvm</artifactId>
     <version>[LATEST_VERSION]</version>
 </dependency>

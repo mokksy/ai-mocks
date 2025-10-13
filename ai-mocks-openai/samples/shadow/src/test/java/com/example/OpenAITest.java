@@ -8,7 +8,7 @@ import com.openai.models.ChatModel;
 import com.openai.models.chat.completions.ChatCompletionCreateParams;
 import com.openai.models.chat.completions.ChatCompletionMessageParam;
 import com.openai.models.chat.completions.ChatCompletionUserMessageParam;
-import me.kpavlov.aimocks.openai.MockOpenai;
+import dev.mokksy.aimocks.openai.MockOpenai;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

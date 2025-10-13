@@ -17,13 +17,13 @@ Add Dependency Include the library in your test dependencies (Maven or Gradle).
 {{< tabs "dependencies" >}}
 {{< tab "Gradle" >}}
 ```kotlin
-implementation("me.kpavlov.aimocks:ai-mocks-gemini-jvm:$latestVersion")
+implementation("dev.mokksy.aimocks:ai-mocks-gemini-jvm:$latestVersion")
 ```
     {{< /tab >}}
     {{< tab "Maven" >}}
 ```xml
 <dependency>
-  <groupId>me.kpavlov.aimocks</groupId>
+  <groupId>dev.mokksy.aimocks</groupId>
   <artifactId>ai-mocks-gemini-jvm</artifactId>
   <version>[LATEST_VERSION]</version>
 </dependency>
