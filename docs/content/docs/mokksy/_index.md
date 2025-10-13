@@ -25,10 +25,10 @@ Add Mokksy to your project dependencies:
 
 ```kotlin
 // For JVM projects
-testImplementation("me.kpavlov.mokksy:mokksy-jvm:$latestVersion")
+testImplementation("dev.mokksy.mokksy.mokksy-jvm:$latestVersion")
 
 // For Kotlin Multiplatform projects
-testImplementation("me.kpavlov.mokksy:mokksy:$latestVersion")
+testImplementation("dev.mokksy.mokksy.mokksy:$latestVersion")
 ```
 
 {{< /tab >}}
@@ -37,7 +37,7 @@ testImplementation("me.kpavlov.mokksy:mokksy:$latestVersion")
 ```xml
 
 <dependency>
-  <groupId>me.kpavlov.mokksy</groupId>
+  <groupId>dev.mokksy</groupId>
   <artifactId>mokksy-jvm</artifactId>
   <version>[LATEST_VERSION]</version>
   <scope>test</scope>

@@ -1,0 +1,23 @@
+package dev.mokksy.a2a.client;
+
+import dev.mokksy.aimocks.a2a.MockAgentServer;
+import org.junit.jupiter.api.AfterEach;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Base class for Java tests that use the A2A client.
+ */
+abstract class AbstractJavaTest {
+
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    protected final MockAgentServer a2aServer = new MockAgentServer(0, true);
+
+    // Create the client with the baseUrl parameter set to the mock server's URL
+    protected final A2AClient client = A2AClientFactory.create(a2aServer.baseUrl());
+
+    @AfterEach
+    public void afterEach() {
+        a2aServer.verifyNoUnmatchedRequests();
+    }
+}
