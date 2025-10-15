@@ -1,5 +1,6 @@
 package dev.mokksy.mokksy
 
+import dev.mokksy.mokksy.request.RequestSpecificationBuilder
 import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.request
@@ -9,9 +10,9 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
+import io.ktor.http.withCharset
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
-import dev.mokksy.mokksy.request.RequestSpecificationBuilder
 import org.junit.jupiter.api.Test
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicReference
@@ -77,6 +78,7 @@ internal class ShortcutMethodsIT : AbstractIT() {
 
         val expectedResponseRef = AtomicReference<String>()
         val requestAsString = Json.encodeToString(requestPayload)
+        val expectedContentType = ContentType.Application.ProblemJson.withCharset(Charsets.UTF_32)
 
         block.invoke {
             configurer(this)
@@ -96,6 +98,7 @@ internal class ShortcutMethodsIT : AbstractIT() {
             }
 
             val responsePayload = TestOrder.random(person = requestPayload)
+            contentType = expectedContentType
             body = Json.encodeToString(responsePayload)
             expectedResponseRef.set(body) // safely store the response for verification
         }
@@ -111,6 +114,7 @@ internal class ShortcutMethodsIT : AbstractIT() {
 
         // then
         result.status shouldBe HttpStatusCode.OK
+        result.contentType() shouldBe expectedContentType
 
         if (method != HttpMethod.Head) {
             result.bodyAsText() shouldBe expectedResponseRef.get()
