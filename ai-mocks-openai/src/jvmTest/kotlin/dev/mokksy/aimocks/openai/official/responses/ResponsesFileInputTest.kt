@@ -48,12 +48,12 @@ internal class ResponsesFileInputTest : AbstractOpenaiResponsesTest() {
         val response = timedValue.value
 
         logger.debug { "Response: $response" }
-        val message = response.output().first().asMessage()
+        val message = response.output().single().asMessage()
 
         val assistantText =
             message
                 .content()
-                .first()
+                .single()
                 .asOutputText()
                 .text()
         logger.info { "Assistant text: $assistantText" }
@@ -88,23 +88,23 @@ internal class ResponsesFileInputTest : AbstractOpenaiResponsesTest() {
         val input =
             ResponseCreateParams.Input.ofResponse(
                 listOf(
-                    ResponseInputItem.Companion.ofEasyInputMessage(
-                        EasyInputMessage.Companion
+                    ResponseInputItem.ofEasyInputMessage(
+                        EasyInputMessage
                             .builder()
                             .role(EasyInputMessage.Role.USER)
                             .content(
-                                EasyInputMessage.Content.Companion
+                                EasyInputMessage.Content
                                     .ofResponseInputMessageContentList(
                                         listOf(
-                                            ResponseInputContent.Companion.ofInputText(
-                                                ResponseInputText.Companion
+                                            ResponseInputContent.ofInputText(
+                                                ResponseInputText
                                                     .builder()
                                                     .text(
                                                         "what's the file?",
                                                     ).build(),
                                             ),
-                                            ResponseInputContent.Companion.ofInputFile(
-                                                ResponseInputFile.Companion
+                                            ResponseInputContent.ofInputFile(
+                                                ResponseInputFile
                                                     .builder()
                                                     .fileId(id)
                                                     .filename(filename)
@@ -117,7 +117,7 @@ internal class ResponsesFileInputTest : AbstractOpenaiResponsesTest() {
                 ),
             )
         val params =
-            ResponseCreateParams.Companion
+            ResponseCreateParams
                 .builder()
                 .temperature(temperatureValue)
                 .maxOutputTokens(maxCompletionTokensValue)

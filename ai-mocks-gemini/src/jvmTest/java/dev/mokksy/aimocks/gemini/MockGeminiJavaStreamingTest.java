@@ -11,6 +11,8 @@ import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.Part;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -28,6 +30,7 @@ import static org.assertj.core.api.Assertions.fail;
  * Some examples:
  * - <a href="https://github.com/google-gemini/cookbook/blob/main/quickstarts/rest/Streaming_REST.ipynb">Streaming_REST.ipynb</a>
  */
+@Execution(ExecutionMode.CONCURRENT)
 class MockGeminiJavaStreamingTest {
     private static final MockGemini MOCK = new MockGemini(true);
     private static final Random RANDOM = new Random();
