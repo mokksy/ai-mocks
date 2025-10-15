@@ -4,10 +4,10 @@ import assertk.assertThat
 import assertk.assertions.isNegative
 import assertk.assertions.isPositive
 import assertk.assertions.isZero
-import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
 import dev.mokksy.mokksy.request.RequestSpecification
 import dev.mokksy.mokksy.response.ResponseDefinitionSupplier
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 

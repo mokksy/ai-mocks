@@ -3,8 +3,7 @@ package dev.mokksy.mokksy
 import dev.mokksy.mokksy.request.RequestSpecification
 import dev.mokksy.mokksy.response.ResponseDefinitionSupplier
 import io.ktor.server.application.ApplicationCall
-import java.util.concurrent.atomic.AtomicInteger
-import java.util.concurrent.atomic.AtomicLong
+import kotlinx.atomicfu.atomic
 
 /**
  * Represents a mapping between an inbound request specification and an outbound response definition.
@@ -20,6 +19,7 @@ import java.util.concurrent.atomic.AtomicLong
  * @property requestSpecification Defines the criteria used to match incoming requests.
  * @property responseDefinitionSupplier Supplies the response details for a matched request.
  *          This includes headers, body, and HTTP status code, which are applied to the HTTP response.
+ * @author Konstantin Pavlov
  */
 internal data class Stub<P : Any, T : Any>(
     val configuration: StubConfiguration,
@@ -27,7 +27,8 @@ internal data class Stub<P : Any, T : Any>(
     val responseDefinitionSupplier: ResponseDefinitionSupplier<T>,
 ) : Comparable<Stub<*, *>> {
     private companion object {
-        private val counter = AtomicLong()
+        // Multiplatform atomic counter for creation order
+        private val COUNTER = atomic(0L)
     }
 
     /**
@@ -37,14 +38,14 @@ internal data class Stub<P : Any, T : Any>(
      *
      * Used for by [StubComparator].
      */
-    internal val creationOrder = counter.incrementAndGet()
+    internal val creationOrder = COUNTER.incrementAndGet()
 
     /**
      * Tracks the number of times a particular stub has been matched with incoming requests.
      * This counter is used to record the match frequency and can be incremented or reset
      * through corresponding methods in the class.
      */
-    private val matchCount = AtomicInteger(0)
+    private val matchCount = atomic(0)
 
     /**
      * Compares this Stub instance to another Stub instance for order.
@@ -79,10 +80,10 @@ internal data class Stub<P : Any, T : Any>(
     }
 
     fun resetMatchCount() {
-        matchCount.set(0)
+        matchCount.value = 0
     }
 
-    fun matchCount(): Int = matchCount.toInt()
+    fun matchCount(): Int = matchCount.value
 
     fun toLogString(): String =
         if (configuration.name?.isNotBlank() == true) {

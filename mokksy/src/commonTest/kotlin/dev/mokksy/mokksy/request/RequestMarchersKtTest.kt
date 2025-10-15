@@ -1,10 +1,10 @@
 package dev.mokksy.mokksy.request
 
+import dev.mokksy.mokksy.Input
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldStartWith
-import dev.mokksy.mokksy.Input
 import org.junit.jupiter.api.Test
 
 class RequestMarchersKtTest {

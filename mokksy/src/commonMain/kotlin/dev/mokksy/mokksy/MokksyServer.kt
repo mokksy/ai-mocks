@@ -1,5 +1,9 @@
 package dev.mokksy.mokksy
 
+import dev.mokksy.mokksy.request.RequestSpecification
+import dev.mokksy.mokksy.request.RequestSpecificationBuilder
+import dev.mokksy.mokksy.request.methodEqual
+import dev.mokksy.mokksy.utils.logger.HttpFormatter
 import io.kotest.assertions.failure
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpMethod.Companion.Delete
@@ -20,11 +24,6 @@ import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.ktor.server.sse.SSE
 import kotlinx.coroutines.runBlocking
-import dev.mokksy.mokksy.request.RequestSpecification
-import dev.mokksy.mokksy.request.RequestSpecificationBuilder
-import dev.mokksy.mokksy.request.methodEqual
-import dev.mokksy.mokksy.utils.logger.HttpFormatter
-import java.util.concurrent.ConcurrentSkipListSet
 import kotlin.reflect.KClass
 
 private const val DEFAULT_HOST = "127.0.0.1"
@@ -40,6 +39,7 @@ private const val DEFAULT_HOST = "127.0.0.1"
  * @param configuration The server configuration settings.
  * @param module The application module to install in the server.
  * @return An embedded server instance configured with the provided parameters.
+ * @author Konstantin Pavlov
  */
 internal expect fun createEmbeddedServer(
     host: String = DEFAULT_HOST,
@@ -72,6 +72,7 @@ public typealias ApplicationConfigurer = (Application.() -> Unit)
  * @param configuration Server configuration options
  * @param wait Determines whether the server startup process should block the current thread. Defaults to false.
  * @param configurer A lambda function for setting custom configurations for the server's application module.
+ * @author Konstantin Pavlov
  */
 @Suppress("TooManyFunctions")
 public open class MokksyServer
@@ -110,6 +111,8 @@ public open class MokksyServer
         public lateinit var logger: io.ktor.util.logging.Logger
         protected val httpFormatter: HttpFormatter = HttpFormatter()
 
+        private val stubRegistry = StubRegistry()
+
         private val server =
             createEmbeddedServer(
                 host = host,
@@ -130,7 +133,7 @@ public open class MokksyServer
                             handleRequest(
                                 context = this@handle,
                                 application = this@createEmbeddedServer,
-                                stubs = stubs,
+                                stubRegistry = stubRegistry,
                                 configuration = configuration,
                                 formatter = httpFormatter,
                             )
@@ -139,8 +142,6 @@ public open class MokksyServer
                 }
                 configurer(this)
             }
-
-        private val stubs = ConcurrentSkipListSet<Stub<*, *>>()
 
         init {
             server.start(wait = wait)
@@ -160,8 +161,7 @@ public open class MokksyServer
          * @throws AssertionError if the stub is already registered.
          */
         private fun registerStub(stub: Stub<*, *>) {
-            val added = stubs.add(stub)
-            assert(added) { "Duplicate stub detected: $stub" }
+            stubRegistry.add(stub)
         }
 
         /**
@@ -603,7 +603,8 @@ public open class MokksyServer
          * @return A list of unmatched request specifications.
          */
         public fun findAllUnmatchedRequests(): List<RequestSpecification<*>> =
-            stubs
+            stubRegistry
+                .getAll()
                 .filter {
                     it.matchCount() == 0
                 }.map { it.requestSpecification }
@@ -615,7 +616,8 @@ public open class MokksyServer
          * Use this to clear match history before running new tests or scenarios.
          */
         public fun resetMatchCounts() {
-            stubs
+            stubRegistry
+                .getAll()
                 .forEach {
                     it.resetMatchCount()
                 }

@@ -1,5 +1,6 @@
 package dev.mokksy.mokksy.response
 
+import dev.mokksy.mokksy.utils.logger.HttpFormatter
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.server.application.ApplicationCall
@@ -14,9 +15,22 @@ import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emptyFlow
-import dev.mokksy.mokksy.utils.logger.HttpFormatter
 import kotlin.time.Duration
 
+/**
+ * Represents a response definition for server-sent events (SSE) streaming.
+ *
+ * This class extends [StreamResponseDefinition] and is used to configure and handle an SSE response.
+ * It provides functionality for sending a stream of SSE events to the client, utilizing a specified
+ * [chunkFlow] and configuring response metadata.
+ *
+ * @param P The payload type for the SSE events.
+ * @param chunkFlow A [Flow] of [ServerSentEvent] representing the stream of SSE events. Defaults to `null`.
+ * @param chunkContentType The [ContentType] for the chunks in the SSE stream. Defaults to `null`.
+ * @param delay An optional delay between chunks, specified as a [Duration]. Defaults to `Duration.ZERO`.
+ * @param formatter An [HttpFormatter] responsible for formatting the HTTP response or payloads.
+ * @author Konstantin Pavlov
+ */
 public open class SseStreamResponseDefinition<P>(
     override val chunkFlow: Flow<ServerSentEvent>? = null,
     chunkContentType: ContentType? = null,

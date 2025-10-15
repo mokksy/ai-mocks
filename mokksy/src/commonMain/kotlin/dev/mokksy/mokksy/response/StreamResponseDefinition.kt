@@ -1,5 +1,6 @@
 package dev.mokksy.mokksy.response
 
+import dev.mokksy.mokksy.utils.logger.HttpFormatter
 import io.ktor.http.CacheControl
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
@@ -22,7 +23,6 @@ import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.yield
-import dev.mokksy.mokksy.utils.logger.HttpFormatter
 import kotlin.time.Duration
 
 internal const val SEND_BUFFER_CAPACITY = 256
@@ -43,8 +43,9 @@ internal const val SEND_BUFFER_CAPACITY = 256
  * @constructor Initializes a streaming response definition with the specified flow, chunk list, content type,
  *              HTTP status code, and headers.
  *
- * Extends:
  * @see AbstractResponseDefinition
+ *
+ * @author Konstantin Pavlov
  */
 @Suppress("LongParameterList")
 public open class StreamResponseDefinition<P, T>(
