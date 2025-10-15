@@ -5,6 +5,22 @@ import dev.mokksy.mokksy.MokksyServer
 import dev.mokksy.mokksy.ServerConfiguration
 import io.ktor.server.application.log
 
+/**
+ * Abstract class representing a mock Language Model (LLM) server.
+ * This serves as a base class for creating a mock server used for testing
+ * Language Model interactions. It is built upon the Mokksy framework for
+ * configuring and managing mock servers.
+ *
+ * @constructor Initializes the mock server with the specified configuration.
+ * @param port The port number to use for the server. Defaults to 0, which allows
+ *             the system to select an available port automatically.
+ * @param configuration The server configuration instance providing details such
+ *                      as verbosity, server name, and content negotiation settings.
+ * @param applicationConfigurer An optional function to further customize the
+ *                              server application configuration. Default is an
+ *                              empty configuration.
+ *  @author Konstantin Pavlov
+ */
 public abstract class AbstractMockLlm(
     port: Int = 0,
     configuration: ServerConfiguration,
@@ -26,8 +42,21 @@ public abstract class AbstractMockLlm(
      */
     public fun port(): Int = mokksy.port()
 
-    public fun shutdown() {
-        mokksy.shutdown()
+    /**
+     * Stops the mock LLM server and releases its resources
+     * with the specified grace period and timeout.
+     *
+     * @param gracePeriodMillis The duration in milliseconds for the server
+     * to attempt a graceful shutdown. Default is 500 milliseconds.
+     * @param timeoutMillis The maximum duration in milliseconds
+     * to wait for the shutdown process to complete. Default is 1000 milliseconds.
+     */
+    @JvmOverloads
+    public fun shutdown(
+        gracePeriodMillis: Long = 500,
+        timeoutMillis: Long = 1000,
+    ) {
+        mokksy.shutdown(gracePeriodMillis, timeoutMillis)
     }
 
     public fun verifyNoUnmatchedRequests() {

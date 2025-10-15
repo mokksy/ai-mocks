@@ -33,6 +33,7 @@ jobs:
         with:
           java-version: 24
           distribution: 'temurin'
+          cache: maven
 
       # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
       # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
