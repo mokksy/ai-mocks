@@ -658,6 +658,12 @@ public open class MokksyServer
             gracePeriodMillis: Long = 500,
             timeoutMillis: Long = 1000,
         ) {
+            require(gracePeriodMillis >= 0) { "gracePeriodMillis must be >= 0" }
+            require(timeoutMillis >= 0) { "timeoutMillis must be >= 0" }
+            require(
+                timeoutMillis >= gracePeriodMillis,
+            ) { "timeoutMillis must be >= gracePeriodMillis" }
+
             server.stop(gracePeriodMillis, timeoutMillis, TimeUnit.MILLISECONDS)
         }
     }
