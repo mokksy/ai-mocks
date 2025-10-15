@@ -29,6 +29,7 @@ import kotlin.time.Duration
  * @property delay Delay before the response is sent. The default value is zero.
  * @property formatter A utility class to format HTTP requests and responses into colorized strings
  * for better readability.
+ * @author Konstantin Pavlov
  */
 @Suppress("LongParameterList")
 public open class ResponseDefinition<P, T>(

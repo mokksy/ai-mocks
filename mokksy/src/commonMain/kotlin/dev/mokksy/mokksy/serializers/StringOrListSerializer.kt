@@ -12,6 +12,33 @@ import kotlinx.serialization.json.JsonEncoder
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
 
+/**
+ * A custom serializer for handling JSON values that can either be a single string
+ * or a list of strings. This serializer ensures that both formats are correctly
+ * deserialized into a `List<String>` and serialized back into their appropriate
+ * JSON representation.
+ *
+ * This is particularly useful in cases where a JSON API may respond with a single
+ * string if there is only one value, or a list of strings if there are multiple values.
+ *
+ * This serializer's behavior:
+ * - During deserialization:
+ *   - If the value is a string, it converts it into a single-element list.
+ *   - If the value is an array of strings, it converts it into a list of strings.
+ * - During serialization:
+ *   - If the list contains exactly one element, it serializes it as a single string.
+ *   - If the list size is not equal to 1 (including empty lists), it serializes it as a JSON array.
+ *     Empty lists become empty JSON arrays [].
+ *
+ * This serializer is compatible only with JSON encoding and decoding.
+ *
+ * Throws:
+ * - `SerializationException` if the serializer is used with a format other than JSON.
+ * - `SerializationException` if the input during deserialization is neither a string
+ *   nor an array of strings.
+ *
+ * @author Konstantin Pavlov
+ */
 public class StringOrListSerializer : KSerializer<List<String>> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("StringOrList")
 

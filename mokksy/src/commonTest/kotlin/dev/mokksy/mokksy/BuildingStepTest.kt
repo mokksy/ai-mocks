@@ -1,5 +1,7 @@
 package dev.mokksy.mokksy
 
+import dev.mokksy.mokksy.request.RequestSpecification
+import dev.mokksy.mokksy.utils.logger.HttpFormatter
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -8,8 +10,6 @@ import io.mockk.CapturingSlot
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
-import dev.mokksy.mokksy.request.RequestSpecification
-import dev.mokksy.mokksy.utils.logger.HttpFormatter
 import java.util.UUID
 import kotlin.test.BeforeTest
 import kotlin.test.Test

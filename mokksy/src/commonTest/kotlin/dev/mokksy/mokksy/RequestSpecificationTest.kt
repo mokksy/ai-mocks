@@ -1,5 +1,6 @@
 package dev.mokksy.mokksy
 
+import dev.mokksy.mokksy.request.RequestSpecification
 import io.kotest.matchers.Matcher
 import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.shouldBe
@@ -18,7 +19,6 @@ import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
-import dev.mokksy.mokksy.request.RequestSpecification
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.api.parallel.Execution

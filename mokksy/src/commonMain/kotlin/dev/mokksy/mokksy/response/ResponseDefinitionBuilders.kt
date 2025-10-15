@@ -1,11 +1,11 @@
 package dev.mokksy.mokksy.response
 
+import dev.mokksy.mokksy.CapturedRequest
+import dev.mokksy.mokksy.utils.logger.HttpFormatter
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.response.ResponseHeaders
 import kotlinx.coroutines.flow.Flow
-import dev.mokksy.mokksy.CapturedRequest
-import dev.mokksy.mokksy.utils.logger.HttpFormatter
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -18,6 +18,7 @@ import kotlin.time.Duration.Companion.milliseconds
  * @param T The type of the response data, which is returned to the client.
  * @property httpStatus The HTTP status code to be associated with the response.
  * @property headers A mutable list of header key-value pairs to be included in the response.
+ * @author Konstantin Pavlov
  */
 public abstract class AbstractResponseDefinitionBuilder<P, T>(
     public var httpStatusCode: Int = 200,

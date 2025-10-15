@@ -9,6 +9,7 @@ import kotlin.time.Duration
 internal typealias ResponseDefinitionSupplier<T> = (
     ApplicationCall,
 ) -> AbstractResponseDefinition<T>
+
 /**
  * Represents the base definition of an HTTP response in a mapping between a request and its corresponding response.
  * Provides the required attributes and behavior for configuring HTTP responses, including status code, headers,
@@ -22,7 +23,9 @@ internal typealias ResponseDefinitionSupplier<T> = (
  * @property headerList A list of header key-value pairs to populate the response headers. Defaults to an empty list.
  * @property delay A delay applied before sending the response. Defaults to [Duration.ZERO].
  * @property responseBody The optional response payload associated with this definition.
+ * @author Konstantin Pavlov
  */
+@Suppress("LongParameterList")
 public abstract class AbstractResponseDefinition<T>(
     public val contentType: ContentType,
     public val httpStatusCode: Int = 200,

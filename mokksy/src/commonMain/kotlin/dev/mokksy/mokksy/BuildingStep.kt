@@ -20,6 +20,7 @@ import kotlin.reflect.KClass
  * @property configuration Configuration options for the stub, such as name and behavior flags.
  * @property requestSpecification Specification of the request criteria that this step handles.
  * @property registerStub A callback for registering the stub with the main server or system.
+ * @author Konstantin Pavlov
  */
 public class BuildingStep<P : Any> internal constructor(
     private val requestType: KClass<P>,

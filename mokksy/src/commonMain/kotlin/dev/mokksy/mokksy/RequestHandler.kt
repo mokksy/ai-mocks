@@ -16,49 +16,29 @@ import io.ktor.server.routing.RoutingRequest
  * If no match is found, it logs the event and triggers a failure.
  *
  * @param context The routing context containing the request and response.
- * @param stubs The set of available stubs to match against.
+ * @param stubRegistry The registry of available stubs to match against.
  * @param configuration Server configuration settings that influence matching and logging behavior.
  * @param formatter Formats HTTP requests for logging and error messages.
+ * @author Konstantin Pavlov
  */
 internal suspend fun handleRequest(
     context: RoutingContext,
     application: Application,
-    stubs: MutableSet<Stub<*, *>>,
+    stubRegistry: StubRegistry,
     configuration: ServerConfiguration,
     formatter: HttpFormatter,
 ) {
     val request = context.call.request
+
     val matchedStub: Stub<*, *>? =
-        stubs
-            .filter { stub ->
-                val result =
-                    stub.requestSpecification
-                        .matches(request)
-                        .onFailure {
-                            if (configuration.verbose) {
-                                application.log.warn(
-                                    "Failed to evaluate condition for stub:\n---\n{}\n---" +
-                                        "\nand request:\n---\n{}---",
-                                    stub.toLogString(),
-                                    formatter.formatRequest(request),
-                                    it,
-                                )
-                            }
-                        }
-                result.getOrNull() == true
-            }.minWithOrNull(StubComparator)
+        stubRegistry.findMatchingStub(
+            request = request,
+            verbose = configuration.verbose,
+            logger = application.log,
+            formatter = formatter,
+        )
 
     if (matchedStub != null) {
-        matchedStub.configuration.apply {
-            if (removeAfterMatch) {
-                if (stubs.remove(matchedStub) && verbose) {
-                    application.log.debug(
-                        "Removed used stub: {}",
-                        matchedStub.toLogString(),
-                    )
-                }
-            }
-        }
         handleMatchedStub(
             matchedStub = matchedStub,
             serverConfig = configuration,
@@ -73,7 +53,7 @@ internal suspend fun handleRequest(
                 "NO STUBS FOUND for the request:\n---\n${
                     formatter.formatRequest(request)
                 }\n---\nAvailable stubs:\n{}\n",
-                stubs.joinToString("\n---\n") { it.toLogString() },
+                stubRegistry.getAll().joinToString("\n---\n") { it.toLogString() },
             )
         } else {
             application.log.warn(

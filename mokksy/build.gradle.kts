@@ -1,11 +1,12 @@
 plugins {
     kotlin("plugin.serialization") apply true
-    alias(libs.plugins.kover) apply true
     `kotlin-convention`
     `dokka-convention`
     `publish-convention`
     `netty-convention`
     `shadow-convention`
+    alias(libs.plugins.kotlinx.atomicfu) apply true
+    alias(libs.plugins.kover) apply true
 }
 
 dokka {
@@ -24,6 +25,7 @@ kotlin {
                 api(libs.ktor.server.content.negotiation)
                 api(libs.ktor.server.core)
                 api(project.dependencies.platform(libs.ktor.bom))
+                implementation(libs.kotlinx.atomicfu)
                 implementation(libs.ktor.serialization.kotlinx.json)
                 implementation(libs.ktor.server.double.receive)
                 implementation(libs.ktor.server.sse)
@@ -41,6 +43,7 @@ kotlin {
                 implementation(libs.mockk)
                 implementation(libs.mockk.dsl)
                 implementation(libs.kotlinLogging)
+                implementation(libs.ktor.server.test.host)
             }
         }
 
