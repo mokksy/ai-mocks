@@ -11,7 +11,7 @@ clean:
 
 .PHONY: test
 test:
-	./gradlew check
+	./gradlew --rerun-tasks check
 
 .PHONY: apidocs
 apidocs:
@@ -26,19 +26,13 @@ docs:apidocs
 	hugo server -D --watch
 
 .PHONY: lint
-lint:prepare
-	ktlint "!**/build/**" && \
-  ./gradlew detekt spotlessCheck
+lint:
+	./gradlew detekt spotlessCheck
 
 # https://docs.openrewrite.org/recipes/maven/bestpractices
 .PHONY: format
-format:prepare
-	ktlint --format "!**/build/**"
+format:
 	./gradlew spotlessApply rewriteRun
-
-.PHONY: prepare
-prepare:
-	command -v ktlint >/dev/null 2>&1 || brew install ktlint --quiet
 
 .PHONY: all
 all: format lint build

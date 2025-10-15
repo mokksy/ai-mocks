@@ -24,6 +24,7 @@ import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.ktor.server.sse.SSE
 import kotlinx.coroutines.runBlocking
+import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 
 private const val DEFAULT_HOST = "127.0.0.1"
@@ -644,12 +645,20 @@ public open class MokksyServer
         }
 
         /**
-         * Stops the embedded server and releases its resources.
+         * Stops the embedded server and releases its resources
+         * with the specified grace period and timeout.
          *
-         * Call this method to terminate the server when it is no longer needed.
+         * @param gracePeriodMillis The duration in milliseconds for the server
+         * to attempt a graceful shutdown. Default is 500 milliseconds.
+         * @param timeoutMillis The maximum duration in milliseconds
+         * to wait for the shutdown process to complete. Default is 1000 milliseconds.
          */
-        public fun shutdown() {
-            server.stop()
+        @JvmOverloads
+        public fun shutdown(
+            gracePeriodMillis: Long = 500,
+            timeoutMillis: Long = 1000,
+        ) {
+            server.stop(gracePeriodMillis, timeoutMillis, TimeUnit.MILLISECONDS)
         }
     }
 
