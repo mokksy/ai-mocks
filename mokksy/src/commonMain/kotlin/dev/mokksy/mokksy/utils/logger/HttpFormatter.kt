@@ -1,5 +1,10 @@
 package dev.mokksy.mokksy.utils.logger
 
+import dev.mokksy.mokksy.utils.highlight.AnsiColor
+import dev.mokksy.mokksy.utils.highlight.ColorTheme
+import dev.mokksy.mokksy.utils.highlight.Highlighting.highlightBody
+import dev.mokksy.mokksy.utils.highlight.colorize
+import dev.mokksy.mokksy.utils.highlight.isColorSupported
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
@@ -9,12 +14,16 @@ import io.ktor.server.request.receiveText
 import io.ktor.server.request.uri
 import io.ktor.server.response.ResponseHeaders
 import io.ktor.server.routing.RoutingRequest
-import dev.mokksy.mokksy.utils.highlight.AnsiColor
-import dev.mokksy.mokksy.utils.highlight.ColorTheme
-import dev.mokksy.mokksy.utils.highlight.Highlighting.highlightBody
-import dev.mokksy.mokksy.utils.highlight.colorize
-import dev.mokksy.mokksy.utils.highlight.isColorSupported
 
+/**
+ * A utility class to format HTTP requests and responses into colorized strings for better readability.
+ *
+ * This formatter applies syntax highlighting based on HTTP methods, headers, bodies, and status codes.
+ * It supports customizable color themes and enables or disables colorization depending on platform support.
+ *
+ * @param theme The color theme to be applied for formatting.
+ * @param useColor Boolean flag indicating whether ANSI color codes should be used in the formatting output.
+ */
 public open class HttpFormatter(
     theme: ColorTheme = ColorTheme.LIGHT_ON_DARK,
     protected val useColor: Boolean = isColorSupported(),

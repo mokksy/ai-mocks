@@ -81,6 +81,15 @@ public class BuildingStep<P : Any> internal constructor(
         registerStub(stub)
     }
 
+    /**
+     * Associates the current request specification with a response definition.
+     * This method is part of a fluent API for defining mappings between requests and responses.
+     *
+     * @param T The type of the response body.
+     * @param responseType The class of the response type, used to infer type information.
+     * @param block A lambda function applied to a [ResponseDefinitionBuilder],
+     * used to configure the response definition.
+     */
     public fun <T : Any> respondsWith(
         @Suppress("unused") responseType: KClass<T>,
         block: ResponseDefinitionBuilder<P, T>.() -> Unit,
@@ -116,6 +125,16 @@ public class BuildingStep<P : Any> internal constructor(
         registerStub(stub)
     }
 
+    /**
+     * Associates the current request specification with a streaming response definition.
+     * This method is part of a fluent API for defining mappings between requests and streaming responses.
+     *
+     * @param T The type of the elements in the streaming response data.
+     * @param responseType The class of the response type, used to infer type information
+     * for the response data.
+     * @param block A lambda function applied to a [StreamingResponseDefinitionBuilder],
+     * used to configure the streaming response definition.
+     */
     public fun <T : Any> respondsWithStream(
         @Suppress("unused") responseType: KClass<T>,
         block: StreamingResponseDefinitionBuilder<P, T>.() -> Unit,

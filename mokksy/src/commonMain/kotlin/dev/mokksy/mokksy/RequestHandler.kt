@@ -13,7 +13,7 @@ import io.ktor.server.routing.RoutingRequest
  *
  * Attempts to find the best matching stub for the request.
  * If a match is found, processes the stub and optionally removes it based on configuration.
- * If no match is found, logs the event and triggers a failure.
+ * If no match is found, it logs the event and triggers a failure.
  *
  * @param context The routing context containing the request and response.
  * @param stubs The set of available stubs to match against.
@@ -70,7 +70,7 @@ internal suspend fun handleRequest(
     } else {
         if (configuration.verbose) {
             application.log.warn(
-                "NO STUBS FOUND for the request:\n---\n$${
+                "NO STUBS FOUND for the request:\n---\n${
                     formatter.formatRequest(request)
                 }\n---\nAvailable stubs:\n{}\n",
                 stubs.joinToString("\n---\n") { it.toLogString() },

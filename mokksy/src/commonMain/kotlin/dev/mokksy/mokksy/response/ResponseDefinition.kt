@@ -27,7 +27,10 @@ import kotlin.time.Duration
  * Defaults to null.
  * @property headerList A list of additional header key-value pairs. Defaults to an empty list.
  * @property delay Delay before the response is sent. The default value is zero.
+ * @property formatter A utility class to format HTTP requests and responses into colorized strings
+ * for better readability.
  */
+@Suppress("LongParameterList")
 public open class ResponseDefinition<P, T>(
     contentType: ContentType = ContentType.Application.Json,
     public val body: T? = null,
