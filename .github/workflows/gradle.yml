@@ -28,10 +28,10 @@ jobs:
       - name: Fetch main branch
         run: git fetch origin main
 
-      - name: Set up JDK 25
+      - name: Set up JDK 24
         uses: actions/setup-java@v5
         with:
-          java-version: 25
+          java-version: 24
           distribution: 'temurin'
           cache: maven
 
