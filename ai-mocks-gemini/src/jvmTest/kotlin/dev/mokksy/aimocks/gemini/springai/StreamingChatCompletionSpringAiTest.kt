@@ -30,7 +30,7 @@ internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
                     flow {
                         emit("Ahoy")
                         emit(" there,")
-                        delay(100.milliseconds)
+                        delay(300.milliseconds)
                         emit(" matey!")
                         emit(" Hello!")
                     }
@@ -38,19 +38,22 @@ internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
                 delayBetweenChunks = 50.milliseconds
             }
 
-        val buffer = StringBuffer()
-        val chunkCount =
+        val chunkList =
             prepareClientRequest(systemMessage)
                 .stream()
                 .chatResponse()
                 .doOnNext { chunk ->
                     logger.debug { "✅ Received chunk: $chunk" }
-                    chunk.result.output.text
-                        ?.let(buffer::append)
-                }.count()
-                .block(5.seconds.toJavaDuration())
+                }.collectList()
+                .block(5.seconds.toJavaDuration())!!
 
-        chunkCount shouldBe 5
-        buffer.toString() shouldBe "Ahoy there, matey! Hello!"
+        chunkList.map { it.result.output.text } shouldBe
+            listOf(
+                "Ahoy",
+                " there,",
+                " matey!",
+                " Hello!",
+                "",
+            )
     }
 }
