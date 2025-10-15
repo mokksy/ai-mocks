@@ -1,6 +1,8 @@
 package dev.mokksy.mokksy.response
 
+import dev.mokksy.mokksy.utils.logger.HttpFormatter
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.log
@@ -9,7 +11,6 @@ import io.ktor.server.response.ResponseHeaders
 import io.ktor.server.response.respond
 import io.ktor.util.cio.ChannelWriteException
 import kotlinx.coroutines.delay
-import dev.mokksy.mokksy.utils.logger.HttpFormatter
 import kotlin.time.Duration
 
 /**
@@ -67,6 +68,9 @@ public open class ResponseDefinition<P, T>(
         }
         try {
             val payload: Any = effectiveBody ?: ""
+            if (call.response.headers[HttpHeaders.ContentType] == null) {
+                call.response.headers.append(HttpHeaders.ContentType, contentType.toString())
+            }
             call.respond(
                 status = httpStatus,
                 message = payload,
