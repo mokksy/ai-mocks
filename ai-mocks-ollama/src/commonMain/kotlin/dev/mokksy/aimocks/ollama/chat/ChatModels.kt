@@ -2,7 +2,8 @@
 
 package dev.mokksy.aimocks.ollama.chat
 
-import dev.mokksy.aimocks.core.json.schema.SchemaDefinition
+import dev.mokksy.aimocks.core.json.schema.JsonSchemaDefinition
+import dev.mokksy.aimocks.core.json.schema.JsonSchemaDefinitionBuilder
 import dev.mokksy.aimocks.ollama.model.Format
 import dev.mokksy.aimocks.ollama.model.ModelOptions
 import kotlinx.datetime.Instant
@@ -83,11 +84,31 @@ public data class Tool(
  * @property parameters The parameters the function accepts, in JSON Schema format
  */
 @Serializable
-public data class FunctionDefinition(
+public data class FunctionDefinition @JvmOverloads public constructor(
     val name: String,
     val description: String? = null,
-    val parameters: SchemaDefinition,
-)
+    val parameters: JsonSchemaDefinition,
+) {
+    /**
+     * Secondary constructor that allows creating a [FunctionDefinition] by specifying its name,
+     * an optional description, and a block to define the JSON Schema parameters through a
+     * [JsonSchemaDefinitionBuilder].
+     *
+     * @param name The name of the function.
+     * @param description An optional description of what the function does.
+     * @param block A lambda with a receiver of [JsonSchemaDefinitionBuilder] to define the JSON Schema parameters.
+     */
+    @JvmOverloads
+    public constructor(
+        name: String,
+        description: String? = null,
+        block: JsonSchemaDefinitionBuilder.() -> Unit,
+    ) : this(
+        name = name,
+        description = description,
+        parameters = JsonSchemaDefinitionBuilder().apply { block(this) }.build(),
+    )
+}
 
 /**
  * Represents a tool call made by the model.

@@ -24,6 +24,7 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(project(":test-utils"))
             }
 
             languageSettings.enableLanguageFeature("MultiDollarInterpolation")
