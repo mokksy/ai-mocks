@@ -1,5 +1,6 @@
 package dev.mokksy.aimocks.core.json.schema
 
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.maps.shouldHaveSize
@@ -9,7 +10,8 @@ import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
 
-internal class JsonSchemaTest {
+@Suppress("LongMethod")
+internal class JsonSchemaSerializationTest {
     private val jsonParser =
         Json {
             ignoreUnknownKeys = true
@@ -17,8 +19,7 @@ internal class JsonSchemaTest {
         }
 
     @Test
-    @Suppress("LongMethod")
-    fun `Should deserialize simple JsonSchema`() {
+    fun `Should de-serialize simple JsonSchema`() {
         // language=json
         val json =
             """
@@ -54,7 +55,7 @@ internal class JsonSchemaTest {
             }
             """.trimIndent()
 
-        val schema = jsonParser.decodeFromString<JsonSchema>(json)
+        val schema = deserializeAndSerialize<JsonSchema>(json, jsonParser)
 
         schema.name shouldBe "Person"
         schema.strict shouldBe false
@@ -83,10 +84,48 @@ internal class JsonSchemaTest {
     }
 
     @Test
+    fun `Should de-serialize Schema with id and schema`() {
+        // language=json
+        val json =
+            """
+            {
+
+                "${'$'}schema": "https://json-schema.org/draft-07/schema",
+                "${'$'}id": "https://example.com/schemas/product",
+                "type" : "object",
+                "properties" : {
+                  "name" : {
+                    "type" : "string",
+                    "description" : "Person's name",
+                    "nullable" : false
+                  }
+                },
+                "required" : [ "name"]
+            }
+            """.trimIndent()
+
+        val schema = deserializeAndSerialize<JsonSchemaDefinition>(json, jsonParser)
+
+        schema shouldNotBeNull {
+            this.schema shouldBe "https://json-schema.org/draft-07/schema"
+            this.id shouldBe "https://example.com/schemas/product"
+            this.type shouldBe "object"
+            this.required shouldBeEqual listOf("name")
+            this.properties shouldNotBeNull {
+                shouldHaveSize(1)
+                this["name"] as? StringPropertyDefinition shouldNotBeNull {
+                    type shouldBe listOf("string")
+                }
+            }
+        }
+    }
+
+    @Test
     @Suppress("LongMethod")
     fun `Should deserialize complex JsonSchema`() {
+        // language=json
         val json =
-            $$"""
+            """
             {
               "name": "ComplexSchema",
               "strict": true,
@@ -185,7 +224,7 @@ internal class JsonSchemaTest {
                     "const": false
                   },
                   "reference": {
-                    "$ref": "#/definitions/ExternalType"
+                    "${'$'}ref": "#/definitions/ExternalType"
                   }
                 },
                 "required": ["id", "email", "status"],
@@ -194,7 +233,7 @@ internal class JsonSchemaTest {
             }
             """.trimIndent()
 
-        val schema = jsonParser.decodeFromString<JsonSchema>(json)
+        val schema = deserializeAndSerialize<JsonSchema>(json, jsonParser)
 
         // Basic validation
         schema.name shouldBe "ComplexSchema"

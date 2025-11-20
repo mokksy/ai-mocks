@@ -20,29 +20,40 @@ import kotlinx.serialization.json.JsonElement
 @Serializable
 public data class JsonSchema(
     val name: String,
+    @EncodeDefault
     val strict: Boolean = false,
-    val schema: SchemaDefinition,
     val description: String? = null,
+    val schema: JsonSchemaDefinition,
 )
 
 /**
  * Represents a JSON Schema definition.
  *
- * @property type The JSON schema type (e.g., "object", "array", "string").
+ * @property id JSON Schema [$id](https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-01#name-the-id-keyword)
+ * @property schema JSON Schema [$schema](https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-01#name-the-schema-keyword)
+ * keyword, e.g. `https://json-schema.org/draft/2020-12/schema`
+ * @property type The JSON schema type (e.g., "object", "array", "string", etc.).
  * @property properties A map of property definitions.
  * @property required List of required property names.
  * @property additionalProperties Whether to allow additional properties in the object.
  * @property description Optional description of the schema.
+ *
+ * @author Konstantin Pavlov
  */
 @Serializable
-public data class SchemaDefinition(
+@Suppress("LongParameterList")
+public data class JsonSchemaDefinition(
+    @SerialName($$"$id")
+    public val id: String? = null,
+    @SerialName($$"$schema")
+    public val schema: String? = null,
     @EncodeDefault
-    val type: String = "object",
-    val properties: Map<String, PropertyDefinition> = emptyMap(),
-    val required: List<String> = emptyList(),
-    val additionalProperties: Boolean? = null,
-    val description: String? = null,
-    val items: PropertyDefinition? = null,
+    public val type: String = "object",
+    public val properties: Map<String, PropertyDefinition> = emptyMap(),
+    public val required: List<String> = emptyList(),
+    public val additionalProperties: Boolean? = null,
+    public val description: String? = null,
+    public val items: PropertyDefinition? = null,
 )
 
 /**
@@ -127,6 +138,7 @@ public data class NumericPropertyDefinition(
 @Serializable
 public data class ArrayPropertyDefinition(
     @Serializable(with = StringOrListSerializer::class)
+    @EncodeDefault
     override val type: List<String> = listOf("array"),
     override val description: String? = null,
     override val nullable: Boolean? = null,
@@ -142,6 +154,7 @@ public data class ArrayPropertyDefinition(
 @Serializable
 public data class ObjectPropertyDefinition(
     @Serializable(with = StringOrListSerializer::class)
+    @EncodeDefault
     override val type: List<String> = listOf("object"),
     override val description: String? = null,
     override val nullable: Boolean? = null,
@@ -158,6 +171,7 @@ public data class ObjectPropertyDefinition(
 @Serializable
 public data class BooleanPropertyDefinition(
     @Serializable(with = StringOrListSerializer::class)
+    @EncodeDefault
     override val type: List<String> = listOf("boolean"),
     override val description: String? = null,
     override val nullable: Boolean? = null,
