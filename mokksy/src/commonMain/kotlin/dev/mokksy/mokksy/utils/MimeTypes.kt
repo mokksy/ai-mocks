@@ -12,7 +12,7 @@ import io.ktor.http.ContentType
 public typealias MimeType = String
 
 /**
- * Converts a [ContentType] instance to its corresponding MIME type string representation.
+ * Converts a ContentType instance to its corresponding MIME type string representation.
  *
  * @return A string representation of the MIME type in the format "type/subtype".
  */

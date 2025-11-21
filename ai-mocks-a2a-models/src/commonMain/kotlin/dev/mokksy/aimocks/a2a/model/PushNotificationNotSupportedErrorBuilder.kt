@@ -54,7 +54,7 @@ public fun pushNotificationNotSupportedError(
 }
 
 /**
- * DSL extension for [PushNotificationNotSupportedError.Companion].
+ * DSL extension for [PushNotificationNotSupportedError].
  *
  * @param init The lambda to configure the push notification not supported error.
  * @return A new [PushNotificationNotSupportedError] instance.
@@ -65,7 +65,7 @@ public fun PushNotificationNotSupportedError.Companion.create(
     PushNotificationNotSupportedErrorBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [PushNotificationNotSupportedError.Companion].
+ * Java-friendly DSL extension for [PushNotificationNotSupportedError].
  *
  * @param init The consumer to configure the push notification not supported error.
  * @return A new [PushNotificationNotSupportedError] instance.

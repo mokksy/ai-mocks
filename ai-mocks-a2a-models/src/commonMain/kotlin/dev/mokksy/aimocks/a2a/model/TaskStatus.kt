@@ -39,7 +39,7 @@ constructor(
     /**
      * An ISO 8601 datetime string indicating when this status was recorded.
      *
-     * @sample "2023-10-27T10:00:00Z"
+     * Example: `2023-10-27T10:00:00Z`
      */
     @SerialName("timestamp")
     val timestamp: Instant? = null,

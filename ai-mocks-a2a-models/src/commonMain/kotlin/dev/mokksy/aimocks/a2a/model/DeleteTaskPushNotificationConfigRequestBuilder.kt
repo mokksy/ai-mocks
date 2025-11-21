@@ -96,7 +96,7 @@ public fun deleteTaskPushNotificationConfigRequest(
 }
 
 /**
- * DSL extension for [DeleteTaskPushNotificationConfigRequest.Companion].
+ * DSL extension for [DeleteTaskPushNotificationConfigRequest].
  *
  * @param init The lambda to configure the delete task push notification config request.
  * @return A new [DeleteTaskPushNotificationConfigRequest] instance.
@@ -107,7 +107,7 @@ public fun DeleteTaskPushNotificationConfigRequest.Companion.create(
     DeleteTaskPushNotificationConfigRequestBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [DeleteTaskPushNotificationConfigRequest.Companion].
+ * Java-friendly DSL extension for [DeleteTaskPushNotificationConfigRequest].
  *
  * @param init The consumer to configure the delete task push notification config request.
  * @return A new [DeleteTaskPushNotificationConfigRequest] instance.

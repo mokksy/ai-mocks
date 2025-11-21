@@ -10,7 +10,7 @@ import java.io.IOException
 import kotlin.reflect.KClass
 
 /**
- * Defines the building step for associating an inbound request specification with its corresponding
+ * Defines the building step for associating an inbound [RequestSpecification] with its corresponding
  * response definition.
  * This class is part of a fluent API used to define mappings between request specifications
  * and their respective responses.
@@ -18,8 +18,8 @@ import kotlin.reflect.KClass
  * @param P The type of the request payload.
  * @property requestType The type of the request that this step is processing.
  * @property configuration Configuration options for the stub, such as name and behavior flags.
- * @property requestSpecification Specification of the request criteria that this step handles.
- * @property registerStub A callback for registering the stub with the main server or system.
+ * @property requestSpecification [RequestSpecification] of the request criteria that this step handles.
+ * @property registerStub A callback for registering the [Stub] with the main server or system.
  * @author Konstantin Pavlov
  */
 public class BuildingStep<P : Any> internal constructor(
@@ -31,9 +31,9 @@ public class BuildingStep<P : Any> internal constructor(
 ) {
     /**
      * @param P The type of the request payload.
-     * @param name An optional name assigned to the Stub for identification or debugging purposes.
+     * @param name An optional name assigned to the [Stub] for identification or debugging purposes.
      * @property registerStub Callback function to be called to register new [Stub] to [MokksyServer]
-     * @property requestSpecification The request specification currently being processed.
+     * @property requestSpecification The [RequestSpecification] currently being processed.
      */
     internal constructor(
         requestType: KClass<P>,
@@ -50,12 +50,12 @@ public class BuildingStep<P : Any> internal constructor(
     )
 
     /**
-     * Associates the current request specification with a response definition.
+     * Associates the current [RequestSpecification] with a response definition.
      * This method is part of a fluent API for defining mappings between requests and responses.
      *
      * @param P The type of the request payload.
      * @param T The type of the response body.
-     * @param block A lambda function applied to a [dev.mokksy.mokksyresponse.ResponseDefinitionBuilder],
+     * @param block A lambda function applied to a [ResponseDefinitionBuilder],
      * used to configure the response definition.
      */
     public infix fun <T : Any> respondsWith(block: ResponseDefinitionBuilder<P, T>.() -> Unit) {
@@ -83,7 +83,7 @@ public class BuildingStep<P : Any> internal constructor(
     }
 
     /**
-     * Associates the current request specification with a response definition.
+     * Associates the current [RequestSpecification] with a response definition.
      * This method is part of a fluent API for defining mappings between requests and responses.
      *
      * @param T The type of the response body.
@@ -99,12 +99,12 @@ public class BuildingStep<P : Any> internal constructor(
     }
 
     /**
-     * Associates the current request specification with a streaming response definition.
+     * Associates the current [RequestSpecification] with a streaming response definition.
      * This method is part of a fluent API for defining mappings between requests and streaming responses.
      *
      * @param P The type of the request payload.
      * @param T The type of the elements in the streaming response data.
-     * @param block A lambda function applied to a [dev.mokksy.mokksyresponse.StreamingResponseDefinitionBuilder],
+     * @param block A lambda function applied to a [StreamingResponseDefinitionBuilder],
      * used to configure the streaming response definition.
      */
     public infix fun <T : Any> respondsWithStream(
@@ -127,7 +127,7 @@ public class BuildingStep<P : Any> internal constructor(
     }
 
     /**
-     * Associates the current request specification with a streaming response definition.
+     * Associates the current [RequestSpecification] with a streaming response definition.
      * This method is part of a fluent API for defining mappings between requests and streaming responses.
      *
      * @param T The type of the elements in the streaming response data.
@@ -144,11 +144,11 @@ public class BuildingStep<P : Any> internal constructor(
     }
 
     /**
-     * Associates the current request specification with a server-sent events (SSE) streaming response definition.
+     * Associates the current [RequestSpecification] with a server-sent events (SSE) streaming response definition.
      * This method is part of a fluent API for defining mappings between requests and SSE streaming responses.
      *
      * @param P The type of the request payload.
-     * @param T The type of `data` field in the [ServerSentEventMetadata].
+     * @param T The type of `data` field in the ServerSentEventMetadata.
      * @param block A lambda function applied to a [StreamingResponseDefinitionBuilder] specifically for
      * configuring the response as a stream of server-sent events.
      */

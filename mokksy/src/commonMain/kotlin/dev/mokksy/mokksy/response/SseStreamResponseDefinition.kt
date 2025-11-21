@@ -25,9 +25,9 @@ import kotlin.time.Duration
  * [chunkFlow] and configuring response metadata.
  *
  * @param P The payload type for the SSE events.
- * @param chunkFlow A [Flow] of [ServerSentEvent] representing the stream of SSE events. Defaults to `null`.
- * @param chunkContentType The [ContentType] for the chunks in the SSE stream. Defaults to `null`.
- * @param delay An optional delay between chunks, specified as a [Duration]. Defaults to `Duration.ZERO`.
+ * @param chunkFlow A Flow of ServerSentEvent representing the stream of SSE events. Defaults to `null`.
+ * @param chunkContentType The ContentType for the chunks in the SSE stream. Defaults to `null`.
+ * @param delay An optional delay between chunks, specified as a Duration. Defaults to `Duration.ZERO`.
  * @param formatter An [HttpFormatter] responsible for formatting the HTTP response or payloads.
  * @author Konstantin Pavlov
  */
@@ -69,8 +69,8 @@ public open class SseStreamResponseDefinition<P>(
      * Handles a server-sent events (SSE) response by configuring the appropriate HTTP headers
      * and sending the specified content to the client.
      *
-     * @param call The [ApplicationCall] representing the current client-server interaction.
-     * @param content The [SSEServerContent] that represents the server-sent events to be delivered.
+     * @param call The ApplicationCall representing the current client-server interaction.
+     * @param content The SSEServerContent that represents the server-sent events to be delivered.
      */
     private suspend fun processSSE(
         call: ApplicationCall,

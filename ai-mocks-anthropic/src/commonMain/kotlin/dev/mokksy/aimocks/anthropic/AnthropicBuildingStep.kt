@@ -21,6 +21,17 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 
+/**
+ * A specialized implementation of [AbstractBuildingStep] for constructing Anthropic
+ * Messages API responses.
+ *
+ * This class provides methods to configure both single-blocked responses and streaming
+ * responses for Anthropic's Messages API.
+ *
+ * @param mokksy The [MokksyServer] instance used for handling mock request and response lifecycle.
+ * @param buildingStep The underlying [BuildingStep] for managing response configurations.
+ * @author Konstantin Pavlov
+ */
 public class AnthropicBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<MessageCreateParams>,
@@ -80,7 +91,6 @@ public class AnthropicBuildingStep(
      *
      * @param block A configuration block that customizes the streaming response by applying specifications
      *              to an instance of [AnthropicStreamingChatResponseSpecification].
-     * @link
      */
     @OptIn(ExperimentalCoroutinesApi::class, InternalAPI::class)
     public infix fun respondsStream(block: AnthropicStreamingChatResponseSpecification.() -> Unit) {

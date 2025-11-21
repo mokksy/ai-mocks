@@ -63,7 +63,7 @@ public inline fun listTaskPushNotificationConfigParams(
         .build()
 
 /**
- * DSL extension for [ListTaskPushNotificationConfigParams.Companion].
+ * DSL extension for [ListTaskPushNotificationConfigParams].
  *
  * @param init The lambda to configure the list task push notification config params.
  * @return A new [ListTaskPushNotificationConfigParams] instance.

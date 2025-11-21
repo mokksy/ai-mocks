@@ -95,7 +95,7 @@ public fun getTaskPushNotificationRequest(
 }
 
 /**
- * DSL extension for [GetTaskPushNotificationRequest.Companion].
+ * DSL extension for [GetTaskPushNotificationRequest].
  *
  * @param init The lambda to configure the get task push notification request.
  * @return A new [GetTaskPushNotificationRequest] instance.
@@ -105,7 +105,7 @@ public fun GetTaskPushNotificationRequest.Companion.create(
 ): GetTaskPushNotificationRequest = GetTaskPushNotificationRequestBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [GetTaskPushNotificationRequest.Companion].
+ * Java-friendly DSL extension for [GetTaskPushNotificationRequest].
  *
  * @param init The consumer to configure the get task push notification request.
  * @return A new [GetTaskPushNotificationRequest] instance.

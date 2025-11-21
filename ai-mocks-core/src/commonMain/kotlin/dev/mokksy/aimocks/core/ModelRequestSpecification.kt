@@ -85,7 +85,7 @@ public abstract class ModelRequestSpecification<P>(
      * ignoring case sensitivity.
      *
      * @param substring The substring that the request body should contain, case-insensitive.
-     * @return The current instance of ChatRequestSpecification with the updated condition.
+     * @return The current instance of [ModelRequestSpecification] with the updated condition.
      */
     public fun requestBodyContainsIgnoringCase(substring: String): ModelRequestSpecification<P> =
         apply {
@@ -93,11 +93,11 @@ public abstract class ModelRequestSpecification<P>(
         }
 
     /**
-     * Adds a condition to ensure the request body contains the specified substring,
+     * Adds a condition to ensure the request body does not contain the specified substring,
      * ignoring case sensitivity.
      *
-     * @param substring The substring that the request body should contain, case-insensitive.
-     * @return The current instance of ChatRequestSpecification with the updated condition.
+     * @param substring The substring that the request body should not contain, case-insensitive.
+     * @return The current instance of [ModelRequestSpecification] with the updated condition.
      */
     public fun requestBodyDoesNotContainsIgnoringCase(
         substring: String,
@@ -107,10 +107,10 @@ public abstract class ModelRequestSpecification<P>(
         }
 
     /**
-     * Adds a condition to ensure the request body contains the specified substring.
+     * Adds a condition to ensure the request body does not contain the specified substring.
      *
-     * @param substring The substring that the request body should contain, case-sensitive.
-     * @return The current instance of ChatRequestSpecification with the updated condition.
+     * @param substring The substring that the request body should not contain, case-sensitive.
+     * @return The current instance of [ModelRequestSpecification] with the updated condition.
      */
     public fun requestBodyDoesNotContains(substring: String): ModelRequestSpecification<P> =
         apply {

@@ -16,10 +16,10 @@ import kotlin.reflect.KClass
  * of a mock server's response mechanism.
  *
  * @param P The type of the request body for the interaction.
- * @param R A type that extends [ResponseSpecification], representing configuration
+ * @param R A type that extends [AbstractResponseSpecification], representing configuration
  *          for the expected response specification.
- * @property mokksy A reference to the mock server instance.
- * @property buildingStep A reference to the internally managed building step
+ * @property mokksy A reference to the [MokksyServer] instance.
+ * @property buildingStep A reference to the internally managed [BuildingStep]
  *                        for configuring mock response behavior.
  */
 public abstract class AbstractBuildingStep<P : Any, R : AbstractResponseSpecification<P, *>>(
@@ -66,7 +66,7 @@ public abstract class AbstractBuildingStep<P : Any, R : AbstractResponseSpecific
         responseType: KClass<T>,
         block: ResponseDefinitionBuilder<P, T>.() -> Unit,
     ) {
-        respondsError<T>(block)
+        respondsError(block)
     }
 
     /**

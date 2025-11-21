@@ -46,7 +46,7 @@ public fun internalError(init: Consumer<InternalErrorBuilder>): InternalError {
 }
 
 /**
- * DSL extension for [InternalError.Companion].
+ * DSL extension for [InternalError].
  *
  * @param init The lambda to configure the internal error.
  * @return A new [InternalError] instance.
@@ -55,7 +55,7 @@ public fun InternalError.Companion.create(init: InternalErrorBuilder.() -> Unit)
     InternalErrorBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [InternalError.Companion].
+ * Java-friendly DSL extension for [InternalError].
  *
  * @param init The consumer to configure the internal error.
  * @return A new [InternalError] instance.

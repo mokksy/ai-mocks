@@ -30,7 +30,7 @@ public data class AgentSkill(
     /**
      * A set of keywords describing the skill's capabilities.
      *
-     * @sample ["cooking", "customer support", "billing"]
+     * Example: `["cooking", "customer support", "billing"]`
      */
     @SerialName("tags")
     val tags: List<String>,
@@ -39,7 +39,7 @@ public data class AgentSkill(
      * Example prompts or scenarios that this skill can handle. Provides a hint to
      * the client on how to use the skill.
      *
-     * @sample ["I need a recipe for bread"]
+     * Example: `["I need a recipe for bread"]`
      */
     @SerialName("examples")
     val examples: List<String>? = null,
@@ -58,12 +58,12 @@ public data class AgentSkill(
 
     /**
      * Security schemes necessary for the agent to leverage this skill.
-     * As in the overall AgentCard.security, this list represents a logical OR of security
+     * As in the overall [AgentCard.security], this list represents a logical OR of security
      * requirement objects. Each object is a set of security schemes that must be used together
      * (a logical AND).
      *
-     * @sample
-     * ```
+     * Example:
+     * ```kotlin
      * [
      *   {
      *     "google": [ "oidc" ]
@@ -76,7 +76,7 @@ public data class AgentSkill(
 ) {
     public companion object {
         /**
-         * Creates a new AgentSkill using the DSL builder.
+         * Creates a new [AgentSkill] using the DSL builder.
          *
          * @param init The lambda to configure the agent skill.
          * @return A new AgentSkill instance.

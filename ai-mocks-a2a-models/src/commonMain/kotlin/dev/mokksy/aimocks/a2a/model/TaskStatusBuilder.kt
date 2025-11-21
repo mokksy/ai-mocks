@@ -115,7 +115,7 @@ public fun taskStatus(init: Consumer<TaskStatusBuilder>): TaskStatus {
 }
 
 /**
- * DSL extension for [TaskStatus.Companion].
+ * DSL extension for [TaskStatus].
  *
  * @param init The lambda to configure the task status.
  * @return A new [TaskStatus] instance.
@@ -124,7 +124,7 @@ public fun TaskStatus.Companion.create(init: TaskStatusBuilder.() -> Unit): Task
     TaskStatusBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [TaskStatus.Companion].
+ * Java-friendly DSL extension for [TaskStatus].
  *
  * @param init The consumer to configure the task status.
  * @return A new [TaskStatus] instance.

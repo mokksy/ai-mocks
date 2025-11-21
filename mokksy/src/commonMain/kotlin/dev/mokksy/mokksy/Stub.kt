@@ -6,7 +6,7 @@ import io.ktor.server.application.ApplicationCall
 import kotlinx.atomicfu.atomic
 
 /**
- * Represents a mapping between an inbound request specification and an outbound response definition.
+ * Represents a mapping between an inbound [RequestSpecification] and an outbound response definition.
  *
  * This class encapsulates the logic needed to handle HTTP requests and responses, including
  * matching request specifications, sending responses, and handling response data of various types.
@@ -17,7 +17,7 @@ import kotlinx.atomicfu.atomic
  * @param configuration Defines the behavior and attributes of the stub, including its name
  *          and logging verbosity settings.
  * @property requestSpecification Defines the criteria used to match incoming requests.
- * @property responseDefinitionSupplier Supplies the response details for a matched request.
+ * @property responseDefinitionSupplier Supplies the [ResponseDefinitionSupplier] for a matched request.
  *          This includes headers, body, and HTTP status code, which are applied to the HTTP response.
  * @author Konstantin Pavlov
  */
@@ -36,7 +36,7 @@ internal data class Stub<P : Any, T : Any>(
      * This property is initialized with an incrementing value to ensure each instance
      * can be distinctly ordered based on the sequence of their creation.
      *
-     * Used for by [StubComparator].
+     * Used by [StubComparator].
      */
     internal val creationOrder = COUNTER.incrementAndGet()
 
@@ -48,14 +48,14 @@ internal data class Stub<P : Any, T : Any>(
     private val matchCount = atomic(0)
 
     /**
-     * Compares this Stub instance to another Stub instance for order.
+     * Compares this [Stub] instance to another [Stub] instance for order.
      *
-     * The comparison is based primarily on the priority of the request specification.
-     * If the priorities are equal, the creation order of the stubs is used as a tiebreaker.
+     * The comparison is based primarily on the priority of the [requestSpecification].
+     * If the priorities are equal, the [creationOrder] of the stubs is used as a tiebreaker.
      *
-     * @param other The Stub instance to compare with this one.
-     * @return A negative integer, zero, or a positive integer if this Stub is less than,
-     * equal to, or greater than the specified Stub, respectively.
+     * @param other The [Stub] instance to compare with this one.
+     * @return A negative integer, zero, or a positive integer if this [Stub] is less than,
+     * equal to, or greater than the specified [Stub], respectively.
      */
     override fun compareTo(other: Stub<*, *>): Int = StubComparator.compare(this, other)
 
@@ -94,15 +94,15 @@ internal data class Stub<P : Any, T : Any>(
 }
 
 /**
- * Comparator implementation for `Stub` objects.
+ * Comparator implementation for [Stub] objects.
  *
- * This comparator is used to compare `Stub` instances based on the priority
- * defined in their `requestSpecification`.
+ * This comparator is used to compare [Stub] instances based on the priority
+ * defined in their [RequestSpecification].
  * Higher priority values are considered greater.
  *
  * If priorities are equal, then [Stub]s are compared by [Stub.creationOrder].
  *
- * Used internally for sorting or ordering `Stub` objects when multiple mappings need
+ * Used internally for sorting or ordering [Stub] objects when multiple mappings need
  * to be evaluated or prioritized.
  */
 internal object StubComparator : Comparator<Stub<*, *>> {

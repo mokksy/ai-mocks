@@ -29,8 +29,8 @@ import kotlin.random.Random.Default.nextInt
  * @constructor Initializes the building step with the provided mock server instance and
  *              a higher-level building step for configuring chat completion responses.
  *
- * @param mokksy The mock server instance used for handling mock request and response lifecycle.
- * @param buildingStep The underlying building step for managing and supporting response configurations
+ * @param mokksy The [MokksyServer] instance used for handling mock request and response lifecycle.
+ * @param buildingStep The underlying [BuildingStep] for managing and supporting response configurations
  *                     for Ollama Chat Completion requests.
  */
 public class OllamaChatBuildingStep(
@@ -43,7 +43,7 @@ public class OllamaChatBuildingStep(
     /**
      * Configures a single, complete chat response for the mock Ollama chat completion API.
      *
-     * Applies the provided configuration block to an `OllamaChatResponseSpecification`, generates randomized timing and evaluation metadata, and constructs a `ChatResponse` with the specified model, message, and completion details.
+     * Applies the provided configuration block to an [OllamaChatResponseSpecification], generates randomized timing and evaluation metadata, and constructs a [ChatResponse] with the specified model, message, and completion details.
      */
     @Suppress("MagicNumber")
     override infix fun responds(block: OllamaChatResponseSpecification.() -> Unit) {
@@ -88,7 +88,7 @@ public class OllamaChatBuildingStep(
      * Sets up a chunked HTTP response where chat completion data is streamed as a sequence of JSON objects,
      * simulating real-time message delivery. The configuration block customizes the streaming behavior and content.
      *
-     * @param block A configuration block for customizing the streaming chat response.
+     * @param block A configuration block for customizing the streaming chat response via [OllamaStreamingChatResponseSpecification].
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     public infix fun respondsStream(block: OllamaStreamingChatResponseSpecification.() -> Unit) {
@@ -125,7 +125,7 @@ public class OllamaChatBuildingStep(
      *
      * The resulting flow emits:
      *  - An initial empty chunk with `done = false`.
-     *  - Each content chunk from the input flow, wrapped as a chat response with `done = false`.
+     *  - Each content chunk from the input flow, wrapped as a [ChatResponse] with `done = false`.
      *  - A final empty chunk with `done = true`.
      * Each chunk is serialized to JSON and followed by two newlines.
      *
@@ -172,7 +172,7 @@ public class OllamaChatBuildingStep(
     }
 
     /**
-     * Creates a `ChatResponse` chunk representing a segment of a chat completion response.
+     * Creates a [ChatResponse] chunk representing a segment of a chat completion response.
      *
      * If `done` is true, the response includes randomized timing and evaluation metadata; otherwise, these fields are null.
      *
@@ -180,7 +180,7 @@ public class OllamaChatBuildingStep(
      * @param createdAt The timestamp when the chunk is created.
      * @param content The message content for this chunk.
      * @param done Indicates whether this is the final chunk in the response.
-     * @return A `ChatResponse` object containing the specified content and metadata.
+     * @return A [ChatResponse] object containing the specified content and metadata.
      */
     private fun createChunk(
         model: String,

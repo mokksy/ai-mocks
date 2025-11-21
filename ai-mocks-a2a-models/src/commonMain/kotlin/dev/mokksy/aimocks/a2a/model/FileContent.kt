@@ -8,10 +8,10 @@ import kotlinx.serialization.Serializable
  * Represents the content of a file, either as base64 encoded bytes or a URI.
  *
  * This is a union type that can represent either:
- * - [FileWithBytes]: File content provided directly as base64-encoded bytes
- * - [FileWithUri]: File content located at a specific URI
+ * - File content provided directly as base64-encoded bytes (via [bytes] property)
+ * - File content located at a specific URI (via [uri] property)
  *
- * Either 'bytes' or 'uri' should be provided, but not both.
+ * Either [bytes] or [uri] should be provided, but not both.
  */
 @Serializable
 public data class FileContent(
@@ -29,7 +29,7 @@ public data class FileContent(
 
     /**
      * The base64-encoded content of the file.
-     * Present when representing a [FileWithBytes].
+     * Present when representing file content directly.
      */
     @Serializable(with = ByteArrayAsBase64Serializer::class)
     @SerialName("bytes")
@@ -37,7 +37,7 @@ public data class FileContent(
 
     /**
      * A URL pointing to the file's content.
-     * Present when representing a [FileWithUri].
+     * Present when representing file content via URI.
      */
     @SerialName("uri")
     val uri: String? = null,

@@ -83,7 +83,7 @@ public fun cancelTaskRequest(init: Consumer<CancelTaskRequestBuilder>): CancelTa
 }
 
 /**
- * DSL extension for [CancelTaskRequest.Companion].
+ * DSL extension for [CancelTaskRequest].
  *
  * @param init The lambda to configure the cancel task request.
  * @return A new [CancelTaskRequest] instance.
@@ -93,7 +93,7 @@ public fun CancelTaskRequest.Companion.create(
 ): CancelTaskRequest = CancelTaskRequestBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [CancelTaskRequest.Companion].
+ * Java-friendly DSL extension for [CancelTaskRequest].
  *
  * @param init The consumer to configure the cancel task request.
  * @return A new [CancelTaskRequest] instance.

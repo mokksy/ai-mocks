@@ -29,7 +29,7 @@ public inline fun taskIdParams(init: TaskIdParamsBuilder.() -> Unit): TaskIdPara
     TaskIdParamsBuilder().apply(init).build()
 
 /**
- * DSL extension for [TaskIdParams.Companion].
+ * DSL extension for [TaskIdParams].
  */
 public fun TaskIdParams.Companion.create(init: TaskIdParamsBuilder.() -> Unit): TaskIdParams =
     TaskIdParamsBuilder().apply(init).build()

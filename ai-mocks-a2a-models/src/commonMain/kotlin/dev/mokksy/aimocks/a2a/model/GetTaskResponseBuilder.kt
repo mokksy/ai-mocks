@@ -110,7 +110,7 @@ public fun getTaskResponse(init: Consumer<GetTaskResponseBuilder>): GetTaskRespo
 }
 
 /**
- * DSL extension for [GetTaskResponse.Companion].
+ * DSL extension for [GetTaskResponse].
  *
  * @param init The lambda to configure the get task response.
  * @return A new [GetTaskResponse] instance.
@@ -120,7 +120,7 @@ public fun GetTaskResponse.Companion.create(
 ): GetTaskResponse = GetTaskResponseBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [GetTaskResponse.Companion].
+ * Java-friendly DSL extension for [GetTaskResponse].
  *
  * @param init The consumer to configure the get task response.
  * @return A new [GetTaskResponse] instance.

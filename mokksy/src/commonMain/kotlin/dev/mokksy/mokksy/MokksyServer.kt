@@ -37,7 +37,7 @@ private const val DEFAULT_HOST = "127.0.0.1"
  *
  * @param host The host name on which the server will run. Default value is [DEFAULT_HOST] (`127.0.0.1`).
  * @param port The port number on which the server will run. Default value is `0` - randomly assigned port.
- * @param configuration The server configuration settings.
+ * @param configuration The [ServerConfiguration] settings.
  * @param module The application module to install in the server.
  * @return An embedded server instance configured with the provided parameters.
  * @author Konstantin Pavlov
@@ -70,7 +70,7 @@ public typealias ApplicationConfigurer = (Application.() -> Unit)
  * @constructor Initializes the server with the specified parameters and starts it.
  * @param host The host name on which the server will run. Default value is [DEFAULT_HOST] (`127.0.0.1`).
  * @param port The port number on which the server will run. Default value is `0` - randomly assigned port.
- * @param configuration Server configuration options
+ * @param configuration [ServerConfiguration] options
  * @param wait Determines whether the server startup process should block the current thread. Defaults to false.
  * @param configurer A lambda function for setting custom configurations for the server's application module.
  * @author Konstantin Pavlov
@@ -156,9 +156,9 @@ public open class MokksyServer
         }
 
         /**
-         * Adds a stub to the server's collection, asserting that it is not a duplicate.
+         * Adds a [Stub] to the server's collection, asserting that it is not a duplicate.
          *
-         * @param stub The stub to register.
+         * @param stub The [Stub] to register.
          * @throws AssertionError if the stub is already registered.
          */
         private fun registerStub(stub: Stub<*, *>) {
@@ -175,14 +175,14 @@ public open class MokksyServer
         public fun baseUrl(): String = "http://127.0.0.1:$resolvedPort"
 
         /**
-         * Creates a request specification for the given HTTP method and request type,
-         * and returns a building step for further stub configuration.
+         * Creates a [RequestSpecification] for the given HTTP method and request type,
+         * and returns a [BuildingStep] for further stub configuration.
          *
-         * @param configuration The stub configuration to use for this request specification.
+         * @param configuration The [StubConfiguration] to use for this request specification.
          * @param httpMethod The HTTP method to match for incoming requests.
          * @param requestType The class type of the expected request body.
-         * @param block Lambda to configure the request specification builder.
-         * @return A building step for further customization and stub registration.
+         * @param block Lambda to configure the [RequestSpecificationBuilder].
+         * @return A [BuildingStep] for further customization and stub registration.
          */
         public fun <P : Any> method(
             configuration: StubConfiguration,
@@ -206,14 +206,14 @@ public open class MokksyServer
         }
 
         /**
-         * Defines a stubbed HTTP request specification for the given method and request type,
+         * Defines a stubbed HTTP [RequestSpecification] for the given method and request type,
          * optionally naming the stub.
          *
          * @param name Optional identifier for the stub.
          * @param httpMethod The HTTP method to match (e.g., GET, POST).
          * @param requestType The expected type of the request payload.
-         * @param block Lambda to configure the request specification.
-         * @return A building step for further stub configuration and registration.
+         * @param block Lambda to configure the [RequestSpecificationBuilder].
+         * @return A [BuildingStep] for further stub configuration and registration.
          */
         public fun <P : Any> method(
             name: String? = null,
@@ -232,8 +232,8 @@ public open class MokksyServer
          * Registers a stub for an HTTP GET request with the specified configuration and request type.
          *
          * @param requestType The class representing the expected request body type.
-         * @param block Lambda to configure the request specification for the GET request.
-         * @return A `BuildingStep` for further customization and response definition.
+         * @param block Lambda to configure the [RequestSpecificationBuilder] for the GET request.
+         * @return A [BuildingStep] for further customization and response definition.
          */
         public fun <P : Any> get(
             configuration: StubConfiguration,
@@ -252,8 +252,8 @@ public open class MokksyServer
          *
          * @param name Optional name for the stub, used for identification.
          * @param requestType The class of the expected request body.
-         * @param block Lambda to configure the request specification.
-         * @return A `BuildingStep` for further stub customization.
+         * @param block Lambda to configure the [RequestSpecificationBuilder].
+         * @return A [BuildingStep] for further stub customization.
          */
         public fun <P : Any> get(
             name: String? = null,

@@ -50,7 +50,7 @@ public fun taskNotCancelableError(
 }
 
 /**
- * DSL extension for [TaskNotCancelableError.Companion].
+ * DSL extension for [TaskNotCancelableError].
  *
  * @param init The lambda to configure the task not cancelable error.
  * @return A new [TaskNotCancelableError] instance.
@@ -60,7 +60,7 @@ public fun TaskNotCancelableError.Companion.create(
 ): TaskNotCancelableError = TaskNotCancelableErrorBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [TaskNotCancelableError.Companion].
+ * Java-friendly DSL extension for [TaskNotCancelableError].
  *
  * @param init The consumer to configure the task not cancelable error.
  * @return A new [TaskNotCancelableError] instance.

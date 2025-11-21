@@ -63,7 +63,7 @@ public fun getAuthenticatedExtendedCardRequest(
 }
 
 /**
- * DSL extension for [GetAuthenticatedExtendedCardRequest.Companion].
+ * DSL extension for [GetAuthenticatedExtendedCardRequest].
  *
  * @param init The lambda to configure the get authenticated extended card request.
  * @return A new [GetAuthenticatedExtendedCardRequest] instance.
@@ -74,7 +74,7 @@ public fun GetAuthenticatedExtendedCardRequest.Companion.create(
     GetAuthenticatedExtendedCardRequestBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [GetAuthenticatedExtendedCardRequest.Companion].
+ * Java-friendly DSL extension for [GetAuthenticatedExtendedCardRequest].
  *
  * @param init The consumer to configure the get authenticated extended card request.
  * @return A new [GetAuthenticatedExtendedCardRequest] instance.
