@@ -4,7 +4,7 @@ import dev.mokksy.aimocks.ollama.AbstractMockOllamaTest
 import dev.mokksy.aimocks.ollama.mockOllama
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.ollama.api.OllamaApi
-import org.springframework.ai.ollama.api.OllamaOptions
+import org.springframework.ai.ollama.api.OllamaChatOptions
 
 internal val chatClient =
     ChatClient
@@ -26,7 +26,7 @@ internal abstract class AbstractSpringAiTest : AbstractMockOllamaTest() {
             .system(systemMessage)
             .user("Just say 'Hello!'")
             .options(
-                OllamaOptions
+                OllamaChatOptions
                     .builder()
                     .temperature(temperatureValue)
                     .seed(seedValue)
