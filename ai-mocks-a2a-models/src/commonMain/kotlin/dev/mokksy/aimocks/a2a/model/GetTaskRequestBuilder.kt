@@ -90,7 +90,7 @@ public fun getTaskRequest(init: Consumer<GetTaskRequestBuilder>): GetTaskRequest
 }
 
 /**
- * DSL extension for [GetTaskRequest.Companion].
+ * DSL extension for [GetTaskRequest].
  *
  * @param init The lambda to configure the get task request.
  * @return A new [GetTaskRequest] instance.
@@ -99,7 +99,7 @@ public fun GetTaskRequest.Companion.create(init: GetTaskRequestBuilder.() -> Uni
     GetTaskRequestBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [GetTaskRequest.Companion].
+ * Java-friendly DSL extension for [GetTaskRequest].
  *
  * @param init The consumer to configure the get task request.
  * @return A new [GetTaskRequest] instance.

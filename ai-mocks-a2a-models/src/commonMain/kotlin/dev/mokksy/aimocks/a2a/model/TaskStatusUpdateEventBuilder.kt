@@ -117,14 +117,14 @@ public fun taskStatusUpdateEvent(
 }
 
 /**
- * DSL extension for [TaskStatusUpdateEvent.Companion].
+ * DSL extension for [TaskStatusUpdateEvent].
  */
 public fun TaskStatusUpdateEvent.Companion.create(
     init: TaskStatusUpdateEventBuilder.() -> Unit,
 ): TaskStatusUpdateEvent = TaskStatusUpdateEventBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [TaskStatusUpdateEvent.Companion].
+ * Java-friendly DSL extension for [TaskStatusUpdateEvent].
  */
 public fun TaskStatusUpdateEvent.Companion.create(
     init: Consumer<TaskStatusUpdateEventBuilder>,

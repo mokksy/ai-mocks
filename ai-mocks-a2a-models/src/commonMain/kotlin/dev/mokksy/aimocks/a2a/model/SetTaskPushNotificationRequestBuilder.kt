@@ -103,7 +103,7 @@ public fun setTaskPushNotificationRequest(
 }
 
 /**
- * DSL extension for [SetTaskPushNotificationRequest.Companion].
+ * DSL extension for [SetTaskPushNotificationRequest].
  *
  * @param init The lambda to configure the set task push notification request.
  * @return A new [SetTaskPushNotificationRequest] instance.
@@ -113,7 +113,7 @@ public fun SetTaskPushNotificationRequest.Companion.create(
 ): SetTaskPushNotificationRequest = SetTaskPushNotificationRequestBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [SetTaskPushNotificationRequest.Companion].
+ * Java-friendly DSL extension for [SetTaskPushNotificationRequest].
  *
  * @param init The consumer to configure the set task push notification request.
  * @return A new [SetTaskPushNotificationRequest] instance.

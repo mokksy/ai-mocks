@@ -15,15 +15,15 @@ import kotlin.time.Duration
 
 /**
  * Represents a concrete implementation of an HTTP response definition with a specific response body.
- * This class builds on the `AbstractResponseDefinition` to provide additional configuration and behavior.
+ * This class builds on the [AbstractResponseDefinition] to provide additional configuration and behavior.
  *
  * @param P The type of the request body.
  * @param T The type of the response body.
- * @property contentType The MIME type of the response content with a default to [ContentType.Application.Json].
+ * @property contentType The MIME type of the response content with a default to ContentType.Application.Json.
  * @property body The body of the response, which can be null.
  * @property httpStatusCode The HTTP status code of the response as Int, defaulting to 200.
- * @property httpStatus The HTTP status code of the response, defaulting to [HttpStatusCode.OK].
- * @property headers A lambda function for configuring additional response headers using [ResponseHeaders].
+ * @property httpStatus The HTTP status code of the response, defaulting to HttpStatusCode.OK.
+ * @property headers A lambda function for configuring additional response headers using ResponseHeaders.
  * Defaults to null.
  * @property headerList A list of additional header key-value pairs. Defaults to an empty list.
  * @property delay Delay before the response is sent. The default value is zero.

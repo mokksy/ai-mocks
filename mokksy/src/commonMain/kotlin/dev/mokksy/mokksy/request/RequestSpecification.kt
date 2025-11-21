@@ -17,11 +17,11 @@ import kotlin.reflect.KClass
 /**
  * The default priority value assigned to a stub when no explicit priority is specified.
  *
- * This constant is used in the context of mapping and comparing inbound request specifications
+ * This constant is used in the context of mapping and comparing inbound [RequestSpecification]s
  * (such as stubs or routes) to determine their evaluation order. Lower numerical values generally indicate
- *  * higher priority.
+ * higher priority.
  *
- * By default, a stub with `DEFAULT_STUB_PRIORITY` has the lowest possible priority,
+ * By default, a stub with [DEFAULT_STUB_PRIORITY] has the lowest possible priority,
  * as it is equal to the maximum value of an `Int`.
  */
 public const val DEFAULT_STUB_PRIORITY: Int = Int.MAX_VALUE
@@ -37,7 +37,7 @@ public const val DEFAULT_STUB_PRIORITY: Int = Int.MAX_VALUE
  * @param P type of the request payload
  * @property method Matcher for the HTTP method of the request. If null, the method is not validated.
  * @property path Matcher for the request path. If null, the path is not validated.
- * @property headers List of matchers for Ktor [Headers] object. All matchers must pass for a match to succeed.
+ * @property headers List of matchers for Ktor Headers object. All matchers must pass for a match to succeed.
  * @property body List of matchers for the request body as a [P]. All matchers must pass for a match to succeed.
  * @property bodyString List of matchers for the request body as a String.
  *                      All matchers must pass for a match to succeed.

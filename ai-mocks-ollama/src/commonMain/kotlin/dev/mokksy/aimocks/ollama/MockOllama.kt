@@ -23,6 +23,8 @@ import kotlinx.serialization.json.Json
  * completions, chat completions, and other Ollama endpoints. It is designed to mimic the behavior
  * of the Ollama APIs locally and facilitate integration testing and development.
  *
+ * Extends [AbstractMockLlm] to provide Ollama-specific functionality.
+ *
  * @param port The port on which the mock server will run. Defaults to 0, which allows the server to select
  *             an available port.
  * @param verbose Controls whether the mock server's operations are logged in detail. Defaults to true.
@@ -54,8 +56,8 @@ public open class MockOllama(
      * Returns a builder step for specifying the mock response.
      *
      * @param name Optional identifier for the mock endpoint.
-     * @param block Configuration block for defining request matching rules.
-     * @return A builder step for configuring the mock response.
+     * @param block Configuration block for defining request matching rules via [OllamaGenerateRequestSpecification].
+     * @return An [OllamaGenerateBuildingStep] for configuring the mock response.
      */
     public fun generate(
         name: String? = null,
@@ -101,8 +103,8 @@ public open class MockOllama(
      * Allows configuration of request matching criteria such as model, stream, seed, and custom request body content.
      *
      * @param name An optional identifier for the mock endpoint.
-     * @param block A configuration block to specify request matching details.
-     * @return A builder step for defining the mock response.
+     * @param block A configuration block to specify request matching details via [OllamaChatRequestSpecification].
+     * @return An [OllamaChatBuildingStep] for defining the mock response.
      */
     public fun chat(
         name: String? = null,
@@ -159,8 +161,8 @@ public open class MockOllama(
      * Supports matching on model, input (string or list), truncate, keep_alive, and options fields in the request body.
      *
      * @param name Optional identifier for the mock configuration.
-     * @param block Lambda to configure the request matching criteria.
-     * @return A builder step for specifying the mock response to embedding requests.
+     * @param block Lambda to configure the request matching criteria via [OllamaEmbedRequestSpecification].
+     * @return An [OllamaEmbedBuildingStep] for specifying the mock response to embedding requests.
      */
     public fun embed(
         name: String? = null,

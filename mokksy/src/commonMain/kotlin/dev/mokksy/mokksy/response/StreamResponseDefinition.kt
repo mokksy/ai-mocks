@@ -35,11 +35,11 @@ internal const val SEND_BUFFER_CAPACITY = 256
  *
  * @param P The type of the request body.
  * @param T The type of the response data being streamed.
- * @property chunkFlow A `Flow` of chunks to be streamed as part of the response.
+ * @property chunkFlow A Flow of chunks to be streamed as part of the response.
  * @property chunks A list of chunks representing the response data to be sent.
  * @property delayBetweenChunks Delay between the transmission of each chunk.
  * @property httpStatusCode The HTTP status code of the response as Int, defaulting to 200.
- * @property httpStatus The HTTP status code of the response, defaulting to [HttpStatusCode.OK].
+ * @property httpStatus The HTTP status code of the response, defaulting to HttpStatusCode.OK.
  * @constructor Initializes a streaming response definition with the specified flow, chunk list, content type,
  *              HTTP status code, and headers.
  *

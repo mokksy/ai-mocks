@@ -88,7 +88,7 @@ public fun taskQueryParams(init: Consumer<TaskQueryParamsBuilder>): TaskQueryPar
 }
 
 /**
- * DSL extension for [TaskQueryParams.Companion].
+ * DSL extension for [TaskQueryParams].
  *
  * @param init The lambda to configure the task query params.
  * @return A new [TaskQueryParams] instance.
@@ -98,7 +98,7 @@ public fun TaskQueryParams.Companion.create(
 ): TaskQueryParams = TaskQueryParamsBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [TaskQueryParams.Companion].
+ * Java-friendly DSL extension for [TaskQueryParams].
  *
  * @param init The consumer to configure the task query params.
  * @return A new [TaskQueryParams] instance.

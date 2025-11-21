@@ -76,7 +76,7 @@ public inline fun listTaskPushNotificationConfigResponse(
     ListTaskPushNotificationConfigResponseBuilder().apply(init).build()
 
 /**
- * DSL extension for [ListTaskPushNotificationConfigResponse.Companion].
+ * DSL extension for [ListTaskPushNotificationConfigResponse].
  *
  * @param init The lambda to configure the list task push notification config response.
  * @return A new [ListTaskPushNotificationConfigResponse] instance.

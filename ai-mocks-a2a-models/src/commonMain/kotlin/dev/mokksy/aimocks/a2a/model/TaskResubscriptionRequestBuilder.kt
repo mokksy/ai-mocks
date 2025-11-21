@@ -93,7 +93,7 @@ public fun taskResubscriptionRequest(
 }
 
 /**
- * DSL extension for [TaskResubscriptionRequest.Companion].
+ * DSL extension for [TaskResubscriptionRequest].
  *
  * @param init The lambda to configure the task resubscription request.
  * @return A new [TaskResubscriptionRequest] instance.
@@ -103,7 +103,7 @@ public fun TaskResubscriptionRequest.Companion.create(
 ): TaskResubscriptionRequest = TaskResubscriptionRequestBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [TaskResubscriptionRequest.Companion].
+ * Java-friendly DSL extension for [TaskResubscriptionRequest].
  *
  * @param init The consumer to configure the task resubscription request.
  * @return A new [TaskResubscriptionRequest] instance.

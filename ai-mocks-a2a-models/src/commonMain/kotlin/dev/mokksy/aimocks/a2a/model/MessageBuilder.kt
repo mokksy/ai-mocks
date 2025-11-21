@@ -127,7 +127,7 @@ public fun message(init: Consumer<MessageBuilder>): Message {
 }
 
 /**
- * DSL extension for [Message.Companion].
+ * DSL extension for [Message].
  *
  * @param init The lambda to configure the message.
  * @return A new [Message] instance.
@@ -136,7 +136,7 @@ public fun Message.Companion.create(init: MessageBuilder.() -> Unit): Message =
     MessageBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [Message.Companion].
+ * Java-friendly DSL extension for [Message].
  *
  * @param init The consumer to configure the message.
  * @return A new [Message] instance.

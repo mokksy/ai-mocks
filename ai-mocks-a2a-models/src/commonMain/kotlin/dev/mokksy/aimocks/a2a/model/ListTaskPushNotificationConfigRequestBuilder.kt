@@ -97,7 +97,7 @@ public fun listTaskPushNotificationConfigRequest(
 }
 
 /**
- * DSL extension for [ListTaskPushNotificationConfigRequest.Companion].
+ * DSL extension for [ListTaskPushNotificationConfigRequest].
  *
  * @param init The lambda to configure the list task push notification config request.
  * @return A new [ListTaskPushNotificationConfigRequest] instance.
@@ -108,7 +108,7 @@ public fun ListTaskPushNotificationConfigRequest.Companion.create(
     ListTaskPushNotificationConfigRequestBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [ListTaskPushNotificationConfigRequest.Companion].
+ * Java-friendly DSL extension for [ListTaskPushNotificationConfigRequest].
  *
  * @param init The consumer to configure the list task push notification config request.
  * @return A new [ListTaskPushNotificationConfigRequest] instance.

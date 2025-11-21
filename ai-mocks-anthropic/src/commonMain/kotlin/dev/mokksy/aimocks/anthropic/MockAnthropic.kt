@@ -7,6 +7,17 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import java.util.function.Consumer
 
+/**
+ * Mock implementation of an Anthropic-compatible service for testing purposes.
+ *
+ * This class provides an HTTP mock server to simulate Anthropic's Messages API.
+ * Extends [AbstractMockLlm] to provide Anthropic-specific functionality.
+ *
+ * @param port The port on which the mock server will run. Defaults to 0, which allows the server to select
+ *             an available port.
+ * @param verbose Controls whether the mock server's operations are logged in detail. Defaults to true.
+ * @author Konstantin Pavlov
+ */
 public open class MockAnthropic(
     port: Int = 0,
     verbose: Boolean = true,
@@ -26,6 +37,10 @@ public open class MockAnthropic(
     ) {
     /**
      * Java-friendly overload that accepts a Consumer for configuring the chat request.
+     *
+     * @param name Optional identifier for the mock endpoint.
+     * @param block Configuration block for defining request matching rules via [AnthropicMessagesRequestSpecification].
+     * @return An [AnthropicBuildingStep] for configuring the mock response.
      */
     @JvmOverloads
     public fun messages(
@@ -33,6 +48,13 @@ public open class MockAnthropic(
         block: Consumer<AnthropicMessagesRequestSpecification>,
     ): AnthropicBuildingStep = messages(name) { block.accept(this) }
 
+    /**
+     * Sets up a mock handler for the Anthropic `/v1/messages` endpoint.
+     *
+     * @param name Optional identifier for the mock endpoint.
+     * @param block Configuration block for defining request matching rules via [AnthropicMessagesRequestSpecification].
+     * @return An [AnthropicBuildingStep] for configuring the mock response.
+     */
     public fun messages(
         name: String? = null,
         block: AnthropicMessagesRequestSpecification.() -> Unit,

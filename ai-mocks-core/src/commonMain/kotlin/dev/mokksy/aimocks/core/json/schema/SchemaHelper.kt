@@ -16,7 +16,7 @@ public object SchemaHelper {
         }
 
     /**
-     * Parses a [JsonElement] into a [SchemaDefinition].
+     * Parses a [JsonElement] into a [JsonSchemaDefinition].
      *
      * @param schemaJson The JSON element containing the schema
      * @return The parsed schema definition, or null if parsing fails

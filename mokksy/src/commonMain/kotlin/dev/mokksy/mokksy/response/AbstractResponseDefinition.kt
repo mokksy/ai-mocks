@@ -18,10 +18,10 @@ internal typealias ResponseDefinitionSupplier<T> = (
  * @param T The type of the response data.
  * @property contentType The MIME type of the response content.
  * @property httpStatusCode The HTTP status code of the response as Int, defaulting to 200.
- * @property httpStatus The HTTP status code of the response. Defaults to [HttpStatusCode.OK].
+ * @property httpStatus The HTTP status code of the response. Defaults to HttpStatusCode.OK.
  * @property headers A lambda function for configuring the response headers. Defaults to `null`.
  * @property headerList A list of header key-value pairs to populate the response headers. Defaults to an empty list.
- * @property delay A delay applied before sending the response. Defaults to [Duration.ZERO].
+ * @property delay A delay applied before sending the response. Defaults to Duration.ZERO.
  * @property responseBody The optional response payload associated with this definition.
  * @author Konstantin Pavlov
  */

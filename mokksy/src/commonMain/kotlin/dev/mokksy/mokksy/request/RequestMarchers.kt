@@ -8,7 +8,7 @@ import io.ktor.http.Headers
 import io.ktor.http.HttpMethod
 
 /**
- * Custom matcher to verify that the Ktor [Headers] object contains a header with the specified name and value.
+ * Custom matcher to verify that the Ktor Headers object contains a header with the specified name and value.
  */
 internal fun containsHeader(
     name: String,
@@ -49,7 +49,7 @@ public infix fun Headers.shouldNotHaveHeader(header: Pair<String, String>) {
  * @param T the type of the object being matched
  * @param description description of the predicate
  * @param predicate the predicate to evaluate objects against
- * @return a [Matcher] that applies the given predicate to objects for evaluation
+ * @return a Matcher that applies the given predicate to objects for evaluation
  */
 public fun <T> predicateMatcher(
     description: String? = null,
@@ -78,7 +78,7 @@ public fun <T> predicateMatcher(
  *  @param description description of the call matcher
  * @param call A function that performs an operation using the input value of type `T?`.
  *             The matcher tests whether this function can execute successfully without errors.
- * @return A [Matcher] that evaluates if the `call` function can successfully execute when invoked
+ * @return A Matcher that evaluates if the `call` function can successfully execute when invoked
  *         with an input value of type `T?`.
  */
 public fun <T> successCallMatcher(

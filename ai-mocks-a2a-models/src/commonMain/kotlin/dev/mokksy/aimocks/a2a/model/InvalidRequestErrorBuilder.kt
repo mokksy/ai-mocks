@@ -48,7 +48,7 @@ public fun invalidRequestError(init: Consumer<InvalidRequestErrorBuilder>): Inva
 }
 
 /**
- * DSL extension for [InvalidRequestError.Companion].
+ * DSL extension for [InvalidRequestError].
  *
  * @param init The lambda to configure the invalid request error.
  * @return A new [InvalidRequestError] instance.
@@ -58,7 +58,7 @@ public fun InvalidRequestError.Companion.create(
 ): InvalidRequestError = InvalidRequestErrorBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [InvalidRequestError.Companion].
+ * Java-friendly DSL extension for [InvalidRequestError].
  *
  * @param init The consumer to configure the invalid request error.
  * @return A new [InvalidRequestError] instance.

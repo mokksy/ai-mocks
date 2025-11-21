@@ -86,7 +86,7 @@ public fun jsonRPCResponse(init: Consumer<JSONRPCResponseBuilder>): JSONRPCRespo
 }
 
 /**
- * DSL extension for [JSONRPCResponse.Companion].
+ * DSL extension for [JSONRPCResponse].
  *
  * @param init The lambda to configure the JSON-RPC response.
  * @return A new [JSONRPCResponse] instance.
@@ -96,7 +96,7 @@ public fun JSONRPCResponse.Companion.create(
 ): JSONRPCResponse = JSONRPCResponseBuilder().apply(init).build()
 
 /**
- * Java-friendly DSL extension for [JSONRPCResponse.Companion].
+ * Java-friendly DSL extension for [JSONRPCResponse].
  *
  * @param init The consumer to configure the JSON-RPC response.
  * @return A new [JSONRPCResponse] instance.
