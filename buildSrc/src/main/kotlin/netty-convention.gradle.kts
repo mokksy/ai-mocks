@@ -5,7 +5,7 @@
  *
  * This plugin should be applied to any module that uses Netty for testing.
  */
-val nettyVersion = "4.2.7.Final"
+val nettyVersion = "4.2.9.Final"
 
 plugins {
     id("org.gradle.base")
