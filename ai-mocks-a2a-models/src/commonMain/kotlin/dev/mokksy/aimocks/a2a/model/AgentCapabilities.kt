@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
  * Defines optional capabilities supported by an agent.
  */
 @Serializable
+@JvmRecord
 public data class AgentCapabilities(
     /**
      * A list of protocol extensions supported by the agent.

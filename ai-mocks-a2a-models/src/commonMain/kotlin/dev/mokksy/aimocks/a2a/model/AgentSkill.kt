@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
  * Represents a distinct capability or function that an agent can perform.
  */
 @Serializable
+@JvmRecord
 public data class AgentSkill(
     /**
      * A unique identifier for the agent's skill.

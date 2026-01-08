@@ -10,6 +10,7 @@ import kotlinx.serialization.json.JsonClassDiscriminator
 import kotlinx.serialization.json.JsonNames
 
 @Serializable
+@JvmRecord
 public data class Message(
     val id: String,
     val content: List<ContentBlock>,
@@ -57,6 +58,7 @@ public data class RedactedThinkingBlock(
 ) : ContentBlock()
 
 @Serializable
+@JvmRecord
 public data class Citation(
     val text: String,
     val type: String,
@@ -100,6 +102,7 @@ public enum class StopReason {
 }
 
 @Serializable
+@JvmRecord
 public data class Usage(
     @SerialName("input_tokens")
     val inputTokens: Long,
@@ -114,6 +117,7 @@ public data class Usage(
 )
 
 @Serializable
+@JvmRecord
 public data class ServerToolUseUsage(
     @SerialName("input_tokens")
     val inputTokens: Long,

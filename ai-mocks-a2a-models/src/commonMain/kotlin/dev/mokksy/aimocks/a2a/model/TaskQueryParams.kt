@@ -16,6 +16,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+@JvmRecord
 public data class TaskQueryParams(
     @SerialName("id")
     val id: String,

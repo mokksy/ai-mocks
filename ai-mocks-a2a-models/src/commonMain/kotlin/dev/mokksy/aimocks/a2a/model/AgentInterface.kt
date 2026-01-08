@@ -10,6 +10,7 @@ import kotlinx.serialization.Serializable
  * This allows agents to expose the same functionality over multiple transport mechanisms.
  */
 @Serializable
+@JvmRecord
 public data class AgentInterface(
     /**
      * The transport protocol supported at this URL.

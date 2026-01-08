@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("file")
+@JvmRecord
 public data class FilePart
     @JvmOverloads
     constructor(

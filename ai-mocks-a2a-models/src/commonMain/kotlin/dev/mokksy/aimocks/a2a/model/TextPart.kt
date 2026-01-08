@@ -17,6 +17,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("text")
+@JvmRecord
 public data class TextPart
     @JvmOverloads
     constructor(

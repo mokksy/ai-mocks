@@ -18,6 +18,7 @@ import kotlinx.serialization.Serializable
  * @see [A2A Protocol - Send a Message](https://a2a-protocol.org/latest/specification/)
  */
 @Serializable
+@JvmRecord
 public data class MessageSendConfiguration
     @JvmOverloads
     constructor(

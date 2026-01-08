@@ -28,6 +28,7 @@ public sealed interface SecurityScheme {
  */
 @Serializable
 @SerialName("apiKey")
+@JvmRecord
 public data class ApiKeySecurityScheme(
     @SerialName("type")
     @EncodeDefault
@@ -58,6 +59,7 @@ public enum class ApiKeyLocation {
  */
 @Serializable
 @SerialName("http")
+@JvmRecord
 public data class HttpSecurityScheme(
     @SerialName("type")
     @EncodeDefault
@@ -89,6 +91,7 @@ public data class OAuth2SecurityScheme(
  * OAuth2 flow configurations.
  */
 @Serializable
+@JvmRecord
 public data class OAuth2Flows(
     @SerialName("implicit")
     @EncodeDefault
@@ -108,6 +111,7 @@ public data class OAuth2Flows(
  * OAuth2 flow configuration.
  */
 @Serializable
+@JvmRecord
 public data class OAuth2Flow(
     @SerialName("authorizationUrl")
     @EncodeDefault
@@ -141,6 +145,7 @@ public data class OpenIdConnectSecurityScheme(
  */
 @Serializable
 @SerialName("mutualTLS")
+@JvmRecord
 public data class MutualTLSSecurityScheme(
     @SerialName("type")
     @EncodeDefault

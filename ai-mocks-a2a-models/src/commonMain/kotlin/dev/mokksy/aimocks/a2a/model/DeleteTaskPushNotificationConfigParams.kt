@@ -11,6 +11,7 @@ import kotlinx.serialization.json.JsonElement
  * https://a2a-protocol.org/latest/specification/#781-deletetaskpushnotificationconfigparams-object-taskspushnotificationconfigdelete
  */
 @Serializable
+@JvmRecord
 public data class DeleteTaskPushNotificationConfigParams(
     @SerialName("id")
     val id: TaskId,

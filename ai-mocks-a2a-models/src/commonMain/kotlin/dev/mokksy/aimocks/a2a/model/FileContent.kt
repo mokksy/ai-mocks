@@ -14,6 +14,7 @@ import kotlinx.serialization.Serializable
  * Either [bytes] or [uri] should be provided, but not both.
  */
 @Serializable
+@JvmRecord
 public data class FileContent(
     /**
      * An optional name for the file (e.g., "document.pdf").

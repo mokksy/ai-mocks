@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
  * @param metadata Optional metadata associated with the request.
  */
 @Serializable
+@JvmRecord
 public data class GetTaskPushNotificationConfigParams(
     /**
      * The unique identifier of the task.

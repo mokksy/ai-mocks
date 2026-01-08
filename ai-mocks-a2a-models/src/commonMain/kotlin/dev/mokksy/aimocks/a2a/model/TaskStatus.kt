@@ -19,6 +19,7 @@ import kotlinx.serialization.Serializable
  * Represents the status of a task at a specific point in time.
  */
 @Serializable
+@JvmRecord
 public data class TaskStatus
 @JvmOverloads
 constructor(

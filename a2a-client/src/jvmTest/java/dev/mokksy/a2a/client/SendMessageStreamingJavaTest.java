@@ -171,10 +171,10 @@ class SendMessageStreamingJavaTest extends AbstractJavaTest {
         final var replyText = events.stream()
             .filter(TaskArtifactUpdateEvent.class::isInstance)
             .map(it -> (TaskArtifactUpdateEvent) it)
-            .map(it -> it.getArtifact().getParts().get(0))
+            .map(it -> it.getArtifact().parts().get(0))
             .filter(TextPart.class::isInstance)
             .map(it -> (TextPart) it)
-            .map(TextPart::getText)
+            .map(TextPart::text)
             .collect(Collectors.joining(" "));
 
         assertThat(replyText).isEqualTo("This is a joke");

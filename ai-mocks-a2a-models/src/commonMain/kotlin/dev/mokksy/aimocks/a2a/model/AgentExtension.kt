@@ -16,6 +16,7 @@ import kotlinx.serialization.Serializable
  * ```
  */
 @Serializable
+@JvmRecord
 public data class AgentExtension(
     /**
      * A human-readable description of how this agent uses the extension.

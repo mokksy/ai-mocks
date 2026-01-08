@@ -12,6 +12,7 @@ import kotlinx.serialization.Serializable
  * https://a2a-protocol.org/latest/specification/#710-agentgetauthenticatedextendedcard
  */
 @Serializable
+@JvmRecord
 public data class GetAuthenticatedExtendedCardRequest(
     @SerialName("jsonrpc")
     @EncodeDefault

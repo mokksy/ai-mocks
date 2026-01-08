@@ -4,6 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+@JvmRecord
 public data class Artifact
     @JvmOverloads
     constructor(
