@@ -6,6 +6,8 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import kotlinx.datetime.Instant
+import kotlinx.schema.json.NumericPropertyDefinition
+import kotlinx.schema.json.StringPropertyDefinition
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
 
@@ -105,17 +107,17 @@ internal class GenerateModelsTest : AbstractSerializationTest() {
         // Verify that the properties have the expected values
         val nameProperty =
             formatSchema.schema.schema.properties["name"]
-                ?.shouldBeInstanceOf<dev.mokksy.aimocks.core.json.schema.StringPropertyDefinition>()
+                ?.shouldBeInstanceOf<StringPropertyDefinition>()
         nameProperty?.description shouldBe "The person's name"
 
         val ageProperty =
             formatSchema.schema.schema.properties["age"]
-                ?.shouldBeInstanceOf<dev.mokksy.aimocks.core.json.schema.NumericPropertyDefinition>()
+                ?.shouldBeInstanceOf<NumericPropertyDefinition>()
         ageProperty?.description shouldBe "The person's age"
 
         val occupationProperty =
             formatSchema.schema.schema.properties["occupation"]
-                ?.shouldBeInstanceOf<dev.mokksy.aimocks.core.json.schema.StringPropertyDefinition>()
+                ?.shouldBeInstanceOf<StringPropertyDefinition>()
         occupationProperty?.description shouldBe "The person's occupation"
     }
 

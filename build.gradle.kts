@@ -37,6 +37,11 @@ dependencies {
 
 kover {
     reports {
+        filters {
+            includes {
+                classes("dev.mokksy.*")
+            }
+        }
 
         total {
             xml
@@ -46,7 +51,7 @@ kover {
         verify {
             rule {
                 bound {
-                    minValue = 60
+                    minValue = 65
                 }
             }
         }

@@ -10,8 +10,9 @@ dokka {
     dokkaSourceSets.configureEach {
         // includes.from("Module.md")
 
-        // Suppress certain warnings
-        suppressObviousFunctions.set(false)
+        dokkaPublications.configureEach {
+            suppressObviousFunctions.set(true)
+        }
 
         sourceLink {
             // Read docs for more details: https://kotlinlang.org/docs/dokka-gradle.html#source-link-configuration
@@ -40,6 +41,10 @@ dokka {
 
             register("kotlinx-serialization") {
                 url("https://kotlinlang.org/api/kotlinx.serialization/")
+            }
+
+            register("kotlinx-schema") {
+                url("https://kotlin.github.io/kotlinx-schema/")
             }
         }
     }

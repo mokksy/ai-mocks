@@ -1,6 +1,5 @@
 package dev.mokksy.aimocks.openai.model.chat
 
-import dev.mokksy.aimocks.core.json.schema.StringPropertyDefinition
 import dev.mokksy.aimocks.openai.model.ChatCompletionRole
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.json.shouldEqualJson
@@ -10,6 +9,7 @@ import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.instanceOf
+import kotlinx.schema.json.StringPropertyDefinition
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive

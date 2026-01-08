@@ -1,5 +1,8 @@
 package dev.mokksy.aimocks.core.json.schema
 
+import kotlinx.schema.json.JsonSchemaDefinition
+import kotlinx.schema.json.PropertyDefinition
+import kotlinx.schema.json.ValuePropertyDefinition
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement

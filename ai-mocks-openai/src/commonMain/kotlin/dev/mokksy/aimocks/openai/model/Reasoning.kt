@@ -6,6 +6,7 @@
  *
  */
 
+@file:OptIn(kotlinx.serialization.ExperimentalSerializationApi::class)
 @file:Suppress(
     "ArrayInDataClass",
     "EnumEntryName",
@@ -15,23 +16,34 @@
 
 package dev.mokksy.aimocks.openai.model
 
+import kotlinx.serialization.EncodeDefault
+import kotlinx.serialization.EncodeDefault.Mode.ALWAYS
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * **o-series models only**  Configuration options for  [reasoning models](https://platform.openai.com/docs/guides/reasoning).
+ * **o-series models only**  Configuration options for
+ * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
  *
  * @param effort
- * @param generateSummary **computer_use_preview only**  A summary of the reasoning performed by the model. This can be useful for debugging and understanding the model's reasoning process. One of `concise` or `detailed`.
+ * @param generateSummary **computer_use_preview only**  A summary of the reasoning performed
+ * by the model. This can be useful for debugging and understanding the model's reasoning process.
+ * One of `concise` or `detailed`.
  */
 @Serializable
 public data class Reasoning(
+    @EncodeDefault(ALWAYS)
     @SerialName(value = "effort") val effort: ReasoningEffort? = ReasoningEffort.MEDIUM,
-    // **computer_use_preview only**  A summary of the reasoning performed by the model. This can be useful for debugging and understanding the model's reasoning process. One of `concise` or `detailed`.
+    // **computer_use_preview only**  A summary of the reasoning performed by the model.
+    // This can be useful for debugging and understanding the model's reasoning process.
+    // One of `concise` or `detailed`.
+    @EncodeDefault(ALWAYS)
     @SerialName(value = "generate_summary") val generateSummary: Reasoning.GenerateSummary? = null,
 ) {
     /**
-     * **computer_use_preview only**  A summary of the reasoning performed by the model. This can be useful for debugging and understanding the model's reasoning process. One of `concise` or `detailed`.
+     * **computer_use_preview only**  A summary of the reasoning performed by the model.
+     *
+     * This can be useful for debugging and understanding the model's reasoning process. One of `concise` or `detailed`.
      *
      * Values: CONCISE,DETAILED
      */
