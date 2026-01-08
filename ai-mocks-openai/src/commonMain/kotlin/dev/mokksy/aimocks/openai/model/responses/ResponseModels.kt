@@ -150,7 +150,8 @@ internal object ArrayAsInputItemsSerializer : KSerializer<InputItems> {
         encoder: Encoder,
         value: InputItems,
     ) {
-        TODO("Unsupported")
+        ArraySerializer(InputMessageResource.serializer())
+            .serialize(encoder, value.items.toTypedArray())
     }
 
     override fun deserialize(decoder: Decoder): InputItems {
@@ -186,6 +187,8 @@ internal object ArrayAsInputItemsSerializer : KSerializer<InputItems> {
  * @property truncation Optional truncation strategy used.
  * @property status The status of the response generation.
  * @property outputText Optional convenience property with aggregated text output.
+ * @property text Optional text configuration for the response.
+ * @property store Whether the response is stored.
  * @author Konstantin Pavlov
  */
 @Serializable
@@ -209,13 +212,24 @@ public data class Response
         @SerialName(value = "created_at") @Required val createdAt: Long,
         @SerialName(value = "output") @Required val output: List<OutputMessage>,
         @SerialName(value = "parallel_tool_calls") @Required val parallelToolCalls: Boolean = true,
+        @EncodeDefault(ALWAYS)
         @SerialName(value = "user") val user: String? = null,
+        @EncodeDefault(ALWAYS)
         @SerialName(value = "previous_response_id") val previousResponseId: String? = null,
+        @EncodeDefault(ALWAYS)
         @SerialName(value = "reasoning") val reasoning: Reasoning? = null,
+        @EncodeDefault(ALWAYS)
         @SerialName(value = "max_output_tokens") val maxOutputTokens: Int? = null,
+        @EncodeDefault(ALWAYS)
         @SerialName(value = "truncation") val truncation: Truncation? = Truncation.DISABLED,
+        @EncodeDefault(ALWAYS)
         @SerialName(value = "status") val status: Status? = null,
         @SerialName(value = "output_text") val outputText: String? = null,
+        @EncodeDefault(ALWAYS)
+        @SerialName(value = "text") val text: TextConfig? = null,
+        @EncodeDefault(ALWAYS)
+        @SerialName(value = "store") val store: Boolean? = null,
+        @EncodeDefault(ALWAYS)
         @SerialName(value = "incomplete_details") val incompleteDetails: IncompleteDetails? = null,
         @SerialName(value = "usage") val usage: Usage,
         @EncodeDefault(ALWAYS)

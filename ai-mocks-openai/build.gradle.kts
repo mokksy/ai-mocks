@@ -27,7 +27,7 @@ kotlin {
 
         commonTest {
             dependencies {
-                implementation(kotlin("test"))
+                implementation(project(":test-utils"))
                 implementation(libs.assertk)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.kotlinLogging)
