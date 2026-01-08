@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
  * This follows the JSON format of an RFC 7515 JSON Web Signature (JWS).
  */
 @Serializable
+@JvmRecord
 public data class AgentCardSignature(
     /**
      * The unprotected JWS header values.

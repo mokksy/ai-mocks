@@ -15,6 +15,7 @@ import kotlinx.serialization.Serializable
  * ```
  */
 @Serializable
+@JvmRecord
 public data class AgentProvider(
     /**
      * The name of the agent provider's organization.

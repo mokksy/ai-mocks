@@ -12,6 +12,7 @@ import kotlinx.serialization.Serializable
  * @see [A2A Protocol - Agent Card](https://a2a-protocol.org/latest/specification/#55-agentcard-object-structure)
  */
 @Serializable
+@JvmRecord
 public data class AgentCard(
     /**
      * The version of the A2A protocol this agent supports.

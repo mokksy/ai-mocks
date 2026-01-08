@@ -15,6 +15,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+@JvmRecord
 public data class PushNotificationConfig(
     @SerialName("url")
     val url: String,

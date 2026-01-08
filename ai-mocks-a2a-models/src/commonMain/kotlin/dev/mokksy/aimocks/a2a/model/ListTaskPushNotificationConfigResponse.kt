@@ -12,6 +12,7 @@ import kotlinx.serialization.Serializable
  * https://a2a-protocol.org/latest/specification/#77-taskspushnotificationconfiglist
  */
 @Serializable
+@JvmRecord
 public data class ListTaskPushNotificationConfigResponse(
     @SerialName("jsonrpc")
     @EncodeDefault

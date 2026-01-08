@@ -21,6 +21,7 @@ import kotlinx.serialization.Serializable
  * @see [JSON-RPC 2.0 Specification](https://www.jsonrpc.org/specification)
  */
 @Serializable
+@JvmRecord
 public data class SendMessageResponse(
     @SerialName("jsonrpc")
     @EncodeDefault
