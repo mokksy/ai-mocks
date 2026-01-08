@@ -17,6 +17,7 @@ kotlin {
         commonMain {
             dependencies {
                 api(libs.kotlinx.serialization.json)
+                api(libs.kotlinx.schema.json)
                 api(project(":mokksy"))
                 api(project.dependencies.platform(libs.ktor.bom))
             }

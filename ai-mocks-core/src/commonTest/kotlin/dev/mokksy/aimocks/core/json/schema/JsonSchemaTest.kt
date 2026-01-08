@@ -6,7 +6,15 @@ import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import kotlinx.schema.json.ArrayPropertyDefinition
+import kotlinx.schema.json.BooleanPropertyDefinition
+import kotlinx.schema.json.JsonSchema
+import kotlinx.schema.json.NumericPropertyDefinition
+import kotlinx.schema.json.ObjectPropertyDefinition
+import kotlinx.schema.json.ReferencePropertyDefinition
+import kotlinx.schema.json.StringPropertyDefinition
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonPrimitive
 import kotlin.test.Test
 
 internal class JsonSchemaTest {
@@ -204,7 +212,7 @@ internal class JsonSchemaTest {
         // Schema validation
         val schemaDefinition = schema.schema
         schemaDefinition.type shouldBe "object"
-        schemaDefinition.additionalProperties shouldBe false
+        schemaDefinition.additionalProperties shouldBe JsonPrimitive(false)
         schemaDefinition.required shouldHaveSize 3
         schemaDefinition.required shouldBe listOf("id", "email", "status")
 
@@ -272,8 +280,9 @@ internal class JsonSchemaTest {
             this as ObjectPropertyDefinition
             description shouldBe "Metadata about the user"
             nullable shouldBe null
-            this.properties.shouldNotBeNull()
-            this.properties shouldHaveSize 2
+            this.properties.shouldNotBeNull {
+                this shouldHaveSize 2
+            }
         }
 
         // Nullable field
@@ -306,7 +315,7 @@ internal class JsonSchemaTest {
                         this as StringPropertyDefinition
                         type shouldBe listOf("string")
                     }
-                    additionalProperties shouldBe false
+                    additionalProperties shouldBe JsonPrimitive(false)
                 }
             }
         }

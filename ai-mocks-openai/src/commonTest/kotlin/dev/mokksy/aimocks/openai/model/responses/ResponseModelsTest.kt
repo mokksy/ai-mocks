@@ -55,6 +55,45 @@ internal class ResponseModelsTest {
     }
 
     @Test
+    fun `Should deserialize CreateResponseRequest with Schema`() {
+        val json =
+            $$"""
+           {"input":"Create a red circle with radius 5.5 named 'MyCircle'",
+           "instructions":"Generate a circle based on user requirements. Return valid JSON matching the schema.",
+           "max_output_tokens":500,
+           "model":"gpt-4o-2024-08-06",
+           "temperature":0.7,
+           "text":{
+             "format":{
+               "name":"json-schema-from-Circle",
+               "schema":{
+                 "$schema":"https://json-schema.org/draft/2020-12/schema",
+                 "type":"object",
+                 "properties":{
+                   "color":{"type":"string"},
+                   "name":{"type":"string"},
+                   "radius":{"type":"number"}
+                 },
+                 "required":["color","name","radius"],
+                 "additionalProperties":false},
+                 "type":"json_schema",
+                 "strict":true
+               }
+             }
+           }
+            """.trimIndent()
+
+        jsonParser.decodeFromString<CreateResponseRequest>(json) shouldNotBeNull {
+            model shouldBe "gpt-4o-2024-08-06"
+        }
+
+//        request.model shouldBe "gpt-4o"
+//        request.temperature shouldBe 0.7
+//        request.input.shouldNotBeNull()
+        // Note: We can't directly check the input type here due to the serialization approach
+    }
+
+    @Test
     fun `Should deserialize CreateResponseRequest with InputItems`() {
         val json =
             """

@@ -2,11 +2,11 @@
 
 package dev.mokksy.aimocks.ollama.chat
 
-import dev.mokksy.aimocks.core.json.schema.JsonSchemaDefinition
-import dev.mokksy.aimocks.core.json.schema.JsonSchemaDefinitionBuilder
 import dev.mokksy.aimocks.ollama.model.Format
 import dev.mokksy.aimocks.ollama.model.ModelOptions
 import kotlinx.datetime.Instant
+import kotlinx.schema.json.JsonSchemaDefinition
+import kotlinx.schema.json.JsonSchemaDefinitionBuilder
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName

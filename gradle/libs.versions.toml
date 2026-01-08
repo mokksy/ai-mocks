@@ -16,6 +16,7 @@ kotlin = "2.1.21"
 kotlinLogging = "7.0.14"
 kotlinxCoroutines = "1.10.2"
 kotlinxDatetime = "0.6.2"
+kotlinxSchema = "0.0.2"
 kotlinxSerialization = "1.8.1"
 kover = "0.9.4"
 ktor = "3.3.3"
@@ -52,6 +53,7 @@ kotlinx-coroutines-core-jvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutin
 kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinx-schema-json = { module = "org.jetbrains.kotlinx:kotlinx-schema-json", version.ref = "kotlinxSchema" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 ktor-bom = { group = "io.ktor", name = "ktor-bom", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation" }

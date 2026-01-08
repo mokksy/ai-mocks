@@ -2,10 +2,10 @@
 
 package dev.mokksy.aimocks.openai
 
-import dev.mokksy.aimocks.core.json.schema.JsonSchema
 import dev.mokksy.aimocks.openai.model.ChatCompletionRole
 import dev.mokksy.aimocks.openai.model.ChatCompletionStreamOptions
 import dev.mokksy.aimocks.openai.model.chat.MessageContent
+import kotlinx.schema.json.JsonSchema
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.EncodeDefault.Mode.ALWAYS
 import kotlinx.serialization.EncodeDefault.Mode.NEVER

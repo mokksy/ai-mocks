@@ -6,7 +6,9 @@ import dev.mokksy.aimocks.openai.model.OutputMessage
 import dev.mokksy.aimocks.openai.model.Reasoning
 import dev.mokksy.aimocks.openai.model.ResponseError
 import dev.mokksy.aimocks.openai.model.chat.Tool
+import kotlinx.schema.json.JsonSchemaDefinition
 import kotlinx.serialization.Contextual
+import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.EncodeDefault.Mode.ALWAYS
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -38,7 +40,7 @@ import kotlinx.serialization.json.JsonPrimitive
  * @property reasoning Optional reasoning configuration.
  * @property maxOutputTokens Optional maximum number of tokens to generate.
  * @property instructions Optional instructions for the model.
- * @property text Optional text input.
+ * @property text Optional text configuration including format settings.
  * @property tools Optional tools the model may call.
  * @property toolChoice Optional control for which function is called.
  * @property truncation Optional truncation strategy.
@@ -49,6 +51,7 @@ import kotlinx.serialization.json.JsonPrimitive
  * @author Konstantin Pavlov
  */
 @Serializable
+@JvmRecord
 public data class CreateResponseRequest(
     @SerialName(value = "model") @Required val model: String,
     @SerialName(value = "input") @Contextual val input: Input? = null,
@@ -60,7 +63,7 @@ public data class CreateResponseRequest(
     @SerialName(value = "reasoning") val reasoning: Reasoning? = null,
     @SerialName(value = "max_output_tokens") val maxOutputTokens: Int? = null,
     @SerialName(value = "instructions") val instructions: String? = null,
-    @SerialName(value = "text") @Contextual val text: Map<String, String>? = null,
+    @SerialName(value = "text") val text: TextConfig? = null,
     @SerialName(value = "tools") val tools: List<Tool>? = null,
     @SerialName(value = "tool_choice") @Contextual val toolChoice: String? = null,
     @SerialName(value = "truncation") val truncation: Truncation? = Truncation.DISABLED,
@@ -70,21 +73,53 @@ public data class CreateResponseRequest(
     @SerialName(value = "stream") val stream: Boolean? = false,
 )
 
+/**
+ * Represents the text configuration for the response.
+ *
+ * @property format The format configuration for the text output.
+ * @author Konstantin Pavlov
+ */
+@Serializable
+@JvmRecord
+public data class TextConfig(
+    @SerialName(value = "format") val format: TextFormat,
+)
+
+/**
+ * Represents the format configuration for text output.
+ *
+ * @property type The type of format (e.g., "text", "json_schema").
+ * @property name Optional name for the schema when type is "json_schema".
+ * @property schema Optional JSON schema definition when type is "json_schema".
+ * @property strict Optional strict mode flag for schema validation.
+ * @author Konstantin Pavlov
+ */
+@Serializable
+@JvmRecord
+public data class TextFormat(
+    @SerialName(value = "type") val type: String,
+    @SerialName(value = "name") val name: String? = null,
+    @SerialName(value = "schema") val schema: JsonSchemaDefinition? = null,
+    @SerialName(value = "strict") val strict: Boolean? = null,
+)
+
 @Serializable(InputSerializer::class)
 public sealed interface Input
 
 @Serializable(StringAsTextSerializer::class)
+@JvmRecord
 public data class Text(
     val text: String,
 ) : Input
 
 @Serializable(ArrayAsInputItemsSerializer::class)
+@JvmRecord
 public data class InputItems(
     val items: List<InputMessageResource>,
 ) : Input
 
 internal object InputSerializer : JsonContentPolymorphicSerializer<Input>(Input::class) {
-    override fun selectDeserializer(element: JsonElement) =
+    override fun selectDeserializer(element: JsonElement): DeserializationStrategy<Input> =
         when {
             element is JsonPrimitive && element.isString
             -> Text.serializer()
@@ -154,6 +189,7 @@ internal object ArrayAsInputItemsSerializer : KSerializer<InputItems> {
  * @author Konstantin Pavlov
  */
 @Serializable
+@JvmRecord
 public data class Response
     @OptIn(ExperimentalSerializationApi::class)
     constructor(
@@ -219,23 +255,28 @@ public data class Response
  * @param totalTokens The total number of tokens used.
  */
 @Serializable
+@JvmRecord
 public data class Usage(
     // The number of input tokens.
     @SerialName(value = "input_tokens") @Required val inputTokens: Int,
-    @SerialName(value = "input_tokens_details") @Required val inputTokensDetails: InputTokensDetails,
+    @SerialName(value = "input_tokens_details") @Required val inputTokensDetails:
+        InputTokensDetails,
     // The number of output tokens.
     @SerialName(value = "output_tokens") @Required val outputTokens: Int,
-    @SerialName(value = "output_tokens_details") @Required val outputTokensDetails: OutputTokensDetails,
+    @SerialName(value = "output_tokens_details") @Required val outputTokensDetails:
+        OutputTokensDetails,
     // The total number of tokens used.
     @SerialName(value = "total_tokens") @Required val totalTokens: Int,
 )
 
 @Serializable
+@JvmRecord
 public data class InputTokensDetails(
     @SerialName(value = "cached_tokens") @Required val cachedTokens: Int,
 )
 
 @Serializable
+@JvmRecord
 public data class OutputTokensDetails(
     @SerialName(value = "reasoning_tokens") @Required val reasoningTokens: Int,
 )
@@ -244,6 +285,7 @@ public data class OutputTokensDetails(
  * Details about why the response is incomplete.
  */
 @Serializable
+@JvmRecord
 public data class IncompleteDetails(
     val reason: String,
 )

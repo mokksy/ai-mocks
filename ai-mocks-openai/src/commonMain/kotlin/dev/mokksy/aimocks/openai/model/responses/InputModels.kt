@@ -31,6 +31,7 @@ public sealed interface InputContent {
  * @author Konstantin Pavlov
  */
 @Serializable
+@JvmRecord
 public data class InputText(
     @SerialName("type") @Required public override val type: String = "input_text",
     @SerialName("text") @Required public val text: String,

@@ -1,6 +1,6 @@
 package dev.mokksy.aimocks.ollama.model
 
-import dev.mokksy.aimocks.core.json.schema.JsonSchema
+import kotlinx.schema.json.JsonSchema
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
@@ -66,7 +66,10 @@ internal class FormatSerializer : KSerializer<Format> {
         val element = jsonDecoder.decodeJsonElement()
 
         return when {
-            element is JsonPrimitive && element.jsonPrimitive.content == "json" -> Format.Json
+            element is JsonPrimitive && element.jsonPrimitive.content == "json" -> {
+                Format.Json
+            }
+
             element is JsonObject -> {
                 // Parse the JSON object into a JsonSchema
                 val jsonSchema =
@@ -74,9 +77,11 @@ internal class FormatSerializer : KSerializer<Format> {
                 Format.Schema(jsonSchema)
             }
 
-            else -> throw SerializationException(
-                "Expected 'json' string or a JSON schema object, but got: $element",
-            )
+            else -> {
+                throw SerializationException(
+                    "Expected 'json' string or a JSON schema object, but got: $element",
+                )
+            }
         }
     }
 

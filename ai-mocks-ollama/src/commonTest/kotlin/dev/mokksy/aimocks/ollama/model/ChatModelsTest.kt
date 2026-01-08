@@ -7,6 +7,7 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import kotlinx.datetime.Instant
+import kotlinx.schema.json.StringPropertyDefinition
 import kotlin.test.Test
 
 /**
@@ -182,11 +183,11 @@ internal class ChatModelsTest : AbstractSerializationTest() {
         parameters
             ?.properties
             ?.get("city")
-            ?.shouldBeInstanceOf<dev.mokksy.aimocks.core.json.schema.StringPropertyDefinition>()
+            ?.shouldBeInstanceOf<StringPropertyDefinition>()
         val cityProperty =
             parameters?.properties?.get(
                 "city",
-            ) as dev.mokksy.aimocks.core.json.schema.StringPropertyDefinition
+            ) as StringPropertyDefinition
         cityProperty.description shouldBe "The city to get the weather for"
         parameters.required shouldBe listOf("city")
 
