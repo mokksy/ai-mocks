@@ -1,5 +1,7 @@
 rootProject.name = "ai-mocks"
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include(
     ":a2a-client",
     ":ai-mocks-a2a",

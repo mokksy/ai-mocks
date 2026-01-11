@@ -79,3 +79,7 @@ tasks.withType<Test>().configureEach {
         junitXml.includeSystemErrLog.set(true)
     }
 }
+
+tasks.named("detekt").configure {
+    dependsOn("detektMainJvm", "detektTestJvm")
+}
