@@ -17,9 +17,17 @@ allprojects {
 
 // Common configuration for subprojects
 subprojects {
-    apply(plugin = "org.jetbrains.dokka")
-    apply(plugin = "org.jetbrains.dokka-javadoc")
-    apply(plugin = "com.diffplug.spotless")
+    apply {
+        plugin("org.jetbrains.dokka")
+        plugin("org.jetbrains.dokka-javadoc")
+        plugin("com.diffplug.spotless")
+        plugin("dev.detekt")
+    }
+
+    detekt {
+        config = files("$rootDir/detekt.yml")
+        buildUponDefaultConfig = true
+    }
 }
 
 dependencies {
