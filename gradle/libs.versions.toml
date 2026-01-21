@@ -1,7 +1,7 @@
 [versions]
 anthropic-java = "2.9.0"
 assertj = "3.27.6"
-atomicfu = "0.29.0"
+atomicfu = "0.30.0"
 assertk = "0.28.1"
 awaitility = "4.3.0"
 datafaker = "2.5.3"
