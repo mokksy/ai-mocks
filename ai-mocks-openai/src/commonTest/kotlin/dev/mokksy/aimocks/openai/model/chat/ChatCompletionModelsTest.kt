@@ -117,7 +117,9 @@ internal class ChatCompletionModelsTest {
                 messages[1].role shouldBe ChatCompletionRole.USER
                 val expectedContent = messages[1].content
                 expectedContent.asText() shouldBe
-                    "User's input: ```To be or not to be?```.\nUse attachment as relevant context # Magical Bow\n\nThe magical bow shoots not ordinary arrows but light charges."
+                    "User's input: ```To be or not to be?```.\n" +
+                    "Use attachment as relevant context # Magical Bow\n\n" +
+                    "The magical bow shoots not ordinary arrows but light charges."
             }
 
             withClue("Second user message should be correct") {
@@ -378,8 +380,8 @@ internal class ChatCompletionModelsTest {
 
                     withClue("Message should be present and correct") {
                         message.shouldNotBeNull()
-                        message?.role shouldBe ChatCompletionRole.ASSISTANT
-                        message?.content shouldBe
+                        message.role shouldBe ChatCompletionRole.ASSISTANT
+                        message.content shouldBe
                             MessageContent.Text("Hello! How can I help you today?")
                     }
                 }
@@ -748,16 +750,16 @@ internal class ChatCompletionModelsTest {
 
                 withClue("Message should have tool calls") {
                     val message = choice.message
-                    val toolCalls = message?.toolCalls
-                    toolCalls.shouldNotBeNull()
-                    toolCalls shouldHaveSize 1
+                    message.toolCalls shouldNotBeNull {
+                        this shouldHaveSize 1
 
-                    val toolCall = toolCalls[0]
-                    toolCall.id shouldBe "call_abc123"
-                    toolCall.type shouldBe "function"
-                    toolCall.function.name shouldBe "get_current_weather"
-                    toolCall.function.arguments shouldBe
-                        "{\"location\":\"Boston, MA\",\"format\":\"fahrenheit\"}"
+                        val toolCall = this[0]
+                        toolCall.id shouldBe "call_abc123"
+                        toolCall.type shouldBe "function"
+                        toolCall.function.name shouldBe "get_current_weather"
+                        toolCall.function.arguments shouldBe
+                            "{\"location\":\"Boston, MA\",\"format\":\"fahrenheit\"}"
+                    }
                 }
             }
         }
