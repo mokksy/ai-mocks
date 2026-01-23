@@ -39,8 +39,8 @@ internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
                 .stream()
                 .chatResponse()
                 .doOnNext {
-                    it.result.output.text?.let {
-                        buffer.append(it)
+                    it.result.output.text?.let { text ->
+                        buffer.append(text)
                     }
                 }.count()
                 .block(5.seconds.toJavaDuration())

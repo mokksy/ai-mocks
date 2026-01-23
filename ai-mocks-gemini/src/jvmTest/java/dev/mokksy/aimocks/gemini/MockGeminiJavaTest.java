@@ -19,7 +19,7 @@ class MockGeminiJavaTest {
 
     private static final Random RANDOM = new Random();
 
-    private static final String projectId = "1234567890";
+    private static final String projectId = String.valueOf(Math.abs(RANDOM.nextLong()));
     private static final String locationId = "super-location";
 
     private static final Client CLIENT = Client.builder()

@@ -35,8 +35,8 @@ class MockGeminiJavaStreamingTest {
     private static final MockGemini MOCK = new MockGemini(true);
     private static final Random RANDOM = new Random();
 
-    private static final String PROJECT_ID = "1234567890";
-    private static final String LOCATION_ID = "us-central1";
+    private static final String PROJECT_ID = String.valueOf(Math.abs(RANDOM.nextLong()));
+    private static final String LOCATION_ID = "amsterdam-centraal1";
 
     private static final Client CLIENT = Client.builder()
         .project(PROJECT_ID)
