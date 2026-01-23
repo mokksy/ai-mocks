@@ -1,8 +1,9 @@
 @file:OptIn(ExperimentalWasmDsl::class)
 
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1
 
 plugins {
     kotlin("multiplatform")
@@ -11,22 +12,20 @@ plugins {
 kotlin {
 
     compilerOptions {
-        languageVersion = KOTLIN_2_0
-        apiVersion = KOTLIN_2_0
+        languageVersion = KOTLIN_2_1
+        apiVersion = KOTLIN_2_1
         allWarningsAsErrors = true
         extraWarnings = true
         freeCompilerArgs =
             listOf(
                 "-Wextra",
-                "-Xjvm-default=all",
                 "-Xmulti-dollar-interpolation",
             )
     }
-    coreLibrariesVersion = "2.0.10"
+    coreLibrariesVersion = "2.1.21"
 
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
+    jvmToolchain(17)
+
     explicitApi()
 
     withSourcesJar(publish = true)
@@ -34,6 +33,7 @@ kotlin {
     jvm {
         compilerOptions {
             javaParameters = true
+            jvmDefault.set(JvmDefaultMode.ENABLE)
             jvmTarget = JvmTarget.JVM_17
             // Enable debug symbols and line number information
             freeCompilerArgs.addAll(
