@@ -4,7 +4,6 @@ import com.anthropic.models.messages.MessageCreateParams
 import com.anthropic.models.messages.Metadata
 import dev.mokksy.aimocks.anthropic.anthropic
 import io.kotest.matchers.collections.shouldContainExactly
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.flow
@@ -70,8 +69,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
             verifyStreamingCall(tokens)
         }
 
-    @OptIn(FlowPreview::class)
-    private suspend fun verifyStreamingCall(tokens: List<String>) {
+    private fun verifyStreamingCall(tokens: List<String>) {
         val params =
             MessageCreateParams
                 .builder()

@@ -18,7 +18,7 @@ import kotlinx.serialization.Serializable
 public class ContentTypeNotSupportedError : JSONRPCError {
     @JvmOverloads
     public constructor(data: Data? = null) : super(
-        code = -32005,
+        code = CONTENT_TYPE_NOT_SUPPORTED_CODE,
         message = "Incompatible content types",
         data = data,
     )

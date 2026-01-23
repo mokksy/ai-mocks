@@ -20,7 +20,7 @@ import io.kotest.matchers.string.containIgnoringCase
  *
  * @param P The type parameter specifying the type of object the request body is expected to be.
  */
-@Suppress("TooManyFunctions")
+@Suppress("TooManyFunctions", "AbstractClassCanBeConcreteClass")
 public abstract class ModelRequestSpecification<P>(
     public var model: String? = null,
     public val requestBody: MutableList<Matcher<P?>> = mutableListOf(),

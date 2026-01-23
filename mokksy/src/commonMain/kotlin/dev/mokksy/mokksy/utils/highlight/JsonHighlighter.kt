@@ -1,6 +1,17 @@
 package dev.mokksy.mokksy.utils.highlight
 
+/**
+ * Syntax highlighter for JSON strings using ANSI colors.
+ *
+ * This is a cohesive utility with many small helper functions that work together.
+ * Suppressing TooManyFunctions as splitting would fragment the logic unnecessarily.
+ */
+@Suppress("TooManyFunctions")
 internal object JsonHighlighter {
+    private const val INITIAL_BUFFER_PADDING = 200
+    private const val TRUE_NULL_LENGTH = 4
+    private const val FALSE_LENGTH = 5
+
     private val keyColor = AnsiColor.MAGENTA
     private val stringValColor = AnsiColor.GREEN
     private val numberValColor = AnsiColor.BLUE
@@ -26,7 +37,7 @@ internal object JsonHighlighter {
         }
 
         val state = HighlightContext()
-        val result = StringBuilder(json.length + 200)
+        val result = StringBuilder(json.length + INITIAL_BUFFER_PADDING)
         var i = 0
 
         while (i < json.length) {
@@ -87,8 +98,14 @@ internal object JsonHighlighter {
     ) {
         state.buffer.append(char)
         when {
-            state.isEscaped -> state.isEscaped = false
-            char == '\\' -> state.isEscaped = true
+            state.isEscaped -> {
+                state.isEscaped = false
+            }
+
+            char == '\\' -> {
+                state.isEscaped = true
+            }
+
             char == '"' -> {
                 val color = if (state.isKey) keyColor else stringValColor
                 state.flushBuffer(result, color)
@@ -157,7 +174,7 @@ internal object JsonHighlighter {
      * Efficiently checks if there's a colon ahead (indicating this quote starts a key).
      * Only look ahead until finding ':', newline, or structural char.
      */
-    @JvmStatic
+    @Suppress("ReturnCount")
     private fun hasColonAhead(
         json: String,
         startPos: Int,
@@ -170,37 +187,41 @@ internal object JsonHighlighter {
             val c = json[pos]
 
             when {
-                escaped -> escaped = false
-                isEscapeChar(c, inQuotes) -> escaped = true
-                isQuoteChar(c, escaped) -> inQuotes = !inQuotes
+                escaped -> {
+                    escaped = false
+                }
+
+                c == '\\' && inQuotes -> {
+                    escaped = true
+                }
+
+                c == '"' && !escaped -> {
+                    inQuotes = !inQuotes
+                }
+
                 !inQuotes -> {
-                    val result = checkCharAfterString(c)
-                    if (result != null) return result
-                    // null means whitespace, continue searching
+                    when (c) {
+                        ':' -> {
+                            return true
+                        }
+
+                        '{', '}', '[', ']', ',' -> {
+                            return false
+                        }
+
+                        ' ', '\t', '\n', '\r' -> { // continue
+                        }
+
+                        else -> {
+                            return false
+                        }
+                    }
                 }
             }
             pos++
         }
         return false
     }
-
-    private fun isEscapeChar(
-        c: Char,
-        inQuotes: Boolean,
-    ): Boolean = c == '\\' && inQuotes
-
-    private fun isQuoteChar(
-        c: Char,
-        escaped: Boolean,
-    ): Boolean = c == '"' && !escaped
-
-    private fun checkCharAfterString(c: Char): Boolean? =
-        when (c) {
-            ':' -> true
-            '{', '}', '[', ']', ',' -> false
-            ' ', '\t', '\n', '\r' -> null // Continue searching through whitespace
-            else -> false
-        }
 
     private fun isStructuralChar(c: Char): Boolean =
         c == '{' || c == '}' || c == '[' || c == ']' || c == ','
@@ -210,35 +231,41 @@ internal object JsonHighlighter {
             c == '\t' || c == '\n' || c == '\r' || c == '\u0000'
 
     /**
-     * Determines value color without regex - checks if it's a number or boolean/null.
+     * Determines value color - checks if it's a number or boolean/null.
+     * Uses early returns for efficiency (no allocations).
      */
-    @JvmStatic
+    @Suppress("ReturnCount")
     private fun determineValueColor(buffer: StringBuilder): AnsiColor? {
         if (buffer.isEmpty()) return null
 
-        // Check for boolean/null keywords first
+        // Check for boolean/null keywords first (most common short values)
         when (buffer.length) {
-            4 -> {
+            TRUE_NULL_LENGTH -> {
                 if (buffer.contentEquals("true") || buffer.contentEquals("null")) {
                     return boolNullColor
                 }
             }
 
-            5 -> {
+            FALSE_LENGTH -> {
                 if (buffer.contentEquals("false")) {
                     return boolNullColor
                 }
             }
         }
 
-        // Check if it's a number
         return if (isNumber(buffer)) numberValColor else null
     }
 
-    @JvmStatic
+    /**
+     * Validates JSON number format without regex.
+     * Uses early returns for zero-allocation fast path on invalid input.
+     */
+    @Suppress("ReturnCount", "CyclomaticComplexMethod")
     private fun isNumber(buffer: StringBuilder): Boolean {
         if (buffer.isEmpty()) return false
-        if (!isValidNumberStart(buffer[0])) return false
+
+        val firstChar = buffer[0]
+        if (firstChar != '-' && !firstChar.isDigit()) return false
 
         var hasDigit = false
         var hasDot = false
@@ -248,46 +275,37 @@ internal object JsonHighlighter {
         for (i in buffer.indices) {
             val char = buffer[i]
             when (char) {
-                in '0'..'9' -> hasDigit = true
+                in '0'..'9' -> {
+                    hasDigit = true
+                }
+
                 '.' -> {
-                    if (!isValidDot(hasDot, hasExp)) return false
+                    if (hasDot || hasExp) return false
                     hasDot = true
                 }
 
                 'e', 'E' -> {
-                    if (!isValidExponent(hasExp, hasDigit)) return false
+                    if (hasExp || !hasDigit) return false
                     hasExp = true
                 }
 
                 '-', '+' -> {
-                    if (!isValidSign(i, prevChar)) return false
+                    if (i != 0 && prevChar != 'e' && prevChar != 'E') return false
                 }
 
-                else -> return false
+                else -> {
+                    return false
+                }
             }
             prevChar = char
         }
         return hasDigit
     }
 
-    private fun isValidNumberStart(c: Char): Boolean = c == '-' || c.isDigit()
-
-    private fun isValidDot(
-        hasDot: Boolean,
-        hasExp: Boolean,
-    ): Boolean = !hasDot && !hasExp
-
-    private fun isValidExponent(
-        hasExp: Boolean,
-        hasDigit: Boolean,
-    ): Boolean = !hasExp && hasDigit
-
-    private fun isValidSign(
-        index: Int,
-        prevChar: Char,
-    ): Boolean = index == 0 || prevChar == 'e' || prevChar == 'E'
-
-    @JvmStatic
+    /**
+     * Compares StringBuilder content with a string without creating intermediate objects.
+     */
+    @Suppress("ReturnCount")
     private fun StringBuilder.contentEquals(str: String): Boolean {
         if (this.length != str.length) return false
         for (i in 0 until length) {

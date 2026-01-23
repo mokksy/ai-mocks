@@ -174,7 +174,8 @@ public fun sendStreamingMessageResponse(
 /**
  * Creates a new instance of a SendStreamingMessageResponse using the provided configuration block.
  *
- * @param block A configuration block for building a SendStreamingMessageResponse instance using the SendStreamingMessageResponseBuilder.
+ * @param block A configuration block for building a SendStreamingMessageResponse instance
+ * using the SendStreamingMessageResponseBuilder.
  * @return A newly created SendStreamingMessageResponse instance.
  */
 public fun SendStreamingMessageResponse.Companion.create(
@@ -184,7 +185,8 @@ public fun SendStreamingMessageResponse.Companion.create(
 /**
  * Creates a new instance of a SendStreamingMessageResponse using the provided Java-friendly Consumer.
  *
- * @param block A consumer for building a SendStreamingMessageResponse instance using the SendStreamingMessageResponseBuilder.
+ * @param block A consumer for building a SendStreamingMessageResponse instance
+ * using the SendStreamingMessageResponseBuilder.
  * @return A newly created SendStreamingMessageResponse instance.
  */
 public fun SendStreamingMessageResponse.Companion.create(

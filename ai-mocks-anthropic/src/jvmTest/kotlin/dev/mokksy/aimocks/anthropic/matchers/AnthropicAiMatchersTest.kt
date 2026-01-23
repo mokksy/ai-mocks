@@ -18,7 +18,7 @@ import kotlin.test.Test
  */
 class AnthropicAiMatchersTest {
     @Test
-    @Suppress("LongMethod")
+    @Suppress("LongMethod", "CyclomaticComplexMethod")
     fun `should parse single user message`() {
         test(
             // language=json

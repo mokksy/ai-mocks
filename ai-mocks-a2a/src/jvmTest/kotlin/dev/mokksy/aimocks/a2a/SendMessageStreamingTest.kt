@@ -144,9 +144,9 @@ internal class SendMessageStreamingTest : AbstractTest() {
             ) {
                 var reading = true
                 while (reading) {
-                    incoming.collect {
-                        logger.info { "Event from server:\n$it" }
-                        it.data?.let {
+                    incoming.collect { sse ->
+                        logger.info { "Event from server:\n$sse" }
+                        sse.data?.let {
                             val event = Json.decodeFromString<TaskUpdateEvent>(it)
                             collectedEvents.add(event)
                             if (!handleEvent(event)) {

@@ -123,19 +123,15 @@ public class TaskSendParamsBuilder {
      * @return A new [TaskSendParams] instance.
      * @throws IllegalArgumentException If required parameters are missing.
      */
-    public fun build(): TaskSendParams {
-        requireNotNull(id) { "Task ID is required" }
-        requireNotNull(message) { "Message is required" }
-
-        return TaskSendParams(
-            id = id!!,
+    public fun build(): TaskSendParams =
+        TaskSendParams(
+            id = requireNotNull(id) { "Task ID is required" },
             sessionId = sessionId,
-            message = message!!,
+            message = requireNotNull(message) { "Message is required" },
             pushNotification = pushNotification,
             historyLength = historyLength,
             metadata = metadata,
         )
-    }
 }
 
 /**

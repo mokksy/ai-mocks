@@ -40,7 +40,7 @@ public class TaskUpdateEventSerializer : KSerializer<TaskUpdateEvent> {
         }
 
         return if (jsonElement["result"] is JsonElement) {
-            doDecode(jsonElement["result"]!!, jsonDecoder)
+            doDecode(requireNotNull(jsonElement["result"]), jsonDecoder)
         } else {
             doDecode(jsonElement, jsonDecoder)
         }

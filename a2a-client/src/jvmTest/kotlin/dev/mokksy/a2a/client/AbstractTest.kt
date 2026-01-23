@@ -6,6 +6,7 @@ import io.ktor.client.request.header
 import org.junit.jupiter.api.AfterEach
 import java.util.UUID
 
+@Suppress("AbstractClassCanBeConcreteClass")
 internal abstract class AbstractTest {
     protected val logger = KotlinLogging.logger(name = javaClass.canonicalName!!)
     protected val a2aServer = MockAgentServer(verbose = true)

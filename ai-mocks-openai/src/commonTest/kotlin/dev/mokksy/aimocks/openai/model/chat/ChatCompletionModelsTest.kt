@@ -267,7 +267,9 @@ internal class ChatCompletionModelsTest {
                 messages[1].role shouldBe ChatCompletionRole.USER
                 messages[1].content shouldBe
                     MessageContent.Text(
-                        "Bob is 25 years old and weighs 0.075 tonnes.\nHis height is one meter eighty-five centimeters.\nHe is married.",
+                        "Bob is 25 years old and weighs 0.075 tonnes.\n" +
+                            "His height is one meter eighty-five centimeters.\n" +
+                            "He is married.",
                     )
             }
 

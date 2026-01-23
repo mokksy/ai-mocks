@@ -30,7 +30,7 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
         response?.result shouldNotBe null
         response?.result?.apply {
             metadata.finishReason shouldBe "stop"
-            output?.text shouldBe "Ahoy there, matey! Hello!"
+            output.text shouldBe "Ahoy there, matey! Hello!"
         }
     }
 }

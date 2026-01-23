@@ -77,14 +77,11 @@ public class SendMessageRequestBuilder {
      * @return A new [SendMessageRequest] instance.
      * @throws IllegalArgumentException If required parameters are missing.
      */
-    public fun build(): SendMessageRequest {
-        requireNotNull(params) { "Params are required" }
-
-        return SendMessageRequest(
+    public fun build(): SendMessageRequest =
+        SendMessageRequest(
             id = id,
-            params = params!!,
+            params = requireNotNull(params) { "Params are required" },
         )
-    }
 }
 
 /**

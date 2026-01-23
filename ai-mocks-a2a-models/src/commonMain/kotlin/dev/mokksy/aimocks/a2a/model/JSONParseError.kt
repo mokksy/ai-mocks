@@ -19,7 +19,7 @@ public class JSONParseError : JSONRPCError {
     public constructor(data: Data? = null) : super(
         code = -32700,
         message = "Invalid JSON payload",
-        data = null,
+        data = data,
     )
 
     public fun copy(data: Data? = this.data): InternalError = InternalError(data = data)

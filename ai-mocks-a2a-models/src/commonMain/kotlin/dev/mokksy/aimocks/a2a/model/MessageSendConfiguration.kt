@@ -37,10 +37,11 @@ public data class MessageSendConfiguration
         @SerialName("pushNotificationConfig")
         val pushNotificationConfig: PushNotificationConfig? = null,
         /**
-         * If true, the client will wait for the task to complete. The server may reject this if the task is long-running.
+         * If true, the client will wait for the task to complete.
+         * The server may reject this if the task is long-running.
          */
         @SerialName("blocking")
-        val blocking: Boolean? = null,
-    ) {
-        public companion object
-    }
+    val blocking: Boolean? = null,
+) {
+    public companion object
+}

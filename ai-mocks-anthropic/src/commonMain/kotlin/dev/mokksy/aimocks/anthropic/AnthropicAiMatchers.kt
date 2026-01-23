@@ -39,7 +39,8 @@ internal object AnthropicAiMatchers {
                 value
                     ?.messages
                     ?.filter { it.role == "user" }
-                    ?.map { it.content } ?: emptyList()
+                    ?.map { it.content }
+                    .orEmpty()
 
             override fun toString(): String = "User message should contain \"$string\""
         }

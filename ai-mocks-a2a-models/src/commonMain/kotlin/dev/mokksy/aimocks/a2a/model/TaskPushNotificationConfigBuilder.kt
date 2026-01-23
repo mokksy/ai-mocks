@@ -68,15 +68,14 @@ public class TaskPushNotificationConfigBuilder {
      * @return A new [TaskPushNotificationConfig] instance.
      * @throws IllegalArgumentException If required parameters are missing.
      */
-    public fun build(): TaskPushNotificationConfig {
-        requireNotNull(id) { "Task ID is required" }
-        requireNotNull(pushNotificationConfig) { "Push notification config is required" }
-
-        return TaskPushNotificationConfig(
-            id = id!!,
-            pushNotificationConfig = pushNotificationConfig!!,
+    public fun build(): TaskPushNotificationConfig =
+        TaskPushNotificationConfig(
+            id = requireNotNull(id) { "Task ID is required" },
+            pushNotificationConfig =
+                requireNotNull(pushNotificationConfig) {
+                    "Push notification config is required"
+                },
         )
-    }
 }
 
 /**

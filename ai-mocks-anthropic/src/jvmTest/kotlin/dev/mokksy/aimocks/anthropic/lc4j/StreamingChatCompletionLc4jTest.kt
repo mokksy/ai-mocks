@@ -11,7 +11,7 @@ import dev.langchain4j.model.chat.request.ChatRequest
 import dev.langchain4j.model.chat.response.ChatResponse
 import dev.langchain4j.model.chat.response.StreamingChatResponseHandler
 import dev.langchain4j.model.output.FinishReason
-import dev.mokksy.aimocks.anthropic.AbstractAnthropicIntegraitonTest
+import dev.mokksy.aimocks.anthropic.AbstractAnthropicIntegrationTest
 import dev.mokksy.aimocks.anthropic.anthropic
 import io.kotest.assertions.failure
 import io.kotest.matchers.equals.shouldBeEqual
@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicReference
 
 private const val FLOW_BUFFER_SIZE = 8096
 
-internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegraitonTest() {
+internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTest() {
     private lateinit var model: AnthropicStreamingChatModel
 
     private lateinit var systemMessage: String

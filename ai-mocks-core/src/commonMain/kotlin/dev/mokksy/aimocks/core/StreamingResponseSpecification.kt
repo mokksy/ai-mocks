@@ -30,6 +30,7 @@ public interface StreamingResponseSpecification<T : Any> {
  * @param T The type of the chunk element.
  * @param R The type of the response chunk.
  */
+@Suppress("AbstractClassCanBeConcreteClass")
 public abstract class AbstractStreamingResponseSpecification<P : Any, T : Any, R : Any>(
     response: AbstractResponseDefinition<R>,
     public var responseFlow: Flow<T>?,

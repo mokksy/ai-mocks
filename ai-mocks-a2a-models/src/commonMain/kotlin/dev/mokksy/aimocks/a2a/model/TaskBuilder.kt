@@ -29,7 +29,7 @@ public class TaskBuilder {
     public var id: String? = null
     public var contextId: String? = null
     public var status: TaskStatus? = null
-    public var artifacts: MutableList<Artifact> = mutableListOf()
+    public val artifacts: MutableList<Artifact> = mutableListOf()
     public var metadata: Metadata? = null
     public val history: MutableList<Message> = mutableListOf()
 
@@ -92,7 +92,8 @@ public class TaskBuilder {
      */
     public fun artifacts(artifacts: List<Artifact>): TaskBuilder =
         apply {
-            this.artifacts = artifacts.toMutableList()
+            this.artifacts.clear()
+            this.artifacts.addAll(artifacts)
         }
 
     /**
@@ -162,7 +163,7 @@ public class TaskBuilder {
             status = status!!,
             artifacts = artifacts.ifEmpty { null },
             metadata = metadata,
-            history = history.ifEmpty { null }
+            history = history.ifEmpty { null },
         )
     }
 }

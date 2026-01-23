@@ -12,6 +12,7 @@ internal class MessageStreamingResponseTest {
         }
 
     @Test
+    @Suppress("LongMethod")
     fun `Should deserialize text request`() {
         // language=json lines
         val sseData =

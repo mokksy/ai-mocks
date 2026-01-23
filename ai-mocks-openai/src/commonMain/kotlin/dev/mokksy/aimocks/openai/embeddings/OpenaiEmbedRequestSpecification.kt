@@ -73,7 +73,8 @@ public class OpenaiEmbedRequestSpecification {
     /**
      * Sets the number of dimensions the resulting output embeddings should have.
      *
-     * @param value The number of dimensions for the output embeddings. Only supported in text-embedding-3 and later models.
+     * @param value The number of dimensions for the output embeddings.
+     * Only supported in text-embedding-3 and later models.
      * @return This specification instance for method chaining.
      * @see <a href="https://platform.openai.com/docs/api-reference/embeddings/create#embeddings-create-dimensions">dimensions parameter</a>
      */

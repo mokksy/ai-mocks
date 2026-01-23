@@ -11,10 +11,13 @@ import dev.mokksy.mokksy.MokksyServer
 public class DeleteTaskPushNotificationConfigBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<DeleteTaskPushNotificationConfigRequest>,
-) : AbstractBuildingStep<DeleteTaskPushNotificationConfigRequest, DeleteTaskPushNotificationConfigResponseSpecification>(
+) : AbstractBuildingStep<
+        DeleteTaskPushNotificationConfigRequest,
+        DeleteTaskPushNotificationConfigResponseSpecification,
+    >(
         mokksy,
         buildingStep,
-    ) {
+) {
     override infix fun responds(
         block: DeleteTaskPushNotificationConfigResponseSpecification.() -> Unit,
     ) {

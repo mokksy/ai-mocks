@@ -19,6 +19,7 @@ public interface ResponseSpecification {
  * @param T The type of the response body.
  * @param delay delay to first token
  */
+@Suppress("AbstractClassCanBeConcreteClass")
 public abstract class AbstractResponseSpecification<P : Any, T : Any>(
     protected val response: AbstractResponseDefinition<T>,
     public var delay: Duration,

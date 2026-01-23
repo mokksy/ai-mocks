@@ -11,7 +11,9 @@ public object EmbeddingUtils {
     /**
      * Generates a deterministic, normalized embedding vector from a string.
      *
-     * Converts the input string into a floating-point vector of the specified dimension, using a repeatable mathematical transformation. The resulting vector has an L2 norm of approximately 1.0. For empty input, returns a zero vector.
+     * Converts the input string into a floating-point vector of the specified dimension,
+     * using a repeatable mathematical transformation. The resulting vector
+     * has an L2 norm of approximately 1.0. For empty input, returns a zero vector.
      *
      * Intended for testing purposes only; does not produce semantically meaningful embeddings.
      *
@@ -49,7 +51,8 @@ public object EmbeddingUtils {
     /**
      * Generates deterministic embedding vectors for a list of input strings.
      *
-     * Each input string is converted into a normalized float vector of the specified dimension using a deterministic algorithm.
+     * Each input string is converted into a normalized float vector
+     * of the specified dimension using a deterministic algorithm.
      *
      * @param inputs The strings to generate embeddings for.
      * @param dimensions The number of dimensions for each embedding vector (default is 1536).

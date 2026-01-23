@@ -165,7 +165,7 @@ public class OAuth2FlowBuilder {
             if (this.scopes == null) {
                 this.scopes = mutableMapOf()
             }
-            this.scopes!![scope] = description
+            requireNotNull(this.scopes)[scope] = description
         }
 
     public fun build(): OAuth2Flow =

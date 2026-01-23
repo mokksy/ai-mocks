@@ -1,8 +1,17 @@
+config:
+  validation: true
+  warningsAsErrors: false
+  checkExhaustiveness: false
+
+complexity:
+  LargeClass:
+    excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**', '**/*.kts' ]
+  LongMethod:
+    excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**', '**/*.kts' ]
+
 style:
-  active: true
-  MethodName:
-    active: true
-    ignoreOverriddenFunctions: true
-    excludeAnnotatedMethodsOrClasses:
-      - "org.junit.jupiter.api.Test"
-    ignoreTestFiles: true
+  MaxLineLength:
+    excludeCommentStatements: true
+  AbstractClassCanBeConcreteClass:
+    excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**', '**/*.kts' ]
+

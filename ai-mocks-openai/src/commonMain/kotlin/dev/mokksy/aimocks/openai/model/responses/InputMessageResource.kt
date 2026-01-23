@@ -65,7 +65,8 @@ public data class InputMessageResource(
     }
 
     /**
-     * The status of item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API.
+     * The status of item. One of `in_progress`, `completed`, or `incomplete`.
+     * Populated when items are returned via API.
      */
     @Serializable
     public enum class Status(

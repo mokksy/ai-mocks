@@ -1,6 +1,5 @@
 @file:OptIn(ExperimentalWasmDsl::class)
 
-import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0
@@ -47,23 +46,6 @@ kotlin {
     }
 }
 
-configure<SpotlessExtension> {
-    ratchetFrom("origin/main")
-
-    kotlinGradle {
-        ktlint()
-    }
-
-    kotlin {
-        toggleOffOn()
-    }
-
-    format("misc") {
-        target("*.md", ".gitignore")
-        trimTrailingWhitespace()
-    }
-}
-
 // Run tests in parallel to some degree.
 tasks.withType<Test>().configureEach {
     maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).coerceAtLeast(1)
@@ -78,4 +60,13 @@ tasks.withType<Test>().configureEach {
         junitXml.includeSystemOutLog.set(true)
         junitXml.includeSystemErrLog.set(true)
     }
+}
+
+tasks.named("detekt").configure {
+    dependsOn(
+        "detektCommonMainSourceSet",
+        "detektMainJvm",
+        "detektCommonTestSourceSet",
+        "detektTestJvm",
+    )
 }

@@ -13,7 +13,7 @@ import java.util.function.Consumer
  * ```
  */
 public class DataPartBuilder {
-    public var data: MutableMap<String, Any> = mutableMapOf()
+    public val data: MutableMap<String, Any> = mutableMapOf()
     public var metadata: Metadata? = null
 
     /**

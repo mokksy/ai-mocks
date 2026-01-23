@@ -24,7 +24,7 @@ import java.util.function.Consumer
 public class ArtifactBuilder {
     public var name: String? = null
     public var description: String? = null
-    public var parts: MutableList<Part> = mutableListOf()
+    public val parts: MutableList<Part> = mutableListOf()
     public var index: Long = 0
     public var append: Boolean? = null
     public var lastChunk: Boolean? = null
@@ -60,7 +60,8 @@ public class ArtifactBuilder {
      */
     public fun parts(parts: List<Part>): ArtifactBuilder =
         apply {
-            this.parts = parts.toMutableList()
+            this.parts.clear()
+            this.parts.addAll(parts)
         }
 
     /**
@@ -104,7 +105,8 @@ public class ArtifactBuilder {
 
     public fun data(block: () -> Map<String, Any>): DataPart =
         dataPart {
-            data = block.invoke().toMutableMap()
+            data.clear()
+            data.putAll(block.invoke())
         }
 
     /**

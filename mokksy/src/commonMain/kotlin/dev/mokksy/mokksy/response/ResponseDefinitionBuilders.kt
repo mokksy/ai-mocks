@@ -78,6 +78,7 @@ public abstract class AbstractResponseDefinitionBuilder<P, T>(
  * Inherits functionality from [AbstractResponseDefinitionBuilder] to allow additional header manipulations
  * and provides a concrete implementation of the response building process.
  */
+@Suppress("LongParameterList")
 public open class ResponseDefinitionBuilder<P : Any, T : Any>(
     public val request: CapturedRequest<P>,
     public var contentType: ContentType? = null,

@@ -26,7 +26,7 @@ public class SystemPromptsSerializer : KSerializer<List<MessageCreateParams.Syst
             is JsonPrimitive ->
                 listOf(
                     MessageCreateParams.SystemPrompt(
-                        text = element.contentOrNull ?: "",
+                        text = element.contentOrNull.orEmpty(),
                     ),
                 )
 

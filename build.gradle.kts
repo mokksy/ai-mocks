@@ -1,3 +1,5 @@
+import dev.detekt.gradle.extensions.FailOnSeverity
+
 plugins {
     base
     alias(libs.plugins.detekt)
@@ -19,7 +21,15 @@ allprojects {
 subprojects {
     apply(plugin = "org.jetbrains.dokka")
     apply(plugin = "org.jetbrains.dokka-javadoc")
-    apply(plugin = "com.diffplug.spotless")
+    apply(plugin = "dev.detekt")
+
+    detekt {
+        config.from(rootProject.file("detekt.yml"))
+        buildUponDefaultConfig = true
+        parallel = true
+        debug = false
+        failOnSeverity.set(FailOnSeverity.Never)
+    }
 }
 
 dependencies {

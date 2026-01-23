@@ -126,23 +126,17 @@ public class AgentSkillBuilder {
      * @return A new [AgentSkill] instance.
      * @throws IllegalArgumentException If required parameters are missing.
      */
-    public fun build(): AgentSkill {
-        requireNotNull(id) { "Skill ID is required" }
-        requireNotNull(name) { "Skill name is required" }
-        requireNotNull(description) { "Description is required" }
-        requireNotNull(tags) { "Tags are required" }
-
-        return AgentSkill(
-            id = id!!,
-            name = name!!,
-            description = description!!,
-            tags = tags!!,
+    public fun build(): AgentSkill =
+        AgentSkill(
+            id = requireNotNull(id) { "Skill ID is required" },
+            name = requireNotNull(name) { "Skill name is required" },
+            description = requireNotNull(description) { "Description is required" },
+            tags = requireNotNull(tags) { "Tags are required" },
             examples = examples,
             inputModes = inputModes,
             outputModes = outputModes,
             security = security,
         )
-    }
 }
 
 /**

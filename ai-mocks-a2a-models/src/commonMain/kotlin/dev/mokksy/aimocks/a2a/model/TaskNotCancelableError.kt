@@ -16,7 +16,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 public class TaskNotCancelableError : JSONRPCError {
     @JvmOverloads
-    public constructor(data: Data? = null) : super(-32002, "Task cannot be canceled", data)
+    public constructor(data: Data? = null) : super(
+        TASK_NOT_CANCELABLE_ERROR_CODE,
+        "Task cannot be canceled",
+        data,
+    )
 
     public fun copy(data: Data? = this.data): TaskNotCancelableError = TaskNotCancelableError(data)
 }

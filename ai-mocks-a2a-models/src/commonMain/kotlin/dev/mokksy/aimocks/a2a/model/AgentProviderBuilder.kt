@@ -1,6 +1,5 @@
 package dev.mokksy.aimocks.a2a.model
 
-
 /**
  * Builder class for creating [AgentProvider] instances.
  *
@@ -47,14 +46,11 @@ public class AgentProviderBuilder {
      * @return A new [AgentProvider] instance.
      * @throws IllegalArgumentException If required parameters are missing.
      */
-    public fun build(): AgentProvider {
-        requireNotNull(organization) { "Organization is required" }
-
-        return AgentProvider(
-            organization = organization!!,
+    public fun build(): AgentProvider =
+        AgentProvider(
+            organization = requireNotNull(organization) { "Organization is required" },
             url = url,
         )
-    }
 }
 
 /**

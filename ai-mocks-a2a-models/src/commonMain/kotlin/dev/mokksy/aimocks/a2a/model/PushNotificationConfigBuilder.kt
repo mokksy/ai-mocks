@@ -73,15 +73,12 @@ public class PushNotificationConfigBuilder {
      * @return A new [PushNotificationConfig] instance.
      * @throws IllegalArgumentException If required parameters are missing.
      */
-    public fun build(): PushNotificationConfig {
-        requireNotNull(url) { "URL is required" }
-
-        return PushNotificationConfig(
-            url = url!!,
+    public fun build(): PushNotificationConfig =
+        PushNotificationConfig(
+            url = requireNotNull(url) { "URL is required" },
             token = token,
             authentication = authentication,
         )
-    }
 }
 
 /**

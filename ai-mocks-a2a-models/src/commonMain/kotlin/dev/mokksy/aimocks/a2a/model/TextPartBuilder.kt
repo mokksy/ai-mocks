@@ -54,7 +54,7 @@ public class TextPartBuilder {
         }
 
         return TextPart(
-            text = text ?: "",
+            text = text.orEmpty(),
             metadata = metadata,
         )
     }

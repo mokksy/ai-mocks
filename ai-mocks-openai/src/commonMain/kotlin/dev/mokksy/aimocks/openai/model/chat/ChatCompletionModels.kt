@@ -247,8 +247,11 @@ public sealed class MessageContent {
      */
     public fun asText(): String =
         when (this) {
-            is Text -> text
-            is Parts ->
+            is Text -> {
+                text
+            }
+
+            is Parts -> {
                 parts
                     .mapNotNull { part ->
                         when (part) {
@@ -257,6 +260,7 @@ public sealed class MessageContent {
                             else -> null
                         }
                     }.joinToString(" ")
+            }
         }
 
     /**
@@ -406,6 +410,7 @@ public data class ToolChoiceFunction(
 public class ToolChoiceSerializer : KSerializer<ToolChoice> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("ToolChoice")
 
+    @Suppress("ThrowsCount")
     override fun deserialize(decoder: Decoder): ToolChoice {
         val jsonDecoder =
             decoder as? JsonDecoder
@@ -415,7 +420,9 @@ public class ToolChoiceSerializer : KSerializer<ToolChoice> {
             is JsonPrimitive -> {
                 when (element.contentOrNull) {
                     "auto" -> ToolChoice.Auto
+
                     "none" -> ToolChoice.None
+
                     else -> throw SerializationException(
                         "Unknown tool choice: ${element.contentOrNull}",
                     )
@@ -438,7 +445,9 @@ public class ToolChoiceSerializer : KSerializer<ToolChoice> {
                 ToolChoice.Function(function)
             }
 
-            else -> throw SerializationException("Unsupported tool choice payload: $element")
+            else -> {
+                throw SerializationException("Unsupported tool choice payload: $element")
+            }
         }
     }
 
@@ -653,7 +662,9 @@ public class MessageContentSerializer : KSerializer<MessageContent> {
                 MessageContent.Parts(parts)
             }
 
-            else -> throw SerializationException("Expected string or array for message content")
+            else -> {
+                throw SerializationException("Expected string or array for message content")
+            }
         }
     }
 
@@ -675,29 +686,33 @@ public class MessageContentSerializer : KSerializer<MessageContent> {
                     JsonArray(
                         value.parts.map { part ->
                             when (part) {
-                                is ContentPart.Text ->
+                                is ContentPart.Text -> {
                                     jsonEncoder.json.encodeToJsonElement(
                                         ContentPart.Text.serializer(),
                                         part,
                                     )
+                                }
 
-                                is ContentPart.OutputText ->
+                                is ContentPart.OutputText -> {
                                     jsonEncoder.json.encodeToJsonElement(
                                         ContentPart.OutputText.serializer(),
                                         part,
                                     )
+                                }
 
-                                is ContentPart.ImageUrl ->
+                                is ContentPart.ImageUrl -> {
                                     jsonEncoder.json.encodeToJsonElement(
                                         ContentPart.ImageUrl.serializer(),
                                         part,
                                     )
+                                }
 
-                                is ContentPart.InputAudio ->
+                                is ContentPart.InputAudio -> {
                                     jsonEncoder.json.encodeToJsonElement(
                                         ContentPart.InputAudio.serializer(),
                                         part,
                                     )
+                                }
                             }
                         },
                     )

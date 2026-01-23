@@ -114,16 +114,19 @@ internal object OpenaiCompletionsMatchers {
             override fun test(value: ChatCompletionRequest?): MatcherResult {
                 val tool = value?.tools?.find { it.function.name == functionName }
                 val schema = tool?.function?.parameters?.let { SchemaHelper.parseSchema(it) }
-                val actualDescription = schema?.let { SchemaHelper.getPropertyDescription(it, parameterName) }
+                val actualDescription =
+                    schema?.let { SchemaHelper.getPropertyDescription(it, parameterName) }
                 val matches = actualDescription == description
 
                 return MatcherResult.Companion(
                     matches,
                     {
-                        "Function \"$functionName\" parameter \"$parameterName\" should have description \"$description\""
+                        "Function \"$functionName\" parameter \"$parameterName\" " +
+                            "should have description \"$description\""
                     },
                     {
-                        "Function \"$functionName\" parameter \"$parameterName\" should not have description \"$description\""
+                        "Function \"$functionName\" parameter \"$parameterName\" " +
+                            "should not have description \"$description\""
                     },
                 )
             }
@@ -185,8 +188,8 @@ internal object OpenaiCompletionsMatchers {
                 val hasAllRequired =
                     schema?.let {
                         SchemaHelper.hasAllRequiredProperties(
-                            it,
-                            *requiredParams,
+                            schema = it,
+                            propertyNames = arrayOf(elements = requiredParams),
                         )
                     } == true
 

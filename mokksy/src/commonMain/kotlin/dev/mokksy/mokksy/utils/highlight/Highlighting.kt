@@ -17,19 +17,23 @@ public object Highlighting {
     ): String =
         when {
             contentType.match(ContentType.Application.Json) ||
-                contentType.contentSubtype.endsWith("+json", ignoreCase = true) ->
+                contentType.contentSubtype.endsWith("+json", ignoreCase = true) -> {
                 JsonHighlighter.highlight(
                     json = body,
                     useColor = useColor,
                 )
+            }
 
-            contentType.match(ContentType.Application.FormUrlEncoded) ->
+            contentType.match(ContentType.Application.FormUrlEncoded) -> {
                 FormParamsHighlighter.highlight(
                     data = body,
                     useColor = useColor,
                 )
+            }
 
-            else -> body.colorize(AnsiColor.LIGHT_GRAY, enabled = useColor)
+            else -> {
+                body.colorize(AnsiColor.LIGHT_GRAY, enabled = useColor)
+            }
         }
 }
 

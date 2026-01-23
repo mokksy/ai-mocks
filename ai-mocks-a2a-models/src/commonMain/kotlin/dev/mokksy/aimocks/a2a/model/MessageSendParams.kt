@@ -54,11 +54,12 @@ public data class MessageSendParams
             /**
              * Creates a new instance of MessageSendParams using the provided configuration block.
              *
-             * @param block A configuration block for building a MessageSendParams instance using the MessageSendParamsBuilder.
+             * @param block A configuration block for building a MessageSendParams instance
+             * using the MessageSendParamsBuilder.
              * @return A newly created MessageSendParams instance.
              */
             @JvmStatic
             public fun create(block: MessageSendParamsBuilder.() -> Unit): MessageSendParams =
-                MessageSendParamsBuilder().apply(block).build()
-        }
+            MessageSendParamsBuilder().apply(block).build()
     }
+}

@@ -5,13 +5,17 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
 
-name: Kotlin CI with Gradle
+name: Build
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+
+env:
+  JVM_VERSION: 25
+  JVM_DISTRIBUTION: temurin
 
 jobs:
   build:
@@ -28,12 +32,11 @@ jobs:
       - name: Fetch main branch
         run: git fetch origin main
 
-      - name: Set up JDK 24
+      - name: Set up JDK ${{ env.JVM_VERSION }}
         uses: actions/setup-java@v5
         with:
-          java-version: 24
-          distribution: 'temurin'
-          cache: maven
+          java-version: ${{ env.JVM_VERSION }}
+          distribution: ${{ env.JVM_DISTRIBUTION }}
 
       # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
       # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
@@ -99,11 +102,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-      - name: Set up JDK 24
+      - name: Set up JDK ${{ env.JVM_VERSION }}
         uses: actions/setup-java@v5
         with:
-          java-version: 24
-          distribution: 'temurin'
+          java-version: ${{ env.JVM_VERSION }}
+          distribution: ${{ env.JVM_DISTRIBUTION }}
 
       # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
       # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md

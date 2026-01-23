@@ -36,6 +36,7 @@ public class PartSerializer : KSerializer<Part> {
 
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Part")
 
+    @Suppress("ThrowsCount")
     override fun deserialize(decoder: Decoder): Part {
         // We need to work with JSON to inspect the "kind" property
         val jsonDecoder =

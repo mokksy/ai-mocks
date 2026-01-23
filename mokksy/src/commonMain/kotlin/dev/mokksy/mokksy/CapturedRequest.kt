@@ -57,14 +57,15 @@ public data class CapturedRequest<P : Any>(
                                         throw e
                                     }
                                 // Atomic compareAndSet ensures only one value is set
-                                if (!bodyCache.compareAndSet(null, received)) {
-                                    // Another coroutine set it first, use their value
-                                    local = bodyCache.value
-                                } else {
-                                    local = received
-                                }
+                                local =
+                                    if (!bodyCache.compareAndSet(null, received)) {
+                                        // Another coroutine set it first, use their value
+                                        bodyCache.value
+                                    } else {
+                                        received
+                                    }
                             }
-                            local!!
+                            requireNotNull(local)
                         }
                     }
             }

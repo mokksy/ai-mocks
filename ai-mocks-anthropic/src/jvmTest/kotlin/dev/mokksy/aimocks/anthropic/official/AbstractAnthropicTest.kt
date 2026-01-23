@@ -2,10 +2,11 @@ package dev.mokksy.aimocks.anthropic.official
 
 import com.anthropic.client.AnthropicClient
 import com.anthropic.client.okhttp.AnthropicOkHttpClient
-import dev.mokksy.aimocks.anthropic.AbstractAnthropicIntegraitonTest
+import dev.mokksy.aimocks.anthropic.AbstractAnthropicIntegrationTest
 import dev.mokksy.aimocks.anthropic.anthropic
 
-internal abstract class AbstractAnthropicTest : AbstractAnthropicIntegraitonTest() {
+@Suppress("AbstractClassCanBeConcreteClass")
+internal abstract class AbstractAnthropicTest : AbstractAnthropicIntegrationTest() {
     protected val client: AnthropicClient =
         AnthropicOkHttpClient
             .builder()

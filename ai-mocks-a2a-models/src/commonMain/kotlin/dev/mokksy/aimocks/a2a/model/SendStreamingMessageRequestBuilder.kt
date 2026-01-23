@@ -86,7 +86,7 @@ public class SendStreamingMessageRequestBuilder {
 
         return SendStreamingMessageRequest(
             id = id,
-            params = params!!,
+            params = requireNotNull(params),
         )
     }
 }
@@ -118,7 +118,8 @@ public fun sendStreamingMessageRequest(
 /**
  * Creates a new instance of a SendStreamingMessageRequest using the provided configuration block.
  *
- * @param block A configuration block for building a SendStreamingMessageRequest instance using the SendStreamingMessageRequestBuilder.
+ * @param block A configuration block for building a SendStreamingMessageRequest instance
+ * using the SendStreamingMessageRequestBuilder.
  * @return A newly created SendStreamingMessageRequest instance.
  */
 public fun SendStreamingMessageRequest.Companion.create(
@@ -128,7 +129,8 @@ public fun SendStreamingMessageRequest.Companion.create(
 /**
  * Creates a new instance of a SendStreamingMessageRequest using the provided Java-friendly Consumer.
  *
- * @param block A consumer for building a SendStreamingMessageRequest instance using the SendStreamingMessageRequestBuilder.
+ * @param block A consumer for building a SendStreamingMessageRequest instance
+ * using the SendStreamingMessageRequestBuilder.
  * @return A newly created SendStreamingMessageRequest instance.
  */
 public fun SendStreamingMessageRequest.Companion.create(

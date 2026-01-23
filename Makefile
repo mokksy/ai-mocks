@@ -1,7 +1,7 @@
 .PHONY: build
 build:
 	rm -rf ~/.m2/repository/me/kpavlov/aimocks ~/.m2/repository/me/kpavlov/mokksy && \
-	./gradlew --rerun-tasks clean build publishToMavenLocal koverHtmlReport && \
+	./gradlew --rerun-tasks clean build publishToMavenLocal koverHtmlReport --configure-on-demand && \
 	(cd ai-mocks-openai/samples/shadow && mvn test)
 
 

@@ -76,15 +76,12 @@ public class TaskArtifactUpdateEventBuilder {
      * @return A newly created `TaskArtifactUpdateEvent`.
      * @throws IllegalArgumentException If required parameters are missing.
      */
-    public fun build(): TaskArtifactUpdateEvent {
-        requireNotNull(id) { "Task ID is required" }
-        requireNotNull(artifact) { "Artifact is required" }
-        return TaskArtifactUpdateEvent(
-            id = id!!,
-            artifact = artifact!!,
+    public fun build(): TaskArtifactUpdateEvent =
+        TaskArtifactUpdateEvent(
+            id = requireNotNull(id) { "Task ID is required" },
+            artifact = requireNotNull(artifact) { "Artifact is required" },
             metadata = metadata,
         )
-    }
 }
 
 /**

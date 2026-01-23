@@ -100,7 +100,8 @@ public value class ModerationCategory(
 /**
  * Represents the type of input being moderated.
  *
- * @see <a href="https://platform.openai.com/docs/api-reference/moderations/object#moderations/object-results-category_applied_input_types">Category Applied Input Types</a>
+ * @see <a href="https://platform.openai.com/docs/api-reference/moderations/object#moderations/object-results-category_applied_input_types">
+ *     Category Applied Input Types</a>
  */
 public enum class InputType {
     @SerialName("image")

@@ -4,7 +4,7 @@ import dev.langchain4j.data.message.UserMessage.userMessage
 import dev.langchain4j.kotlin.model.chat.chat
 import dev.langchain4j.model.anthropic.AnthropicChatModel
 import dev.langchain4j.model.output.FinishReason
-import dev.mokksy.aimocks.anthropic.AbstractAnthropicIntegraitonTest
+import dev.mokksy.aimocks.anthropic.AbstractAnthropicIntegrationTest
 import dev.mokksy.aimocks.anthropic.anthropic
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
-internal class ChatCompletionLc4jTest : AbstractAnthropicIntegraitonTest() {
+internal class ChatCompletionLc4jTest : AbstractAnthropicIntegrationTest() {
     private lateinit var systemMessage: String
     private lateinit var model: AnthropicChatModel
 

@@ -16,7 +16,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 public class UnsupportedOperationError : JSONRPCError {
     @JvmOverloads
-    public constructor(data: Data? = null) : super(-32004, "This operation is not supported", null)
+    public constructor(data: Data? = null) : super(
+        code = UNSUPPORTED_OPERATION_ERROR_CODE,
+        message = "This operation is not supported",
+        data = data,
+    )
 
     public fun copy(data: Data? = this.data): UnsupportedOperationError =
         UnsupportedOperationError(data)

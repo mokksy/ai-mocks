@@ -26,7 +26,8 @@ import kotlinx.serialization.Serializable
  * @param type The type of the output message. Always `message`.
  * @param role The role of the output message. Always `assistant`.
  * @param content The content of the output message.
- * @param status The status of the message input. One of `in_progress`, `completed`, or `incomplete`. Populated when input items are returned via API.
+ * @param status The status of the message input. One of `in_progress`, `completed`, or `incomplete`.
+ * Populated when input items are returned via API.
  */
 @Serializable
 public data class OutputMessage(
@@ -68,7 +69,8 @@ public data class OutputMessage(
     }
 
     /**
-     * The status of the message input. One of `in_progress`, `completed`, or `incomplete`. Populated when input items are returned via API.
+     * The status of the message input. One of `in_progress`, `completed`, or `incomplete`.
+     * Populated when input items are returned via API.
      *
      * Values: IN_PROGRESS,COMPLETED,INCOMPLETE
      */

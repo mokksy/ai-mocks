@@ -195,6 +195,7 @@ public class OllamaGenerateBuildingStep(
      * @param doneReason Optional reason for completion.
      * @return A [GenerateResponse] representing the final chunk in a streaming response.
      */
+    @Suppress("MagicNumber")
     private fun createFinalChunk(
         model: String,
         createdAt: Instant,

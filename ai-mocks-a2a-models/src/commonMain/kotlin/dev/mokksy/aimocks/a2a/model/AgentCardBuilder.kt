@@ -14,7 +14,7 @@ public class AgentCardBuilder {
     public var description: String? = null
     public var url: String? = null
     public var preferredTransport: Transport = Transport.JSONRPC
-    public var additionalInterfaces: MutableList<AgentInterface>? = null
+    public var additionalInterfaces: List<AgentInterface>? = null
     public var iconUrl: String? = null
     public var provider: AgentProvider? = null
     public var version: String? = null
@@ -22,10 +22,11 @@ public class AgentCardBuilder {
     public var capabilities: AgentCapabilities? = null
     public var defaultInputModes: List<String> = listOf("text")
     public var defaultOutputModes: List<String> = listOf("text")
-    public var skills: MutableList<AgentSkill> = mutableListOf()
+    public val skills: MutableList<AgentSkill> = mutableListOf()
     public var security: List<Map<String, List<String>>>? = null
     public var securitySchemes: Map<String, SecurityScheme>? = null
-    public var signatures: MutableList<AgentCardSignature>? = null
+    private val _signatures = mutableListOf<AgentCardSignature>()
+    public val signatures: List<AgentCardSignature> get() = _signatures
     public var supportsAuthenticatedExtendedCard: Boolean = false
 
     /**
@@ -135,7 +136,7 @@ public class AgentCardBuilder {
      */
     public fun addSkill(skill: AgentSkill): AgentCardBuilder =
         apply {
-            this.skills.add(skill)
+            skills.add(skill)
         }
 
     /**
@@ -144,9 +145,10 @@ public class AgentCardBuilder {
      * @param signatures The list of signatures.
      * @return This builder instance for method chaining.
      */
-    public fun signatures(signatures: List<AgentCardSignature>): AgentCardBuilder =
+    public fun signatures(list: List<AgentCardSignature>): AgentCardBuilder =
         apply {
-            this.signatures = signatures.toMutableList()
+            _signatures.clear()
+            _signatures.addAll(list)
         }
 
     /**
@@ -157,10 +159,7 @@ public class AgentCardBuilder {
      */
     public fun addSignature(signature: AgentCardSignature): AgentCardBuilder =
         apply {
-            if (this.signatures == null) {
-                this.signatures = mutableListOf()
-            }
-            this.signatures!!.add(signature)
+            _signatures.add(signature)
         }
 
     /**
@@ -192,16 +191,16 @@ public class AgentCardBuilder {
             requireNotNull(capabilities) { "capabilities must not be null" }
         }
         return AgentCard(
-            name = name!!,
+            name = requireNotNull(name),
             description = description,
-            url = url!!,
+            url = requireNotNull(url),
             preferredTransport = preferredTransport,
             additionalInterfaces = additionalInterfaces,
             iconUrl = iconUrl,
             provider = provider,
-            version = version!!,
+            version = requireNotNull(version),
             documentationUrl = documentationUrl,
-            capabilities = capabilities!!,
+            capabilities = requireNotNull(capabilities),
             defaultInputModes = defaultInputModes,
             defaultOutputModes = defaultOutputModes,
             skills = skills,

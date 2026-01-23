@@ -21,9 +21,10 @@ import java.util.function.Consumer
  * }
  * ```
  */
+@Suppress("TooManyFunctions")
 public class MessageBuilder {
     public var role: Message.Role? = null
-    public var parts: MutableList<Part> = mutableListOf()
+    public val parts: MutableList<Part> = mutableListOf()
     public var metadata: Metadata? = null
 
     /**
@@ -84,7 +85,8 @@ public class MessageBuilder {
 
     public fun data(block: () -> Map<String, Any>): DataPart =
         dataPart {
-            data = block.invoke().toMutableMap()
+            data.clear()
+            data.putAll(block.invoke())
         }
 
     /**
@@ -94,11 +96,9 @@ public class MessageBuilder {
      * @throws IllegalArgumentException If required, parameters are missing.
      */
     public fun build(): Message {
-        requireNotNull(role) { "Role is required" }
         require(parts.isNotEmpty()) { "At least one part is required" }
-
         return Message(
-            role = role!!,
+            role = requireNotNull(role) { "Role is required" },
             parts = parts.toList(),
             metadata = metadata,
         )

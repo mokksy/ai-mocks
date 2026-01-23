@@ -9,7 +9,8 @@ import kotlin.random.Random
 
 val anthropic = MockAnthropic(verbose = true)
 
-internal abstract class AbstractAnthropicIntegraitonTest {
+@Suppress("AbstractClassCanBeConcreteClass")
+internal abstract class AbstractAnthropicIntegrationTest {
     protected var temperatureValue: Double = -1.0
     protected lateinit var userIdValue: String
     protected var maxTokensValue: Long = -1

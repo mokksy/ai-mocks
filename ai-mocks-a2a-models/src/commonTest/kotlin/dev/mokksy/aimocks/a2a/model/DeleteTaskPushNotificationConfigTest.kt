@@ -116,7 +116,7 @@ internal class DeleteTaskPushNotificationConfigTest {
     }
 
     @Test
-    fun `Deserialize and Serialize DeleteTaskPushNotificationConfigResponse with AuthenticatedExtendedCardNotConfiguredError`() {
+    fun `Serializing DeleteTaskPushNotificationConfigResponse with AuthenticatedExtendedCardNotConfiguredError`() {
         // language=json
         val payload =
             """

@@ -162,7 +162,7 @@ public open class RequestSpecificationBuilder<P : Any>(
 ) {
     protected var method: Matcher<HttpMethod>? = null
     public var path: Matcher<String>? = null
-    public var headers: MutableList<Matcher<Headers>> = mutableListOf()
+    public val headers: MutableList<Matcher<Headers>> = mutableListOf()
     public val body: MutableList<Matcher<P?>> = mutableListOf()
     public val bodyString: MutableList<Matcher<String?>> = mutableListOf()
     public var priority: Int? = DEFAULT_STUB_PRIORITY

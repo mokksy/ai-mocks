@@ -7,7 +7,8 @@ import kotlin.test.Test
 
 /**
  * Test to verify that the Part polymorphic serialization works correctly with "kind" discriminator.
- * This addresses the issue: "Class discriminator was missing and no default serializers were registered in the polymorphic scope of 'Part'."
+ * This addresses the issue: "Class discriminator was missing and no default serializers
+ * were registered in the polymorphic scope of 'Part'."
  */
 internal class PartDiscriminatorTest {
     @Test

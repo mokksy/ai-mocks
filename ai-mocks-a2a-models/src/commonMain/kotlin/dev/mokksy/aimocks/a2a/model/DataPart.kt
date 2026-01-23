@@ -28,5 +28,5 @@ public data class DataPart
         @SerialName("metadata")
         val metadata: Metadata? = null,
     ) : Part {
-        public companion object
-    }
+    public companion object
+}

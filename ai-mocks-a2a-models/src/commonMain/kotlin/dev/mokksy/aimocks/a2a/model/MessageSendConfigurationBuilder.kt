@@ -80,7 +80,8 @@ public class MessageSendConfigurationBuilder {
 /**
  * Creates a new instance of MessageSendConfiguration using the provided configuration block.
  *
- * @param block A configuration block for building a MessageSendConfiguration instance using the MessageSendConfigurationBuilder.
+ * @param block A configuration block for building a MessageSendConfiguration instance
+ * using the MessageSendConfigurationBuilder.
  * @return A newly created MessageSendConfiguration instance.
  */
 public fun MessageSendConfiguration.Companion.create(

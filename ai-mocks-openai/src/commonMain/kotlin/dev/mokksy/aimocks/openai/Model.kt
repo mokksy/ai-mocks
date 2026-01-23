@@ -291,7 +291,8 @@ public data class ToolCall(
  * Note that the model does not always generate valid JSON,
  * and may hallucinate parameters not defined by your function schema.
  * Validate the arguments in your code before calling your function.
- * @see <a href="https://platform.openai.com/docs/api-reference/chat/object#chat/object-choices-message-tool_calls-function">Function Object</a>
+ * @see <a href="https://platform.openai.com/docs/api-reference/chat/object#chat/object-choices-message-tool_calls-function">
+ *     Function Object</a>
  */
 @Serializable
 public data class CallableFunction(
@@ -304,7 +305,8 @@ public data class CallableFunction(
  *
  * @property type The type of response format (e.g., "text", "json_object", "json_schema").
  * @property jsonSchema The JSON schema that the output should conform to.
- * @see <a href="https://platform.openai.com/docs/api-reference/chat/create#chat-create-response_format">Response Format</a>
+ * @see <a href="https://platform.openai.com/docs/api-reference/chat/create#chat-create-response_format">
+ *     Response Format</a>
  */
 @Serializable
 public data class ResponseFormat(

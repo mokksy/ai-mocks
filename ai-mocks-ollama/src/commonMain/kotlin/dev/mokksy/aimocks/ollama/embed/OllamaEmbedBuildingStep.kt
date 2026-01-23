@@ -40,6 +40,7 @@ public class OllamaEmbedBuildingStep(
      *
      * @param block Lambda to customize the embedding response specification.
      */
+    @Suppress("MagicNumber")
     override infix fun responds(block: OllamaEmbedResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val request = this.request.body
@@ -54,7 +55,6 @@ public class OllamaEmbedBuildingStep(
             delay = embedResponseSpecification.delay
             contentType = ContentType.Application.Json
 
-            @Suppress("MagicNumber")
             val promptEvalCount = nextInt(1, 200)
 
             body =

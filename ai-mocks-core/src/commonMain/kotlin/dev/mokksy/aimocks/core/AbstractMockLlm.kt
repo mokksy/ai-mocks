@@ -21,6 +21,7 @@ import io.ktor.server.application.log
  *                              empty configuration.
  *  @author Konstantin Pavlov
  */
+@Suppress("AbstractClassCanBeConcreteClass")
 public abstract class AbstractMockLlm(
     port: Int = 0,
     configuration: ServerConfiguration,
