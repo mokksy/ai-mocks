@@ -52,7 +52,7 @@ kotlin {
         jvmTest {
             dependencies {
                 implementation(kotlin("test"))
-                api(project(":ai-mocks-gemini"))
+                implementation(project(":ai-mocks-gemini"))
                 implementation(libs.assertj.core)
                 implementation(libs.google.adk)
                 implementation(libs.system.stubs)
