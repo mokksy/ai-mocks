@@ -146,15 +146,15 @@ public open class RequestSpecification<P : Any>(
         }
 
     internal fun toLogString(): String =
-        buildList(3) {
+        buildString {
             if (method != null) {
-                add("method: $method")
+                appendLine("method: $method")
             }
-            if (path != null) add("path: $path")
-            if (headers.isNotEmpty()) add("headers: $headers")
-            if (body.isNotEmpty()) add("body: $body")
-            if (bodyString.isNotEmpty()) add("bodyString: $bodyString")
-        }.joinToString(", ")
+            if (path != null) appendLine("path: $path")
+            if (headers.isNotEmpty()) appendLine("headers: $headers")
+            if (body.isNotEmpty()) appendLine("body: $body")
+            if (bodyString.isNotEmpty()) appendLine("bodyString: $bodyString")
+        }
 }
 
 public open class RequestSpecificationBuilder<P : Any>(
