@@ -54,7 +54,7 @@ internal class StreamingChatCompletionGenaiTest : AbstractGenaiTest() {
             )
 
         response.joinToString(separator = "") {
-            it.text() ?: ""
+            it.text().orEmpty()
         } shouldBe "Ahoy there, matey! Hello!"
     }
 

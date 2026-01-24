@@ -13,9 +13,9 @@ import io.kotest.matchers.shouldBe
 import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.Clock.System
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.test.Test
+import kotlin.time.Clock.System
 import kotlin.time.Duration.Companion.seconds
 
 internal class TaskResubscriptionTest : AbstractTest() {

@@ -6,9 +6,9 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import kotlinx.datetime.Instant
 import kotlinx.schema.json.StringPropertyDefinition
 import kotlin.test.Test
+import kotlin.time.Instant
 
 /**
  * Tests for the serialization and deserialization of chat models.

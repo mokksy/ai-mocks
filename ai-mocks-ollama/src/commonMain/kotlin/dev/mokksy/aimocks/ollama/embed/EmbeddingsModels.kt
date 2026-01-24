@@ -2,11 +2,12 @@ package dev.mokksy.aimocks.ollama.embed
 
 import dev.mokksy.aimocks.ollama.model.ModelOptions
 import dev.mokksy.mokksy.serializers.StringOrListSerializer
-import kotlinx.datetime.Instant
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 /**
  * Represents a request to generate embeddings for a single string or list of string inputs with a provided model.
@@ -43,6 +44,7 @@ public data class EmbeddingsRequest(
  * @property promptEvalDuration Time spent evaluating the prompt (in nanoseconds)
  */
 @Serializable
+@OptIn(ExperimentalTime::class)
 public data class EmbeddingsResponse(
     val embeddings: List<List<Float>>,
     val model: String,

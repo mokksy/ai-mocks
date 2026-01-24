@@ -2,11 +2,11 @@ package dev.mokksy.aimocks.a2a.model
 
 import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.shouldBe
-import kotlinx.datetime.Instant
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlin.random.Random
 import kotlin.test.Test
+import kotlin.time.Instant
 
 /**
  * Serialization tests based on examples from A2A Protocol Specification v0.3.0

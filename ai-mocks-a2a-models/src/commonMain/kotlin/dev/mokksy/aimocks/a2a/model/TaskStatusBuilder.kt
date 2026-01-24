@@ -1,8 +1,8 @@
 package dev.mokksy.aimocks.a2a.model
 
-import kotlinx.datetime.Instant
-import kotlinx.datetime.toKotlinInstant
 import java.util.function.Consumer
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 /**
  * Builder class for creating [TaskStatus] instances.
@@ -22,6 +22,7 @@ import java.util.function.Consumer
  * }
  * ```
  */
+@OptIn(ExperimentalTime::class)
 public class TaskStatusBuilder {
     public var state: String? = null
     public var message: Message? = null
@@ -68,7 +69,11 @@ public class TaskStatusBuilder {
 
     public fun timestamp(timestamp: java.time.Instant): TaskStatusBuilder =
         apply {
-            this.timestamp = timestamp.toKotlinInstant()
+            this.timestamp =
+                Instant.fromEpochSeconds(
+                    epochSeconds = timestamp.epochSecond,
+                    nanosecondAdjustment = timestamp.nano.toLong(),
+                )
         }
 
     /**
@@ -78,9 +83,10 @@ public class TaskStatusBuilder {
      * @throws IllegalArgumentException When required parameters are missing.
      */
     public fun build(): TaskStatus {
-        val stateString = requireNotNull(state) {
-            "State is required"
-        }
+        val stateString =
+            requireNotNull(state) {
+                "State is required"
+            }
         requireNotNull(TaskState.fromString(value = stateString)) {
             "Unknown task state: $stateString"
         }
@@ -90,7 +96,6 @@ public class TaskStatusBuilder {
             timestamp = timestamp,
         )
     }
-
 }
 
 /**

@@ -6,9 +6,9 @@ import dev.mokksy.aimocks.a2a.model.TaskUpdateEvent
 import dev.mokksy.aimocks.a2a.model.TextPart
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import kotlinx.datetime.Instant
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
+import kotlin.time.Instant
 
 internal class TaskUpdateEventSerializerTest {
     @Test

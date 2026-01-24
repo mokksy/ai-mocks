@@ -4,9 +4,9 @@ import dev.mokksy.aimocks.ollama.embed.EmbeddingsRequest
 import dev.mokksy.aimocks.ollama.embed.EmbeddingsResponse
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import kotlinx.datetime.Instant
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
+import kotlin.time.Instant
 
 /**
  * Tests for the serialization and deserialization of embeddings models.

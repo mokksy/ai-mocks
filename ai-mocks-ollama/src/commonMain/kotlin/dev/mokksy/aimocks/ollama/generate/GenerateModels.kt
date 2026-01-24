@@ -4,11 +4,11 @@ package dev.mokksy.aimocks.ollama.generate
 
 import dev.mokksy.aimocks.ollama.model.Format
 import dev.mokksy.aimocks.ollama.model.ModelOptions
-import kotlinx.datetime.Instant
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.time.Instant
 
 /**
  * Represents a request to generate a completion for a given prompt with a provided model.

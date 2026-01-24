@@ -3,7 +3,7 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_2
 
 plugins {
     kotlin("multiplatform")
@@ -12,8 +12,8 @@ plugins {
 kotlin {
 
     compilerOptions {
-        languageVersion = KOTLIN_2_1
-        apiVersion = KOTLIN_2_1
+        languageVersion = KOTLIN_2_2
+        apiVersion = KOTLIN_2_2
         allWarningsAsErrors = true
         extraWarnings = true
         freeCompilerArgs =
@@ -21,8 +21,9 @@ kotlin {
                 "-Wextra",
                 "-Xmulti-dollar-interpolation",
             )
+        optIn.add("kotlin.time.ExperimentalTime")
     }
-    coreLibrariesVersion = "2.1.21"
+    coreLibrariesVersion = "2.2.21"
 
     jvmToolchain(17)
 

@@ -11,9 +11,9 @@ internal object OpenaiEmbeddingsMatchers {
                 MatcherResult.Companion(
                     value != null &&
                         value.input
-                            .firstOrNull {
+                            .any {
                                 it.contains(string)
-                            } != null,
+                            },
                     { "Input should contain \"$string\"" },
                     { "Input should not contain \"$string\"" },
                 )
