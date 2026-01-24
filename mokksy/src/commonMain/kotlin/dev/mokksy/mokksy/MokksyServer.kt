@@ -24,8 +24,8 @@ import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.ktor.server.sse.SSE
 import kotlinx.coroutines.runBlocking
-import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
+import kotlin.time.Duration.Companion.milliseconds
 
 private const val DEFAULT_HOST = "127.0.0.1"
 
@@ -664,7 +664,10 @@ public open class MokksyServer
                 timeoutMillis >= gracePeriodMillis,
             ) { "timeoutMillis must be >= gracePeriodMillis" }
 
-            server.stop(gracePeriodMillis, timeoutMillis, TimeUnit.MILLISECONDS)
+            server.stop(
+                gracePeriodMillis = gracePeriodMillis.milliseconds.inWholeMilliseconds,
+                timeoutMillis = timeoutMillis.milliseconds.inWholeMilliseconds,
+            )
         }
     }
 
