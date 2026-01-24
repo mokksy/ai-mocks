@@ -12,7 +12,8 @@
 [![API Reference](https://img.shields.io/badge/api-reference-blue)](https://mokksy.dev/apidocs/)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mokksy/ai-mocks)
 ![GitHub License](https://img.shields.io/github/license/mokksy/ai-mocks)
-![Kotlin API](https://img.shields.io/badge/Kotlin-2.1-%237F52FF.svg?logo=kotlin&logoColor=white)
+![Kotlin API](https://img.shields.io/badge/Kotlin-2.2-%237F52FF.svg?logo=kotlin&logoColor=white)
+![Java](https://img.shields.io/badge/JVM-17-%23ED8B00.svg)
 
 
 _Mokksy_ and _AI-Mocks_ are mock HTTP and LLM (Large Language Model) servers inspired by WireMock, with support for

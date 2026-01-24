@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.serialization.json.Json
 import kotlin.random.Random.Default.nextInt
+import kotlin.time.Clock
+import kotlin.time.Instant
 
 /**
  * OllamaChatBuildingStep is a specialized implementation of [AbstractBuildingStep]

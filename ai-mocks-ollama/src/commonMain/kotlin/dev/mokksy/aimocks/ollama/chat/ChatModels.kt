@@ -4,13 +4,13 @@ package dev.mokksy.aimocks.ollama.chat
 
 import dev.mokksy.aimocks.ollama.model.Format
 import dev.mokksy.aimocks.ollama.model.ModelOptions
-import kotlinx.datetime.Instant
 import kotlinx.schema.json.JsonSchemaDefinition
 import kotlinx.schema.json.JsonSchemaDefinitionBuilder
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.time.Instant
 
 /**
  * Represents a request to generate the next message in a chat with a provided model.

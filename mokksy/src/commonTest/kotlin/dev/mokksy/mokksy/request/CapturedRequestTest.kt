@@ -75,7 +75,7 @@ internal class CapturedRequestTest {
                                 results.all { it == first }
                             }
 
-                        call.respondText("${first ?: ""}|$allSame")
+                        call.respondText("${first.orEmpty()}|$allSame")
                     }
                 }
 

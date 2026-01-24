@@ -5,8 +5,8 @@ import dev.mokksy.aimocks.core.EmbeddingUtils
 import dev.mokksy.mokksy.BuildingStep
 import dev.mokksy.mokksy.MokksyServer
 import io.ktor.http.ContentType
-import kotlinx.datetime.Clock
 import kotlin.random.Random.Default.nextInt
+import kotlin.time.Clock
 
 /**
  * OllamaEmbedBuildingStep is a specialized implementation of [AbstractBuildingStep]

@@ -20,10 +20,10 @@ import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.Clock.System
 import kotlinx.serialization.json.Json
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.test.Test
+import kotlin.time.Clock.System
 import kotlin.time.Duration.Companion.seconds
 
 internal class TaskResubscriptionTest : AbstractTest() {

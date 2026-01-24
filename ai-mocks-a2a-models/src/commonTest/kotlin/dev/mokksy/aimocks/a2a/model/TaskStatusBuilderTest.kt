@@ -1,9 +1,9 @@
 package dev.mokksy.aimocks.a2a.model
 
 import io.kotest.matchers.shouldBe
-import kotlinx.datetime.Instant
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
+import kotlin.time.Instant
 
 internal class TaskStatusBuilderTest {
     @Test

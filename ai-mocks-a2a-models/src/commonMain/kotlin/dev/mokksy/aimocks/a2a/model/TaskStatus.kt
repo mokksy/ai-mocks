@@ -11,63 +11,62 @@
  */
 package dev.mokksy.aimocks.a2a.model
 
-import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 /**
  * Represents the status of a task at a specific point in time.
  */
 @Serializable
+@OptIn(ExperimentalTime::class)
 public data class TaskStatus
-@JvmOverloads
-constructor(
-    /**
-     * The current state of the task's lifecycle.
-     *
-     * @see [TaskState]
-     */
-    @SerialName("state")
-    val state: String,
-
-    /**
-     * An optional, human-readable message providing more details about the current status.
-     */
-    @SerialName("message")
-    val message: Message? = null,
-
-    /**
-     * An ISO 8601 datetime string indicating when this status was recorded.
-     *
-     * Example: `2023-10-27T10:00:00Z`
-     */
-    @SerialName("timestamp")
-    val timestamp: Instant? = null,
-) {
-    public companion object {
-
+    @JvmOverloads
+    constructor(
         /**
-         * Creates a new TaskStatus using the DSL builder.
+         * The current state of the task's lifecycle.
          *
-         * @param init The lambda to configure the task status.
-         * @return A new TaskStatus instance.
+         * @see [TaskState]
          */
-        @JvmStatic
-        public fun build(init: TaskStatusBuilder.() -> Unit): TaskStatus =
-            TaskStatusBuilder().apply(init).build()
+        @SerialName("state")
+        val state: String,
+        /**
+         * An optional, human-readable message providing more details about the current status.
+         */
+        @SerialName("message")
+        val message: Message? = null,
+        /**
+         * An ISO 8601 datetime string indicating when this status was recorded.
+         *
+         * Example: `2023-10-27T10:00:00Z`
+         */
+        @SerialName("timestamp")
+        val timestamp: Instant? = null,
+    ) {
+        public companion object {
+            /**
+             * Creates a new TaskStatus using the DSL builder.
+             *
+             * @param init The lambda to configure the task status.
+             * @return A new TaskStatus instance.
+             */
+            @JvmStatic
+            public fun build(init: TaskStatusBuilder.() -> Unit): TaskStatus =
+                TaskStatusBuilder().apply(init).build()
 
-        @JvmStatic
-        public fun of(
-            state: String,
-            message: Message? = null,
-            timestamp: java.time.Instant? = null,
-        ): TaskStatus {
-            return TaskStatus(
-                state,
-                message,
-                timestamp?.toEpochMilli()
-                    ?.let { Instant.fromEpochMilliseconds(it) }
-            )
+            @JvmStatic
+            public fun of(
+                state: String,
+                message: Message? = null,
+                timestamp: java.time.Instant? = null,
+            ): TaskStatus =
+                TaskStatus(
+                    state,
+                    message,
+                    timestamp?.let {
+                        Instant.fromEpochSeconds(it.epochSecond, it.nano.toLong())
+                    },
+                )
         }
     }
-}

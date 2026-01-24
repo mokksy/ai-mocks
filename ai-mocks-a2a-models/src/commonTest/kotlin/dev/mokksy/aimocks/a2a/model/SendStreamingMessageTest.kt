@@ -2,8 +2,8 @@ package dev.mokksy.aimocks.a2a.model
 
 import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.shouldBe
-import kotlinx.datetime.Instant
 import kotlin.test.Test
+import kotlin.time.Instant
 
 /**
  * https://a2a-protocol.org/latest/specification/#72-messagestream
