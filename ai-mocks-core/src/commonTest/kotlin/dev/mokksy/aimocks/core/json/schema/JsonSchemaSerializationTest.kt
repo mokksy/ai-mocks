@@ -69,7 +69,7 @@ internal class JsonSchemaSerializationTest {
         schema.name shouldBe "Person"
         schema.strict shouldBe false
         schema.schema shouldNotBeNull {
-            this.type shouldBe "object"
+            this.type shouldBe listOf("object")
             this.required shouldBeEqual listOf("name", "age", "weight", "height", "married")
             this.properties shouldNotBeNull {
                 shouldHaveSize(5)
@@ -118,7 +118,7 @@ internal class JsonSchemaSerializationTest {
         schema shouldNotBeNull {
             this.schema shouldBe "https://json-schema.org/draft-07/schema"
             this.id shouldBe "https://example.com/schemas/product"
-            this.type shouldBe "object"
+            this.type shouldBe listOf("object")
             this.required shouldBeEqual listOf("name")
             this.properties shouldNotBeNull {
                 shouldHaveSize(1)
@@ -251,7 +251,7 @@ internal class JsonSchemaSerializationTest {
 
         // Schema validation
         val schemaDefinition = schema.schema
-        schemaDefinition.type shouldBe "object"
+        schemaDefinition.type shouldBe listOf("object")
         schemaDefinition.additionalProperties shouldBe JsonPrimitive(false)
         schemaDefinition.required shouldHaveSize 3
         schemaDefinition.required shouldBe listOf("id", "email", "status")

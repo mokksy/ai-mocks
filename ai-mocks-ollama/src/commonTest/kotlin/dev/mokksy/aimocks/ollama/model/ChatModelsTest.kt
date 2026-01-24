@@ -178,7 +178,7 @@ internal class ChatModelsTest : AbstractSerializationTest() {
                 ?.get(0)
                 ?.function
                 ?.parameters
-        parameters?.type shouldBe "object"
+        parameters?.type shouldBe arrayOf("object")
         parameters?.properties?.size shouldBe 1
         parameters
             ?.properties

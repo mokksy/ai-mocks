@@ -290,7 +290,7 @@ internal class ChatCompletionModelsTest {
 
                             withClue("Schema definition should be correct") {
                                 schema.shouldNotBeNull {
-                                    type shouldBe "object"
+                                    type shouldBe listOf("object")
 
                                     withClue("Schema properties should be correct") {
                                         properties.shouldNotBeNull {

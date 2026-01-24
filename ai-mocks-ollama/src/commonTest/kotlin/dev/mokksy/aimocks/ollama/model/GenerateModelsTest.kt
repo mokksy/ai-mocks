@@ -100,7 +100,7 @@ internal class GenerateModelsTest : AbstractSerializationTest() {
 
         val formatSchema = model.format.shouldBeInstanceOf<Format.Schema>()
         formatSchema.schema.name shouldBe "person_schema"
-        formatSchema.schema.schema.type shouldBe "object"
+        formatSchema.schema.schema.type shouldBe listOf("object")
         formatSchema.schema.schema.properties.size shouldBe 3
         formatSchema.schema.schema.required shouldBe listOf("name", "age")
 

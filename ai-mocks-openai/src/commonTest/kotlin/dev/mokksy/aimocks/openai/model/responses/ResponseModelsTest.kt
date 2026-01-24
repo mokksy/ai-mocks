@@ -110,7 +110,7 @@ internal class ResponseModelsTest {
                 strict shouldBe true
                 schema.shouldNotBeNull {
                     schema shouldBe "https://json-schema.org/draft/2020-12/schema"
-                    type shouldBe "object"
+                    type shouldBe listOf("object")
                     required shouldBe listOf("color", "name", "radius")
                     additionalProperties shouldBe JsonPrimitive(false)
                     properties shouldHaveSize 3
@@ -404,7 +404,7 @@ internal class ResponseModelsTest {
             strict shouldBe true
             schema.shouldNotBeNull {
                 schema shouldBe "https://json-schema.org/draft/2020-12/schema"
-                type shouldBe "object"
+                type shouldBe listOf("object")
                 required shouldBe listOf("field1")
                 properties shouldHaveSize 1
             }
@@ -452,7 +452,7 @@ internal class ResponseModelsTest {
         textFormat.strict shouldBe false
         textFormat.schema.shouldNotBeNull {
             schema shouldBe "https://json-schema.org/draft/2020-12/schema"
-            type shouldBe "string"
+            type shouldBe listOf("string")
         }
     }
 }
