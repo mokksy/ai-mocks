@@ -65,7 +65,7 @@ public class BuildingStep<P : Any> internal constructor(
                 requestSpecification = requestSpecification,
             ) { call ->
                 val req = CapturedRequest(call.request, requestType)
-                @SuppressWarnings("TooGenericExceptionCaught")
+                @Suppress("TooGenericExceptionCaught")
                 try {
                     ResponseDefinitionBuilder<P, T>(
                         request = req,
