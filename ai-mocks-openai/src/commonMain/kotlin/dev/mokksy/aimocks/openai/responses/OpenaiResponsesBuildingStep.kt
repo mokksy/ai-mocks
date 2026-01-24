@@ -33,7 +33,7 @@ public class OpenaiResponsesBuildingStep(
         mokksy,
         buildingStep,
     ) {
-    private var counter: AtomicInteger = AtomicInteger(1)
+    private val counter: AtomicInteger = AtomicInteger(1)
 
     @Suppress("MagicNumber")
     public override infix fun responds(block: OpenaiResponsesResponseSpecification.() -> Unit) {
