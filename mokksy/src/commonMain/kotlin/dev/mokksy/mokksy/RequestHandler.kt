@@ -65,8 +65,7 @@ internal suspend fun handleRequest(
 }
 
 /**
- * Processes a matched stub by logging the match, incrementing its match count,
- * and sending the stubbed response.
+ * Processes a matched stub by logging the match and sending the stubbed response.
  *
  * If verbose logging is enabled in either the server or stub configuration,
  * logs detailed information about the matched request and stub.
@@ -90,7 +89,6 @@ private suspend fun handleMatchedStub(
                 this.toLogString(),
             )
         }
-        incrementMatchCount()
         respond(context.call, verbose)
     }
 }

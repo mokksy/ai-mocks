@@ -1,15 +1,26 @@
 package dev.mokksy.mokksy
 
 import dev.mokksy.mokksy.request.RequestSpecification
+import dev.mokksy.mokksy.request.predicateMatcher
 import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import dev.mokksy.mokksy.utils.logger.HttpFormatter
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import io.ktor.http.ContentType
 import io.ktor.server.application.ApplicationCall
+import io.ktor.server.request.path
 import io.ktor.server.routing.RoutingRequest
+import io.ktor.util.logging.Logger
+import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
+import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtendWith
@@ -41,12 +52,17 @@ class StubRegistryTest {
         priority: Int? = null,
         removeAfterMatch: Boolean = false,
         requestType: KClass<P>,
+        path: String? = null,
     ): Stub<P, T> {
         val spec =
             RequestSpecification(
-                // leave all matchers null/empty so it matches any request without touching it
                 requestType = requestType,
                 priority = priority,
+                path =
+                    path?.let {
+                        dev.mokksy.mokksy.request
+                            .pathEqual(it)
+                    },
             )
         return Stub(
             configuration = StubConfiguration(name = name, removeAfterMatch = removeAfterMatch),
@@ -55,8 +71,31 @@ class StubRegistryTest {
         )
     }
 
+    private fun <P : Any, T : Any> stubWithMatcher(
+        name: String? = null,
+        predicate: (P?) -> Boolean,
+        requestType: KClass<P>,
+    ): Stub<P, T> {
+        val spec =
+            RequestSpecification(
+                requestType = requestType,
+                body = listOf(predicateMatcher(predicate = predicate)),
+            )
+        return Stub(
+            configuration = StubConfiguration(name = name),
+            requestSpecification = spec,
+            responseDefinitionSupplier = responseSupplier(),
+        )
+    }
+
     @MockK
     lateinit var routingRequest: RoutingRequest
+
+    @MockK(relaxed = true)
+    lateinit var logger: Logger
+
+    @MockK(relaxed = true)
+    lateinit var formatter: HttpFormatter
 
     @Nested
     inner class AddAndGetAll {
@@ -206,6 +245,164 @@ class StubRegistryTest {
                 registry.add(s)
                 registry.remove(s) shouldBe true
                 registry.remove(s) shouldBe false
+            }
+
+        @Test
+        fun `should return null when no stub matches`() =
+            runTest {
+                val registry = StubRegistry()
+                val s1 =
+                    stub<String, String>(
+                        name = "mismatch",
+                        requestType = String::class,
+                        path = "/expected",
+                    )
+                registry.add(s1)
+
+                every { routingRequest.path() } returns "/actual"
+
+                val matched =
+                    registry.findMatchingStub(
+                        request = routingRequest,
+                        verbose = false,
+                        logger = logger,
+                        formatter = formatter,
+                    )
+
+                matched shouldBe null
+            }
+
+        @Test
+        fun `should log warning when condition evaluation fails and verbose is true`() =
+            runTest {
+                val registry = StubRegistry()
+                val failingStub =
+                    stubWithMatcher<String, String>(
+                        name = "failing",
+                        requestType = String::class,
+                        predicate = { throw IllegalArgumentException("Boom!") },
+                    )
+
+                registry.add(failingStub)
+
+                coEvery { formatter.formatRequest(any()) } returns "formatted request"
+
+                // Mocking request to avoid other failures
+                every { routingRequest.call } returns mockk(relaxed = true)
+
+                registry.findMatchingStub(
+                    request = routingRequest,
+                    verbose = true,
+                    logger = logger,
+                    formatter = formatter,
+                )
+
+                verify {
+                    logger.warn(
+                        match<String> { it.contains("Failed to evaluate condition for stub") },
+                        any<Throwable>(),
+                    )
+                }
+            }
+    }
+
+    @Nested
+    inner class Concurrency {
+        @Test
+        fun `should handle concurrent additions`() =
+            runTest {
+                val registry = StubRegistry()
+                val count = 100
+                val stubsToAdd =
+                    (1..count).map {
+                        stub<String, String>(name = "stub-$it", requestType = String::class)
+                    }
+
+                val jobs =
+                    stubsToAdd.map { s ->
+                        async(Dispatchers.Default) {
+                            registry.add(s)
+                        }
+                    }
+                jobs.awaitAll()
+
+                registry.getAll().size shouldBe count
+            }
+
+        @Test
+        fun `should handle concurrent add and remove`() =
+            runTest {
+                val registry = StubRegistry()
+                val count = 100
+                val stubs =
+                    (1..count).map {
+                        stub<String, String>(name = "stub-$it", requestType = String::class)
+                    }
+
+                // Add all first
+                stubs.forEach { registry.add(it) }
+
+                val jobs =
+                    stubs.map { s ->
+                        async(Dispatchers.Default) {
+                            registry.remove(s)
+                        }
+                    }
+                jobs.awaitAll()
+
+                registry.getAll() shouldBe emptySet()
+            }
+
+        @Test
+        fun `should handle concurrent findMatchingStub with removal`() =
+            runTest {
+                val registry = StubRegistry()
+                val count = 50
+                // Use different priorities to avoid ties being the only thing tested
+                val stubs =
+                    (1..count).map {
+                        stub<String, String>(
+                            name = "stub-$it",
+                            priority = it,
+                            removeAfterMatch = true,
+                            requestType = String::class,
+                        )
+                    }
+
+                stubs.forEach { registry.add(it) }
+
+                val jobs =
+                    (1..count).map {
+                        async(Dispatchers.Default) {
+                            registry.findMatchingStub(routingRequest, false, logger, formatter)
+                        }
+                    }
+                val results = jobs.awaitAll()
+
+                results.filterNotNull().size shouldBe count
+                results.toSet().size shouldBe count // All unique
+                registry.getAll().shouldBeEmpty()
+            }
+    }
+
+    @Nested
+    inner class Snapshot {
+        @Test
+        fun `getAll should return a consistent snapshot`() =
+            runTest {
+                val registry = StubRegistry()
+                val s1 = stub<String, String>(name = "s1", requestType = String::class)
+                val s2 = stub<String, String>(name = "s2", requestType = String::class)
+
+                registry.add(s1)
+                val snapshot1 = registry.getAll()
+                snapshot1 shouldContainExactly listOf(s1)
+
+                registry.add(s2)
+                val snapshot2 = registry.getAll()
+
+                snapshot1 shouldContainExactly listOf(s1)
+                snapshot2 shouldContainExactly listOf(s1, s2)
             }
     }
 }

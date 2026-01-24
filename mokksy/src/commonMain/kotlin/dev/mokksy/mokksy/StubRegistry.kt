@@ -5,6 +5,9 @@ import io.ktor.server.routing.RoutingRequest
 import io.ktor.util.logging.Logger
 import kotlinx.atomicfu.AtomicRef
 import kotlinx.atomicfu.atomic
+import kotlinx.atomicfu.update
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -16,8 +19,8 @@ import kotlinx.coroutines.sync.withLock
  * @author Konstantin Pavlov
  */
 internal class StubRegistry {
-    // Atomic reference to an immutable sorted set
-    private val stubs: AtomicRef<Set<Stub<*, *>>> = atomic(emptySet())
+    // Atomic reference to an immutable sorted list
+    private val stubs: AtomicRef<PersistentList<Stub<*, *>>> = atomic(persistentListOf())
 
     // Lock for operations requiring atomicity across multiple steps
     private val mutex = Mutex()
@@ -30,9 +33,11 @@ internal class StubRegistry {
      * @throws IllegalArgumentException if stub is already registered
      */
     fun add(stub: Stub<*, *>) {
-        stubs.update { currentSet ->
-            require(stub !in currentSet) { "Duplicate stub detected: ${stub.toLogString()}" }
-            (currentSet + stub).toSortedSet(StubComparator)
+        stubs.update { currentList ->
+            val index = currentList.binarySearch(stub, StubComparator)
+            require(index < 0) { "Duplicate stub detected: ${stub.toLogString()}" }
+            val insertionIndex = -(index + 1)
+            currentList.add(insertionIndex, stub)
         }
     }
 
@@ -52,48 +57,57 @@ internal class StubRegistry {
         verbose: Boolean,
         logger: Logger,
         formatter: HttpFormatter,
-    ): Stub<*, *>? =
-        mutex.withLock {
-            val currentSet = stubs.value
+    ): Stub<*, *>? {
+        val formattedRequest =
+            if (verbose) {
+                @Suppress("TooGenericExceptionCaught")
+                try {
+                    formatter.formatRequest(request)
+                } catch (e: Exception) {
+                    "<Unable to format request: ${e.message}>"
+                }
+            } else {
+                ""
+            }
 
-            // Find best match using priority and creation order
-            val match =
-                currentSet
-                    .filter { stub ->
-                        stub.requestSpecification
-                            .matches(request)
-                            .onFailure {
-                                if (verbose) {
-                                    logger.warn(
-                                        "Failed to evaluate condition for stub:\n---\n${
-                                            stub.toLogString()
-                                        }\n---" +
-                                            "\nand request:\n---\n${
-                                                formatter.formatRequest(request)
-                                            }---",
-                                        it,
-                                    )
-                                }
-                            }.getOrNull() == true
-                    }.minWithOrNull(StubComparator)
+        return mutex.withLock {
+            val currentSnapshot = stubs.value
+            var match: Stub<*, *>? = null
 
-            if (match != null) {
-                // Atomically increment match count
-                match.incrementMatchCount()
+            for (stub in currentSnapshot) {
+                val result = stub.requestSpecification.matches(request)
 
-                // Atomically remove if configured
-                if (match.configuration.removeAfterMatch) {
-                    stubs.update { (currentSet - match).toSortedSet(StubComparator) }
-                    if (verbose) {
-                        logger.debug(
-                            "Removed used stub: ${match.toLogString()}",
-                        )
-                    }
+                if (result.isFailure && verbose) {
+                    logger.warn(
+                        "Failed to evaluate condition for stub: ${stub.toLogString()}. " +
+                            "Request: $formattedRequest",
+                        result.exceptionOrNull(),
+                    )
+                }
+
+                if (result.getOrNull() == true) {
+                    match = stub
+                    break
+                }
+            }
+
+            if (match == null) return@withLock null
+
+            // 2. Increment match count
+            match.incrementMatchCount()
+
+            // 3. Conditional locking for removal
+            if (match.configuration.removeAfterMatch) {
+                // Already under lock
+                stubs.update { it.remove(match) }
+                if (verbose) {
+                    logger.debug("Removed used stub: ${match.toLogString()}")
                 }
             }
 
             match
         }
+    }
 
     /**
      * Atomically removes a specific stub.
@@ -102,9 +116,15 @@ internal class StubRegistry {
      */
     fun remove(stub: Stub<*, *>): Boolean {
         var removed = false
-        stubs.update { currentSet ->
-            removed = stub in currentSet
-            currentSet - stub
+        stubs.update { currentList ->
+            val index = currentList.indexOf(stub)
+            if (index != -1) {
+                removed = true
+                currentList.removeAt(index)
+            } else {
+                removed = false
+                currentList
+            }
         }
         return removed
     }
@@ -114,25 +134,5 @@ internal class StubRegistry {
      *
      * This is a consistent snapshot at a point in time.
      */
-    fun getAll(): Set<Stub<*, *>> = stubs.value
-}
-
-/**
- * Atomic update operation that retries until successful.
- *
- * This is a lock-free operation that:
- * 1. Reads current value
- * 2. Computes new value
- * 3. Attempts compareAndSet
- * 4. Retries if another thread modified the value
- */
-private inline fun <T> AtomicRef<T>.update(function: (T) -> T) {
-    while (true) {
-        val current = value
-        val updated = function(current)
-        if (compareAndSet(current, updated)) {
-            return
-        }
-        // Another thread modified the value, retry
-    }
+    fun getAll(): List<Stub<*, *>> = stubs.value
 }

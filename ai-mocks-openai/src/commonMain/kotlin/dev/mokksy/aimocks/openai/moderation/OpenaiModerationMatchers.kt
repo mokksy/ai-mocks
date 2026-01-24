@@ -14,11 +14,17 @@ internal object OpenaiModerationMatchers {
     fun inputContains(substring: String): Matcher<CreateModerationRequest?> =
         object : Matcher<CreateModerationRequest?> {
             override fun test(value: CreateModerationRequest?): MatcherResult {
-                val inputs = value?.input ?: emptyList()
+                val inputs = value?.input.orEmpty()
                 val (passed, reason) =
                     when {
-                        value == null -> false to "request was null"
-                        inputs.isEmpty() -> false to "input was empty"
+                        value == null -> {
+                            false to "request was null"
+                        }
+
+                        inputs.isEmpty() -> {
+                            false to "input was empty"
+                        }
+
                         else -> {
                             val found = inputs.any { it.contains(substring) }
                             found to if (!found) "no input contained \"$substring\"" else ""

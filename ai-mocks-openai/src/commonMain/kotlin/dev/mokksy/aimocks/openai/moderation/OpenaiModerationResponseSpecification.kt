@@ -25,15 +25,15 @@ public class OpenaiModerationResponseSpecification(
     public var id: String? = null
     public var model: String = "omni-moderation-latest"
     public var flagged: Boolean = false
-    public var categories: MutableMap<ModerationCategory, Boolean> = mutableMapOf()
+    public val categories: MutableMap<ModerationCategory, Boolean> = mutableMapOf()
 
     @Suppress("MagicNumber")
-    public var categoryScores: MutableMap<ModerationCategory, Double> = mutableMapOf()
+    public val categoryScores: MutableMap<ModerationCategory, Double> = mutableMapOf()
 
     /**
      * A list of the categories along with the input type(s) that the score applies to.
      */
-    public var categoryAppliedInputTypes: MutableMap<ModerationCategory, List<InputType>> =
+    public val categoryAppliedInputTypes: MutableMap<ModerationCategory, List<InputType>> =
         mutableMapOf()
 
     init {

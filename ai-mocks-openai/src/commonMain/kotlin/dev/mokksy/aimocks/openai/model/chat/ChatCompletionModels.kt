@@ -650,7 +650,7 @@ public class MessageContentSerializer : KSerializer<MessageContent> {
         return when (val element = jsonDecoder.decodeJsonElement()) {
             is JsonPrimitive -> {
                 // Simple string content
-                MessageContent.Text(element.contentOrNull ?: "")
+                MessageContent.Text(element.contentOrNull.orEmpty())
             }
 
             is JsonArray -> {

@@ -23,7 +23,7 @@ public class OpenaiModerationBuildingStep(
         mokksy,
         buildingStep,
     ) {
-    private var counter: AtomicInteger = AtomicInteger(1)
+    private val counter: AtomicInteger = AtomicInteger(1)
 
     override infix fun responds(block: OpenaiModerationResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {

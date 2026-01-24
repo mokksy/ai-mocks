@@ -236,12 +236,10 @@ public class ChatCompletionRequestBuilder {
      * @throws IllegalArgumentException If required parameters are missing.
      */
     public fun build(): ChatCompletionRequest {
-        requireNotNull(model) { "Model is required" }
         require(messages.isNotEmpty()) { "At least one message is required" }
-
         return ChatCompletionRequest(
             messages = messages.toList(),
-            model = model!!,
+            model = requireNotNull(model) { "Model is required" },
             store = store,
             reasoningEffort = reasoningEffort,
             metadata =

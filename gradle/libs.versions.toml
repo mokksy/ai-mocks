@@ -15,6 +15,7 @@ kotest = "5.9.1"
 kotlin = "2.1.21"
 kotlinLogging = "7.0.14"
 kotlinxCoroutines = "1.10.2"
+kotlinxCollectionsImmutable = "0.4.0"
 kotlinxDatetime = "0.6.2"
 kotlinxSchema = "0.0.4"
 kotlinxSerialization = "1.8.1"
@@ -51,6 +52,7 @@ kotlinx-atomicfu = { group = "org.jetbrains.kotlinx", name = "atomicfu", version
 kotlinx-coroutines-core-jvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-schema-json = { module = "org.jetbrains.kotlinx:kotlinx-schema-json", version.ref = "kotlinxSchema" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }

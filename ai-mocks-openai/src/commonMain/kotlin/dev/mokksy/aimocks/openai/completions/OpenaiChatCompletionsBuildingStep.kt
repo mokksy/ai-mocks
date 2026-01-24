@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.random.Random.Default.nextInt
 
 private const val LINE_SEPARATOR = "\n\n"
-private var counter: AtomicInteger = AtomicInteger(1)
+private val counter: AtomicInteger = AtomicInteger(1)
 
 /**
  * OpenaiChatCompletionsBuildingStep is a specialized implementation of [AbstractBuildingStep]
