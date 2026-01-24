@@ -26,6 +26,7 @@ kotlin {
                 api(libs.ktor.server.core)
                 api(project.dependencies.platform(libs.ktor.bom))
                 implementation(libs.kotlinx.atomicfu)
+                implementation(libs.kotlinx.collections.immutable)
                 implementation(libs.ktor.serialization.kotlinx.json)
                 implementation(libs.ktor.server.double.receive)
                 implementation(libs.ktor.server.sse)
