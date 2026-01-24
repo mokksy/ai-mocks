@@ -78,11 +78,13 @@ internal class StubRegistry {
                 val result = stub.requestSpecification.matches(request)
 
                 if (result.isFailure && verbose) {
-                    logger.warn(
-                        "Failed to evaluate condition for stub: ${stub.toLogString()}. " +
-                            "Request: $formattedRequest",
-                        result.exceptionOrNull(),
-                    )
+                    result.exceptionOrNull()?.let { exception ->
+                        logger.warn(
+                            "Failed to evaluate condition for stub: ${stub.toLogString()}. " +
+                                "Request: $formattedRequest",
+                            exception,
+                        )
+                    }
                 }
 
                 if (result.getOrNull() == true) {

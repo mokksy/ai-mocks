@@ -1,7 +1,6 @@
 package dev.mokksy.mokksy
 
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.java.Java
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.sse.SSE
@@ -15,7 +14,7 @@ import kotlinx.serialization.json.Json
  *         and a default request base URL pointing to the specified port.
  */
 internal fun createKtorSSEClient(port: Int): HttpClient =
-    HttpClient(Java) {
+    HttpClient {
         install(ContentNegotiation) {
             Json {
                 prettyPrint = true
@@ -41,7 +40,7 @@ internal fun createKtorSSEClient(port: Int): HttpClient =
  * @return A configured instance of [HttpClient].
  */
 internal fun createKtorClient(port: Int): HttpClient =
-    HttpClient(Java) {
+    HttpClient {
         install(ContentNegotiation) {
             Json {
                 // Configure JSON serialization

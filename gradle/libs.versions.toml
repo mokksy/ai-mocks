@@ -20,7 +20,7 @@ kotlinxDatetime = "0.7.1-0.6.x-compat"
 kotlinxSchema = "0.0.4"
 kotlinxSerialization = "1.9.0"
 kover = "0.9.4"
-ktor = "3.4.0"
+ktor = "3.3.3"
 langchain4j = "1.10.0"
 mockk = "1.14.7"
 netty = "4.2.9.Final"
@@ -59,6 +59,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 ktor-bom = { group = "io.ktor", name = "ktor-bom", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation" }
 ktor-client-core = { module = "io.ktor:ktor-client-core" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin" }
 ktor-client-java = { module = "io.ktor:ktor-client-java" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging" }
 ktor-serialization-jackson = { module = "io.ktor:ktor-serialization-jackson" }
@@ -67,6 +68,7 @@ ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging" }
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation" }
 ktor-server-core = { module = "io.ktor:ktor-server-core" }
 ktor-server-double-receive = { module = "io.ktor:ktor-server-double-receive" }
+ktor-server-cio = { module = "io.ktor:ktor-server-cio" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty" }
 ktor-server-sse = { module = "io.ktor:ktor-server-sse" }
 ktor-server-test-host = { module = "io.ktor:ktor-server-test-host" }

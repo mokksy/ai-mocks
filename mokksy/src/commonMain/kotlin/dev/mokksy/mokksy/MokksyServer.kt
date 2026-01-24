@@ -13,6 +13,7 @@ import io.ktor.http.HttpMethod.Companion.Options
 import io.ktor.http.HttpMethod.Companion.Patch
 import io.ktor.http.HttpMethod.Companion.Post
 import io.ktor.http.HttpMethod.Companion.Put
+import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.engine.ApplicationEngine
@@ -24,6 +25,10 @@ import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.ktor.server.sse.SSE
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
+import kotlin.concurrent.atomics.AtomicInt
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
+import kotlin.jvm.JvmOverloads
 import kotlin.reflect.KClass
 
 private const val DEFAULT_HOST = "127.0.0.1"
@@ -58,7 +63,13 @@ internal expect fun createEmbeddedServer(
  *
  * @param config The content negotiation configuration to apply.
  */
-internal expect fun configureContentNegotiation(config: ContentNegotiationConfig)
+internal fun configureContentNegotiation(config: ContentNegotiationConfig) {
+    config.json(
+        Json {
+            ignoreUnknownKeys = true
+        },
+    )
+}
 
 public typealias ApplicationConfigurer = (Application.() -> Unit)
 
@@ -75,6 +86,7 @@ public typealias ApplicationConfigurer = (Application.() -> Unit)
  * @author Konstantin Pavlov
  */
 @Suppress("TooManyFunctions")
+@OptIn(ExperimentalAtomicApi::class)
 public open class MokksyServer
     @JvmOverloads
     constructor(
@@ -106,7 +118,7 @@ public open class MokksyServer
             configurer = configurer,
         )
 
-        private var resolvedPort: Int
+        private val resolvedPort: AtomicInt = AtomicInt(-1)
 
         public lateinit var logger: io.ktor.util.logging.Logger
         protected val httpFormatter: HttpFormatter = HttpFormatter()
@@ -146,11 +158,12 @@ public open class MokksyServer
         init {
             server.start(wait = wait)
             runBlocking {
-                resolvedPort =
+                resolvedPort.store(
                     server.engine
                         .resolvedConnectors()
                         .single()
-                        .port
+                        .port,
+                )
             }
         }
 
@@ -169,7 +182,7 @@ public open class MokksyServer
          *
          * @return The resolved server port.
          */
-        public fun port(): Int = resolvedPort
+        public fun port(): Int = resolvedPort.load()
 
         public fun baseUrl(): String = "http://127.0.0.1:$resolvedPort"
 

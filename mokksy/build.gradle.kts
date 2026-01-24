@@ -17,6 +17,12 @@ dokka {
 
 kotlin {
 
+    macosArm64 {
+        binaries {
+            framework()
+        }
+    }
+
     sourceSets {
         commonMain {
             dependencies {
@@ -30,6 +36,7 @@ kotlin {
                 implementation(libs.ktor.serialization.kotlinx.json)
                 implementation(libs.ktor.server.double.receive)
                 implementation(libs.ktor.server.sse)
+                implementation(libs.kotlinLogging)
             }
         }
 
@@ -37,13 +44,10 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(libs.assertk)
-                implementation(libs.datafaker)
+                implementation(libs.kotlinLogging)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.client.core)
-                implementation(libs.mockk)
-                implementation(libs.mockk.dsl)
-                implementation(libs.kotlinLogging)
                 implementation(libs.ktor.server.test.host)
             }
         }
@@ -59,10 +63,28 @@ kotlin {
 
         jvmTest {
             dependencies {
-                implementation(libs.ktor.client.java)
+                implementation(libs.datafaker)
+                implementation(libs.mockk)
+                implementation(libs.datafaker)
                 implementation(libs.junit.jupiter.params)
+                implementation(libs.ktor.client.java)
                 implementation(libs.ktor.serialization.jackson)
+                implementation(libs.mockk)
+                implementation(libs.mockk.dsl)
+                implementation(libs.mockk.dsl)
                 runtimeOnly(libs.slf4j.simple)
+            }
+        }
+
+        nativeMain {
+            dependencies {
+                implementation(libs.ktor.server.cio)
+            }
+        }
+
+        nativeTest {
+            dependencies {
+                implementation(libs.ktor.client.darwin)
             }
         }
     }

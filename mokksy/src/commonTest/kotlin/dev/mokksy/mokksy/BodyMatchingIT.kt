@@ -9,30 +9,16 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
-import org.junit.jupiter.api.Test
-import java.util.UUID
 import kotlin.random.Random
-import kotlin.test.BeforeTest
+import kotlin.test.Test
 
-@Suppress("UastIncorrectHttpHeaderInspection")
 internal class BodyMatchingIT : AbstractIT() {
-    private lateinit var name: String
-
-    private lateinit var requestPayload: TestPerson
-
-    @BeforeTest
-    fun before() {
-        name = UUID.randomUUID().toString()
-
-        requestPayload = TestPerson.random()
-    }
-
     @Test
     fun `Should match body predicate`() =
         runTest {
             // given
             val id = Random.nextInt().toString()
-            val expectedResponse = TestPerson.random()
+            val expectedResponse = Output(id)
 
             mokksy
                 .post(name = "predicate", Input::class) {
@@ -45,7 +31,7 @@ internal class BodyMatchingIT : AbstractIT() {
                     bodyMatchesPredicates({
                         it?.name?.isNotBlank() == true
                     })
-                }.respondsWith(TestPerson::class) {
+                }.respondsWith(Output::class) {
                     body = expectedResponse
                     httpStatus = HttpStatusCode.Created
                     headers += "Foo" to "bar" // list style

@@ -5,7 +5,7 @@ import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldStartWith
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 
 class RequestMarchersKtTest {
     private val predicate: (Input?) -> Boolean =

@@ -86,13 +86,10 @@ public open class RequestSpecification<P : Any>(
                 } catch (ex: Exception) {
                     "Unable to read body: ${ex.message}"
                 }
+            val causeMessage = e.cause?.message ?: "No cause available"
             request.call.application.log
                 .debug(
-                    "Request payload can not be transformed to {}: {}. Request body: {}. Cause: {}",
-                    requestType,
-                    e.message,
-                    bodyText,
-                    e.cause?.message ?: "No cause available",
+                    "Request body: $bodyText. Cause: $causeMessage",
                     e,
                 )
             false
