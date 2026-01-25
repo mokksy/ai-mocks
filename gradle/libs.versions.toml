@@ -32,8 +32,14 @@ spring = "6.2.15"
 spring-ai = "1.1.2"
 system-stubs = "2.1.8"
 jansi = "2.4.2"
+vanniktechMavenPublish = "0.36.0"
 
 [libraries]
+# buildSrc dependencies
+dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+gradle-maven-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "vanniktechMavenPublish" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
 anthropic-java = { group = "com.anthropic", name = "anthropic-java", version.ref = "anthropic-java" }
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }
@@ -95,7 +101,6 @@ system-stubs = { module = "uk.org.webcompere:system-stubs-jupiter", version.ref 
 [plugins]
 detekt = { id = "dev.detekt", version.ref = "detekt" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-dokka-javadoc = { id = "org.jetbrains.dokka-javadoc", version.ref = "dokka" }
 kotlinx-atomicfu = { id = "org.jetbrains.kotlinx.atomicfu", version.ref = "atomicfu" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 nexusPublish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexusPublish" }

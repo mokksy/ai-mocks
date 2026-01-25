@@ -4,10 +4,10 @@ plugins {
     base
     alias(libs.plugins.detekt)
     alias(libs.plugins.kover)
-    `dokka-convention`
     alias(libs.plugins.nexusPublish) // https://github.com/gradle-nexus/publish-plugin
     alias(libs.plugins.openrewrite)
     kotlin("plugin.serialization") version libs.versions.kotlin apply false
+    `dokka-convention`
     signing
 }
 
@@ -20,7 +20,6 @@ allprojects {
 // Common configuration for subprojects
 subprojects {
     apply(plugin = "org.jetbrains.dokka")
-    apply(plugin = "org.jetbrains.dokka-javadoc")
     apply(plugin = "dev.detekt")
 
     detekt {

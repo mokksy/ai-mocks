@@ -64,13 +64,10 @@ kotlin {
         jvmTest {
             dependencies {
                 implementation(libs.datafaker)
-                implementation(libs.mockk)
-                implementation(libs.datafaker)
                 implementation(libs.junit.jupiter.params)
                 implementation(libs.ktor.client.java)
                 implementation(libs.ktor.serialization.jackson)
                 implementation(libs.mockk)
-                implementation(libs.mockk.dsl)
                 implementation(libs.mockk.dsl)
                 runtimeOnly(libs.slf4j.simple)
             }
