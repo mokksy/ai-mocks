@@ -1,5 +1,7 @@
 package dev.mokksy.mokksy.utils.highlight
 
+import kotlin.jvm.JvmStatic
+
 /**
  * Syntax highlighter for JSON strings using ANSI colors.
  *

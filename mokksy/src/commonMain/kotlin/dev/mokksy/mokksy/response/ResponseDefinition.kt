@@ -81,7 +81,7 @@ public open class ResponseDefinition<P, T>(
             )
         } catch (e: ChannelWriteException) {
             // We can't do anything about it
-            call.application.log.debug(e.message, e)
+            call.application.log.debug(e.message ?: "Channel write exception", e)
         }
     }
 }

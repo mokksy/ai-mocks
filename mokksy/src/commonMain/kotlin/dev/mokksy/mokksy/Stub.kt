@@ -107,17 +107,17 @@ internal data class Stub<P : Any, T : Any>(
  */
 internal object StubComparator : Comparator<Stub<*, *>> {
     override fun compare(
-        o1: Stub<*, *>,
-        o2: Stub<*, *>,
+        a: Stub<*, *>,
+        b: Stub<*, *>,
     ): Int {
         val result =
-            o1.requestSpecification.priority().compareTo(
-                o2.requestSpecification.priority(),
+            a.requestSpecification.priority().compareTo(
+                b.requestSpecification.priority(),
             )
         return if (result != 0) {
             result
         } else {
-            compareValues(o1.creationOrder, o2.creationOrder)
+            compareValues(a.creationOrder, b.creationOrder)
         }
     }
 }

@@ -49,11 +49,11 @@ internal suspend fun handleRequest(
         )
     } else {
         if (configuration.verbose) {
+            val stubsInfo = stubRegistry.getAll().joinToString("\n---\n") { it.toLogString() }
             application.log.warn(
                 "NO STUBS FOUND for the request:\n---\n${
                     formatter.formatRequest(request)
-                }\n---\nAvailable stubs:\n{}\n",
-                stubRegistry.getAll().joinToString("\n---\n") { it.toLogString() },
+                }\n---\nAvailable stubs:\n$stubsInfo\n",
             )
         } else {
             application.log.warn(
@@ -85,8 +85,11 @@ private suspend fun handleMatchedStub(
     matchedStub.apply {
         if (verbose) {
             application.log.info(
-                "Request matched:\n---\n${formatter.formatRequest(request)}---\n{}",
-                this.toLogString(),
+                "Request matched:\n---\n${
+                    formatter.formatRequest(
+                        request,
+                    )
+                }\n---\n${this.toLogString()}",
             )
         }
         respond(context.call, verbose)

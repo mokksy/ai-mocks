@@ -20,7 +20,7 @@ kotlinxDatetime = "0.7.1-0.6.x-compat"
 kotlinxSchema = "0.0.4"
 kotlinxSerialization = "1.9.0"
 kover = "0.9.4"
-ktor = "3.4.0"
+ktor = "3.3.3"
 langchain4j = "1.10.0"
 mockk = "1.14.7"
 netty = "4.2.9.Final"
@@ -32,8 +32,14 @@ spring = "6.2.15"
 spring-ai = "1.1.2"
 system-stubs = "2.1.8"
 jansi = "2.4.2"
+vanniktechMavenPublish = "0.36.0"
 
 [libraries]
+# buildSrc dependencies
+dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+gradle-maven-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "vanniktechMavenPublish" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
 anthropic-java = { group = "com.anthropic", name = "anthropic-java", version.ref = "anthropic-java" }
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }
@@ -59,6 +65,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 ktor-bom = { group = "io.ktor", name = "ktor-bom", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation" }
 ktor-client-core = { module = "io.ktor:ktor-client-core" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin" }
 ktor-client-java = { module = "io.ktor:ktor-client-java" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging" }
 ktor-serialization-jackson = { module = "io.ktor:ktor-serialization-jackson" }
@@ -67,6 +74,7 @@ ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging" }
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation" }
 ktor-server-core = { module = "io.ktor:ktor-server-core" }
 ktor-server-double-receive = { module = "io.ktor:ktor-server-double-receive" }
+ktor-server-cio = { module = "io.ktor:ktor-server-cio" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty" }
 ktor-server-sse = { module = "io.ktor:ktor-server-sse" }
 ktor-server-test-host = { module = "io.ktor:ktor-server-test-host" }
@@ -93,7 +101,6 @@ system-stubs = { module = "uk.org.webcompere:system-stubs-jupiter", version.ref 
 [plugins]
 detekt = { id = "dev.detekt", version.ref = "detekt" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-dokka-javadoc = { id = "org.jetbrains.dokka-javadoc", version.ref = "dokka" }
 kotlinx-atomicfu = { id = "org.jetbrains.kotlinx.atomicfu", version.ref = "atomicfu" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 nexusPublish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexusPublish" }

@@ -1,51 +1,45 @@
-/**
- * Common conventions for generating documentation with Dokka.
- */
+import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
 
+/*
+ * Dokka convention plugin for documentation generation.
+ */
 plugins {
     id("org.jetbrains.dokka")
 }
 
 dokka {
     dokkaSourceSets.configureEach {
-        // includes.from("Module.md")
-
-        dokkaPublications.configureEach {
-            suppressObviousFunctions.set(true)
+        val moduleMd = projectDir.resolve("Module.md")
+        if (moduleMd.exists()) {
+            includes.from(moduleMd)
         }
+
+        documentedVisibilities(VisibilityModifier.Public)
 
         sourceLink {
-            // Read docs for more details: https://kotlinlang.org/docs/dokka-gradle.html#source-link-configuration
-            remoteUrl("https://github.com/mokksy/ai-mocks/tree/master")
-            localDirectory.set(rootDir)
-        }
-
-        // Add classpath to help Dokka resolve external types and project dependencies
-        // This includes both external libraries and inter-module dependencies
-        // Only add if Kotlin Multiplatform plugin is applied
-        pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
-            val jvmCompileClasspath = configurations.findByName("jvmCompileClasspath")
-            if (jvmCompileClasspath != null) {
-                classpath.from(jvmCompileClasspath)
-            }
+            localDirectory = projectDir.resolve("src")
+            remoteUrl("https://github.com/mokksy/ai-mocks/tree/main/${project.name}/src")
+            remoteLineSuffix = "#L"
         }
 
         externalDocumentationLinks {
+
             register("ktor") {
                 url("https://api.ktor.io/")
             }
-
             register("kotlinx-coroutines") {
                 url("https://kotlinlang.org/api/kotlinx.coroutines/")
             }
-
             register("kotlinx-serialization") {
                 url("https://kotlinlang.org/api/kotlinx.serialization/")
             }
-
             register("kotlinx-schema") {
                 url("https://kotlin.github.io/kotlinx-schema/")
             }
         }
+    }
+
+    pluginsConfiguration.html {
+        footerMessage = "Copyright © 2025-2026 Konstantin Pavlov"
     }
 }

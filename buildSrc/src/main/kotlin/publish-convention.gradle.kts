@@ -1,43 +1,44 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
-import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import org.jetbrains.dokka.gradle.tasks.DokkaGenerateModuleTask
 
+/**
+ * Publishing convention for Kotlin Multiplatform modules.
+ * Configures Maven Central publishing with HTML docs as javadoc.jar.
+ */
 plugins {
     `maven-publish`
     id("com.vanniktech.maven.publish")
 }
 
-repositories {
-    gradlePluginPortal()
-    mavenCentral()
-}
-
-tasks.register<Jar>(name = "dokkaJavadocJar") {
+/**
+ * Task that provides HTML documentation directory for javadoc jar creation.
+ * Dokka Javadoc doesn't support KMP, so HTML format is used.
+ * Maven Central accepts HTML docs in the javadoc JAR.
+ *
+ * This is a Sync task that copies Dokka output to a staging directory,
+ * which Vanniktech uses to create the javadoc jar.
+ */
+val dokkaHtmlForJavadoc by tasks.registering(Sync::class) {
     group = "dokka"
-    description = "Assembles a jar archive containing javadoc documentation."
-    val javadocTask = tasks.named("dokkaGenerateModuleJavadoc")
-    dependsOn(javadocTask)
-    from("build/dokka-module/javadoc")
-    archiveClassifier.set("javadoc")
+    description = "Prepares Dokka HTML output for javadoc jar."
+    from(
+        tasks
+            .named<DokkaGenerateModuleTask>("dokkaGenerateModuleHtml")
+            .flatMap { it.outputDirectory },
+    )
+    into(layout.buildDirectory.dir("dokka-javadoc"))
 }
 
-// https://vanniktech.github.io/gradle-maven-publish-plugin/
-configure<MavenPublishBaseExtension> {
+mavenPublishing {
     signAllPublications()
     publishToMavenCentral()
 
-    logger.debug(
-        "{}:{}:{} - {}({})",
-        project.group,
-        project.name,
-        version,
-        project.name,
-        project.description,
-    )
     coordinates(project.group.toString(), project.name, project.version.toString())
+
     configure(
         KotlinMultiplatform(
-            javadocJar = JavadocJar.Dokka("dokkaJavadocJar"),
+            javadocJar = JavadocJar.Dokka("dokkaHtmlForJavadoc"),
             sourcesJar = true,
         ),
     )
