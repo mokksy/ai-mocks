@@ -184,7 +184,14 @@ public open class MokksyServer
          */
         public fun port(): Int = resolvedPort.load()
 
-        public fun baseUrl(): String = "http://127.0.0.1:$resolvedPort"
+        private val baseUrl: String by lazy { "http://127.0.0.1:${port()}" }
+
+        /**
+         * Retrieves the base URL used by the application.
+         *
+         * @return the base URL as a string
+         */
+        public fun baseUrl(): String = baseUrl
 
         /**
          * Creates a [RequestSpecification] for the given HTTP method and request type,
@@ -619,7 +626,7 @@ public open class MokksyServer
             stubRegistry
                 .getAll()
                 .filter {
-                    it.matchCount() == 0
+                    it.matchCount() == 0L
                 }.map { it.requestSpecification }
                 .toList()
 
