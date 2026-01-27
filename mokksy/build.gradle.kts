@@ -67,6 +67,7 @@ kotlin {
                 implementation(libs.junit.jupiter.params)
                 implementation(libs.ktor.client.java)
                 implementation(libs.ktor.serialization.jackson)
+                implementation(libs.lincheck)
                 implementation(libs.mockk)
                 implementation(libs.mockk.dsl)
                 runtimeOnly(libs.slf4j.simple)

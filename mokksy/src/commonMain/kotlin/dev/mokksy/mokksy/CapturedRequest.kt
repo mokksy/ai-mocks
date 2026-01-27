@@ -25,8 +25,8 @@ import kotlin.reflect.KClass
  *
  * @author Konstantin Pavlov
  */
-public data class CapturedRequest<P : Any>(
-    val request: ApplicationRequest,
+public class CapturedRequest<P : Any>(
+    public val request: ApplicationRequest,
     private val type: KClass<P>,
 ) {
     private val bodyCache: AtomicRef<P?> = atomic(null)
@@ -36,62 +36,37 @@ public data class CapturedRequest<P : Any>(
     private val bodyMutex: Mutex = Mutex()
     private val bodyStringMutex: Mutex = Mutex()
 
-    val body: P
-        get() {
-            var cached = bodyCache.value
-            if (cached == null) {
-                cached =
-                    runBlocking {
-                        bodyMutex.withLock {
-                            var local: P? = bodyCache.value
-                            if (local == null) {
-                                val received =
-                                    try {
-                                        request.call.receive(type)
-                                    } catch (e: ContentTransformationException) {
-                                        request.call.application.log
-                                            .debug(
-                                                "Failed to parse request body to $type.jvmName",
-                                                e,
-                                            )
-                                        throw e
-                                    }
-                                // Atomic compareAndSet ensures only one value is set
-                                local =
-                                    if (!bodyCache.compareAndSet(null, received)) {
-                                        // Another coroutine set it first, use their value
-                                        bodyCache.value
-                                    } else {
-                                        received
-                                    }
+    public val body: P
+        get() =
+            bodyCache.value ?: runBlocking {
+                bodyMutex.withLock {
+                    bodyCache.value ?: run {
+                        val received =
+                            try {
+                                request.call.receive(type)
+                            } catch (e: ContentTransformationException) {
+                                request.call.application.log.debug("Failed to parse request body to $type", e)
+                                throw e
                             }
-                            requireNotNull(local)
-                        }
+                        bodyCache.value = received
+                        received
                     }
+                }
             }
-            return cached
-        }
 
-    val bodyAsString: String?
-        get() {
-            var cached = bodyStringCache.value
-            if (cached == null) {
-                cached =
-                    runBlocking {
-                        bodyStringMutex.withLock {
-                            var local: String? = bodyStringCache.value
-                            if (local == null) {
-                                val received = request.call.receiveNullable<String>()
-                                if (!bodyStringCache.compareAndSet(null, received)) {
-                                    local = bodyStringCache.value
-                                } else {
-                                    local = received
-                                }
-                            }
-                            local
-                        }
+    /**
+     * Provides the request body as a string.
+     * Caches the result after the first call.
+     */
+    public val bodyAsString: String?
+        get() =
+            bodyStringCache.value ?: runBlocking {
+                bodyStringMutex.withLock {
+                    bodyStringCache.value ?: run {
+                        val received = request.call.receiveNullable<String>()
+                        bodyStringCache.value = received
+                        received
                     }
+                }
             }
-            return cached
-        }
 }

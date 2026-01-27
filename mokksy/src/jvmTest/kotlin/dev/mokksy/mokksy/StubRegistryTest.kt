@@ -7,13 +7,12 @@ import dev.mokksy.mokksy.utils.logger.HttpFormatter
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
+import io.ktor.client.request.get
 import io.ktor.http.ContentType
 import io.ktor.server.application.ApplicationCall
-import io.ktor.server.request.path
-import io.ktor.server.routing.RoutingRequest
+import io.ktor.server.routing.get
+import io.ktor.server.testing.testApplication
 import io.ktor.util.logging.Logger
-import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
@@ -21,7 +20,10 @@ import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.test.runTest
+import org.jetbrains.lincheck.datastructures.Operation
+import org.jetbrains.lincheck.datastructures.StressOptions
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtendWith
 import kotlin.reflect.KClass
@@ -88,14 +90,10 @@ class StubRegistryTest {
         )
     }
 
-    @MockK
-    lateinit var routingRequest: RoutingRequest
-
     @MockK(relaxed = true)
     lateinit var logger: Logger
 
-    @MockK(relaxed = true)
-    lateinit var formatter: HttpFormatter
+    private val formatter = HttpFormatter()
 
     @Nested
     inner class AddAndGetAll {
@@ -140,7 +138,7 @@ class StubRegistryTest {
     inner class FindMatchingStub {
         @Test
         fun `should return best match by priority and increment matchCount`() =
-            runTest {
+            testApplication {
                 val registry = StubRegistry()
                 val lowPrio =
                     stub<String, String>(name = "low", priority = 100, requestType = String::class)
@@ -150,23 +148,27 @@ class StubRegistryTest {
                 registry.add(lowPrio)
                 registry.add(highPrio)
 
-                val matched =
-                    registry.findMatchingStub(
-                        request = routingRequest,
-                        verbose = false,
-                        logger = mockk(relaxed = true),
-                        formatter =
-                            HttpFormatter(),
-                    )
+                routing {
+                    get("/") {
+                        val matched =
+                            registry.findMatchingStub(
+                                request = call.request,
+                                verbose = false,
+                                logger = mockk(relaxed = true),
+                                formatter = formatter,
+                            )
 
-                matched shouldBe highPrio
-                highPrio.matchCount() shouldBe 1
-                lowPrio.matchCount() shouldBe 0
+                        matched shouldBe highPrio
+                        highPrio.matchCount() shouldBe 1
+                        lowPrio.matchCount() shouldBe 0
+                    }
+                }
+                client.get("/")
             }
 
         @Test
         fun `should break ties by creation order`() =
-            runTest {
+            testApplication {
                 val registry = StubRegistry()
                 val first =
                     stub<String, String>(name = "first", priority = 10, requestType = String::class)
@@ -180,21 +182,25 @@ class StubRegistryTest {
                 registry.add(first)
                 registry.add(second)
 
-                val matched =
-                    registry.findMatchingStub(
-                        request = routingRequest,
-                        verbose = false,
-                        logger = mockk(relaxed = true),
-                        formatter =
-                            HttpFormatter(),
-                    )
+                routing {
+                    get("/") {
+                        val matched =
+                            registry.findMatchingStub(
+                                request = call.request,
+                                verbose = false,
+                                logger = mockk(relaxed = true),
+                                formatter = formatter,
+                            )
 
-                matched shouldBe first
+                        matched shouldBe first
+                    }
+                }
+                client.get("/")
             }
 
         @Test
         fun `should remove stub after match when configured`() =
-            runTest {
+            testApplication {
                 val registry = StubRegistry()
                 val removable =
                     stub<String, String>(
@@ -206,28 +212,31 @@ class StubRegistryTest {
 
                 registry.add(removable)
 
-                val matched1 =
-                    registry.findMatchingStub(
-                        request = routingRequest,
-                        verbose = false,
-                        logger = mockk(relaxed = true),
-                        formatter =
-                            HttpFormatter(),
-                    )
-                matched1 shouldBe removable
-                removable.matchCount() shouldBe 1
+                routing {
+                    get("/") {
+                        val matched1 =
+                            registry.findMatchingStub(
+                                request = call.request,
+                                verbose = false,
+                                logger = mockk(relaxed = true),
+                                formatter = formatter,
+                            )
+                        matched1 shouldBe removable
+                        removable.matchCount() shouldBe 1
 
-                // Next time it should not be present
-                val matched2 =
-                    registry.findMatchingStub(
-                        request = routingRequest,
-                        verbose = false,
-                        logger = mockk(relaxed = true),
-                        formatter =
-                            HttpFormatter(),
-                    )
-                matched2 shouldBe null
-                registry.getAll().isEmpty() shouldBe true
+                        // Next time it should not be present
+                        val matched2 =
+                            registry.findMatchingStub(
+                                request = call.request,
+                                verbose = false,
+                                logger = mockk(relaxed = true),
+                                formatter = formatter,
+                            )
+                        matched2 shouldBe null
+                        registry.getAll().isEmpty() shouldBe true
+                    }
+                }
+                client.get("/")
             }
     }
 
@@ -249,7 +258,7 @@ class StubRegistryTest {
 
         @Test
         fun `should return null when no stub matches`() =
-            runTest {
+            testApplication {
                 val registry = StubRegistry()
                 val s1 =
                     stub<String, String>(
@@ -259,22 +268,25 @@ class StubRegistryTest {
                     )
                 registry.add(s1)
 
-                every { routingRequest.path() } returns "/actual"
+                routing {
+                    get("/actual") {
+                        val matched =
+                            registry.findMatchingStub(
+                                request = call.request,
+                                verbose = false,
+                                logger = logger,
+                                formatter = formatter,
+                            )
 
-                val matched =
-                    registry.findMatchingStub(
-                        request = routingRequest,
-                        verbose = false,
-                        logger = logger,
-                        formatter = formatter,
-                    )
-
-                matched shouldBe null
+                        matched shouldBe null
+                    }
+                }
+                client.get("/actual")
             }
 
         @Test
         fun `should log warning when condition evaluation fails and verbose is true`() =
-            runTest {
+            testApplication {
                 val registry = StubRegistry()
                 val failingStub =
                     stubWithMatcher<String, String>(
@@ -285,17 +297,17 @@ class StubRegistryTest {
 
                 registry.add(failingStub)
 
-                coEvery { formatter.formatRequest(any()) } returns "formatted request"
-
-                // Mocking request to avoid other failures
-                every { routingRequest.call } returns mockk(relaxed = true)
-
-                registry.findMatchingStub(
-                    request = routingRequest,
-                    verbose = true,
-                    logger = logger,
-                    formatter = formatter,
-                )
+                routing {
+                    get("/") {
+                        registry.findMatchingStub(
+                            request = call.request,
+                            verbose = true,
+                            logger = logger,
+                            formatter = formatter,
+                        )
+                    }
+                }
+                client.get("/")
 
                 verify {
                     logger.warn(
@@ -355,7 +367,7 @@ class StubRegistryTest {
 
         @Test
         fun `should handle concurrent findMatchingStub with removal`() =
-            runTest {
+            testApplication {
                 val registry = StubRegistry()
                 val count = 50
                 // Use different priorities to avoid ties being the only thing tested
@@ -371,26 +383,36 @@ class StubRegistryTest {
 
                 stubs.forEach { registry.add(it) }
 
-                val jobs =
-                    (1..count).map {
-                        async(Dispatchers.Default) {
-                            registry.findMatchingStub(routingRequest, false, logger, formatter)
-                        }
+                routing {
+                    get("/") {
+                        registry.findMatchingStub(call.request, false, logger, formatter)
                     }
-                val results = jobs.awaitAll()
+                }
 
-                results.filterNotNull().size shouldBe count
-                results.toSet().size shouldBe count // All unique
+                coroutineScope {
+                    val jobs =
+                        (1..count).map {
+                            async(Dispatchers.Default) {
+                                client.get("/")
+                            }
+                        }
+                    jobs.awaitAll()
+                }
+
+                // Since we can't easily collect results from multiple requests in testApplication like this
+                // let's just check the registry is empty and count matches
+                stubs.sumOf { it.matchCount() } shouldBe count
                 registry.getAll().shouldBeEmpty()
             }
     }
 
     @Nested
     inner class Snapshot {
-        @Test
+        private val registry = StubRegistry()
+
+        @Operation
         fun `getAll should return a consistent snapshot`() =
             runTest {
-                val registry = StubRegistry()
                 val s1 = stub<String, String>(name = "s1", requestType = String::class)
                 val s2 = stub<String, String>(name = "s2", requestType = String::class)
 
@@ -404,5 +426,12 @@ class StubRegistryTest {
                 snapshot1 shouldContainExactly listOf(s1)
                 snapshot2 shouldContainExactly listOf(s1, s2)
             }
+
+        @Test
+        fun stressTest(): Unit =
+            StressOptions()
+                .invocationsPerIteration(50)
+                .iterations(10)
+                .check(this::class)
     }
 }

@@ -22,6 +22,7 @@ kotlinxSerialization = "1.9.0"
 kover = "0.9.4"
 ktor = "3.3.3"
 langchain4j = "1.10.0"
+lincheck="3.0"
 mockk = "1.14.7"
 netty = "4.2.9.Final"
 nexusPublish = "2.0.0"
@@ -55,10 +56,10 @@ kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.
 kotest-assertions-json = { module = "io.kotest:kotest-assertions-json", version.ref = "kotest" }
 kotlinLogging = { module = "io.github.oshai:kotlin-logging", version.ref = "kotlinLogging" }
 kotlinx-atomicfu = { group = "org.jetbrains.kotlinx", name = "atomicfu", version.ref = "atomicfu" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 kotlinx-coroutines-core-jvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
-kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-schema-json = { module = "org.jetbrains.kotlinx:kotlinx-schema-json", version.ref = "kotlinxSchema" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
@@ -71,10 +72,10 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging" }
 ktor-serialization-jackson = { module = "io.ktor:ktor-serialization-jackson" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json" }
 ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging" }
+ktor-server-cio = { module = "io.ktor:ktor-server-cio" }
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation" }
 ktor-server-core = { module = "io.ktor:ktor-server-core" }
 ktor-server-double-receive = { module = "io.ktor:ktor-server-double-receive" }
-ktor-server-cio = { module = "io.ktor:ktor-server-cio" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty" }
 ktor-server-sse = { module = "io.ktor:ktor-server-sse" }
 ktor-server-test-host = { module = "io.ktor:ktor-server-test-host" }
@@ -85,6 +86,7 @@ langchain4j-gemini = { group = "dev.langchain4j", name = "langchain4j-google-ai-
 langchain4j-kotlin = { group = "dev.langchain4j", name = "langchain4j-kotlin" }
 langchain4j-ollama = { group = "dev.langchain4j", name = "langchain4j-ollama" }
 langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai" }
+lincheck = { module = "org.jetbrains.lincheck:lincheck", version.ref = "lincheck" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-dsl = { module = "io.mockk:mockk-dsl", version.ref = "mockk" }
 netty-bom = { group = "io.netty", name = "netty-bom", version.ref = "netty" }
