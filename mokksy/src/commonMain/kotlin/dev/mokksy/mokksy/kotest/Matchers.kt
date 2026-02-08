@@ -61,11 +61,6 @@ public fun <T : Any> objectEquals(
     name: String,
 ): Matcher<T?> =
     object : Matcher<T?> {
-        /**
-         * Determines whether the given value is equal to the expected object.
-         *
-         * Returns a [MatcherResult] indicating success if the value equals the expected object, or failure otherwise.
-         */
         override fun test(value: T?): MatcherResult =
             MatcherResult(
                 value == request,

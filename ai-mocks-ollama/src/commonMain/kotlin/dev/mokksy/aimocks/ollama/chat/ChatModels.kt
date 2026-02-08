@@ -94,11 +94,11 @@ public data class FunctionDefinition
         /**
          * Secondary constructor that allows creating a [FunctionDefinition] by specifying its name,
          * an optional description, and a block to define the JSON Schema parameters through a
-         * [JsonSchemaDefinitionBuilder].
+         * [JsonSchemaBuilder].
          *
          * @param name The name of the function.
          * @param description An optional description of what the function does.
-         * @param block A lambda with a receiver of [JsonSchemaDefinitionBuilder] to define the JSON Schema parameters.
+         * @param block A lambda with a receiver of [JsonSchemaBuilder] to define the JSON Schema parameters.
          */
         @JvmOverloads
         public constructor(
