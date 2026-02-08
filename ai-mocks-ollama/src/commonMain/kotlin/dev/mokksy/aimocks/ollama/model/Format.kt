@@ -38,6 +38,7 @@ public sealed interface Format {
      */
     @Serializable
     public data class Schema(
+        val name: String? = null,
         val schema: JsonSchema,
     ) : Format
 }
@@ -71,10 +72,15 @@ internal class FormatSerializer : KSerializer<Format> {
             }
 
             element is JsonObject -> {
-                // Parse the JSON object into a JsonSchema
-                val jsonSchema =
-                    jsonDecoder.json.decodeFromJsonElement(JsonSchema.serializer(), element)
-                Format.Schema(jsonSchema)
+                if (element.containsKey("schema")) {
+                    // Wrapper format with "name" and "schema" fields
+                    jsonDecoder.json.decodeFromJsonElement(Format.Schema.serializer(), element)
+                } else {
+                    // Raw JSON Schema object
+                    val jsonSchema =
+                        jsonDecoder.json.decodeFromJsonElement(JsonSchema.serializer(), element)
+                    Format.Schema(schema = jsonSchema)
+                }
             }
 
             else -> {
@@ -106,9 +112,17 @@ internal class FormatSerializer : KSerializer<Format> {
             }
 
             is Format.Schema -> {
-                val jsonElement =
-                    jsonEncoder.json.encodeToJsonElement(JsonSchema.serializer(), value.schema)
-                jsonEncoder.encodeJsonElement(jsonElement)
+                if (value.name != null) {
+                    // Wrapper format with "name" and "schema" fields
+                    val jsonElement =
+                        jsonEncoder.json.encodeToJsonElement(Format.Schema.serializer(), value)
+                    jsonEncoder.encodeJsonElement(jsonElement)
+                } else {
+                    // Raw JSON Schema object
+                    val jsonElement =
+                        jsonEncoder.json.encodeToJsonElement(JsonSchema.serializer(), value.schema)
+                    jsonEncoder.encodeJsonElement(jsonElement)
+                }
             }
         }
     }

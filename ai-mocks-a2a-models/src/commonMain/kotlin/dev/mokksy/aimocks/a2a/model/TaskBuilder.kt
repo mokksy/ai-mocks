@@ -158,9 +158,9 @@ public class TaskBuilder {
             requireNotNull(status) { "Task status is required" }
         }
         return Task(
-            id = id!!,
-            contextId = contextId!!,
-            status = status!!,
+            id = requireNotNull(id),
+            contextId = requireNotNull(contextId),
+            status = requireNotNull(status),
             artifacts = artifacts.ifEmpty { null },
             metadata = metadata,
             history = history.ifEmpty { null },

@@ -49,6 +49,7 @@ internal fun createTestVertexAI(
                 .setEndpoint(endpoint)
                 .setCredentialsProvider(NoCredentialsProvider.create())
                 .applyToAllUnaryMethods { updater ->
+                    @Suppress("ForbiddenVoid")
                     updater.setSimpleTimeoutNoRetriesDuration(timeout.toJavaDuration()) as? Void?
                 }
 

@@ -462,7 +462,7 @@ internal class ChatCompletionModelsTest {
               "content": [
                 {
                   "type": "output_text",
-                  "text": "Under the soft glow of the moon, Luna the unicorn danced through fields of twinkling stardust, leaving trails of dreams for every child asleep.",
+                  "text": "Under the soft glow of the moon, Luna the unicorn danced.",
                   "annotations": []
                 }
               ]
@@ -480,7 +480,7 @@ internal class ChatCompletionModelsTest {
                 parts[0] shouldBe instanceOf<ContentPart.OutputText>()
                 val outputText = parts[0] as ContentPart.OutputText
                 outputText.text shouldBe
-                    "Under the soft glow of the moon, Luna the unicorn danced through fields of twinkling stardust, leaving trails of dreams for every child asleep."
+                    "Under the soft glow of the moon, Luna the unicorn danced."
                 outputText.annotations shouldBe emptyList()
             }
         }

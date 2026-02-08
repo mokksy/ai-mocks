@@ -7,8 +7,8 @@ import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
+import kotlinx.schema.json.DenyAdditionalProperties
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonPrimitive
 import org.junit.jupiter.api.Test
 
 internal class ResponseModelsTest {
@@ -112,7 +112,7 @@ internal class ResponseModelsTest {
                     schema shouldBe "https://json-schema.org/draft/2020-12/schema"
                     type shouldBe listOf("object")
                     required shouldBe listOf("color", "name", "radius")
-                    additionalProperties shouldBe JsonPrimitive(false)
+                    additionalProperties shouldBe DenyAdditionalProperties
                     properties shouldHaveSize 3
                     properties.keys shouldBe setOf("color", "name", "radius")
                 }

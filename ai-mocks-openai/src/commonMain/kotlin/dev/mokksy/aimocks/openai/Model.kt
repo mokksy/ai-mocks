@@ -312,5 +312,13 @@ public data class CallableFunction(
 public data class ResponseFormat(
     val type: String,
     @SerialName("json_schema")
-    val jsonSchema: JsonSchema? = null,
-)
+    val jsonSchema: SchemaDescriptor? = null,
+) {
+    @Serializable
+    public data class SchemaDescriptor(
+        val name: String,
+        val strict: Boolean? = null,
+        @SerialName("schema")
+        val schema: JsonSchema,
+    )
+}
