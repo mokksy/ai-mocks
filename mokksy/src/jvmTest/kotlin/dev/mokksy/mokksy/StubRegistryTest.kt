@@ -1,9 +1,9 @@
 package dev.mokksy.mokksy
 
 import dev.mokksy.mokksy.request.RequestSpecification
-import dev.mokksy.mokksy.request.predicateMatcher
 import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import dev.mokksy.mokksy.utils.logger.HttpFormatter
+import io.kotest.matchers.Matcher
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
@@ -18,7 +18,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import io.mockk.verify
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.test.runTest
@@ -66,23 +65,6 @@ class StubRegistryTest {
             )
         return Stub(
             configuration = StubConfiguration(name = name, removeAfterMatch = removeAfterMatch),
-            requestSpecification = spec,
-            responseDefinitionSupplier = responseSupplier(),
-        )
-    }
-
-    private fun <P : Any, T : Any> stubWithMatcher(
-        name: String? = null,
-        predicate: (P?) -> Boolean,
-        requestType: KClass<P>,
-    ): Stub<P, T> {
-        val spec =
-            RequestSpecification(
-                requestType = requestType,
-                body = listOf(predicateMatcher(predicate = predicate)),
-            )
-        return Stub(
-            configuration = StubConfiguration(name = name),
             requestSpecification = spec,
             responseDefinitionSupplier = responseSupplier(),
         )
@@ -276,19 +258,26 @@ class StubRegistryTest {
         fun `should log warning when condition evaluation fails and verbose is true`() =
             runTest {
                 val registry = StubRegistry()
+                // Use a path matcher instead of a body matcher to avoid depending on
+                // Ktor's receive() extension function which cannot be mocked by MockK
                 val failingStub =
-                    stubWithMatcher<String, String>(
-                        name = "failing",
-                        requestType = String::class,
-                        predicate = { throw IllegalArgumentException("Boom!") },
+                    Stub<String, String>(
+                        configuration = StubConfiguration(name = "failing"),
+                        requestSpecification =
+                            RequestSpecification(
+                                requestType = String::class,
+                                path =
+                                    Matcher {
+                                        throw IllegalArgumentException("Boom!")
+                                    },
+                            ),
+                        responseDefinitionSupplier = responseSupplier(),
                     )
 
                 registry.add(failingStub)
 
                 coEvery { formatter.formatRequest(any()) } returns "formatted request"
-
-                // Mocking request to avoid other failures
-                every { routingRequest.call } returns mockk(relaxed = true)
+                every { routingRequest.path() } returns "/test"
 
                 registry.findMatchingStub(
                     request = routingRequest,
@@ -320,7 +309,7 @@ class StubRegistryTest {
 
                 val jobs =
                     stubsToAdd.map { s ->
-                        async(Dispatchers.Default) {
+                        async {
                             registry.add(s)
                         }
                     }
@@ -344,7 +333,7 @@ class StubRegistryTest {
 
                 val jobs =
                     stubs.map { s ->
-                        async(Dispatchers.Default) {
+                        async {
                             registry.remove(s)
                         }
                     }
@@ -373,7 +362,7 @@ class StubRegistryTest {
 
                 val jobs =
                     (1..count).map {
-                        async(Dispatchers.Default) {
+                        async {
                             registry.findMatchingStub(routingRequest, false, logger, formatter)
                         }
                     }
