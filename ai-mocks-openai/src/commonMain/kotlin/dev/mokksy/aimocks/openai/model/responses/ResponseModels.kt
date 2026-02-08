@@ -6,7 +6,7 @@ import dev.mokksy.aimocks.openai.model.OutputMessage
 import dev.mokksy.aimocks.openai.model.Reasoning
 import dev.mokksy.aimocks.openai.model.ResponseError
 import dev.mokksy.aimocks.openai.model.chat.Tool
-import kotlinx.schema.json.JsonSchemaDefinition
+import kotlinx.schema.json.JsonSchema
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.EncodeDefault
@@ -99,7 +99,7 @@ public data class TextConfig(
 public data class TextFormat(
     @SerialName(value = "type") val type: String,
     @SerialName(value = "name") val name: String? = null,
-    @SerialName(value = "schema") val schema: JsonSchemaDefinition? = null,
+    @SerialName(value = "schema") val schema: JsonSchema? = null,
     @SerialName(value = "strict") val strict: Boolean? = null,
 )
 

@@ -1,8 +1,8 @@
 package dev.mokksy.aimocks.core.json.schema
 
-import kotlinx.schema.json.JsonSchemaDefinition
+import kotlinx.schema.json.CommonSchemaAttributes
+import kotlinx.schema.json.JsonSchema
 import kotlinx.schema.json.PropertyDefinition
-import kotlinx.schema.json.ValuePropertyDefinition
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -19,15 +19,15 @@ public object SchemaHelper {
         }
 
     /**
-     * Parses a [JsonElement] into a [JsonSchemaDefinition].
+     * Parses a [JsonElement] into a [JsonSchema].
      *
      * @param schemaJson The JSON element containing the schema
      * @return The parsed schema definition, or null if parsing fails
      */
-    public fun parseSchema(schemaJson: JsonElement?): JsonSchemaDefinition? =
+    public fun parseSchema(schemaJson: JsonElement?): JsonSchema? =
         schemaJson?.let {
             try {
-                json.decodeFromJsonElement(JsonSchemaDefinition.serializer(), it)
+                json.decodeFromJsonElement(JsonSchema.serializer(), it)
             } catch (_: SerializationException) {
                 null
             }
@@ -41,7 +41,7 @@ public object SchemaHelper {
      * @return true if the property exists, false otherwise
      */
     public fun hasProperty(
-        schema: JsonSchemaDefinition,
+        schema: JsonSchema,
         propertyName: String,
     ): Boolean = schema.properties.containsKey(propertyName)
 
@@ -53,12 +53,12 @@ public object SchemaHelper {
      * @return The list of types for the property, or null if not found or not a value property
      */
     public fun getPropertyType(
-        schema: JsonSchemaDefinition,
+        schema: JsonSchema,
         propertyName: String,
     ): List<String>? =
         schema.properties[propertyName]?.let { prop ->
             when (prop) {
-                is ValuePropertyDefinition -> prop.type
+                is CommonSchemaAttributes -> prop.type
                 else -> null
             }
         }
@@ -71,7 +71,7 @@ public object SchemaHelper {
      * @return true if the property is required, false otherwise
      */
     public fun isPropertyRequired(
-        schema: JsonSchemaDefinition,
+        schema: JsonSchema,
         propertyName: String,
     ): Boolean = schema.required.contains(propertyName)
 
@@ -83,7 +83,7 @@ public object SchemaHelper {
      * @return true if all properties are required, false otherwise
      */
     public fun hasAllRequiredProperties(
-        schema: JsonSchemaDefinition,
+        schema: JsonSchema,
         vararg propertyNames: String,
     ): Boolean = propertyNames.all { it in schema.required }
 
@@ -95,7 +95,7 @@ public object SchemaHelper {
      * @return The property definition, or null if not found
      */
     public fun getProperty(
-        schema: JsonSchemaDefinition,
+        schema: JsonSchema,
         propertyName: String,
     ): PropertyDefinition? = schema.properties[propertyName]
 
@@ -107,12 +107,12 @@ public object SchemaHelper {
      * @return The description of the property, or null if not found
      */
     public fun getPropertyDescription(
-        schema: JsonSchemaDefinition,
+        schema: JsonSchema,
         propertyName: String,
     ): String? =
         schema.properties[propertyName]?.let { prop ->
             when (prop) {
-                is ValuePropertyDefinition -> prop.description
+                is CommonSchemaAttributes -> prop.description
                 else -> null
             }
         }

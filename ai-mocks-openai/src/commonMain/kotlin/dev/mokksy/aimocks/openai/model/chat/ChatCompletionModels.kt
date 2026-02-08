@@ -2,9 +2,9 @@
 
 package dev.mokksy.aimocks.openai.model.chat
 
+import dev.mokksy.aimocks.openai.ResponseFormat
 import dev.mokksy.aimocks.openai.model.ChatCompletionRole
 import dev.mokksy.aimocks.openai.model.ChatCompletionStreamOptions
-import kotlinx.schema.json.JsonSchema
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.EncodeDefault.Mode.ALWAYS
 import kotlinx.serialization.EncodeDefault.Mode.NEVER
@@ -347,17 +347,14 @@ public data class CallableFunction(
 )
 
 /**
- * Represents the format for responses.
- *
- * @property type The type of the response format.
- * @property jsonSchema Optional JSON schema for the response.
+ * Backward-compatible typealias for [dev.mokksy.aimocks.openai.ResponseFormat].
  */
-@Serializable
-public data class ResponseFormat(
-    val type: String,
-    @SerialName("json_schema")
-    val jsonSchema: JsonSchema? = null,
+@Deprecated(
+    message = "Moved to dev.mokksy.aimocks.openai.ResponseFormat",
+    replaceWith = ReplaceWith("ResponseFormat", "dev.mokksy.aimocks.openai.ResponseFormat"),
+    level = DeprecationLevel.ERROR,
 )
+public typealias ResponseFormat = dev.mokksy.aimocks.openai.ResponseFormat
 
 /**
  * Represents a sealed class that defines choices for tools used in a process or operation.

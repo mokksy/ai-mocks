@@ -99,24 +99,24 @@ internal class GenerateModelsTest : AbstractSerializationTest() {
         model.prompt shouldBe "Describe a person"
 
         val formatSchema = model.format.shouldBeInstanceOf<Format.Schema>()
-        formatSchema.schema.name shouldBe "person_schema"
-        formatSchema.schema.schema.type shouldBe listOf("object")
-        formatSchema.schema.schema.properties.size shouldBe 3
-        formatSchema.schema.schema.required shouldBe listOf("name", "age")
+        formatSchema.name shouldBe "person_schema"
+        formatSchema.schema.type shouldBe listOf("object")
+        formatSchema.schema.properties.size shouldBe 3
+        formatSchema.schema.required shouldBe listOf("name", "age")
 
         // Verify that the properties have the expected values
         val nameProperty =
-            formatSchema.schema.schema.properties["name"]
+            formatSchema.schema.properties["name"]
                 ?.shouldBeInstanceOf<StringPropertyDefinition>()
         nameProperty?.description shouldBe "The person's name"
 
         val ageProperty =
-            formatSchema.schema.schema.properties["age"]
+            formatSchema.schema.properties["age"]
                 ?.shouldBeInstanceOf<NumericPropertyDefinition>()
         ageProperty?.description shouldBe "The person's age"
 
         val occupationProperty =
-            formatSchema.schema.schema.properties["occupation"]
+            formatSchema.schema.properties["occupation"]
                 ?.shouldBeInstanceOf<StringPropertyDefinition>()
         occupationProperty?.description shouldBe "The person's occupation"
     }
@@ -129,7 +129,7 @@ internal class GenerateModelsTest : AbstractSerializationTest() {
             {
               "model": "llama3.2",
               "created_at": "2023-08-04T19:22:45.499127Z",
-              "response": "The sky appears blue because of a phenomenon called Rayleigh scattering. As sunlight travels through the Earth's atmosphere, the shorter blue wavelengths of light are scattered more efficiently by air molecules than the longer wavelengths (like red or yellow). This scattered blue light reaches our eyes from all directions in the sky, making the sky appear blue.",
+              "response": "The sky appears blue because of a phenomenon called Rayleigh scattering.",
               "done": true,
               "done_reason": "stop",
               "context": [1, 2, 3],
@@ -146,7 +146,7 @@ internal class GenerateModelsTest : AbstractSerializationTest() {
         model.model shouldBe "llama3.2"
         model.createdAt shouldBe Instant.parse("2023-08-04T19:22:45.499127Z")
         model.response shouldBe
-            "The sky appears blue because of a phenomenon called Rayleigh scattering. As sunlight travels through the Earth's atmosphere, the shorter blue wavelengths of light are scattered more efficiently by air molecules than the longer wavelengths (like red or yellow). This scattered blue light reaches our eyes from all directions in the sky, making the sky appear blue."
+            "The sky appears blue because of a phenomenon called Rayleigh scattering."
         model.done shouldBe true
         model.doneReason shouldBe "stop"
         model.context shouldBe listOf(1, 2, 3)
