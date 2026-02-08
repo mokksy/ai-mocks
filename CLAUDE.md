@@ -1,1 +1,1 @@
-GUIDELINES.md
+AGENTS.md
