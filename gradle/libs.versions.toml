@@ -33,6 +33,7 @@ spring = "6.2.16"
 spring-ai = "1.1.2"
 system-stubs = "2.1.8"
 jansi = "2.4.2"
+knit = "0.5.1"
 vanniktechMavenPublish = "0.36.0"
 
 [libraries]
@@ -103,6 +104,7 @@ system-stubs = { module = "uk.org.webcompere:system-stubs-jupiter", version.ref 
 [plugins]
 detekt = { id = "dev.detekt", version.ref = "detekt" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+knit = { id = "org.jetbrains.kotlinx.knit", version.ref = "knit" }
 kotlinx-atomicfu = { id = "org.jetbrains.kotlinx.atomicfu", version.ref = "atomicfu" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 nexusPublish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexusPublish" }

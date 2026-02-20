@@ -19,12 +19,12 @@ Currently, it supports the main endpoints of the Ollama API, including:
 
 ## Quick Start
 
-Add Dependency Include the library in your test dependencies (Maven or Gradle).
+Include the library in your test dependencies (Maven or Gradle).
 
 {{< tabs "dependencies" >}}
 {{< tab "Gradle" >}}
 ```kotlin
-implementation("dev.mokksy.aimocks:ai-mocks-ollama-jvm:$latestVersion")
+testImplementation("dev.mokksy.aimocks:ai-mocks-ollama-jvm:$latestVersion")
 ```
 
 {{< /tab >}}
@@ -34,6 +34,7 @@ implementation("dev.mokksy.aimocks:ai-mocks-ollama-jvm:$latestVersion")
   <groupId>dev.mokksy.aimocks</groupId>
   <artifactId>ai-mocks-ollama-jvm</artifactId>
   <version>[LATEST_VERSION]</version>
+  <scope>test</scope>
 </dependency>
 ```
 
@@ -44,6 +45,10 @@ implementation("dev.mokksy.aimocks:ai-mocks-ollama-jvm:$latestVersion")
 
 Set up a mock server and define mock responses:
 
+<!--- CLEAR -->
+<!--- INCLUDE
+import dev.mokksy.aimocks.ollama.MockOllama
+-->
 ```kotlin
 // Create a mock Ollama server
 val ollama = MockOllama(verbose = true)
@@ -52,10 +57,30 @@ val ollama = MockOllama(verbose = true)
 val baseUrl = ollama.baseUrl()
 ```
 
+<!--- KNIT example-ollama-01.kt -->
+
 ## Generate Completions API
 
 Let's simulate Ollama's Generate Completions API:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.ollama.MockOllama
+import dev.mokksy.aimocks.ollama.generate.GenerateRequest
+import dev.mokksy.aimocks.ollama.generate.GenerateResponse
+import dev.mokksy.aimocks.ollama.model.ModelOptions
+import io.kotest.matchers.shouldBe
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import java.net.URI
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
+import kotlin.time.Duration.Companion.milliseconds
+val ollama = MockOllama(verbose = true)
+val client = HttpClient.newHttpClient()
+val json = Json { ignoreUnknownKeys = true }
+fun main() {
+-->
 ```kotlin
 // Define mock response
 ollama.generate {
@@ -72,10 +97,7 @@ val request = GenerateRequest(
   model = "llama3",
   prompt = "Tell me a joke",
   stream = false,
-  options = mapOf(
-    "temperature" to "0.7",
-    "top_p" to "0.9"
-  )
+  options = ModelOptions(temperature = 0.7, topP = 0.9)
 )
 
 // Send request to mock server
@@ -100,10 +122,34 @@ generateResponse.done shouldBe true
 generateResponse.doneReason shouldBe "stop"
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-ollama-02.kt -->
+
 ## Chat Completions API
 
 Let's simulate Ollama's Chat Completions API:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.ollama.MockOllama
+import dev.mokksy.aimocks.ollama.chat.ChatRequest
+import dev.mokksy.aimocks.ollama.chat.ChatResponse
+import dev.mokksy.aimocks.ollama.chat.Message
+import dev.mokksy.aimocks.ollama.model.ModelOptions
+import io.kotest.matchers.shouldBe
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import java.net.URI
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
+import kotlin.time.Duration.Companion.milliseconds
+val ollama = MockOllama(verbose = true)
+val client = HttpClient.newHttpClient()
+val json = Json { ignoreUnknownKeys = true }
+fun main() {
+-->
 ```kotlin
 // Define mock response
 ollama.chat {
@@ -124,12 +170,7 @@ val request = ChatRequest(
     )
   ),
   stream = false,
-  options = JsonObject(
-    mapOf(
-      "temperature" to JsonPrimitive("0.7"),
-      "top_p" to JsonPrimitive("0.9")
-    )
-  )
+  options = ModelOptions(temperature = 0.7, topP = 0.9)
 )
 
 // Send request to mock server
@@ -153,10 +194,33 @@ chatResponse.model shouldBe "llama3"
 chatResponse.done shouldBe true
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-ollama-03.kt -->
+
 ## Embeddings API
 
 Let's simulate Ollama's Embeddings API:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.ollama.MockOllama
+import dev.mokksy.aimocks.ollama.embed.EmbeddingsRequest
+import dev.mokksy.aimocks.ollama.embed.EmbeddingsResponse
+import dev.mokksy.aimocks.ollama.model.ModelOptions
+import io.kotest.matchers.shouldBe
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import java.net.URI
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
+import kotlin.time.Duration.Companion.milliseconds
+val ollama = MockOllama(verbose = true)
+val client = HttpClient.newHttpClient()
+val json = Json { ignoreUnknownKeys = true }
+fun main() {
+-->
 ```kotlin
 // Define mock response for a single string input
 val embeddings = listOf(listOf(0.1f, 0.2f, 0.3f, 0.4f, 0.5f))
@@ -170,13 +234,10 @@ ollama.embed {
 }
 
 // Create request
-val request = StringEmbeddingsRequest(
+val request = EmbeddingsRequest(
   model = "llama3",
-  input = "The sky is blue",
-  options = mapOf(
-    "temperature" to "0.7",
-    "top_p" to "0.9"
-  )
+  input = listOf("The sky is blue"),
+  options = ModelOptions(temperature = 0.7, topP = 0.9)
 )
 
 // Send request to mock server
@@ -185,7 +246,7 @@ val httpRequest = HttpRequest.newBuilder()
   .header("Content-Type", "application/json")
   .POST(
     HttpRequest.BodyPublishers.ofString(
-      json.encodeToString(StringEmbeddingsRequest.serializer(), request)
+      json.encodeToString(EmbeddingsRequest.serializer(), request)
     )
   )
   .build()
@@ -199,8 +260,31 @@ embedResponse.embeddings shouldBe embeddings
 embedResponse.model shouldBe "llama3"
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-ollama-04.kt -->
+
 You can also mock embeddings for a list of strings:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.ollama.MockOllama
+import dev.mokksy.aimocks.ollama.embed.EmbeddingsRequest
+import dev.mokksy.aimocks.ollama.embed.EmbeddingsResponse
+import dev.mokksy.aimocks.ollama.model.ModelOptions
+import io.kotest.matchers.shouldBe
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import java.net.URI
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
+import kotlin.time.Duration.Companion.milliseconds
+val ollama = MockOllama(verbose = true)
+val client = HttpClient.newHttpClient()
+val json = Json { ignoreUnknownKeys = true }
+fun main() {
+-->
 ```kotlin
 // Define mock response for multiple string inputs
 val embeddings = listOf(
@@ -217,13 +301,10 @@ ollama.embed {
 }
 
 // Create request
-val request = StringListEmbeddingsRequest(
+val request = EmbeddingsRequest(
   model = "llama3",
   input = listOf("The sky is blue", "The grass is green"),
-  options = mapOf(
-    "temperature" to "0.7",
-    "top_p" to "0.9"
-  )
+  options = ModelOptions(temperature = 0.7, topP = 0.9)
 )
 
 // Send request to mock server
@@ -232,7 +313,7 @@ val httpRequest = HttpRequest.newBuilder()
   .header("Content-Type", "application/json")
   .POST(
     HttpRequest.BodyPublishers.ofString(
-      json.encodeToString(StringListEmbeddingsRequest.serializer(), request)
+      json.encodeToString(EmbeddingsRequest.serializer(), request)
     )
   )
   .build()
@@ -246,10 +327,21 @@ embedResponse.embeddings shouldBe embeddings
 embedResponse.model shouldBe "llama3"
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-ollama-05.kt -->
+
 ## Streaming Responses
 
 AI-Mocks-Ollama supports streaming responses for both generate and chat endpoints:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.ollama.MockOllama
+import kotlin.time.Duration.Companion.milliseconds
+val ollama = MockOllama(verbose = true)
+fun main() {
+-->
 ```kotlin
 // Define streaming mock response for generate endpoint
 ollama.generate {
@@ -279,6 +371,11 @@ ollama.chat {
   delayBetweenChunks = 100.milliseconds
 }
 ```
+
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-ollama-06.kt -->
 
 ## Request Configuration Options
 
@@ -348,41 +445,58 @@ The following tables list the available configuration options for mocking Ollama
 
 ### Streaming Response Configuration Options
 
-| Option               | Description                                         | Default Value | Availability    |
-|----------------------|-----------------------------------------------------|---------------|-----------------|
-| `responseFlow`       | A flow of content chunks for the streaming response | `null`        | Generate & Chat |
-| `responseChunks`     | A list of content chunks for the streaming response | `null`        | Generate & Chat |
-| `delayBetweenChunks` | The delay between sending chunks                    | `0.1.seconds` | Generate & Chat |
-| `doneReason`         | The reason why generation completed                 | `"stop"`      | Generate only   |
+| Option               | Description                                         | Default Value   | Availability    |
+|----------------------|-----------------------------------------------------|-----------------|-----------------|
+| `responseFlow`       | A flow of content chunks for the streaming response | `null`          | Generate & Chat |
+| `responseChunks`     | A list of content chunks for the streaming response | `null`          | Generate & Chat |
+| `delayBetweenChunks` | The delay between sending chunks                    | `Duration.ZERO` | Generate & Chat |
+| `doneReason`         | The reason why generation completed                 | `"stop"`        | Generate only   |
 
 ## Integration Testing
 
-For integration testing, you can use the `AbstractMockOllamaTest` base class:
+Create a test class with a `MockOllama` instance to test your Ollama client integration:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.ollama.MockOllama
+import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.test.runTest
+import kotlin.test.Test
+-->
 ```kotlin
-internal class MyOllamaTest : AbstractMockOllamaTest() {
+class MyOllamaTest {
+  private val ollama = MockOllama()
+
   @Test
   fun `Should respond to Chat Completion`() = runTest {
     // Configure mock response
     ollama.chat {
-      model = modelName
+      model = "llama3"
     } responds {
       content("Hello, how can I help you today?")
     }
 
-    // Use your Ollama client to make a request
-    val response = myOllamaClient.chat("Hello")
-
-    // Verify the response
-    response.content shouldBe "Hello, how can I help you today?"
+    // Use your Ollama client to make a request and verify the response
   }
 }
 ```
+
+<!--- KNIT example-ollama-07.kt -->
 
 ## Integration with LangChain4j
 
 AI-Mocks-Ollama can be used with LangChain4j's Ollama integration:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.ollama.MockOllama
+import dev.langchain4j.data.message.UserMessage.userMessage
+import dev.langchain4j.kotlin.model.chat.chat
+import dev.langchain4j.model.ollama.OllamaChatModel
+import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
+import kotlin.time.Duration.Companion.milliseconds
+fun main() = runBlocking {
+-->
 ```kotlin
 // Create a mock Ollama server
 val ollama = MockOllama(verbose = true)
@@ -413,6 +527,11 @@ result.apply {
   aiMessage().text() shouldBe "Hello, how can I help you today?"
 }
 ```
+
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-ollama-08.kt -->
 
 Check for examples in
 the [integration tests](https://github.com/mokksy/ai-mocks/tree/main/ai-mocks-ollama/src/jvmTest/kotlin/me/kpavlov/aimocks/ollama).

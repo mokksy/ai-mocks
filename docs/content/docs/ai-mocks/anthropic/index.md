@@ -1,10 +1,6 @@
----
-title: "Anthropic"
-#weight: 40
-toc: true
----
-
-[MockAnthropic](https://github.com/mokksy/ai-mocks/blob/main/ai-mocks-anthropic/src/commonMain/kotlin/me/kpavlov/aimocks/anthropic/MockAnthropic.kt) provides a local mock server for simulating [Anthropic API endpoints](https://docs.anthropic.com/en/api). It simplifies testing by allowing you to define request expectations and responses without making real network calls.
+[MockAnthropic](https://github.com/mokksy/ai-mocks/blob/main/ai-mocks-anthropic/src/commonMain/kotlin/me/kpavlov/aimocks/anthropic/MockAnthropic.kt)
+provides a local mock server for simulating [Anthropic API endpoints](https://docs.anthropic.com/en/api). It simplifies
+testing by allowing you to define request expectations and responses without making real network calls.
 
 ## Quick Start
 
@@ -14,38 +10,53 @@ Include the library in your test dependencies (Maven or Gradle).
 
 {{< tabs "dependencies" >}}
 {{< tab "Gradle" >}}
+
 ```kotlin
-implementation("dev.mokksy.aimocks:ai-mocks-anthropic-jvm:$latestVersion")
+testImplementation("dev.mokksy.aimocks:ai-mocks-anthropic-jvm:$latestVersion")
 ```
 
 {{< /tab >}}
 {{< tab "Maven" >}}
+
 ```xml
 <dependency>
-    <groupId>dev.mokksy.aimocks</groupId>
-    <artifactId>ai-mocks-anthropic-jvm</artifactId>
-    <version>[LATEST_VERSION]</version>
+  <groupId>dev.mokksy.aimocks</groupId>
+  <artifactId>ai-mocks-anthropic-jvm</artifactId>
+  <version>[LATEST_VERSION]</version>
+  <scope>test</scope>
 </dependency>
 ```
 
 {{< /tab >}}
 {{< /tabs >}}
 
-### Initialize the Server**
+### Initialize the Server
 
+<!--- CLEAR -->
+<!--- INCLUDE
+import dev.mokksy.aimocks.anthropic.MockAnthropic
+-->
 ```kotlin
 val anthropic = MockAnthropic(verbose = true)
 ```
 
+<!--- KNIT example-anthropic-01.kt -->
+
 - The server will start on a random free port by default.
 - You can retrieve the server's base URL via `anthropic.baseUrl()`.
 
-### Configure Requests and Responses**
+### Configure Requests and Responses
 
 Here's an example that sets up a mock "messages" endpoint and defines the response:
 
-  ```kotlin
-  anthropic.messages {
+<!--- INCLUDE
+import dev.mokksy.aimocks.anthropic.MockAnthropic
+import kotlin.time.Duration.Companion.milliseconds
+val anthropic = MockAnthropic(verbose = true)
+fun main() {
+-->
+```kotlin
+anthropic.messages {
   temperature = 0.42
   model = "claude-3-7-sonnet-latest"
   maxTokens = 100
@@ -60,16 +71,29 @@ Here's an example that sets up a mock "messages" endpoint and defines the respon
   delay = 200.milliseconds // simulate delay
   stopReason = "end_turn" // reason for stopping
 }
-  ```
+```
+
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-anthropic-02.kt -->
 
 - The `messages { ... }` block sets how the incoming request must look.
 - The `responds { ... }` block defines what the mock server returns.
 
 ### Calling Anthropic API Client
 
-Here's an example that sets up and call
+Here's an example that sets up and calls the
 official [Anthropic SDK client](https://github.com/anthropics/anthropic-sdk-java):
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.anthropic.MockAnthropic
+import com.anthropic.client.okhttp.AnthropicOkHttpClient
+import com.anthropic.models.messages.MessageCreateParams
+import io.kotest.matchers.shouldBe
+val anthropic = MockAnthropic(verbose = true)
+fun main() {
+-->
 ```kotlin
 // create Anthropic SDK client
 val client =
@@ -102,10 +126,21 @@ result
   .text() shouldBe "Hello" // kotest matcher
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-anthropic-03.kt -->
+
 ## Streaming Responses
 
 You can also configure streaming responses (such as chunked SSE events) for testing:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.anthropic.MockAnthropic
+import kotlin.time.Duration.Companion.milliseconds
+val anthropic = MockAnthropic(verbose = true)
+fun main() {
+-->
 ```kotlin
 anthropic.messages {
   temperature = 0.7
@@ -124,7 +159,20 @@ anthropic.messages {
 }
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-anthropic-04.kt -->
+
 Or, you can use a flow to generate the response:
+
+<!--- INCLUDE
+import dev.mokksy.aimocks.anthropic.MockAnthropic
+import kotlinx.coroutines.flow.flow
+import kotlin.time.Duration.Companion.milliseconds
+val anthropic = MockAnthropic(verbose = true)
+fun main() {
+-->
 ```kotlin
 anthropic.messages("anthropic-messages-flow") {
   temperature = 0.7
@@ -150,7 +198,25 @@ anthropic.messages("anthropic-messages-flow") {
 }
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-anthropic-05.kt -->
+
 Call Anthropic client:
+
+<!--- INCLUDE
+import dev.mokksy.aimocks.anthropic.MockAnthropic
+import com.anthropic.client.okhttp.AnthropicOkHttpClient
+import com.anthropic.models.messages.MessageCreateParams
+import com.anthropic.models.messages.Metadata
+import io.kotest.matchers.comparables.shouldBeLessThan
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.measureTimedValue
+val anthropic = MockAnthropic(verbose = true)
+val client = AnthropicOkHttpClient.builder().apiKey("my-anthropic-api-key").baseUrl(anthropic.baseUrl()).build()
+fun main() {
+-->
 ```kotlin
 val params =
   MessageCreateParams
@@ -170,18 +236,18 @@ val timedValue =
     client
       .messages()
       .createStreaming(params)
-      .stream() // streaming
-      .consumeAsFlow()
-      .onStart { logger.info { "Started streaming" } }
-      .onEach {
-        logger
-          .info { it }
-      }.onCompletion { logger.info { "Completed streaming" } }
-      .count()
+      .use { streamResponse ->
+        streamResponse.stream().count()
+      }
   }
 timedValue.duration shouldBeLessThan 10.seconds
-timedValue.value shouldBeLessThan 10
+timedValue.value shouldBeLessThan 10L
 ```
+
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-anthropic-06.kt -->
 
 Use your Anthropic client to invoke the endpoint at `anthropic.baseUrl()`, and it will receive a streamed response.
 
@@ -189,46 +255,81 @@ Use your Anthropic client to invoke the endpoint at `anthropic.baseUrl()`, and i
 
 To test client behavior for exceptional cases:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.anthropic.MockAnthropic
+import io.ktor.http.HttpStatusCode
+val anthropic = MockAnthropic(verbose = true)
+fun main() {
+-->
 ```kotlin
 anthropic.messages {
-    // expected request
+  // expected request
 } respondsError {
-    httpStatus = HttpStatusCode.InternalServerError // Set an error status code
-    body = """{
+  httpStatus = HttpStatusCode.InternalServerError // Set an error status code
+  body = """{
       "type": "error",
       "error": {
         "type": "api_error",
         "message": "An unexpected error has occurred internal to Anthropic's systems."
       }
     }"""
-    // Optionally add a delay or other properties
+  // Optionally add a delay or other properties
 }
 ```
+
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-anthropic-07.kt -->
 
 ## Practical Example in Tests
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.anthropic.MockAnthropic
+import kotlin.test.Test
+import kotlin.test.assertEquals
+val anthropic = MockAnthropic(verbose = true)
+data class ConversationResult(val assistantMessage: String)
+class FakeAnthropicClient { fun sendMessage(msg: String): ConversationResult = ConversationResult("") }
+val yourAnthropicClient = FakeAnthropicClient()
+-->
 ```kotlin
 @Test
 fun `test basic conversation`() {
-    // Arrange: mock the messages API
-    anthropic.messages {
-        userMessageContains("Hello")
-    } responds {
-        assistantContent = "Hi from mock!"
-    }
+  // Arrange: mock the messages API
+  anthropic.messages {
+    userMessageContains("Hello")
+  } responds {
+    assistantContent = "Hi from mock!"
+  }
 
-    // Act: call the mocked endpoint in your test code
-    val result = yourAnthropicClient.sendMessage("Hello")
+  // Act: call the mocked endpoint in your test code
+  val result = yourAnthropicClient.sendMessage("Hello")
 
-    // Assert: verify the response
-    assertEquals("Hi from mock!", result.assistantMessage)
+  // Assert: verify the response
+  assertEquals("Hi from mock!", result.assistantMessage)
 }
 ```
+
+<!--- KNIT example-anthropic-08.kt -->
 
 ## Integration with LangChain4j
 
 You may use also LangChain4J Kotlin Extensions:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.anthropic.MockAnthropic
+import dev.langchain4j.data.message.UserMessage.userMessage
+import dev.langchain4j.kotlin.model.chat.chat
+import dev.langchain4j.model.anthropic.AnthropicChatModel
+import dev.langchain4j.model.output.FinishReason
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import kotlinx.coroutines.runBlocking
+import kotlin.time.Duration.Companion.milliseconds
+val anthropic = MockAnthropic(verbose = true)
+fun main() = runBlocking {
+-->
 ```kotlin
 // Set up mock response
 anthropic.messages {
@@ -261,10 +362,33 @@ result.apply {
 }
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-anthropic-09.kt -->
+
 ### Stream Responses
 
 Mock streaming responses easily with flow support:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.anthropic.MockAnthropic
+import dev.langchain4j.data.message.UserMessage.userMessage
+import dev.langchain4j.data.message.SystemMessage.systemMessage
+import dev.langchain4j.kotlin.model.chat.StreamingChatModelReply
+import dev.langchain4j.kotlin.model.chat.chatFlow
+import dev.langchain4j.model.anthropic.AnthropicStreamingChatModel
+import dev.langchain4j.model.chat.request.ChatRequest
+import dev.langchain4j.model.chat.response.ChatResponse
+import dev.langchain4j.model.chat.response.StreamingChatResponseHandler
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.runBlocking
+val anthropic = MockAnthropic(verbose = true)
+fun main() = runBlocking {
+-->
 ```kotlin
 // Example 1: Using responseChunks
 val userMessage = "What do we need?"
@@ -344,10 +468,25 @@ model.chat(
 )
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-anthropic-10.kt -->
+
 ## Stopping the Server
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.anthropic.MockAnthropic
+val anthropic = MockAnthropic(verbose = true)
+fun main() {
+-->
 ```kotlin
-anthropic.stop()
+anthropic.shutdown()
 ```
+
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-anthropic-11.kt -->
 
 Stops the mock server and frees up resources.

@@ -3,7 +3,7 @@ package dev.mokksy.mokksy
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiationConfig
 
 /**
- * Controls which requests are recorded in the [RequestJournal].
+ * Controls which requests are recorded in the [dev.mokksy.mokksy.request.RequestJournal].
  */
 public enum class JournalMode {
     /**
@@ -29,7 +29,7 @@ public enum class JournalMode {
  *                   verbose logging is enabled for debugging purposes. Default is `false`.
  * @property name The name of the server. Can be `null`, but defaults to "Mokksy" if not provided.
  *                Used for identification or descriptive purposes.
- * @property journalMode Controls which requests are recorded in the [RequestJournal].
+ * @property journalMode Controls which requests are recorded in the [dev.mokksy.mokksy.request.RequestJournal].
  *                       Defaults to [JournalMode.LEAN] (only unmatched requests).
  * @property contentNegotiationConfigurer A function used to configure content negotiation for
  *                                        the server. The provided function is invoked with
