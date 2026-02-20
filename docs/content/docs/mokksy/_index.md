@@ -220,30 +220,95 @@ assertThat(result.bodyAsText())
 
 ## Verifying Requests
 
-After your test is complete, you can verify that all expected requests were received:
+Mokksy provides two complementary verification methods that check opposite sides of the stub/request contract.
+
+### Verify all stubs were triggered
+
+`checkForUnmatchedStubs()` fails if any registered stub was never matched by an incoming request. Use this to catch
+stubs you set up but that were never actually called — a sign the code under test took a different path than expected.
 
 ```kotlin
-// Verify no unmatched requests
+// Fails if any stub has matchCount == 0
+mokksy.checkForUnmatchedStubs()
+```
+
+### Verify no unexpected requests arrived
+
+`checkForUnmatchedRequests()` fails if any HTTP request arrived at the server but no stub matched it. These requests are
+recorded in the [request journal](#request-journal) and reported together.
+
+```kotlin
+// Fails if any request arrived with no matching stub (unexpected request)
 mokksy.checkForUnmatchedRequests()
 ```
 
-If there is an unexpected request to the mock, then AssertionError will be thrown.
+### Recommended AfterEach setup
 
-It's a good practice to run it after every test:
+Run both checks after every test to catch mismatch in either direction:
 
 ```kotlin
 class MyTest {
-    
+
     private val mokksy = Mokksy()
-  
+
     @AfterEach
     fun afterEach() {
-      mokksy.checkForUnmatchedRequests()
+      mokksy.checkForUnmatchedRequests() // no unexpected HTTP calls
+      mokksy.checkForUnmatchedStubs()    // no unused stubs
     }
-  
-    @Test
+
+  @Test
     fun testSomething() {
         TODO("Write your test here")
     }
+}
+```
+
+### Inspecting unmatched items
+
+Use the `find*` variants to retrieve the unmatched items directly for custom assertions:
+
+```kotlin
+// List<RecordedRequest> — HTTP requests with no matching stub
+val unmatchedRequests: List<RecordedRequest> = mokksy.findAllUnmatchedRequests()
+
+// List<RequestSpecification<*>> — stubs that were never triggered
+val unmatchedStubs: List<RequestSpecification<*>> = mokksy.findAllUnmatchedStubs()
+```
+
+`RecordedRequest` is an immutable snapshot that captures the `method`, `uri`, and `headers` of the incoming request.
+
+## Request Journal
+
+Mokksy records incoming requests in a `RequestJournal`. The recording mode is controlled by `JournalMode` in
+`ServerConfiguration`:
+
+| Mode                           | Behaviour                                                                                                  |
+|--------------------------------|------------------------------------------------------------------------------------------------------------|
+| `JournalMode.LEAN` *(default)* | Records only requests with no matching stub. Lower overhead. Sufficient for `checkForUnmatchedRequests()`. |
+| `JournalMode.FULL`             | Records all incoming requests — both matched and unmatched.                                                |
+
+```kotlin
+val mokksy = Mokksy(
+  configuration = ServerConfiguration(
+    journalMode = JournalMode.FULL
+  )
+)
+```
+
+Use `FULL` mode when you need a complete picture of traffic, for example to debug unexpected call patterns by combining
+both lists:
+
+```kotlin
+val unmatched = mokksy.findAllUnmatchedRequests()
+// unmatched is empty only if every request found a matching stub
+```
+
+Call `resetMatchCounts()` between tests to clear both stub match counts and the journal:
+
+```kotlin
+@AfterEach
+fun afterEach() {
+  mokksy.resetMatchCounts()
 }
 ```

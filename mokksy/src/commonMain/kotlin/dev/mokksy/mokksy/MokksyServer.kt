@@ -1,5 +1,7 @@
 package dev.mokksy.mokksy
 
+import dev.mokksy.mokksy.request.RecordedRequest
+import dev.mokksy.mokksy.request.RequestJournal
 import dev.mokksy.mokksy.request.RequestSpecification
 import dev.mokksy.mokksy.request.RequestSpecificationBuilder
 import dev.mokksy.mokksy.request.methodEqual
@@ -124,6 +126,7 @@ public open class MokksyServer
         protected val httpFormatter: HttpFormatter = HttpFormatter()
 
         private val stubRegistry = StubRegistry()
+        private val requestJournal = RequestJournal(configuration.journalMode)
 
         private val server =
             createEmbeddedServer(
@@ -146,6 +149,7 @@ public open class MokksyServer
                                 context = this@handle,
                                 application = this@createEmbeddedServer,
                                 stubRegistry = stubRegistry,
+                                requestJournal = requestJournal,
                                 configuration = configuration,
                                 formatter = httpFormatter,
                             )
@@ -609,13 +613,13 @@ public open class MokksyServer
             this.options(name = null, requestType = String::class, block = block)
 
         /**
-         * Returns all request specifications that have not matched any incoming requests.
+         * Returns all stub specifications that have not been matched by any incoming request.
          *
-         * A request specification is considered unmatched if its associated stub's match count is zero.
+         * A stub is considered unmatched if its match count is zero.
          *
-         * @return A list of unmatched request specifications.
+         * @return A list of unmatched stub request specifications.
          */
-        public fun findAllUnmatchedRequests(): List<RequestSpecification<*>> =
+        public fun findAllUnmatchedStubs(): List<RequestSpecification<*>> =
             stubRegistry
                 .getAll()
                 .filter {
@@ -624,7 +628,14 @@ public open class MokksyServer
                 .toList()
 
         /**
-         * Resets the match count of all registered stubs to zero.
+         * Returns all HTTP requests that arrived at the server but were not matched by any stub.
+         *
+         * @return A list of [RecordedRequest] snapshots.
+         */
+        public fun findAllUnmatchedRequests(): List<RecordedRequest> = requestJournal.getUnmatched()
+
+        /**
+         * Resets the match count of all registered stubs to zero and clears the request journal.
          *
          * Use this to clear match history before running new tests or scenarios.
          */
@@ -634,23 +645,36 @@ public open class MokksyServer
                 .forEach {
                     it.resetMatchCount()
                 }
+            requestJournal.clear()
         }
 
         /**
-         * Verifies that all registered request stubs have been matched at least once.
+         * Verifies that all registered stubs have been matched at least once.
          *
-         * Throws an error if any request specification was not triggered during execution,
-         * listing all unmatched requests.
+         * Throws an error if any stub was registered but never triggered during execution.
+         */
+        public fun checkForUnmatchedStubs() {
+            val unmatchedStubs = findAllUnmatchedStubs()
+            if (unmatchedStubs.isNotEmpty()) {
+                failure(
+                    "The following stubs were not matched: ${
+                        unmatchedStubs.joinToString { it.toLogString() }
+                    }",
+                )
+            }
+        }
+
+        /**
+         * Verifies that all incoming HTTP requests were matched by a registered stub.
+         *
+         * Throws an error if any request arrived with no matching stub, listing all such requests.
          */
         public fun checkForUnmatchedRequests() {
-            val unmatchedRequests = findAllUnmatchedRequests()
-            if (unmatchedRequests.isNotEmpty()) {
+            val unmatched = findAllUnmatchedRequests()
+            if (unmatched.isNotEmpty()) {
                 failure(
-                    "The following requests were not matched: ${
-                        unmatchedRequests.joinToString {
-                            it
-                                .toLogString()
-                        }
+                    "The following requests were not matched by any stub: ${
+                        unmatched.joinToString()
                     }",
                 )
             }

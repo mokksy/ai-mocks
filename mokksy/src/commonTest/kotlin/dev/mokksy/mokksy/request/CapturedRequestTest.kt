@@ -1,6 +1,5 @@
 package dev.mokksy.mokksy.request
 
-import dev.mokksy.mokksy.CapturedRequest
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody

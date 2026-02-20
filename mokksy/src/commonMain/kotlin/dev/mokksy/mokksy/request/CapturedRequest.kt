@@ -1,4 +1,4 @@
-package dev.mokksy.mokksy
+package dev.mokksy.mokksy.request
 
 import io.ktor.server.application.log
 import io.ktor.server.request.ApplicationRequest
@@ -82,11 +82,16 @@ public data class CapturedRequest<P : Any>(
                             var local: String? = bodyStringCache.value
                             if (local == null) {
                                 val received = request.call.receiveNullable<String>()
-                                if (!bodyStringCache.compareAndSet(null, received)) {
-                                    local = bodyStringCache.value
-                                } else {
-                                    local = received
-                                }
+                                local =
+                                    if (!bodyStringCache.compareAndSet(
+                                            expect = null,
+                                            update = received,
+                                        )
+                                    ) {
+                                        bodyStringCache.value
+                                    } else {
+                                        received
+                                    }
                             }
                             local
                         }

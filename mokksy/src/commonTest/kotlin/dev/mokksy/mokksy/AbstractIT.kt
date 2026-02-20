@@ -36,5 +36,6 @@ internal abstract class AbstractIT(
     @AfterTest
     fun afterEach() {
         mokksy.checkForUnmatchedRequests()
+        mokksy.checkForUnmatchedStubs()
     }
 }
