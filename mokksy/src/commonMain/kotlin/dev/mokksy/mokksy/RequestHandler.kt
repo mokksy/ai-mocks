@@ -1,5 +1,7 @@
 package dev.mokksy.mokksy
 
+import dev.mokksy.mokksy.request.RecordedRequest
+import dev.mokksy.mokksy.request.RequestJournal
 import dev.mokksy.mokksy.utils.logger.HttpFormatter
 import io.kotest.assertions.failure
 import io.ktor.server.application.Application
@@ -21,10 +23,12 @@ import io.ktor.server.routing.RoutingRequest
  * @param formatter Formats HTTP requests for logging and error messages.
  * @author Konstantin Pavlov
  */
+@Suppress("LongParameterList")
 internal suspend fun handleRequest(
     context: RoutingContext,
     application: Application,
     stubRegistry: StubRegistry,
+    requestJournal: RequestJournal,
     configuration: ServerConfiguration,
     formatter: HttpFormatter,
 ) {
@@ -38,7 +42,10 @@ internal suspend fun handleRequest(
             formatter = formatter,
         )
 
+    val recorded = RecordedRequest.from(request)
+
     if (matchedStub != null) {
+        requestJournal.recordMatched(recorded)
         handleMatchedStub(
             matchedStub = matchedStub,
             serverConfig = configuration,
@@ -48,6 +55,7 @@ internal suspend fun handleRequest(
             formatter = formatter,
         )
     } else {
+        requestJournal.recordUnmatched(recorded)
         if (configuration.verbose) {
             val stubsInfo = stubRegistry.getAll().joinToString("\n---\n") { it.toLogString() }
             application.log.warn(

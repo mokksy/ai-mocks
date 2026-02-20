@@ -1,5 +1,6 @@
 package dev.mokksy.mokksy
 
+import dev.mokksy.mokksy.request.CapturedRequest
 import dev.mokksy.mokksy.request.RequestSpecification
 import dev.mokksy.mokksy.response.ResponseDefinitionBuilder
 import dev.mokksy.mokksy.response.StreamingResponseDefinitionBuilder
