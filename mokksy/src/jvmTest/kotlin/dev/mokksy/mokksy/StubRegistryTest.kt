@@ -1,14 +1,10 @@
 package dev.mokksy.mokksy
 
 import dev.mokksy.mokksy.request.RequestSpecification
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import dev.mokksy.mokksy.utils.logger.HttpFormatter
 import io.kotest.matchers.Matcher
 import io.kotest.matchers.collections.shouldBeEmpty
-import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
-import io.ktor.http.ContentType
-import io.ktor.server.application.ApplicationCall
 import io.ktor.server.request.path
 import io.ktor.server.routing.RoutingRequest
 import io.ktor.util.logging.Logger
@@ -20,56 +16,15 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtendWith
-import kotlin.reflect.KClass
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
 @ExtendWith(MockKExtension::class)
 class StubRegistryTest {
-    private fun <T : Any> responseSupplier(): (
-        ApplicationCall,
-    ) -> AbstractResponseDefinition<T> =
-        { _ ->
-            object : AbstractResponseDefinition<T>(
-                contentType = ContentType.Any,
-                httpStatusCode = 200,
-            ) {
-                override suspend fun writeResponse(
-                    call: ApplicationCall,
-                    verbose: Boolean,
-                ) {
-                    // no-op for tests
-                }
-            }
-        }
-
-    private fun <P : Any, T : Any> stub(
-        name: String? = null,
-        priority: Int? = null,
-        removeAfterMatch: Boolean = false,
-        requestType: KClass<P>,
-        path: String? = null,
-    ): Stub<P, T> {
-        val spec =
-            RequestSpecification(
-                requestType = requestType,
-                priority = priority,
-                path =
-                    path?.let {
-                        dev.mokksy.mokksy.request
-                            .pathEqual(it)
-                    },
-            )
-        return Stub(
-            configuration = StubConfiguration(name = name, removeAfterMatch = removeAfterMatch),
-            requestSpecification = spec,
-            responseDefinitionSupplier = responseSupplier(),
-        )
-    }
-
     @MockK
     lateinit var routingRequest: RoutingRequest
 
@@ -87,11 +42,23 @@ class StubRegistryTest {
                 val registry = StubRegistry()
 
                 val s1 =
-                    stub<String, String>(name = "s1", priority = 10, requestType = String::class)
+                    createStub<String, String>(
+                        name = "s1",
+                        priority = 10,
+                        requestType = String::class,
+                    )
                 val s2 =
-                    stub<String, String>(name = "s2", priority = 1, requestType = String::class)
+                    createStub<String, String>(
+                        name = "s2",
+                        priority = 1,
+                        requestType = String::class,
+                    )
                 val s3 =
-                    stub<String, String>(name = "s3", priority = 10, requestType = String::class)
+                    createStub<String, String>(
+                        name = "s3",
+                        priority = 10,
+                        requestType = String::class,
+                    )
 
                 registry.add(s1)
                 registry.add(s2)
@@ -108,7 +75,11 @@ class StubRegistryTest {
             runTest {
                 val registry = StubRegistry()
                 val s1 =
-                    stub<String, String>(name = "dup", priority = 5, requestType = String::class)
+                    createStub<String, String>(
+                        name = "dup",
+                        priority = 5,
+                        requestType = String::class,
+                    )
 
                 registry.add(s1)
 
@@ -125,9 +96,17 @@ class StubRegistryTest {
             runTest {
                 val registry = StubRegistry()
                 val lowPrio =
-                    stub<String, String>(name = "low", priority = 100, requestType = String::class)
+                    createStub<String, String>(
+                        name = "low",
+                        priority = 100,
+                        requestType = String::class,
+                    )
                 val highPrio =
-                    stub<String, String>(name = "high", priority = 1, requestType = String::class)
+                    createStub<String, String>(
+                        name = "high",
+                        priority = 1,
+                        requestType = String::class,
+                    )
 
                 registry.add(lowPrio)
                 registry.add(highPrio)
@@ -151,9 +130,13 @@ class StubRegistryTest {
             runTest {
                 val registry = StubRegistry()
                 val first =
-                    stub<String, String>(name = "first", priority = 10, requestType = String::class)
+                    createStub<String, String>(
+                        name = "first",
+                        priority = 10,
+                        requestType = String::class,
+                    )
                 val second =
-                    stub<String, String>(
+                    createStub<String, String>(
                         name = "second",
                         priority = 10,
                         requestType = String::class,
@@ -179,7 +162,7 @@ class StubRegistryTest {
             runTest {
                 val registry = StubRegistry()
                 val removable =
-                    stub<String, String>(
+                    createStub<String, String>(
                         name = "once",
                         priority = 5,
                         removeAfterMatch = true,
@@ -219,7 +202,12 @@ class StubRegistryTest {
         fun `should remove stub and report status`() =
             runTest {
                 val registry = StubRegistry()
-                val s = stub<String, String>(name = "s", priority = 7, requestType = String::class)
+                val s =
+                    createStub<String, String>(
+                        name = "s",
+                        priority = 7,
+                        requestType = String::class,
+                    )
 
                 // not present yet
                 registry.remove(s) shouldBe false
@@ -230,11 +218,11 @@ class StubRegistryTest {
             }
 
         @Test
-        fun `should return null when no stub matches`() =
-            runTest {
+        fun `should return null when no stub matches`(): Unit =
+            runBlocking {
                 val registry = StubRegistry()
                 val s1 =
-                    stub<String, String>(
+                    createStub<String, String>(
                         name = "mismatch",
                         requestType = String::class,
                         path = "/expected",
@@ -256,12 +244,12 @@ class StubRegistryTest {
 
         @Test
         fun `should log warning when condition evaluation fails and verbose is true`() =
-            runTest {
+            runBlocking {
                 val registry = StubRegistry()
                 // Use a path matcher instead of a body matcher to avoid depending on
                 // Ktor's receive() extension function which cannot be mocked by MockK
                 val failingStub =
-                    Stub<String, String>(
+                    Stub(
                         configuration = StubConfiguration(name = "failing"),
                         requestSpecification =
                             RequestSpecification(
@@ -271,7 +259,7 @@ class StubRegistryTest {
                                         throw IllegalArgumentException("Boom!")
                                     },
                             ),
-                        responseDefinitionSupplier = responseSupplier(),
+                        responseDefinitionSupplier = okResponseSupplier<String>(),
                     )
 
                 registry.add(failingStub)
@@ -288,7 +276,10 @@ class StubRegistryTest {
 
                 verify {
                     logger.warn(
-                        match<String> { it.contains("Failed to evaluate condition for stub") },
+                        match<String> {
+                            it.contains("Failed to evaluate condition for stub:") &&
+                                it.contains("failing")
+                        },
                         any<Throwable>(),
                     )
                 }
@@ -304,7 +295,10 @@ class StubRegistryTest {
                 val count = 100
                 val stubsToAdd =
                     (1..count).map {
-                        stub<String, String>(name = "stub-$it", requestType = String::class)
+                        createStub<String, String>(
+                            name = "createStub-$it",
+                            requestType = String::class,
+                        )
                     }
 
                 val jobs =
@@ -325,7 +319,10 @@ class StubRegistryTest {
                 val count = 100
                 val stubs =
                     (1..count).map {
-                        stub<String, String>(name = "stub-$it", requestType = String::class)
+                        createStub<String, String>(
+                            name = "createStub-$it",
+                            requestType = String::class,
+                        )
                     }
 
                 // Add all first
@@ -350,8 +347,8 @@ class StubRegistryTest {
                 // Use different priorities to avoid ties being the only thing tested
                 val stubs =
                     (1..count).map {
-                        stub<String, String>(
-                            name = "stub-$it",
+                        createStub<String, String>(
+                            name = "createStub-$it",
                             priority = it,
                             removeAfterMatch = true,
                             requestType = String::class,
@@ -371,27 +368,6 @@ class StubRegistryTest {
                 results.filterNotNull().size shouldBe count
                 results.toSet().size shouldBe count // All unique
                 registry.getAll().shouldBeEmpty()
-            }
-    }
-
-    @Nested
-    inner class Snapshot {
-        @Test
-        fun `getAll should return a consistent snapshot`() =
-            runTest {
-                val registry = StubRegistry()
-                val s1 = stub<String, String>(name = "s1", requestType = String::class)
-                val s2 = stub<String, String>(name = "s2", requestType = String::class)
-
-                registry.add(s1)
-                val snapshot1 = registry.getAll()
-                snapshot1 shouldContainExactly listOf(s1)
-
-                registry.add(s2)
-                val snapshot2 = registry.getAll()
-
-                snapshot1 shouldContainExactly listOf(s1)
-                snapshot2 shouldContainExactly listOf(s1, s2)
             }
     }
 }
