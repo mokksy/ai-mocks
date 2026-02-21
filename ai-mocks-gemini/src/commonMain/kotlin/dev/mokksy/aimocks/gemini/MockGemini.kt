@@ -61,8 +61,9 @@ public open class MockGemini(
             ) {
                 val chatRequestSpec = matchRequestSpec(this, block)
 
-                val pathString = buildApiPath(chatRequestSpec, "generateContent")
-                path(pathString)
+                path(
+                    buildApiPath(chatRequestSpec, "generateContent"),
+                )
             }
 
         return GeminiContentBuildingStep(
@@ -97,9 +98,9 @@ public open class MockGemini(
             ) {
                 val chatRequestSpec = matchRequestSpec(this, block)
 
-                @Suppress("MaxLineLength")
-                val pathString: String = buildApiPath(chatRequestSpec, "streamGenerateContent")
-                path(pathString)
+                path(
+                    buildApiPath(chatRequestSpec, "streamGenerateContent"),
+                )
             }
 
         return GeminiStreamingContentBuildingStep(

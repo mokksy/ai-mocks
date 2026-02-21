@@ -30,8 +30,7 @@ internal class PushNotificationNotSupportedErrorTest {
         // then
         error.code shouldBe -32003
         error.message shouldBe "Push Notification is not supported"
-        // Note: The constructor ignores the data parameter and always sets data to null
-        error.data shouldBe null
+        error.data shouldBe data
     }
 
     @Test

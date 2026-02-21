@@ -8,7 +8,7 @@ public class PushNotificationNotSupportedError : JSONRPCError {
     public constructor(data: Data? = null) : super(
         code = -32003,
         message = "Push Notification is not supported",
-        data = null,
+        data = data,
     )
 
     public fun copy(data: Data? = this.data): InternalError = InternalError(data = data)
