@@ -45,7 +45,7 @@ jobs:
       # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
       # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
       - name: 🐘Setup Gradle
-        uses: gradle/actions/setup-gradle@f29f5a9d7b09a7c6b29859002d29d24e1674c884
+        uses: gradle/actions/setup-gradle@78f7dee6337f393c0a872d0afbda4c51a20e543d
         with:
           add-job-summary-as-pr-comment: on-failure # Valid values are 'never' (default), 'always', and 'on-failure'
           cache-disabled: false
@@ -114,7 +114,7 @@ jobs:
           distribution: ${{ env.JVM_DISTRIBUTION }}
 
       - name: 🐘Setup Gradle
-        uses: gradle/actions/setup-gradle@f29f5a9d7b09a7c6b29859002d29d24e1674c884
+        uses: gradle/actions/setup-gradle@78f7dee6337f393c0a872d0afbda4c51a20e543d
 
       - name: 🪡🧶Knit
         run: make knit
@@ -136,4 +136,4 @@ jobs:
       # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
       # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
       - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@f29f5a9d7b09a7c6b29859002d29d24e1674c884
+        uses: gradle/actions/dependency-submission@78f7dee6337f393c0a872d0afbda4c51a20e543d
