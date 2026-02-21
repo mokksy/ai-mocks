@@ -30,7 +30,6 @@ response streaming and Server-Side Events (SSE). They are designed to build, tes
   * [POST Request](#post-request)
   * [Server-Side Events (SSE) Response](#server-side-events-sse-response)
 * [Feature Support Matrix](#feature-support-matrix)
-* [Enjoying LLM integration testing? ❤️](#enjoying-llm-integration-testing?-❤️)
 * [How to build](#how-to-build)
 * [Contributing](#contributing)
 
