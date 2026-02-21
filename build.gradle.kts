@@ -27,7 +27,7 @@ subprojects {
         buildUponDefaultConfig = true
         parallel = true
         debug = false
-        failOnSeverity.set(FailOnSeverity.Never)
+        failOnSeverity.set(FailOnSeverity.Error)
     }
 }
 

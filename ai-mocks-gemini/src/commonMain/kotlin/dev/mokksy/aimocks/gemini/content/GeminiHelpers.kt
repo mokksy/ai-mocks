@@ -5,6 +5,7 @@ import dev.mokksy.aimocks.gemini.Content
 import dev.mokksy.aimocks.gemini.GenerateContentResponse
 import dev.mokksy.aimocks.gemini.Part
 import dev.mokksy.aimocks.gemini.PromptFeedback
+import dev.mokksy.aimocks.gemini.UsageMetadata
 
 internal fun generateContentResponse(
     assistantContent: String,
@@ -32,6 +33,12 @@ internal fun generateContentResponse(
         promptFeedback =
             PromptFeedback(
                 safetyRatings = null,
+            ),
+        usageMetadata =
+            UsageMetadata(
+                promptTokenCount = 0,
+                candidatesTokenCount = 0,
+                totalTokenCount = 0,
             ),
         modelVersion = modelVersion ?: "gemini-pro-text-001",
         responseId = responseId,
@@ -63,6 +70,12 @@ internal fun generateFinalContentResponse(
         promptFeedback =
             PromptFeedback(
                 safetyRatings = null,
+            ),
+        usageMetadata =
+            UsageMetadata(
+                promptTokenCount = 0,
+                candidatesTokenCount = 0,
+                totalTokenCount = 0,
             ),
         modelVersion = modelVersion ?: "gemini-pro-text-001",
         responseId = responseId,

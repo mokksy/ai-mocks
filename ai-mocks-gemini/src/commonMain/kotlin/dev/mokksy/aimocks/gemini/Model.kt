@@ -190,9 +190,7 @@ public data class GenerateContentResponse(
 @Serializable
 public data class Candidate(
     val content: Content,
-    @SerialName("finish_reason")
     val finishReason: String? = null,
-    @SerialName("safety_ratings")
     val safetyRatings: List<SafetyRating>? = null,
 )
 

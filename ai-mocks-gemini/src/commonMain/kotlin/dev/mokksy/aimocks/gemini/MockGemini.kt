@@ -61,12 +61,7 @@ public open class MockGemini(
             ) {
                 val chatRequestSpec = matchRequestSpec(this, block)
 
-                val model = chatRequestSpec.model
-
-                @Suppress("MaxLineLength")
-                val pathString: String =
-                    chatRequestSpec.path
-                        ?: "/${chatRequestSpec.apiVersion}/projects/${chatRequestSpec.project}/locations/${chatRequestSpec.location}/publishers/google/models/$model:generateContent"
+                val pathString = buildApiPath(chatRequestSpec, "generateContent")
                 path(pathString)
             }
 
@@ -102,12 +97,8 @@ public open class MockGemini(
             ) {
                 val chatRequestSpec = matchRequestSpec(this, block)
 
-                val model = chatRequestSpec.model
-
                 @Suppress("MaxLineLength")
-                val pathString: String =
-                    chatRequestSpec.path
-                        ?: "/${chatRequestSpec.apiVersion}/projects/${chatRequestSpec.project}/locations/${chatRequestSpec.location}/publishers/google/models/$model:streamGenerateContent"
+                val pathString: String = buildApiPath(chatRequestSpec, "streamGenerateContent")
                 path(pathString)
             }
 
@@ -176,4 +167,16 @@ public open class MockGemini(
         }
         return chatRequestSpec
     }
+
+    @Suppress("MaxLineLength")
+    private fun buildApiPath(
+        spec: GeminiContentRequestSpecification,
+        action: String,
+    ): String =
+        spec.path
+            ?: if (spec.project != null && spec.location != null) {
+                "/${spec.apiVersion}/projects/${spec.project}/locations/${spec.location}/publishers/google/models/${spec.model}:$action"
+            } else {
+                "/models/${spec.model}:$action"
+            }
 }
