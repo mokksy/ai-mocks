@@ -188,7 +188,9 @@ public open class MokksyServer
          */
         public fun port(): Int = resolvedPort.load()
 
-        public fun baseUrl(): String = "http://127.0.0.1:$resolvedPort"
+        private val baseUrlCached: String by lazy { "http://$host:${port()}" }
+
+        public fun baseUrl(): String = baseUrlCached
 
         /**
          * Creates a [RequestSpecification] for the given HTTP method and request type,

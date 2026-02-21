@@ -12,6 +12,14 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlin.reflect.KClass
 
+private sealed interface BodyStringCache
+
+private data object Unset : BodyStringCache
+
+private class Cached(
+    val value: String?,
+) : BodyStringCache
+
 /**
  * Represents an HTTP request that has been captured and provides utilities to access
  * the request's body and its string representation.
@@ -30,7 +38,7 @@ public data class CapturedRequest<P : Any>(
     private val type: KClass<P>,
 ) {
     private val bodyCache: AtomicRef<P?> = atomic(null)
-    private val bodyStringCache: AtomicRef<String?> = atomic(null)
+    private val bodyStringCache: AtomicRef<BodyStringCache> = atomic(Unset)
 
     // Ensure only one coroutine performs the initial receive for each cache
     private val bodyMutex: Mutex = Mutex()
@@ -74,29 +82,16 @@ public data class CapturedRequest<P : Any>(
 
     val bodyAsString: String?
         get() {
-            var cached = bodyStringCache.value
-            if (cached == null) {
-                cached =
-                    runBlocking {
-                        bodyStringMutex.withLock {
-                            var local: String? = bodyStringCache.value
-                            if (local == null) {
-                                val received = request.call.receiveNullable<String>()
-                                local =
-                                    if (!bodyStringCache.compareAndSet(
-                                            expect = null,
-                                            update = received,
-                                        )
-                                    ) {
-                                        bodyStringCache.value
-                                    } else {
-                                        received
-                                    }
-                            }
-                            local
-                        }
-                    }
+            val cached = bodyStringCache.value
+            if (cached is Cached) return cached.value
+            return runBlocking {
+                bodyStringMutex.withLock {
+                    val local = bodyStringCache.value
+                    if (local is Cached) return@withLock local.value
+                    val received = request.call.receiveNullable<String>()
+                    bodyStringCache.value = Cached(received)
+                    received
+                }
             }
-            return cached
         }
 }
