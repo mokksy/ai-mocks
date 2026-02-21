@@ -5,7 +5,7 @@ featureImage: "mokksy-mascot-256.png"
 ---
 
 _Mokksy_ and _AI-Mocks_ are mock HTTP and LLM (Large Language Model) servers inspired by WireMock, with support for
-response streaming and Server-Side Events (SSE). They are designed to build, test, and mock OpenAI API responses for
+response streaming and Server-Side Events (SSE). They are designed to build, test, and mock LLM API responses for
 development purposes.
 
 ## Project Overview

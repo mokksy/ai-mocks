@@ -17,4 +17,4 @@ Welcome to the Mokksy and AI-Mocks documentation. This documentation will help y
 
 ## API Reference
 
-For detailed API documentation, please visit the [API Reference](https://kpavlov.github.io/ai-mocks/api/).
+For detailed API documentation, please visit the [API Reference](https://mokksy.dev/apidocs/).

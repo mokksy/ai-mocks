@@ -12,12 +12,12 @@ Currently, it supports basic content generation requests and streaming responses
 
 ## Quick Start
 
-Add Dependency Include the library in your test dependencies (Maven or Gradle).
+Include the library in your test dependencies (Maven or Gradle).
 
 {{< tabs "dependencies" >}}
 {{< tab "Gradle" >}}
 ```kotlin
-implementation("dev.mokksy.aimocks:ai-mocks-gemini-jvm:$latestVersion")
+testImplementation("dev.mokksy.aimocks:ai-mocks-gemini-jvm:$latestVersion")
 ```
     {{< /tab >}}
     {{< tab "Maven" >}}
@@ -26,6 +26,7 @@ implementation("dev.mokksy.aimocks:ai-mocks-gemini-jvm:$latestVersion")
   <groupId>dev.mokksy.aimocks</groupId>
   <artifactId>ai-mocks-gemini-jvm</artifactId>
   <version>[LATEST_VERSION]</version>
+  <scope>test</scope>
 </dependency>
 ```
 
@@ -36,11 +37,23 @@ implementation("dev.mokksy.aimocks:ai-mocks-gemini-jvm:$latestVersion")
 
 Set up a mock server and define mock responses:
 
+<!--- CLEAR -->
+<!--- INCLUDE
+import dev.mokksy.aimocks.gemini.MockGemini
+-->
 ```kotlin
 val gemini = MockGemini(verbose = true)
 ```
+
+<!--- KNIT example-gemini-01.kt -->
 Let's simulate Gemini content generation API:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.gemini.MockGemini
+import kotlin.time.Duration.Companion.milliseconds
+val gemini = MockGemini(verbose = true)
+fun main() {
+-->
 ```kotlin
 // Define mock response
 gemini.generateContent {
@@ -69,6 +82,11 @@ gemini.generateContent {
   delay = 42.milliseconds // delay before answer
 }
 ```
+
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-gemini-02.kt -->
 
 ### Configuration Options
 
@@ -111,6 +129,14 @@ The following tables list all available configuration options for mocking Gemini
 
 Here's an example of setting up a streaming content generation mock:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.gemini.MockGemini
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
+import kotlin.time.Duration.Companion.milliseconds
+val gemini = MockGemini(verbose = true)
+fun main() {
+-->
 ```kotlin
 // Define streaming mock response
 gemini.generateContentStream {
@@ -142,6 +168,11 @@ gemini.generateContentStream {
 }
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-gemini-03.kt -->
+
 #### Streaming Response Configuration Options
 
 | Option               | Description                                                    | Default Value   |
@@ -156,6 +187,20 @@ gemini.generateContentStream {
 
 First, we need a function to create VertexAI client, configured to use the arbitrary server endpoint and credentials.
 
+<!--- INCLUDE
+import com.google.api.gax.core.NoCredentialsProvider
+import com.google.auth.ApiKeyCredentials
+import com.google.cloud.vertexai.Transport
+import com.google.cloud.vertexai.VertexAI
+import com.google.cloud.vertexai.api.LlmUtilityServiceClient
+import com.google.cloud.vertexai.api.LlmUtilityServiceSettings
+import com.google.cloud.vertexai.api.PredictionServiceClient
+import com.google.cloud.vertexai.api.PredictionServiceSettings
+import com.google.cloud.vertexai.api.stub.LlmUtilityServiceStubSettings
+import java.io.IOException
+import kotlin.time.Duration
+import kotlin.time.toJavaDuration
+-->
 ```kotlin
 internal fun createTestVertexAI(
     endpoint: String,
@@ -214,8 +259,24 @@ internal fun createTestVertexAI(
 }
 ```
 
+<!--- KNIT example-gemini-04.kt -->
+
 Then we should create `MockGemini` server and test Spring-AI integration:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.gemini.MockGemini
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
+import org.springframework.ai.chat.client.ChatClient
+import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel
+import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions
+import com.google.cloud.vertexai.VertexAI
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
+fun createTestVertexAI(endpoint: String, projectId: String, location: String, timeout: Duration): VertexAI = TODO()
+fun main() {
+-->
 ```kotlin
 // create mock server
 val gemini = MockGemini(verbose = true)
@@ -258,7 +319,7 @@ val response =
     .prompt()
     .system("You are a helpful pirate")
     .user("Just say 'Hello!'")
-    .options(ChatOptions.builder().temperature(0.7).build())
+    .options(VertexAiGeminiChatOptions.builder().temperature(0.7).build())
     // Make a call
     .call()
     .chatResponse()
@@ -272,10 +333,39 @@ response shouldNotBeNull {
 }
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-gemini-05.kt -->
+
 ## Streaming Responses
 
 Mock streaming responses easily with flow support:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.gemini.MockGemini
+import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
+import org.springframework.ai.chat.client.ChatClient
+import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel
+import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions
+import com.google.cloud.vertexai.VertexAI
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.toJavaDuration
+fun createTestVertexAI(endpoint: String, projectId: String, location: String, timeout: Duration): VertexAI = TODO()
+val gemini = MockGemini(verbose = true)
+val vertexAI = createTestVertexAI(
+    endpoint = gemini.baseUrl(),
+    projectId = "your-project-id",
+    location = "us-central1",
+    timeout = 10.seconds,
+)
+val chatClient = ChatClient.builder(VertexAiGeminiChatModel.builder().vertexAI(vertexAI).build()).build()
+fun main() {
+-->
 ```kotlin
 // configure mock gemini
 gemini.generateContentStream {
@@ -305,7 +395,7 @@ val chunkCount =
     .prompt()
     .system("You are a helpful pirate")
     .user("Just say 'Hello!'")
-    .options(ChatOptions.builder().temperature(0.7).build())
+    .options(VertexAiGeminiChatOptions.builder().temperature(0.7).build())
     .stream()
     .chatResponse()
     .doOnNext { chunk ->
@@ -318,6 +408,11 @@ val chunkCount =
 buffer.toString() shouldBe "Ahoy there, matey! Hello!"
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-gemini-06.kt -->
+
 ## Integration with Google Gen AI Java SDK
 
 AI-Mocks Gemini can also be used to test applications that use
@@ -327,12 +422,27 @@ the [Google Gen AI Java SDK](https://github.com/googleapis/java-genai) directly.
 
 First, create a mock Gemini server:
 
+<!--- CLEAR -->
+<!--- INCLUDE
+import dev.mokksy.aimocks.gemini.MockGemini
+-->
 ```kotlin
 val gemini = MockGemini(verbose = true)
 ```
 
+<!--- KNIT example-gemini-07.kt -->
+
 Then, configure the Google Gen AI Java SDK client to use the mock server:
 
+<!--- INCLUDE
+import com.google.auth.oauth2.AccessToken
+import com.google.auth.oauth2.GoogleCredentials
+import com.google.genai.Client
+import com.google.genai.types.HttpOptions
+import dev.mokksy.aimocks.gemini.MockGemini
+val gemini = MockGemini(verbose = true)
+fun main() {
+-->
 ```kotlin
 val client = Client.builder()
   .project("your-project-id")
@@ -347,10 +457,21 @@ val client = Client.builder()
   .build()
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-gemini-08.kt -->
+
 ### Regular Content Generation
 
 Set up a mock response for a regular content generation request:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.gemini.MockGemini
+import kotlin.time.Duration.Companion.milliseconds
+val gemini = MockGemini(verbose = true)
+fun main() {
+-->
 ```kotlin
 gemini.generateContent {
   temperature = 0.7
@@ -367,8 +488,37 @@ gemini.generateContent {
 }
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-gemini-09.kt -->
+
 Make a request using the Google Gen AI Java SDK:
 
+<!--- INCLUDE
+import com.google.auth.oauth2.AccessToken
+import com.google.auth.oauth2.GoogleCredentials
+import com.google.genai.Client
+import com.google.genai.types.Content
+import com.google.genai.types.GenerateContentConfig
+import com.google.genai.types.HttpOptions
+import com.google.genai.types.Part
+import dev.mokksy.aimocks.gemini.MockGemini
+import io.kotest.matchers.shouldBe
+val gemini = MockGemini(verbose = true)
+val client = Client.builder()
+    .project("your-project-id")
+    .location("us-central1")
+    .credentials(
+        GoogleCredentials.create(
+            AccessToken.newBuilder().setTokenValue("dummy-token").build()
+        )
+    )
+    .vertexAI(true)
+    .httpOptions(HttpOptions.builder().baseUrl(gemini.baseUrl()).build())
+    .build()
+fun main() {
+-->
 ```kotlin
 val config = GenerateContentConfig.builder()
   .seed(42)
@@ -390,10 +540,23 @@ val response = client.models.generateContent(
 response.text() shouldBe "Ahoy there, matey! Hello!"
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-gemini-10.kt -->
+
 ### Streaming Content Generation
 
 Set up a mock response for a streaming content generation request:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.gemini.MockGemini
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
+import kotlin.time.Duration.Companion.milliseconds
+val gemini = MockGemini(verbose = true)
+fun main() {
+-->
 ```kotlin
 gemini.generateContentStream {
   temperature = 0.7
@@ -419,8 +582,46 @@ gemini.generateContentStream {
 }
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-gemini-11.kt -->
+
 Make a streaming request using the Google Gen AI Java SDK:
 
+<!--- INCLUDE
+import com.google.auth.oauth2.AccessToken
+import com.google.auth.oauth2.GoogleCredentials
+import com.google.genai.Client
+import com.google.genai.types.Content
+import com.google.genai.types.GenerateContentConfig
+import com.google.genai.types.HttpOptions
+import com.google.genai.types.Part
+import dev.mokksy.aimocks.gemini.MockGemini
+import io.kotest.matchers.shouldBe
+val gemini = MockGemini(verbose = true)
+val client = Client.builder()
+    .project("your-project-id")
+    .location("us-central1")
+    .credentials(
+        GoogleCredentials.create(
+            AccessToken.newBuilder().setTokenValue("dummy-token").build()
+        )
+    )
+    .vertexAI(true)
+    .httpOptions(HttpOptions.builder().baseUrl(gemini.baseUrl()).build())
+    .build()
+val config = GenerateContentConfig.builder()
+    .seed(42)
+    .maxOutputTokens(100)
+    .temperature(0.7f)
+    .systemInstruction(
+        Content.builder().role("system")
+            .parts(Part.fromText("You are a helpful pirate")).build()
+    )
+    .build()
+fun main() {
+-->
 ```kotlin
 val response = client.models.generateContentStream(
   "gemini-2.0-flash",
@@ -434,6 +635,11 @@ val fullResponse = response.joinToString(separator = "") {
 }
 fullResponse shouldBe "Ahoy there, matey! Hello!"
 ```
+
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-gemini-12.kt -->
 
 Check for examples in
 the [integration tests](https://github.com/mokksy/ai-mocks/tree/main/ai-mocks-gemini/src/jvmTest/kotlin/me/kpavlov/aimocks/gemini).

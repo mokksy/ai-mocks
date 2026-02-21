@@ -27,6 +27,13 @@ docs:apidocs
 	cd docs && \
 	hugo server -D --watch
 
+.PHONY: knit
+knit:
+	@echo "🪡 Running Knit..."
+	@rm -rf docs/build
+	@./gradlew knit :docs:test
+	@echo "✅ Knit completed!"
+
 .PHONY: lint
 lint:
 	./gradlew detekt spotlessCheck

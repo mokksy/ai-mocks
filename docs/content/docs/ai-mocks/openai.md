@@ -17,12 +17,12 @@ Currently, it supports:
 
 ## Quick Start
 
-Add Dependency Include the library in your test dependencies (Maven or Gradle).
+Include the library in your test dependencies (Maven or Gradle).
 
 {{< tabs "dependencies" >}}
 {{< tab "Gradle" >}}
 ```kotlin
-implementation("dev.mokksy.aimocks:ai-mocks-openai-jvm:$latestVersion")
+testImplementation("dev.mokksy.aimocks:ai-mocks-openai-jvm:$latestVersion")
 ```
 
 {{< /tab >}}
@@ -32,6 +32,7 @@ implementation("dev.mokksy.aimocks:ai-mocks-openai-jvm:$latestVersion")
   <groupId>dev.mokksy.aimocks</groupId>
   <artifactId>ai-mocks-openai-jvm</artifactId>
   <version>[LATEST_VERSION]</version>
+  <scope>test</scope>
 </dependency>
 ```
 
@@ -42,11 +43,30 @@ implementation("dev.mokksy.aimocks:ai-mocks-openai-jvm:$latestVersion")
 
 Set up a mock server and define mock responses:
 
+<!--- CLEAR -->
+<!--- INCLUDE
+import dev.mokksy.aimocks.openai.MockOpenai
+-->
 ```kotlin
 val openai = MockOpenai(verbose = true)
 ```
+
+<!--- KNIT example-openai-01.kt -->
 Let's simulate OpenAI [Chat Completions API](https://platform.openai.com/docs/api-reference/chat):
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.openai.MockOpenai
+import com.openai.client.OpenAIClient
+import com.openai.client.okhttp.OpenAIOkHttpClient
+import com.openai.models.chat.completions.ChatCompletion
+import com.openai.models.chat.completions.ChatCompletionCreateParams
+import com.openai.models.chat.completions.ChatCompletionMessageParam
+import com.openai.models.chat.completions.ChatCompletionSystemMessageParam
+import com.openai.models.chat.completions.ChatCompletionUserMessageParam
+import kotlin.time.Duration.Companion.milliseconds
+val openai = MockOpenai(verbose = true)
+fun main() {
+-->
 ```kotlin
 // Define mock response
 openai.completion {
@@ -79,7 +99,6 @@ val params =
     .temperature(0.7)
     .maxCompletionTokens(100)
     .topP(0.95)
-    .seed(42)
     .messages(
       listOf(
         ChatCompletionMessageParam.ofSystem(
@@ -108,12 +127,25 @@ val result: ChatCompletion =
 println(result)
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-openai-02.kt -->
+
 ## Mocking Negative Scenarios
 
 With AI-Mocks it is possible to test negative scenarios, such as erroneous responses and delays.
 
 ### Custom Error Response
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.openai.MockOpenai
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import kotlin.time.Duration.Companion.milliseconds
+val openai = MockOpenai(verbose = true)
+fun main() {
+-->
 ```kotlin
 openai.completion {
   temperature = 0.7
@@ -122,7 +154,7 @@ openai.completion {
   maxTokens = 100
   systemMessageContains("helpful assistant")
   userMessageContains("say 'Hello!'")
-} respondsError(String::class) {
+}.respondsError(String::class) {
   body =
     // language=json
     """
@@ -139,8 +171,21 @@ openai.completion {
 }
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-openai-03.kt -->
+
 ### OpenAI-Compatible Error Response
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.openai.MockOpenai
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import kotlin.time.Duration.Companion.milliseconds
+val openai = MockOpenai(verbose = true)
+fun main() {
+-->
 ```kotlin
 openai.completion {
   temperature = 0.7
@@ -149,7 +194,7 @@ openai.completion {
   maxTokens = 100
   systemMessageContains("helpful assistant")
   userMessageContains("say 'Hello!'")
-} respondsError(String::class) {
+}.respondsError(String::class) {
   body =
     // language=json
     """
@@ -168,10 +213,25 @@ openai.completion {
 }
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-openai-04.kt -->
+
 ## Integration with LangChain4j
 
 You may use also LangChain4J Kotlin Extensions:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.openai.MockOpenai
+import dev.langchain4j.data.message.UserMessage.userMessage
+import dev.langchain4j.kotlin.model.chat.chat
+import dev.langchain4j.model.openai.OpenAiChatModel
+import dev.langchain4j.model.openai.OpenAiChatRequestParameters
+import kotlinx.coroutines.runBlocking
+val openai = MockOpenai(verbose = true)
+fun main() = runBlocking {
+-->
 ```kotlin
 val model: OpenAiChatModel =
   OpenAiChatModel
@@ -181,7 +241,7 @@ val model: OpenAiChatModel =
     .build()
 
 val result =
-  model.chatAsync {
+  model.chat {
     parameters =
       OpenAiChatRequestParameters
         .builder()
@@ -197,12 +257,28 @@ val result =
 println(result)
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-openai-05.kt -->
+
 ### Stream Responses
 
 Mock streaming responses easily with flow support or a list of chunks.
 
 #### Streaming with List of Chunks
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.openai.MockOpenai
+import com.openai.client.OpenAIClient
+import com.openai.client.okhttp.OpenAIOkHttpClient
+import com.openai.models.chat.completions.ChatCompletionCreateParams
+import com.openai.models.chat.completions.ChatCompletionMessageParam
+import com.openai.models.chat.completions.ChatCompletionUserMessageParam
+import kotlin.time.Duration.Companion.milliseconds
+val openai = MockOpenai(verbose = true)
+fun main() {
+-->
 ```kotlin
 openai.completion {
   temperature = 0.7
@@ -229,7 +305,6 @@ val params =
     .builder()
     .temperature(0.7)
     .topP(0.95)
-    .seed(42)
     .messages(
       listOf(
         ChatCompletionMessageParam.ofUser(
@@ -258,8 +333,20 @@ client
 // Result: "All we need is Love"
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-openai-06.kt -->
+
 #### Streaming with Kotlin Flow
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.openai.MockOpenai
+import kotlinx.coroutines.flow.flow
+import kotlin.time.Duration.Companion.milliseconds
+val openai = MockOpenai(verbose = true)
+fun main() {
+-->
 ```kotlin
 openai.completion {
   temperature = 0.7
@@ -279,10 +366,25 @@ openai.completion {
 }
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-openai-07.kt -->
+
 ## Integration with Spring-AI
 
 To test Spring-AI integration:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.openai.MockOpenai
+import org.springframework.ai.chat.client.ChatClient
+import org.springframework.ai.openai.OpenAiChatOptions
+import org.springframework.ai.openai.api.OpenAiApi
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import kotlin.time.Duration.Companion.milliseconds
+fun main() {
+-->
 ```kotlin
 // create mock server
 val openai = MockOpenai(verbose = true)
@@ -330,7 +432,6 @@ val response =
         .maxCompletionTokens(100)
         .temperature(0.7)
         .topP(0.95)
-        .topK(40)
         .model("gpt-4o-mini")
         .seed(42)
         .build(),
@@ -347,6 +448,11 @@ output?.text shouldBe "Ahoy there, matey! Hello!"
 }
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-openai-08.kt -->
+
 Check for examples in the [integration tests](https://github.com/mokksy/ai-mocks/tree/main/ai-mocks-openai/src/jvmTest/kotlin/me/kpavlov/aimocks/openai/springai).
 
 ## Embeddings API
@@ -355,6 +461,14 @@ Mock the OpenAI [Embeddings API](https://platform.openai.com/docs/api-reference/
 
 ### Basic Embedding Response
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.openai.MockOpenai
+import com.openai.client.OpenAIClient
+import com.openai.client.okhttp.OpenAIOkHttpClient
+import com.openai.models.embeddings.EmbeddingCreateParams
+import kotlin.time.Duration.Companion.milliseconds
+fun main() {
+-->
 ```kotlin
 // Set up mock server
 val openai = MockOpenai(verbose = true)
@@ -397,10 +511,25 @@ result.data()[0].embedding() // [0.1, 0.2, 0.3]
 result.data()[0].index() // 0
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-openai-09.kt -->
+
 ### Multiple Embeddings
 
 You can mock multiple embeddings for batch input:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.openai.MockOpenai
+import com.openai.client.OpenAIClient
+import com.openai.client.okhttp.OpenAIOkHttpClient
+import com.openai.models.embeddings.EmbeddingCreateParams
+import kotlin.time.Duration.Companion.milliseconds
+val openai = MockOpenai(verbose = true)
+val client: OpenAIClient = OpenAIOkHttpClient.builder().apiKey("dummy-key").baseUrl(openai.baseUrl()).build()
+fun main() {
+-->
 ```kotlin
 openai.embeddings {
     model = "text-embedding-3-small"
@@ -429,10 +558,20 @@ result.data()[0].embedding() // [0.1, 0.2, 0.3]
 result.data()[1].embedding() // [0.4, 0.5, 0.6]
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-openai-10.kt -->
+
 ### Advanced Input Matching
 
 You can use `inputContains()` to match requests where the input contains specific substrings:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.openai.MockOpenai
+val openai = MockOpenai(verbose = true)
+fun main() {
+-->
 ```kotlin
 openai.embeddings {
     model = "text-embedding-3-small"
@@ -444,15 +583,33 @@ openai.embeddings {
 }
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-openai-11.kt -->
+
 ### Error Scenarios
 
 Test error handling for embeddings:
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.openai.MockOpenai
+import com.openai.client.OpenAIClient
+import com.openai.client.okhttp.OpenAIOkHttpClient
+import com.openai.errors.BadRequestException
+import com.openai.models.embeddings.EmbeddingCreateParams
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import kotlin.time.Duration.Companion.milliseconds
+val openai = MockOpenai(verbose = true)
+val client: OpenAIClient = OpenAIOkHttpClient.builder().apiKey("dummy-key").baseUrl(openai.baseUrl()).build()
+fun main() {
+-->
 ```kotlin
 openai.embeddings {
     model = "text-embedding-3-small"
     stringInput("boom")
-} respondsError(String::class) {
+}.respondsError(String::class) {
     body = "Kaboom!"
     contentType = ContentType.Text.Plain
     httpStatus = HttpStatusCode.BadRequest
@@ -473,12 +630,28 @@ try {
 }
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-openai-12.kt -->
+
 ## Moderations API
 
 Mock the OpenAI [Moderations API](https://platform.openai.com/docs/api-reference/moderations) to test content moderation:
 
 ### Basic Moderation Response
 
+<!--- INCLUDE
+import dev.mokksy.aimocks.openai.MockOpenai
+import dev.mokksy.aimocks.openai.model.moderation.InputType
+import dev.mokksy.aimocks.openai.model.moderation.InputType.TEXT
+import dev.mokksy.aimocks.openai.model.moderation.ModerationCategory
+import com.openai.client.OpenAIClient
+import com.openai.client.okhttp.OpenAIOkHttpClient
+import com.openai.models.moderations.ModerationCreateParams
+import kotlin.time.Duration.Companion.milliseconds
+fun main() {
+-->
 ```kotlin
 // Set up mock server
 val openai = MockOpenai(verbose = true)
@@ -527,13 +700,32 @@ result.results()[0].categoryScores().harassment() // 0.1
 result.results()[0].categoryAppliedInputTypes().harassment() // [TEXT]
 ```
 
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-openai-13.kt -->
+
 ### Moderation Error Scenarios
 
+<!--- CLEAR -->
+<!--- INCLUDE
+import dev.mokksy.aimocks.openai.MockOpenai
+import com.openai.client.OpenAIClient
+import com.openai.client.okhttp.OpenAIOkHttpClient
+import com.openai.errors.BadRequestException
+import com.openai.models.moderations.ModerationCreateParams
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import kotlin.time.Duration.Companion.milliseconds
+val openai = MockOpenai(verbose = true)
+val client: OpenAIClient = OpenAIOkHttpClient.builder().apiKey("dummy-key").baseUrl(openai.baseUrl()).build()
+fun main() {
+-->
 ```kotlin
 openai.moderation {
     model = "omni-moderation-latest"
     inputContains("boom")
-} respondsError(String::class) {
+}.respondsError(String::class) {
     body = "Kaboom!"
     contentType = ContentType.Text.Plain
     httpStatus = HttpStatusCode.BadRequest
@@ -553,3 +745,8 @@ try {
     // Handle error
 }
 ```
+
+<!--- SUFFIX
+}
+-->
+<!--- KNIT example-openai-14.kt -->
