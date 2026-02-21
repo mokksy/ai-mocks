@@ -11,5 +11,6 @@ public class PushNotificationNotSupportedError : JSONRPCError {
         data = data,
     )
 
-    public fun copy(data: Data? = this.data): InternalError = InternalError(data = data)
+    public fun copy(data: Data? = this.data): PushNotificationNotSupportedError =
+        PushNotificationNotSupportedError(data = data)
 }

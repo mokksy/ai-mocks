@@ -44,9 +44,9 @@ internal class PushNotificationNotSupportedErrorTest {
 
         // then
         // Note: The copy method returns an InternalError, not a PushNotificationNotSupportedError
-        copiedError shouldBe InternalError(newData)
-        copiedError.code shouldBe -32603
-        copiedError.message shouldBe "Internal error"
+        copiedError shouldBe PushNotificationNotSupportedError(newData)
+        copiedError.code shouldBe -32003
+        copiedError.message shouldBe "Push Notification is not supported"
         copiedError.data shouldBe newData
         copiedError.data?.get("reason") shouldBe "New reason"
         copiedError.data?.get("details") shouldBe "New details"
@@ -62,9 +62,9 @@ internal class PushNotificationNotSupportedErrorTest {
 
         // then
         // Note: The copy method returns an InternalError, not a PushNotificationNotSupportedError
-        copiedError shouldBe InternalError(null)
-        copiedError.code shouldBe -32603
-        copiedError.message shouldBe "Internal error"
+        copiedError shouldBe PushNotificationNotSupportedError(null)
+        copiedError.code shouldBe -32003
+        copiedError.message shouldBe "Push Notification is not supported"
         copiedError.data shouldBe null
     }
 }
