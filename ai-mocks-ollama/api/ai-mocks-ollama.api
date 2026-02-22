@@ -1,0 +1,1199 @@
+public class dev/mokksy/aimocks/ollama/MockOllama : dev/mokksy/aimocks/core/AbstractMockLlm {
+	public fun <init> ()V
+	public fun <init> (IZ)V
+	public synthetic fun <init> (IZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun baseUrl ()Ljava/lang/String;
+	public final fun chat (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/ollama/chat/OllamaChatBuildingStep;
+	public static synthetic fun chat$default (Ldev/mokksy/aimocks/ollama/MockOllama;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/chat/OllamaChatBuildingStep;
+	public final fun embed (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedBuildingStep;
+	public static synthetic fun embed$default (Ldev/mokksy/aimocks/ollama/MockOllama;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedBuildingStep;
+	public final fun generate (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/ollama/generate/OllamaGenerateBuildingStep;
+	public static synthetic fun generate$default (Ldev/mokksy/aimocks/ollama/MockOllama;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/generate/OllamaGenerateBuildingStep;
+}
+
+public final class dev/mokksy/aimocks/ollama/MockOllama_jvmKt {
+	public static final fun chat (Ldev/mokksy/aimocks/ollama/MockOllama;Ljava/lang/String;Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/ollama/chat/OllamaChatBuildingStep;
+	public static final fun chat (Ldev/mokksy/aimocks/ollama/MockOllama;Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/ollama/chat/OllamaChatBuildingStep;
+	public static synthetic fun chat$default (Ldev/mokksy/aimocks/ollama/MockOllama;Ljava/lang/String;Ljava/util/function/Consumer;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/chat/OllamaChatBuildingStep;
+	public static final fun embed (Ldev/mokksy/aimocks/ollama/MockOllama;Ljava/lang/String;Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedBuildingStep;
+	public static final fun embed (Ldev/mokksy/aimocks/ollama/MockOllama;Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedBuildingStep;
+	public static synthetic fun embed$default (Ldev/mokksy/aimocks/ollama/MockOllama;Ljava/lang/String;Ljava/util/function/Consumer;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedBuildingStep;
+	public static final fun generate (Ldev/mokksy/aimocks/ollama/MockOllama;Ljava/lang/String;Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/ollama/generate/OllamaGenerateBuildingStep;
+	public static final fun generate (Ldev/mokksy/aimocks/ollama/MockOllama;Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/ollama/generate/OllamaGenerateBuildingStep;
+	public static synthetic fun generate$default (Ldev/mokksy/aimocks/ollama/MockOllama;Ljava/lang/String;Ljava/util/function/Consumer;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/generate/OllamaGenerateBuildingStep;
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/ChatRequest {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/chat/ChatRequest$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Boolean;Ldev/mokksy/aimocks/ollama/model/Format;Ldev/mokksy/aimocks/ollama/model/ModelOptions;ZLjava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Boolean;Ldev/mokksy/aimocks/ollama/model/Format;Ldev/mokksy/aimocks/ollama/model/ModelOptions;ZLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()Ljava/lang/Boolean;
+	public final fun component5 ()Ldev/mokksy/aimocks/ollama/model/Format;
+	public final fun component6 ()Ldev/mokksy/aimocks/ollama/model/ModelOptions;
+	public final fun component7 ()Z
+	public final fun component8 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Boolean;Ldev/mokksy/aimocks/ollama/model/Format;Ldev/mokksy/aimocks/ollama/model/ModelOptions;ZLjava/lang/String;)Ldev/mokksy/aimocks/ollama/chat/ChatRequest;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/chat/ChatRequest;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Boolean;Ldev/mokksy/aimocks/ollama/model/Format;Ldev/mokksy/aimocks/ollama/model/ModelOptions;ZLjava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/chat/ChatRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFormat ()Ldev/mokksy/aimocks/ollama/model/Format;
+	public final fun getKeepAlive ()Ljava/lang/String;
+	public final fun getMessages ()Ljava/util/List;
+	public final fun getModel ()Ljava/lang/String;
+	public final fun getOptions ()Ldev/mokksy/aimocks/ollama/model/ModelOptions;
+	public final fun getStream ()Z
+	public final fun getThink ()Ljava/lang/Boolean;
+	public final fun getTools ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/chat/ChatRequest$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/chat/ChatRequest$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/chat/ChatRequest;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/chat/ChatRequest;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/ChatRequest$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/ChatResponse {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/chat/ChatResponse$Companion;
+	public fun <init> (Ljava/lang/String;Lkotlin/time/Instant;Ldev/mokksy/aimocks/ollama/chat/Message;ZLjava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/time/Instant;Ldev/mokksy/aimocks/ollama/chat/Message;ZLjava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10 ()Ljava/lang/Integer;
+	public final fun component11 ()Ljava/lang/Long;
+	public final fun component2 ()Lkotlin/time/Instant;
+	public final fun component3 ()Ldev/mokksy/aimocks/ollama/chat/Message;
+	public final fun component4 ()Z
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/Long;
+	public final fun component7 ()Ljava/lang/Long;
+	public final fun component8 ()Ljava/lang/Integer;
+	public final fun component9 ()Ljava/lang/Long;
+	public final fun copy (Ljava/lang/String;Lkotlin/time/Instant;Ldev/mokksy/aimocks/ollama/chat/Message;ZLjava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;)Ldev/mokksy/aimocks/ollama/chat/ChatResponse;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/chat/ChatResponse;Ljava/lang/String;Lkotlin/time/Instant;Ldev/mokksy/aimocks/ollama/chat/Message;ZLjava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/chat/ChatResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCreatedAt ()Lkotlin/time/Instant;
+	public final fun getDone ()Z
+	public final fun getDoneReason ()Ljava/lang/String;
+	public final fun getEvalCount ()Ljava/lang/Integer;
+	public final fun getEvalDuration ()Ljava/lang/Long;
+	public final fun getLoadDuration ()Ljava/lang/Long;
+	public final fun getMessage ()Ldev/mokksy/aimocks/ollama/chat/Message;
+	public final fun getModel ()Ljava/lang/String;
+	public final fun getPromptEvalCount ()Ljava/lang/Integer;
+	public final fun getPromptEvalDuration ()Ljava/lang/Long;
+	public final fun getTotalDuration ()Ljava/lang/Long;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/chat/ChatResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/chat/ChatResponse$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/chat/ChatResponse;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/chat/ChatResponse;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/ChatResponse$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/FunctionCall {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/chat/FunctionCall$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/chat/FunctionCall;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/chat/FunctionCall;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/chat/FunctionCall;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getArguments ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/chat/FunctionCall$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/chat/FunctionCall$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/chat/FunctionCall;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/chat/FunctionCall;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/FunctionCall$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/FunctionDefinition {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/chat/FunctionDefinition$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lkotlinx/schema/json/JsonSchema;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lkotlinx/schema/json/JsonSchema;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public fun <init> (Ljava/lang/String;Lkotlinx/schema/json/JsonSchema;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lkotlinx/schema/json/JsonSchema;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lkotlinx/schema/json/JsonSchema;)Ldev/mokksy/aimocks/ollama/chat/FunctionDefinition;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/chat/FunctionDefinition;Ljava/lang/String;Ljava/lang/String;Lkotlinx/schema/json/JsonSchema;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/chat/FunctionDefinition;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getParameters ()Lkotlinx/schema/json/JsonSchema;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/chat/FunctionDefinition$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/chat/FunctionDefinition$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/chat/FunctionDefinition;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/chat/FunctionDefinition;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/FunctionDefinition$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/Message {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/chat/Message$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/chat/Message;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/chat/Message;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/chat/Message;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContent ()Ljava/lang/String;
+	public final fun getImages ()Ljava/util/List;
+	public final fun getRole ()Ljava/lang/String;
+	public final fun getThinking ()Ljava/lang/String;
+	public final fun getToolCalls ()Ljava/util/List;
+	public final fun getToolName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/chat/Message$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/chat/Message$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/chat/Message;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/chat/Message;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/Message$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/OllamaChatBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public final fun respondsStream (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/OllamaChatRequestSpecification : dev/mokksy/aimocks/core/AbstractInferenceRequestSpecification {
+	public fun <init> ()V
+	public final fun getMessages ()Ljava/util/List;
+	public final fun getSeed ()Ljava/lang/Integer;
+	public final fun getStream ()Ljava/lang/Boolean;
+	public final fun messages (Ljava/util/List;)Ldev/mokksy/aimocks/ollama/chat/OllamaChatRequestSpecification;
+	public final fun setMessages (Ljava/util/List;)V
+	public final fun setSeed (Ljava/lang/Integer;)V
+	public final fun setStream (Ljava/lang/Boolean;)V
+	public final fun stream (Z)Ldev/mokksy/aimocks/ollama/chat/OllamaChatRequestSpecification;
+	public fun systemMessageContains (Ljava/lang/String;)V
+	public fun userMessageContains (Ljava/lang/String;)V
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/OllamaChatResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun content (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/chat/OllamaChatResponseSpecification;
+	public final fun getAssistantContent ()Ljava/lang/String;
+	public final fun getFinishReason ()Ljava/lang/String;
+	public final fun getThinking ()Ljava/lang/String;
+	public final fun getToolCalls ()Ljava/util/List;
+	public final fun setAssistantContent (Ljava/lang/String;)V
+	public final fun setFinishReason (Ljava/lang/String;)V
+	public final fun setThinking (Ljava/lang/String;)V
+	public final fun setToolCalls (Ljava/util/List;)V
+	public final fun thinking (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/chat/OllamaChatResponseSpecification;
+	public final fun toolCalls (Ljava/util/List;)Ldev/mokksy/aimocks/ollama/chat/OllamaChatResponseSpecification;
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/OllamaStreamingChatResponseSpecification : dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/Tool {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/chat/Tool$Companion;
+	public fun <init> (Ljava/lang/String;Ldev/mokksy/aimocks/ollama/chat/FunctionDefinition;)V
+	public synthetic fun <init> (Ljava/lang/String;Ldev/mokksy/aimocks/ollama/chat/FunctionDefinition;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ldev/mokksy/aimocks/ollama/chat/FunctionDefinition;
+	public final fun copy (Ljava/lang/String;Ldev/mokksy/aimocks/ollama/chat/FunctionDefinition;)Ldev/mokksy/aimocks/ollama/chat/Tool;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/chat/Tool;Ljava/lang/String;Ldev/mokksy/aimocks/ollama/chat/FunctionDefinition;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/chat/Tool;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFunction ()Ldev/mokksy/aimocks/ollama/chat/FunctionDefinition;
+	public final fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/chat/Tool$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/chat/Tool$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/chat/Tool;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/chat/Tool;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/Tool$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/ToolCall {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/chat/ToolCall$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/ollama/chat/FunctionCall;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/ollama/chat/FunctionCall;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ldev/mokksy/aimocks/ollama/chat/FunctionCall;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/ollama/chat/FunctionCall;)Ldev/mokksy/aimocks/ollama/chat/ToolCall;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/chat/ToolCall;Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/ollama/chat/FunctionCall;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/chat/ToolCall;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFunction ()Ldev/mokksy/aimocks/ollama/chat/FunctionCall;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/chat/ToolCall$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/chat/ToolCall$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/chat/ToolCall;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/chat/ToolCall;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/chat/ToolCall$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/embed/EmbeddingsRequest {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/embed/EmbeddingsRequest$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/Boolean;Ldev/mokksy/aimocks/ollama/model/ModelOptions;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/Boolean;Ldev/mokksy/aimocks/ollama/model/ModelOptions;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/lang/Boolean;
+	public final fun component4 ()Ldev/mokksy/aimocks/ollama/model/ModelOptions;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/lang/Boolean;Ldev/mokksy/aimocks/ollama/model/ModelOptions;Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/embed/EmbeddingsRequest;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/embed/EmbeddingsRequest;Ljava/lang/String;Ljava/util/List;Ljava/lang/Boolean;Ldev/mokksy/aimocks/ollama/model/ModelOptions;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/embed/EmbeddingsRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getInput ()Ljava/util/List;
+	public final fun getKeepAlive ()Ljava/lang/String;
+	public final fun getModel ()Ljava/lang/String;
+	public final fun getOptions ()Ldev/mokksy/aimocks/ollama/model/ModelOptions;
+	public final fun getTruncate ()Ljava/lang/Boolean;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/embed/EmbeddingsRequest$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/embed/EmbeddingsRequest$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/embed/EmbeddingsRequest;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/embed/EmbeddingsRequest;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/embed/EmbeddingsRequest$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/embed/EmbeddingsResponse {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/embed/EmbeddingsResponse$Companion;
+	public fun <init> (Ljava/util/List;Ljava/lang/String;Lkotlin/time/Instant;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Lkotlin/time/Instant;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lkotlin/time/Instant;
+	public final fun component4 ()Ljava/lang/Long;
+	public final fun component5 ()Ljava/lang/Long;
+	public final fun component6 ()Ljava/lang/Integer;
+	public final fun component7 ()Ljava/lang/Long;
+	public final fun copy (Ljava/util/List;Ljava/lang/String;Lkotlin/time/Instant;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;)Ldev/mokksy/aimocks/ollama/embed/EmbeddingsResponse;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/embed/EmbeddingsResponse;Ljava/util/List;Ljava/lang/String;Lkotlin/time/Instant;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/embed/EmbeddingsResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCreatedAt ()Lkotlin/time/Instant;
+	public final fun getEmbeddings ()Ljava/util/List;
+	public final fun getLoadDuration ()Ljava/lang/Long;
+	public final fun getModel ()Ljava/lang/String;
+	public final fun getPromptEvalCount ()Ljava/lang/Integer;
+	public final fun getPromptEvalDuration ()Ljava/lang/Long;
+	public final fun getTotalDuration ()Ljava/lang/Long;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/embed/EmbeddingsResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/embed/EmbeddingsResponse$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/embed/EmbeddingsResponse;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/embed/EmbeddingsResponse;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/embed/EmbeddingsResponse$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/embed/OllamaEmbedBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun responds (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/ollama/embed/OllamaEmbedRequestSpecification {
+	public fun <init> ()V
+	public final fun getKeepAlive ()Ljava/lang/String;
+	public final fun getModel ()Ljava/lang/String;
+	public final fun getOptions ()Ljava/util/Map;
+	public final fun getRequestBody ()Ldev/mokksy/aimocks/ollama/embed/EmbeddingsRequest;
+	public final fun getRequestBodyString ()Ljava/util/List;
+	public final fun getStringInput ()Ljava/lang/String;
+	public final fun getStringListInput ()Ljava/util/List;
+	public final fun getTruncate ()Ljava/lang/Boolean;
+	public final fun keepAlive (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedRequestSpecification;
+	public final fun model (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedRequestSpecification;
+	public final fun options (Ljava/util/Map;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedRequestSpecification;
+	public final fun requestBody (Ldev/mokksy/aimocks/ollama/embed/EmbeddingsRequest;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedRequestSpecification;
+	public final fun requestBodyString (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedRequestSpecification;
+	public final fun setKeepAlive (Ljava/lang/String;)V
+	public final fun setModel (Ljava/lang/String;)V
+	public final fun setOptions (Ljava/util/Map;)V
+	public final fun setRequestBody (Ldev/mokksy/aimocks/ollama/embed/EmbeddingsRequest;)V
+	public final fun setStringInput (Ljava/lang/String;)V
+	public final fun setStringListInput (Ljava/util/List;)V
+	public final fun setTruncate (Ljava/lang/Boolean;)V
+	public final fun stringInput (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedRequestSpecification;
+	public final fun stringListInput (Ljava/util/List;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedRequestSpecification;
+	public final fun truncate (Z)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedRequestSpecification;
+}
+
+public final class dev/mokksy/aimocks/ollama/embed/OllamaEmbedResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/util/List;Ljava/lang/String;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/util/List;Ljava/lang/String;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun embeddings (Ljava/util/List;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedResponseSpecification;
+	public final fun embeddings ([Ljava/util/List;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedResponseSpecification;
+	public final fun getEmbeddings ()Ljava/util/List;
+	public final fun getModel ()Ljava/lang/String;
+	public final fun model (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedResponseSpecification;
+	public final fun setEmbeddings (Ljava/util/List;)V
+	public final fun setModel (Ljava/lang/String;)V
+}
+
+public final class dev/mokksy/aimocks/ollama/generate/GenerateRequest {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/generate/GenerateRequest$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Boolean;Ldev/mokksy/aimocks/ollama/model/Format;Ldev/mokksy/aimocks/ollama/model/ModelOptions;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/Boolean;Ljava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Boolean;Ldev/mokksy/aimocks/ollama/model/Format;Ldev/mokksy/aimocks/ollama/model/ModelOptions;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/Boolean;Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10 ()Z
+	public final fun component11 ()Ljava/lang/Boolean;
+	public final fun component12 ()Ljava/lang/String;
+	public final fun component13 ()Ljava/util/List;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Ljava/lang/Boolean;
+	public final fun component6 ()Ldev/mokksy/aimocks/ollama/model/Format;
+	public final fun component7 ()Ldev/mokksy/aimocks/ollama/model/ModelOptions;
+	public final fun component8 ()Ljava/lang/String;
+	public final fun component9 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Boolean;Ldev/mokksy/aimocks/ollama/model/Format;Ldev/mokksy/aimocks/ollama/model/ModelOptions;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/Boolean;Ljava/lang/String;Ljava/util/List;)Ldev/mokksy/aimocks/ollama/generate/GenerateRequest;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/generate/GenerateRequest;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Boolean;Ldev/mokksy/aimocks/ollama/model/Format;Ldev/mokksy/aimocks/ollama/model/ModelOptions;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/Boolean;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/generate/GenerateRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContext ()Ljava/util/List;
+	public final fun getFormat ()Ldev/mokksy/aimocks/ollama/model/Format;
+	public final fun getImages ()Ljava/util/List;
+	public final fun getKeepAlive ()Ljava/lang/String;
+	public final fun getModel ()Ljava/lang/String;
+	public final fun getOptions ()Ldev/mokksy/aimocks/ollama/model/ModelOptions;
+	public final fun getPrompt ()Ljava/lang/String;
+	public final fun getRaw ()Ljava/lang/Boolean;
+	public final fun getStream ()Z
+	public final fun getSuffix ()Ljava/lang/String;
+	public final fun getSystem ()Ljava/lang/String;
+	public final fun getTemplate ()Ljava/lang/String;
+	public final fun getThink ()Ljava/lang/Boolean;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/generate/GenerateRequest$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/generate/GenerateRequest$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/generate/GenerateRequest;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/generate/GenerateRequest;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/generate/GenerateRequest$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/generate/GenerateResponse {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/generate/GenerateResponse$Companion;
+	public fun <init> (Ljava/lang/String;Lkotlin/time/Instant;Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/time/Instant;Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10 ()Ljava/lang/Long;
+	public final fun component11 ()Ljava/lang/Integer;
+	public final fun component12 ()Ljava/lang/Long;
+	public final fun component2 ()Lkotlin/time/Instant;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Z
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/util/List;
+	public final fun component7 ()Ljava/lang/Long;
+	public final fun component8 ()Ljava/lang/Long;
+	public final fun component9 ()Ljava/lang/Integer;
+	public final fun copy (Ljava/lang/String;Lkotlin/time/Instant;Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;)Ldev/mokksy/aimocks/ollama/generate/GenerateResponse;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/generate/GenerateResponse;Ljava/lang/String;Lkotlin/time/Instant;Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;Ljava/lang/Integer;Ljava/lang/Long;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/generate/GenerateResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContext ()Ljava/util/List;
+	public final fun getCreatedAt ()Lkotlin/time/Instant;
+	public final fun getDone ()Z
+	public final fun getDoneReason ()Ljava/lang/String;
+	public final fun getEvalCount ()Ljava/lang/Integer;
+	public final fun getEvalDuration ()Ljava/lang/Long;
+	public final fun getLoadDuration ()Ljava/lang/Long;
+	public final fun getModel ()Ljava/lang/String;
+	public final fun getPromptEvalCount ()Ljava/lang/Integer;
+	public final fun getPromptEvalDuration ()Ljava/lang/Long;
+	public final fun getResponse ()Ljava/lang/String;
+	public final fun getTotalDuration ()Ljava/lang/Long;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/generate/GenerateResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/generate/GenerateResponse$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/generate/GenerateResponse;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/generate/GenerateResponse;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/generate/GenerateResponse$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/generate/OllamaGenerateBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public final fun respondsStream (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/ollama/generate/OllamaGenerateRequestSpecification : dev/mokksy/aimocks/core/AbstractInferenceRequestSpecification {
+	public fun <init> ()V
+	public final fun getStream ()Ljava/lang/Boolean;
+	public final fun getTemplate ()Ljava/lang/String;
+	public final fun setStream (Ljava/lang/Boolean;)V
+	public final fun setTemplate (Ljava/lang/String;)V
+	public final fun stream (Z)Ldev/mokksy/aimocks/ollama/generate/OllamaGenerateRequestSpecification;
+	public fun systemMessageContains (Ljava/lang/String;)V
+	public final fun template (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/generate/OllamaGenerateRequestSpecification;
+	public fun userMessageContains (Ljava/lang/String;)V
+}
+
+public final class dev/mokksy/aimocks/ollama/generate/OllamaGenerateResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun content (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/generate/OllamaGenerateResponseSpecification;
+	public final fun doneReason (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/generate/OllamaGenerateResponseSpecification;
+	public final fun getDoneReason ()Ljava/lang/String;
+	public final fun getResponseContent ()Ljava/lang/String;
+	public final fun setDoneReason (Ljava/lang/String;)V
+	public final fun setResponseContent (Ljava/lang/String;)V
+}
+
+public final class dev/mokksy/aimocks/ollama/generate/OllamaStreamingGenerateResponseSpecification : dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun doneReason (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/generate/OllamaStreamingGenerateResponseSpecification;
+	public final fun getDoneReason ()Ljava/lang/String;
+	public final fun setDoneReason (Ljava/lang/String;)V
+}
+
+public final class dev/mokksy/aimocks/ollama/model/CopyModelRequest {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/CopyModelRequest$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/model/CopyModelRequest;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/CopyModelRequest;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/CopyModelRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDestination ()Ljava/lang/String;
+	public final fun getSource ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/CopyModelRequest$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/CopyModelRequest$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/CopyModelRequest;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/CopyModelRequest;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/CopyModelRequest$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/CopyModelResponse {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/CopyModelResponse;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/CreateModelRequest {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/CreateModelRequest$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Z)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Z
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Z)Ldev/mokksy/aimocks/ollama/model/CreateModelRequest;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/CreateModelRequest;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/CreateModelRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getModelfile ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getStream ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/CreateModelRequest$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/CreateModelRequest$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/CreateModelRequest;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/CreateModelRequest;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/CreateModelRequest$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/CreateModelResponse {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/CreateModelResponse$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/Long;
+	public final fun component4 ()Ljava/lang/Long;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)Ldev/mokksy/aimocks/ollama/model/CreateModelResponse;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/CreateModelResponse;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/CreateModelResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCompleted ()Ljava/lang/Long;
+	public final fun getDigest ()Ljava/lang/String;
+	public final fun getStatus ()Ljava/lang/String;
+	public final fun getTotal ()Ljava/lang/Long;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/CreateModelResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/CreateModelResponse$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/CreateModelResponse;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/CreateModelResponse;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/CreateModelResponse$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/DeleteModelRequest {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/DeleteModelRequest$Companion;
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/model/DeleteModelRequest;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/DeleteModelRequest;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/DeleteModelRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/DeleteModelRequest$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/DeleteModelRequest$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/DeleteModelRequest;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/DeleteModelRequest;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/DeleteModelRequest$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/DeleteModelResponse {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/DeleteModelResponse;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public abstract interface class dev/mokksy/aimocks/ollama/model/Format {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/Format$Companion;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/Format$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/Format$Json : dev/mokksy/aimocks/ollama/model/Format {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/Format$Json;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/Format$Schema : dev/mokksy/aimocks/ollama/model/Format {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/Format$Schema$Companion;
+	public fun <init> (Ljava/lang/String;Lkotlinx/schema/json/JsonSchema;)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlinx/schema/json/JsonSchema;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lkotlinx/schema/json/JsonSchema;
+	public final fun copy (Ljava/lang/String;Lkotlinx/schema/json/JsonSchema;)Ldev/mokksy/aimocks/ollama/model/Format$Schema;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/Format$Schema;Ljava/lang/String;Lkotlinx/schema/json/JsonSchema;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/Format$Schema;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getSchema ()Lkotlinx/schema/json/JsonSchema;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/Format$Schema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/Format$Schema$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/Format$Schema;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/Format$Schema;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/Format$Schema$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ListModelsRequest {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/ListModelsRequest;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ListModelsResponse {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/ListModelsResponse$Companion;
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Ldev/mokksy/aimocks/ollama/model/ListModelsResponse;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/ListModelsResponse;Ljava/util/List;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/ListModelsResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getModels ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/ListModelsResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/ListModelsResponse$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/ListModelsResponse;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/ListModelsResponse;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ListModelsResponse$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ListRunningModelsRequest {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/ListRunningModelsRequest;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ListRunningModelsResponse {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/ListRunningModelsResponse$Companion;
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Ldev/mokksy/aimocks/ollama/model/ListRunningModelsResponse;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/ListRunningModelsResponse;Ljava/util/List;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/ListRunningModelsResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getModels ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/ListRunningModelsResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/ListRunningModelsResponse$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/ListRunningModelsResponse;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/ListRunningModelsResponse;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ListRunningModelsResponse$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ModelDetails {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/ModelDetails$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/model/ModelDetails;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/ModelDetails;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/ModelDetails;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFamilies ()Ljava/util/List;
+	public final fun getFamily ()Ljava/lang/String;
+	public final fun getFormat ()Ljava/lang/String;
+	public final fun getParameterSize ()Ljava/lang/String;
+	public final fun getQuantizationLevel ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/ModelDetails$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/ModelDetails$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/ModelDetails;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/ModelDetails;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ModelDetails$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ModelInfo {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/ModelInfo$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ldev/mokksy/aimocks/ollama/model/ModelDetails;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ldev/mokksy/aimocks/ollama/model/ModelDetails;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/Long;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ldev/mokksy/aimocks/ollama/model/ModelDetails;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ldev/mokksy/aimocks/ollama/model/ModelDetails;)Ldev/mokksy/aimocks/ollama/model/ModelInfo;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/ModelInfo;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ldev/mokksy/aimocks/ollama/model/ModelDetails;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/ModelInfo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDetails ()Ldev/mokksy/aimocks/ollama/model/ModelDetails;
+	public final fun getDigest ()Ljava/lang/String;
+	public final fun getModified ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getSize ()Ljava/lang/Long;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/ModelInfo$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/ModelInfo$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/ModelInfo;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/ModelInfo;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ModelInfo$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ModelOptions {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/ModelOptions$Companion;
+	public fun <init> ()V
+	public fun <init> (ILjava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;)V
+	public synthetic fun <init> (ILjava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun component10 ()Ljava/lang/Double;
+	public final fun component2 ()Ljava/lang/Integer;
+	public final fun component3 ()Ljava/lang/Double;
+	public final fun component4 ()Ljava/lang/Double;
+	public final fun component5 ()Ljava/lang/Integer;
+	public final fun component6 ()Ljava/util/List;
+	public final fun component7 ()Ljava/lang/Integer;
+	public final fun component8 ()Ljava/lang/Integer;
+	public final fun component9 ()Ljava/lang/Double;
+	public final fun copy (ILjava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;)Ldev/mokksy/aimocks/ollama/model/ModelOptions;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/ModelOptions;ILjava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/ModelOptions;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMinP ()Ljava/lang/Double;
+	public final fun getNumCtx ()I
+	public final fun getNumPredict ()Ljava/lang/Integer;
+	public final fun getRepeatLastN ()Ljava/lang/Integer;
+	public final fun getRepeatPenalty ()Ljava/lang/Double;
+	public final fun getSeed ()Ljava/lang/Integer;
+	public final fun getStop ()Ljava/util/List;
+	public final fun getTemperature ()Ljava/lang/Double;
+	public final fun getTopK ()Ljava/lang/Integer;
+	public final fun getTopP ()Ljava/lang/Double;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/ModelOptions$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/ModelOptions$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/ModelOptions;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/ModelOptions;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ModelOptions$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/PullModelRequest {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/PullModelRequest$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/Boolean;Z)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Boolean;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/Boolean;
+	public final fun component3 ()Z
+	public final fun copy (Ljava/lang/String;Ljava/lang/Boolean;Z)Ldev/mokksy/aimocks/ollama/model/PullModelRequest;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/PullModelRequest;Ljava/lang/String;Ljava/lang/Boolean;ZILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/PullModelRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getInsecure ()Ljava/lang/Boolean;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getStream ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/PullModelRequest$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/PullModelRequest$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/PullModelRequest;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/PullModelRequest;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/PullModelRequest$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/PullModelResponse {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/PullModelResponse$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/Long;
+	public final fun component4 ()Ljava/lang/Long;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)Ldev/mokksy/aimocks/ollama/model/PullModelResponse;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/PullModelResponse;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/PullModelResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCompleted ()Ljava/lang/Long;
+	public final fun getDigest ()Ljava/lang/String;
+	public final fun getStatus ()Ljava/lang/String;
+	public final fun getTotal ()Ljava/lang/Long;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/PullModelResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/PullModelResponse$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/PullModelResponse;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/PullModelResponse;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/PullModelResponse$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/PushModelRequest {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/PushModelRequest$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/Boolean;Z)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Boolean;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/Boolean;
+	public final fun component3 ()Z
+	public final fun copy (Ljava/lang/String;Ljava/lang/Boolean;Z)Ldev/mokksy/aimocks/ollama/model/PushModelRequest;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/PushModelRequest;Ljava/lang/String;Ljava/lang/Boolean;ZILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/PushModelRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getInsecure ()Ljava/lang/Boolean;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getStream ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/PushModelRequest$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/PushModelRequest$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/PushModelRequest;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/PushModelRequest;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/PushModelRequest$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/PushModelResponse {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/PushModelResponse$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/Long;
+	public final fun component4 ()Ljava/lang/Long;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)Ldev/mokksy/aimocks/ollama/model/PushModelResponse;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/PushModelResponse;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/PushModelResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCompleted ()Ljava/lang/Long;
+	public final fun getDigest ()Ljava/lang/String;
+	public final fun getStatus ()Ljava/lang/String;
+	public final fun getTotal ()Ljava/lang/Long;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/PushModelResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/PushModelResponse$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/PushModelResponse;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/PushModelResponse;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/PushModelResponse$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/RunningModelInfo {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/RunningModelInfo$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/model/RunningModelInfo;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/RunningModelInfo;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/RunningModelInfo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCreated ()Ljava/lang/String;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/RunningModelInfo$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/RunningModelInfo$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/RunningModelInfo;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/RunningModelInfo;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/RunningModelInfo$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ShowModelRequest {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/ShowModelRequest$Companion;
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/model/ShowModelRequest;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/ShowModelRequest;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/ShowModelRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/ShowModelRequest$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/ShowModelRequest$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/ShowModelRequest;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/ShowModelRequest;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ShowModelRequest$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ShowModelResponse {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/ShowModelResponse$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/Map;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/model/ShowModelResponse;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/ShowModelResponse;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/ShowModelResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLicense ()Ljava/lang/String;
+	public final fun getModelfile ()Ljava/lang/String;
+	public final fun getParameters ()Ljava/util/Map;
+	public final fun getSystem ()Ljava/lang/String;
+	public final fun getTemplate ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/ShowModelResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/ShowModelResponse$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/ShowModelResponse;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/ShowModelResponse;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/ShowModelResponse$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/VersionRequest {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/VersionRequest;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/VersionResponse {
+	public static final field Companion Ldev/mokksy/aimocks/ollama/model/VersionResponse$Companion;
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/model/VersionResponse;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/model/VersionResponse;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/model/VersionResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getVersion ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/ollama/model/VersionResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/model/VersionResponse$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/model/VersionResponse;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/model/VersionResponse;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/ollama/model/VersionResponse$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+

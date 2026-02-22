@@ -11,6 +11,11 @@ plugins {
 
 kotlin {
 
+    @OptIn(org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation::class)
+    abiValidation {
+        enabled = true
+    }
+
     compilerOptions {
         languageVersion = KOTLIN_2_2
         apiVersion = KOTLIN_2_2
@@ -48,9 +53,7 @@ kotlin {
 }
 
 // Run tests in parallel to some degree.
-private val defaultForks =
-    (Runtime.getRuntime().availableProcessors() / 2)
-        .coerceAtLeast(1)
+private val defaultForks = (Runtime.getRuntime().availableProcessors() / 2).coerceAtLeast(1)
 tasks.withType<Test>().configureEach {
     maxParallelForks =
         providers

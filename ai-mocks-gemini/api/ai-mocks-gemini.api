@@ -1,0 +1,714 @@
+public final class dev/mokksy/aimocks/gemini/BlockReason : java/lang/Enum {
+	public static final field BLOCKLIST Ldev/mokksy/aimocks/gemini/BlockReason;
+	public static final field BLOCK_REASON_UNSPECIFIED Ldev/mokksy/aimocks/gemini/BlockReason;
+	public static final field IMAGE_SAFETY Ldev/mokksy/aimocks/gemini/BlockReason;
+	public static final field OTHER Ldev/mokksy/aimocks/gemini/BlockReason;
+	public static final field PROHIBITED_CONTENT Ldev/mokksy/aimocks/gemini/BlockReason;
+	public static final field SAFETY Ldev/mokksy/aimocks/gemini/BlockReason;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/BlockReason;
+	public static fun values ()[Ldev/mokksy/aimocks/gemini/BlockReason;
+}
+
+public final class dev/mokksy/aimocks/gemini/Candidate {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/Candidate$Companion;
+	public fun <init> (Ldev/mokksy/aimocks/gemini/Content;Ljava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Ldev/mokksy/aimocks/gemini/Content;Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ldev/mokksy/aimocks/gemini/Content;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/util/List;
+	public final fun copy (Ldev/mokksy/aimocks/gemini/Content;Ljava/lang/String;Ljava/util/List;)Ldev/mokksy/aimocks/gemini/Candidate;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/Candidate;Ldev/mokksy/aimocks/gemini/Content;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/Candidate;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContent ()Ldev/mokksy/aimocks/gemini/Content;
+	public final fun getFinishReason ()Ljava/lang/String;
+	public final fun getSafetyRatings ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/Candidate$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/Candidate$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/Candidate;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/Candidate;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/Candidate$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/Content {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/Content$Companion;
+	public fun <init> (Ljava/util/List;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/util/List;Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/Content;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/Content;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/Content;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getParts ()Ljava/util/List;
+	public final fun getRole ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/Content$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/Content$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/Content;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/Content;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/Content$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/FunctionDeclaration {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/FunctionDeclaration$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/util/Map;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/gemini/FunctionDeclaration;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/FunctionDeclaration;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/FunctionDeclaration;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getParameters ()Ljava/util/Map;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/FunctionDeclaration$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/FunctionDeclaration$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/FunctionDeclaration;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/FunctionDeclaration;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/FunctionDeclaration$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/GenerateContentRequest {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/GenerateContentRequest$Companion;
+	public fun <init> (Ljava/util/List;Ljava/lang/String;Ldev/mokksy/aimocks/gemini/GenerationConfig;Ljava/util/List;Ljava/util/List;Ldev/mokksy/aimocks/gemini/Content;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Ldev/mokksy/aimocks/gemini/GenerationConfig;Ljava/util/List;Ljava/util/List;Ldev/mokksy/aimocks/gemini/Content;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ldev/mokksy/aimocks/gemini/GenerationConfig;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Ldev/mokksy/aimocks/gemini/Content;
+	public final fun copy (Ljava/util/List;Ljava/lang/String;Ldev/mokksy/aimocks/gemini/GenerationConfig;Ljava/util/List;Ljava/util/List;Ldev/mokksy/aimocks/gemini/Content;)Ldev/mokksy/aimocks/gemini/GenerateContentRequest;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/GenerateContentRequest;Ljava/util/List;Ljava/lang/String;Ldev/mokksy/aimocks/gemini/GenerationConfig;Ljava/util/List;Ljava/util/List;Ldev/mokksy/aimocks/gemini/Content;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/GenerateContentRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContents ()Ljava/util/List;
+	public final fun getGenerationConfig ()Ldev/mokksy/aimocks/gemini/GenerationConfig;
+	public final fun getModel ()Ljava/lang/String;
+	public final fun getSafetySettings ()Ljava/util/List;
+	public final fun getSystemInstruction ()Ldev/mokksy/aimocks/gemini/Content;
+	public final fun getTools ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/GenerateContentRequest$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/GenerateContentRequest$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/GenerateContentRequest;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/GenerateContentRequest;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/GenerateContentRequest$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/GenerateContentResponse {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/GenerateContentResponse$Companion;
+	public fun <init> (Ljava/util/List;Ldev/mokksy/aimocks/gemini/PromptFeedback;Ldev/mokksy/aimocks/gemini/UsageMetadata;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/util/List;Ldev/mokksy/aimocks/gemini/PromptFeedback;Ldev/mokksy/aimocks/gemini/UsageMetadata;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ldev/mokksy/aimocks/gemini/PromptFeedback;
+	public final fun component3 ()Ldev/mokksy/aimocks/gemini/UsageMetadata;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (Ljava/util/List;Ldev/mokksy/aimocks/gemini/PromptFeedback;Ldev/mokksy/aimocks/gemini/UsageMetadata;Ljava/lang/String;Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/GenerateContentResponse;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/GenerateContentResponse;Ljava/util/List;Ldev/mokksy/aimocks/gemini/PromptFeedback;Ldev/mokksy/aimocks/gemini/UsageMetadata;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/GenerateContentResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCandidates ()Ljava/util/List;
+	public final fun getModelVersion ()Ljava/lang/String;
+	public final fun getPromptFeedback ()Ldev/mokksy/aimocks/gemini/PromptFeedback;
+	public final fun getResponseId ()Ljava/lang/String;
+	public final fun getUsageMetadata ()Ldev/mokksy/aimocks/gemini/UsageMetadata;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/GenerateContentResponse$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/GenerateContentResponse$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/GenerateContentResponse;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/GenerateContentResponse;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/GenerateContentResponse$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/GenerationConfig {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/GenerationConfig$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Float;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/String;Ldev/mokksy/aimocks/gemini/Schema;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Boolean;Ldev/mokksy/aimocks/gemini/SpeechConfig;Ldev/mokksy/aimocks/gemini/ThinkingConfig;Ldev/mokksy/aimocks/gemini/MediaResolution;)V
+	public synthetic fun <init> (Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Float;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/String;Ldev/mokksy/aimocks/gemini/Schema;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Boolean;Ldev/mokksy/aimocks/gemini/SpeechConfig;Ldev/mokksy/aimocks/gemini/ThinkingConfig;Ldev/mokksy/aimocks/gemini/MediaResolution;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Double;
+	public final fun component10 ()Ljava/lang/Integer;
+	public final fun component11 ()Ljava/lang/Double;
+	public final fun component12 ()Ljava/lang/Double;
+	public final fun component13 ()Ljava/lang/Boolean;
+	public final fun component14 ()Ljava/lang/Integer;
+	public final fun component15 ()Ljava/lang/Boolean;
+	public final fun component16 ()Ldev/mokksy/aimocks/gemini/SpeechConfig;
+	public final fun component17 ()Ldev/mokksy/aimocks/gemini/ThinkingConfig;
+	public final fun component18 ()Ldev/mokksy/aimocks/gemini/MediaResolution;
+	public final fun component2 ()Ljava/lang/Double;
+	public final fun component3 ()Ljava/lang/Float;
+	public final fun component4 ()Ljava/lang/Integer;
+	public final fun component5 ()Ljava/lang/Integer;
+	public final fun component6 ()Ljava/util/List;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Ldev/mokksy/aimocks/gemini/Schema;
+	public final fun component9 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Float;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/String;Ldev/mokksy/aimocks/gemini/Schema;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Boolean;Ldev/mokksy/aimocks/gemini/SpeechConfig;Ldev/mokksy/aimocks/gemini/ThinkingConfig;Ldev/mokksy/aimocks/gemini/MediaResolution;)Ldev/mokksy/aimocks/gemini/GenerationConfig;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/GenerationConfig;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Float;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/List;Ljava/lang/String;Ldev/mokksy/aimocks/gemini/Schema;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Boolean;Ldev/mokksy/aimocks/gemini/SpeechConfig;Ldev/mokksy/aimocks/gemini/ThinkingConfig;Ldev/mokksy/aimocks/gemini/MediaResolution;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/GenerationConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCandidateCount ()Ljava/lang/Integer;
+	public final fun getEnableEnhancedCivicAnswers ()Ljava/lang/Boolean;
+	public final fun getFrequencyPenalty ()Ljava/lang/Double;
+	public final fun getLogprobs ()Ljava/lang/Integer;
+	public final fun getMaxOutputTokens ()Ljava/lang/Integer;
+	public final fun getMediaResolution ()Ldev/mokksy/aimocks/gemini/MediaResolution;
+	public final fun getPresencePenalty ()Ljava/lang/Double;
+	public final fun getResponseLogprobs ()Ljava/lang/Boolean;
+	public final fun getResponseMimeType ()Ljava/lang/String;
+	public final fun getResponseModalities ()Ljava/util/List;
+	public final fun getResponseSchema ()Ldev/mokksy/aimocks/gemini/Schema;
+	public final fun getSeed ()Ljava/lang/Integer;
+	public final fun getSpeechConfig ()Ldev/mokksy/aimocks/gemini/SpeechConfig;
+	public final fun getStopSequences ()Ljava/util/List;
+	public final fun getTemperature ()Ljava/lang/Double;
+	public final fun getThinkingConfig ()Ldev/mokksy/aimocks/gemini/ThinkingConfig;
+	public final fun getTopK ()Ljava/lang/Float;
+	public final fun getTopP ()Ljava/lang/Double;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/GenerationConfig$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/GenerationConfig$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/GenerationConfig;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/GenerationConfig;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/GenerationConfig$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/HarmBlockThreshold : java/lang/Enum {
+	public static final field BLOCK_LOW_AND_ABOVE Ldev/mokksy/aimocks/gemini/HarmBlockThreshold;
+	public static final field BLOCK_MEDIUM_AND_ABOVE Ldev/mokksy/aimocks/gemini/HarmBlockThreshold;
+	public static final field BLOCK_NONE Ldev/mokksy/aimocks/gemini/HarmBlockThreshold;
+	public static final field BLOCK_ONLY_HIGH Ldev/mokksy/aimocks/gemini/HarmBlockThreshold;
+	public static final field Companion Ldev/mokksy/aimocks/gemini/HarmBlockThreshold$Companion;
+	public static final field HARM_BLOCK_THRESHOLD_UNSPECIFIED Ldev/mokksy/aimocks/gemini/HarmBlockThreshold;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/HarmBlockThreshold;
+	public static fun values ()[Ldev/mokksy/aimocks/gemini/HarmBlockThreshold;
+}
+
+public final class dev/mokksy/aimocks/gemini/HarmBlockThreshold$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/HarmProbability : java/lang/Enum {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/HarmProbability$Companion;
+	public static final field HARM_PROBABILITY_UNSPECIFIED Ldev/mokksy/aimocks/gemini/HarmProbability;
+	public static final field HIGH Ldev/mokksy/aimocks/gemini/HarmProbability;
+	public static final field LOW Ldev/mokksy/aimocks/gemini/HarmProbability;
+	public static final field MEDIUM Ldev/mokksy/aimocks/gemini/HarmProbability;
+	public static final field NEGLIGIBLE Ldev/mokksy/aimocks/gemini/HarmProbability;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/HarmProbability;
+	public static fun values ()[Ldev/mokksy/aimocks/gemini/HarmProbability;
+}
+
+public final class dev/mokksy/aimocks/gemini/HarmProbability$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/MediaResolution : java/lang/Enum {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/MediaResolution$Companion;
+	public static final field HIGH Ldev/mokksy/aimocks/gemini/MediaResolution;
+	public static final field LOW Ldev/mokksy/aimocks/gemini/MediaResolution;
+	public static final field MEDIA_RESOLUTION_UNSPECIFIED Ldev/mokksy/aimocks/gemini/MediaResolution;
+	public static final field MEDIUM Ldev/mokksy/aimocks/gemini/MediaResolution;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/MediaResolution;
+	public static fun values ()[Ldev/mokksy/aimocks/gemini/MediaResolution;
+}
+
+public final class dev/mokksy/aimocks/gemini/MediaResolution$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public class dev/mokksy/aimocks/gemini/MockGemini : dev/mokksy/aimocks/core/AbstractMockLlm {
+	public fun <init> ()V
+	public fun <init> (IZ)V
+	public synthetic fun <init> (IZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Z)V
+	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun baseUrl ()Ljava/lang/String;
+	public final fun generateContent (Ljava/lang/String;Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/gemini/content/GeminiContentBuildingStep;
+	public final fun generateContent (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/gemini/content/GeminiContentBuildingStep;
+	public final fun generateContent (Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/gemini/content/GeminiContentBuildingStep;
+	public static synthetic fun generateContent$default (Ldev/mokksy/aimocks/gemini/MockGemini;Ljava/lang/String;Ljava/util/function/Consumer;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/content/GeminiContentBuildingStep;
+	public static synthetic fun generateContent$default (Ldev/mokksy/aimocks/gemini/MockGemini;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/content/GeminiContentBuildingStep;
+	public final fun generateContentStream (Ljava/lang/String;Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/gemini/content/GeminiStreamingContentBuildingStep;
+	public final fun generateContentStream (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/gemini/content/GeminiStreamingContentBuildingStep;
+	public final fun generateContentStream (Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/gemini/content/GeminiStreamingContentBuildingStep;
+	public static synthetic fun generateContentStream$default (Ldev/mokksy/aimocks/gemini/MockGemini;Ljava/lang/String;Ljava/util/function/Consumer;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/content/GeminiStreamingContentBuildingStep;
+	public static synthetic fun generateContentStream$default (Ldev/mokksy/aimocks/gemini/MockGemini;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/content/GeminiStreamingContentBuildingStep;
+}
+
+public final class dev/mokksy/aimocks/gemini/Modality : java/lang/Enum {
+	public static final field AUDIO Ldev/mokksy/aimocks/gemini/Modality;
+	public static final field Companion Ldev/mokksy/aimocks/gemini/Modality$Companion;
+	public static final field IMAGE Ldev/mokksy/aimocks/gemini/Modality;
+	public static final field MODALITY_UNSPECIFIED Ldev/mokksy/aimocks/gemini/Modality;
+	public static final field TEXT Ldev/mokksy/aimocks/gemini/Modality;
+	public static final field VIDEO Ldev/mokksy/aimocks/gemini/Modality;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/Modality;
+	public static fun values ()[Ldev/mokksy/aimocks/gemini/Modality;
+}
+
+public final class dev/mokksy/aimocks/gemini/Modality$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/ModalityTokenCount {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/ModalityTokenCount$Companion;
+	public fun <init> (Ldev/mokksy/aimocks/gemini/Modality;I)V
+	public final fun component1 ()Ldev/mokksy/aimocks/gemini/Modality;
+	public final fun component2 ()I
+	public final fun copy (Ldev/mokksy/aimocks/gemini/Modality;I)Ldev/mokksy/aimocks/gemini/ModalityTokenCount;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/ModalityTokenCount;Ldev/mokksy/aimocks/gemini/Modality;IILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/ModalityTokenCount;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getModality ()Ldev/mokksy/aimocks/gemini/Modality;
+	public final fun getTokenCount ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/ModalityTokenCount$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/ModalityTokenCount$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/ModalityTokenCount;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/ModalityTokenCount;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/ModalityTokenCount$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/Part {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/Part$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/Part;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/Part;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/Part;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/Part$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/Part$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/Part;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/Part;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/Part$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/PromptFeedback {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/PromptFeedback$Companion;
+	public fun <init> ()V
+	public fun <init> (Ldev/mokksy/aimocks/gemini/BlockReason;Ljava/util/List;)V
+	public synthetic fun <init> (Ldev/mokksy/aimocks/gemini/BlockReason;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ldev/mokksy/aimocks/gemini/BlockReason;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ldev/mokksy/aimocks/gemini/BlockReason;Ljava/util/List;)Ldev/mokksy/aimocks/gemini/PromptFeedback;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/PromptFeedback;Ldev/mokksy/aimocks/gemini/BlockReason;Ljava/util/List;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/PromptFeedback;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBlockReason ()Ldev/mokksy/aimocks/gemini/BlockReason;
+	public final fun getSafetyRatings ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/PromptFeedback$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/PromptFeedback$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/PromptFeedback;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/PromptFeedback;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/PromptFeedback$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/SafetyCategory : java/lang/Enum {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/SafetyCategory$Companion;
+	public static final field HARM_CATEGORY_DANGEROUS_CONTENT Ldev/mokksy/aimocks/gemini/SafetyCategory;
+	public static final field HARM_CATEGORY_HARASSMENT Ldev/mokksy/aimocks/gemini/SafetyCategory;
+	public static final field HARM_CATEGORY_HATE_SPEECH Ldev/mokksy/aimocks/gemini/SafetyCategory;
+	public static final field HARM_CATEGORY_SEXUALLY_EXPLICIT Ldev/mokksy/aimocks/gemini/SafetyCategory;
+	public static final field HARM_CATEGORY_UNSPECIFIED Ldev/mokksy/aimocks/gemini/SafetyCategory;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/SafetyCategory;
+	public static fun values ()[Ldev/mokksy/aimocks/gemini/SafetyCategory;
+}
+
+public final class dev/mokksy/aimocks/gemini/SafetyCategory$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/SafetyRating {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/SafetyRating$Companion;
+	public fun <init> (Ldev/mokksy/aimocks/gemini/SafetyCategory;Ldev/mokksy/aimocks/gemini/HarmProbability;)V
+	public final fun component1 ()Ldev/mokksy/aimocks/gemini/SafetyCategory;
+	public final fun component2 ()Ldev/mokksy/aimocks/gemini/HarmProbability;
+	public final fun copy (Ldev/mokksy/aimocks/gemini/SafetyCategory;Ldev/mokksy/aimocks/gemini/HarmProbability;)Ldev/mokksy/aimocks/gemini/SafetyRating;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/SafetyRating;Ldev/mokksy/aimocks/gemini/SafetyCategory;Ldev/mokksy/aimocks/gemini/HarmProbability;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/SafetyRating;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCategory ()Ldev/mokksy/aimocks/gemini/SafetyCategory;
+	public final fun getProbability ()Ldev/mokksy/aimocks/gemini/HarmProbability;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/SafetyRating$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/SafetyRating$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/SafetyRating;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/SafetyRating;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/SafetyRating$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/SafetySetting {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/SafetySetting$Companion;
+	public fun <init> (Ldev/mokksy/aimocks/gemini/SafetyCategory;Ldev/mokksy/aimocks/gemini/HarmBlockThreshold;)V
+	public final fun component1 ()Ldev/mokksy/aimocks/gemini/SafetyCategory;
+	public final fun component2 ()Ldev/mokksy/aimocks/gemini/HarmBlockThreshold;
+	public final fun copy (Ldev/mokksy/aimocks/gemini/SafetyCategory;Ldev/mokksy/aimocks/gemini/HarmBlockThreshold;)Ldev/mokksy/aimocks/gemini/SafetySetting;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/SafetySetting;Ldev/mokksy/aimocks/gemini/SafetyCategory;Ldev/mokksy/aimocks/gemini/HarmBlockThreshold;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/SafetySetting;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCategory ()Ldev/mokksy/aimocks/gemini/SafetyCategory;
+	public final fun getThreshold ()Ldev/mokksy/aimocks/gemini/HarmBlockThreshold;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/SafetySetting$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/SafetySetting$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/SafetySetting;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/SafetySetting;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/SafetySetting$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/Schema {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/Schema$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/util/Map;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/Map;
+	public final fun copy (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/gemini/Schema;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/Schema;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/Schema;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getProperties ()Ljava/util/Map;
+	public final fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/Schema$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/Schema$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/Schema;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/Schema;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/Schema$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/SpeechConfig {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/SpeechConfig$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/SpeechConfig;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/SpeechConfig;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/SpeechConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getVoice ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/SpeechConfig$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/SpeechConfig$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/SpeechConfig;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/SpeechConfig;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/SpeechConfig$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/ThinkingConfig {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/ThinkingConfig$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/Boolean;)V
+	public synthetic fun <init> (Ljava/lang/Boolean;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Boolean;
+	public final fun copy (Ljava/lang/Boolean;)Ldev/mokksy/aimocks/gemini/ThinkingConfig;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/ThinkingConfig;Ljava/lang/Boolean;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/ThinkingConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEnabled ()Ljava/lang/Boolean;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/ThinkingConfig$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/ThinkingConfig$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/ThinkingConfig;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/ThinkingConfig;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/ThinkingConfig$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/Tool {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/Tool$Companion;
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Ldev/mokksy/aimocks/gemini/Tool;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/Tool;Ljava/util/List;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/Tool;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFunctionDeclarations ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/Tool$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/Tool$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/Tool;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/Tool;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/Tool$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/UsageMetadata {
+	public static final field Companion Ldev/mokksy/aimocks/gemini/UsageMetadata$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Integer;
+	public final fun component10 ()Ljava/util/List;
+	public final fun component2 ()Ljava/lang/Integer;
+	public final fun component3 ()Ljava/lang/Integer;
+	public final fun component4 ()Ljava/lang/Integer;
+	public final fun component5 ()Ljava/lang/Integer;
+	public final fun component6 ()Ljava/lang/Integer;
+	public final fun component7 ()Ljava/util/List;
+	public final fun component8 ()Ljava/util/List;
+	public final fun component9 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;)Ldev/mokksy/aimocks/gemini/UsageMetadata;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/gemini/UsageMetadata;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Ldev/mokksy/aimocks/gemini/UsageMetadata;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCacheTokensDetails ()Ljava/util/List;
+	public final fun getCachedContentTokenCount ()Ljava/lang/Integer;
+	public final fun getCandidatesTokenCount ()Ljava/lang/Integer;
+	public final fun getCandidatesTokensDetails ()Ljava/util/List;
+	public final fun getPromptTokenCount ()Ljava/lang/Integer;
+	public final fun getPromptTokensDetails ()Ljava/util/List;
+	public final fun getThoughtsTokenCount ()Ljava/lang/Integer;
+	public final fun getToolUsePromptTokenCount ()Ljava/lang/Integer;
+	public final fun getToolUsePromptTokensDetails ()Ljava/util/List;
+	public final fun getTotalTokenCount ()Ljava/lang/Integer;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/gemini/UsageMetadata$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/gemini/UsageMetadata$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/gemini/UsageMetadata;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/gemini/UsageMetadata;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/UsageMetadata$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/gemini/content/GeminiContentBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun responds (Lkotlin/jvm/functions/Function1;)V
+}
+
+public class dev/mokksy/aimocks/gemini/content/GeminiContentRequestSpecification : dev/mokksy/aimocks/core/AbstractInferenceRequestSpecification {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Number;Ljava/lang/Integer;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Number;Ljava/lang/Integer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun apiVersion (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/content/GeminiContentRequestSpecification;
+	public final fun betaApi ()Ldev/mokksy/aimocks/gemini/content/GeminiContentRequestSpecification;
+	public final fun getApiVersion ()Ljava/lang/String;
+	public final fun getLocation ()Ljava/lang/String;
+	public final fun getMaxOutputTokens ()Ljava/lang/Integer;
+	public final fun getPath ()Ljava/lang/String;
+	public final fun getProject ()Ljava/lang/String;
+	public final fun getSeed ()Ljava/lang/Number;
+	public final fun location (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/content/GeminiContentRequestSpecification;
+	public final fun maxOutputTokens (Ljava/lang/Number;)Ldev/mokksy/aimocks/gemini/content/GeminiContentRequestSpecification;
+	public final fun path (Ljava/lang/String;)V
+	public final fun project (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/content/GeminiContentRequestSpecification;
+	public final fun seed (Ljava/lang/Number;)Ldev/mokksy/aimocks/gemini/content/GeminiContentRequestSpecification;
+	public final fun setApiVersion (Ljava/lang/String;)V
+	public final fun setLocation (Ljava/lang/String;)V
+	public final fun setPath (Ljava/lang/String;)V
+	public final fun setProject (Ljava/lang/String;)V
+	public final fun setSeed (Ljava/lang/Number;)V
+	public final fun stableApi ()Ldev/mokksy/aimocks/gemini/content/GeminiContentRequestSpecification;
+	public fun systemMessageContains (Ljava/lang/String;)V
+	public fun userMessageContains (Ljava/lang/String;)V
+}
+
+public final class dev/mokksy/aimocks/gemini/content/GeminiContentResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun assistantContent (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/content/GeminiContentResponseSpecification;
+	public final fun build ()Ldev/mokksy/aimocks/gemini/GenerateContentResponse;
+	public final fun content (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/content/GeminiContentResponseSpecification;
+	public final fun finishReason (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/content/GeminiContentResponseSpecification;
+	public final fun getContent ()Ljava/lang/String;
+	public final fun getFinishReason ()Ljava/lang/String;
+	public final fun getRole ()Ljava/lang/String;
+	public final fun role (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/content/GeminiContentResponseSpecification;
+	public final fun setContent (Ljava/lang/String;)V
+	public final fun setFinishReason (Ljava/lang/String;)V
+	public final fun setRole (Ljava/lang/String;)V
+}
+
+public final class dev/mokksy/aimocks/gemini/content/GeminiStreamingContentBuildingStep : dev/mokksy/aimocks/core/AbstractStreamingBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun respondsStream (Lkotlin/jvm/functions/Function1;)V
+	public final fun respondsStream (ZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun respondsStream$default (Ldev/mokksy/aimocks/gemini/content/GeminiStreamingContentBuildingStep;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+}
+
+public final class dev/mokksy/aimocks/gemini/content/GeminiStreamingContentResponseSpecification : dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun finishReason (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/content/GeminiStreamingContentResponseSpecification;
+	public final fun getFinishReason ()Ljava/lang/String;
+	public final fun setFinishReason (Ljava/lang/String;)V
+}
+

@@ -1,0 +1,136 @@
+public abstract class dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	protected final fun getBuildingStep ()Ldev/mokksy/mokksy/BuildingStep;
+	protected final fun getLogger ()Lorg/slf4j/Logger;
+	protected final fun getMokksy ()Ldev/mokksy/mokksy/MokksyServer;
+	public fun responds (Ljava/util/function/Consumer;)V
+	public abstract fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun respondsError (Ljava/util/function/Consumer;)V
+	public fun respondsError (Lkotlin/jvm/functions/Function1;)V
+	public fun respondsError (Lkotlin/reflect/KClass;Lkotlin/jvm/functions/Function1;)V
+}
+
+public abstract class dev/mokksy/aimocks/core/AbstractInferenceRequestSpecification : dev/mokksy/aimocks/core/ModelRequestSpecification {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/Double;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Double;Ljava/lang/String;Ljava/util/List;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/Double;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Double;Ljava/lang/String;Ljava/util/List;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getMaxTokens ()Ljava/lang/Long;
+	public final fun getTemperature ()Ljava/lang/Double;
+	public final fun getTopK ()Ljava/lang/Long;
+	public final fun getTopP ()Ljava/lang/Double;
+	public final fun maxTokens (J)Ldev/mokksy/aimocks/core/AbstractInferenceRequestSpecification;
+	public final fun maxTokens (Ljava/lang/Number;)Ldev/mokksy/aimocks/core/AbstractInferenceRequestSpecification;
+	public final fun setMaxTokens (Ljava/lang/Long;)V
+	public final fun setTemperature (Ljava/lang/Double;)V
+	public final fun setTopK (Ljava/lang/Long;)V
+	public final fun setTopP (Ljava/lang/Double;)V
+	public abstract fun systemMessageContains (Ljava/lang/String;)V
+	public final fun systemMessageContains (Lkotlin/jvm/functions/Function1;)V
+	public final fun temperature (D)Ldev/mokksy/aimocks/core/AbstractInferenceRequestSpecification;
+	public final fun topK (J)Ldev/mokksy/aimocks/core/AbstractInferenceRequestSpecification;
+	public final fun topK (Ljava/lang/Number;)Ldev/mokksy/aimocks/core/AbstractInferenceRequestSpecification;
+	public final fun topP (D)Ldev/mokksy/aimocks/core/AbstractInferenceRequestSpecification;
+	public final fun topP (Ljava/lang/Number;)Ldev/mokksy/aimocks/core/AbstractInferenceRequestSpecification;
+	public abstract fun userMessageContains (Ljava/lang/String;)V
+	public final fun userMessageContains (Lkotlin/jvm/functions/Function1;)V
+}
+
+public abstract class dev/mokksy/aimocks/core/AbstractMockLlm {
+	public fun <init> (ILdev/mokksy/mokksy/ServerConfiguration;Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (ILdev/mokksy/mokksy/ServerConfiguration;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun baseUrl ()Ljava/lang/String;
+	protected final fun getMokksy ()Ldev/mokksy/mokksy/MokksyServer;
+	public final fun port ()I
+	public final fun shutdown ()V
+	public final fun shutdown (J)V
+	public final fun shutdown (JJ)V
+	public static synthetic fun shutdown$default (Ldev/mokksy/aimocks/core/AbstractMockLlm;JJILjava/lang/Object;)V
+	public final fun verifyNoUnmatchedRequests ()V
+}
+
+public abstract class dev/mokksy/aimocks/core/AbstractResponseSpecification : dev/mokksy/aimocks/core/ResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun delayMillis (J)V
+	public final fun getDelay-UwyO8pc ()J
+	protected final fun getResponse ()Ldev/mokksy/mokksy/response/AbstractResponseDefinition;
+	public final fun setDelay-LRDsOJo (J)V
+}
+
+public abstract class dev/mokksy/aimocks/core/AbstractStreamingBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun respondsStream (Ljava/util/function/Consumer;)V
+	public abstract fun respondsStream (Lkotlin/jvm/functions/Function1;)V
+}
+
+public abstract class dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification, dev/mokksy/aimocks/core/StreamingResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun chunks (Ljava/util/List;)V
+	public fun chunks ([Ljava/lang/Object;)V
+	public final fun getDelayBetweenChunks-UwyO8pc ()J
+	public final fun getResponseChunks ()Ljava/util/List;
+	public final fun getResponseFlow ()Lkotlinx/coroutines/flow/Flow;
+	public final fun setDelayBetweenChunks-LRDsOJo (J)V
+	public final fun setResponseChunks (Ljava/util/List;)V
+	public final fun setResponseFlow (Lkotlinx/coroutines/flow/Flow;)V
+	public fun stream (Ljava/util/stream/Stream;)V
+}
+
+public final class dev/mokksy/aimocks/core/EmbeddingUtils {
+	public static final field INSTANCE Ldev/mokksy/aimocks/core/EmbeddingUtils;
+	public final fun calculateMagnitude ([F)F
+	public final fun cosineSimilarity ([F[F)F
+	public final fun generateEmbedding (Ljava/lang/String;I)Ljava/util/List;
+	public static synthetic fun generateEmbedding$default (Ldev/mokksy/aimocks/core/EmbeddingUtils;Ljava/lang/String;IILjava/lang/Object;)Ljava/util/List;
+	public final fun generateEmbeddings (Ljava/util/List;I)Ljava/util/List;
+	public static synthetic fun generateEmbeddings$default (Ldev/mokksy/aimocks/core/EmbeddingUtils;Ljava/util/List;IILjava/lang/Object;)Ljava/util/List;
+}
+
+public abstract class dev/mokksy/aimocks/core/ModelRequestSpecification {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getModel ()Ljava/lang/String;
+	public final fun getRequestBody ()Ljava/util/List;
+	public final fun getRequestBodyString ()Ljava/util/List;
+	public final fun model (Ljava/lang/String;)Ldev/mokksy/aimocks/core/ModelRequestSpecification;
+	public final fun requestBodyContains (Ljava/lang/String;)Ldev/mokksy/aimocks/core/ModelRequestSpecification;
+	public final fun requestBodyContainsIgnoringCase (Ljava/lang/String;)Ldev/mokksy/aimocks/core/ModelRequestSpecification;
+	public final fun requestBodyDoesNotContains (Ljava/lang/String;)Ldev/mokksy/aimocks/core/ModelRequestSpecification;
+	public final fun requestBodyDoesNotContainsIgnoringCase (Ljava/lang/String;)Ldev/mokksy/aimocks/core/ModelRequestSpecification;
+	public final fun requestBodyEquals (Ljava/lang/Object;)Ldev/mokksy/aimocks/core/ModelRequestSpecification;
+	public final fun requestBodyEquals (Ljava/lang/String;)Ldev/mokksy/aimocks/core/ModelRequestSpecification;
+	public final fun requestBodyEqualsJson (Ljava/lang/String;)Ldev/mokksy/aimocks/core/ModelRequestSpecification;
+	public final fun requestMatches (Lio/kotest/matchers/Matcher;)V
+	public final fun requestMatchesPredicate (Lkotlin/jvm/functions/Function1;)V
+	public final fun requestSatisfies (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun requestSatisfies$default (Ldev/mokksy/aimocks/core/ModelRequestSpecification;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun setModel (Ljava/lang/String;)V
+}
+
+public abstract interface class dev/mokksy/aimocks/core/ResponseSpecification {
+	public abstract fun delayMillis (J)V
+}
+
+public abstract interface class dev/mokksy/aimocks/core/StreamingResponseSpecification {
+	public abstract fun chunks (Ljava/util/List;)V
+	public abstract fun chunks ([Ljava/lang/Object;)V
+	public abstract fun stream (Ljava/util/stream/Stream;)V
+}
+
+public final class dev/mokksy/aimocks/core/StreamingResponseSpecification_jvmKt {
+	public static final fun responseStream (Ldev/mokksy/aimocks/core/AbstractStreamingResponseSpecification;Ljava/util/stream/Stream;)V
+}
+
+public final class dev/mokksy/aimocks/core/json/schema/SchemaHelper {
+	public static final field INSTANCE Ldev/mokksy/aimocks/core/json/schema/SchemaHelper;
+	public final fun getProperty (Lkotlinx/schema/json/JsonSchema;Ljava/lang/String;)Lkotlinx/schema/json/PropertyDefinition;
+	public final fun getPropertyDescription (Lkotlinx/schema/json/JsonSchema;Ljava/lang/String;)Ljava/lang/String;
+	public final fun getPropertyType (Lkotlinx/schema/json/JsonSchema;Ljava/lang/String;)Ljava/util/List;
+	public final fun hasAllRequiredProperties (Lkotlinx/schema/json/JsonSchema;[Ljava/lang/String;)Z
+	public final fun hasProperty (Lkotlinx/schema/json/JsonSchema;Ljava/lang/String;)Z
+	public final fun isPropertyRequired (Lkotlinx/schema/json/JsonSchema;Ljava/lang/String;)Z
+	public final fun parseSchema (Lkotlinx/serialization/json/JsonElement;)Lkotlinx/schema/json/JsonSchema;
+}
+

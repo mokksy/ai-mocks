@@ -1,0 +1,1156 @@
+public final class dev/mokksy/aimocks/anthropic/AnthropicBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public final fun respondsStream (Lkotlin/jvm/functions/Function1;)V
+}
+
+public class dev/mokksy/aimocks/anthropic/AnthropicMessagesRequestSpecification : dev/mokksy/aimocks/core/AbstractInferenceRequestSpecification {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getUserId ()Ljava/lang/String;
+	public final fun setUserId (Ljava/lang/String;)V
+	public fun systemMessageContains (Ljava/lang/String;)V
+	public final fun userId (Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/AnthropicMessagesRequestSpecification;
+	public fun userMessageContains (Ljava/lang/String;)V
+}
+
+public final class dev/mokksy/aimocks/anthropic/AnthropicMessagesResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun assistantContent (Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/AnthropicMessagesResponseSpecification;
+	public final fun finishReason (Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/AnthropicMessagesResponseSpecification;
+	public final fun getAssistantContent ()Ljava/lang/String;
+	public final fun getDelayBetweenChunks-UwyO8pc ()J
+	public final fun getMessageId ()Ljava/lang/String;
+	public final fun getResponseChunks ()Ljava/util/List;
+	public final fun getResponseFlow ()Lkotlinx/coroutines/flow/Flow;
+	public final fun getStopReason ()Ljava/lang/String;
+	public final fun setAssistantContent (Ljava/lang/String;)V
+	public final fun setDelayBetweenChunks-LRDsOJo (J)V
+	public final fun setMessageId (Ljava/lang/String;)V
+	public final fun setResponseChunks (Ljava/util/List;)V
+	public final fun setResponseFlow (Lkotlinx/coroutines/flow/Flow;)V
+	public final fun setStopReason (Ljava/lang/String;)V
+}
+
+public final class dev/mokksy/aimocks/anthropic/AnthropicStreamingChatResponseSpecification : dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getSendDone ()Z
+	public final fun getStopReason ()Ljava/lang/String;
+	public final fun setSendDone (Z)V
+	public final fun setStopReason (Ljava/lang/String;)V
+}
+
+public class dev/mokksy/aimocks/anthropic/MockAnthropic : dev/mokksy/aimocks/core/AbstractMockLlm {
+	public fun <init> ()V
+	public fun <init> (IZ)V
+	public synthetic fun <init> (IZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun messages (Ljava/lang/String;Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/anthropic/AnthropicBuildingStep;
+	public final fun messages (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/anthropic/AnthropicBuildingStep;
+	public final fun messages (Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/anthropic/AnthropicBuildingStep;
+	public static synthetic fun messages$default (Ldev/mokksy/aimocks/anthropic/MockAnthropic;Ljava/lang/String;Ljava/util/function/Consumer;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/AnthropicBuildingStep;
+	public static synthetic fun messages$default (Ldev/mokksy/aimocks/anthropic/MockAnthropic;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/AnthropicBuildingStep;
+}
+
+public abstract interface class dev/mokksy/aimocks/anthropic/model/AnthropicSseData {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Companion;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$Companion {
+	public final fun getSerializersModule ()Lkotlinx/serialization/modules/SerializersModule;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public abstract class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Companion;
+	public synthetic fun <init> (ILkotlinx/serialization/internal/SerializationConstructorMarker;)V
+	public static final synthetic fun write$Self (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Image : dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Image$Companion;
+	public fun <init> (Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource;)V
+	public synthetic fun <init> (Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource;
+	public final fun copy (Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Image;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Image;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Image;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSource ()Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource;
+	public final fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Image$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Image$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Image;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Image;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Image$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Text : dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Text$Companion;
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Text;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Text;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Text;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Text$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Text$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Text;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Text;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Text$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockDeltaData : dev/mokksy/aimocks/anthropic/model/AnthropicSseData {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockDeltaData$Companion;
+	public fun <init> (ILdev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta;)V
+	public final fun component1 ()I
+	public final fun component2 ()Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta;
+	public final fun copy (ILdev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockDeltaData;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockDeltaData;ILdev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockDeltaData;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDelta ()Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta;
+	public final fun getIndex ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockDeltaData$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockDeltaData$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockDeltaData;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockDeltaData;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockDeltaData$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStartData : dev/mokksy/aimocks/anthropic/model/AnthropicSseData {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStartData$Companion;
+	public fun <init> (ILdev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock;)V
+	public final fun component1 ()I
+	public final fun component2 ()Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock;
+	public final fun copy (ILdev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStartData;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStartData;ILdev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStartData;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContentBlock ()Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock;
+	public final fun getIndex ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStartData$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStartData$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStartData;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStartData;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStartData$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStopData : dev/mokksy/aimocks/anthropic/model/AnthropicSseData {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStopData$Companion;
+	public fun <init> (I)V
+	public final fun component1 ()I
+	public final fun copy (I)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStopData;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStopData;IILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStopData;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIndex ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStopData$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStopData$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStopData;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStopData;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlockStopData$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public abstract class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta$Companion;
+	public synthetic fun <init> (ILkotlinx/serialization/internal/SerializationConstructorMarker;)V
+	public static final synthetic fun write$Self (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta$TextDelta : dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta$TextDelta$Companion;
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta$TextDelta;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta$TextDelta;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta$TextDelta;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta$TextDelta$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta$TextDelta$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta$TextDelta;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta$TextDelta;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta$TextDelta$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getData ()Ljava/lang/String;
+	public final fun getMediaType ()Ljava/lang/String;
+	public final fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ImageSource$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$Message {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Message$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Message;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Message;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Message;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContent ()Ljava/util/List;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getModel ()Ljava/lang/String;
+	public final fun getRole ()Ljava/lang/String;
+	public final fun getStopReason ()Ljava/lang/String;
+	public final fun getStopSequence ()Ljava/lang/String;
+	public final fun getType ()Ljava/lang/String;
+	public final fun getUsage ()Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$Message$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Message$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Message;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Message;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$Message$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDelta {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDelta$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDelta;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDelta;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDelta;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getStopReason ()Ljava/lang/String;
+	public final fun getStopSequence ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDelta$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDelta$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDelta;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDelta;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDelta$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDeltaData : dev/mokksy/aimocks/anthropic/model/AnthropicSseData {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDeltaData$Companion;
+	public fun <init> (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDelta;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;)V
+	public final fun component1 ()Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDelta;
+	public final fun component2 ()Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;
+	public final fun copy (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDelta;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDeltaData;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDeltaData;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDelta;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDeltaData;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDelta ()Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDelta;
+	public final fun getUsage ()Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDeltaData$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDeltaData$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDeltaData;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDeltaData;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageDeltaData$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageStartData : dev/mokksy/aimocks/anthropic/model/AnthropicSseData {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageStartData$Companion;
+	public fun <init> (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Message;)V
+	public final fun component1 ()Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Message;
+	public final fun copy (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Message;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageStartData;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageStartData;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Message;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageStartData;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMessage ()Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Message;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageStartData$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageStartData$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageStartData;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageStartData;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageStartData$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageStopData : dev/mokksy/aimocks/anthropic/model/AnthropicSseData {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$MessageStopData;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$PingData : dev/mokksy/aimocks/anthropic/model/AnthropicSseData {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$PingData;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$SystemPrompt {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$SystemPrompt$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$SystemPrompt;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$SystemPrompt;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$SystemPrompt;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public final fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$SystemPrompt$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$SystemPrompt$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$SystemPrompt;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$SystemPrompt;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$SystemPrompt$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/Integer;Ljava/lang/Integer;)V
+	public synthetic fun <init> (Ljava/lang/Integer;Ljava/lang/Integer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Integer;
+	public final fun component2 ()Ljava/lang/Integer;
+	public final fun copy (Ljava/lang/Integer;Ljava/lang/Integer;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;Ljava/lang/Integer;Ljava/lang/Integer;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getInputTokens ()Ljava/lang/Integer;
+	public final fun getOutputTokens ()Ljava/lang/Integer;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$Usage$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/Citation {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/Citation$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/util/Map;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()I
+	public final fun component4 ()I
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/util/Map;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/anthropic/model/Citation;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/Citation;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/Citation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEndIndex ()I
+	public final fun getMetadata ()Ljava/util/Map;
+	public final fun getSourceType ()Ljava/lang/String;
+	public final fun getStartIndex ()I
+	public final fun getText ()Ljava/lang/String;
+	public final fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/Citation$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/Citation$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/Citation;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/Citation;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/Citation$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public abstract class dev/mokksy/aimocks/anthropic/model/ContentBlock {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/ContentBlock$Companion;
+	public synthetic fun <init> (ILkotlinx/serialization/internal/SerializationConstructorMarker;)V
+	public static final synthetic fun write$Self (Ldev/mokksy/aimocks/anthropic/model/ContentBlock;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/ContentBlock$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/ContentSerializer : kotlinx/serialization/KSerializer {
+	public fun <init> ()V
+	public fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Content;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Content;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/Message {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/Message$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/StopReason;Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/Usage;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/StopReason;Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/Usage;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ldev/mokksy/aimocks/anthropic/model/StopReason;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Ldev/mokksy/aimocks/anthropic/model/Usage;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/StopReason;Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/Usage;)Ldev/mokksy/aimocks/anthropic/model/Message;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/Message;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/StopReason;Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/Usage;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/Message;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContent ()Ljava/util/List;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getModel ()Ljava/lang/String;
+	public final fun getRole ()Ljava/lang/String;
+	public final fun getStopReason ()Ldev/mokksy/aimocks/anthropic/model/StopReason;
+	public final fun getStopSequence ()Ljava/lang/String;
+	public final fun getType ()Ljava/lang/String;
+	public final fun getUsage ()Ldev/mokksy/aimocks/anthropic/model/Usage;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/Message$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/Message$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/Message;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/Message;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/Message$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Integer;Ljava/lang/Boolean;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Integer;Ljava/lang/Boolean;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10 ()Ljava/util/List;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()Ljava/lang/Integer;
+	public final fun component5 ()Ljava/lang/Double;
+	public final fun component6 ()Ljava/lang/Double;
+	public final fun component7 ()Ljava/lang/Integer;
+	public final fun component8 ()Ljava/lang/Boolean;
+	public final fun component9 ()Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Integer;Ljava/lang/Boolean;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata;Ljava/util/List;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Double;Ljava/lang/Double;Ljava/lang/Integer;Ljava/lang/Boolean;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata;Ljava/util/List;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMaxTokens ()Ljava/lang/Integer;
+	public final fun getMessages ()Ljava/util/List;
+	public final fun getMetadata ()Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata;
+	public final fun getModel ()Ljava/lang/String;
+	public final fun getStream ()Ljava/lang/Boolean;
+	public final fun getSystem ()Ljava/util/List;
+	public final fun getTemperature ()Ljava/lang/Double;
+	public final fun getTools ()Ljava/util/List;
+	public final fun getTopK ()Ljava/lang/Integer;
+	public final fun getTopP ()Ljava/lang/Double;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public abstract interface class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$Content {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Content$Companion;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$Content$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public abstract interface class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$ContentBlock {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ContentBlock$Companion;
+	public abstract fun getType ()Ljava/lang/String;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$ContentBlock$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$ContentList : dev/mokksy/aimocks/anthropic/model/MessageCreateParams$Content {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ContentList$Companion;
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ContentList;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ContentList;Ljava/util/List;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ContentList;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBlocks ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$ContentList$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ContentList$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ContentList;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ContentList;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$ContentList$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageBlock : dev/mokksy/aimocks/anthropic/model/MessageCreateParams$ContentBlock {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageBlock$Companion;
+	public fun <init> (Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource;)V
+	public synthetic fun <init> (Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource;
+	public final fun copy (Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageBlock;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageBlock;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageBlock;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSource ()Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource;
+	public fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageBlock$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageBlock$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageBlock;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageBlock;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageBlock$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getData ()Ljava/lang/String;
+	public final fun getMediaType ()Ljava/lang/String;
+	public final fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$ImageSource$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$Message {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Message$Companion;
+	public fun <init> (Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Content;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Content;
+	public final fun copy (Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Content;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Message;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Message;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Content;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Message;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContent ()Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Content;
+	public final fun getRole ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$Message$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Message$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Message;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Message;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$Message$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUserId ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$Metadata$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl;
+	public final fun component4 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl;Ljava/util/List;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt;Ljava/lang/String;Ljava/lang/String;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl;Ljava/util/List;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCacheControl ()Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl;
+	public final fun getCitations ()Ljava/util/List;
+	public final fun getText ()Ljava/lang/String;
+	public final fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$CacheControl$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$Citation {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$Citation$Companion;
+	public fun <init> (Ljava/lang/String;ILjava/lang/String;IILjava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILjava/lang/String;IILjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()I
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()I
+	public final fun component5 ()I
+	public final fun component6 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;ILjava/lang/String;IILjava/lang/String;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$Citation;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$Citation;Ljava/lang/String;ILjava/lang/String;IILjava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$Citation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCitedText ()Ljava/lang/String;
+	public final fun getDocumentIndex ()I
+	public final fun getDocumentTitle ()Ljava/lang/String;
+	public final fun getEndCharIndex ()I
+	public final fun getStartCharIndex ()I
+	public final fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$Citation$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$Citation$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$Citation;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$Citation;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$Citation$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$SystemPrompt$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextBlock : dev/mokksy/aimocks/anthropic/model/MessageCreateParams$ContentBlock {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextBlock$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextBlock;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextBlock;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextBlock;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextBlock$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextBlock$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextBlock;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextBlock;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextBlock$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextContent : dev/mokksy/aimocks/anthropic/model/MessageCreateParams$Content {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextContent$Companion;
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextContent;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextContent;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextContent;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextContent$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextContent$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextContent;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextContent;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/MessageCreateParams$TextContent$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/RedactedThinkingBlock : dev/mokksy/aimocks/anthropic/model/ContentBlock {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/RedactedThinkingBlock$Companion;
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/model/RedactedThinkingBlock;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/RedactedThinkingBlock;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/RedactedThinkingBlock;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getData ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/RedactedThinkingBlock$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/RedactedThinkingBlock$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/RedactedThinkingBlock;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/RedactedThinkingBlock;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/RedactedThinkingBlock$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/ServerToolUseUsage {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/ServerToolUseUsage$Companion;
+	public fun <init> (JJ)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun copy (JJ)Ldev/mokksy/aimocks/anthropic/model/ServerToolUseUsage;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/ServerToolUseUsage;JJILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/ServerToolUseUsage;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getInputTokens ()J
+	public final fun getOutputTokens ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/ServerToolUseUsage$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/ServerToolUseUsage$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/ServerToolUseUsage;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/ServerToolUseUsage;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/ServerToolUseUsage$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/StopReason : java/lang/Enum {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/StopReason$Companion;
+	public static final field END_TURN Ldev/mokksy/aimocks/anthropic/model/StopReason;
+	public static final field MAX_TOKENS Ldev/mokksy/aimocks/anthropic/model/StopReason;
+	public static final field STOP_SEQUENCE Ldev/mokksy/aimocks/anthropic/model/StopReason;
+	public static final field TOOL_USE Ldev/mokksy/aimocks/anthropic/model/StopReason;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public fun toString ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/model/StopReason;
+	public static fun values ()[Ldev/mokksy/aimocks/anthropic/model/StopReason;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/StopReason$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/SystemPromptsSerializer : kotlinx/serialization/KSerializer {
+	public fun <init> ()V
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/util/List;
+	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/util/List;)V
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/TextBlock : dev/mokksy/aimocks/anthropic/model/ContentBlock {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/TextBlock$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;)Ldev/mokksy/aimocks/anthropic/model/TextBlock;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/TextBlock;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/TextBlock;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCitations ()Ljava/util/List;
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/TextBlock$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/TextBlock$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/TextBlock;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/TextBlock;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/TextBlock$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/ThinkingBlock : dev/mokksy/aimocks/anthropic/model/ContentBlock {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/ThinkingBlock$Companion;
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/model/ThinkingBlock;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/ThinkingBlock;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/ThinkingBlock;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getThinking ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/ThinkingBlock$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/ThinkingBlock$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/ThinkingBlock;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/ThinkingBlock;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/ThinkingBlock$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/ToolUseBlock : dev/mokksy/aimocks/anthropic/model/ContentBlock {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/ToolUseBlock$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/util/Map;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/anthropic/model/ToolUseBlock;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/ToolUseBlock;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/ToolUseBlock;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()Ljava/lang/String;
+	public final fun getInput ()Ljava/util/Map;
+	public final fun getName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/ToolUseBlock$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/ToolUseBlock$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/ToolUseBlock;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/ToolUseBlock;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/ToolUseBlock$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/Usage {
+	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/Usage$Companion;
+	public fun <init> (JJJJLdev/mokksy/aimocks/anthropic/model/ServerToolUseUsage;)V
+	public synthetic fun <init> (JJJJLdev/mokksy/aimocks/anthropic/model/ServerToolUseUsage;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()J
+	public final fun component5 ()Ldev/mokksy/aimocks/anthropic/model/ServerToolUseUsage;
+	public final fun copy (JJJJLdev/mokksy/aimocks/anthropic/model/ServerToolUseUsage;)Ldev/mokksy/aimocks/anthropic/model/Usage;
+	public static synthetic fun copy$default (Ldev/mokksy/aimocks/anthropic/model/Usage;JJJJLdev/mokksy/aimocks/anthropic/model/ServerToolUseUsage;ILjava/lang/Object;)Ldev/mokksy/aimocks/anthropic/model/Usage;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCacheCreationInputTokens ()J
+	public final fun getCacheReadInputTokens ()J
+	public final fun getInputTokens ()J
+	public final fun getOutputTokens ()J
+	public final fun getServerToolUse ()Ldev/mokksy/aimocks/anthropic/model/ServerToolUseUsage;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mokksy/aimocks/anthropic/model/Usage$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mokksy/aimocks/anthropic/model/Usage$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/anthropic/model/Usage;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/anthropic/model/Usage;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mokksy/aimocks/anthropic/model/Usage$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
