@@ -100,8 +100,9 @@ afterEvaluate {
     tasks.named("check").configure {
         setDependsOn(
             dependsOn.filterNot { dep ->
-                dep is TaskProvider<*> && dep.name == "knitCheck" ||
-                    dep is Task && dep.name == "knitCheck"
+                (dep is TaskProvider<*> && dep.name == "knitCheck") ||
+                    (dep is Task && dep.name == "knitCheck") ||
+                    (dep is String && dep == "knitCheck")
             },
         )
     }
