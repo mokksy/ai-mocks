@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldStartWith
 import kotlin.test.Test
 
-class RequestMarchersKtTest {
+class RequestMatchersKtTest {
     private val predicate: (Input?) -> Boolean =
         object : (Input?) -> Boolean {
             override fun invoke(p1: Input?): Boolean = (p1?.name == "foo")

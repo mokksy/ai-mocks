@@ -1,9 +1,13 @@
-@file:OptIn(ExperimentalWasmDsl::class)
+@file:OptIn(
+    ExperimentalWasmDsl::class,
+    ExperimentalAbiValidation::class,
+)
 
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_2
+import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 
 plugins {
     kotlin("multiplatform")
@@ -11,7 +15,6 @@ plugins {
 
 kotlin {
 
-    @OptIn(org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation::class)
     abiValidation {
         enabled = true
     }
