@@ -19,7 +19,7 @@ import io.ktor.http.contentType
 import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.test.Test
@@ -34,7 +34,7 @@ internal class TaskResubscriptionTest : AbstractTest() {
     @Test
     @Suppress("LongMethod")
     fun `Should resubscribe to task`() =
-        runTest {
+        runBlocking {
             val taskId: TaskId = "task_12345"
 
             a2aServer.taskResubscription() responds {

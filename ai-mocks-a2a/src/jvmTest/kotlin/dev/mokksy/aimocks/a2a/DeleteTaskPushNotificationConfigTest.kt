@@ -13,7 +13,7 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
 internal class DeleteTaskPushNotificationConfigTest : AbstractTest() {
@@ -22,7 +22,7 @@ internal class DeleteTaskPushNotificationConfigTest : AbstractTest() {
      */
     @Test
     fun `Should delete TaskPushNotification config`() =
-        runTest {
+        runBlocking {
             val taskId: TaskId = "task_12345"
 
             a2aServer.deleteTaskPushNotificationConfig() responds {
@@ -58,8 +58,7 @@ internal class DeleteTaskPushNotificationConfigTest : AbstractTest() {
 
     @Test
     fun `Should fail to delete TaskPushNotification config`() =
-        runTest {
-
+        runBlocking {
             a2aServer.deleteTaskPushNotificationConfig() responds {
                 id = 1
                 error {

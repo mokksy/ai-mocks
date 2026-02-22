@@ -3,13 +3,13 @@ package dev.mokksy.mokksy
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
 internal class RemoveAfterUseIT : AbstractIT() {
     @Test
-    fun `Should remove Stub after match`() =
-        runTest {
+    fun `Should remove Stub after match`(): Unit =
+        runBlocking {
             val uri = "/remove-after-match"
             mokksy
                 .get(

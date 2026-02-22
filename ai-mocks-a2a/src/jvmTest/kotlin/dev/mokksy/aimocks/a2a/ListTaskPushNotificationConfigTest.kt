@@ -16,7 +16,7 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
 internal class ListTaskPushNotificationConfigTest : AbstractTest() {
@@ -25,7 +25,7 @@ internal class ListTaskPushNotificationConfigTest : AbstractTest() {
      */
     @Test
     fun `Should list TaskPushNotification configs`() =
-        runTest {
+        runBlocking {
             val taskId1: TaskId = "task_12345"
             val taskId2: TaskId = "task_67890"
 
@@ -93,7 +93,7 @@ internal class ListTaskPushNotificationConfigTest : AbstractTest() {
 
     @Test
     fun `Should fail to list TaskPushNotification configs`() =
-        runTest {
+        runBlocking {
             a2aServer.listTaskPushNotificationConfig() responds {
                 id = 1
                 error =

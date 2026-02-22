@@ -6,13 +6,13 @@ import io.kotest.matchers.equals.beEqual
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 
 internal class StubPriorityIT : AbstractIT() {
     @Test
     fun `Should consider stub priority (desc order)`() =
-        runTest {
+        runBlocking {
             val path = "/stub-priority-$seed"
             mokksy
                 .get {
@@ -40,7 +40,7 @@ internal class StubPriorityIT : AbstractIT() {
 
     @Test
     fun `Should consider stub priority (asc order)`() =
-        runTest {
+        runBlocking {
             mokksy
                 .get {
                     this.path = beEqual(path)

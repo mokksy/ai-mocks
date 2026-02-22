@@ -5,7 +5,7 @@ import dev.mokksy.aimocks.a2a.model.Task
 import dev.mokksy.aimocks.a2a.model.TaskStatus
 import dev.mokksy.aimocks.a2a.model.cancelTaskRequest
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import java.util.UUID
 import kotlin.test.Test
 
@@ -15,7 +15,7 @@ internal class CancelTaskTest : AbstractTest() {
      */
     @Test
     fun `Should cancel task`() =
-        runTest {
+        runBlocking {
             lateinit var expectedTask: Task
 
             a2aServer.cancelTask() responds {

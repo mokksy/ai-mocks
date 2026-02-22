@@ -18,7 +18,7 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
 @Suppress("LongMethod")
@@ -28,7 +28,7 @@ internal class GetAuthenticatedExtendedCardTest : AbstractTest() {
      */
     @Test
     fun `Should get authenticated extended agent card`() =
-        runTest {
+        runBlocking {
             val agentCard =
                 AgentCard(
                     name = "Test Agent",
@@ -102,7 +102,7 @@ internal class GetAuthenticatedExtendedCardTest : AbstractTest() {
 
     @Test
     fun `Should fail to get authenticated extended agent card`() =
-        runTest {
+        runBlocking {
             a2aServer.getAuthenticatedExtendedCard() responds {
                 id = 1
                 error =

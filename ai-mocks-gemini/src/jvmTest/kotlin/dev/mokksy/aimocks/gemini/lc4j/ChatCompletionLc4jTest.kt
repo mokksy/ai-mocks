@@ -6,7 +6,7 @@ import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel
 import dev.mokksy.aimocks.gemini.AbstractMockGeminiTest
 import dev.mokksy.aimocks.gemini.gemini
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -23,8 +23,8 @@ internal class ChatCompletionLc4jTest : AbstractMockGeminiTest() {
     }
 
     @Test
-    fun `Should respond to Chat Completion`() =
-        runTest {
+    fun `Should respond to Chat Completion`(): Unit =
+        runBlocking {
             gemini.generateContent {
                 temperature = temperatureValue
                 model = modelName

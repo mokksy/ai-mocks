@@ -11,7 +11,7 @@ import dev.mokksy.aimocks.ollama.mockOllama
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.fail
 import kotlin.time.Duration.Companion.milliseconds
@@ -38,7 +38,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOllamaTest() {
 
     @Test
     fun `Should respond to Streaming Chat Completion`() =
-        runTest {
+        runBlocking {
             // Configure mock response
             val expectedResponse = "Hello, how can I help you today?"
 

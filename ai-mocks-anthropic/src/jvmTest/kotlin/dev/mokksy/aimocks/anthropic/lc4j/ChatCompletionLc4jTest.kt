@@ -8,7 +8,7 @@ import dev.mokksy.aimocks.anthropic.AbstractAnthropicIntegrationTest
 import dev.mokksy.aimocks.anthropic.anthropic
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
@@ -31,7 +31,7 @@ internal class ChatCompletionLc4jTest : AbstractAnthropicIntegrationTest() {
 
     @Test
     fun `Should respond to Chat Completion`() =
-        runTest {
+        runBlocking {
             anthropic.messages {
                 userMessageContains("Hello")
             } responds {

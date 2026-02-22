@@ -19,7 +19,7 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import org.awaitility.kotlin.await
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -48,7 +48,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
     @Test
     fun `Should respond to Streaming Chat Completion`() {
         val userMessage = "What do we need? $seedValue"
-        runTest {
+        runBlocking {
             anthropic.messages {
                 systemMessageContains(systemMessage)
                 userMessageContains(userMessage)
@@ -63,7 +63,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
     @Test
     fun `Should respond to Streaming Chat Completion with Flow`() {
         val userMessage = "What is in the sea? $seedValue"
-        runTest {
+        runBlocking {
             anthropic.messages {
                 systemMessageContains(systemMessage)
                 userMessageContains(userMessage)

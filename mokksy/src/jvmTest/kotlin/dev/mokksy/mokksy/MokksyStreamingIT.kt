@@ -10,7 +10,7 @@ import io.ktor.http.contentType
 import io.ktor.http.withCharset
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import kotlin.text.Charsets.UTF_8
 import kotlin.time.Duration.Companion.milliseconds
@@ -18,7 +18,7 @@ import kotlin.time.Duration.Companion.milliseconds
 internal class MokksyStreamingIT : AbstractIT({ createKtorSSEClient(it) }) {
     @Test
     fun `Should respond to stream of Strings (flow)`() =
-        runTest {
+        runBlocking {
             mokksy.get {
                 path = beEqual("/streaming-flow-$seed")
             } respondsWithStream {
@@ -47,7 +47,7 @@ internal class MokksyStreamingIT : AbstractIT({ createKtorSSEClient(it) }) {
 
     @Test
     fun `Should respond to stream of Strings (chunks)`() =
-        runTest {
+        runBlocking {
             mokksy.get {
                 path("/streaming-chunks-$seed")
             } respondsWithStream {

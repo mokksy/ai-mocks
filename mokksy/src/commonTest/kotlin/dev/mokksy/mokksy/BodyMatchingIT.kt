@@ -7,15 +7,15 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlin.random.Random
 import kotlin.test.Test
 
 internal class BodyMatchingIT : AbstractIT() {
     @Test
-    fun `Should match body predicate`() =
-        runTest {
+    fun `Should match body predicate`(): Unit =
+        runBlocking {
             // given
             val id = Random.nextInt().toString()
             val expectedResponse = Output(id)

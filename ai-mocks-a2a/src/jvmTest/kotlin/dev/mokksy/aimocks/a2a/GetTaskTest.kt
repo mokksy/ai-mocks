@@ -12,7 +12,7 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import java.util.UUID
 import kotlin.test.Test
@@ -23,7 +23,7 @@ internal class GetTaskTest : AbstractTest() {
      */
     @Test
     fun `Should get task`() =
-        runTest {
+        runBlocking {
             a2aServer.getTask() responds {
                 id = 1
                 result {
@@ -88,7 +88,7 @@ internal class GetTaskTest : AbstractTest() {
 
     @Test
     fun `Should fail to get task`() =
-        runTest {
+        runBlocking {
             a2aServer.getTask() responds {
                 id = 1
                 error =

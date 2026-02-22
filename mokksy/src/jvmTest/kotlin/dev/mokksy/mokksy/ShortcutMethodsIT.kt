@@ -11,7 +11,7 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.http.withCharset
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
 import java.util.UUID
@@ -33,38 +33,44 @@ internal class ShortcutMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond to shortcut GET`() =
-        runTest {
+        runBlocking {
             doTestCallMethod(HttpMethod.Get) { mokksy.get(it) }
         }
 
     @Test
     fun `Should respond to shortcut OPTIONS`() =
-        runTest {
+        runBlocking {
             doTestCallMethod(HttpMethod.Options) { mokksy.options(it) }
         }
 
     @Test
     fun `Should respond to shortcut PUT`() =
-        runTest {
+        runBlocking {
             doTestCallMethod(HttpMethod.Put) { mokksy.put(it) }
         }
 
     @Test
     fun `Should respond to shortcut PATCH`() =
-        runTest {
+        runBlocking {
             doTestCallMethod(HttpMethod.Patch) { mokksy.patch(it) }
         }
 
     @Test
     fun `Should respond to shortcut DELETE`() =
-        runTest {
+        runBlocking {
             doTestCallMethod(HttpMethod.Delete) { mokksy.delete(it) }
         }
 
     @Test
     fun `Should respond to shortcut HEAD`() =
-        runTest {
+        runBlocking {
             doTestCallMethod(HttpMethod.Head) { mokksy.head(it) }
+        }
+
+    @Test
+    fun `Should respond to shortcut POST`() =
+        runBlocking {
+            doTestCallMethod(HttpMethod.Post) { mokksy.post(it) }
         }
 
     private suspend fun doTestCallMethod(
@@ -123,9 +129,4 @@ internal class ShortcutMethodsIT : AbstractIT() {
         }
     }
 
-    @Test
-    fun `Should respond to shortcut POST`() =
-        runTest {
-            doTestCallMethod(HttpMethod.Post) { mokksy.post(it) }
-        }
 }

@@ -16,7 +16,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.serialization.jackson.jackson
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 
 private val mokksyWithJackson: MokksyServer =
@@ -44,8 +44,8 @@ internal class JacksonSerializationIT : AbstractIT() {
         }
 
     @Test
-    fun `Should respond to POST with Jackson`() =
-        runTest {
+    fun `Should respond to POST with Jackson`(): Unit =
+        runBlocking {
             mokksyWithJackson
                 .post(
                     requestType = JacksonInput::class,

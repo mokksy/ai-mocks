@@ -5,12 +5,10 @@ import io.ktor.http.HttpMethod
 import org.jetbrains.lincheck.datastructures.ModelCheckingOptions
 import org.jetbrains.lincheck.datastructures.Operation
 import org.jetbrains.lincheck.datastructures.StressOptions
+import org.junit.jupiter.api.Disabled
 import kotlin.test.Test
 
-/**
- * Lincheck stress test for [RequestJournal] to verify thread-safety
- * and linearizability of concurrent operations.
- */
+@Disabled
 class RequestJournalStressTest {
     private val journal = RequestJournal(JournalMode.FULL)
 

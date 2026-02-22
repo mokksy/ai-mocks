@@ -15,7 +15,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.utils.io.core.toByteArray
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import java.util.UUID
 import kotlin.test.Test
 
@@ -26,7 +26,7 @@ internal class SendMessageTest : AbstractTest() {
     @Test
     @Suppress("LongMethod")
     fun `Should send message`() =
-        runTest {
+        runBlocking {
             val task =
                 Task.create {
                     id = "tid_12345"
@@ -93,7 +93,7 @@ internal class SendMessageTest : AbstractTest() {
 
     @Test
     fun `Should fail to send message`() =
-        runTest {
+        runBlocking {
             a2aServer.sendMessage() responds {
                 id = 1
                 error =

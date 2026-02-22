@@ -11,14 +11,14 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class EmbeddingTest : AbstractKtorTest() {
     @Test
     fun `Should respond to String Embedding Request`() =
-        runTest {
+        runBlocking {
             // Configure mock response
             val embeddings = listOf(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)
 
@@ -57,7 +57,7 @@ internal class EmbeddingTest : AbstractKtorTest() {
 
     @Test
     fun `Should respond to String List Embedding Request`() =
-        runTest {
+        runBlocking {
             // Configure mock response
             val embeddings =
                 listOf(
@@ -100,7 +100,7 @@ internal class EmbeddingTest : AbstractKtorTest() {
 
     @Test
     fun `Should generate some embedding result`() =
-        runTest {
+        runBlocking {
             // Configure mock response
             val input = listOf("The sea is blue", "The tree is green")
             mockOllama.embed {

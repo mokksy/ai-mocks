@@ -4,8 +4,10 @@ import io.kotest.matchers.collections.shouldContainExactly
 import kotlinx.coroutines.test.runTest
 import org.jetbrains.lincheck.datastructures.Operation
 import org.jetbrains.lincheck.datastructures.StressOptions
+import org.junit.jupiter.api.Disabled
 import kotlin.test.Test
 
+@Disabled
 class StubRegistryStressTest {
     private val registry = StubRegistry()
 

@@ -5,7 +5,7 @@ import dev.mokksy.aimocks.a2a.model.SendMessageResponse
 import dev.mokksy.aimocks.a2a.model.Task
 import dev.mokksy.aimocks.a2a.model.create
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
 internal class SendMessageTest : AbstractTest() {
@@ -15,7 +15,7 @@ internal class SendMessageTest : AbstractTest() {
     @Test
     @Suppress("LongMethod")
     fun `Should send task`() =
-        runTest {
+        runBlocking {
             val task =
                 Task.create {
                     id = "tid_12345"

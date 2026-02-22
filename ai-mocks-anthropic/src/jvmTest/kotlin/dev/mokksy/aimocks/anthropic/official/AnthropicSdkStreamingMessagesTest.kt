@@ -7,7 +7,7 @@ import io.kotest.matchers.collections.shouldContainExactly
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
@@ -15,7 +15,7 @@ import kotlin.time.Duration.Companion.seconds
 internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
     @Test
     fun `Should respond to Streaming Messages Completion with chunk list`() =
-        runTest {
+        runBlocking {
             val tokens = listOf("All", " we", " need", " is", " Love")
             anthropic.messages("openai-completions-list") {
                 temperature = temperatureValue
@@ -33,7 +33,7 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
 
     @Test
     fun `Should respond to Streaming Chat Completion with Flow`() =
-        runTest {
+        runBlocking {
             val tokens =
                 listOf(
                     "What",

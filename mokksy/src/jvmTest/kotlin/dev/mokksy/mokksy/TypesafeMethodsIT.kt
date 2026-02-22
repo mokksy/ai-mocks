@@ -15,7 +15,7 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -46,7 +46,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
         ],
     )
     fun `Should respond to Method`(methodName: String) =
-        runTest {
+        runBlocking {
             val method = HttpMethod.parse(methodName)
             doTestCallMethod(method) {
                 mokksy.method(name, method, TestPerson::class, it)
@@ -55,7 +55,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond to GET`() =
-        runTest {
+        runBlocking {
             doTestCallMethod(
                 HttpMethod.Get,
             ) { mokksy.get(name, TestPerson::class, it) }
@@ -63,7 +63,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond to OPTIONS`() =
-        runTest {
+        runBlocking {
             doTestCallMethod(
                 HttpMethod.Options,
             ) { mokksy.options(name, TestPerson::class, it) }
@@ -71,7 +71,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond to PUT`() =
-        runTest {
+        runBlocking {
             doTestCallMethod(HttpMethod.Put) {
                 mokksy.put(
                     name,
@@ -83,7 +83,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond to PATCH`() =
-        runTest {
+        runBlocking {
             doTestCallMethod(HttpMethod.Patch) {
                 mokksy.patch(
                     name,
@@ -95,7 +95,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond to DELETE`() =
-        runTest {
+        runBlocking {
             doTestCallMethod(HttpMethod.Delete) {
                 mokksy.delete(
                     name,
@@ -107,7 +107,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond to HEAD`() =
-        runTest {
+        runBlocking {
             doTestCallMethod(HttpMethod.Head) {
                 mokksy.head(
                     name,
@@ -172,7 +172,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond 404 to unknown request`() =
-        runTest {
+        runBlocking {
             // when
             val result = client.get("/unknown")
 
@@ -182,7 +182,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond 404 to unmatched headers`() =
-        runTest {
+        runBlocking {
             val uri = "/unmatched-headers"
             mokksy
                 .get {
@@ -199,8 +199,8 @@ internal class TypesafeMethodsIT : AbstractIT() {
         }
 
     @Test
-    fun `Should respond to POST`() =
-        runTest {
+    fun `Should respond to POST`(): Unit =
+        runBlocking {
             // given
             val id = Random.nextInt()
             val expectedResponse =

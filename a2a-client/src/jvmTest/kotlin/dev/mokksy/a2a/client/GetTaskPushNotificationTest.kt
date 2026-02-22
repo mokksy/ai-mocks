@@ -6,7 +6,7 @@ import dev.mokksy.aimocks.a2a.model.PushNotificationConfig
 import dev.mokksy.aimocks.a2a.model.TaskId
 import dev.mokksy.aimocks.a2a.model.TaskPushNotificationConfig
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
 internal class GetTaskPushNotificationTest : AbstractTest() {
@@ -15,7 +15,7 @@ internal class GetTaskPushNotificationTest : AbstractTest() {
      */
     @Test
     fun `Should get TaskPushNotification config`() =
-        runTest {
+        runBlocking {
             val taskId: TaskId = "task_12345"
             val config =
                 TaskPushNotificationConfig(

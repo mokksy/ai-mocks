@@ -7,7 +7,7 @@ import dev.mokksy.aimocks.ollama.AbstractMockOllamaTest
 import dev.mokksy.aimocks.ollama.mockOllama
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.TimeSource
@@ -23,8 +23,8 @@ internal class ChatCompletionLc4jTest : AbstractMockOllamaTest() {
     }
 
     @Test
-    fun `Should respond to Chat Completion`() =
-        runTest {
+    fun `Should respond to Chat Completion`(): Unit =
+        runBlocking {
             // Configure mock response
             mockOllama.chat {
                 model = modelName

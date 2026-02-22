@@ -14,7 +14,7 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
 internal class SetTaskPushNotificationTest : AbstractTest() {
@@ -23,7 +23,7 @@ internal class SetTaskPushNotificationTest : AbstractTest() {
      */
     @Test
     fun `Should set TaskPushNotification config`() =
-        runTest {
+        runBlocking {
             val taskId: TaskId = "task_12345"
             val config =
                 TaskPushNotificationConfig.create {
@@ -77,7 +77,7 @@ internal class SetTaskPushNotificationTest : AbstractTest() {
 
     @Test
     fun `Should fail to set TaskPushNotification config`() =
-        runTest {
+        runBlocking {
             val taskId: TaskId = "task_12345"
             val config =
                 TaskPushNotificationConfig.create {

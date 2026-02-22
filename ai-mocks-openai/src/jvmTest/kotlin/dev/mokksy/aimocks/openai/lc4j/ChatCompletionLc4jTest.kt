@@ -9,7 +9,7 @@ import dev.mokksy.aimocks.openai.AbstractMockOpenaiTest
 import dev.mokksy.aimocks.openai.openai
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -22,8 +22,8 @@ internal class ChatCompletionLc4jTest : AbstractMockOpenaiTest() {
             .build()
 
     @Test
-    fun `Should respond to Chat Completion`() =
-        runTest {
+    fun `Should respond to Chat Completion`(): Unit =
+        runBlocking {
             openai.completion {
                 temperature = temperatureValue
                 seed = seedValue

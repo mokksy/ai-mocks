@@ -12,7 +12,7 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import java.util.UUID
 import kotlin.test.Test
 
@@ -22,7 +22,7 @@ internal class CancelTaskTest : AbstractTest() {
      */
     @Test
     fun `Should cancel task`() =
-        runTest {
+        runBlocking {
             val contextId = UUID.randomUUID().toString()
 
             a2aServer.cancelTask() responds {
@@ -70,7 +70,7 @@ internal class CancelTaskTest : AbstractTest() {
 
     @Test
     fun `Should fail to cancel task`() =
-        runTest {
+        runBlocking {
             a2aServer.cancelTask() responds {
                 id = 1
                 error =

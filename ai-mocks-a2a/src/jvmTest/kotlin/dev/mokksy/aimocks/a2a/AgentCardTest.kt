@@ -5,7 +5,7 @@ import dev.mokksy.aimocks.a2a.model.create
 import io.kotest.matchers.equals.shouldBeEqual
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
@@ -13,7 +13,7 @@ import kotlin.time.Duration.Companion.milliseconds
 internal class AgentCardTest : AbstractTest() {
     @Test
     fun `Should get AgentCard`() =
-        runTest {
+        runBlocking {
             val agentCard =
                 AgentCard.create {
                     name = "test-agent"

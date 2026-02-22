@@ -7,7 +7,8 @@ build:
 
 .PHONY: clean
 clean:
-	./gradlew clean
+	@echo "🧽 Running Knit..."
+	@./gradlew clean
 
 .PHONY: test
 test:
@@ -27,26 +28,26 @@ docs:apidocs
 
 .PHONY: knit
 knit:
-	@echo "🪡 Running Knit..."
+	@echo "🪡🧶 Running Knit..."
 	@rm -rf docs/build
 	@./gradlew knit :docs:test
 	@echo "✅ Knit completed!"
 
 .PHONY: lint
 lint:
-	./gradlew detekt spotlessCheck
+	@./gradlew detekt
 
 # https://docs.openrewrite.org/recipes/maven/bestpractices
 .PHONY: format
 format:
-	./gradlew spotlessApply rewriteRun
+	@./gradlew rewriteRun detekt --auto-correct
 
 .PHONY: all
 all: format lint build
 
 .PHONY: pom
 pom:
-	./gradlew generatePomFileForKotlinMultiplatformPublication
+	@./gradlew generatePomFileForKotlinMultiplatformPublication
 
 .PHONY: publish
 publish:
