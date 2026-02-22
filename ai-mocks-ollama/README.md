@@ -3,6 +3,8 @@
 A mock server implementation for the [Ollama API](https://github.com/ollama/ollama/blob/main/docs/api.md) built on top
 of Mokksy.
 
+See [Ollama API reference](https://github.com/ollama/ollama/blob/main/docs/api.md)
+
 ## Overview
 
 AI-Mocks-Ollama provides a mock server that simulates the Ollama API for testing purposes. It supports the main
