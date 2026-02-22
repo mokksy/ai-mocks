@@ -60,7 +60,9 @@ internal class StreamingChatCompletionGenaiTest : AbstractGenaiTest() {
 
     @ParameterizedTest
     @MethodSource("requestMutators")
-    fun `Should miss response when request does not match`(mutator: GenerateContentConfig.Builder.() -> Unit) {
+    fun `Should miss response when request does not match`(
+        mutator: GenerateContentConfig.Builder.() -> Unit,
+    ) {
         gemini.generateContentStream {
             apiVersion = "v1beta1"
             location = locationId
@@ -91,12 +93,13 @@ internal class StreamingChatCompletionGenaiTest : AbstractGenaiTest() {
 
         val exception =
             shouldThrowExactly<ClientException> {
-                client.models.generateContentStream(
-                    modelName,
-                    "Just say 'Hello!'",
-                    configBuilder
-                        .build(),
-                ).joinToString(separator = "") { it.text().orEmpty() }
+                client.models
+                    .generateContentStream(
+                        modelName,
+                        "Just say 'Hello!'",
+                        configBuilder
+                            .build(),
+                    ).joinToString(separator = "") { it.text().orEmpty() }
             }
         exception.code() shouldBe 404
     }

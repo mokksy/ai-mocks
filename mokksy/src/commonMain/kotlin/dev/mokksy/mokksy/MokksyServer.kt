@@ -634,7 +634,20 @@ public open class MokksyServer
          *
          * @return A list of [RecordedRequest] snapshots.
          */
-        public fun findAllUnmatchedRequests(): List<RecordedRequest> = requestJournal.getUnmatched()
+        @Suppress("DEPRECATION")
+        public fun findAllUnmatchedRequests(): List<RecordedRequest> = findAllUnexpectedRequests()
+
+        /**
+         * Returns all HTTP requests that arrived at the server but were not matched by any stub.
+         *
+         * @return A list of [RecordedRequest] snapshots.
+         */
+        @Deprecated(
+            "Use findAllUnexpectedRequests instead for clarity",
+            replaceWith = ReplaceWith("findAllUnexpectedRequests()"),
+        )
+        public fun findAllUnexpectedRequests(): List<RecordedRequest> =
+            requestJournal.getUnmatched()
 
         /**
          * Resets the match count of all registered stubs to zero and clears the request journal.

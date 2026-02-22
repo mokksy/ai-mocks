@@ -3,6 +3,7 @@ package dev.mokksy.mokksy.jackson
 import dev.mokksy.mokksy.AbstractIT
 import dev.mokksy.mokksy.MokksyServer
 import dev.mokksy.mokksy.ServerConfiguration
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.shouldBe
 import io.ktor.client.HttpClient
@@ -16,7 +17,6 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.serialization.jackson.jackson
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 
 private val mokksyWithJackson: MokksyServer =
@@ -44,8 +44,8 @@ internal class JacksonSerializationIT : AbstractIT() {
         }
 
     @Test
-    fun `Should respond to POST with Jackson`(): Unit =
-        runBlocking {
+    fun `Should respond to POST with Jackson`() =
+        runIntegrationTest {
             mokksyWithJackson
                 .post(
                     requestType = JacksonInput::class,

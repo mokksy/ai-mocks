@@ -4,8 +4,8 @@ import dev.mokksy.aimocks.a2a.model.SetTaskPushNotificationResponse
 import dev.mokksy.aimocks.a2a.model.TaskId
 import dev.mokksy.aimocks.a2a.model.TaskPushNotificationConfig
 import dev.mokksy.aimocks.a2a.model.create
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
-import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
 internal class SetTaskPushNotificationTest : AbstractTest() {
@@ -14,7 +14,7 @@ internal class SetTaskPushNotificationTest : AbstractTest() {
      */
     @Test
     fun `Should set TaskPushNotification config`() =
-        runBlocking {
+        runIntegrationTest {
             val taskId: TaskId = "task_12345"
             val config =
                 TaskPushNotificationConfig.create {

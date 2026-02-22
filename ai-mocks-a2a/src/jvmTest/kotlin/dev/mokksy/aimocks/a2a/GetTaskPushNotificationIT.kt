@@ -8,6 +8,7 @@ import dev.mokksy.aimocks.a2a.model.TaskId
 import dev.mokksy.aimocks.a2a.model.TaskIdParams
 import dev.mokksy.aimocks.a2a.model.TaskPushNotificationConfig
 import dev.mokksy.aimocks.a2a.model.invalidParamsError
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.equals.shouldBeEqual
 import io.ktor.client.call.body
@@ -19,13 +20,13 @@ import io.ktor.http.contentType
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
-internal class GetTaskPushNotificationTest : AbstractTest() {
+internal class GetTaskPushNotificationIT : AbstractIT() {
     /**
      * https://a2a-protocol.org/latest/specification/#76-taskspushnotificationconfigget
      */
     @Test
     fun `Should get TaskPushNotification config`() =
-        runBlocking {
+        runIntegrationTest {
             val taskId: TaskId = "task_12345"
             val config =
                 TaskPushNotificationConfig(

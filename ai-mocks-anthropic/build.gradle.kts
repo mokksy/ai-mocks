@@ -27,7 +27,7 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(libs.kotlinLogging)
-                implementation(libs.kotest.assertions.core)
+                implementation(project(":test-utils"))
             }
         }
 

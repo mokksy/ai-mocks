@@ -1,6 +1,7 @@
 package dev.mokksy.mokksy
 
 import dev.mokksy.mokksy.request.RequestSpecificationBuilder
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.request
@@ -11,7 +12,6 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.http.withCharset
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
 import java.util.UUID
@@ -33,43 +33,43 @@ internal class ShortcutMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond to shortcut GET`() =
-        runBlocking {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Get) { mokksy.get(it) }
         }
 
     @Test
     fun `Should respond to shortcut OPTIONS`() =
-        runBlocking {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Options) { mokksy.options(it) }
         }
 
     @Test
     fun `Should respond to shortcut PUT`() =
-        runBlocking {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Put) { mokksy.put(it) }
         }
 
     @Test
     fun `Should respond to shortcut PATCH`() =
-        runBlocking {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Patch) { mokksy.patch(it) }
         }
 
     @Test
     fun `Should respond to shortcut DELETE`() =
-        runBlocking {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Delete) { mokksy.delete(it) }
         }
 
     @Test
     fun `Should respond to shortcut HEAD`() =
-        runBlocking {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Head) { mokksy.head(it) }
         }
 
     @Test
     fun `Should respond to shortcut POST`() =
-        runBlocking {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Post) { mokksy.post(it) }
         }
 

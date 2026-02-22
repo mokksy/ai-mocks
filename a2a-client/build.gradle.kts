@@ -26,6 +26,7 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(project(":ai-mocks-a2a"))
+                implementation(project(":test-utils"))
                 implementation(kotlin("test"))
                 implementation(libs.assertk)
                 implementation(libs.kotlinx.coroutines.test)

@@ -9,6 +9,7 @@ import dev.mokksy.aimocks.a2a.model.TaskUpdateEvent
 import dev.mokksy.aimocks.a2a.model.TextPart
 import dev.mokksy.aimocks.a2a.model.taskArtifactUpdateEvent
 import dev.mokksy.aimocks.a2a.model.taskStatusUpdateEvent
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.ktor.client.plugins.sse.sse
@@ -19,14 +20,13 @@ import io.ktor.http.contentType
 import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.test.Test
 import kotlin.time.Clock.System
 import kotlin.time.Duration.Companion.seconds
 
-internal class TaskResubscriptionTest : AbstractTest() {
+internal class TaskResubscriptionIT : AbstractIT() {
     /**
      * Test for task resubscription operation
      */
@@ -34,7 +34,7 @@ internal class TaskResubscriptionTest : AbstractTest() {
     @Test
     @Suppress("LongMethod")
     fun `Should resubscribe to task`() =
-        runBlocking {
+        runIntegrationTest {
             val taskId: TaskId = "task_12345"
 
             a2aServer.taskResubscription() responds {

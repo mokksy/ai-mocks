@@ -1,5 +1,6 @@
 package dev.mokksy.mokksy
 
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.get
@@ -47,7 +48,7 @@ internal class MokksyStreamingIT : AbstractIT({ createKtorSSEClient(it) }) {
 
     @Test
     fun `Should respond to stream of Strings (chunks)`() =
-        runBlocking {
+        runIntegrationTest {
             mokksy.get {
                 path("/streaming-chunks-$seed")
             } respondsWithStream {

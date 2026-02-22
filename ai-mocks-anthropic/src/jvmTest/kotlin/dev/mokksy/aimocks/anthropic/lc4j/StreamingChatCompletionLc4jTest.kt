@@ -1,7 +1,5 @@
 package dev.mokksy.aimocks.anthropic.lc4j
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
 import dev.langchain4j.data.message.SystemMessage.systemMessage
 import dev.langchain4j.data.message.UserMessage.userMessage
 import dev.langchain4j.kotlin.model.chat.StreamingChatModelReply
@@ -13,13 +11,13 @@ import dev.langchain4j.model.chat.response.StreamingChatResponseHandler
 import dev.langchain4j.model.output.FinishReason
 import dev.mokksy.aimocks.anthropic.AbstractAnthropicIntegrationTest
 import dev.mokksy.aimocks.anthropic.anthropic
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.assertions.failure
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.runBlocking
 import org.awaitility.kotlin.await
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -48,7 +46,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
     @Test
     fun `Should respond to Streaming Chat Completion`() {
         val userMessage = "What do we need? $seedValue"
-        runBlocking {
+        runIntegrationTest {
             anthropic.messages {
                 systemMessageContains(systemMessage)
                 userMessageContains(userMessage)
@@ -63,7 +61,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
     @Test
     fun `Should respond to Streaming Chat Completion with Flow`() {
         val userMessage = "What is in the sea? $seedValue"
-        runBlocking {
+        runIntegrationTest {
             anthropic.messages {
                 systemMessageContains(systemMessage)
                 userMessageContains(userMessage)
@@ -151,6 +149,6 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
         await.untilAsserted {
             result.joinToString("") shouldBeEqual expectedResponse
         }
-        assertThat(finishReason.get()).isEqualTo(FinishReason.STOP)
+        finishReason.get() shouldBe FinishReason.STOP
     }
 }

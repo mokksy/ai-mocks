@@ -2,15 +2,15 @@ package dev.mokksy.a2a.client
 
 import dev.mokksy.aimocks.a2a.model.AgentCard
 import dev.mokksy.aimocks.a2a.model.create
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equals.shouldBeEqual
-import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class AgentCardTest : AbstractTest() {
     @Test
     fun `Should get AgentCard`() =
-        runBlocking {
+        runIntegrationTest {
             val agentCard =
                 AgentCard.create {
                     name = "test-agent"

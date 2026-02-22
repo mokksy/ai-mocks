@@ -10,6 +10,7 @@ import dev.mokksy.aimocks.a2a.model.agentCardSignature
 import dev.mokksy.aimocks.a2a.model.agentSkill
 import dev.mokksy.aimocks.a2a.model.getAuthenticatedExtendedCardRequest
 import dev.mokksy.aimocks.a2a.model.invalidParamsError
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
 import io.ktor.client.call.body
@@ -22,13 +23,13 @@ import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
 @Suppress("LongMethod")
-internal class GetAuthenticatedExtendedCardTest : AbstractTest() {
+internal class GetAuthenticatedExtendedCardIT : AbstractIT() {
     /**
      * https://a2a-protocol.org/latest/specification/#710-agentgetauthenticatedextendedcard
      */
     @Test
     fun `Should get authenticated extended agent card`() =
-        runBlocking {
+        runIntegrationTest {
             val agentCard =
                 AgentCard(
                     name = "Test Agent",

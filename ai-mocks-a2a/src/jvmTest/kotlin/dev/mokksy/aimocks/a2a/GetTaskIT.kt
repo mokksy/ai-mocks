@@ -4,6 +4,7 @@ import dev.mokksy.aimocks.a2a.model.GetTaskResponse
 import dev.mokksy.aimocks.a2a.model.getTaskRequest
 import dev.mokksy.aimocks.a2a.model.getTaskResponse
 import dev.mokksy.aimocks.a2a.model.taskNotFoundError
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.equals.shouldBeEqual
 import io.ktor.client.call.body
@@ -17,13 +18,13 @@ import kotlinx.serialization.json.Json
 import java.util.UUID
 import kotlin.test.Test
 
-internal class GetTaskTest : AbstractTest() {
+internal class GetTaskIT : AbstractIT() {
     /**
      * https://a2a-protocol.org/latest/specification/#73-tasksget
      */
     @Test
     fun `Should get task`() =
-        runBlocking {
+        runIntegrationTest {
             a2aServer.getTask() responds {
                 id = 1
                 result {

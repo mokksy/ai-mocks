@@ -35,7 +35,7 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
         }
 
         val response =
-        client.models.generateContent(
+            client.models.generateContent(
                 modelName,
                 "Just say 'Hello!'",
                 generateContentConfig("You are a helpful pirate. $seedValue")

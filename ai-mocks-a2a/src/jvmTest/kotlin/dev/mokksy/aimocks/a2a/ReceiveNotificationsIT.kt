@@ -2,15 +2,15 @@ package dev.mokksy.aimocks.a2a
 
 import dev.mokksy.aimocks.a2a.model.TaskId
 import dev.mokksy.aimocks.a2a.model.taskArtifactUpdateEvent
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldHaveSize
-import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
-internal class ReceiveNotificationsTest : AbstractTest() {
+internal class ReceiveNotificationsIT : AbstractIT() {
     @Test
     fun `Should resubscribe to task`() =
-        runBlocking {
+        runIntegrationTest {
             val taskId: TaskId = "task_12345"
 
             val notificationHistory = a2aServer.getTaskNotifications(taskId)

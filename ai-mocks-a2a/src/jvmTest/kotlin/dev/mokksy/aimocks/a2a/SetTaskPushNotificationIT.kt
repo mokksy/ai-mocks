@@ -6,6 +6,7 @@ import dev.mokksy.aimocks.a2a.model.TaskId
 import dev.mokksy.aimocks.a2a.model.TaskPushNotificationConfig
 import dev.mokksy.aimocks.a2a.model.create
 import dev.mokksy.aimocks.a2a.model.internalError
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.equals.shouldBeEqual
 import io.ktor.client.call.body
@@ -17,13 +18,13 @@ import io.ktor.http.contentType
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
-internal class SetTaskPushNotificationTest : AbstractTest() {
+internal class SetTaskPushNotificationIT : AbstractIT() {
     /**
      * https://a2a-protocol.org/latest/specification/#75-taskspushnotificationconfigset
      */
     @Test
     fun `Should set TaskPushNotification config`() =
-        runBlocking {
+        runIntegrationTest {
             val taskId: TaskId = "task_12345"
             val config =
                 TaskPushNotificationConfig.create {

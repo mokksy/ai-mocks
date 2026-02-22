@@ -9,13 +9,13 @@ import dev.mokksy.aimocks.a2a.model.TaskUpdateEvent
 import dev.mokksy.aimocks.a2a.model.TextPart
 import dev.mokksy.aimocks.a2a.model.taskArtifactUpdateEvent
 import dev.mokksy.aimocks.a2a.model.taskStatusUpdateEvent
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.runBlocking
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.test.Test
 import kotlin.time.Clock.System
@@ -29,7 +29,7 @@ internal class SendMessageStreamingTest : AbstractTest() {
     @Test
     @Suppress("LongMethod")
     fun `Should send task streaming`() =
-        runBlocking {
+        runIntegrationTest {
             val taskId: TaskId = "task_12345"
 
             a2aServer.sendMessageStreaming() responds {

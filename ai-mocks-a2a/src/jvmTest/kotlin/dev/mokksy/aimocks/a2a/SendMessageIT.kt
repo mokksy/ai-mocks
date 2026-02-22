@@ -6,6 +6,7 @@ import dev.mokksy.aimocks.a2a.model.Task
 import dev.mokksy.aimocks.a2a.model.create
 import dev.mokksy.aimocks.a2a.model.invalidRequestError
 import dev.mokksy.aimocks.a2a.model.sendMessageRequest
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
 import io.ktor.client.call.body
@@ -19,14 +20,14 @@ import kotlinx.coroutines.runBlocking
 import java.util.UUID
 import kotlin.test.Test
 
-internal class SendMessageTest : AbstractTest() {
+internal class SendMessageIT : AbstractIT() {
     /**
      * https://a2a-protocol.org/latest/specification/#71-messagesend
      */
     @Test
     @Suppress("LongMethod")
     fun `Should send message`() =
-        runBlocking {
+        runIntegrationTest {
             val task =
                 Task.create {
                     id = "tid_12345"

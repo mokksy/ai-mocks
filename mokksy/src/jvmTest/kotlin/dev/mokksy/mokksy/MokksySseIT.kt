@@ -1,5 +1,6 @@
 package dev.mokksy.mokksy
 
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.get
@@ -12,7 +13,6 @@ import io.ktor.sse.ServerSentEvent
 import io.ktor.sse.TypedServerSentEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import kotlin.text.Charsets.UTF_8
 import kotlin.time.Duration.Companion.milliseconds
@@ -20,7 +20,7 @@ import kotlin.time.Duration.Companion.milliseconds
 internal class MokksySseIT : AbstractIT({ createKtorSSEClient(it) }) {
     @Test
     fun `Should respond to SSE (flow)`() =
-        runBlocking {
+        runIntegrationTest {
             mokksy.get(name = "sse-get-flow", requestType = Any::class) {
                 path("/sse-flow")
             } respondsWithSseStream {
@@ -47,7 +47,7 @@ internal class MokksySseIT : AbstractIT({ createKtorSSEClient(it) }) {
 
     @Test
     fun `Should respond to SSE (chunks)`() =
-        runBlocking {
+        runIntegrationTest {
             mokksy.get(name = "sse-get-chunks", requestType = Any::class) {
                 path = beEqual("/sse-chunks")
             } respondsWithSseStream {

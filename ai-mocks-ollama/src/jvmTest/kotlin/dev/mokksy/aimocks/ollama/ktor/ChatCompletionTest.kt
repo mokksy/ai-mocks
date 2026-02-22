@@ -5,20 +5,20 @@ import dev.mokksy.aimocks.ollama.chat.ChatResponse
 import dev.mokksy.aimocks.ollama.chat.Message
 import dev.mokksy.aimocks.ollama.mockOllama
 import dev.mokksy.aimocks.ollama.model.ModelOptions
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.shouldBe
 import io.ktor.client.call.body
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class ChatCompletionTest : AbstractKtorTest() {
     @Test
     fun `Should respond to Chat Completion`() =
-        runBlocking {
+        runIntegrationTest {
             // Configure mock response
             mockOllama.chat {
                 model = modelName
@@ -55,8 +55,10 @@ internal class ChatCompletionTest : AbstractKtorTest() {
                     }.body()
 
             // Verify response
-            response.message.content shouldBe "Hello, how can I help you today?"
-            response.model shouldBe modelName
-            response.done shouldBe true
+            with(response) {
+                message.content shouldBe "Hello, how can I help you today?"
+                model shouldBe modelName
+                done shouldBe true
+            }
         }
 }

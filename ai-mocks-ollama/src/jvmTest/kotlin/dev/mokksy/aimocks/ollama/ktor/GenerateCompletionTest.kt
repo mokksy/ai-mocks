@@ -4,20 +4,20 @@ import dev.mokksy.aimocks.ollama.generate.GenerateRequest
 import dev.mokksy.aimocks.ollama.generate.GenerateResponse
 import dev.mokksy.aimocks.ollama.mockOllama
 import dev.mokksy.aimocks.ollama.model.ModelOptions
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.shouldBe
 import io.ktor.client.call.body
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class GenerateCompletionTest : AbstractKtorTest() {
     @Test
     fun `Should respond to Generate Completion`() =
-        runBlocking {
+        runIntegrationTest {
             // Configure mock response
             mockOllama.generate {
                 model = modelName
@@ -43,7 +43,7 @@ internal class GenerateCompletionTest : AbstractKtorTest() {
                         ),
                 )
 
-            // Send request to mock server using Ktor client
+            // Send a request to a mock server using Ktor client
             val response: GenerateResponse =
                 client
                     .post("${mockOllama.baseUrl()}/api/generate") {
@@ -52,10 +52,12 @@ internal class GenerateCompletionTest : AbstractKtorTest() {
                     }.body()
 
             // Verify response
-            response.response shouldBe
-                "Why did the chicken cross the road? To get to the other side!"
-            response.model shouldBe modelName
-            response.done shouldBe true
-            response.doneReason shouldBe "stop"
+            with(response) {
+                this.response shouldBe
+                    "Why did the chicken cross the road? To get to the other side!"
+                model shouldBe modelName
+                done shouldBe true
+                doneReason shouldBe "stop"
+            }
         }
 }

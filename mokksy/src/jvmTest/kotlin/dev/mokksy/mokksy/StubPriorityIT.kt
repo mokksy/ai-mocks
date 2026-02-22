@@ -2,17 +2,18 @@ package dev.mokksy.mokksy
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equals.beEqual
+import io.kotest.matchers.shouldBe
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 
 internal class StubPriorityIT : AbstractIT() {
     @Test
     fun `Should consider stub priority (desc order)`() =
-        runBlocking {
+        runIntegrationTest {
             val path = "/stub-priority-$seed"
             mokksy
                 .get {
@@ -40,7 +41,7 @@ internal class StubPriorityIT : AbstractIT() {
 
     @Test
     fun `Should consider stub priority (asc order)`() =
-        runBlocking {
+        runIntegrationTest {
             mokksy
                 .get {
                     this.path = beEqual(path)
@@ -62,7 +63,9 @@ internal class StubPriorityIT : AbstractIT() {
             val result =
                 client.get(path)
             // then
-            assertThat(result.status).isEqualTo(HttpStatusCode.OK)
-            assertThat(result.bodyAsText()).isEqualTo("Expected response")
+            with(result) {
+                status shouldBe HttpStatusCode.OK
+                bodyAsText() shouldBe "Expected response"
+            }
         }
 }

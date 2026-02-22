@@ -1,8 +1,8 @@
 package dev.mokksy.aimocks.ollama.springai
 
 import dev.mokksy.aimocks.ollama.mockOllama
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import kotlin.test.Test
 
 internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
@@ -23,12 +23,13 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
         }
 
         val response =
-            prepareClientRequest("You are a helpful pirate")
-                .call()
-                .chatResponse()
+            requireNotNull(
+                prepareClientRequest("You are a helpful pirate")
+                    .call()
+                    .chatResponse(),
+            )
 
-        response?.result shouldNotBe null
-        response?.result?.apply {
+        response.result shouldNotBeNull {
             metadata.finishReason shouldBe "stop"
             output.text shouldBe "Ahoy there, matey! Hello!"
         }

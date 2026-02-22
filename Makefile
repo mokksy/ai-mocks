@@ -1,13 +1,13 @@
 .PHONY: build
 build:
 	rm -rf ~/.m2/repository/me/kpavlov/aimocks ~/.m2/repository/me/kpavlov/mokksy && \
-	./gradlew build koverHtmlReport publishToMavenLocal && \
+	./gradlew build && \
+	./gradlew koverVerify publishToMavenLocal && \
 	(cd ai-mocks-openai/samples/shadow && mvn test)
-
 
 .PHONY: clean
 clean:
-	@echo "🧽 Running Knit..."
+	@echo "🧽 Cleaning..."
 	@./gradlew clean
 
 .PHONY: test

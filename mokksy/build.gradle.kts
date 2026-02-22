@@ -1,3 +1,7 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
     kotlin("plugin.serialization") apply true
     `kotlin-convention`
@@ -17,11 +21,7 @@ dokka {
 
 kotlin {
 
-    macosArm64 {
-        binaries {
-            framework()
-        }
-    }
+    macosArm64()
 
     sourceSets {
         commonMain {
@@ -43,6 +43,7 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(project(":test-utils"))
                 implementation(libs.assertk)
                 implementation(libs.kotlinLogging)
                 implementation(libs.kotlinx.coroutines.test)
