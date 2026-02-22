@@ -7,16 +7,18 @@
    ```
 2. Perform the release
 
-   ```shell
-   export GPG_TTY=$(tty)
-   SONATYPE_USERNAME=...
-   SONATYPE_PASSWORD=...
-   
-   ./gradlew clean build sourcesJar check publishToMavenCentral \
+    ```shell
+    export GPG_TTY=$(tty)
+    echo "test" | gpg --clearsign
+    
+    SONATYPE_USERNAME=...
+    SONATYPE_PASSWORD=...
+    
+    ./gradlew clean build sourcesJar check publishToMavenCentral \
     --stacktrace --rerun-tasks --warning-mode=all \
     -PmavenCentralUsername="$SONATYPE_USERNAME" \
     -PmavenCentralPassword="$SONATYPE_PASSWORD"
-   ```
+    ```
 
    https://stackoverflow.com/a/57591830/3315474
 
