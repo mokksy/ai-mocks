@@ -1,6 +1,7 @@
 package dev.mokksy.aimocks.a2a.model
 
 import io.kotest.assertions.assertSoftly
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
@@ -11,9 +12,11 @@ internal class PushNotificationNotSupportedErrorTest {
         val error = PushNotificationNotSupportedError()
 
         // then
-        error.code shouldBe -32003
-        error.message shouldBe "Push Notification is not supported"
-        error.data shouldBe null
+        assertSoftly(error) {
+            code shouldBe -32003
+            message shouldBe "Push Notification is not supported"
+            data shouldBe null
+        }
     }
 
     @Test
@@ -46,12 +49,16 @@ internal class PushNotificationNotSupportedErrorTest {
         val copiedError = error.copy(data = newData)
 
         // then
-        copiedError shouldBe PushNotificationNotSupportedError(newData)
-        copiedError.code shouldBe -32003
-        copiedError.message shouldBe "Push Notification is not supported"
-        copiedError.data shouldBe newData
-        copiedError.data?.get("reason") shouldBe "New reason"
-        copiedError.data?.get("details") shouldBe "New details"
+        assertSoftly(copiedError) {
+            this shouldBe PushNotificationNotSupportedError(newData)
+            code shouldBe -32003
+            message shouldBe "Push Notification is not supported"
+            data shouldNotBeNull {
+                this shouldBe newData
+                get("reason") shouldBe "New reason"
+                get("details") shouldBe "New details"
+            }
+        }
     }
 
     @Test

@@ -51,7 +51,7 @@ kover {
                 classes("dev.mokksy.*")
             }
             excludes {
-                classes("org.jetbrains.lincheck.**", "**.*StressTest*")
+                classes("**.*StressTest*")
             }
         }
 
