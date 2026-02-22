@@ -170,7 +170,7 @@ public class OAuth2FlowBuilder {
             authorizationUrl = authorizationUrl,
             tokenUrl = tokenUrl,
             refreshUrl = refreshUrl,
-            scopes = scopes,
+            scopes = scopes?.toMap(),
         )
 }
 

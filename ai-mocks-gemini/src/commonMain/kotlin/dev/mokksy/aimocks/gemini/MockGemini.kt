@@ -173,13 +173,14 @@ public open class MockGemini(
     private fun buildApiPath(
         spec: GeminiContentRequestSpecification,
         action: String,
-    ): String {
-        val model = requireNotNull(spec.model) { "model must be provided" }
-        return spec.path
-            ?: if (spec.project != null && spec.location != null) {
-                "/${spec.apiVersion}/projects/${spec.project}/locations/${spec.location}/publishers/google/models/$model:$action"
-            } else {
-                "/models/$model:$action"
+    ): String =
+        spec.path
+            ?: run {
+                val model = requireNotNull(spec.model) { "model must be provided" }
+                if (spec.project != null && spec.location != null) {
+                    "/${spec.apiVersion}/projects/${spec.project}/locations/${spec.location}/publishers/google/models/$model:$action"
+                } else {
+                    "/models/$model:$action"
+                }
             }
-    }
 }

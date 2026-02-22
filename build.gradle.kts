@@ -27,7 +27,7 @@ subprojects {
         buildUponDefaultConfig = true
         parallel = true
         debug = false
-        failOnSeverity.set(FailOnSeverity.Error)
+        failOnSeverity = FailOnSeverity.Warning
     }
 }
 
@@ -49,6 +49,9 @@ kover {
         filters {
             includes {
                 classes("dev.mokksy.*")
+            }
+            excludes {
+                classes("org.jetbrains.lincheck.**", "**.*StressTest*")
             }
         }
 
