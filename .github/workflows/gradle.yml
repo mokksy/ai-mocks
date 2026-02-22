@@ -64,9 +64,8 @@ jobs:
       - name: Build with Gradle
         run: |
           ./gradlew \
-            --rerun-tasks --no-daemon \
             -Dorg.gradle.maven.repo.local=.m2-local \
-            clean build publishToMavenLocal koverXmlReport
+            clean build publishToMavenLocal koverXmlReport koverLog
 
       - name: OpenAI Maven Integration Tests
         working-directory: ai-mocks-openai/samples/shadow
@@ -88,8 +87,6 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: "/home/runner/work/ai-mocks/ai-mocks/build/reports/kover/report.xml"
-          # or a comma-separated list for multiple reports
-          # coverage-reports: <PATH_TO_REPORT>, <PATH_TO_REPORT>
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
