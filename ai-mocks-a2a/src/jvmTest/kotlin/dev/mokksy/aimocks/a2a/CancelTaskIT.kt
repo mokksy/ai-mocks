@@ -4,6 +4,7 @@ import dev.mokksy.aimocks.a2a.model.CancelTaskResponse
 import dev.mokksy.aimocks.a2a.model.cancelTaskRequest
 import dev.mokksy.aimocks.a2a.model.cancelTaskResponse
 import dev.mokksy.aimocks.a2a.model.internalError
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.equals.shouldBeEqual
 import io.ktor.client.call.body
@@ -12,17 +13,17 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import java.util.UUID
 import kotlin.test.Test
 
-internal class CancelTaskTest : AbstractTest() {
+internal class CancelTaskIT : AbstractIT() {
     /**
      * https://a2a-protocol.org/latest/specification/#74-taskscancel
      */
     @Test
     fun `Should cancel task`() =
-        runTest {
+        runIntegrationTest {
             val contextId = UUID.randomUUID().toString()
 
             a2aServer.cancelTask() responds {
@@ -70,7 +71,7 @@ internal class CancelTaskTest : AbstractTest() {
 
     @Test
     fun `Should fail to cancel task`() =
-        runTest {
+        runBlocking {
             a2aServer.cancelTask() responds {
                 id = 1
                 error =

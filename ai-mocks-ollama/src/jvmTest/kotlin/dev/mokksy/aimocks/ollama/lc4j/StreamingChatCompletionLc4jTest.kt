@@ -8,10 +8,10 @@ import dev.langchain4j.kotlin.model.chat.chatFlow
 import dev.langchain4j.model.ollama.OllamaStreamingChatModel
 import dev.mokksy.aimocks.ollama.AbstractMockOllamaTest
 import dev.mokksy.aimocks.ollama.mockOllama
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.fail
 import kotlin.time.Duration.Companion.milliseconds
@@ -38,7 +38,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOllamaTest() {
 
     @Test
     fun `Should respond to Streaming Chat Completion`() =
-        runTest {
+        runIntegrationTest {
             // Configure mock response
             val expectedResponse = "Hello, how can I help you today?"
 

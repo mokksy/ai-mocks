@@ -5,9 +5,9 @@ import dev.langchain4j.kotlin.model.chat.chat
 import dev.langchain4j.model.ollama.OllamaChatModel
 import dev.mokksy.aimocks.ollama.AbstractMockOllamaTest
 import dev.mokksy.aimocks.ollama.mockOllama
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.TimeSource
@@ -23,8 +23,8 @@ internal class ChatCompletionLc4jTest : AbstractMockOllamaTest() {
     }
 
     @Test
-    fun `Should respond to Chat Completion`() =
-        runTest {
+    fun `Should respond to Chat Completion`(): Unit =
+        runIntegrationTest {
             // Configure mock response
             mockOllama.chat {
                 model = modelName
@@ -50,8 +50,6 @@ internal class ChatCompletionLc4jTest : AbstractMockOllamaTest() {
             elapsed shouldBeGreaterThan 152.milliseconds
 
             // Verify response
-            result.apply {
-                aiMessage().text() shouldBe "Hello, how can I help you today?"
-            }
+            result.aiMessage().text() shouldBe "Hello, how can I help you today?"
         }
 }

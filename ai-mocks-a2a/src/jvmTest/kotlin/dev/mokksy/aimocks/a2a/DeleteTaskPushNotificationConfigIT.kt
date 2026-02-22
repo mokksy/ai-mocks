@@ -5,6 +5,7 @@ import dev.mokksy.aimocks.a2a.model.DeleteTaskPushNotificationConfigResponse
 import dev.mokksy.aimocks.a2a.model.TaskId
 import dev.mokksy.aimocks.a2a.model.deleteTaskPushNotificationConfigRequest
 import dev.mokksy.aimocks.a2a.model.invalidParamsError
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
 import io.ktor.client.call.body
@@ -13,16 +14,16 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
-internal class DeleteTaskPushNotificationConfigTest : AbstractTest() {
+internal class DeleteTaskPushNotificationConfigIT : AbstractIT() {
     /**
      * https://a2a-protocol.org/latest/specification/#78-taskspushnotificationconfigdelete
      */
     @Test
     fun `Should delete TaskPushNotification config`() =
-        runTest {
+        runIntegrationTest {
             val taskId: TaskId = "task_12345"
 
             a2aServer.deleteTaskPushNotificationConfig() responds {
@@ -58,8 +59,7 @@ internal class DeleteTaskPushNotificationConfigTest : AbstractTest() {
 
     @Test
     fun `Should fail to delete TaskPushNotification config`() =
-        runTest {
-
+        runBlocking {
             a2aServer.deleteTaskPushNotificationConfig() responds {
                 id = 1
                 error {

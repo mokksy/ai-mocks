@@ -10,6 +10,7 @@ import dev.mokksy.aimocks.a2a.model.TaskUpdateEvent
 import dev.mokksy.aimocks.a2a.model.TextPart
 import dev.mokksy.aimocks.a2a.model.taskArtifactUpdateEvent
 import dev.mokksy.aimocks.a2a.model.taskStatusUpdateEvent
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -20,14 +21,13 @@ import io.ktor.http.content.TextContent
 import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.test.Test
 import kotlin.time.Clock.System
 import kotlin.time.Duration.Companion.seconds
 
-internal class SendMessageStreamingTest : AbstractTest() {
+internal class SendMessageStreamingIT : AbstractIT() {
     /**
      * https://github.com/google/A2A/blob/gh-pages/documentation.md#send-a-task
      */
@@ -35,7 +35,7 @@ internal class SendMessageStreamingTest : AbstractTest() {
     @Test
     @Suppress("LongMethod")
     fun `Should send task streaming`() =
-        runTest {
+        runIntegrationTest {
             val taskId: TaskId = "task_12345"
 
             a2aServer.sendMessageStreaming() responds {

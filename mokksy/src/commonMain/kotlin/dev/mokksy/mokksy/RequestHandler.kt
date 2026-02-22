@@ -3,10 +3,11 @@ package dev.mokksy.mokksy
 import dev.mokksy.mokksy.request.RecordedRequest
 import dev.mokksy.mokksy.request.RequestJournal
 import dev.mokksy.mokksy.utils.logger.HttpFormatter
-import io.kotest.assertions.failure
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.log
 import io.ktor.server.logging.toLogString
+import io.ktor.server.response.respond
 import io.ktor.server.routing.RoutingContext
 import io.ktor.server.routing.RoutingRequest
 
@@ -56,6 +57,7 @@ internal suspend fun handleRequest(
         )
     } else {
         requestJournal.recordUnmatched(recorded)
+        val errorMessage = "No matched mapping for request: ${request.toLogString()}"
         if (configuration.verbose) {
             val stubsInfo = stubRegistry.getAll().joinToString("\n---\n") { it.toLogString() }
             application.log.warn(
@@ -68,7 +70,8 @@ internal suspend fun handleRequest(
                 "No matched mapping for request:\n---\n${request.toLogString()}\n---",
             )
         }
-        failure("No matched mapping for request: ${request.toLogString()}")
+        // Send a proper HTTP response when stub not found
+        context.call.respond(HttpStatusCode.NotFound, errorMessage)
     }
 }
 

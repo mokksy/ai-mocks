@@ -1,5 +1,6 @@
 package dev.mokksy.mokksy
 
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -7,15 +8,14 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import kotlin.random.Random
 import kotlin.test.Test
 
 internal class BodyMatchingIT : AbstractIT() {
     @Test
-    fun `Should match body predicate`() =
-        runTest {
+    fun `Should match body predicate`(): Unit =
+        runIntegrationTest {
             // given
             val id = Random.nextInt().toString()
             val expectedResponse = Output(id)

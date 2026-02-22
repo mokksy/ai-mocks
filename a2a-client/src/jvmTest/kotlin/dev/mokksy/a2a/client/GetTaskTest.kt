@@ -4,8 +4,9 @@ import dev.mokksy.aimocks.a2a.model.GetTaskRequest
 import dev.mokksy.aimocks.a2a.model.GetTaskResponse
 import dev.mokksy.aimocks.a2a.model.Task
 import dev.mokksy.aimocks.a2a.model.TaskQueryParams
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import java.util.UUID
 import kotlin.test.Test
 
@@ -15,7 +16,7 @@ internal class GetTaskTest : AbstractTest() {
      */
     @Test
     fun `Should get task`() =
-        runTest {
+        runIntegrationTest {
             lateinit var expectedTask: Task
 
             a2aServer.getTask() responds {
@@ -60,7 +61,7 @@ internal class GetTaskTest : AbstractTest() {
 
     @Test
     fun `Should get task using id and historyLength parameters`() =
-        runTest {
+        runBlocking {
             lateinit var expectedTask: Task
 
             a2aServer.getTask() responds {

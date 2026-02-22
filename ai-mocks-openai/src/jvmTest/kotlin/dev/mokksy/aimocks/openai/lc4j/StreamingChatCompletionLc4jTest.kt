@@ -19,7 +19,7 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import org.awaitility.kotlin.await
 import org.junit.jupiter.api.Test
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -37,7 +37,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
 
     @Test
     fun `Should respond to Streaming Chat Completion`() =
-        runTest {
+        runBlocking {
             openai.completion("lc4j-openai-completions-list") {
                 temperature = temperatureValue
                 model = modelName
@@ -56,7 +56,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
 
     @Test
     fun `Should respond to Streaming Chat Completion with Flow`() =
-        runTest {
+        runBlocking {
             openai.completion("lc4j-openai-completions-flow") {
                 temperature = temperatureValue
                 model = modelName

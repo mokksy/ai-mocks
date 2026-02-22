@@ -1,6 +1,7 @@
 package dev.mokksy.mokksy
 
 import dev.mokksy.mokksy.request.RequestSpecificationBuilder
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.request
@@ -11,7 +12,6 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.http.withCharset
-import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
 import java.util.UUID
@@ -33,38 +33,44 @@ internal class ShortcutMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond to shortcut GET`() =
-        runTest {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Get) { mokksy.get(it) }
         }
 
     @Test
     fun `Should respond to shortcut OPTIONS`() =
-        runTest {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Options) { mokksy.options(it) }
         }
 
     @Test
     fun `Should respond to shortcut PUT`() =
-        runTest {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Put) { mokksy.put(it) }
         }
 
     @Test
     fun `Should respond to shortcut PATCH`() =
-        runTest {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Patch) { mokksy.patch(it) }
         }
 
     @Test
     fun `Should respond to shortcut DELETE`() =
-        runTest {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Delete) { mokksy.delete(it) }
         }
 
     @Test
     fun `Should respond to shortcut HEAD`() =
-        runTest {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Head) { mokksy.head(it) }
+        }
+
+    @Test
+    fun `Should respond to shortcut POST`() =
+        runIntegrationTest {
+            doTestCallMethod(HttpMethod.Post) { mokksy.post(it) }
         }
 
     private suspend fun doTestCallMethod(
@@ -123,9 +129,4 @@ internal class ShortcutMethodsIT : AbstractIT() {
         }
     }
 
-    @Test
-    fun `Should respond to shortcut POST`() =
-        runTest {
-            doTestCallMethod(HttpMethod.Post) { mokksy.post(it) }
-        }
 }

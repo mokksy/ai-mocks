@@ -2,18 +2,18 @@ package dev.mokksy.aimocks.a2a
 
 import dev.mokksy.aimocks.a2a.model.AgentCard
 import dev.mokksy.aimocks.a2a.model.create
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equals.shouldBeEqual
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
-internal class AgentCardTest : AbstractTest() {
+internal class AgentCardIT : AbstractIT() {
     @Test
     fun `Should get AgentCard`() =
-        runTest {
+        runIntegrationTest {
             val agentCard =
                 AgentCard.create {
                     name = "test-agent"

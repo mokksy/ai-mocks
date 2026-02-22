@@ -6,9 +6,9 @@ import dev.langchain4j.model.anthropic.AnthropicChatModel
 import dev.langchain4j.model.output.FinishReason
 import dev.mokksy.aimocks.anthropic.AbstractAnthropicIntegrationTest
 import dev.mokksy.aimocks.anthropic.anthropic
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
@@ -31,7 +31,7 @@ internal class ChatCompletionLc4jTest : AbstractAnthropicIntegrationTest() {
 
     @Test
     fun `Should respond to Chat Completion`() =
-        runTest {
+        runIntegrationTest {
             anthropic.messages {
                 userMessageContains("Hello")
             } responds {

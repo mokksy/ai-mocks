@@ -3,9 +3,9 @@ package dev.mokksy.aimocks.ollama.lc4j
 import dev.langchain4j.model.ollama.OllamaEmbeddingModel
 import dev.mokksy.aimocks.ollama.AbstractMockOllamaTest
 import dev.mokksy.aimocks.ollama.mockOllama
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -22,7 +22,7 @@ internal class EmbeddingLc4jTest : AbstractMockOllamaTest() {
 
     @Test
     fun `Should embed string`() =
-        runTest {
+        runIntegrationTest {
             // Configure mock response
             val expectedEmbeddingVector = listOf(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)
             mockOllama.embed {

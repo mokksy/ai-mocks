@@ -4,7 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.junit.jupiter.api.AfterEach
 
 @Suppress("AbstractClassCanBeConcreteClass")
-internal abstract class AbstractTest {
+internal abstract class AbstractIT {
     protected val logger = KotlinLogging.logger(name = javaClass.canonicalName!!)
     protected val a2aServer = MockAgentServer(verbose = true)
 

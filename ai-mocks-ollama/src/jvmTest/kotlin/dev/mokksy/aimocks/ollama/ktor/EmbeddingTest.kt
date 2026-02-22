@@ -5,20 +5,20 @@ import dev.mokksy.aimocks.ollama.embed.EmbeddingsRequest
 import dev.mokksy.aimocks.ollama.embed.EmbeddingsResponse
 import dev.mokksy.aimocks.ollama.mockOllama
 import dev.mokksy.aimocks.ollama.model.ModelOptions
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.shouldBe
 import io.ktor.client.call.body
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class EmbeddingTest : AbstractKtorTest() {
     @Test
     fun `Should respond to String Embedding Request`() =
-        runTest {
+        runIntegrationTest {
             // Configure mock response
             val embeddings = listOf(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)
 
@@ -57,7 +57,7 @@ internal class EmbeddingTest : AbstractKtorTest() {
 
     @Test
     fun `Should respond to String List Embedding Request`() =
-        runTest {
+        runIntegrationTest {
             // Configure mock response
             val embeddings =
                 listOf(
@@ -100,7 +100,7 @@ internal class EmbeddingTest : AbstractKtorTest() {
 
     @Test
     fun `Should generate some embedding result`() =
-        runTest {
+        runIntegrationTest {
             // Configure mock response
             val input = listOf("The sea is blue", "The tree is green")
             mockOllama.embed {

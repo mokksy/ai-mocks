@@ -3,6 +3,7 @@ package dev.mokksy.mokksy
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import dev.mokksy.mokksy.request.RequestSpecificationBuilder
+import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.get
@@ -15,7 +16,6 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -46,7 +46,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
         ],
     )
     fun `Should respond to Method`(methodName: String) =
-        runTest {
+        runIntegrationTest {
             val method = HttpMethod.parse(methodName)
             doTestCallMethod(method) {
                 mokksy.method(name, method, TestPerson::class, it)
@@ -55,7 +55,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond to GET`() =
-        runTest {
+        runIntegrationTest {
             doTestCallMethod(
                 HttpMethod.Get,
             ) { mokksy.get(name, TestPerson::class, it) }
@@ -63,7 +63,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond to OPTIONS`() =
-        runTest {
+        runIntegrationTest {
             doTestCallMethod(
                 HttpMethod.Options,
             ) { mokksy.options(name, TestPerson::class, it) }
@@ -71,7 +71,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond to PUT`() =
-        runTest {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Put) {
                 mokksy.put(
                     name,
@@ -83,7 +83,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond to PATCH`() =
-        runTest {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Patch) {
                 mokksy.patch(
                     name,
@@ -95,7 +95,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond to DELETE`() =
-        runTest {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Delete) {
                 mokksy.delete(
                     name,
@@ -107,7 +107,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond to HEAD`() =
-        runTest {
+        runIntegrationTest {
             doTestCallMethod(HttpMethod.Head) {
                 mokksy.head(
                     name,
@@ -172,7 +172,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond 404 to unknown request`() =
-        runTest {
+        runIntegrationTest {
             // when
             val result = client.get("/unknown")
 
@@ -182,7 +182,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
 
     @Test
     fun `Should respond 404 to unmatched headers`() =
-        runTest {
+        runIntegrationTest {
             val uri = "/unmatched-headers"
             mokksy
                 .get {
@@ -195,12 +195,12 @@ internal class TypesafeMethodsIT : AbstractIT() {
             val result = client.get(uri)
 
             // then
-            assertThat(result.status).isEqualTo(HttpStatusCode.NotFound)
+            result.status shouldBe HttpStatusCode.NotFound
         }
 
     @Test
-    fun `Should respond to POST`() =
-        runTest {
+    fun `Should respond to POST`(): Unit =
+        runIntegrationTest {
             // given
             val id = Random.nextInt()
             val expectedResponse =
