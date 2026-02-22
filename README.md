@@ -272,7 +272,7 @@ It supports mocking following AI services:
 Building project locally:
 
 ```shell
-gradle build
+./gradlew build
 ```
 
 or using Make:
