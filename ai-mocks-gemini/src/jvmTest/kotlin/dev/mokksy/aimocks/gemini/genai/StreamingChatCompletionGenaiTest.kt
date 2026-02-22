@@ -96,7 +96,7 @@ internal class StreamingChatCompletionGenaiTest : AbstractGenaiTest() {
                     "Just say 'Hello!'",
                     configBuilder
                         .build(),
-                )
+                ).joinToString(separator = "") { it.text().orEmpty() }
             }
         exception.code() shouldBe 404
     }

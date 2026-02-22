@@ -120,7 +120,7 @@ public class OAuth2FlowBuilder {
     public var authorizationUrl: String? = null
     public var tokenUrl: String? = null
     public var refreshUrl: String? = null
-    public var scopes: MutableMap<String, String>? = null
+    public var scopes: Map<String, String>? = null
 
     /**
      * Sets the authorization URL for the flow.
@@ -151,7 +151,7 @@ public class OAuth2FlowBuilder {
      */
     public fun scopes(scopes: Map<String, String>): OAuth2FlowBuilder =
         apply {
-            this.scopes = scopes.toMutableMap()
+            this.scopes = scopes
         }
 
     /**
@@ -162,10 +162,7 @@ public class OAuth2FlowBuilder {
         description: String,
     ): OAuth2FlowBuilder =
         apply {
-            if (this.scopes == null) {
-                this.scopes = mutableMapOf()
-            }
-            requireNotNull(this.scopes)[scope] = description
+            scopes = (scopes?.toMutableMap() ?: mutableMapOf()).also { it[scope] = description }
         }
 
     public fun build(): OAuth2Flow =
@@ -173,7 +170,7 @@ public class OAuth2FlowBuilder {
             authorizationUrl = authorizationUrl,
             tokenUrl = tokenUrl,
             refreshUrl = refreshUrl,
-            scopes = scopes,
+            scopes = scopes?.toMap(),
         )
 }
 

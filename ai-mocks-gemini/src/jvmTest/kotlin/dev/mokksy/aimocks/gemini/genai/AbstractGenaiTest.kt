@@ -12,7 +12,7 @@ import dev.mokksy.aimocks.gemini.gemini
 import kotlin.random.Random
 
 internal abstract class AbstractGenaiTest : AbstractMockGeminiTest() {
-    protected val client =
+    protected val client: Client =
         Client
             .builder()
             .project(projectId)

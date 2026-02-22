@@ -6,6 +6,10 @@ plugins {
     kotlin("plugin.serialization") apply true
 }
 
+dependencies {
+    dokka(project(":mokksy"))
+}
+
 dokka {
     dokkaSourceSets.configureEach {
     }

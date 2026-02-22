@@ -7,11 +7,9 @@ import dev.mokksy.aimocks.gemini.AbstractMockGeminiTest
 import dev.mokksy.aimocks.gemini.gemini
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Disabled
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
-@Disabled("Wait for LangChain4j release > 1.1.0")
 internal class ChatCompletionLc4jTest : AbstractMockGeminiTest() {
     private val model: GoogleAiGeminiChatModel
 
@@ -19,7 +17,7 @@ internal class ChatCompletionLc4jTest : AbstractMockGeminiTest() {
         model =
             GoogleAiGeminiChatModel
                 .builder()
-                // TODO: .baseUrl(gemini.baseUrl())
+                .baseUrl(gemini.baseUrl())
                 .apiKey("foo")
                 .build()
     }

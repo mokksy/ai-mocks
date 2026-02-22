@@ -18,6 +18,8 @@
 _Mokksy_ and _AI-Mocks_ are mock HTTP and LLM (Large Language Model) servers inspired by WireMock, with support for
 response streaming and Server-Side Events (SSE). They are designed to build, test, and mock LLM responses for development purposes.
 
+[![Buy me a Coffee](https://cdn.buymeacoffee.com/buttons/default-orange.png)](https://buymeacoffee.com/mailsk)
+
 **Table of contents**
 <!--- TOC -->
 
@@ -28,7 +30,6 @@ response streaming and Server-Side Events (SSE). They are designed to build, tes
   * [POST Request](#post-request)
   * [Server-Side Events (SSE) Response](#server-side-events-sse-response)
 * [Feature Support Matrix](#feature-support-matrix)
-* [Enjoying LLM integration testing? ❤️](#enjoying-llm-integration-testing?-❤️)
 * [How to build](#how-to-build)
 * [Contributing](#contributing)
 
@@ -265,9 +266,6 @@ It supports mocking following AI services:
 | **Moderation**       | ✅         | ❌         | ❌      | ❌        | ❌                                    |
 | **Additional APIs**  | Responses | -         | -      | Generate | Full A2A Protocol<br/>(11 endpoints) |
 
-
-## Enjoying LLM integration testing? ❤️
-[![Buy me a Coffee](https://cdn.buymeacoffee.com/buttons/default-orange.png)](https://buymeacoffee.com/mailsk)
 
 ## How to build
 
