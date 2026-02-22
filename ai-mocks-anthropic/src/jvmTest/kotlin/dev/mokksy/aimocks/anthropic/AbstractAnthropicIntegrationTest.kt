@@ -23,10 +23,11 @@ internal abstract class AbstractAnthropicIntegrationTest {
         seedValue = UUID.randomUUID().toString()
         modelName =
             arrayOf(
-                Model.CLAUDE_3_5_HAIKU_LATEST.asString(),
-                Model.CLAUDE_3_7_SONNET_20250219.asString(),
-                Model.CLAUDE_3_7_SONNET_LATEST.asString(),
-                Model.CLAUDE_OPUS_4_0.asString(),
+                Model.CLAUDE_HAIKU_4_5.asString(),
+                Model.CLAUDE_OPUS_4_5.asString(),
+                Model.CLAUDE_OPUS_4_5_20251101.asString(),
+                Model.CLAUDE_OPUS_4_6.asString(),
+                Model.CLAUDE_SONNET_4_6.asString(),
             ).random()
         userIdValue = UUID.randomUUID().toString()
         temperatureValue = Random.nextDouble(0.0, 1.0)
