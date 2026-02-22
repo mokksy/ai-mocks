@@ -1,4 +1,4 @@
-name: Build and Publish Docs to GitHub Pages
+name: Docs to GitHub Pages
 
 on:
   release:
@@ -49,7 +49,9 @@ jobs:
 
       - name: Generate Dokka Site
         run: |-
-          ./gradlew clean :docs:knit knitCheck :docs:test :docs:dokkaGenerate
+          ./gradlew clean
+          make knit
+          ./gradlew :docs:dokkaGenerate
 
       - name: Build Hugo Site
         run: |-
