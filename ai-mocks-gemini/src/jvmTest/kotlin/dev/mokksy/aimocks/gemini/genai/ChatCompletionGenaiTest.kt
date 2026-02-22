@@ -23,6 +23,10 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
             project = projectId
             location = locationId
             apiVersion = "v1beta1"
+            seed = seedValue
+            topK = topKValue
+            topP = topPValue
+            maxOutputTokens(maxCompletionTokensValue)
             systemMessageContains("You are a helpful pirate. $seedValue")
             userMessageContains("Just say 'Hello!'")
         } responds {
@@ -56,15 +60,14 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
             location = locationId
             apiVersion = "v1beta1"
             maxOutputTokens(maxCompletionTokensValue)
-            systemMessageContains("You are a helpful pirate")
+            systemMessageContains("You are a helpful pirate. $seedValue")
             userMessageContains("Just say 'Hello!'")
-            requestMatchesPredicate { it.generationConfig?.topP == topPValue }
         } responds {
             content = "Ahoy there, matey! Hello!"
             delay = 60.milliseconds
         }
 
-        val configBuilder = generateContentConfig("You are a helpful pirate")
+        val configBuilder = generateContentConfig("You are a helpful pirate. $seedValue")
         mutator(configBuilder)
 
         val exception =
