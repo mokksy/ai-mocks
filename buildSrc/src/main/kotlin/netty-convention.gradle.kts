@@ -20,8 +20,8 @@ afterEvaluate {
         sourceSets.findByName("jvmTest")?.apply {
             dependencies {
                 // Netty native transport libraries for different platforms
-                val osName = System.getProperty("os.name").lowercase()
-                val osArch = System.getProperty("os.arch").lowercase()
+                val osName = providers.systemProperty("os.name").get().lowercase()
+                val osArch = providers.systemProperty("os.arch").get().lowercase()
 
                 // Add the base Netty platform
                 implementation(project.dependencies.platform("io.netty:netty-bom:$nettyVersion"))

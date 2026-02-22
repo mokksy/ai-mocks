@@ -48,18 +48,28 @@ kotlin {
 }
 
 // Run tests in parallel to some degree.
+private val defaultForks =
+    (Runtime.getRuntime().availableProcessors() / 2)
+        .coerceAtLeast(1)
 tasks.withType<Test>().configureEach {
-    maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).coerceAtLeast(1)
+    maxParallelForks =
+        providers
+            .gradleProperty("test.maxParallelForks")
+            .map {
+                it.toIntOrNull() ?: defaultForks
+            }.getOrElse(defaultForks)
+
     forkEvery = 100
     testLogging {
         showStandardStreams = true
         events("failed")
     }
+
     systemProperty("kotest.output.ansi", "true")
     reports {
-        junitXml.required.set(true)
-        junitXml.includeSystemOutLog.set(true)
-        junitXml.includeSystemErrLog.set(true)
+        junitXml.required = true
+        junitXml.includeSystemOutLog = true
+        junitXml.includeSystemErrLog = true
     }
 }
 
