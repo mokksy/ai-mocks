@@ -651,7 +651,7 @@ public final class dev/mokksy/aimocks/gemini/UsageMetadata$Companion {
 
 public final class dev/mokksy/aimocks/gemini/content/GeminiContentBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun responds (Lkotlin/jvm/functions/Function2;)V
 }
 
 public class dev/mokksy/aimocks/gemini/content/GeminiContentRequestSpecification : dev/mokksy/aimocks/core/AbstractInferenceRequestSpecification {
@@ -699,9 +699,9 @@ public final class dev/mokksy/aimocks/gemini/content/GeminiContentResponseSpecif
 
 public final class dev/mokksy/aimocks/gemini/content/GeminiStreamingContentBuildingStep : dev/mokksy/aimocks/core/AbstractStreamingBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun respondsStream (Lkotlin/jvm/functions/Function1;)V
-	public final fun respondsStream (ZLkotlin/jvm/functions/Function1;)V
-	public static synthetic fun respondsStream$default (Ldev/mokksy/aimocks/gemini/content/GeminiStreamingContentBuildingStep;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public fun respondsStream (Lkotlin/jvm/functions/Function2;)V
+	public final fun respondsStream (ZLkotlin/jvm/functions/Function2;)V
+	public static synthetic fun respondsStream$default (Ldev/mokksy/aimocks/gemini/content/GeminiStreamingContentBuildingStep;ZLkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 }
 
 public final class dev/mokksy/aimocks/gemini/content/GeminiStreamingContentResponseSpecification : dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification {

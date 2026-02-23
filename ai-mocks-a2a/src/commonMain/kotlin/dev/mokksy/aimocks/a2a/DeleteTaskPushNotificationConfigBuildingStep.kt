@@ -19,7 +19,7 @@ public class DeleteTaskPushNotificationConfigBuildingStep(
         buildingStep,
 ) {
     override infix fun responds(
-        block: DeleteTaskPushNotificationConfigResponseSpecification.() -> Unit,
+        block: suspend DeleteTaskPushNotificationConfigResponseSpecification.() -> Unit,
     ) {
         buildingStep.respondsWith {
             val responseDefinition = this.build()

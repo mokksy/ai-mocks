@@ -19,7 +19,7 @@ public class GetAuthenticatedExtendedCardBuildingStep(
         buildingStep,
     ) {
     override infix fun responds(
-        block: GetAuthenticatedExtendedCardResponseSpecification.() -> Unit,
+        block: suspend GetAuthenticatedExtendedCardResponseSpecification.() -> Unit,
     ) {
         buildingStep.respondsWith {
             val responseDefinition = this.build()

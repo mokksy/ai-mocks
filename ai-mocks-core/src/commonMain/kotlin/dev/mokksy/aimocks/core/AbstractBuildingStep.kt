@@ -28,7 +28,7 @@ public abstract class AbstractBuildingStep<P : Any, R : AbstractResponseSpecific
 ) {
     protected val logger: Logger = mokksy.logger
 
-    public abstract infix fun responds(block: R.() -> Unit)
+    public abstract infix fun responds(block: suspend R.() -> Unit)
 
     /**
      * Defines the expected response from the system in response to a completions request.
@@ -97,9 +97,9 @@ public abstract class AbstractStreamingBuildingStep<P : Any, R : AbstractRespons
         mokksy = mokksy,
         buildingStep = buildingStep,
     ) {
-    public abstract infix fun respondsStream(block: R.() -> Unit)
+    public abstract infix fun respondsStream(block: suspend R.() -> Unit)
 
-    public override fun responds(block: R.() -> Unit) {
+    public override fun responds(block: suspend R.() -> Unit) {
         respondsStream(block)
     }
 

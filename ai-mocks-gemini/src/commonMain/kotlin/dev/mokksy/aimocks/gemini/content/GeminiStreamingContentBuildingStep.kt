@@ -29,17 +29,22 @@ import java.util.UUID
 public class GeminiStreamingContentBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<GenerateContentRequest>,
-) : AbstractStreamingBuildingStep<GenerateContentRequest, GeminiStreamingContentResponseSpecification>(
+) : AbstractStreamingBuildingStep<
+        GenerateContentRequest,
+        GeminiStreamingContentResponseSpecification,
+    >(
         mokksy = mokksy,
         buildingStep = buildingStep,
     ) {
-    public override infix fun respondsStream(block: GeminiStreamingContentResponseSpecification.() -> Unit) {
+    public override infix fun respondsStream(
+        block: suspend GeminiStreamingContentResponseSpecification.() -> Unit,
+    ) {
         respondsStream(sse = true, block)
     }
 
     public fun respondsStream(
         sse: Boolean = true,
-        block: GeminiStreamingContentResponseSpecification.() -> Unit,
+        block: suspend GeminiStreamingContentResponseSpecification.() -> Unit,
     ) {
         buildingStep.respondsWithStream {
             val responseDefinition: StreamResponseDefinition<GenerateContentRequest, String> =
@@ -91,8 +96,8 @@ public class GeminiStreamingContentBuildingStep(
         chunk: GenerateContentResponse,
         sse: Boolean,
         lastChunk: Boolean = false,
-    ): String {
-        return if (sse) {
+    ): String =
+        if (sse) {
             TypedServerSentEvent(
                 data = chunk,
             ).toString {
@@ -103,7 +108,6 @@ public class GeminiStreamingContentBuildingStep(
         } else {
             "${Json.encodeToString(value = chunk)},\r\n"
         }
-    }
 
     private fun prepareFlow(
         responseId: String,

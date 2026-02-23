@@ -7,9 +7,7 @@ import io.ktor.http.ContentType
 import io.ktor.server.application.ApplicationCall
 import kotlin.reflect.KClass
 
-internal inline fun <reified T : Any> okResponseSupplier(): suspend (
-    ApplicationCall,
-) -> AbstractResponseDefinition<T> =
+internal inline fun <reified T : Any> okResponseSupplier(): ResponseDefinitionSupplier<T> =
     { _ ->
         object : AbstractResponseDefinition<T>(
             contentType = ContentType.Any,

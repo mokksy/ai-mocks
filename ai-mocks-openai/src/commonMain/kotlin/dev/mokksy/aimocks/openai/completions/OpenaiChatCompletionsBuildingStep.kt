@@ -56,7 +56,7 @@ public class OpenaiChatCompletionsBuildingStep(
         buildingStep,
     ) {
     @Suppress("MagicNumber")
-    override infix fun responds(block: OpenaiChatResponseSpecification.() -> Unit) {
+    override infix fun responds(block: suspend OpenaiChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val request = this.request.body()
             val responseDefinition = this.build()

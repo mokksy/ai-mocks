@@ -13,7 +13,7 @@ public class GetTaskBuildingStep(
         mokksy,
         buildingStep,
     ) {
-    override infix fun responds(block: GetTaskResponseSpecification.() -> Unit) {
+    override infix fun responds(block: suspend GetTaskResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val requestBody = request.body()
             val responseDefinition = this.build()

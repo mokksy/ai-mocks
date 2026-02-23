@@ -47,7 +47,7 @@ public class OpenaiEmbedBuildingStep(
      * @see <a href="https://platform.openai.com/docs/api-reference/embeddings/create">Create Embeddings</a>
      */
     @Suppress("MagicNumber")
-    override infix fun responds(block: OpenaiEmbedResponseSpecification.() -> Unit) {
+    override infix fun responds(block: suspend OpenaiEmbedResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val request = this.request.body()
             val responseDefinition = this.build()

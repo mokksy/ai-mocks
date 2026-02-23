@@ -17,7 +17,7 @@ public class ListTaskPushNotificationConfigBuildingStep(
         buildingStep,
     ) {
     override infix fun responds(
-        block: ListTaskPushNotificationConfigResponseSpecification.() -> Unit,
+        block: suspend ListTaskPushNotificationConfigResponseSpecification.() -> Unit,
     ) {
         buildingStep.respondsWith {
             val requestBody = request.body()

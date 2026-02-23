@@ -48,7 +48,7 @@ public class OllamaChatBuildingStep(
      * with the specified model, message, and completion details.
      */
     @Suppress("MagicNumber")
-    override infix fun responds(block: OllamaChatResponseSpecification.() -> Unit) {
+    override infix fun responds(block: suspend OllamaChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val request = this.request.body()
             val responseDefinition = this.build()

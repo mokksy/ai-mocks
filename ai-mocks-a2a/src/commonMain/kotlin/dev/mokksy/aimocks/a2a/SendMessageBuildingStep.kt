@@ -13,7 +13,7 @@ public class SendMessageBuildingStep(
         mokksy,
         buildingStep,
     ) {
-    override infix fun responds(block: SendMessageResponseSpecification.() -> Unit) {
+    override infix fun responds(block: suspend SendMessageResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val requestBody = request.body()
             val responseDefinition = this.build()

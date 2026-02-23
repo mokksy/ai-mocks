@@ -9,7 +9,7 @@ public class AgentCardBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<Nothing>,
 ) : AbstractBuildingStep<Nothing, AgentCardResponseSpecification>(mokksy, buildingStep) {
-    override infix fun responds(block: AgentCardResponseSpecification.() -> Unit) {
+    override infix fun responds(block: suspend AgentCardResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val responseDefinition = this.build()
             val responseSpecification = AgentCardResponseSpecification(responseDefinition)

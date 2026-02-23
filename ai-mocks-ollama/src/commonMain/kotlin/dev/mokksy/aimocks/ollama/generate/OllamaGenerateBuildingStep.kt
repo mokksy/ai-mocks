@@ -46,7 +46,7 @@ public class OllamaGenerateBuildingStep(
      * Applies the provided configuration block to customize the response content and completion reason, then generates a single-block `GenerateResponse` with randomized timing and evaluation metrics, the current timestamp, and the model from the request.
      */
     @Suppress("MagicNumber")
-    override infix fun responds(block: OllamaGenerateResponseSpecification.() -> Unit) {
+    override infix fun responds(block: suspend OllamaGenerateResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val request = this.request.body()
             val responseDefinition = this.build()
@@ -87,7 +87,9 @@ public class OllamaGenerateBuildingStep(
      * @param block Configuration block for customizing the streaming response via [OllamaStreamingGenerateResponseSpecification].
      */
     @OptIn(ExperimentalCoroutinesApi::class)
-    public infix fun respondsStream(block: OllamaStreamingGenerateResponseSpecification.() -> Unit) {
+    public infix fun respondsStream(
+        block: OllamaStreamingGenerateResponseSpecification.() -> Unit,
+    ) {
         buildingStep.respondsWithStream {
             val responseDefinition: StreamResponseDefinition<GenerateRequest, String> =
                 this.build()
