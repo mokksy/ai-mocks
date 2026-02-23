@@ -52,7 +52,8 @@ internal class JacksonSerializationIT : AbstractIT() {
                 ) {
                     path = beEqual("/jackson-$seed")
                 }.respondsWith(JacksonOutput::class) {
-                    body = JacksonOutput("Hello, ${request.body().name}")
+                    val input = request.body()
+                    body = JacksonOutput("Hello, ${input.name}")
                 }
 
             val result =
