@@ -133,14 +133,14 @@ internal class TypesafeMethodsIT : AbstractIT() {
             configurer(this)
         } respondsWith {
             try {
-                this.request.bodyAsString shouldBe requestAsString
+                this.request.bodyAsString() shouldBe requestAsString
             } catch (e: AssertionError) {
                 logger.error(e) { "Request bodyAsString does not match." }
                 throw e
             }
 
             try {
-                this.request.body shouldBe requestPayload
+                this.request.body() shouldBe requestPayload
             } catch (e: AssertionError) {
                 logger.error(e) { "Request bodyAsString does not match." }
                 throw e

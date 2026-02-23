@@ -48,7 +48,7 @@ public class OllamaGenerateBuildingStep(
     @Suppress("MagicNumber")
     override infix fun responds(block: OllamaGenerateResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
-            val request = this.request.body
+            val request = this.request.body()
             val responseDefinition = this.build()
             val generateResponseSpecification =
                 OllamaGenerateResponseSpecification(responseDefinition)
@@ -105,7 +105,7 @@ public class OllamaGenerateBuildingStep(
             if (chunkFlow == null) {
                 error("Either responseChunks or responseFlow must be defined")
             }
-            val request = this.request.body
+            val request = this.request.body()
             flow =
                 prepareFlow(
                     model = request.model,

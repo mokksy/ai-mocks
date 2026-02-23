@@ -18,7 +18,7 @@ public class SetTaskPushNotificationBuildingStep(
     ) {
     override infix fun responds(block: SetTaskPushNotificationResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
-            val requestBody = request.body
+            val requestBody = request.body()
             val responseDefinition = this.build()
             val responseSpecification =
                 SetTaskPushNotificationResponseSpecification(responseDefinition)

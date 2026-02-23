@@ -19,8 +19,7 @@ internal class StubComparatorTest {
     @MockK
     lateinit var config: StubConfiguration
 
-    @MockK
-    lateinit var responseDefinitionSupplier: ResponseDefinitionSupplier<String>
+    val responseDefinitionSupplier: ResponseDefinitionSupplier<String> = { error("not called") }
 
     @Test
     fun `compare should compare by creationOrder when priorities are equal`() {

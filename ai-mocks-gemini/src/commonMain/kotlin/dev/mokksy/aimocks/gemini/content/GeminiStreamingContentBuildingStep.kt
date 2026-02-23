@@ -58,7 +58,7 @@ public class GeminiStreamingContentBuildingStep(
             if (chunkFlow == null) {
                 error("Either responseChunks or responseFlow must be defined")
             }
-            val request = this.request.body
+            val request = this.request.body()
             val responseId = UUID.randomUUID().toString().replace("-", "")
             flow =
                 prepareFlow(

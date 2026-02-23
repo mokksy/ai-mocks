@@ -20,7 +20,7 @@ public class SendStreamingMessageBuildingStep(
         block: SendStreamingMessageResponseSpecification.() -> Unit,
     ) {
         buildingStep.respondsWithStream {
-            val requestBody = request.body
+            val requestBody = request.body()
             val responseDefinition = this.build()
             val responseSpecification =
                 SendStreamingMessageResponseSpecification(responseDefinition)

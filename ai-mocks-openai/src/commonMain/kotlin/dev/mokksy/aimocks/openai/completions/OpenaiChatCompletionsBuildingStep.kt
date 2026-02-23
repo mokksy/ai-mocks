@@ -58,7 +58,7 @@ public class OpenaiChatCompletionsBuildingStep(
     @Suppress("MagicNumber")
     override infix fun responds(block: OpenaiChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
-            val request = this.request.body
+            val request = this.request.body()
             val responseDefinition = this.build()
             val chatResponseSpecification = OpenaiChatResponseSpecification(responseDefinition)
             block.invoke(chatResponseSpecification)
@@ -143,7 +143,7 @@ public class OpenaiChatCompletionsBuildingStep(
             if (chunkFlow == null) {
                 error("Either responseChunks or responseFlow must be defined")
             }
-            val request = this.request.body
+            val request = this.request.body()
             flow =
                 prepareFlow(
                     id = id,

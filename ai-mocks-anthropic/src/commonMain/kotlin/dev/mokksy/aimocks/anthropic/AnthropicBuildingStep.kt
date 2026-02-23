@@ -43,7 +43,7 @@ public class AnthropicBuildingStep(
     @OptIn(ExperimentalStdlibApi::class)
     override infix fun responds(block: AnthropicMessagesResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
-            val request = this.request.body
+            val request = this.request.body()
             val responseDefinition = this.build()
             val chatResponseSpecification =
                 AnthropicMessagesResponseSpecification(responseDefinition)
@@ -114,7 +114,7 @@ public class AnthropicBuildingStep(
             if (chunkFlow == null) {
                 error("Either responseChunks or responseFlow must be defined")
             }
-            val request = this.request.body
+            val request = this.request.body()
             flow =
                 prepareFlow(
                     id = id,

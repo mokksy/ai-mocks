@@ -6,7 +6,14 @@ import io.ktor.server.application.ApplicationCall
 import io.ktor.server.response.ResponseHeaders
 import kotlin.time.Duration
 
-internal typealias ResponseDefinitionSupplier<T> = (
+/**
+ * Represents a supplier function for generating response definitions.
+ *
+ * This type alias is used to define functions that take an [ApplicationCall]
+ * as input and return an [AbstractResponseDefinition].
+ * The function is marked as suspend to allow for asynchronous operations within the response definition.
+ */
+internal typealias ResponseDefinitionSupplier<T> = suspend (
     ApplicationCall,
 ) -> AbstractResponseDefinition<T>
 

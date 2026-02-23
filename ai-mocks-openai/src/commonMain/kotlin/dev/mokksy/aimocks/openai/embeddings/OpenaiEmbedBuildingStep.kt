@@ -49,7 +49,7 @@ public class OpenaiEmbedBuildingStep(
     @Suppress("MagicNumber")
     override infix fun responds(block: OpenaiEmbedResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
-            val request = this.request.body
+            val request = this.request.body()
             val responseDefinition = this.build()
             val responseSpecification = OpenaiEmbedResponseSpecification(responseDefinition)
             block.invoke(responseSpecification)

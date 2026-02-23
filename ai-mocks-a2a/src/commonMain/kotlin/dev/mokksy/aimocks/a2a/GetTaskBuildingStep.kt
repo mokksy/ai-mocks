@@ -15,7 +15,7 @@ public class GetTaskBuildingStep(
     ) {
     override infix fun responds(block: GetTaskResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
-            val requestBody = request.body
+            val requestBody = request.body()
             val responseDefinition = this.build()
             val responseSpecification = GetTaskResponseSpecification(responseDefinition)
             block.invoke(responseSpecification)

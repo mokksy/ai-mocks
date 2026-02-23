@@ -43,7 +43,7 @@ public class OllamaEmbedBuildingStep(
     @Suppress("MagicNumber")
     override infix fun responds(block: OllamaEmbedResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
-            val request = this.request.body
+            val request = this.request.body()
             val responseDefinition = this.build()
             val embedResponseSpecification =
                 OllamaEmbedResponseSpecification(responseDefinition)

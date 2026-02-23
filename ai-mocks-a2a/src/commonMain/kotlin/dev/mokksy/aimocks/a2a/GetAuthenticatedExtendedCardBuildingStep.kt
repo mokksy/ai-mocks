@@ -11,7 +11,10 @@ import dev.mokksy.mokksy.MokksyServer
 public class GetAuthenticatedExtendedCardBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<GetAuthenticatedExtendedCardRequest>,
-) : AbstractBuildingStep<GetAuthenticatedExtendedCardRequest, GetAuthenticatedExtendedCardResponseSpecification>(
+) : AbstractBuildingStep<
+        GetAuthenticatedExtendedCardRequest,
+        GetAuthenticatedExtendedCardResponseSpecification,
+    >(
         mokksy,
         buildingStep,
     ) {

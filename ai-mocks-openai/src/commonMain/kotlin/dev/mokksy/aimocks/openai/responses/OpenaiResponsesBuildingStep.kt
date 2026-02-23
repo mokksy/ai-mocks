@@ -38,7 +38,7 @@ public class OpenaiResponsesBuildingStep(
     @Suppress("MagicNumber")
     public override infix fun responds(block: OpenaiResponsesResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
-            val request = this.request.body
+            val request = this.request.body()
             val responseDefinition = this.build()
             val chatResponseSpecification = OpenaiResponsesResponseSpecification(responseDefinition)
             block.invoke(chatResponseSpecification)
