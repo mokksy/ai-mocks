@@ -7,7 +7,6 @@ import io.ktor.server.request.receive
 import io.ktor.server.request.receiveNullable
 import kotlinx.atomicfu.AtomicRef
 import kotlinx.atomicfu.atomic
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlin.reflect.KClass
@@ -33,65 +32,60 @@ private class Cached(
  *
  * @author Konstantin Pavlov
  */
-public data class CapturedRequest<P : Any>(
-    val request: ApplicationRequest,
+public class CapturedRequest<P : Any>(
+    internal val request: ApplicationRequest,
     private val type: KClass<P>,
 ) {
     private val bodyCache: AtomicRef<P?> = atomic(null)
     private val bodyStringCache: AtomicRef<BodyStringCache> = atomic(Unset)
 
-    // Ensure only one coroutine performs the initial receive for each cache
-    private val bodyMutex: Mutex = Mutex()
-    private val bodyStringMutex: Mutex = Mutex()
+    // Single mutex guards both body and bodyAsString to prevent concurrent reads
+    // of the same one-shot HTTP body stream.
+    private val mutex: Mutex = Mutex()
 
-    val body: P
-        get() {
-            var cached = bodyCache.value
-            if (cached == null) {
-                cached =
-                    runBlocking {
-                        bodyMutex.withLock {
-                            var local: P? = bodyCache.value
-                            if (local == null) {
-                                val received =
-                                    try {
-                                        request.call.receive(type)
-                                    } catch (e: ContentTransformationException) {
-                                        request.call.application.log
-                                            .debug(
-                                                "Failed to parse request body to $type.jvmName",
-                                                e,
-                                            )
-                                        throw e
-                                    }
-                                // Atomic compareAndSet ensures only one value is set
-                                local =
-                                    if (!bodyCache.compareAndSet(null, received)) {
-                                        // Another coroutine set it first, use their value
-                                        bodyCache.value
-                                    } else {
-                                        received
-                                    }
-                            }
-                            requireNotNull(local)
-                        }
+    /**
+     * Returns the parsed request body as [P], suspending if the body has not yet been read.
+     *
+     * The result is cached after the first call; subsequent calls return immediately without I/O.
+     *
+     * @throws [ContentTransformationException] if the body cannot be deserialized to [P].
+     */
+    public suspend fun body(): P {
+        bodyCache.value?.let { return it }
+        return mutex.withLock {
+            bodyCache.value ?: run {
+                val received =
+                    try {
+                        request.call.receive(type)
+                    } catch (e: ContentTransformationException) {
+                        request.call.application.log
+                            .debug(
+                                "Failed to parse request body to $type",
+                                e,
+                            )
+                        throw e
                     }
+                bodyCache.value = received
+                received
             }
-            return cached
         }
+    }
 
-    val bodyAsString: String?
-        get() {
-            val cached = bodyStringCache.value
-            if (cached is Cached) return cached.value
-            return runBlocking {
-                bodyStringMutex.withLock {
-                    val local = bodyStringCache.value
-                    if (local is Cached) return@withLock local.value
-                    val received = request.call.receiveNullable<String>()
-                    bodyStringCache.value = Cached(received)
-                    received
-                }
-            }
+    /**
+     * Returns the raw request body as a [String], suspending if the body has not yet been read.
+     *
+     * The result is cached after the first call; later calls return immediately without I/O.
+     * Returns `null` if the request has no body.
+     */
+    public suspend fun bodyAsString(): String? {
+        val cached = bodyStringCache.value
+        if (cached is Cached) return cached.value
+        return mutex.withLock {
+            val local = bodyStringCache.value
+            if (local is Cached) return@withLock local.value
+            val received = request.call.receiveNullable<String>()
+            bodyStringCache.value = Cached(received)
+            received
         }
+    }
 }

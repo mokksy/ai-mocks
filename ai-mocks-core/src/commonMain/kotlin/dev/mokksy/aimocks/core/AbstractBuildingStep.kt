@@ -28,7 +28,7 @@ public abstract class AbstractBuildingStep<P : Any, R : AbstractResponseSpecific
 ) {
     protected val logger: Logger = mokksy.logger
 
-    public abstract infix fun responds(block: R.() -> Unit)
+    public abstract infix fun responds(block: suspend R.() -> Unit)
 
     /**
      * Defines the expected response from the system in response to a completions request.
@@ -55,7 +55,7 @@ public abstract class AbstractBuildingStep<P : Any, R : AbstractResponseSpecific
      * such as the body, status, headers, and other attributes.
      */
     public open infix fun <T : Any> respondsError(
-        block: ResponseDefinitionBuilder<P, T>.() -> Unit,
+        block: suspend ResponseDefinitionBuilder<P, T>.() -> Unit,
     ) {
         buildingStep.respondsWith {
             block(this)
@@ -64,7 +64,7 @@ public abstract class AbstractBuildingStep<P : Any, R : AbstractResponseSpecific
 
     public open fun <T : Any> respondsError(
         responseType: KClass<T>,
-        block: ResponseDefinitionBuilder<P, T>.() -> Unit,
+        block: suspend ResponseDefinitionBuilder<P, T>.() -> Unit,
     ) {
         respondsError(block)
     }
@@ -90,20 +90,3 @@ public abstract class AbstractBuildingStep<P : Any, R : AbstractResponseSpecific
     }
 }
 
-public abstract class AbstractStreamingBuildingStep<P : Any, R : AbstractResponseSpecification<P, *>>(
-    mokksy: MokksyServer,
-    buildingStep: BuildingStep<P>,
-) : AbstractBuildingStep<P, R>(
-        mokksy = mokksy,
-        buildingStep = buildingStep,
-    ) {
-    public abstract infix fun respondsStream(block: R.() -> Unit)
-
-    public override fun responds(block: R.() -> Unit) {
-        respondsStream(block)
-    }
-
-    public open infix fun respondsStream(consumer: Consumer<R>) {
-        respondsStream { consumer.accept(this) }
-    }
-}

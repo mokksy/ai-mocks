@@ -41,9 +41,9 @@ public class AnthropicBuildingStep(
     ) {
     @Suppress("MagicNumber")
     @OptIn(ExperimentalStdlibApi::class)
-    override infix fun responds(block: AnthropicMessagesResponseSpecification.() -> Unit) {
+    override infix fun responds(block: suspend AnthropicMessagesResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
-            val request = this.request.body
+            val request = this.request.body()
             val responseDefinition = this.build()
             val chatResponseSpecification =
                 AnthropicMessagesResponseSpecification(responseDefinition)
@@ -93,7 +93,9 @@ public class AnthropicBuildingStep(
      *              to an instance of [AnthropicStreamingChatResponseSpecification].
      */
     @OptIn(ExperimentalCoroutinesApi::class, InternalAPI::class)
-    public infix fun respondsStream(block: AnthropicStreamingChatResponseSpecification.() -> Unit) {
+    public infix fun respondsStream(
+        block: suspend AnthropicStreamingChatResponseSpecification.() -> Unit,
+    ) {
         buildingStep.respondsWithStream {
             val responseDefinition: StreamResponseDefinition<MessageCreateParams, String> =
                 this.build()
@@ -114,7 +116,7 @@ public class AnthropicBuildingStep(
             if (chunkFlow == null) {
                 error("Either responseChunks or responseFlow must be defined")
             }
-            val request = this.request.body
+            val request = this.request.body()
             flow =
                 prepareFlow(
                     id = id,

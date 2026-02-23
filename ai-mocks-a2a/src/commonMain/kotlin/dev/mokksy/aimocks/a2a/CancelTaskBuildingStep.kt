@@ -13,9 +13,9 @@ public class CancelTaskBuildingStep(
         mokksy,
         buildingStep,
     ) {
-    override infix fun responds(block: CancelTaskResponseSpecification.() -> Unit) {
+    override infix fun responds(block: suspend CancelTaskResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
-            val requestBody = request.body
+            val requestBody = request.body()
             val responseDefinition = this.build()
             val responseSpecification = CancelTaskResponseSpecification(responseDefinition)
             block.invoke(responseSpecification)

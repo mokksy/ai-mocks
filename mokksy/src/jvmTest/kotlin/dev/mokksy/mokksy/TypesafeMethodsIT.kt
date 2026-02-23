@@ -122,33 +122,27 @@ internal class TypesafeMethodsIT : AbstractIT() {
         block: (RequestSpecificationBuilder<P>.() -> Unit) -> BuildingStep<*>,
     ) {
         val configurer: RequestSpecificationBuilder<P>.() -> Unit = {
-            path = beEqual("/method-$method")
+            path("/method-$method")
             this.containsHeader("X-Seed", "$seed")
         }
 
         val expectedResponseRef = AtomicReference<String>()
         val requestAsString = Json.encodeToString(requestPayload)
+        val capturedError = AtomicReference<Throwable?>()
 
         block.invoke {
             configurer(this)
         } respondsWith {
             try {
-                this.request.bodyAsString shouldBe requestAsString
+                this.request.bodyAsString() shouldBe requestAsString
+                this.request.body() shouldBe requestPayload
             } catch (e: AssertionError) {
-                logger.error(e) { "Request bodyAsString does not match." }
-                throw e
-            }
-
-            try {
-                this.request.body shouldBe requestPayload
-            } catch (e: AssertionError) {
-                logger.error(e) { "Request bodyAsString does not match." }
-                throw e
+                capturedError.set(e)
             }
 
             val responsePayload = TestOrder.random(person = requestPayload)
             body = Json.encodeToString(responsePayload)
-            expectedResponseRef.set(body) // safely store the response for verification
+            expectedResponseRef.set(body)
         }
 
         // when
@@ -161,6 +155,7 @@ internal class TypesafeMethodsIT : AbstractIT() {
             }
 
         // then
+        capturedError.get()?.let { throw it }
         result.status shouldBe HttpStatusCode.OK
 
         if (method != HttpMethod.Head) {

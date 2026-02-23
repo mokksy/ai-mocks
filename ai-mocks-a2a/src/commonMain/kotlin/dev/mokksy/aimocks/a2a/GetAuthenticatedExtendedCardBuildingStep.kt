@@ -11,12 +11,15 @@ import dev.mokksy.mokksy.MokksyServer
 public class GetAuthenticatedExtendedCardBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<GetAuthenticatedExtendedCardRequest>,
-) : AbstractBuildingStep<GetAuthenticatedExtendedCardRequest, GetAuthenticatedExtendedCardResponseSpecification>(
+) : AbstractBuildingStep<
+        GetAuthenticatedExtendedCardRequest,
+        GetAuthenticatedExtendedCardResponseSpecification,
+    >(
         mokksy,
         buildingStep,
     ) {
     override infix fun responds(
-        block: GetAuthenticatedExtendedCardResponseSpecification.() -> Unit,
+        block: suspend GetAuthenticatedExtendedCardResponseSpecification.() -> Unit,
     ) {
         buildingStep.respondsWith {
             val responseDefinition = this.build()

@@ -48,9 +48,9 @@ public class OllamaChatBuildingStep(
      * with the specified model, message, and completion details.
      */
     @Suppress("MagicNumber")
-    override infix fun responds(block: OllamaChatResponseSpecification.() -> Unit) {
+    override infix fun responds(block: suspend OllamaChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
-            val request = this.request.body
+            val request = this.request.body()
             val responseDefinition = this.build()
             val chatResponseSpecification =
                 OllamaChatResponseSpecification(
@@ -111,7 +111,7 @@ public class OllamaChatBuildingStep(
             if (chunkFlow == null) {
                 error("Either responseChunks or responseFlow must be defined")
             }
-            val request = this.request.body
+            val request = this.request.body()
             delayBetweenChunks = responseSpec.delayBetweenChunks
             delay = responseSpec.delay
             flow =

@@ -7,6 +7,7 @@ import dev.mokksy.mokksy.response.StreamingResponseDefinitionBuilder
 import dev.mokksy.mokksy.utils.logger.HttpFormatter
 import io.ktor.server.application.log
 import io.ktor.sse.ServerSentEventMetadata
+import kotlinx.coroutines.CancellationException
 import kotlinx.io.IOException
 import kotlin.reflect.KClass
 
@@ -54,12 +55,18 @@ public class BuildingStep<P : Any> internal constructor(
      * Associates the current [RequestSpecification] with a response definition.
      * This method is part of a fluent API for defining mappings between requests and responses.
      *
+     * The [block] lambda is a suspend function, so it may call suspend APIs such as
+     * [dev.mokksy.mokksy.request.CapturedRequest.body] without blocking.
+     *
      * @param P The type of the request payload.
      * @param T The type of the response body.
-     * @param block A lambda function applied to a [ResponseDefinitionBuilder],
+     * @param block A suspend lambda applied to a [ResponseDefinitionBuilder],
      * used to configure the response definition.
      */
-    public infix fun <T : Any> respondsWith(block: ResponseDefinitionBuilder<P, T>.() -> Unit) {
+    @Suppress("ThrowsCount")
+    public infix fun <T : Any> respondsWith(
+        block: suspend ResponseDefinitionBuilder<P, T>.() -> Unit,
+    ) {
         val stub =
             Stub(
                 configuration = configuration,
@@ -68,15 +75,16 @@ public class BuildingStep<P : Any> internal constructor(
                 val req = CapturedRequest(call.request, requestType)
                 @Suppress("TooGenericExceptionCaught")
                 try {
-                    ResponseDefinitionBuilder<P, T>(
-                        request = req,
-                        formatter = formatter,
-                    ).apply(block)
-                        .build()
+                    val builder =
+                        ResponseDefinitionBuilder<P, T>(request = req, formatter = formatter)
+                    builder.block()
+                    builder.build()
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: IOException) {
+                    throw e
                 } catch (e: Exception) {
-                    if (e as? IOException == null) {
-                        call.application.log.error("Failed to build response for request: $req", e)
-                    }
+                    call.application.log.error("Failed to build response for request: $req", e)
                     throw e
                 }
             }
@@ -89,12 +97,12 @@ public class BuildingStep<P : Any> internal constructor(
      *
      * @param T The type of the response body.
      * @param responseType The class of the response type, used to infer type information.
-     * @param block A lambda function applied to a [ResponseDefinitionBuilder],
+     * @param block A suspend lambda applied to a [ResponseDefinitionBuilder],
      * used to configure the response definition.
      */
     public fun <T : Any> respondsWith(
         @Suppress("unused") responseType: KClass<T>,
-        block: ResponseDefinitionBuilder<P, T>.() -> Unit,
+        block: suspend ResponseDefinitionBuilder<P, T>.() -> Unit,
     ) {
         respondsWith(block)
     }
@@ -103,13 +111,16 @@ public class BuildingStep<P : Any> internal constructor(
      * Associates the current [RequestSpecification] with a streaming response definition.
      * This method is part of a fluent API for defining mappings between requests and streaming responses.
      *
+     * The [block] lambda is a suspend function, so it may call suspend APIs such as
+     * [dev.mokksy.mokksy.request.CapturedRequest.body] without blocking.
+     *
      * @param P The type of the request payload.
      * @param T The type of the elements in the streaming response data.
-     * @param block A lambda function applied to a [StreamingResponseDefinitionBuilder],
+     * @param block A suspend lambda applied to a [StreamingResponseDefinitionBuilder],
      * used to configure the streaming response definition.
      */
     public infix fun <T : Any> respondsWithStream(
-        block: StreamingResponseDefinitionBuilder<P, T>.() -> Unit,
+        block: suspend StreamingResponseDefinitionBuilder<P, T>.() -> Unit,
     ) {
         val stub =
             Stub(
@@ -117,11 +128,10 @@ public class BuildingStep<P : Any> internal constructor(
                 requestSpecification = requestSpecification,
             ) { call ->
                 val req = CapturedRequest(call.request, requestType)
-                StreamingResponseDefinitionBuilder<P, T>(
-                    request = req,
-                    formatter = formatter,
-                ).apply(block)
-                    .build()
+                val builder =
+                    StreamingResponseDefinitionBuilder<P, T>(request = req, formatter = formatter)
+                builder.block()
+                builder.build()
             }
 
         registerStub(stub)
@@ -134,12 +144,12 @@ public class BuildingStep<P : Any> internal constructor(
      * @param T The type of the elements in the streaming response data.
      * @param responseType The class of the response type, used to infer type information
      * for the response data.
-     * @param block A lambda function applied to a [StreamingResponseDefinitionBuilder],
+     * @param block A suspend lambda applied to a [StreamingResponseDefinitionBuilder],
      * used to configure the streaming response definition.
      */
     public fun <T : Any> respondsWithStream(
         @Suppress("unused") responseType: KClass<T>,
-        block: StreamingResponseDefinitionBuilder<P, T>.() -> Unit,
+        block: suspend StreamingResponseDefinitionBuilder<P, T>.() -> Unit,
     ) {
         respondsWithStream(block)
     }
@@ -150,11 +160,11 @@ public class BuildingStep<P : Any> internal constructor(
      *
      * @param P The type of the request payload.
      * @param T The type of `data` field in the ServerSentEventMetadata.
-     * @param block A lambda function applied to a [StreamingResponseDefinitionBuilder] specifically for
+     * @param block A suspend lambda applied to a [StreamingResponseDefinitionBuilder] specifically for
      * configuring the response as a stream of server-sent events.
      */
     public infix fun <T : Any> respondsWithSseStream(
-        block: StreamingResponseDefinitionBuilder<P, ServerSentEventMetadata<T>>.() -> Unit,
+        block: suspend StreamingResponseDefinitionBuilder<P, ServerSentEventMetadata<T>>.() -> Unit,
     ): Unit =
         respondsWithStream<ServerSentEventMetadata<T>>(
             block,
@@ -162,6 +172,6 @@ public class BuildingStep<P : Any> internal constructor(
 
     public fun <T : Any> respondsWithSseStream(
         @Suppress("unused") responseType: KClass<T>,
-        block: StreamingResponseDefinitionBuilder<P, ServerSentEventMetadata<T>>.() -> Unit,
+        block: suspend StreamingResponseDefinitionBuilder<P, ServerSentEventMetadata<T>>.() -> Unit,
     ): Unit = respondsWithSseStream(block)
 }

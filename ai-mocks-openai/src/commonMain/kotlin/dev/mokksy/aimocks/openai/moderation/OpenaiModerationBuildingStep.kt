@@ -25,7 +25,7 @@ public class OpenaiModerationBuildingStep(
     ) {
     private val counter: AtomicInteger = AtomicInteger(1)
 
-    override infix fun responds(block: OpenaiModerationResponseSpecification.() -> Unit) {
+    override infix fun responds(block: suspend OpenaiModerationResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val responseDefinition = this.build()
             val spec = OpenaiModerationResponseSpecification(responseDefinition)

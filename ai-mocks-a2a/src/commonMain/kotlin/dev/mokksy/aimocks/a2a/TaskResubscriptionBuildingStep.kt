@@ -15,15 +15,18 @@ import kotlinx.serialization.json.Json
 public class TaskResubscriptionBuildingStep(
     mokksy: MokksyServer,
     buildingStep: BuildingStep<TaskResubscriptionRequest>,
-) : AbstractStreamingBuildingStep<TaskResubscriptionRequest, TaskResubscriptionResponseSpecification>(
+) : AbstractStreamingBuildingStep<
+        TaskResubscriptionRequest,
+        TaskResubscriptionResponseSpecification,
+    >(
         mokksy,
         buildingStep,
     ) {
     public override infix fun respondsStream(
-        block: TaskResubscriptionResponseSpecification.() -> Unit,
+        block: suspend TaskResubscriptionResponseSpecification.() -> Unit,
     ) {
         buildingStep.respondsWithStream {
-            val requestBody = request.body
+            val requestBody = request.body()
             val responseDefinition = this.build()
             val responseSpecification = TaskResubscriptionResponseSpecification(responseDefinition)
             block.invoke(responseSpecification)

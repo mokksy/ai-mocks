@@ -13,6 +13,7 @@ import dev.mokksy.mokksy.MokksyServer
 import io.ktor.http.ContentType
 import java.time.Instant
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 /**
@@ -35,10 +36,12 @@ public class OpenaiResponsesBuildingStep(
     ) {
     private val counter: AtomicInteger = AtomicInteger(1)
 
-    @Suppress("MagicNumber")
-    public override infix fun responds(block: OpenaiResponsesResponseSpecification.() -> Unit) {
+    @Suppress("MagicNumber", "LongMethod")
+    public override infix fun responds(
+        block: suspend OpenaiResponsesResponseSpecification.() -> Unit,
+    ) {
         buildingStep.respondsWith {
-            val request = this.request.body
+            val request = this.request.body()
             val responseDefinition = this.build()
             val chatResponseSpecification = OpenaiResponsesResponseSpecification(responseDefinition)
             block.invoke(chatResponseSpecification)
@@ -46,9 +49,9 @@ public class OpenaiResponsesBuildingStep(
             delay = chatResponseSpecification.delay
             contentType = ContentType.Application.Json
 
-            val inputTokens = Random.Default.nextInt(1, 200)
-            val outputTokens = Random.Default.nextInt(1, request.maxOutputTokens ?: 1500)
-            val reasoningTokens = outputTokens / 3
+            val inputTokens = Random.nextInt(1, 200)
+            val outputTokens = Random.nextInt(3, request.maxOutputTokens ?: 1500)
+            val reasoningTokens = (outputTokens / 3.0).roundToInt()
 
             body =
                 Response(

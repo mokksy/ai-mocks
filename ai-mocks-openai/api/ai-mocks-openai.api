@@ -549,7 +549,7 @@ public class dev/mokksy/aimocks/openai/completions/OpenaiChatCompletionRequestSp
 
 public final class dev/mokksy/aimocks/openai/completions/OpenaiChatCompletionsBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun responds (Lkotlin/jvm/functions/Function2;)V
 	public final fun respondsStream (Lkotlin/jvm/functions/Function1;)V
 }
 
@@ -581,7 +581,7 @@ public final class dev/mokksy/aimocks/openai/completions/OpenaiStreamingChatResp
 
 public final class dev/mokksy/aimocks/openai/embeddings/OpenaiEmbedBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun responds (Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class dev/mokksy/aimocks/openai/embeddings/OpenaiEmbedRequestSpecification {
@@ -3053,7 +3053,7 @@ public final class dev/mokksy/aimocks/openai/model/responses/Usage$Companion {
 
 public final class dev/mokksy/aimocks/openai/moderation/OpenaiModerationBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun responds (Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class dev/mokksy/aimocks/openai/moderation/OpenaiModerationRequestSpecification : dev/mokksy/aimocks/core/ModelRequestSpecification {
@@ -3086,7 +3086,7 @@ public final class dev/mokksy/aimocks/openai/moderation/OpenaiModerationResponse
 
 public final class dev/mokksy/aimocks/openai/responses/OpenaiResponsesBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun responds (Lkotlin/jvm/functions/Function2;)V
 }
 
 public class dev/mokksy/aimocks/openai/responses/OpenaiResponsesRequestSpecification : dev/mokksy/aimocks/core/AbstractInferenceRequestSpecification {

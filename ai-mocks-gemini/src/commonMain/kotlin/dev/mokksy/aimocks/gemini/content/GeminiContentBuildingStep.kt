@@ -28,9 +28,11 @@ public class GeminiContentBuildingStep(
      * @param block A lambda that configures the response specification.
      * @return This building step instance for method chaining.
      */
-    public override infix fun responds(block: GeminiContentResponseSpecification.() -> Unit) {
+    public override infix fun responds(
+        block: suspend GeminiContentResponseSpecification.() -> Unit,
+    ) {
         buildingStep.respondsWith {
-            val generateContentRequest = this.request.body
+            val generateContentRequest = this.request.body()
             val responseDefinition = this.build()
             val chatResponseSpecification = GeminiContentResponseSpecification(responseDefinition)
             block.invoke(chatResponseSpecification)

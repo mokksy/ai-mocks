@@ -26,11 +26,11 @@ internal class CapturedRequestTest {
                     serverPost("/body") {
                         val captured = CapturedRequest(call.request, String::class)
 
-                        val first = captured.body
+                        val first = captured.body()
 
                         val allSame =
                             coroutineScope {
-                                val results = (1..25).map { async { captured.body } }.awaitAll()
+                                val results = (1..25).map { async { captured.body() } }.awaitAll()
                                 results.all { it == first }
                             }
 
@@ -63,13 +63,13 @@ internal class CapturedRequestTest {
                     serverPost("/bodyString") {
                         val captured = CapturedRequest(call.request, String::class)
 
-                        val first = captured.bodyAsString
+                        val first = captured.bodyAsString()
 
                         val allSame =
                             coroutineScope {
                                 val results =
                                     (1..25)
-                                        .map { async { captured.bodyAsString } }
+                                        .map { async { captured.bodyAsString() } }
                                         .awaitAll()
                                 results.all { it == first }
                             }

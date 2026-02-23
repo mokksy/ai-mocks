@@ -16,9 +16,11 @@ public class GetTaskPushNotificationBuildingStep(
         mokksy,
         buildingStep,
     ) {
-    override infix fun responds(block: GetTaskPushNotificationResponseSpecification.() -> Unit) {
+    override infix fun responds(
+        block: suspend GetTaskPushNotificationResponseSpecification.() -> Unit,
+    ) {
         buildingStep.respondsWith {
-            val requestBody = request.body
+            val requestBody = request.body()
             val responseDefinition = this.build()
             val responseSpecification =
                 GetTaskPushNotificationResponseSpecification(responseDefinition)

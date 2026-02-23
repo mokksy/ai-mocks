@@ -13,9 +13,9 @@ public class SendMessageBuildingStep(
         mokksy,
         buildingStep,
     ) {
-    override infix fun responds(block: SendMessageResponseSpecification.() -> Unit) {
+    override infix fun responds(block: suspend SendMessageResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
-            val requestBody = request.body
+            val requestBody = request.body()
             val responseDefinition = this.build()
             val responseSpecification = SendMessageResponseSpecification(responseDefinition)
             block.invoke(responseSpecification)

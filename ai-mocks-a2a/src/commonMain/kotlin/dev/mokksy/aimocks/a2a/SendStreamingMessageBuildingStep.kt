@@ -17,10 +17,10 @@ public class SendStreamingMessageBuildingStep(
         buildingStep,
     ) {
     public override infix fun respondsStream(
-        block: SendStreamingMessageResponseSpecification.() -> Unit,
+        block: suspend SendStreamingMessageResponseSpecification.() -> Unit,
     ) {
         buildingStep.respondsWithStream {
-            val requestBody = request.body
+            val requestBody = request.body()
             val responseDefinition = this.build()
             val responseSpecification =
                 SendStreamingMessageResponseSpecification(responseDefinition)

@@ -1,6 +1,6 @@
 public final class dev/mokksy/aimocks/a2a/AgentCardBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun responds (Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class dev/mokksy/aimocks/a2a/AgentCardResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
@@ -15,7 +15,7 @@ public final class dev/mokksy/aimocks/a2a/AgentCardResponseSpecification : dev/m
 
 public final class dev/mokksy/aimocks/a2a/CancelTaskBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun responds (Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class dev/mokksy/aimocks/a2a/CancelTaskResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
@@ -33,7 +33,7 @@ public final class dev/mokksy/aimocks/a2a/CancelTaskResponseSpecification : dev/
 
 public final class dev/mokksy/aimocks/a2a/DeleteTaskPushNotificationConfigBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun responds (Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class dev/mokksy/aimocks/a2a/DeleteTaskPushNotificationConfigResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
@@ -52,7 +52,7 @@ public final class dev/mokksy/aimocks/a2a/DeleteTaskPushNotificationConfigRespon
 
 public final class dev/mokksy/aimocks/a2a/GetAuthenticatedExtendedCardBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun responds (Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class dev/mokksy/aimocks/a2a/GetAuthenticatedExtendedCardResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
@@ -71,12 +71,12 @@ public final class dev/mokksy/aimocks/a2a/GetAuthenticatedExtendedCardResponseSp
 
 public final class dev/mokksy/aimocks/a2a/GetTaskBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun responds (Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class dev/mokksy/aimocks/a2a/GetTaskPushNotificationBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun responds (Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class dev/mokksy/aimocks/a2a/GetTaskPushNotificationResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
@@ -105,7 +105,7 @@ public final class dev/mokksy/aimocks/a2a/GetTaskResponseSpecification : dev/mok
 
 public final class dev/mokksy/aimocks/a2a/ListTaskPushNotificationConfigBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun responds (Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class dev/mokksy/aimocks/a2a/ListTaskPushNotificationConfigResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
@@ -170,7 +170,7 @@ public class dev/mokksy/aimocks/a2a/MockAgentServer : dev/mokksy/aimocks/core/Ab
 
 public final class dev/mokksy/aimocks/a2a/SendMessageBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun responds (Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class dev/mokksy/aimocks/a2a/SendMessageResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
@@ -186,7 +186,7 @@ public final class dev/mokksy/aimocks/a2a/SendMessageResponseSpecification : dev
 
 public final class dev/mokksy/aimocks/a2a/SendStreamingMessageBuildingStep : dev/mokksy/aimocks/core/AbstractStreamingBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun respondsStream (Lkotlin/jvm/functions/Function1;)V
+	public fun respondsStream (Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class dev/mokksy/aimocks/a2a/SendStreamingMessageResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
@@ -210,7 +210,7 @@ public final class dev/mokksy/aimocks/a2a/SendTaskStreamingResponseSpecification
 
 public final class dev/mokksy/aimocks/a2a/SetTaskPushNotificationBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun responds (Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class dev/mokksy/aimocks/a2a/SetTaskPushNotificationResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
@@ -227,7 +227,7 @@ public final class dev/mokksy/aimocks/a2a/SetTaskPushNotificationResponseSpecifi
 
 public final class dev/mokksy/aimocks/a2a/TaskResubscriptionBuildingStep : dev/mokksy/aimocks/core/AbstractStreamingBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun respondsStream (Lkotlin/jvm/functions/Function1;)V
+	public fun respondsStream (Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class dev/mokksy/aimocks/a2a/TaskResubscriptionResponseSpecification : dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification {

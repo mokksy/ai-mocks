@@ -4,10 +4,10 @@ public abstract class dev/mokksy/aimocks/core/AbstractBuildingStep {
 	protected final fun getLogger ()Lorg/slf4j/Logger;
 	protected final fun getMokksy ()Ldev/mokksy/mokksy/MokksyServer;
 	public fun responds (Ljava/util/function/Consumer;)V
-	public abstract fun responds (Lkotlin/jvm/functions/Function1;)V
+	public abstract fun responds (Lkotlin/jvm/functions/Function2;)V
 	public fun respondsError (Ljava/util/function/Consumer;)V
-	public fun respondsError (Lkotlin/jvm/functions/Function1;)V
-	public fun respondsError (Lkotlin/reflect/KClass;Lkotlin/jvm/functions/Function1;)V
+	public fun respondsError (Lkotlin/jvm/functions/Function2;)V
+	public fun respondsError (Lkotlin/reflect/KClass;Lkotlin/jvm/functions/Function2;)V
 }
 
 public abstract class dev/mokksy/aimocks/core/AbstractInferenceRequestSpecification : dev/mokksy/aimocks/core/ModelRequestSpecification {
@@ -58,9 +58,9 @@ public abstract class dev/mokksy/aimocks/core/AbstractResponseSpecification : de
 
 public abstract class dev/mokksy/aimocks/core/AbstractStreamingBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
-	public fun responds (Lkotlin/jvm/functions/Function1;)V
+	public fun responds (Lkotlin/jvm/functions/Function2;)V
 	public fun respondsStream (Ljava/util/function/Consumer;)V
-	public abstract fun respondsStream (Lkotlin/jvm/functions/Function1;)V
+	public abstract fun respondsStream (Lkotlin/jvm/functions/Function2;)V
 }
 
 public abstract class dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification, dev/mokksy/aimocks/core/StreamingResponseSpecification {
