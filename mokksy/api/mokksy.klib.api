@@ -104,14 +104,6 @@ abstract class <#A: kotlin/Any?> dev.mokksy.mokksy.response/AbstractResponseDefi
 final class <#A: kotlin/Any> dev.mokksy.mokksy.request/CapturedRequest { // dev.mokksy.mokksy.request/CapturedRequest|null[0]
     constructor <init>(io.ktor.server.request/ApplicationRequest, kotlin.reflect/KClass<#A>) // dev.mokksy.mokksy.request/CapturedRequest.<init>|<init>(io.ktor.server.request.ApplicationRequest;kotlin.reflect.KClass<1:0>){}[0]
 
-    final val request // dev.mokksy.mokksy.request/CapturedRequest.request|{}request[0]
-        final fun <get-request>(): io.ktor.server.request/ApplicationRequest // dev.mokksy.mokksy.request/CapturedRequest.request.<get-request>|<get-request>(){}[0]
-
-    final fun component1(): io.ktor.server.request/ApplicationRequest // dev.mokksy.mokksy.request/CapturedRequest.component1|component1(){}[0]
-    final fun copy(io.ktor.server.request/ApplicationRequest = ..., kotlin.reflect/KClass<#A> = ...): dev.mokksy.mokksy.request/CapturedRequest<#A> // dev.mokksy.mokksy.request/CapturedRequest.copy|copy(io.ktor.server.request.ApplicationRequest;kotlin.reflect.KClass<1:0>){}[0]
-    final fun equals(kotlin/Any?): kotlin/Boolean // dev.mokksy.mokksy.request/CapturedRequest.equals|equals(kotlin.Any?){}[0]
-    final fun hashCode(): kotlin/Int // dev.mokksy.mokksy.request/CapturedRequest.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // dev.mokksy.mokksy.request/CapturedRequest.toString|toString(){}[0]
     final suspend fun body(): #A // dev.mokksy.mokksy.request/CapturedRequest.body|body(){}[0]
     final suspend fun bodyAsString(): kotlin/String? // dev.mokksy.mokksy.request/CapturedRequest.bodyAsString|bodyAsString(){}[0]
 }

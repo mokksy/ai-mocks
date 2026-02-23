@@ -32,8 +32,8 @@ private class Cached(
  *
  * @author Konstantin Pavlov
  */
-public data class CapturedRequest<P : Any>(
-    val request: ApplicationRequest,
+public class CapturedRequest<P : Any>(
+    internal val request: ApplicationRequest,
     private val type: KClass<P>,
 ) {
     private val bodyCache: AtomicRef<P?> = atomic(null)
@@ -74,7 +74,7 @@ public data class CapturedRequest<P : Any>(
     /**
      * Returns the raw request body as a [String], suspending if the body has not yet been read.
      *
-     * The result is cached after the first call; subsequent calls return immediately without I/O.
+     * The result is cached after the first call; later calls return immediately without I/O.
      * Returns `null` if the request has no body.
      */
     public suspend fun bodyAsString(): String? {

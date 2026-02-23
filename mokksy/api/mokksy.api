@@ -124,13 +124,6 @@ public final class dev/mokksy/mokksy/request/CapturedRequest {
 	public fun <init> (Lio/ktor/server/request/ApplicationRequest;Lkotlin/reflect/KClass;)V
 	public final fun body (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun bodyAsString (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun component1 ()Lio/ktor/server/request/ApplicationRequest;
-	public final fun copy (Lio/ktor/server/request/ApplicationRequest;Lkotlin/reflect/KClass;)Ldev/mokksy/mokksy/request/CapturedRequest;
-	public static synthetic fun copy$default (Ldev/mokksy/mokksy/request/CapturedRequest;Lio/ktor/server/request/ApplicationRequest;Lkotlin/reflect/KClass;ILjava/lang/Object;)Ldev/mokksy/mokksy/request/CapturedRequest;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getRequest ()Lio/ktor/server/request/ApplicationRequest;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/mokksy/mokksy/request/RecordedRequest {
