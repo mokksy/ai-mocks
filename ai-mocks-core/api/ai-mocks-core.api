@@ -6,8 +6,8 @@ public abstract class dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun responds (Ljava/util/function/Consumer;)V
 	public abstract fun responds (Lkotlin/jvm/functions/Function2;)V
 	public fun respondsError (Ljava/util/function/Consumer;)V
-	public fun respondsError (Lkotlin/jvm/functions/Function1;)V
-	public fun respondsError (Lkotlin/reflect/KClass;Lkotlin/jvm/functions/Function1;)V
+	public fun respondsError (Lkotlin/jvm/functions/Function2;)V
+	public fun respondsError (Lkotlin/reflect/KClass;Lkotlin/jvm/functions/Function2;)V
 }
 
 public abstract class dev/mokksy/aimocks/core/AbstractInferenceRequestSpecification : dev/mokksy/aimocks/core/ModelRequestSpecification {
