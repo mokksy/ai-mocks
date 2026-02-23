@@ -2,7 +2,6 @@ package dev.mokksy.mokksy
 
 import dev.mokksy.mokksy.request.RequestSpecificationBuilder
 import dev.mokksy.test.utils.runIntegrationTest
-import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
@@ -78,35 +77,29 @@ internal class ShortcutMethodsIT : AbstractIT() {
         block: (RequestSpecificationBuilder<String>.() -> Unit) -> BuildingStep<String>,
     ) {
         val configurer: RequestSpecificationBuilder<String>.() -> Unit = {
-            path = beEqual("/shortcut-method-$method")
+            path("/shortcut-method-$method")
             this.containsHeader("X-Seed", "$seed")
         }
 
         val expectedResponseRef = AtomicReference<String>()
         val requestAsString = Json.encodeToString(requestPayload)
         val expectedContentType = ContentType.Application.ProblemJson.withCharset(Charsets.UTF_32)
+        val capturedError = AtomicReference<Throwable?>()
 
         block.invoke {
             configurer(this)
         } respondsWith {
             try {
                 this.request.bodyAsString() shouldBe requestAsString
-            } catch (e: AssertionError) {
-                logger.error(e) { "Request bodyAsString does not match." }
-                throw e
-            }
-
-            try {
                 this.request.body() shouldBe requestAsString
             } catch (e: AssertionError) {
-                logger.error(e) { "Request bodyAsString does not match." }
-                throw e
+                capturedError.set(e)
             }
 
             val responsePayload = TestOrder.random(person = requestPayload)
             contentType = expectedContentType
             body = Json.encodeToString(responsePayload)
-            expectedResponseRef.set(body) // safely store the response for verification
+            expectedResponseRef.set(body)
         }
 
         // when
@@ -119,6 +112,7 @@ internal class ShortcutMethodsIT : AbstractIT() {
             }
 
         // then
+        capturedError.get()?.let { throw it }
         result.status shouldBe HttpStatusCode.OK
         result.contentType() shouldBe expectedContentType
 
@@ -128,5 +122,4 @@ internal class ShortcutMethodsIT : AbstractIT() {
             result.bodyAsText() shouldBe ""
         }
     }
-
 }
