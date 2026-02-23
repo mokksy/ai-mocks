@@ -13,6 +13,7 @@ import dev.mokksy.mokksy.MokksyServer
 import io.ktor.http.ContentType
 import java.time.Instant
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 /**
@@ -49,8 +50,8 @@ public class OpenaiResponsesBuildingStep(
             contentType = ContentType.Application.Json
 
             val inputTokens = Random.nextInt(1, 200)
-            val outputTokens = Random.nextInt(1, request.maxOutputTokens ?: 1500)
-            val reasoningTokens = outputTokens / 3
+            val outputTokens = Random.nextInt(3, request.maxOutputTokens ?: 1500)
+            val reasoningTokens = (outputTokens / 3.0).roundToInt()
 
             body =
                 Response(
