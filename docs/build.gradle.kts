@@ -88,20 +88,23 @@ tasks.test {
     useJUnitPlatform()
 }
 
+// Generated knit sources must exist before test compilation.
+tasks.named("compileTestKotlin").configure {
+    dependsOn(tasks.named("knit"))
+}
+
 // Decouple knit tasks from the standard build lifecycle.
 // Run on demand: ./gradlew :docs:knit  or  ./gradlew :docs:knitCheck
+// afterEvaluate is required here because the knit plugin wires knitCheck -> check during its own afterEvaluate.
 afterEvaluate {
     tasks.named("check").configure {
         setDependsOn(
             dependsOn.filterNot { dep ->
-                dep is TaskProvider<*> && dep.name == "knitCheck" ||
-                    dep is Task && dep.name == "knitCheck"
+                (dep is TaskProvider<*> && dep.name == "knitCheck") ||
+                    (dep is Task && dep.name == "knitCheck") ||
+                    (dep is String && dep == "knitCheck")
             },
         )
-    }
-    // Generated knit sources must exist before test compilation.
-    tasks.named("compileTestKotlin").configure {
-        dependsOn(tasks.named("knit"))
     }
 }
 

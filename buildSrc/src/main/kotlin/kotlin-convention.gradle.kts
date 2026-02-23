@@ -1,15 +1,23 @@
-@file:OptIn(ExperimentalWasmDsl::class)
+@file:OptIn(
+    ExperimentalWasmDsl::class,
+    ExperimentalAbiValidation::class,
+)
 
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_2
+import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 
 plugins {
     kotlin("multiplatform")
 }
 
 kotlin {
+
+    abiValidation {
+        enabled = true
+    }
 
     compilerOptions {
         languageVersion = KOTLIN_2_2
@@ -48,18 +56,26 @@ kotlin {
 }
 
 // Run tests in parallel to some degree.
+private val defaultForks = (Runtime.getRuntime().availableProcessors() / 2).coerceAtLeast(1)
 tasks.withType<Test>().configureEach {
-    maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).coerceAtLeast(1)
+    maxParallelForks =
+        providers
+            .gradleProperty("test.maxParallelForks")
+            .map {
+                it.toIntOrNull() ?: defaultForks
+            }.getOrElse(defaultForks)
+
     forkEvery = 100
     testLogging {
         showStandardStreams = true
         events("failed")
     }
+
     systemProperty("kotest.output.ansi", "true")
     reports {
-        junitXml.required.set(true)
-        junitXml.includeSystemOutLog.set(true)
-        junitXml.includeSystemErrLog.set(true)
+        junitXml.required = true
+        junitXml.includeSystemOutLog = true
+        junitXml.includeSystemErrLog = true
     }
 }
 

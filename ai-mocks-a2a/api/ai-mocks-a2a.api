@@ -1,0 +1,243 @@
+public final class dev/mokksy/aimocks/a2a/AgentCardBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun responds (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/AgentCardResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ldev/mokksy/aimocks/a2a/model/AgentCard;Ldev/mokksy/aimocks/a2a/model/JSONRPCError;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ldev/mokksy/aimocks/a2a/model/AgentCard;Ldev/mokksy/aimocks/a2a/model/JSONRPCError;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun card (Lkotlin/jvm/functions/Function1;)V
+	public final fun getCard ()Ldev/mokksy/aimocks/a2a/model/AgentCard;
+	public final fun getError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public final fun setCard (Ldev/mokksy/aimocks/a2a/model/AgentCard;)V
+	public final fun setError (Ldev/mokksy/aimocks/a2a/model/JSONRPCError;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/CancelTaskBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun responds (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/CancelTaskResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/Object;Ldev/mokksy/aimocks/a2a/model/Task;Ldev/mokksy/aimocks/a2a/model/JSONRPCError;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/Object;Ldev/mokksy/aimocks/a2a/model/Task;Ldev/mokksy/aimocks/a2a/model/JSONRPCError;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public final fun getId ()Ljava/lang/Object;
+	public final fun getResult ()Ldev/mokksy/aimocks/a2a/model/Task;
+	public final fun result (Lkotlin/jvm/functions/Function1;)V
+	public final fun setError (Ldev/mokksy/aimocks/a2a/model/JSONRPCError;)V
+	public final fun setId (Ljava/lang/Object;)V
+	public final fun setResult (Ldev/mokksy/aimocks/a2a/model/Task;)V
+	public final fun task (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/DeleteTaskPushNotificationConfigBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun responds (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/DeleteTaskPushNotificationConfigResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun build ()Ldev/mokksy/aimocks/a2a/model/DeleteTaskPushNotificationConfigResponse;
+	public final fun error (Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/DeleteTaskPushNotificationConfigResponseSpecification;
+	public final fun getError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public final fun getId ()Ljava/lang/Object;
+	public final fun getResult ()Ljava/lang/Void;
+	public final fun id (Ljava/lang/Object;)Ldev/mokksy/aimocks/a2a/DeleteTaskPushNotificationConfigResponseSpecification;
+	public final fun setError (Ldev/mokksy/aimocks/a2a/model/JSONRPCError;)V
+	public final fun setId (Ljava/lang/Object;)V
+	public final fun setResult (Ljava/lang/Void;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/GetAuthenticatedExtendedCardBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun responds (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/GetAuthenticatedExtendedCardResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun build ()Ldev/mokksy/aimocks/a2a/model/GetAuthenticatedExtendedCardResponse;
+	public final fun getError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public final fun getId ()Ljava/lang/Object;
+	public final fun getResult ()Ldev/mokksy/aimocks/a2a/model/AgentCard;
+	public final fun id (Ljava/lang/Object;)Ldev/mokksy/aimocks/a2a/GetAuthenticatedExtendedCardResponseSpecification;
+	public final fun result (Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/GetAuthenticatedExtendedCardResponseSpecification;
+	public final fun setError (Ldev/mokksy/aimocks/a2a/model/JSONRPCError;)V
+	public final fun setId (Ljava/lang/Object;)V
+	public final fun setResult (Ldev/mokksy/aimocks/a2a/model/AgentCard;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/GetTaskBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun responds (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/GetTaskPushNotificationBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun responds (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/GetTaskPushNotificationResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/Object;Ldev/mokksy/aimocks/a2a/model/TaskPushNotificationConfig;Ldev/mokksy/aimocks/a2a/model/JSONRPCError;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/Object;Ldev/mokksy/aimocks/a2a/model/TaskPushNotificationConfig;Ldev/mokksy/aimocks/a2a/model/JSONRPCError;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public final fun getId ()Ljava/lang/Object;
+	public final fun getResult ()Ldev/mokksy/aimocks/a2a/model/TaskPushNotificationConfig;
+	public final fun setError (Ldev/mokksy/aimocks/a2a/model/JSONRPCError;)V
+	public final fun setId (Ljava/lang/Object;)V
+	public final fun setResult (Ldev/mokksy/aimocks/a2a/model/TaskPushNotificationConfig;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/GetTaskResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/Object;Ldev/mokksy/aimocks/a2a/model/Task;Ldev/mokksy/aimocks/a2a/model/JSONRPCError;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/Object;Ldev/mokksy/aimocks/a2a/model/Task;Ldev/mokksy/aimocks/a2a/model/JSONRPCError;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public final fun getId ()Ljava/lang/Object;
+	public final fun getResult ()Ldev/mokksy/aimocks/a2a/model/Task;
+	public final fun result (Lkotlin/jvm/functions/Function1;)V
+	public final fun setError (Ldev/mokksy/aimocks/a2a/model/JSONRPCError;)V
+	public final fun setId (Ljava/lang/Object;)V
+	public final fun setResult (Ldev/mokksy/aimocks/a2a/model/Task;)V
+	public final fun task (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/ListTaskPushNotificationConfigBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun responds (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/ListTaskPushNotificationConfigResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/Object;Ljava/util/List;Ldev/mokksy/aimocks/a2a/model/JSONRPCError;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/Object;Ljava/util/List;Ldev/mokksy/aimocks/a2a/model/JSONRPCError;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public final fun getId ()Ljava/lang/Object;
+	public final fun getResult ()Ljava/util/List;
+	public final fun setError (Ldev/mokksy/aimocks/a2a/model/JSONRPCError;)V
+	public final fun setId (Ljava/lang/Object;)V
+	public final fun setResult (Ljava/util/List;)V
+}
+
+public class dev/mokksy/aimocks/a2a/MockAgentServer : dev/mokksy/aimocks/core/AbstractMockLlm {
+	public fun <init> ()V
+	public fun <init> (I)V
+	public fun <init> (IZ)V
+	public fun <init> (IZLjava/lang/String;)V
+	public synthetic fun <init> (IZLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun agentCard (Ljava/lang/String;)Ldev/mokksy/aimocks/core/AbstractBuildingStep;
+	public static synthetic fun agentCard$default (Ldev/mokksy/aimocks/a2a/MockAgentServer;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/core/AbstractBuildingStep;
+	public final fun cancelTask ()Ldev/mokksy/aimocks/a2a/CancelTaskBuildingStep;
+	public final fun cancelTask (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/CancelTaskBuildingStep;
+	public static synthetic fun cancelTask$default (Ldev/mokksy/aimocks/a2a/MockAgentServer;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/CancelTaskBuildingStep;
+	public final fun deleteTaskPushNotificationConfig ()Ldev/mokksy/aimocks/a2a/DeleteTaskPushNotificationConfigBuildingStep;
+	public final fun deleteTaskPushNotificationConfig (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/DeleteTaskPushNotificationConfigBuildingStep;
+	public static synthetic fun deleteTaskPushNotificationConfig$default (Ldev/mokksy/aimocks/a2a/MockAgentServer;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/DeleteTaskPushNotificationConfigBuildingStep;
+	public final fun getAuthenticatedExtendedCard ()Ldev/mokksy/aimocks/a2a/GetAuthenticatedExtendedCardBuildingStep;
+	public final fun getAuthenticatedExtendedCard (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/GetAuthenticatedExtendedCardBuildingStep;
+	public static synthetic fun getAuthenticatedExtendedCard$default (Ldev/mokksy/aimocks/a2a/MockAgentServer;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/GetAuthenticatedExtendedCardBuildingStep;
+	public final fun getNotificationsUri ()Ljava/lang/String;
+	public final fun getTask ()Ldev/mokksy/aimocks/a2a/GetTaskBuildingStep;
+	public final fun getTask (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/GetTaskBuildingStep;
+	public static synthetic fun getTask$default (Ldev/mokksy/aimocks/a2a/MockAgentServer;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/GetTaskBuildingStep;
+	public final fun getTaskNotifications (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/notifications/TaskNotificationHistory;
+	public final fun getTaskPushNotification ()Ldev/mokksy/aimocks/a2a/GetTaskPushNotificationBuildingStep;
+	public final fun getTaskPushNotification (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/GetTaskPushNotificationBuildingStep;
+	public static synthetic fun getTaskPushNotification$default (Ldev/mokksy/aimocks/a2a/MockAgentServer;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/GetTaskPushNotificationBuildingStep;
+	public final fun listTaskPushNotificationConfig ()Ldev/mokksy/aimocks/a2a/ListTaskPushNotificationConfigBuildingStep;
+	public final fun listTaskPushNotificationConfig (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/ListTaskPushNotificationConfigBuildingStep;
+	public static synthetic fun listTaskPushNotificationConfig$default (Ldev/mokksy/aimocks/a2a/MockAgentServer;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/ListTaskPushNotificationConfigBuildingStep;
+	public final fun notificationUrl ()Ljava/lang/String;
+	public final fun sendMessage ()Ldev/mokksy/aimocks/a2a/SendMessageBuildingStep;
+	public final fun sendMessage (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/SendMessageBuildingStep;
+	public static synthetic fun sendMessage$default (Ldev/mokksy/aimocks/a2a/MockAgentServer;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/SendMessageBuildingStep;
+	public final fun sendMessageStreaming ()Ldev/mokksy/aimocks/a2a/SendStreamingMessageBuildingStep;
+	public final fun sendMessageStreaming (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/SendStreamingMessageBuildingStep;
+	public static synthetic fun sendMessageStreaming$default (Ldev/mokksy/aimocks/a2a/MockAgentServer;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/SendStreamingMessageBuildingStep;
+	public final fun sendPushNotification (Ldev/mokksy/aimocks/a2a/model/PushNotificationConfig;Ldev/mokksy/aimocks/a2a/model/TaskUpdateEvent;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun sendPushNotification (Ldev/mokksy/aimocks/a2a/model/TaskUpdateEvent;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun sendPushNotification$default (Ldev/mokksy/aimocks/a2a/MockAgentServer;Ldev/mokksy/aimocks/a2a/model/PushNotificationConfig;Ldev/mokksy/aimocks/a2a/model/TaskUpdateEvent;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun sendStreamingMessage ()Ldev/mokksy/aimocks/a2a/SendStreamingMessageBuildingStep;
+	public final fun sendStreamingMessage (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/SendStreamingMessageBuildingStep;
+	public static synthetic fun sendStreamingMessage$default (Ldev/mokksy/aimocks/a2a/MockAgentServer;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/SendStreamingMessageBuildingStep;
+	public final fun setTaskPushNotification ()Ldev/mokksy/aimocks/a2a/SetTaskPushNotificationBuildingStep;
+	public final fun setTaskPushNotification (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/SetTaskPushNotificationBuildingStep;
+	public static synthetic fun setTaskPushNotification$default (Ldev/mokksy/aimocks/a2a/MockAgentServer;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/SetTaskPushNotificationBuildingStep;
+	public final fun taskResubscription ()Ldev/mokksy/aimocks/a2a/TaskResubscriptionBuildingStep;
+	public final fun taskResubscription (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/TaskResubscriptionBuildingStep;
+	public static synthetic fun taskResubscription$default (Ldev/mokksy/aimocks/a2a/MockAgentServer;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/TaskResubscriptionBuildingStep;
+}
+
+public final class dev/mokksy/aimocks/a2a/SendMessageBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun responds (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/SendMessageResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/Object;Ldev/mokksy/aimocks/a2a/model/Task;Ldev/mokksy/aimocks/a2a/model/JSONRPCError;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/Object;Ldev/mokksy/aimocks/a2a/model/Task;Ldev/mokksy/aimocks/a2a/model/JSONRPCError;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public final fun getId ()Ljava/lang/Object;
+	public final fun getResult ()Ldev/mokksy/aimocks/a2a/model/Task;
+	public final fun setError (Ldev/mokksy/aimocks/a2a/model/JSONRPCError;)V
+	public final fun setId (Ljava/lang/Object;)V
+	public final fun setResult (Ldev/mokksy/aimocks/a2a/model/Task;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/SendStreamingMessageBuildingStep : dev/mokksy/aimocks/core/AbstractStreamingBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun respondsStream (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/SendStreamingMessageResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;JLdev/mokksy/aimocks/a2a/model/JSONRPCError;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;JLdev/mokksy/aimocks/a2a/model/JSONRPCError;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun delay-LRDsOJo (J)Ldev/mokksy/aimocks/a2a/SendStreamingMessageResponseSpecification;
+	public final fun delayBetweenChunks-LRDsOJo (J)Ldev/mokksy/aimocks/a2a/SendStreamingMessageResponseSpecification;
+	public final fun getDelayBetweenChunks-UwyO8pc ()J
+	public final fun getError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public final fun getResponseFlow ()Lkotlinx/coroutines/flow/Flow;
+	public final fun responseFlow (Lkotlinx/coroutines/flow/Flow;)Ldev/mokksy/aimocks/a2a/SendStreamingMessageResponseSpecification;
+	public final fun setDelayBetweenChunks-LRDsOJo (J)V
+	public final fun setError (Ldev/mokksy/aimocks/a2a/model/JSONRPCError;)V
+	public final fun setResponseFlow (Lkotlinx/coroutines/flow/Flow;)V
+	public final fun stream (Ljava/util/stream/Stream;)Ldev/mokksy/aimocks/a2a/SendStreamingMessageResponseSpecification;
+}
+
+public final class dev/mokksy/aimocks/a2a/SendTaskStreamingResponseSpecification_jvmKt {
+	public static final fun publisher (Ldev/mokksy/aimocks/a2a/SendStreamingMessageResponseSpecification;Ljava/util/concurrent/Flow$Publisher;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/SetTaskPushNotificationBuildingStep : dev/mokksy/aimocks/core/AbstractBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun responds (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/SetTaskPushNotificationResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/Object;Ldev/mokksy/aimocks/a2a/model/TaskPushNotificationConfig;Ldev/mokksy/aimocks/a2a/model/JSONRPCError;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/Object;Ldev/mokksy/aimocks/a2a/model/TaskPushNotificationConfig;Ldev/mokksy/aimocks/a2a/model/JSONRPCError;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public final fun getId ()Ljava/lang/Object;
+	public final fun getResult ()Ldev/mokksy/aimocks/a2a/model/TaskPushNotificationConfig;
+	public final fun result (Lkotlin/jvm/functions/Function1;)V
+	public final fun setError (Ldev/mokksy/aimocks/a2a/model/JSONRPCError;)V
+	public final fun setId (Ljava/lang/Object;)V
+	public final fun setResult (Ldev/mokksy/aimocks/a2a/model/TaskPushNotificationConfig;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/TaskResubscriptionBuildingStep : dev/mokksy/aimocks/core/AbstractStreamingBuildingStep {
+	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
+	public fun respondsStream (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/TaskResubscriptionResponseSpecification : dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification {
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;JJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class dev/mokksy/aimocks/a2a/notifications/TaskNotificationHistory {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun events ()Ljava/util/List;
+	public final fun getTaskId ()Ljava/lang/String;
+}
+

@@ -65,7 +65,7 @@ jobs:
         run: |
           ./gradlew \
             -Dorg.gradle.maven.repo.local=.m2-local \
-            clean build publishToMavenLocal koverXmlReport koverLog
+            clean checkLegacyAbi build publishToMavenLocal koverXmlReport koverLog
 
       - name: OpenAI Maven Integration Tests
         working-directory: ai-mocks-openai/samples/shadow

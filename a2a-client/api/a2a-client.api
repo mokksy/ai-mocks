@@ -1,0 +1,62 @@
+public abstract interface class dev/mokksy/a2a/client/A2AClient {
+	public abstract fun cancelTask (Ldev/mokksy/aimocks/a2a/model/CancelTaskRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun cancelTask (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun close ()V
+	public abstract fun getAgentCard (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getHttpClient ()Lio/ktor/client/HttpClient;
+	public abstract fun getTask (Ldev/mokksy/aimocks/a2a/model/GetTaskRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getTask (Ljava/lang/String;Ljava/lang/Integer;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun getTask$default (Ldev/mokksy/a2a/client/A2AClient;Ljava/lang/String;Ljava/lang/Integer;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public abstract fun getTaskPushNotification (Ldev/mokksy/aimocks/a2a/model/GetTaskPushNotificationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getTaskPushNotification (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun resubscribeToTask (Ljava/lang/String;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun sendMessage (Ldev/mokksy/aimocks/a2a/model/MessageSendParams;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun sendMessage (Ldev/mokksy/aimocks/a2a/model/SendMessageRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun sendStreamingMessage (Ldev/mokksy/aimocks/a2a/model/MessageSendParams;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun sendStreamingMessage (Ldev/mokksy/aimocks/a2a/model/SendStreamingMessageRequest;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun setTaskPushNotification (Ldev/mokksy/aimocks/a2a/model/SetTaskPushNotificationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun setTaskPushNotification (Ljava/lang/String;Ldev/mokksy/aimocks/a2a/model/PushNotificationConfig;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/mokksy/a2a/client/A2AClient$DefaultImpls {
+	public static synthetic fun getTask$default (Ldev/mokksy/a2a/client/A2AClient;Ljava/lang/String;Ljava/lang/Integer;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class dev/mokksy/a2a/client/A2AClientFactory {
+	public static final field INSTANCE Ldev/mokksy/a2a/client/A2AClientFactory;
+	public static final fun create (Ljava/lang/String;)Ldev/mokksy/a2a/client/A2AClient;
+	public static final fun create (Ljava/lang/String;Lio/ktor/client/HttpClient;)Ldev/mokksy/a2a/client/A2AClient;
+	public static final fun create (Ljava/lang/String;Lio/ktor/client/HttpClient;Lkotlinx/serialization/json/Json;)Ldev/mokksy/a2a/client/A2AClient;
+	public static final fun create (Ljava/lang/String;Lio/ktor/client/HttpClient;Lkotlinx/serialization/json/Json;Lkotlin/jvm/functions/Function1;)Ldev/mokksy/a2a/client/A2AClient;
+	public static final fun create (Ljava/lang/String;Lio/ktor/client/HttpClient;Lkotlinx/serialization/json/Json;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Ldev/mokksy/a2a/client/A2AClient;
+	public static synthetic fun create$default (Ljava/lang/String;Lio/ktor/client/HttpClient;Lkotlinx/serialization/json/Json;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/mokksy/a2a/client/A2AClient;
+}
+
+public final class dev/mokksy/a2a/client/A2AClient_jvmKt {
+	public static final fun sendStreamingMessageAsJavaFlow (Ldev/mokksy/a2a/client/A2AClient;Ldev/mokksy/aimocks/a2a/model/MessageSendParams;Ljava/util/concurrent/Executor;)Ljava/util/concurrent/Flow$Publisher;
+	public static final fun sendStreamingMessageAsJavaFlow (Ldev/mokksy/a2a/client/A2AClient;Ldev/mokksy/aimocks/a2a/model/MessageSendParams;Ljava/util/concurrent/Executor;I)Ljava/util/concurrent/Flow$Publisher;
+	public static synthetic fun sendStreamingMessageAsJavaFlow$default (Ldev/mokksy/a2a/client/A2AClient;Ldev/mokksy/aimocks/a2a/model/MessageSendParams;Ljava/util/concurrent/Executor;IILjava/lang/Object;)Ljava/util/concurrent/Flow$Publisher;
+}
+
+public class dev/mokksy/a2a/client/DefaultA2AClient : dev/mokksy/a2a/client/A2AClient {
+	public fun <init> (Lio/ktor/client/HttpClient;Ljava/lang/String;Lkotlinx/serialization/json/Json;Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (Lio/ktor/client/HttpClient;Ljava/lang/String;Lkotlinx/serialization/json/Json;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun cancelTask (Ldev/mokksy/aimocks/a2a/model/CancelTaskRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun cancelTask (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun close ()V
+	protected fun generateRequestId ()Ljava/lang/String;
+	public fun getAgentCard (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getHttpClient ()Lio/ktor/client/HttpClient;
+	public fun getTask (Ldev/mokksy/aimocks/a2a/model/GetTaskRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getTask (Ljava/lang/String;Ljava/lang/Integer;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getTaskPushNotification (Ldev/mokksy/aimocks/a2a/model/GetTaskPushNotificationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getTaskPushNotification (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun resubscribeToTask (Ljava/lang/String;)Lkotlinx/coroutines/flow/Flow;
+	public fun sendMessage (Ldev/mokksy/aimocks/a2a/model/MessageSendParams;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun sendMessage (Ldev/mokksy/aimocks/a2a/model/SendMessageRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun sendStreamingMessage (Ldev/mokksy/aimocks/a2a/model/MessageSendParams;)Lkotlinx/coroutines/flow/Flow;
+	public fun sendStreamingMessage (Ldev/mokksy/aimocks/a2a/model/SendStreamingMessageRequest;)Lkotlinx/coroutines/flow/Flow;
+	public fun setTaskPushNotification (Ldev/mokksy/aimocks/a2a/model/SetTaskPushNotificationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun setTaskPushNotification (Ljava/lang/String;Ldev/mokksy/aimocks/a2a/model/PushNotificationConfig;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+

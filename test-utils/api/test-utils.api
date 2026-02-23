@@ -1,0 +1,5 @@
+public final class dev/mokksy/test/utils/IntegrationTestUtilsKt {
+	public static final fun runIntegrationTest-VtjQ1oo (JLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun runIntegrationTest-VtjQ1oo$default (JLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+}
+
