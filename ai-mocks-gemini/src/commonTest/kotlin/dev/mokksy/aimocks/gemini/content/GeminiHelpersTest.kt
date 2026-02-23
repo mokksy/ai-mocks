@@ -1,6 +1,5 @@
 package dev.mokksy.aimocks.gemini.content
 
-import dev.mokksy.aimocks.gemini.Candidate
 import dev.mokksy.aimocks.gemini.Content
 import dev.mokksy.aimocks.gemini.Part
 import dev.mokksy.aimocks.gemini.PromptFeedback
@@ -13,9 +12,10 @@ internal class GeminiHelpersTest {
     @Test
     fun `generateContentResponse should create response with default values`() {
         // when
-        val response = generateContentResponse(
-            assistantContent = "Hello, world!",
-        )
+        val response =
+            generateContentResponse(
+                assistantContent = "Hello, world!",
+            )
 
         // then
         assertSoftly(response) {
@@ -25,11 +25,12 @@ internal class GeminiHelpersTest {
             candidates[0].finishReason shouldBe null
             candidates[0].safetyRatings shouldBe null
             promptFeedback shouldBe PromptFeedback(safetyRatings = null)
-            usageMetadata shouldBe UsageMetadata(
-                promptTokenCount = 0,
-                candidatesTokenCount = 0,
-                totalTokenCount = 0,
-            )
+            usageMetadata shouldBe
+                UsageMetadata(
+                    promptTokenCount = 0,
+                    candidatesTokenCount = 0,
+                    totalTokenCount = 0,
+                )
             modelVersion shouldBe "gemini-pro-text-001"
             responseId shouldBe null
         }
@@ -38,10 +39,11 @@ internal class GeminiHelpersTest {
     @Test
     fun `generateContentResponse should create response with finish reason`() {
         // when
-        val response = generateContentResponse(
-            assistantContent = "Test content",
-            finishReason = "stop",
-        )
+        val response =
+            generateContentResponse(
+                assistantContent = "Test content",
+                finishReason = "stop",
+            )
 
         // then
         assertSoftly(response) {
@@ -55,10 +57,11 @@ internal class GeminiHelpersTest {
     @Test
     fun `generateContentResponse should create response with response ID`() {
         // when
-        val response = generateContentResponse(
-            assistantContent = "Content",
-            responseId = "response-123",
-        )
+        val response =
+            generateContentResponse(
+                assistantContent = "Content",
+                responseId = "response-123",
+            )
 
         // then
         assertSoftly(response) {
@@ -70,10 +73,11 @@ internal class GeminiHelpersTest {
     @Test
     fun `generateContentResponse should create response with custom model version`() {
         // when
-        val response = generateContentResponse(
-            assistantContent = "Content",
-            modelVersion = "gemini-1.5-pro",
-        )
+        val response =
+            generateContentResponse(
+                assistantContent = "Content",
+                modelVersion = "gemini-1.5-pro",
+            )
 
         // then
         assertSoftly(response) {
@@ -85,12 +89,13 @@ internal class GeminiHelpersTest {
     @Test
     fun `generateContentResponse should create response with all parameters`() {
         // when
-        val response = generateContentResponse(
-            assistantContent = "Complete response",
-            finishReason = "stop",
-            responseId = "resp-456",
-            modelVersion = "gemini-2.0",
-        )
+        val response =
+            generateContentResponse(
+                assistantContent = "Complete response",
+                finishReason = "stop",
+                responseId = "resp-456",
+                modelVersion = "gemini-2.0",
+            )
 
         // then
         assertSoftly(response) {
@@ -100,11 +105,12 @@ internal class GeminiHelpersTest {
             candidates[0].finishReason shouldBe "stop"
             candidates[0].safetyRatings shouldBe null
             promptFeedback shouldBe PromptFeedback(safetyRatings = null)
-            usageMetadata shouldBe UsageMetadata(
-                promptTokenCount = 0,
-                candidatesTokenCount = 0,
-                totalTokenCount = 0,
-            )
+            usageMetadata shouldBe
+                UsageMetadata(
+                    promptTokenCount = 0,
+                    candidatesTokenCount = 0,
+                    totalTokenCount = 0,
+                )
             modelVersion shouldBe "gemini-2.0"
             responseId shouldBe "resp-456"
         }
@@ -113,9 +119,10 @@ internal class GeminiHelpersTest {
     @Test
     fun `generateContentResponse should handle empty content`() {
         // when
-        val response = generateContentResponse(
-            assistantContent = "",
-        )
+        val response =
+            generateContentResponse(
+                assistantContent = "",
+            )
 
         // then
         assertSoftly(response) {
@@ -127,16 +134,18 @@ internal class GeminiHelpersTest {
     @Test
     fun `generateContentResponse should handle multiline content`() {
         // given
-        val multilineContent = """
+        val multilineContent =
+            """
             Line 1
             Line 2
             Line 3
-        """.trimIndent()
+            """.trimIndent()
 
         // when
-        val response = generateContentResponse(
-            assistantContent = multilineContent,
-        )
+        val response =
+            generateContentResponse(
+                assistantContent = multilineContent,
+            )
 
         // then
         assertSoftly(response) {
@@ -150,9 +159,10 @@ internal class GeminiHelpersTest {
         val specialContent = "Content with 特殊文字 and émojis 🎉"
 
         // when
-        val response = generateContentResponse(
-            assistantContent = specialContent,
-        )
+        val response =
+            generateContentResponse(
+                assistantContent = specialContent,
+            )
 
         // then
         assertSoftly(response) {
@@ -163,9 +173,10 @@ internal class GeminiHelpersTest {
     @Test
     fun `generateFinalContentResponse should create response with finish reason`() {
         // when
-        val response = generateFinalContentResponse(
-            finishReason = "stop",
-        )
+        val response =
+            generateFinalContentResponse(
+                finishReason = "stop",
+            )
 
         // then
         assertSoftly(response) {
@@ -175,11 +186,12 @@ internal class GeminiHelpersTest {
             candidates[0].finishReason shouldBe "stop"
             candidates[0].safetyRatings shouldBe null
             promptFeedback shouldBe PromptFeedback(safetyRatings = null)
-            usageMetadata shouldBe UsageMetadata(
-                promptTokenCount = 0,
-                candidatesTokenCount = 0,
-                totalTokenCount = 0,
-            )
+            usageMetadata shouldBe
+                UsageMetadata(
+                    promptTokenCount = 0,
+                    candidatesTokenCount = 0,
+                    totalTokenCount = 0,
+                )
             modelVersion shouldBe "gemini-pro-text-001"
             responseId shouldBe null
         }
@@ -188,10 +200,11 @@ internal class GeminiHelpersTest {
     @Test
     fun `generateFinalContentResponse should create response with response ID`() {
         // when
-        val response = generateFinalContentResponse(
-            finishReason = "length",
-            responseId = "final-123",
-        )
+        val response =
+            generateFinalContentResponse(
+                finishReason = "length",
+                responseId = "final-123",
+            )
 
         // then
         assertSoftly(response) {
@@ -204,10 +217,11 @@ internal class GeminiHelpersTest {
     @Test
     fun `generateFinalContentResponse should create response with custom model version`() {
         // when
-        val response = generateFinalContentResponse(
-            finishReason = "stop",
-            modelVersion = "gemini-1.5-flash",
-        )
+        val response =
+            generateFinalContentResponse(
+                finishReason = "stop",
+                modelVersion = "gemini-1.5-flash",
+            )
 
         // then
         assertSoftly(response) {
@@ -220,11 +234,12 @@ internal class GeminiHelpersTest {
     @Test
     fun `generateFinalContentResponse should create response with all parameters`() {
         // when
-        val response = generateFinalContentResponse(
-            finishReason = "max_tokens",
-            responseId = "final-456",
-            modelVersion = "gemini-ultra",
-        )
+        val response =
+            generateFinalContentResponse(
+                finishReason = "max_tokens",
+                responseId = "final-456",
+                modelVersion = "gemini-ultra",
+            )
 
         // then
         assertSoftly(response) {
@@ -234,11 +249,12 @@ internal class GeminiHelpersTest {
             candidates[0].finishReason shouldBe "max_tokens"
             candidates[0].safetyRatings shouldBe null
             promptFeedback shouldBe PromptFeedback(safetyRatings = null)
-            usageMetadata shouldBe UsageMetadata(
-                promptTokenCount = 0,
-                candidatesTokenCount = 0,
-                totalTokenCount = 0,
-            )
+            usageMetadata shouldBe
+                UsageMetadata(
+                    promptTokenCount = 0,
+                    candidatesTokenCount = 0,
+                    totalTokenCount = 0,
+                )
             modelVersion shouldBe "gemini-ultra"
             responseId shouldBe "final-456"
         }
@@ -262,9 +278,10 @@ internal class GeminiHelpersTest {
     @Test
     fun `generateContentResponse should create consistent structure`() {
         // when
-        val response = generateContentResponse(
-            assistantContent = "Test",
-        )
+        val response =
+            generateContentResponse(
+                assistantContent = "Test",
+            )
 
         // then
         assertSoftly(response) {
@@ -272,18 +289,20 @@ internal class GeminiHelpersTest {
             val candidate = candidates[0]
             candidate.content.parts.size shouldBe 1
             candidate.content.parts[0] shouldBe Part(text = "Test")
-            candidate.content shouldBe Content(
-                parts = listOf(Part(text = "Test")),
-            )
+            candidate.content shouldBe
+                Content(
+                    parts = listOf(Part(text = "Test")),
+                )
         }
     }
 
     @Test
     fun `generateFinalContentResponse should create consistent structure`() {
         // when
-        val response = generateFinalContentResponse(
-            finishReason = "stop",
-        )
+        val response =
+            generateFinalContentResponse(
+                finishReason = "stop",
+            )
 
         // then
         assertSoftly(response) {
@@ -291,9 +310,10 @@ internal class GeminiHelpersTest {
             val candidate = candidates[0]
             candidate.content.parts.size shouldBe 1
             candidate.content.parts[0] shouldBe Part(text = "")
-            candidate.content shouldBe Content(
-                parts = listOf(Part(text = "")),
-            )
+            candidate.content shouldBe
+                Content(
+                    parts = listOf(Part(text = "")),
+                )
         }
     }
 
@@ -305,16 +325,18 @@ internal class GeminiHelpersTest {
 
         // then
         assertSoftly {
-            response1.usageMetadata shouldBe UsageMetadata(
-                promptTokenCount = 0,
-                candidatesTokenCount = 0,
-                totalTokenCount = 0,
-            )
-            response2.usageMetadata shouldBe UsageMetadata(
-                promptTokenCount = 0,
-                candidatesTokenCount = 0,
-                totalTokenCount = 0,
-            )
+            response1.usageMetadata shouldBe
+                UsageMetadata(
+                    promptTokenCount = 0,
+                    candidatesTokenCount = 0,
+                    totalTokenCount = 0,
+                )
+            response2.usageMetadata shouldBe
+                UsageMetadata(
+                    promptTokenCount = 0,
+                    candidatesTokenCount = 0,
+                    totalTokenCount = 0,
+                )
         }
     }
 
@@ -337,14 +359,18 @@ internal class GeminiHelpersTest {
         val longContent = "A".repeat(10000)
 
         // when
-        val response = generateContentResponse(
-            assistantContent = longContent,
-        )
+        val response =
+            generateContentResponse(
+                assistantContent = longContent,
+            )
 
         // then
         assertSoftly(response) {
             candidates[0].content.parts[0].text shouldBe longContent
-            candidates[0].content.parts[0].text?.length shouldBe 10000
+            candidates[0]
+                .content.parts[0]
+                .text
+                ?.length shouldBe 10000
         }
     }
 
@@ -354,9 +380,10 @@ internal class GeminiHelpersTest {
         val jsonContent = """{"name": "test", "value": 123}"""
 
         // when
-        val response = generateContentResponse(
-            assistantContent = jsonContent,
-        )
+        val response =
+            generateContentResponse(
+                assistantContent = jsonContent,
+            )
 
         // then
         assertSoftly(response) {
@@ -367,16 +394,18 @@ internal class GeminiHelpersTest {
     @Test
     fun `generateContentResponse should handle content with code`() {
         // given
-        val codeContent = """
+        val codeContent =
+            """
             fun main() {
                 println("Hello, World!")
             }
-        """.trimIndent()
+            """.trimIndent()
 
         // when
-        val response = generateContentResponse(
-            assistantContent = codeContent,
-        )
+        val response =
+            generateContentResponse(
+                assistantContent = codeContent,
+            )
 
         // then
         assertSoftly(response) {

@@ -4,6 +4,7 @@ import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import kotlinx.serialization.json.Json
 import kotlin.test.Test
 
 internal class ModelSerializationTest {
@@ -26,12 +27,13 @@ internal class ModelSerializationTest {
     fun `should serialize and deserialize all SafetyCategory values`() {
         // when & then
         SafetyCategory.entries.forEach { category ->
-            val safetySetting = SafetySetting(
-                category = category,
-                threshold = HarmBlockThreshold.BLOCK_NONE,
-            )
-            val json = kotlinx.serialization.json.Json.encodeToString(SafetySetting.serializer(), safetySetting)
-            val deserialized = kotlinx.serialization.json.Json.decodeFromString(SafetySetting.serializer(), json)
+            val safetySetting =
+                SafetySetting(
+                    category = category,
+                    threshold = HarmBlockThreshold.BLOCK_NONE,
+                )
+            val json = Json.encodeToString(SafetySetting.serializer(), safetySetting)
+            val deserialized = Json.decodeFromString(SafetySetting.serializer(), json)
             deserialized.category shouldBe category
         }
     }
@@ -40,12 +42,13 @@ internal class ModelSerializationTest {
     fun `should serialize and deserialize all HarmBlockThreshold values`() {
         // when & then
         HarmBlockThreshold.entries.forEach { threshold ->
-            val safetySetting = SafetySetting(
-                category = SafetyCategory.HARM_CATEGORY_UNSPECIFIED,
-                threshold = threshold,
-            )
-            val json = kotlinx.serialization.json.Json.encodeToString(SafetySetting.serializer(), safetySetting)
-            val deserialized = kotlinx.serialization.json.Json.decodeFromString(SafetySetting.serializer(), json)
+            val safetySetting =
+                SafetySetting(
+                    category = SafetyCategory.HARM_CATEGORY_UNSPECIFIED,
+                    threshold = threshold,
+                )
+            val json = Json.encodeToString(SafetySetting.serializer(), safetySetting)
+            val deserialized = Json.decodeFromString(SafetySetting.serializer(), json)
             deserialized.threshold shouldBe threshold
         }
     }
@@ -69,12 +72,13 @@ internal class ModelSerializationTest {
     fun `should serialize and deserialize all HarmProbability values`() {
         // when & then
         HarmProbability.entries.forEach { probability ->
-            val safetyRating = SafetyRating(
-                category = SafetyCategory.HARM_CATEGORY_UNSPECIFIED,
-                probability = probability,
-            )
-            val json = kotlinx.serialization.json.Json.encodeToString(SafetyRating.serializer(), safetyRating)
-            val deserialized = kotlinx.serialization.json.Json.decodeFromString(SafetyRating.serializer(), json)
+            val safetyRating =
+                SafetyRating(
+                    category = SafetyCategory.HARM_CATEGORY_UNSPECIFIED,
+                    probability = probability,
+                )
+            val json = Json.encodeToString(SafetyRating.serializer(), safetyRating)
+            val deserialized = Json.decodeFromString(SafetyRating.serializer(), json)
             deserialized.probability shouldBe probability
         }
     }
@@ -82,7 +86,8 @@ internal class ModelSerializationTest {
     @Test
     fun `should serialize and deserialize UsageMetadata with all fields`() {
         // given
-        val json = """
+        val json =
+            """
             {
                 "promptTokenCount": 100,
                 "cachedContentTokenCount": 50,
@@ -91,7 +96,7 @@ internal class ModelSerializationTest {
                 "thoughtsTokenCount": 10,
                 "totalTokenCount": 390
             }
-        """.trimIndent()
+            """.trimIndent()
 
         // when
         val metadata = deserializeAndSerialize<UsageMetadata>(json)
@@ -143,12 +148,13 @@ internal class ModelSerializationTest {
     fun `should serialize and deserialize all Modality values`() {
         // when & then
         Modality.entries.forEach { modality ->
-            val modalityTokenCount = ModalityTokenCount(
-                modality = modality,
-                tokenCount = 100,
-            )
-            val json = kotlinx.serialization.json.Json.encodeToString(ModalityTokenCount.serializer(), modalityTokenCount)
-            val deserialized = kotlinx.serialization.json.Json.decodeFromString(ModalityTokenCount.serializer(), json)
+            val modalityTokenCount =
+                ModalityTokenCount(
+                    modality = modality,
+                    tokenCount = 100,
+                )
+            val json = Json.encodeToString(ModalityTokenCount.serializer(), modalityTokenCount)
+            val deserialized = Json.decodeFromString(ModalityTokenCount.serializer(), json)
             deserialized.modality shouldBe modality
         }
     }
@@ -156,7 +162,8 @@ internal class ModelSerializationTest {
     @Test
     fun `should serialize and deserialize UsageMetadata with token details`() {
         // given
-        val json = """
+        val json =
+            """
             {
                 "promptTokenCount": 100,
                 "totalTokenCount": 200,
@@ -168,7 +175,7 @@ internal class ModelSerializationTest {
                     {"modality": "TEXT", "tokenCount": 100}
                 ]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         // when
         val metadata = deserializeAndSerialize<UsageMetadata>(json)
@@ -195,14 +202,15 @@ internal class ModelSerializationTest {
     @Test
     fun `should serialize and deserialize PromptFeedback with block reason`() {
         // given
-        val json = """
+        val json =
+            """
             {
                 "blockReason": "SAFETY",
                 "safetyRatings": [
                     {"category": "HARM_CATEGORY_HARASSMENT", "probability": "HIGH"}
                 ]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         // when
         val feedback = deserializeAndSerialize<PromptFeedback>(json)
@@ -221,7 +229,8 @@ internal class ModelSerializationTest {
     @Test
     fun `should serialize and deserialize GenerationConfig with all fields`() {
         // given
-        val json = """
+        val json =
+            """
             {
                 "temperature": 0.9,
                 "topP": 0.8,
@@ -237,7 +246,7 @@ internal class ModelSerializationTest {
                 "logprobs": 5,
                 "enableEnhancedCivicAnswers": true
             }
-        """.trimIndent()
+            """.trimIndent()
 
         // when
         val config = deserializeAndSerialize<GenerationConfig>(json)
@@ -263,12 +272,13 @@ internal class ModelSerializationTest {
     @Test
     fun `should serialize and deserialize GenerationConfig with response modalities`() {
         // given
-        val json = """
+        val json =
+            """
             {
                 "temperature": 0.7,
                 "responseModalities": ["TEXT", "IMAGE"]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         // when
         val config = deserializeAndSerialize<GenerationConfig>(json)
@@ -289,8 +299,8 @@ internal class ModelSerializationTest {
         // when & then
         MediaResolution.entries.forEach { resolution ->
             val config = GenerationConfig(mediaResolution = resolution)
-            val json = kotlinx.serialization.json.Json.encodeToString(GenerationConfig.serializer(), config)
-            val deserialized = kotlinx.serialization.json.Json.decodeFromString(GenerationConfig.serializer(), json)
+            val json = Json.encodeToString(GenerationConfig.serializer(), config)
+            val deserialized = Json.decodeFromString(GenerationConfig.serializer(), json)
             deserialized.mediaResolution shouldBe resolution
         }
     }
@@ -322,14 +332,15 @@ internal class ModelSerializationTest {
     @Test
     fun `should serialize and deserialize GenerationConfig with speech and thinking config`() {
         // given
-        val json = """
+        val json =
+            """
             {
                 "temperature": 0.8,
                 "speechConfig": {"voice": "en-US-Neural2-A"},
                 "thinkingConfig": {"enabled": true},
                 "mediaResolution": "HIGH"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         // when
         val config = deserializeAndSerialize<GenerationConfig>(json)
@@ -362,12 +373,13 @@ internal class ModelSerializationTest {
     @Test
     fun `should serialize and deserialize FunctionDeclaration`() {
         // given
-        val json = """
+        val json =
+            """
             {
                 "name": "get_weather",
                 "description": "Get the weather for a location"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         // when
         val functionDecl = deserializeAndSerialize<FunctionDeclaration>(json)
@@ -382,7 +394,8 @@ internal class ModelSerializationTest {
     @Test
     fun `should serialize and deserialize Tool with function declarations`() {
         // given
-        val json = """
+        val json =
+            """
             {
                 "function_declarations": [
                     {
@@ -391,7 +404,7 @@ internal class ModelSerializationTest {
                     }
                 ]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         // when
         val tool = deserializeAndSerialize<Tool>(json)
@@ -407,7 +420,8 @@ internal class ModelSerializationTest {
     @Test
     fun `should serialize and deserialize Candidate with all fields`() {
         // given
-        val json = """
+        val json =
+            """
             {
                 "content": {
                     "parts": [{"text": "Response text"}],
@@ -418,7 +432,7 @@ internal class ModelSerializationTest {
                     {"category": "HARM_CATEGORY_HATE_SPEECH", "probability": "NEGLIGIBLE"}
                 ]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         // when
         val candidate = deserializeAndSerialize<Candidate>(json)
@@ -440,7 +454,8 @@ internal class ModelSerializationTest {
     @Test
     fun `should serialize and deserialize GenerateContentResponse with all metadata`() {
         // given
-        val json = """
+        val json =
+            """
             {
                 "candidates": [
                     {
@@ -463,7 +478,7 @@ internal class ModelSerializationTest {
                 "modelVersion": "gemini-1.5-pro",
                 "responseId": "resp-123"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         // when
         val response = deserializeAndSerialize<GenerateContentResponse>(json)
@@ -501,7 +516,8 @@ internal class ModelSerializationTest {
     @Test
     fun `should serialize and deserialize Content with parts and role`() {
         // given
-        val json = """
+        val json =
+            """
             {
                 "parts": [
                     {"text": "First part"},
@@ -509,7 +525,7 @@ internal class ModelSerializationTest {
                 ],
                 "role": "user"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         // when
         val content = deserializeAndSerialize<Content>(json)
@@ -524,9 +540,11 @@ internal class ModelSerializationTest {
     }
 
     @Test
-    fun `should serialize and deserialize GenerateContentRequest with system instruction and tools`() {
+    fun `should serialize and deserialize GenerateContentRequest`() {
         // given
-        val json = """
+        // language=json
+        val json =
+            """
             {
                 "contents": [
                     {
@@ -546,7 +564,7 @@ internal class ModelSerializationTest {
                     }
                 ]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         // when
         val request = deserializeAndSerialize<GenerateContentRequest>(json)

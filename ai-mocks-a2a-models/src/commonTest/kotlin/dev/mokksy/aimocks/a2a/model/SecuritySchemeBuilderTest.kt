@@ -9,10 +9,11 @@ internal class SecuritySchemeBuilderTest {
     @Test
     fun `should create API key security scheme with header location`() {
         // when
-        val scheme = SecuritySchemeBuilder.apiKey(
-            name = "X-API-Key",
-            location = ApiKeyLocation.HEADER,
-        )
+        val scheme =
+            SecuritySchemeBuilder.apiKey(
+                name = "X-API-Key",
+                location = ApiKeyLocation.HEADER,
+            )
 
         // then
         assertSoftly(scheme) {
@@ -26,10 +27,11 @@ internal class SecuritySchemeBuilderTest {
     @Test
     fun `should create API key security scheme with query location`() {
         // when
-        val scheme = SecuritySchemeBuilder.apiKey(
-            name = "api_key",
-            location = ApiKeyLocation.QUERY,
-        )
+        val scheme =
+            SecuritySchemeBuilder.apiKey(
+                name = "api_key",
+                location = ApiKeyLocation.QUERY,
+            )
 
         // then
         assertSoftly(scheme) {
@@ -43,10 +45,11 @@ internal class SecuritySchemeBuilderTest {
     @Test
     fun `should create API key security scheme with cookie location`() {
         // when
-        val scheme = SecuritySchemeBuilder.apiKey(
-            name = "session",
-            location = ApiKeyLocation.COOKIE,
-        )
+        val scheme =
+            SecuritySchemeBuilder.apiKey(
+                name = "session",
+                location = ApiKeyLocation.COOKIE,
+            )
 
         // then
         assertSoftly(scheme) {
@@ -74,10 +77,11 @@ internal class SecuritySchemeBuilderTest {
     @Test
     fun `should create HTTP security scheme with bearer auth and format`() {
         // when
-        val scheme = SecuritySchemeBuilder.http(
-            scheme = "bearer",
-            bearerFormat = "JWT",
-        )
+        val scheme =
+            SecuritySchemeBuilder.http(
+                scheme = "bearer",
+                bearerFormat = "JWT",
+            )
 
         // then
         assertSoftly(scheme) {
@@ -148,14 +152,16 @@ internal class SecuritySchemeBuilderTest {
     }
 
     @Test
-    fun `should create OAuth2 security scheme without metadata URL`() {
+    fun `should create OAuth2 scheme without metadata URL`() {
         // given
-        val flows = OAuth2Flows(
-            implicit = OAuth2Flow(
-                authorizationUrl = "https://auth.example.com/authorize",
-                scopes = mapOf("read" to "Read access"),
-            ),
-        )
+        val flows =
+            OAuth2Flows(
+                implicit =
+                    OAuth2Flow(
+                        authorizationUrl = "https://auth.example.com/authorize",
+                        scopes = mapOf("read" to "Read access"),
+                    ),
+            )
 
         // when
         val scheme = SecuritySchemeBuilder.oauth2(flows = flows)
@@ -170,19 +176,22 @@ internal class SecuritySchemeBuilderTest {
     }
 
     @Test
-    fun `should create OAuth2 security scheme with metadata URL`() {
+    fun `should create OAuth2 scheme with metadata URL`() {
         // given
         val metadataUrl = "https://auth.example.com/.well-known/oauth2"
-        val flows = OAuth2Flows(
-            authorizationCode = OAuth2Flow(
-                authorizationUrl = "https://auth.example.com/oauth2/authorize",
-                tokenUrl = "https://auth.example.com/oauth2/token",
-                scopes = mapOf(
-                    "read" to "Read access",
-                    "write" to "Write access",
-                ),
-            ),
-        )
+        val flows =
+            OAuth2Flows(
+                authorizationCode =
+                    OAuth2Flow(
+                        authorizationUrl = "https://auth.example.com/oauth2/authorize",
+                        tokenUrl = "https://auth.example.com/oauth2/token",
+                        scopes =
+                            mapOf(
+                                "read" to "Read access",
+                                "write" to "Write access",
+                            ),
+                    ),
+            )
 
         // when
         val scheme = SecuritySchemeBuilder.oauth2(metadataUrl = metadataUrl, flows = flows)
@@ -208,10 +217,11 @@ internal class SecuritySchemeBuilderTest {
 
         // then
         assertSoftly(flows) {
-            implicit shouldBe OAuth2Flow(
-                authorizationUrl = "https://auth.example.com/authorize",
-                scopes = mapOf("read" to "Read access", "write" to "Write access"),
-            )
+            implicit shouldBe
+                OAuth2Flow(
+                    authorizationUrl = "https://auth.example.com/authorize",
+                    scopes = mapOf("read" to "Read access", "write" to "Write access"),
+                )
             password shouldBe null
             clientCredentials shouldBe null
             authorizationCode shouldBe null
@@ -231,10 +241,11 @@ internal class SecuritySchemeBuilderTest {
         // then
         assertSoftly(flows) {
             implicit shouldBe null
-            password shouldBe OAuth2Flow(
-                tokenUrl = "https://auth.example.com/token",
-                scopes = mapOf("admin" to "Admin access"),
-            )
+            password shouldBe
+                OAuth2Flow(
+                    tokenUrl = "https://auth.example.com/token",
+                    scopes = mapOf("admin" to "Admin access"),
+                )
             clientCredentials shouldBe null
             authorizationCode shouldBe null
         }
@@ -254,10 +265,11 @@ internal class SecuritySchemeBuilderTest {
         assertSoftly(flows) {
             implicit shouldBe null
             password shouldBe null
-            clientCredentials shouldBe OAuth2Flow(
-                tokenUrl = "https://auth.example.com/token",
-                scopes = mapOf("api" to "API access"),
-            )
+            clientCredentials shouldBe
+                OAuth2Flow(
+                    tokenUrl = "https://auth.example.com/token",
+                    scopes = mapOf("api" to "API access"),
+                )
             authorizationCode shouldBe null
         }
     }
@@ -279,12 +291,13 @@ internal class SecuritySchemeBuilderTest {
             implicit shouldBe null
             password shouldBe null
             clientCredentials shouldBe null
-            authorizationCode shouldBe OAuth2Flow(
-                authorizationUrl = "https://auth.example.com/authorize",
-                tokenUrl = "https://auth.example.com/token",
-                refreshUrl = "https://auth.example.com/refresh",
-                scopes = mapOf("read" to "Read access", "write" to "Write access"),
-            )
+            authorizationCode shouldBe
+                OAuth2Flow(
+                    authorizationUrl = "https://auth.example.com/authorize",
+                    tokenUrl = "https://auth.example.com/token",
+                    refreshUrl = "https://auth.example.com/refresh",
+                    scopes = mapOf("read" to "Read access", "write" to "Write access"),
+                )
         }
     }
 
@@ -305,26 +318,27 @@ internal class SecuritySchemeBuilderTest {
 
         // then
         assertSoftly(flows) {
-            implicit shouldBe OAuth2Flow(
-                authorizationUrl = "https://auth.example.com/authorize",
-                scopes = mapOf("read" to "Read access"),
-            )
+            implicit shouldBe
+                OAuth2Flow(
+                    authorizationUrl = "https://auth.example.com/authorize",
+                    scopes = mapOf("read" to "Read access"),
+                )
             password shouldBe null
             clientCredentials shouldBe null
-            authorizationCode shouldBe OAuth2Flow(
-                authorizationUrl = "https://auth.example.com/authorize",
-                tokenUrl = "https://auth.example.com/token",
-                scopes = mapOf("read" to "Read access", "write" to "Write access"),
-            )
+            authorizationCode shouldBe
+                OAuth2Flow(
+                    authorizationUrl = "https://auth.example.com/authorize",
+                    tokenUrl = "https://auth.example.com/token",
+                    scopes = mapOf("read" to "Read access", "write" to "Write access"),
+                )
         }
     }
 
     @Test
     fun `should build OAuth2 flow with fluent API using authorizationUrl method`() {
         // when
-        val flow = OAuth2FlowBuilder()
-            .authorizationUrl("https://auth.example.com/authorize")
-            .build()
+        val flow =
+            OAuth2FlowBuilder().authorizationUrl("https://auth.example.com/authorize").build()
 
         // then
         assertSoftly(flow) {
@@ -338,9 +352,7 @@ internal class SecuritySchemeBuilderTest {
     @Test
     fun `should build OAuth2 flow with fluent API using tokenUrl method`() {
         // when
-        val flow = OAuth2FlowBuilder()
-            .tokenUrl("https://auth.example.com/token")
-            .build()
+        val flow = OAuth2FlowBuilder().tokenUrl("https://auth.example.com/token").build()
 
         // then
         assertSoftly(flow) {
@@ -354,9 +366,7 @@ internal class SecuritySchemeBuilderTest {
     @Test
     fun `should build OAuth2 flow with fluent API using refreshUrl method`() {
         // when
-        val flow = OAuth2FlowBuilder()
-            .refreshUrl("https://auth.example.com/refresh")
-            .build()
+        val flow = OAuth2FlowBuilder().refreshUrl("https://auth.example.com/refresh").build()
 
         // then
         assertSoftly(flow) {
@@ -373,9 +383,7 @@ internal class SecuritySchemeBuilderTest {
         val scopesMap = mapOf("read" to "Read access", "write" to "Write access")
 
         // when
-        val flow = OAuth2FlowBuilder()
-            .scopes(scopesMap)
-            .build()
+        val flow = OAuth2FlowBuilder().scopes(scopesMap).build()
 
         // then
         assertSoftly(flow) {
@@ -389,9 +397,7 @@ internal class SecuritySchemeBuilderTest {
     @Test
     fun `should build OAuth2 flow with fluent API using addScope method`() {
         // when
-        val flow = OAuth2FlowBuilder()
-            .addScope("read", "Read access")
-            .build()
+        val flow = OAuth2FlowBuilder().addScope("read", "Read access").build()
 
         // then
         assertSoftly(flow) {
@@ -405,35 +411,38 @@ internal class SecuritySchemeBuilderTest {
     @Test
     fun `should build OAuth2 flow with fluent API using multiple addScope calls`() {
         // when
-        val flow = OAuth2FlowBuilder()
-            .addScope("read", "Read access")
-            .addScope("write", "Write access")
-            .addScope("admin", "Admin access")
-            .build()
+        val flow =
+            OAuth2FlowBuilder()
+                .addScope("read", "Read access")
+                .addScope("write", "Write access")
+                .addScope("admin", "Admin access")
+                .build()
 
         // then
         assertSoftly(flow) {
             authorizationUrl shouldBe null
             tokenUrl shouldBe null
             refreshUrl shouldBe null
-            scopes shouldBe mapOf(
-                "read" to "Read access",
-                "write" to "Write access",
-                "admin" to "Admin access",
-            )
+            scopes shouldBe
+                mapOf(
+                    "read" to "Read access",
+                    "write" to "Write access",
+                    "admin" to "Admin access",
+                )
         }
     }
 
     @Test
     fun `should build complete OAuth2 flow with all fluent API methods chained`() {
         // when
-        val flow = OAuth2FlowBuilder()
-            .authorizationUrl("https://auth.example.com/authorize")
-            .tokenUrl("https://auth.example.com/token")
-            .refreshUrl("https://auth.example.com/refresh")
-            .addScope("read", "Read access")
-            .addScope("write", "Write access")
-            .build()
+        val flow =
+            OAuth2FlowBuilder()
+                .authorizationUrl("https://auth.example.com/authorize")
+                .tokenUrl("https://auth.example.com/token")
+                .refreshUrl("https://auth.example.com/refresh")
+                .addScope("read", "Read access")
+                .addScope("write", "Write access")
+                .build()
 
         // then
         assertSoftly(flow) {
@@ -445,58 +454,63 @@ internal class SecuritySchemeBuilderTest {
     }
 
     @Test
-    fun `should create OAuth2 security scheme using oauth2SecurityScheme DSL function`() {
+    fun `should create OAuth2 scheme using oauth2SecurityScheme DSL function`() {
         // when
-        val scheme = oauth2SecurityScheme(metadataUrl = "https://auth.example.com/.well-known/oauth2") {
-            authorizationCode {
-                authorizationUrl = "https://auth.example.com/oauth2/authorize"
-                tokenUrl = "https://auth.example.com/oauth2/token"
-                scopes = mapOf("read" to "Read access", "write" to "Write access")
+        val scheme =
+            oauth2SecurityScheme(metadataUrl = "https://auth.example.com/.well-known/oauth2") {
+                authorizationCode {
+                    authorizationUrl = "https://auth.example.com/oauth2/authorize"
+                    tokenUrl = "https://auth.example.com/oauth2/token"
+                    scopes = mapOf("read" to "Read access", "write" to "Write access")
+                }
             }
-        }
 
         // then
         assertSoftly(scheme) {
             shouldBeInstanceOf<OAuth2SecurityScheme>()
             type shouldBe "oauth2"
             metadataUrl shouldBe "https://auth.example.com/.well-known/oauth2"
-            flows.authorizationCode shouldBe OAuth2Flow(
-                authorizationUrl = "https://auth.example.com/oauth2/authorize",
-                tokenUrl = "https://auth.example.com/oauth2/token",
-                scopes = mapOf("read" to "Read access", "write" to "Write access"),
-            )
+            flows.authorizationCode shouldBe
+                OAuth2Flow(
+                    authorizationUrl = "https://auth.example.com/oauth2/authorize",
+                    tokenUrl = "https://auth.example.com/oauth2/token",
+                    scopes = mapOf("read" to "Read access", "write" to "Write access"),
+                )
         }
     }
 
     @Test
-    fun `should create OAuth2 security scheme using oauth2SecurityScheme DSL function without metadata URL`() {
+    fun `should create OAuth2 scheme using oauth2SecurityScheme DSL without metadata URL`() {
         // when
-        val scheme = oauth2SecurityScheme {
-            implicit {
-                authorizationUrl = "https://auth.example.com/authorize"
-                scopes = mapOf("read" to "Read access")
+        val scheme =
+            oauth2SecurityScheme {
+                implicit {
+                    authorizationUrl = "https://auth.example.com/authorize"
+                    scopes = mapOf("read" to "Read access")
+                }
             }
-        }
 
         // then
         assertSoftly(scheme) {
             shouldBeInstanceOf<OAuth2SecurityScheme>()
             type shouldBe "oauth2"
             metadataUrl shouldBe null
-            flows.implicit shouldBe OAuth2Flow(
-                authorizationUrl = "https://auth.example.com/authorize",
-                scopes = mapOf("read" to "Read access"),
-            )
+            flows.implicit shouldBe
+                OAuth2Flow(
+                    authorizationUrl = "https://auth.example.com/authorize",
+                    scopes = mapOf("read" to "Read access"),
+                )
         }
     }
 
     @Test
     fun `should override scopes when using both scopes and addScope methods`() {
         // when
-        val flow = OAuth2FlowBuilder()
-            .scopes(mapOf("read" to "Read access"))
-            .addScope("write", "Write access")
-            .build()
+        val flow =
+            OAuth2FlowBuilder()
+                .scopes(mapOf("read" to "Read access"))
+                .addScope("write", "Write access")
+                .build()
 
         // then
         assertSoftly(flow) {
