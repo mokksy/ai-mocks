@@ -93,6 +93,8 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: mokksy/ai-mocks
+          directory: ./build/reports/kover
+          files: report.xml
 
 
   knit:
