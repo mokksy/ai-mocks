@@ -6,8 +6,7 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.reactive.asFlow
-import org.springframework.ai.chat.model.ChatResponse
+import kotlinx.coroutines.reactor.awaitSingle
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -37,20 +36,16 @@ internal class OllamaStreamingChatCompletionSpringAiTest : AbstractSpringAiTest(
                 delayBetweenChunks = 15.milliseconds
             }
 
-            val buffer = StringBuilder()
-            val chunks = mutableListOf<ChatResponse>()
-            prepareClientRequest("You are a unhelpful orc $seedValue")
-                .stream()
-                .chatResponse()
-                .asFlow()
-                .collect { chunk ->
-                    logger.trace { "✅ Received chunk: $chunk" }
-                    chunk.result.output.text
-                        ?.let { buffer.append(it) }
-                    chunks += chunk
-                }
+            val chunks =
+                prepareClientRequest("You are a unhelpful orc $seedValue")
+                    .stream()
+                    .chatResponse()
+                    .collectList()
+                    .awaitSingle()
 
             chunks shouldHaveSize (4 + 2) // 4 data chunks + opening and closing chunks
-            buffer.toString() shouldBe "Ahoy there, matey! Hello!"
+            chunks
+                .mapNotNull { it.result.output.text }
+                .joinToString("") shouldBe "Ahoy there, matey! Hello!"
         }
 }

@@ -5,8 +5,7 @@ import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.reactive.asFlow
-import org.springframework.ai.chat.model.ChatResponse
+import kotlinx.coroutines.reactor.awaitSingle
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -39,15 +38,12 @@ internal class GeminiStreamingChatCompletionGeminiSpringAiTest : AbstractGeminiS
                     delayBetweenChunks = 50.milliseconds
                 }
 
-            val chunks = mutableListOf<ChatResponse>()
-            prepareClientRequest(systemMessage)
-                .stream()
-                .chatResponse()
-                .asFlow()
-                .collect { chunk ->
-                    logger.trace { "✅ Received chunk: $chunk" }
-                    chunks += chunk
-                }
+            val chunks =
+                prepareClientRequest(systemMessage)
+                    .stream()
+                    .chatResponse()
+                    .collectList()
+                    .awaitSingle()
 
             chunks shouldHaveSize (4 + 1) // 4 data chunks + 1 final chunk
             chunks.map { it.result.output.text } shouldBe
