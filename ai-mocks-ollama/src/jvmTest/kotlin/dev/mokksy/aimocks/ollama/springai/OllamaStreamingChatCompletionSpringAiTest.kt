@@ -1,17 +1,17 @@
 package dev.mokksy.aimocks.ollama.springai
 
 import dev.mokksy.aimocks.ollama.mockOllama
+import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import kotlin.test.Test
+import kotlinx.coroutines.reactor.awaitSingle
+import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
-import kotlin.time.toJavaDuration
 
-internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
+internal class OllamaStreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
     @Test
-    fun `Should respond with stream to Chat Completion`() {
+    suspend fun `Should respond with stream to Chat Completion`() {
         mockOllama.chat {
             temperature = temperatureValue
             seed = seedValue
@@ -34,22 +34,16 @@ internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
             delayBetweenChunks = 15.milliseconds
         }
 
-        val buffer = StringBuffer()
-        val chunkCount =
+        val chunks =
             prepareClientRequest("You are a unhelpful orc $seedValue")
                 .stream()
                 .chatResponse()
-                .doOnNext { chatResponse ->
-                    chatResponse.result.output.text?.let {
-                        buffer.append(it)
-                    }
-                }.count()
-                .checkpoint("StreamingChatCompletion stream")
-                .doOnError {
-                    logger.error(it) { "Error receiving a stream" }
-                }.block(5.seconds.toJavaDuration())
+                .collectList()
+                .awaitSingle()
 
-        chunkCount shouldBe 4 + 2L // 4 data chunks + opening and closing chunks
-        buffer.toString() shouldBe "Ahoy there, matey! Hello!"
+        chunks shouldHaveSize (4 + 2) // 4 data chunks + opening and closing chunks
+        chunks
+            .mapNotNull { it.result.output.text }
+            .joinToString("") shouldBe "Ahoy there, matey! Hello!"
     }
 }

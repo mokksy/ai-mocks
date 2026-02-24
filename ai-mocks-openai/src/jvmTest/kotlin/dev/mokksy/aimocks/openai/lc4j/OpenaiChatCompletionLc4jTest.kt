@@ -13,7 +13,7 @@ import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
-internal class ChatCompletionLc4jTest : AbstractMockOpenaiTest() {
+internal class OpenaiChatCompletionLc4jTest : AbstractMockOpenaiTest() {
     private val model: OpenAiChatModel =
         OpenAiChatModel
             .builder()

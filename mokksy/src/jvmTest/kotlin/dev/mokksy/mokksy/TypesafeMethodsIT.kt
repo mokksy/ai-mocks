@@ -3,7 +3,6 @@ package dev.mokksy.mokksy
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import dev.mokksy.mokksy.request.RequestSpecificationBuilder
-import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.get
@@ -45,77 +44,70 @@ internal class TypesafeMethodsIT : AbstractIT() {
             "GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS",
         ],
     )
-    fun `Should respond to Method`(methodName: String) =
-        runIntegrationTest {
-            val method = HttpMethod.parse(methodName)
-            doTestCallMethod(method) {
-                mokksy.method(name, method, TestPerson::class, it)
-            }
+    suspend fun `Should respond to Method`(methodName: String) {
+        val method = HttpMethod.parse(methodName)
+        doTestCallMethod(method) {
+            mokksy.method(name, method, TestPerson::class, it)
         }
+    }
 
     @Test
-    fun `Should respond to GET`() =
-        runIntegrationTest {
-            doTestCallMethod(
-                HttpMethod.Get,
-            ) { mokksy.get(name, TestPerson::class, it) }
-        }
+    suspend fun `Should respond to GET`() {
+        doTestCallMethod(
+            HttpMethod.Get,
+        ) { mokksy.get(name, TestPerson::class, it) }
+    }
 
     @Test
-    fun `Should respond to OPTIONS`() =
-        runIntegrationTest {
-            doTestCallMethod(
-                HttpMethod.Options,
-            ) { mokksy.options(name, TestPerson::class, it) }
-        }
+    suspend fun `Should respond to OPTIONS`() {
+        doTestCallMethod(
+            HttpMethod.Options,
+        ) { mokksy.options(name, TestPerson::class, it) }
+    }
 
     @Test
-    fun `Should respond to PUT`() =
-        runIntegrationTest {
-            doTestCallMethod(HttpMethod.Put) {
-                mokksy.put(
-                    name,
-                    TestPerson::class,
-                    it,
-                )
-            }
+    suspend fun `Should respond to PUT`() {
+        doTestCallMethod(HttpMethod.Put) {
+            mokksy.put(
+                name,
+                TestPerson::class,
+                it,
+            )
         }
+    }
 
     @Test
-    fun `Should respond to PATCH`() =
-        runIntegrationTest {
-            doTestCallMethod(HttpMethod.Patch) {
-                mokksy.patch(
-                    name,
-                    TestPerson::class,
-                    it,
-                )
-            }
+    suspend fun `Should respond to PATCH`() {
+        doTestCallMethod(HttpMethod.Patch) {
+            mokksy.patch(
+                name,
+                TestPerson::class,
+                it,
+            )
         }
+    }
 
     @Test
-    fun `Should respond to DELETE`() =
-        runIntegrationTest {
-            doTestCallMethod(HttpMethod.Delete) {
-                mokksy.delete(
-                    name,
-                    TestPerson::class,
-                    it,
-                )
-            }
+    suspend fun `Should respond to DELETE`() {
+        doTestCallMethod(HttpMethod.Delete) {
+            mokksy.delete(
+                name,
+                TestPerson::class,
+                it,
+            )
         }
+    }
 
     @Test
-    fun `Should respond to HEAD`() =
-        runIntegrationTest {
-            doTestCallMethod(HttpMethod.Head) {
-                mokksy.head(
-                    name,
-                    TestPerson::class,
-                    it,
-                )
-            }
+    suspend fun `Should respond to HEAD`() {
+        doTestCallMethod(HttpMethod.Head) {
+            mokksy.head(
+                name,
+                TestPerson::class,
+                it,
+            )
         }
+    }
 
     private suspend fun <P : Any> doTestCallMethod(
         method: HttpMethod,
@@ -166,79 +158,76 @@ internal class TypesafeMethodsIT : AbstractIT() {
     }
 
     @Test
-    fun `Should respond 404 to unknown request`() =
-        runIntegrationTest {
-            // when
-            val result = client.get("/unknown")
+    suspend fun `Should respond 404 to unknown request`() {
+        // when
+        val result = client.get("/unknown")
 
-            // then
-            assertThat(result.status).isEqualTo(HttpStatusCode.NotFound)
-        }
-
-    @Test
-    fun `Should respond 404 to unmatched headers`() =
-        runIntegrationTest {
-            val uri = "/unmatched-headers"
-            mokksy
-                .get {
-                    path = beEqual(uri)
-                    this.containsHeader("Foo", "bar")
-                }.respondsWith(String::class) {
-                    fail("✋🛑 Should not be called")
-                }
-            // when
-            val result = client.get(uri)
-
-            // then
-            result.status shouldBe HttpStatusCode.NotFound
-        }
+        // then
+        assertThat(result.status).isEqualTo(HttpStatusCode.NotFound)
+    }
 
     @Test
-    fun `Should respond to POST`(): Unit =
-        runIntegrationTest {
-            // given
-            val id = Random.nextInt()
-            val expectedResponse =
-                // language=json
-                """
-                {
-                    "id": "$id",
-                    "name": "thing-$id"
-                }
-                """.trimIndent()
+    suspend fun `Should respond 404 to unmatched headers`() {
+        val uri = "/unmatched-headers"
+        mokksy
+            .get {
+                path = beEqual(uri)
+                this.containsHeader("Foo", "bar")
+            }.respondsWith(String::class) {
+                fail("✋🛑 Should not be called")
+            }
+        // when
+        val result = client.get(uri)
 
-            mokksy
-                .post(name = "post", Input::class) {
-                    path = beEqual("/things")
-                    bodyContains("$id")
-                }.respondsWith(String::class) {
-                    body = expectedResponse
-                    httpStatus = HttpStatusCode.Created
-                    headers {
-                        // type-safe builder style
-                        append(HttpHeaders.Location, "/things/$id")
+        // then
+        result.status shouldBe HttpStatusCode.NotFound
+    }
+
+    @Test
+    suspend fun `Should respond to POST`() {
+        // given
+        val id = Random.nextInt()
+        val expectedResponse =
+            // language=json
+            """
+            {
+                "id": "$id",
+                "name": "thing-$id"
+            }
+            """.trimIndent()
+
+        mokksy
+            .post(name = "post", Input::class) {
+                path = beEqual("/things")
+                bodyContains("$id")
+            }.respondsWith(String::class) {
+                body = expectedResponse
+                httpStatus = HttpStatusCode.Created
+                headers {
+                    // type-safe builder style
+                    append(HttpHeaders.Location, "/things/$id")
+                }
+                headers += "Foo" to "bar" // list style
+            }
+
+        // when
+        val result =
+            client.post("/things") {
+                contentType(ContentType.Application.Json)
+                setBody(
+                    // language=json
+                    """
+                    {
+                        "name": "the thing: $id"
                     }
-                    headers += "Foo" to "bar" // list style
-                }
+                    """.trimIndent(),
+                )
+            }
 
-            // when
-            val result =
-                client.post("/things") {
-                    contentType(ContentType.Application.Json)
-                    setBody(
-                        // language=json
-                        """
-                        {
-                            "name": "the thing: $id"
-                        }
-                        """.trimIndent(),
-                    )
-                }
-
-            // then
-            result.status shouldBe HttpStatusCode.Created
-            result.bodyAsText() shouldBe expectedResponse
-            result.headers["Location"] shouldBe "/things/$id"
-            result.headers["Foo"] shouldBe "bar"
-        }
+        // then
+        result.status shouldBe HttpStatusCode.Created
+        result.bodyAsText() shouldBe expectedResponse
+        result.headers["Location"] shouldBe "/things/$id"
+        result.headers["Foo"] shouldBe "bar"
+    }
 }

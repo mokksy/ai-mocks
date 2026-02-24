@@ -50,6 +50,7 @@ kotlin {
                 implementation(libs.langchain4j.kotlin)
                 implementation(libs.langchain4j.ollama)
 
+                implementation(libs.kotlinx.coroutines.reactor)
                 implementation(libs.spring.ai.client.chat)
                 implementation(libs.spring.ai.ollama)
 

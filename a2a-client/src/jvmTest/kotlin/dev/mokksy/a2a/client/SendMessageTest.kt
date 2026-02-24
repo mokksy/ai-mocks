@@ -4,9 +4,8 @@ import dev.mokksy.aimocks.a2a.model.Message
 import dev.mokksy.aimocks.a2a.model.SendMessageResponse
 import dev.mokksy.aimocks.a2a.model.Task
 import dev.mokksy.aimocks.a2a.model.create
-import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 
 internal class SendMessageTest : AbstractTest() {
     /**
@@ -14,49 +13,48 @@ internal class SendMessageTest : AbstractTest() {
      */
     @Test
     @Suppress("LongMethod")
-    fun `Should send task`() =
-        runIntegrationTest {
-            val task =
-                Task.create {
-                    id = "tid_12345"
-                    contextId = "ctx_12345"
-                    status {
-                        state = "completed"
-                    }
-                    artifacts +=
-                        artifact {
-                            name = "joke"
-                            parts +=
-                                textPart {
-                                    text = "This is a joke"
-                                }
-                        }
+    suspend fun `Should send task`() {
+        val task =
+            Task.create {
+                id = "tid_12345"
+                contextId = "ctx_12345"
+                status {
+                    state = "completed"
                 }
-
-            val reply =
-                SendMessageResponse(
-                    id = 1,
-                    result = task,
-                )
-
-            a2aServer.sendMessage() responds {
-                id = 1
-                result = task
-            }
-
-            val taskParams =
-                dev.mokksy.aimocks.a2a.model.MessageSendParams.create {
-                    message {
-                        role = Message.Role.user
+                artifacts +=
+                    artifact {
+                        name = "joke"
                         parts +=
                             textPart {
-                                text = "Tell me a joke"
+                                text = "This is a joke"
                             }
                     }
-                }
+            }
 
-            val payload = client.sendMessage(taskParams)
-            logger.info { "response = $payload" }
-            payload shouldBeEqualToComparingFields reply
+        val reply =
+            SendMessageResponse(
+                id = 1,
+                result = task,
+            )
+
+        a2aServer.sendMessage() responds {
+            id = 1
+            result = task
         }
+
+        val taskParams =
+            dev.mokksy.aimocks.a2a.model.MessageSendParams.create {
+                message {
+                    role = Message.Role.user
+                    parts +=
+                        textPart {
+                            text = "Tell me a joke"
+                        }
+                }
+            }
+
+        val payload = client.sendMessage(taskParams)
+        logger.info { "response = $payload" }
+        payload shouldBeEqualToComparingFields reply
+    }
 }

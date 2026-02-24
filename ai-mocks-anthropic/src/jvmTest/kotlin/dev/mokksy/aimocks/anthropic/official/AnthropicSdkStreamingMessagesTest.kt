@@ -3,7 +3,6 @@ package dev.mokksy.aimocks.anthropic.official
 import com.anthropic.models.messages.MessageCreateParams
 import com.anthropic.models.messages.Metadata
 import dev.mokksy.aimocks.anthropic.anthropic
-import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.collections.shouldContainExactly
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.buffer
@@ -14,60 +13,58 @@ import kotlin.time.Duration.Companion.seconds
 
 internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
     @Test
-    fun `Should respond to Streaming Messages Completion with chunk list`() =
-        runIntegrationTest {
-            val tokens = listOf("All", " we", " need", " is", " Love")
-            anthropic.messages("openai-completions-list") {
-                temperature = temperatureValue
-                model = modelName
-                userId = userIdValue
-            } respondsStream {
-                responseChunks = tokens
-                delay = 50.milliseconds
-                delayBetweenChunks = 10.milliseconds
-                stopReason = "end_turn"
-            }
-
-            verifyStreamingCall(tokens)
+    fun `Should respond to Streaming Messages Completion with chunk list`() {
+        val tokens = listOf("All", " we", " need", " is", " Love")
+        anthropic.messages("openai-completions-list") {
+            temperature = temperatureValue
+            model = modelName
+            userId = userIdValue
+        } respondsStream {
+            responseChunks = tokens
+            delay = 50.milliseconds
+            delayBetweenChunks = 10.milliseconds
+            stopReason = "end_turn"
         }
+
+        verifyStreamingCall(tokens)
+    }
 
     @Test
-    fun `Should respond to Streaming Chat Completion with Flow`() =
-        runIntegrationTest {
-            val tokens =
-                listOf(
-                    "What",
-                    " we",
-                    " need",
-                    " is",
-                    " a",
-                    " revolution",
-                    " of",
-                    " love,",
-                    " $seedValue,",
-                    " understanding,",
-                    " and",
-                    " social",
-                    " change.",
-                    " ✌️☮️🪷",
-                )
-            anthropic.messages("openai-completions-flow") {
-                temperature = temperatureValue
-                model = modelName
-                userId = userIdValue
-                systemMessageContains(seedValue)
-            } respondsStream {
-                responseFlow =
-                    flow {
-                        tokens.forEach { emit(it) }
-                    }.buffer(Channel.UNLIMITED)
-                delay = 60.milliseconds
-                delayBetweenChunks = 1.seconds
-                stopReason = "end_turn"
-            }
-
-            verifyStreamingCall(tokens)
+    fun `Should respond to Streaming Chat Completion with Flow`() {
+        val tokens =
+            listOf(
+                "What",
+                " we",
+                " need",
+                " is",
+                " a",
+                " revolution",
+                " of",
+                " love,",
+                " $seedValue,",
+                " understanding,",
+                " and",
+                " social",
+                " change.",
+                " ✌️☮️🪷",
+            )
+        anthropic.messages("openai-completions-flow") {
+            temperature = temperatureValue
+            model = modelName
+            userId = userIdValue
+            systemMessageContains(seedValue)
+        } respondsStream {
+            responseFlow =
+                flow {
+                    tokens.forEach { emit(it) }
+                }.buffer(Channel.UNLIMITED)
+            delay = 60.milliseconds
+            delayBetweenChunks = 1.seconds
+            stopReason = "end_turn"
         }
+
+        verifyStreamingCall(tokens)
+    }
 
     private fun verifyStreamingCall(tokens: List<String>) {
         val params =

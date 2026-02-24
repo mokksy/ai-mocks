@@ -7,7 +7,7 @@ import org.springframework.ai.chat.model.ChatResponse
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
-internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
+internal class GeminiChatCompletionSpringAiTest : AbstractGeminiSpringAiTest() {
     @Test
     fun `Should respond to generateContent`() {
         val systemMessage = "You are a helpful pirate. $seedValue"

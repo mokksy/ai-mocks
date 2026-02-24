@@ -11,6 +11,8 @@ import kotlin.time.Duration.Companion.seconds
  * This function runs the provided suspend block in a coroutine with a fixed timeout of 15 seconds.
  * It is typically used to execute integration tests that need to be completed within a specified time limit.
  *
+ * Use it as a last resort to run suspend function tests on non-JVM platforms.
+ *
  * @param timeout The duration after which the test will time out. Defaults to 10 seconds.
  * @param block A suspend lambda function representing the integration test to be executed.
  *          The test logic should be placed inside this block.

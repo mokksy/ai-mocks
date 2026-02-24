@@ -10,7 +10,6 @@ import dev.mokksy.aimocks.a2a.model.agentCardSignature
 import dev.mokksy.aimocks.a2a.model.agentSkill
 import dev.mokksy.aimocks.a2a.model.getAuthenticatedExtendedCardRequest
 import dev.mokksy.aimocks.a2a.model.invalidParamsError
-import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
 import io.ktor.client.call.body
@@ -19,8 +18,7 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kotlinx.coroutines.runBlocking
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 
 @Suppress("LongMethod")
 internal class GetAuthenticatedExtendedCardIT : AbstractIT() {
@@ -28,38 +26,37 @@ internal class GetAuthenticatedExtendedCardIT : AbstractIT() {
      * https://a2a-protocol.org/latest/specification/#710-agentgetauthenticatedextendedcard
      */
     @Test
-    fun `Should get authenticated extended agent card`() =
-        runIntegrationTest {
-            val agentCard =
-                AgentCard(
-                    name = "Test Agent",
-                    description = "Test Agent Description",
-                    url = "https://example.com/agent",
-                    provider =
-                        AgentProvider(
-                            organization = "Test Organization",
-                            url = "https://example.com/organization",
-                        ),
-                    version = "1.0.0",
-                    documentationUrl = "https://example.com/docs",
-                    capabilities =
-                        agentCapabilities {
-                            streaming = true
-                            pushNotifications = true
+    suspend fun `Should get authenticated extended agent card`() {
+        val agentCard =
+            AgentCard(
+                name = "Test Agent",
+                description = "Test Agent Description",
+                url = "https://example.com/agent",
+                provider =
+                    AgentProvider(
+                        organization = "Test Organization",
+                        url = "https://example.com/organization",
+                    ),
+                version = "1.0.0",
+                documentationUrl = "https://example.com/docs",
+                capabilities =
+                    agentCapabilities {
+                        streaming = true
+                        pushNotifications = true
+                    },
+                defaultInputModes = listOf("text", "voice"),
+                defaultOutputModes = listOf("text", "audio"),
+                skills =
+                    listOf(
+                        agentSkill {
+                            id = "test-skill"
+                            name = "Test Skill"
+                            description = "A test skill for demonstration"
+                            tags = listOf("test")
                         },
-
-                    defaultInputModes = listOf("text", "voice"),
-                    defaultOutputModes = listOf("text", "audio"),
-                    skills =
-                        listOf(
-                            agentSkill {
-                                id = "test-skill"
-                                name = "Test Skill"
-                                description = "A test skill for demonstration"
-                                tags = listOf("test")
-                            },
-                        ),
-                    signatures = listOf(
+                    ),
+                signatures =
+                    listOf(
                         agentCardSignature {
                             header = Data.of("a" to "b", "foo" to 42)
                             protectedHeader = "e30"
@@ -70,71 +67,70 @@ internal class GetAuthenticatedExtendedCardIT : AbstractIT() {
                             signature = "sig2"
                         },
                     ),
-                    supportsAuthenticatedExtendedCard = true,
-                )
+                supportsAuthenticatedExtendedCard = true,
+            )
 
-            a2aServer.getAuthenticatedExtendedCard() responds {
-                id = 1
-                result = agentCard
-            }
-
-            val response =
-                a2aClient
-                    .post("/") {
-                        val jsonRpcRequest =
-                            getAuthenticatedExtendedCardRequest {
-                                id = "1"
-                            }
-                        contentType(ContentType.Application.Json)
-                        setBody(jsonRpcRequest)
-                    }.call
-                    .response
-
-            response.status shouldBe HttpStatusCode.OK
-            val payload = response.body<GetAuthenticatedExtendedCardResponse>()
-
-            val expectedReply =
-                GetAuthenticatedExtendedCardResponse(
-                    id = 1,
-                    result = agentCard,
-                )
-            payload shouldBeEqualToComparingFields expectedReply
+        a2aServer.getAuthenticatedExtendedCard() responds {
+            id = 1
+            result = agentCard
         }
 
+        val response =
+            a2aClient
+                .post("/") {
+                    val jsonRpcRequest =
+                        getAuthenticatedExtendedCardRequest {
+                            id = "1"
+                        }
+                    contentType(ContentType.Application.Json)
+                    setBody(jsonRpcRequest)
+                }.call
+                .response
+
+        response.status shouldBe HttpStatusCode.OK
+        val payload = response.body<GetAuthenticatedExtendedCardResponse>()
+
+        val expectedReply =
+            GetAuthenticatedExtendedCardResponse(
+                id = 1,
+                result = agentCard,
+            )
+        payload shouldBeEqualToComparingFields expectedReply
+    }
+
     @Test
-    fun `Should fail to get authenticated extended agent card`() =
-        runBlocking {
-            a2aServer.getAuthenticatedExtendedCard() responds {
-                id = 1
+    suspend fun `Should fail to get authenticated extended agent card`() {
+        a2aServer.getAuthenticatedExtendedCard() responds {
+            id = 1
+            error =
+                invalidParamsError {
+                    message = "Authenticated Extended Card not configured"
+                }
+        }
+
+        val response =
+            a2aClient
+                .post("/") {
+                    val jsonRpcRequest =
+                        GetAuthenticatedExtendedCardRequest(
+                            id = "1",
+                        )
+                    contentType(ContentType.Application.Json)
+                    setBody(jsonRpcRequest)
+                }.call
+                .response
+
+        response.status shouldBe HttpStatusCode.OK
+        val payload = response.body<GetAuthenticatedExtendedCardResponse>()
+
+        val expectedReply =
+            GetAuthenticatedExtendedCardResponse(
+                id = 1,
                 error =
                     invalidParamsError {
                         message = "Authenticated Extended Card not configured"
-                    }
-            }
-
-            val response =
-                a2aClient
-                    .post("/") {
-                        val jsonRpcRequest =
-                            GetAuthenticatedExtendedCardRequest(
-                                id = "1",
-                            )
-                        contentType(ContentType.Application.Json)
-                        setBody(jsonRpcRequest)
-                    }.call
-                    .response
-
-            response.status shouldBe HttpStatusCode.OK
-            val payload = response.body<GetAuthenticatedExtendedCardResponse>()
-
-            val expectedReply =
-                GetAuthenticatedExtendedCardResponse(
-                    id = 1,
-                    error =
-                        invalidParamsError {
-                            message = "Authenticated Extended Card not configured"
-                        },
-                )
-            payload shouldBeEqualToComparingFields expectedReply
-        }
+                    },
+            )
+        payload shouldBeEqualToComparingFields expectedReply
+    }
 }

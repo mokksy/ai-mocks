@@ -3,7 +3,6 @@ package dev.mokksy.mokksy.jackson
 import dev.mokksy.mokksy.AbstractIT
 import dev.mokksy.mokksy.MokksyServer
 import dev.mokksy.mokksy.ServerConfiguration
-import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.shouldBe
 import io.ktor.client.HttpClient
@@ -44,29 +43,28 @@ internal class JacksonSerializationIT : AbstractIT() {
         }
 
     @Test
-    fun `Should respond to POST with Jackson`() =
-        runIntegrationTest {
-            mokksyWithJackson
-                .post(
-                    requestType = JacksonInput::class,
-                ) {
-                    path = beEqual("/jackson-$seed")
-                }.respondsWith(JacksonOutput::class) {
-                    val input = request.body()
-                    body = JacksonOutput("Hello, ${input.name}")
-                }
+    suspend fun `Should respond to POST with Jackson`() {
+        mokksyWithJackson
+            .post(
+                requestType = JacksonInput::class,
+            ) {
+                path = beEqual("/jackson-$seed")
+            }.respondsWith(JacksonOutput::class) {
+                val input = request.body()
+                body = JacksonOutput("Hello, ${input.name}")
+            }
 
-            val result =
-                jacksonClient.post("/jackson-$seed") {
-                    contentType(ContentType.Application.Json)
-                    setBody(JacksonInput("Bob"))
-                }
-            result.status shouldBe HttpStatusCode.OK
+        val result =
+            jacksonClient.post("/jackson-$seed") {
+                contentType(ContentType.Application.Json)
+                setBody(JacksonInput("Bob"))
+            }
+        result.status shouldBe HttpStatusCode.OK
 
-            result.bodyAsText() shouldBe
-                // language=json
-                """
-                {"pikka-hi":"Hello, Bob"}
-                """.trimIndent()
-        }
+        result.bodyAsText() shouldBe
+            // language=json
+            """
+            {"pikka-hi":"Hello, Bob"}
+            """.trimIndent()
+    }
 }

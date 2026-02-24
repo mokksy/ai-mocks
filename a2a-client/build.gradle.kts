@@ -40,6 +40,7 @@ kotlin {
 
         jvmTest {
             dependencies {
+                implementation(libs.junit.jupiter.params)
                 implementation(libs.ktor.client.java)
                 implementation(libs.kotlinx.coroutines.core.jvm)
                 implementation(libs.assertj.core)

@@ -2,17 +2,17 @@ package dev.mokksy.aimocks.openai.springai
 
 import dev.mokksy.aimocks.openai.ChatCompletionRequest
 import dev.mokksy.aimocks.openai.openai
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.beOfType
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import kotlin.test.Test
+import kotlinx.coroutines.reactor.awaitSingle
+import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
-import kotlin.time.toJavaDuration
 
-internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
+internal class OpenaiChatCompletionSpringAiTest : AbstractSpringAiTest() {
     @Test
     fun `Should respond to Chat Completion`() {
         openai.completion {
@@ -35,15 +35,14 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
                 .call()
                 .chatResponse()
 
-        response?.result shouldNotBe null
-        response?.result?.apply {
+        response?.result shouldNotBeNull {
             metadata.finishReason shouldBe "STOP"
             output.text shouldBe "Hello there! Welcome to our shop! How can I assist you today?"
         }
     }
 
     @Test
-    fun `Should respond with stream to Chat Completion`() {
+    suspend fun `Should respond with stream to Chat Completion`() {
         openai.completion {
             temperature = temperatureValue
             seed = seedValue
@@ -69,19 +68,16 @@ internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
             finishReason = "stop"
         }
 
-        val buffer = StringBuffer()
-        val chunkCount =
+        val chunks =
             prepareClientRequest("You are a helpful pirate")
                 .stream()
                 .chatResponse()
-                .doOnNext { chunk ->
-                    chunk.result.output.text?.let {
-                        buffer.append(it)
-                    }
-                }.count()
-                .block(5.seconds.toJavaDuration())
+                .collectList()
+                .awaitSingle()
 
-        chunkCount shouldBe 4 + 2L // 4 data chunks + opening and closing chunks
-        buffer.toString() shouldBe "Ahoy there, matey! Hello!"
+        chunks shouldHaveSize (4 + 2) // 4 data chunks + opening and closing chunks
+        chunks
+            .mapNotNull { it.result.output.text }
+            .joinToString("") shouldBe "Ahoy there, matey! Hello!"
     }
 }
