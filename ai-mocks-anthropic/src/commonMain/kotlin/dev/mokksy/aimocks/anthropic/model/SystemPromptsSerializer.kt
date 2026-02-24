@@ -9,6 +9,7 @@ import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.JsonEncoder
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
 
@@ -48,6 +49,18 @@ public class SystemPromptsSerializer : KSerializer<List<MessageCreateParams.Syst
         encoder: Encoder,
         value: List<MessageCreateParams.SystemPrompt>,
     ) {
-        TODO("Not implemented")
+        val jsonEncoder =
+            encoder as? JsonEncoder
+                ?: throw SerializationException("This serializer can only be used with JSON")
+        val jsonArray =
+            JsonArray(
+                value.map {
+                    Json.encodeToJsonElement(
+                        MessageCreateParams.SystemPrompt.serializer(),
+                        it,
+                    )
+                },
+            )
+        jsonEncoder.encodeJsonElement(jsonArray)
     }
 }
