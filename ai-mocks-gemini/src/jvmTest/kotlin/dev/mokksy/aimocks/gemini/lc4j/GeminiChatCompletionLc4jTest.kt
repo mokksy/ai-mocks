@@ -10,7 +10,7 @@ import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
-internal class ChatCompletionLc4jTest : AbstractMockGeminiTest() {
+internal class GeminiChatCompletionLc4jTest : AbstractMockGeminiTest() {
     private val model: GoogleAiGeminiChatModel
 
     init {

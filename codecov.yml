@@ -1,0 +1,70 @@
+# Codecov configuration for Mokksy and AI-Mocks
+# https://docs.codecov.com/docs/codecov-yaml
+
+codecov:
+  require_ci_to_pass: yes
+
+coverage:
+  precision: 2
+  round: down
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+    patch:
+      default:
+        target: auto
+        threshold: 1%
+
+comment:
+  layout: "header, diff, flags, components"
+  behavior: default
+  require_changes: true
+
+component_management:
+  default_rules:
+    statuses:
+      - type: project
+        target: auto
+  individual_components:
+    - component_id: mokksy
+      name: Mokksy (HTTP Mock Server)
+      paths:
+        - mokksy/**
+    - component_id: ai-mocks-core
+      name: AI-Mocks Core
+      paths:
+        - ai-mocks-core/**
+    - component_id: ai-mocks-openai
+      name: AI-Mocks OpenAI
+      paths:
+        - ai-mocks-openai/**
+    - component_id: ai-mocks-anthropic
+      name: AI-Mocks Anthropic
+      paths:
+        - ai-mocks-anthropic/**
+    - component_id: ai-mocks-gemini
+      name: AI-Mocks Gemini
+      paths:
+        - ai-mocks-gemini/**
+    - component_id: ai-mocks-ollama
+      name: AI-Mocks Ollama
+      paths:
+        - ai-mocks-ollama/**
+    - component_id: ai-mocks-a2a
+      name: AI-Mocks A2A
+      paths:
+        - ai-mocks-a2a/**
+    - component_id: ai-mocks-a2a-models
+      name: AI-Mocks A2A Models
+      paths:
+        - ai-mocks-a2a-models/**
+    - component_id: a2a-client
+      name: A2A Client
+      paths:
+        - a2a-client/**
+    - component_id: test-utils
+      name: Test Utilities
+      paths:
+        - test-utils/**

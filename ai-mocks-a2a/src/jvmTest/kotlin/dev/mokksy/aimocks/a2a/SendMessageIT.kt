@@ -6,7 +6,6 @@ import dev.mokksy.aimocks.a2a.model.Task
 import dev.mokksy.aimocks.a2a.model.create
 import dev.mokksy.aimocks.a2a.model.invalidRequestError
 import dev.mokksy.aimocks.a2a.model.sendMessageRequest
-import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
 import io.ktor.client.call.body
@@ -16,9 +15,8 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.utils.io.core.toByteArray
-import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.Test
 import java.util.UUID
-import kotlin.test.Test
 
 internal class SendMessageIT : AbstractIT() {
     /**
@@ -26,10 +24,24 @@ internal class SendMessageIT : AbstractIT() {
      */
     @Test
     @Suppress("LongMethod")
-    fun `Should send message`() =
-        runIntegrationTest {
-            val task =
-                Task.create {
+    suspend fun `Should send message`() {
+        val task =
+            Task.create {
+                id = "tid_12345"
+                contextId = "ctx_12345"
+                status {
+                    state = "completed"
+                }
+                artifact {
+                    name = "joke"
+                    parts += text { "This is a joke" }
+                }
+            }
+
+        val reply =
+            SendMessageResponse.create {
+                id = 1
+                result {
                     id = "tid_12345"
                     contextId = "ctx_12345"
                     status {
@@ -38,101 +50,85 @@ internal class SendMessageIT : AbstractIT() {
                     artifact {
                         name = "joke"
                         parts += text { "This is a joke" }
+                        parts += file { uri = "https://example.com/readme.md" }
+                        parts += file { bytes = "1234".toByteArray() }
+                        parts += data { mapOf("foo" to "bar") }
                     }
                 }
-
-            val reply =
-                SendMessageResponse.create {
-                    id = 1
-                    result {
-                        id = "tid_12345"
-                        contextId = "ctx_12345"
-                        status {
-                            state = "completed"
-                        }
-                        artifact {
-                            name = "joke"
-                            parts += text { "This is a joke" }
-                            parts += file { uri = "https://example.com/readme.md" }
-                            parts += file { bytes = "1234".toByteArray() }
-                            parts += data { mapOf("foo" to "bar") }
-                        }
-                    }
-                }
-
-            a2aServer.sendMessage() responds {
-                id = 1
-                result = task
             }
 
-            val response =
-                a2aClient
-                    .post("/") {
-                        val jsonRpcRequest =
-                            sendMessageRequest {
-                                id = "1"
-                                params {
-                                    id = UUID.randomUUID().toString()
-                                    message {
-                                        role = Message.Role.user
-                                        parts += text { "Tell me a joke" }
-                                        parts += file { uri = "https://example.com/readme.md" }
-                                        parts += file { bytes = "1234".toByteArray() }
-                                        parts += data { mapOf("foo" to "bar") }
-                                    }
-                                }
-                            }
-                        contentType(ContentType.Application.Json)
-                        setBody(jsonRpcRequest)
-                    }.call
-                    .response
-
-            response.status shouldBe HttpStatusCode.OK
-            val payload = response.body<SendMessageResponse>()
-            payload shouldBeEqualToComparingFields reply
+        a2aServer.sendMessage() responds {
+            id = 1
+            result = task
         }
 
+        val response =
+            a2aClient
+                .post("/") {
+                    val jsonRpcRequest =
+                        sendMessageRequest {
+                            id = "1"
+                            params {
+                                id = UUID.randomUUID().toString()
+                                message {
+                                    role = Message.Role.user
+                                    parts += text { "Tell me a joke" }
+                                    parts += file { uri = "https://example.com/readme.md" }
+                                    parts += file { bytes = "1234".toByteArray() }
+                                    parts += data { mapOf("foo" to "bar") }
+                                }
+                            }
+                        }
+                    contentType(ContentType.Application.Json)
+                    setBody(jsonRpcRequest)
+                }.call
+                .response
+
+        response.status shouldBe HttpStatusCode.OK
+        val payload = response.body<SendMessageResponse>()
+        payload shouldBeEqualToComparingFields reply
+    }
+
     @Test
-    fun `Should fail to send message`() =
-        runBlocking {
-            a2aServer.sendMessage() responds {
+    suspend fun `Should fail to send message`() {
+        a2aServer.sendMessage() responds {
+            id = 1
+            error =
+                invalidRequestError {
+                    message = "Invalid request"
+                }
+        }
+
+        val response =
+            a2aClient
+                .post("/") {
+                    val jsonRpcRequest =
+                        sendMessageRequest {
+                            id = "1"
+                            params {
+                                id = UUID.randomUUID().toString()
+                                message {
+                                    role = Message.Role.user
+                                    parts += text { "Tell me a joke" }
+                                }
+                            }
+                        }
+                    contentType(ContentType.Application.Json)
+                    setBody(jsonRpcRequest)
+                }.call
+                .response
+
+        response.status shouldBe HttpStatusCode.OK
+        val payload = response.body<SendMessageResponse>()
+
+        val expectedReply =
+            SendMessageResponse.create {
                 id = 1
                 error =
                     invalidRequestError {
                         message = "Invalid request"
                     }
             }
-
-            val response =
-                a2aClient
-                    .post("/") {
-                        val jsonRpcRequest =
-                            sendMessageRequest {
-                                id = "1"
-                                params {
-                                    id = UUID.randomUUID().toString()
-                                    message {
-                                        role = Message.Role.user
-                                        parts += text { "Tell me a joke" }
-                                    }
-                                }
-                            }
-                        contentType(ContentType.Application.Json)
-                        setBody(jsonRpcRequest)
-                    }.call
-                    .response
-
-            response.status shouldBe HttpStatusCode.OK
-            val payload = response.body<SendMessageResponse>()
-
-            val expectedReply =
-                SendMessageResponse.create {
-                    id = 1
-                    error =
-                        invalidRequestError {
-                            message = "Invalid request"
-                        }
-                }
-            payload shouldBeEqualToComparingFields expectedReply
-        }
+        payload shouldBeEqualToComparingFields expectedReply
+    }
 }

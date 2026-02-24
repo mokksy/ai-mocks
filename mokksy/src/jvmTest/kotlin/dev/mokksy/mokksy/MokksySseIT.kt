@@ -1,6 +1,5 @@
 package dev.mokksy.mokksy
 
-import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equals.beEqual
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.get
@@ -19,45 +18,43 @@ import kotlin.time.Duration.Companion.milliseconds
 
 internal class MokksySseIT : AbstractIT({ createKtorSSEClient(it) }) {
     @Test
-    fun `Should respond to SSE (flow)`() =
-        runIntegrationTest {
-            mokksy.get(name = "sse-get-flow", requestType = Any::class) {
-                path("/sse-flow")
-            } respondsWithSseStream {
-                flow =
-                    flow {
-                        delay(100.milliseconds)
-                        emit(
-                            ServerSentEvent(
-                                data = "One",
-                            ),
-                        )
-                        delay(50.milliseconds)
-                        emit(
-                            ServerSentEvent(
-                                data = "Two",
-                            ),
-                        )
-                    }
-            }
-
-            // when
-            verifySseStream("/sse-flow")
+    suspend fun `Should respond to SSE (flow)`() {
+        mokksy.get(name = "sse-get-flow", requestType = Any::class) {
+            path("/sse-flow")
+        } respondsWithSseStream {
+            flow =
+                flow {
+                    delay(100.milliseconds)
+                    emit(
+                        ServerSentEvent(
+                            data = "One",
+                        ),
+                    )
+                    delay(50.milliseconds)
+                    emit(
+                        ServerSentEvent(
+                            data = "Two",
+                        ),
+                    )
+                }
         }
+
+        // when
+        verifySseStream("/sse-flow")
+    }
 
     @Test
-    fun `Should respond to SSE (chunks)`() =
-        runIntegrationTest {
-            mokksy.get(name = "sse-get-chunks", requestType = Any::class) {
-                path = beEqual("/sse-chunks")
-            } respondsWithSseStream {
-                chunks += ServerSentEvent(data = "One")
-                chunks += ServerSentEvent(data = "Two")
-            }
-
-            // when
-            verifySseStream("/sse-chunks")
+    suspend fun `Should respond to SSE (chunks)`() {
+        mokksy.get(name = "sse-get-chunks", requestType = Any::class) {
+            path = beEqual("/sse-chunks")
+        } respondsWithSseStream {
+            chunks += ServerSentEvent(data = "One")
+            chunks += ServerSentEvent(data = "Two")
         }
+
+        // when
+        verifySseStream("/sse-chunks")
+    }
 
     private suspend fun verifySseStream(uri: String) {
         val result = client.get(uri)

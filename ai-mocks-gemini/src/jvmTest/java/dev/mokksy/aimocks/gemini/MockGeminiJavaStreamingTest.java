@@ -24,6 +24,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.fail;
+import static org.awaitility.Awaitility.await;
 
 /**
  * Java version of StreamingChatCompletionGenaiTest.kt
@@ -120,8 +121,9 @@ class MockGeminiJavaStreamingTest {
                         }
                     });
 
-            assertThat(result.toString()).isEqualTo("Ahoy there, matey! Hello!");
-
+            await().untilAsserted(() -> {
+                assertThat(result.toString()).isEqualTo("Ahoy there, matey! Hello!");
+            });
         }
     }
 

@@ -1,7 +1,6 @@
 package dev.mokksy.mokksy
 
 import dev.mokksy.mokksy.request.RequestSpecificationBuilder
-import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
@@ -31,46 +30,39 @@ internal class ShortcutMethodsIT : AbstractIT() {
     }
 
     @Test
-    fun `Should respond to shortcut GET`() =
-        runIntegrationTest {
-            doTestCallMethod(HttpMethod.Get) { mokksy.get(it) }
-        }
+    suspend fun `Should respond to shortcut GET`() {
+        doTestCallMethod(HttpMethod.Get) { mokksy.get(it) }
+    }
 
     @Test
-    fun `Should respond to shortcut OPTIONS`() =
-        runIntegrationTest {
-            doTestCallMethod(HttpMethod.Options) { mokksy.options(it) }
-        }
+    suspend fun `Should respond to shortcut OPTIONS`() {
+        doTestCallMethod(HttpMethod.Options) { mokksy.options(it) }
+    }
 
     @Test
-    fun `Should respond to shortcut PUT`() =
-        runIntegrationTest {
-            doTestCallMethod(HttpMethod.Put) { mokksy.put(it) }
-        }
+    suspend fun `Should respond to shortcut PUT`() {
+        doTestCallMethod(HttpMethod.Put) { mokksy.put(it) }
+    }
 
     @Test
-    fun `Should respond to shortcut PATCH`() =
-        runIntegrationTest {
-            doTestCallMethod(HttpMethod.Patch) { mokksy.patch(it) }
-        }
+    suspend fun `Should respond to shortcut PATCH`() {
+        doTestCallMethod(HttpMethod.Patch) { mokksy.patch(it) }
+    }
 
     @Test
-    fun `Should respond to shortcut DELETE`() =
-        runIntegrationTest {
-            doTestCallMethod(HttpMethod.Delete) { mokksy.delete(it) }
-        }
+    suspend fun `Should respond to shortcut DELETE`() {
+        doTestCallMethod(HttpMethod.Delete) { mokksy.delete(it) }
+    }
 
     @Test
-    fun `Should respond to shortcut HEAD`() =
-        runIntegrationTest {
-            doTestCallMethod(HttpMethod.Head) { mokksy.head(it) }
-        }
+    suspend fun `Should respond to shortcut HEAD`() {
+        doTestCallMethod(HttpMethod.Head) { mokksy.head(it) }
+    }
 
     @Test
-    fun `Should respond to shortcut POST`() =
-        runIntegrationTest {
-            doTestCallMethod(HttpMethod.Post) { mokksy.post(it) }
-        }
+    suspend fun `Should respond to shortcut POST`() {
+        doTestCallMethod(HttpMethod.Post) { mokksy.post(it) }
+    }
 
     private suspend fun doTestCallMethod(
         method: HttpMethod,

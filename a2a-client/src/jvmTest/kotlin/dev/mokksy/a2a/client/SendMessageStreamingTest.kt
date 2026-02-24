@@ -9,15 +9,14 @@ import dev.mokksy.aimocks.a2a.model.TaskUpdateEvent
 import dev.mokksy.aimocks.a2a.model.TextPart
 import dev.mokksy.aimocks.a2a.model.taskArtifactUpdateEvent
 import dev.mokksy.aimocks.a2a.model.taskStatusUpdateEvent
-import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.flow.flow
+import org.junit.jupiter.api.Test
 import java.util.concurrent.ConcurrentLinkedQueue
-import kotlin.test.Test
 import kotlin.time.Clock.System
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -28,132 +27,131 @@ internal class SendMessageStreamingTest : AbstractTest() {
     @OptIn(InternalAPI::class)
     @Test
     @Suppress("LongMethod")
-    fun `Should send task streaming`() =
-        runIntegrationTest {
-            val taskId: TaskId = "task_12345"
+    suspend fun `Should send task streaming`() {
+        val taskId: TaskId = "task_12345"
 
-            a2aServer.sendMessageStreaming() responds {
-                delayBetweenChunks = 500.milliseconds
-                responseFlow =
-                    flow {
-                        emit(
-                            taskStatusUpdateEvent {
-                                id = taskId
-                                status {
-                                    state = "working"
-                                    timestamp = System.now()
-                                }
-                            },
-                        )
-                        emit(
-                            taskArtifactUpdateEvent {
-                                id = taskId
-                                artifact {
-                                    name = "joke"
-                                    parts +=
-                                        textPart {
-                                            text = "This"
-                                        }
-                                }
-                            },
-                        )
-                        emit(
-                            taskArtifactUpdateEvent {
-                                id = taskId
-                                artifact {
-                                    name = "joke"
-                                    parts +=
-                                        textPart {
-                                            text = "is"
-                                        }
-                                    append = true
-                                }
-                            },
-                        )
-                        emit(
-                            taskArtifactUpdateEvent {
-                                id = taskId
-                                artifact {
-                                    name = "joke"
-                                    parts +=
-                                        textPart {
-                                            text = "a"
-                                        }
-                                    append = true
-                                }
-                            },
-                        )
-                        emit(
-                            taskArtifactUpdateEvent {
-                                id = taskId
-                                artifact {
-                                    name = "joke"
-                                    parts +=
-                                        textPart {
-                                            text = "joke!"
-                                        }
-                                    append = true
-                                    lastChunk = true
-                                }
-                            },
-                        )
-                        emit(
-                            taskStatusUpdateEvent {
-                                id = taskId
-                                status {
-                                    state = "completed"
-                                    timestamp = System.now()
-                                }
-                                final = true
-                            },
-                        )
-                    }
-            }
-
-            val taskParams =
-                MessageSendParams.create {
-                    message {
-                        role = Message.Role.user
-                        parts +=
-                            textPart {
-                                text = "Tell me a joke"
+        a2aServer.sendMessageStreaming() responds {
+            delayBetweenChunks = 500.milliseconds
+            responseFlow =
+                flow {
+                    emit(
+                        taskStatusUpdateEvent {
+                            id = taskId
+                            status {
+                                state = "working"
+                                timestamp = System.now()
                             }
-                    }
+                        },
+                    )
+                    emit(
+                        taskArtifactUpdateEvent {
+                            id = taskId
+                            artifact {
+                                name = "joke"
+                                parts +=
+                                    textPart {
+                                        text = "This"
+                                    }
+                            }
+                        },
+                    )
+                    emit(
+                        taskArtifactUpdateEvent {
+                            id = taskId
+                            artifact {
+                                name = "joke"
+                                parts +=
+                                    textPart {
+                                        text = "is"
+                                    }
+                                append = true
+                            }
+                        },
+                    )
+                    emit(
+                        taskArtifactUpdateEvent {
+                            id = taskId
+                            artifact {
+                                name = "joke"
+                                parts +=
+                                    textPart {
+                                        text = "a"
+                                    }
+                                append = true
+                            }
+                        },
+                    )
+                    emit(
+                        taskArtifactUpdateEvent {
+                            id = taskId
+                            artifact {
+                                name = "joke"
+                                parts +=
+                                    textPart {
+                                        text = "joke!"
+                                    }
+                                append = true
+                                lastChunk = true
+                            }
+                        },
+                    )
+                    emit(
+                        taskStatusUpdateEvent {
+                            id = taskId
+                            status {
+                                state = "completed"
+                                timestamp = System.now()
+                            }
+                            final = true
+                        },
+                    )
                 }
-
-            val collectedEvents = ConcurrentLinkedQueue<TaskUpdateEvent>()
-            client.sendStreamingMessage(params = taskParams).collect { event ->
-                logger.info { "Event from server: $event" }
-                collectedEvents.add(event)
-                handleEvent(event)
-            }
-
-            collectedEvents shouldHaveSize 6
-            collectedEvents.forEach {
-                it.id() shouldBe taskId
-            }
-            val firstEvent = collectedEvents.first() as TaskStatusUpdateEvent
-            assertSoftly(firstEvent.status) {
-                state shouldBe "working"
-                timestamp.shouldNotBeNull()
-            }
-            val lastEvent = collectedEvents.last() as TaskStatusUpdateEvent
-            assertSoftly(lastEvent) {
-                final shouldBe true
-                status.state shouldBe "completed"
-                status.timestamp.shouldNotBeNull()
-            }
-            val joke =
-                collectedEvents
-                    .filter { it is TaskArtifactUpdateEvent }
-                    .map { it as TaskArtifactUpdateEvent }
-                    .filter { it.artifact.name == "joke" }
-                    .map { it.artifact.parts[0] as TextPart }
-                    .map { it.text }
-                    .toList()
-                    .joinToString(separator = " ")
-            joke shouldBe "This is a joke!"
         }
+
+        val taskParams =
+            MessageSendParams.create {
+                message {
+                    role = Message.Role.user
+                    parts +=
+                        textPart {
+                            text = "Tell me a joke"
+                        }
+                }
+            }
+
+        val collectedEvents = ConcurrentLinkedQueue<TaskUpdateEvent>()
+        client.sendStreamingMessage(params = taskParams).collect { event ->
+            logger.info { "Event from server: $event" }
+            collectedEvents.add(event)
+            handleEvent(event)
+        }
+
+        collectedEvents shouldHaveSize 6
+        collectedEvents.forEach {
+            it.id() shouldBe taskId
+        }
+        val firstEvent = collectedEvents.first() as TaskStatusUpdateEvent
+        assertSoftly(firstEvent.status) {
+            state shouldBe "working"
+            timestamp.shouldNotBeNull()
+        }
+        val lastEvent = collectedEvents.last() as TaskStatusUpdateEvent
+        assertSoftly(lastEvent) {
+            final shouldBe true
+            status.state shouldBe "completed"
+            status.timestamp.shouldNotBeNull()
+        }
+        val joke =
+            collectedEvents
+                .filter { it is TaskArtifactUpdateEvent }
+                .map { it as TaskArtifactUpdateEvent }
+                .filter { it.artifact.name == "joke" }
+                .map { it.artifact.parts[0] as TextPart }
+                .map { it.text }
+                .toList()
+                .joinToString(separator = " ")
+        joke shouldBe "This is a joke!"
+    }
 
     private fun handleEvent(event: TaskUpdateEvent): Boolean {
         when (event) {

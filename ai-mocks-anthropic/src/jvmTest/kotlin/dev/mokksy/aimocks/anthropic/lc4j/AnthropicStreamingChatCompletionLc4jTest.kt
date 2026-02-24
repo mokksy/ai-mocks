@@ -11,7 +11,6 @@ import dev.langchain4j.model.chat.response.StreamingChatResponseHandler
 import dev.langchain4j.model.output.FinishReason
 import dev.mokksy.aimocks.anthropic.AbstractAnthropicIntegrationTest
 import dev.mokksy.aimocks.anthropic.anthropic
-import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.assertions.failure
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.nulls.shouldNotBeNull
@@ -44,37 +43,33 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
     }
 
     @Test
-    fun `Should respond to Streaming Chat Completion`() {
+    suspend fun `Should respond to Streaming Chat Completion`() {
         val userMessage = "What do we need? $seedValue"
-        runIntegrationTest {
-            anthropic.messages {
-                systemMessageContains(systemMessage)
-                userMessageContains(userMessage)
-            } respondsStream {
-                responseChunks = listOf("All", " we", " need", " is", " Love")
-            }
-
-            verifyStreamingKotlinFlow(userMessage, "All we need is Love")
+        anthropic.messages {
+            systemMessageContains(systemMessage)
+            userMessageContains(userMessage)
+        } respondsStream {
+            responseChunks = listOf("All", " we", " need", " is", " Love")
         }
+
+        verifyStreamingKotlinFlow(userMessage, "All we need is Love")
     }
 
     @Test
-    fun `Should respond to Streaming Chat Completion with Flow`() {
+    suspend fun `Should respond to Streaming Chat Completion with Flow`() {
         val userMessage = "What is in the sea? $seedValue"
-        runIntegrationTest {
-            anthropic.messages {
-                systemMessageContains(systemMessage)
-                userMessageContains(userMessage)
-            } respondsStream {
-                responseFlow =
-                    flow {
-                        emit("Yellow")
-                        emit(" submarine")
-                    }
-            }
-
-            verifyLC4JStreamingCall(userMessage, "Yellow submarine")
+        anthropic.messages {
+            systemMessageContains(systemMessage)
+            userMessageContains(userMessage)
+        } respondsStream {
+            responseFlow =
+                flow {
+                    emit("Yellow")
+                    emit(" submarine")
+                }
         }
+
+        verifyLC4JStreamingCall(userMessage, "Yellow submarine")
     }
 
     private fun verifyLC4JStreamingCall(

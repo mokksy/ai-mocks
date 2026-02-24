@@ -1,17 +1,17 @@
 package dev.mokksy.aimocks.openai.springai
 
 import dev.mokksy.aimocks.openai.openai
+import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import kotlin.test.Test
+import kotlinx.coroutines.reactor.awaitSingle
+import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
-import kotlin.time.toJavaDuration
 
-internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
+internal class OpenaiStreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
     @Test
-    fun `Should respond with stream to Chat Completion`() {
+    suspend fun `Should respond with stream to Chat Completion`() {
         openai.completion {
             temperature = temperatureValue
             seed = seedValue
@@ -33,19 +33,16 @@ internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
             finishReason = "stop"
         }
 
-        val buffer = StringBuffer()
-        val chunkCount =
+        val chunks =
             prepareClientRequest("You are a helpful pirate")
                 .stream()
                 .chatResponse()
-                .doOnNext {
-                    it.result.output.text?.let { text ->
-                        buffer.append(text)
-                    }
-                }.count()
-                .block(5.seconds.toJavaDuration())
+                .collectList()
+                .awaitSingle()
 
-        chunkCount shouldBe 4 + 2L // 4 data chunks + opening and closing chunks
-        buffer.toString() shouldBe "Ahoy there, matey! Hello!"
+        chunks shouldHaveSize (4 + 2) // 4 data chunks + opening and closing chunks
+        chunks
+            .mapNotNull { it.result.output.text }
+            .joinToString("") shouldBe "Ahoy there, matey! Hello!"
     }
 }

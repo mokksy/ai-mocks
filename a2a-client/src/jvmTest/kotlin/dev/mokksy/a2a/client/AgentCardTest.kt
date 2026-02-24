@@ -2,55 +2,53 @@ package dev.mokksy.a2a.client
 
 import dev.mokksy.aimocks.a2a.model.AgentCard
 import dev.mokksy.aimocks.a2a.model.create
-import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.equals.shouldBeEqual
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class AgentCardTest : AbstractTest() {
     @Test
-    fun `Should get AgentCard`() =
-        runIntegrationTest {
-            val agentCard =
-                AgentCard.create {
-                    name = "test-agent"
-                    description = "test-agent-description"
-                    url = a2aServer.baseUrl()
-                    documentationUrl = "https://example.com/documentation"
-                    version = "0.0.1"
-                    provider {
-                        organization = "Acme, Inc."
-                        url = "https://example.com/organization"
-                    }
-                    capabilities {
-                        streaming = true
-                        pushNotifications = true
-                        stateTransitionHistory = true
-                    }
-                    skills +=
-                        skill {
-                            id = "walk"
-                            name = "Walk the walk"
-                            description = "Can Walk"
-                            tags = listOf("movement")
-                        }
-                    skills +=
-                        skill {
-                            id = "talk"
-                            name = "Talk the talk"
-                            description = "Can Talk"
-                            tags = listOf("communication")
-                        }
+    suspend fun `Should get AgentCard`() {
+        val agentCard =
+            AgentCard.create {
+                name = "test-agent"
+                description = "test-agent-description"
+                url = a2aServer.baseUrl()
+                documentationUrl = "https://example.com/documentation"
+                version = "0.0.1"
+                provider {
+                    organization = "Acme, Inc."
+                    url = "https://example.com/organization"
                 }
-
-            a2aServer.agentCard(name = agentCard.name) responds {
-                delay = 1.milliseconds
-                card = agentCard
+                capabilities {
+                    streaming = true
+                    pushNotifications = true
+                    stateTransitionHistory = true
+                }
+                skills +=
+                    skill {
+                        id = "walk"
+                        name = "Walk the walk"
+                        description = "Can Walk"
+                        tags = listOf("movement")
+                    }
+                skills +=
+                    skill {
+                        id = "talk"
+                        name = "Talk the talk"
+                        description = "Can Talk"
+                        tags = listOf("communication")
+                    }
             }
 
-            val receivedCard =
-                client.getAgentCard()
-
-            receivedCard shouldBeEqual agentCard
+        a2aServer.agentCard(name = agentCard.name) responds {
+            delay = 1.milliseconds
+            card = agentCard
         }
+
+        val receivedCard =
+            client.getAgentCard()
+
+        receivedCard shouldBeEqual agentCard
+    }
 }
