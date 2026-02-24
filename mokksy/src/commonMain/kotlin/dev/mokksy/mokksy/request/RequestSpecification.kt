@@ -12,6 +12,7 @@ import io.ktor.server.request.httpMethod
 import io.ktor.server.request.path
 import io.ktor.server.request.receive
 import io.ktor.server.request.receiveText
+import kotlinx.coroutines.CancellationException
 import kotlin.reflect.KClass
 
 /**
@@ -63,7 +64,7 @@ public open class RequestSpecification<P : Any>(
                 matchHeaders(headers, request) &&
                 matchBody(body, request) &&
                 matchBodyString(bodyString, request)
-        }
+        }.onFailure { if (it is CancellationException) throw it }
 
     protected suspend fun matchBody(
         matchers: List<Matcher<P?>>,
@@ -83,6 +84,8 @@ public open class RequestSpecification<P : Any>(
             val bodyText =
                 try {
                     request.call.receiveText()
+                } catch (ex: CancellationException) {
+                    throw ex
                 } catch (ex: Exception) {
                     "Unable to read body: ${ex.message}"
                 }

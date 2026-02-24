@@ -8,6 +8,7 @@ import kotlinx.atomicfu.atomic
 import kotlinx.atomicfu.update
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -63,6 +64,8 @@ internal class StubRegistry {
                 @Suppress("TooGenericExceptionCaught")
                 try {
                     formatter.formatRequest(request)
+                } catch (e: CancellationException) {
+                    throw e
                 } catch (e: Exception) {
                     "<Unable to format request: ${e.message}>"
                 }

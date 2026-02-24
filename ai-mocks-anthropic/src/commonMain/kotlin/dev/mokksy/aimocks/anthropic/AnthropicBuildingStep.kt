@@ -11,6 +11,7 @@ import dev.mokksy.mokksy.response.StreamResponseDefinition
 import io.ktor.http.ContentType
 import io.ktor.sse.TypedServerSentEvent
 import io.ktor.utils.io.InternalAPI
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -177,6 +178,8 @@ public class AnthropicBuildingStep(
                 emit(
                     StreamingResponseHelper.createMessageStopChunk(),
                 )
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 logger.error("Failed to build streaming response", e)
                 throw e
