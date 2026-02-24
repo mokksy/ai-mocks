@@ -1,37 +1,34 @@
 package dev.mokksy.aimocks.a2a
 
 import dev.mokksy.aimocks.a2a.model.TaskUpdateEvent
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
 import java.util.concurrent.Flow
 
 public fun SendStreamingMessageResponseSpecification.publisher(
     publisher: Flow.Publisher<TaskUpdateEvent>,
 ) {
     responseFlow =
-        flow {
+        callbackFlow {
             publisher.subscribe(
                 object : Flow.Subscriber<TaskUpdateEvent> {
                     override fun onSubscribe(subscription: Flow.Subscription) {
-                        println("onSubscribe")
+                        subscription.request(Long.MAX_VALUE)
                     }
 
                     override fun onNext(item: TaskUpdateEvent) {
-                        println("onNext")
-                        runBlocking {
-                            emit(item)
-                        }
+                        trySend(item)
                     }
 
                     override fun onError(throwable: Throwable) {
-                        println("onError: $throwable")
-                        throw throwable
+                        close(throwable)
                     }
 
                     override fun onComplete() {
-                        println("onComplete")
+                        close()
                     }
                 },
             )
+            awaitClose()
         }
 }
