@@ -12,7 +12,7 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toJavaDuration
 
-internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
+internal class OpenaiChatCompletionSpringAiTest : AbstractSpringAiTest() {
     @Test
     fun `Should respond to Chat Completion`() {
         openai.completion {

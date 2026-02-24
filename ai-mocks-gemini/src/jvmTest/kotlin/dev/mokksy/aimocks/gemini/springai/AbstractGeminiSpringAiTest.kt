@@ -7,7 +7,7 @@ import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-internal abstract class AbstractSpringAiTest : AbstractMockGeminiTest() {
+internal abstract class AbstractGeminiSpringAiTest : AbstractMockGeminiTest() {
     protected val chatClient: ChatClient =
         ChatClient
             .builder(

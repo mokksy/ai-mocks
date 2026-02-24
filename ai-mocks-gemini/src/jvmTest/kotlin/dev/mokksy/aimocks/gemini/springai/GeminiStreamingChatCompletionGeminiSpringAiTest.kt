@@ -13,7 +13,7 @@ import kotlin.time.toJavaDuration
  * Some examples:
  * - [Streaming_REST.ipynb](https://github.com/google-gemini/cookbook/blob/main/quickstarts/rest/Streaming_REST.ipynb)
  */
-internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
+internal class GeminiStreamingChatCompletionGeminiSpringAiTest : AbstractGeminiSpringAiTest() {
     @Test
     fun `Should respond with stream to generateContentStream`() {
         val systemMessage = "You are a helpful pirate. $seedValue"

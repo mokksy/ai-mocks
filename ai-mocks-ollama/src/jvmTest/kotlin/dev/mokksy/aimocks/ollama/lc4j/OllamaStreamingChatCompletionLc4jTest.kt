@@ -17,7 +17,7 @@ import kotlin.test.fail
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.measureTime
 
-internal class StreamingChatCompletionLc4jTest : AbstractMockOllamaTest() {
+internal class OllamaStreamingChatCompletionLc4jTest : AbstractMockOllamaTest() {
     private val model by lazy {
         OllamaStreamingChatModel
             .builder()

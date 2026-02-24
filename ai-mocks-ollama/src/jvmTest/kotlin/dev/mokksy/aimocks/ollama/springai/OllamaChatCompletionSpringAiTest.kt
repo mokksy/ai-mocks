@@ -5,7 +5,7 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
-internal class ChatCompletionSpringAiTest : AbstractSpringAiTest() {
+internal class OllamaChatCompletionSpringAiTest : AbstractSpringAiTest() {
     @Test
     fun `Should respond to Chat Completion`() {
         mockOllama.chat {

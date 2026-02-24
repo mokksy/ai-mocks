@@ -15,7 +15,7 @@ import kotlinx.serialization.json.Json
  * This class provides a configured Ktor HttpClient with content negotiation and logging,
  * which can be used by all test classes to avoid duplication.
  */
-internal abstract class AbstractKtorTest : AbstractMockOllamaTest() {
+internal abstract class AbstractOllamaKtorTest : AbstractMockOllamaTest() {
     /**
      * Shared Ktor HttpClient instance configured with:
      * - ContentNegotiation for JSON serialization/deserialization

@@ -12,7 +12,7 @@ import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.TimeSource
 
-internal class ChatCompletionLc4jTest : AbstractMockOllamaTest() {
+internal class OllamaChatCompletionLc4jTest : AbstractMockOllamaTest() {
     private val model by lazy {
         OllamaChatModel
             .builder()

@@ -15,7 +15,7 @@ import io.ktor.http.contentType
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 
-internal class EmbeddingTest : AbstractKtorTest() {
+internal class OllamaEmbeddingTest : AbstractOllamaKtorTest() {
     @Test
     fun `Should respond to String Embedding Request`() =
         runIntegrationTest {

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
-internal class ChatCompletionLc4jTest : AbstractAnthropicIntegrationTest() {
+internal class AnthropicChatCompletionLc4jTest : AbstractAnthropicIntegrationTest() {
     private lateinit var systemMessage: String
     private lateinit var model: AnthropicChatModel
 

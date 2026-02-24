@@ -9,7 +9,7 @@ import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
-internal class EmbeddingLc4jTest : AbstractMockOllamaTest() {
+internal class OllamaEmbeddingLc4jTest : AbstractMockOllamaTest() {
     private val model by lazy {
         OllamaEmbeddingModel
             .builder()

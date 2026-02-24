@@ -1,7 +1,8 @@
 package dev.mokksy.aimocks.ollama.ktor
 
-import dev.mokksy.aimocks.ollama.generate.GenerateRequest
-import dev.mokksy.aimocks.ollama.generate.GenerateResponse
+import dev.mokksy.aimocks.ollama.chat.ChatRequest
+import dev.mokksy.aimocks.ollama.chat.ChatResponse
+import dev.mokksy.aimocks.ollama.chat.Message
 import dev.mokksy.aimocks.ollama.mockOllama
 import dev.mokksy.aimocks.ollama.model.ModelOptions
 import dev.mokksy.test.utils.runIntegrationTest
@@ -14,27 +15,29 @@ import io.ktor.http.contentType
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 
-internal class GenerateCompletionTest : AbstractKtorTest() {
+internal class OllamaChatCompletionTest : AbstractOllamaKtorTest() {
     @Test
-    fun `Should respond to Generate Completion`() =
+    fun `Should respond to Chat Completion`() =
         runIntegrationTest {
             // Configure mock response
-            mockOllama.generate {
+            mockOllama.chat {
                 model = modelName
-                temperature = temperatureValue
-                topP = topPValue
-                userMessageContains("Tell me a joke")
             } responds {
-                content("Why did the chicken cross the road? To get to the other side!")
-                doneReason("stop")
+                content("Hello, how can I help you today?")
                 delay = 42.milliseconds
             }
 
             // Create request
             val request =
-                GenerateRequest(
+                ChatRequest(
                     model = modelName,
-                    prompt = "Tell me a joke",
+                    messages =
+                        listOf(
+                            Message(
+                                role = "user",
+                                content = "Hello",
+                            ),
+                        ),
                     stream = false,
                     options =
                         ModelOptions(
@@ -43,21 +46,19 @@ internal class GenerateCompletionTest : AbstractKtorTest() {
                         ),
                 )
 
-            // Send a request to a mock server using Ktor client
-            val response: GenerateResponse =
+            // Send request to mock server using Ktor client
+            val response: ChatResponse =
                 client
-                    .post("${mockOllama.baseUrl()}/api/generate") {
+                    .post("${mockOllama.baseUrl()}/api/chat") {
                         contentType(ContentType.Application.Json)
                         setBody(request)
                     }.body()
 
             // Verify response
             with(response) {
-                this.response shouldBe
-                    "Why did the chicken cross the road? To get to the other side!"
+                message.content shouldBe "Hello, how can I help you today?"
                 model shouldBe modelName
                 done shouldBe true
-                doneReason shouldBe "stop"
             }
         }
 }

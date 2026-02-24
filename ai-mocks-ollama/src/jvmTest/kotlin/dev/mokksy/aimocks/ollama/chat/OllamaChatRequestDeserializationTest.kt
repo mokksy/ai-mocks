@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldNotBe
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
 
-internal class ChatRequestDeserializationTest {
+internal class OllamaChatRequestDeserializationTest {
     private val json = Json { ignoreUnknownKeys = false }
 
     // MockOllama's exact JSON configuration

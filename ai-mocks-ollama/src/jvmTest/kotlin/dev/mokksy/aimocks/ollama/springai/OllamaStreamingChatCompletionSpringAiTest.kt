@@ -9,7 +9,7 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toJavaDuration
 
-internal class StreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
+internal class OllamaStreamingChatCompletionSpringAiTest : AbstractSpringAiTest() {
     @Test
     fun `Should respond with stream to Chat Completion`() {
         mockOllama.chat {
