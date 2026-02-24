@@ -2,7 +2,7 @@ import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import org.jetbrains.dokka.gradle.tasks.DokkaGenerateModuleTask
 
-/**
+/*
  * Publishing convention for Kotlin Multiplatform modules.
  * Configures Maven Central publishing with HTML docs as javadoc.jar.
  */

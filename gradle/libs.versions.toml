@@ -10,7 +10,7 @@ dokka = "2.1.0"
 finchly = "0.1.1"
 google-genai = "1.40.0"
 google-adk = "0.6.0"
-junitJupiter = "6.0.3"
+junit = "6.0.3"
 kotest = "5.9.1"
 kotlin = "2.2.21"
 kotlinLogging = "8.0.01"
@@ -52,7 +52,7 @@ finchly = { module = "me.kpavlov.finchly:finchly", version.ref = "finchly" }
 google-adk = { group = "com.google.adk", name = "google-adk", version.ref = "google-adk" }
 google-genai = { group = "com.google.genai", name = "google-genai", version.ref = "google-genai" }
 jansi = { module = "org.fusesource.jansi:jansi", version.ref = "jansi" }
-junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junitJupiter" }
+junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junit" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-assertions-json = { module = "io.kotest:kotest-assertions-json", version.ref = "kotest" }
 kotest-assertions-ktor = { module = "io.kotest:kotest-assertions-ktor", version.ref = "kotest" }

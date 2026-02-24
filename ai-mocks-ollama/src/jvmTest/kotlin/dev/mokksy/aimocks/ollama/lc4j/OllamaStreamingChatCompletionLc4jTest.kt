@@ -8,11 +8,10 @@ import dev.langchain4j.kotlin.model.chat.chatFlow
 import dev.langchain4j.model.ollama.OllamaStreamingChatModel
 import dev.mokksy.aimocks.ollama.AbstractMockOllamaTest
 import dev.mokksy.aimocks.ollama.mockOllama
-import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.fail
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.measureTime
@@ -37,61 +36,60 @@ internal class OllamaStreamingChatCompletionLc4jTest : AbstractMockOllamaTest() 
     }
 
     @Test
-    fun `Should respond to Streaming Chat Completion`() =
-        runIntegrationTest {
-            // Configure mock response
-            val expectedResponse = "Hello, how can I help you today?"
+    suspend fun `Should respond to Streaming Chat Completion`() {
+        // Configure mock response
+        val expectedResponse = "Hello, how can I help you today?"
 
-            val delayBetweenChunks = 100.milliseconds
-            val initialDelay = 500.milliseconds
+        val delayBetweenChunks = 100.milliseconds
+        val initialDelay = 500.milliseconds
 
-            mockOllama.chat {
-                model = modelName
-                seed = seedValue
-                temperature = temperatureValue
-                userMessageContains("Hello")
-                topP = topPValue
-                topK = topKValue
-                stream = true
-            } respondsStream {
-                responseFlow =
-                    expectedResponse
-                        .splitToSequence(" ")
-                        .asFlow()
-                        .map { "$it " }
-                this.delay = initialDelay
-                this.delayBetweenChunks = delayBetweenChunks
-            }
+        mockOllama.chat {
+            model = modelName
+            seed = seedValue
+            temperature = temperatureValue
+            userMessageContains("Hello")
+            topP = topPValue
+            topK = topKValue
+            stream = true
+        } respondsStream {
+            responseFlow =
+                expectedResponse
+                    .splitToSequence(" ")
+                    .asFlow()
+                    .map { "$it " }
+            this.delay = initialDelay
+            this.delayBetweenChunks = delayBetweenChunks
+        }
 
-            // Use langchain4j Ollama client to send a request
-            val tokens = mutableListOf<String>()
-            val executionTime =
-                measureTime {
-                    model
-                        .chatFlow {
-                            messages += userMessage("Hello")
-                        }.collect { reply ->
-                            when (reply) {
-                                is StreamingChatModelReply.PartialResponse -> {
-                                    tokens += reply.partialResponse
-                                }
+        // Use langchain4j Ollama client to send a request
+        val tokens = mutableListOf<String>()
+        val executionTime =
+            measureTime {
+                model
+                    .chatFlow {
+                        messages += userMessage("Hello")
+                    }.collect { reply ->
+                        when (reply) {
+                            is StreamingChatModelReply.PartialResponse -> {
+                                tokens += reply.partialResponse
+                            }
 
-                                is StreamingChatModelReply.CompleteResponse -> {
-                                    reply.response.modelName() shouldBe modelName
-                                }
+                            is StreamingChatModelReply.CompleteResponse -> {
+                                reply.response.modelName() shouldBe modelName
+                            }
 
-                                is StreamingChatModelReply.Error -> {
-                                    fail("Error: $reply", reply.cause)
-                                }
+                            is StreamingChatModelReply.Error -> {
+                                fail("Error: $reply", reply.cause)
                             }
                         }
-                    tokens
-                        .joinToString("")
-                        .removeSuffix(" ") shouldBe expectedResponse
-                }
+                    }
+                tokens
+                    .joinToString("")
+                    .removeSuffix(" ") shouldBe expectedResponse
+            }
 
-            assertThat(executionTime).isGreaterThanOrEqualTo(
-                initialDelay + delayBetweenChunks * tokens.size,
-            )
-        }
+        assertThat(executionTime).isGreaterThanOrEqualTo(
+            initialDelay + delayBetweenChunks * tokens.size,
+        )
+    }
 }

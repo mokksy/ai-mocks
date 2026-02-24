@@ -6,11 +6,10 @@ import dev.langchain4j.model.anthropic.AnthropicChatModel
 import dev.langchain4j.model.output.FinishReason
 import dev.mokksy.aimocks.anthropic.AbstractAnthropicIntegrationTest
 import dev.mokksy.aimocks.anthropic.anthropic
-import dev.mokksy.test.utils.runIntegrationTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.BeforeEach
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class AnthropicChatCompletionLc4jTest : AbstractAnthropicIntegrationTest() {
@@ -30,24 +29,23 @@ internal class AnthropicChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
     }
 
     @Test
-    fun `Should respond to Chat Completion`() =
-        runIntegrationTest {
-            anthropic.messages {
-                userMessageContains("Hello")
-            } responds {
-                assistantContent = "Hello"
-                delay = 42.milliseconds
-            }
-
-            val result =
-                model.chat {
-                    messages += userMessage("Say Hello")
-                }
-
-            result.apply {
-                finishReason() shouldBe FinishReason.STOP
-                tokenUsage() shouldNotBe null
-                aiMessage().text() shouldBe "Hello"
-            }
+    suspend fun `Should respond to Chat Completion`() {
+        anthropic.messages {
+            userMessageContains("Hello")
+        } responds {
+            assistantContent = "Hello"
+            delay = 42.milliseconds
         }
+
+        val result =
+            model.chat {
+                messages += userMessage("Say Hello")
+            }
+
+        result.apply {
+            finishReason() shouldBe FinishReason.STOP
+            tokenUsage() shouldNotBe null
+            aiMessage().text() shouldBe "Hello"
+        }
+    }
 }
