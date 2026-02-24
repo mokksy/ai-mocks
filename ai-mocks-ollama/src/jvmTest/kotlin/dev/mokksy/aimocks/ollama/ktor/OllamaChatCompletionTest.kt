@@ -17,11 +17,18 @@ import kotlin.time.Duration.Companion.milliseconds
 internal class OllamaChatCompletionTest : AbstractOllamaKtorTest() {
     @Test
     suspend fun `Should respond to Chat Completion`() {
+        val userMessage = "Hello, $seedValue!?"
+        val assistantMessage = "Hello, how can I help you today? $seedValue!"
         // Configure mock response
         mockOllama.chat {
             model = modelName
+            seed = seedValue
+            topP = topPValue
+            temperature = temperatureValue
+            requestBodyContains(userMessage)
+            stream = false
         } responds {
-            content("Hello, how can I help you today?")
+            content(assistantMessage)
             delay = 42.milliseconds
         }
 
@@ -33,7 +40,7 @@ internal class OllamaChatCompletionTest : AbstractOllamaKtorTest() {
                     listOf(
                         Message(
                             role = "user",
-                            content = "Hello",
+                            content = userMessage,
                         ),
                     ),
                 stream = false,
@@ -41,6 +48,7 @@ internal class OllamaChatCompletionTest : AbstractOllamaKtorTest() {
                     ModelOptions(
                         temperature = temperatureValue,
                         topP = topPValue,
+                        seed = seedValue,
                     ),
             )
 
@@ -54,7 +62,7 @@ internal class OllamaChatCompletionTest : AbstractOllamaKtorTest() {
 
         // Verify response
         with(response) {
-            message.content shouldBe "Hello, how can I help you today?"
+            message.content shouldBe assistantMessage
             model shouldBe modelName
             done shouldBe true
         }
