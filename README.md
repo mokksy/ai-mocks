@@ -1,6 +1,6 @@
-# Mokksy and AI-Mocks
+# AI-Mocks
 
-[![Maven Central](https://img.shields.io/maven-central/v/dev.mokksy/mokksy-jvm)](https://repo1.maven.org/maven2/dev/mokksy/mokksy-jvm/)
+[![Maven Central](https://img.shields.io/maven-central/v/dev.mokksy.aimocks/ai-mocks-core)](https://repo1.maven.org/maven2/dev/mokksy/aimocks/ai-mocks-core/)
 [![Kotlin CI](https://github.com/mokksy/ai-mocks/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/mokksy/ai-mocks/actions/workflows/gradle.yml)
 ![GitHub branch status](https://img.shields.io/github/checks-status/mokksy/ai-mocks/main)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/100bb4b0f6744188b86f38464a48da93)](https://app.codacy.com/gh/mokksy/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
@@ -15,235 +15,17 @@
 ![Kotlin API](https://img.shields.io/badge/Kotlin-2.2-%237F52FF.svg?logo=kotlin&logoColor=white)
 ![Java](https://img.shields.io/badge/JVM-17-%23ED8B00.svg)
 
-_Mokksy_ and _AI-Mocks_ are mock HTTP and LLM (Large Language Model) servers inspired by WireMock, with support for
+_AI-Mocks_ are mock LLM (Large Language Model) servers built on [Mokksy](https://github.com/mokksy/mokksy/), a mock server inspired by WireMock, with support for
 response streaming and Server-Side Events (SSE). They are designed to build, test, and mock LLM responses for development purposes.
+
 
 [![Buy me a Coffee](https://cdn.buymeacoffee.com/buttons/default-orange.png)](https://buymeacoffee.com/mailsk)
 
-**Table of contents**
-<!--- TOC -->
-
-* [Mokksy](#mokksy)
-* [Core Features](#core-features)
-* [Example Usages](#example-usages)
-  * [Responding with Predefined Responses](#responding-with-predefined-responses)
-  * [POST Request](#post-request)
-  * [Server-Side Events (SSE) Response](#server-side-events-sse-response)
-* [Feature Support Matrix](#feature-support-matrix)
-* [How to build](#how-to-build)
-* [Contributing](#contributing)
-
-<!--- END -->
-
 ## Mokksy
 
-**[Mokksy](mokksy/README.md)** is a mock HTTP server built with [Kotlin](https://kotlinlang.org/)
+**[Mokksy](https://github.com/mokksy/mokksy)** is a mock HTTP server built with [Kotlin](https://kotlinlang.org/)
 and [Ktor](https://ktor.io/). It addresses the limitations of WireMock by supporting true SSE and streaming responses,
-making it particularly useful for integration testing LLM clients.
-
-## Core Features
-
-- Flexibility to control server response directly via ApplicationCall object.
-- Built with Kotest Assertions.
-- Fluent modern Kotlin DSL API.
-- Support for simulating streamed responses and Server-Side Events (SSE) with delays between chunks.
-- Support for simulating response delays.
-
-## Example Usages
-
-### Responding with Predefined Responses
-
-<!--- INCLUDE
-import dev.mokksy.mokksy.Mokksy
-import io.kotest.matchers.equals.beEqual
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.DefaultRequest
-import io.ktor.client.request.get
-import io.ktor.client.statement.bodyAsText
-import io.ktor.http.HttpStatusCode
-import kotlinx.coroutines.runBlocking
-import org.assertj.core.api.Assertions.assertThat
-val mokksy = Mokksy()
-val client = HttpClient {
-    install(DefaultRequest) {
-        url(mokksy.baseUrl())
-    }
-}
-fun main() = runBlocking {
--->
-```kotlin
-// given
-val expectedResponse =
-  // language=json
-  """
-    {
-        "response": "Pong"
-    }
-    """.trimIndent()
-
-mokksy.get {
-  path = beEqual("/ping")
-  containsHeader("Foo", "bar")
-} respondsWith {
-  body = expectedResponse
-}
-
-// when
-val result = client.get("/ping") {
-  headers.append("Foo", "bar")
-}
-
-// then
-assertThat(result.status).isEqualTo(HttpStatusCode.OK)
-assertThat(result.bodyAsText()).isEqualTo(expectedResponse)
-```
-
-<!--- SUFFIX
-}
--->
-<!--- KNIT example-mokksy-01.kt -->
-
-### POST Request
-
-<!--- INCLUDE
-import dev.mokksy.mokksy.Mokksy
-import io.kotest.matchers.equals.beEqual
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.DefaultRequest
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
-import io.ktor.client.statement.bodyAsText
-import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpStatusCode
-import kotlinx.coroutines.runBlocking
-import kotlin.random.Random
-import org.assertj.core.api.Assertions.assertThat
-val mokksy = Mokksy()
-val client = HttpClient {
-    install(DefaultRequest) {
-        url(mokksy.baseUrl())
-    }
-}
-fun main() = runBlocking {
--->
-```kotlin
-// given
-val id = Random.nextInt()
-val expectedResponse =
-  // language=json
-  """
-    {
-        "id": "$id",
-        "name": "thing-$id"
-    }
-    """.trimIndent()
-
-mokksy.post {
-  path = beEqual("/things")
-  bodyContains("\"$id\"")
-} respondsWith {
-  body = expectedResponse
-  httpStatus = HttpStatusCode.Created
-  headers {
-    // type-safe builder style
-    append(HttpHeaders.Location, "/things/$id")
-  }
-  headers += "Foo" to "bar" // list style
-}
-
-// when
-val result =
-  client.post("/things") {
-    headers.append("Content-Type", "application/json")
-    setBody(
-      // language=json
-      """
-            {
-                "id": "$id"
-            }
-            """.trimIndent(),
-    )
-  }
-
-// then
-assertThat(result.status).isEqualTo(HttpStatusCode.Created)
-assertThat(result.bodyAsText()).isEqualTo(expectedResponse)
-assertThat(result.headers["Location"]).isEqualTo("/things/$id")
-assertThat(result.headers["Foo"]).isEqualTo("bar")
-```
-
-<!--- SUFFIX
-}
--->
-<!--- KNIT example-mokksy-02.kt -->
-
-### Server-Side Events (SSE) Response
-
-Server-Side Events (SSE) is a technology that allows a server to push updates to the client over a single, long-lived
-HTTP connection, enabling real-time updates without requiring the client to continuously poll the server for new data.
-
-<!--- INCLUDE
-import dev.mokksy.mokksy.Mokksy
-import io.kotest.matchers.equals.beEqual
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.DefaultRequest
-import io.ktor.client.request.post
-import io.ktor.client.statement.bodyAsText
-import io.ktor.http.ContentType
-import io.ktor.http.HttpStatusCode
-import io.ktor.http.contentType
-import io.ktor.http.withCharset
-import io.ktor.sse.ServerSentEvent
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.runBlocking
-import kotlin.time.Duration.Companion.milliseconds
-import org.assertj.core.api.Assertions.assertThat
-val mokksy = Mokksy()
-val client = HttpClient {
-    install(DefaultRequest) {
-        url(mokksy.baseUrl())
-    }
-}
-fun main() = runBlocking {
--->
-```kotlin
-mokksy.post {
-  path = beEqual("/sse")
-} respondsWithSseStream {
-  flow =
-    flow {
-      delay(200.milliseconds)
-      emit(
-        ServerSentEvent(
-          data = "One",
-        ),
-      )
-      delay(50.milliseconds)
-      emit(
-        ServerSentEvent(
-          data = "Two",
-        ),
-      )
-    }
-}
-
-// when
-val result = client.post("/sse")
-
-// then
-assertThat(result.status)
-  .isEqualTo(HttpStatusCode.OK)
-assertThat(result.contentType())
-  .isEqualTo(ContentType.Text.EventStream.withCharset(Charsets.UTF_8))
-assertThat(result.bodyAsText())
-  .isEqualTo("data: One\r\ndata: Two\r\n")
-```
-
-<!--- SUFFIX
-}
--->
-<!--- KNIT example-mokksy-03.kt -->
+making it extreamly useful for integration testing LLM clients.
 
 # AI-Mocks
 
