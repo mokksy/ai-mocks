@@ -144,27 +144,27 @@ internal class ErrorCodesTest {
         error.message shouldBe "Task 42 not found"
     }
 
-    @Test
+    `@Test`
     fun `should attach data to error`() {
-        val data = Data.of("taskId" to "42", "reason" to "expired")
+        val expectedData = Data.of("taskId" to "42", "reason" to "expired")
 
-        val error = taskNotFoundError(data = data)
+        val error = taskNotFoundError(data = expectedData)
 
         assertSoftly(error) {
             code shouldBe TASK_NOT_FOUND_ERROR_CODE
-            error.data shouldBe data
+            data shouldBe expectedData
         }
     }
 
-    @Test
+    `@Test`
     fun `should attach data and override message together`() {
-        val data = Data.of("detail" to "unsupported")
+        val expectedData = Data.of("detail" to "unsupported")
 
-        val error = unsupportedOperationError(message = "Custom message", data = data)
+        val error = unsupportedOperationError(message = "Custom message", data = expectedData)
 
         assertSoftly(error) {
             message shouldBe "Custom message"
-            error.data shouldBe data
+            data shouldBe expectedData
         }
     }
 }
