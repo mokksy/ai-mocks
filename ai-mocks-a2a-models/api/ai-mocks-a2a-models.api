@@ -1021,7 +1021,7 @@ public final class dev/mokksy/aimocks/a2a/model/DeleteTaskPushNotificationConfig
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public final class dev/mokksy/aimocks/a2a/model/ErrorCodesKt {
+public final class dev/mokksy/aimocks/a2a/model/ErrorCodes {
 	public static final field AUTHENTICATED_EXTENDED_CARD_NOT_CONFIGURED_ERROR_CODE J
 	public static final field CONTENT_TYPE_NOT_SUPPORTED_CODE J
 	public static final field INTERNAL_ERROR_CODE J
@@ -1034,26 +1034,52 @@ public final class dev/mokksy/aimocks/a2a/model/ErrorCodesKt {
 	public static final field TASK_NOT_CANCELABLE_ERROR_CODE J
 	public static final field TASK_NOT_FOUND_ERROR_CODE J
 	public static final field UNSUPPORTED_OPERATION_ERROR_CODE J
+	public static final fun authenticatedExtendedCardNotConfiguredError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun authenticatedExtendedCardNotConfiguredError (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static final fun authenticatedExtendedCardNotConfiguredError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static synthetic fun authenticatedExtendedCardNotConfiguredError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun contentTypeNotSupportedError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun contentTypeNotSupportedError (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static final fun contentTypeNotSupportedError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static synthetic fun contentTypeNotSupportedError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun internalError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun internalError (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static final fun internalError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static synthetic fun internalError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun invalidAgentResponseError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun invalidAgentResponseError (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun invalidAgentResponseError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static synthetic fun invalidAgentResponseError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun invalidParamsError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun invalidParamsError (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static final fun invalidParamsError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static synthetic fun invalidParamsError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun invalidRequestError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun invalidRequestError (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static final fun invalidRequestError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static synthetic fun invalidRequestError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun jsonParseError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun jsonParseError (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static final fun jsonParseError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static synthetic fun jsonParseError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun methodNotFoundError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun methodNotFoundError (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static final fun methodNotFoundError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static synthetic fun methodNotFoundError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun pushNotificationNotSupportedError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun pushNotificationNotSupportedError (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static final fun pushNotificationNotSupportedError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static synthetic fun pushNotificationNotSupportedError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun taskNotCancelableError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun taskNotCancelableError (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static final fun taskNotCancelableError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static synthetic fun taskNotCancelableError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun taskNotFoundError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun taskNotFoundError (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static final fun taskNotFoundError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static synthetic fun taskNotFoundError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun unsupportedOperationError ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun unsupportedOperationError (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static final fun unsupportedOperationError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 	public static synthetic fun unsupportedOperationError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 }

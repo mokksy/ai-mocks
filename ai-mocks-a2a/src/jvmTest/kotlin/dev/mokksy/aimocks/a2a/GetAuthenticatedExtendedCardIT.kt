@@ -8,8 +8,8 @@ import dev.mokksy.aimocks.a2a.model.GetAuthenticatedExtendedCardResponse
 import dev.mokksy.aimocks.a2a.model.agentCapabilities
 import dev.mokksy.aimocks.a2a.model.agentCardSignature
 import dev.mokksy.aimocks.a2a.model.agentSkill
+import dev.mokksy.aimocks.a2a.model.authenticatedExtendedCardNotConfiguredError
 import dev.mokksy.aimocks.a2a.model.getAuthenticatedExtendedCardRequest
-import dev.mokksy.aimocks.a2a.model.invalidParamsError
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
 import io.ktor.client.call.body
@@ -102,10 +102,7 @@ internal class GetAuthenticatedExtendedCardIT : AbstractIT() {
     suspend fun `Should fail to get authenticated extended agent card`() {
         a2aServer.getAuthenticatedExtendedCard() responds {
             id = 1
-            error =
-                invalidParamsError(
-                    message = "Authenticated Extended Card not configured"
-                )
+            error = authenticatedExtendedCardNotConfiguredError()
         }
 
         val response =
@@ -126,10 +123,7 @@ internal class GetAuthenticatedExtendedCardIT : AbstractIT() {
         val expectedReply =
             GetAuthenticatedExtendedCardResponse(
                 id = 1,
-                error =
-                    invalidParamsError(
-                        message = "Authenticated Extended Card not configured"
-                    ),
+                error = authenticatedExtendedCardNotConfiguredError(),
             )
         payload shouldBeEqualToComparingFields expectedReply
     }

@@ -1,4 +1,5 @@
 @file:Suppress("TooManyFunctions")
+@file:JvmName("ErrorCodes")
 
 package dev.mokksy.aimocks.a2a.model
 
@@ -15,6 +16,7 @@ public const val CONTENT_TYPE_NOT_SUPPORTED_CODE: Long = -32005
 public const val INVALID_AGENT_ERROR_CODE: Long = -32006
 public const val AUTHENTICATED_EXTENDED_CARD_NOT_CONFIGURED_ERROR_CODE: Long = -32007
 
+@JvmOverloads
 public fun jsonParseError(
     message: String = "Invalid JSON payload",
     data: Data? = null,
@@ -25,6 +27,7 @@ public fun jsonParseError(
         data = data,
     )
 
+@JvmOverloads
 public fun invalidRequestError(
     message: String = "Request payload validation error",
     data: Data? = null,
@@ -35,6 +38,7 @@ public fun invalidRequestError(
         data = data,
     )
 
+@JvmOverloads
 public fun methodNotFoundError(
     message: String = "Method not found",
     data: Data? = null,
@@ -45,6 +49,7 @@ public fun methodNotFoundError(
         data = data,
     )
 
+@JvmOverloads
 public fun invalidParamsError(
     message: String = "Invalid parameters",
     data: Data? = null,
@@ -55,6 +60,7 @@ public fun invalidParamsError(
         data = data,
     )
 
+@JvmOverloads
 public fun internalError(
     message: String = "Internal error",
     data: Data? = null,
@@ -65,6 +71,7 @@ public fun internalError(
         data = data,
     )
 
+@JvmOverloads
 public fun taskNotFoundError(
     message: String = "Task not found",
     data: Data? = null,
@@ -75,6 +82,7 @@ public fun taskNotFoundError(
         data = data,
     )
 
+@JvmOverloads
 public fun taskNotCancelableError(
     message: String = "Task cannot be canceled",
     data: Data? = null,
@@ -85,6 +93,7 @@ public fun taskNotCancelableError(
         data = data,
     )
 
+@JvmOverloads
 public fun pushNotificationNotSupportedError(
     message: String = "Push Notification is not supported",
     data: Data? = null,
@@ -95,6 +104,7 @@ public fun pushNotificationNotSupportedError(
         data = data,
     )
 
+@JvmOverloads
 public fun unsupportedOperationError(
     message: String = "This operation is not supported",
     data: Data? = null,
@@ -105,6 +115,7 @@ public fun unsupportedOperationError(
         data = data,
     )
 
+@JvmOverloads
 public fun contentTypeNotSupportedError(
     message: String = "Incompatible content types",
     data: Data? = null,
@@ -115,6 +126,18 @@ public fun contentTypeNotSupportedError(
         data = data,
     )
 
+@JvmOverloads
+public fun invalidAgentResponseError(
+    message: String = "Invalid agent response type",
+    data: Data? = null,
+): JSONRPCError =
+    JSONRPCError(
+        code = INVALID_AGENT_ERROR_CODE,
+        message = message,
+        data = data,
+    )
+
+@JvmOverloads
 public fun authenticatedExtendedCardNotConfiguredError(
     message: String = "Authenticated Extended Card is not configured",
     data: Data? = null,

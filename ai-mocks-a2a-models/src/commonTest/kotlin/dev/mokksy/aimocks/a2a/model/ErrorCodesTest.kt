@@ -5,7 +5,6 @@ import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 internal class ErrorCodesTest {
-
     @Test
     fun `should create jsonParseError with default message and null data`() {
         val error = jsonParseError()
@@ -112,6 +111,17 @@ internal class ErrorCodesTest {
         assertSoftly(error) {
             code shouldBe CONTENT_TYPE_NOT_SUPPORTED_CODE
             message shouldBe "Incompatible content types"
+            data shouldBe null
+        }
+    }
+
+    @Test
+    fun `should create invalidAgentResponseError with default message and null data`() {
+        val error = invalidAgentResponseError()
+
+        assertSoftly(error) {
+            code shouldBe INVALID_AGENT_ERROR_CODE
+            message shouldBe "Invalid agent response type"
             data shouldBe null
         }
     }
