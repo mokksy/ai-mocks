@@ -84,9 +84,9 @@ internal class DeleteTaskPushNotificationConfigIT : AbstractIT() {
             DeleteTaskPushNotificationConfigResponse(
                 id = 1,
                 error =
-                    invalidParamsError {
+                    invalidParamsError(
                         message = "Invalid parameters"
-                    },
+                    ),
             )
         payload shouldBeEqualToComparingFields expectedReply
     }

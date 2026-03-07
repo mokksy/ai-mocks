@@ -88,10 +88,7 @@ internal class GetTaskIT : AbstractIT() {
     suspend fun `Should fail to get task`() {
         a2aServer.getTask() responds {
             id = 1
-            error =
-                taskNotFoundError {
-                    message = "Task not found"
-                }
+            error = taskNotFoundError("Task not found")
         }
 
         val response =
@@ -119,9 +116,9 @@ internal class GetTaskIT : AbstractIT() {
             getTaskResponse {
                 id = 1
                 error =
-                    taskNotFoundError {
-                        message = "Task not found"
-                    }
+                    taskNotFoundError(
+                        message = "Task not found",
+                    )
             }
         payload shouldBeEqualToComparingFields expectedReply
     }

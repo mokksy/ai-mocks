@@ -71,9 +71,7 @@ internal class CancelTaskIT : AbstractIT() {
         a2aServer.cancelTask() responds {
             id = 1
             error =
-                internalError {
-                    message = "Oops"
-                }
+                internalError(message = "Oops")
         }
 
         val response =
@@ -98,9 +96,7 @@ internal class CancelTaskIT : AbstractIT() {
             cancelTaskResponse {
                 id = 1
                 error =
-                    internalError {
-                        message = "Oops"
-                    }
+                    internalError(message = "Oops")
             }
         payload shouldBeEqualToComparingFields expectedReply
     }

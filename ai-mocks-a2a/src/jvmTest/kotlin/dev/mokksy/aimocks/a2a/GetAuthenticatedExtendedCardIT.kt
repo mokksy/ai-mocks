@@ -103,9 +103,9 @@ internal class GetAuthenticatedExtendedCardIT : AbstractIT() {
         a2aServer.getAuthenticatedExtendedCard() responds {
             id = 1
             error =
-                invalidParamsError {
+                invalidParamsError(
                     message = "Authenticated Extended Card not configured"
-                }
+                )
         }
 
         val response =
@@ -127,9 +127,9 @@ internal class GetAuthenticatedExtendedCardIT : AbstractIT() {
             GetAuthenticatedExtendedCardResponse(
                 id = 1,
                 error =
-                    invalidParamsError {
+                    invalidParamsError(
                         message = "Authenticated Extended Card not configured"
-                    },
+                    ),
             )
         payload shouldBeEqualToComparingFields expectedReply
     }

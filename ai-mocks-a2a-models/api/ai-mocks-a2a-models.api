@@ -637,30 +637,6 @@ public final class dev/mokksy/aimocks/a2a/model/ArtifactBuilderKt {
 	public static final fun create (Ldev/mokksy/aimocks/a2a/model/Artifact$Companion;Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/Artifact;
 }
 
-public final class dev/mokksy/aimocks/a2a/model/AuthenticatedExtendedCardNotConfiguredError : dev/mokksy/aimocks/a2a/model/JSONRPCError {
-	public static final field Companion Ldev/mokksy/aimocks/a2a/model/AuthenticatedExtendedCardNotConfiguredError$Companion;
-	public fun <init> ()V
-	public synthetic fun <init> (Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy-a8Ttz3E (Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/AuthenticatedExtendedCardNotConfiguredError;
-	public static synthetic fun copy-a8Ttz3E$default (Ldev/mokksy/aimocks/a2a/model/AuthenticatedExtendedCardNotConfiguredError;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/AuthenticatedExtendedCardNotConfiguredError;
-}
-
-public final synthetic class dev/mokksy/aimocks/a2a/model/AuthenticatedExtendedCardNotConfiguredError$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Ldev/mokksy/aimocks/a2a/model/AuthenticatedExtendedCardNotConfiguredError$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/a2a/model/AuthenticatedExtendedCardNotConfiguredError;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/a2a/model/AuthenticatedExtendedCardNotConfiguredError;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/AuthenticatedExtendedCardNotConfiguredError$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
 public final class dev/mokksy/aimocks/a2a/model/AuthenticationInfo {
 	public static final field Companion Ldev/mokksy/aimocks/a2a/model/AuthenticationInfo$Companion;
 	public fun <init> (Ljava/util/List;Ljava/lang/String;)V
@@ -818,30 +794,6 @@ public final class dev/mokksy/aimocks/a2a/model/CancelTaskResponseBuilderKt {
 	public static final fun cancelTaskResponse (Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/CancelTaskResponse;
 	public static final fun create (Ldev/mokksy/aimocks/a2a/model/CancelTaskResponse$Companion;Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/a2a/model/CancelTaskResponse;
 	public static final fun create (Ldev/mokksy/aimocks/a2a/model/CancelTaskResponse$Companion;Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/CancelTaskResponse;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/ContentTypeNotSupportedError : dev/mokksy/aimocks/a2a/model/JSONRPCError {
-	public static final field Companion Ldev/mokksy/aimocks/a2a/model/ContentTypeNotSupportedError$Companion;
-	public fun <init> ()V
-	public synthetic fun <init> (Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy-a8Ttz3E (Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/ContentTypeNotSupportedError;
-	public static synthetic fun copy-a8Ttz3E$default (Ldev/mokksy/aimocks/a2a/model/ContentTypeNotSupportedError;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/ContentTypeNotSupportedError;
-}
-
-public final synthetic class dev/mokksy/aimocks/a2a/model/ContentTypeNotSupportedError$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Ldev/mokksy/aimocks/a2a/model/ContentTypeNotSupportedError$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/a2a/model/ContentTypeNotSupportedError;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/a2a/model/ContentTypeNotSupportedError;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/ContentTypeNotSupportedError$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/mokksy/aimocks/a2a/model/Data {
@@ -1070,11 +1022,40 @@ public final class dev/mokksy/aimocks/a2a/model/DeleteTaskPushNotificationConfig
 }
 
 public final class dev/mokksy/aimocks/a2a/model/ErrorCodesKt {
+	public static final field AUTHENTICATED_EXTENDED_CARD_NOT_CONFIGURED_ERROR_CODE J
 	public static final field CONTENT_TYPE_NOT_SUPPORTED_CODE J
 	public static final field INTERNAL_ERROR_CODE J
+	public static final field INVALID_AGENT_ERROR_CODE J
+	public static final field INVALID_PARAMS_ERROR_CODE J
 	public static final field INVALID_REQUEST_ERROR_CODE J
+	public static final field JSON_PARSE_ERROR_CODE J
+	public static final field METHOD_NOT_FOUND_ERROR_CODE J
+	public static final field PUSH_NOTIFICATION_NOT_SUPPORTED_ERROR_CODE J
 	public static final field TASK_NOT_CANCELABLE_ERROR_CODE J
+	public static final field TASK_NOT_FOUND_ERROR_CODE J
 	public static final field UNSUPPORTED_OPERATION_ERROR_CODE J
+	public static final fun authenticatedExtendedCardNotConfiguredError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static synthetic fun authenticatedExtendedCardNotConfiguredError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun contentTypeNotSupportedError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static synthetic fun contentTypeNotSupportedError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun internalError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static synthetic fun internalError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun invalidParamsError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static synthetic fun invalidParamsError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun invalidRequestError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static synthetic fun invalidRequestError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun jsonParseError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static synthetic fun jsonParseError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun methodNotFoundError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static synthetic fun methodNotFoundError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun pushNotificationNotSupportedError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static synthetic fun pushNotificationNotSupportedError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun taskNotCancelableError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static synthetic fun taskNotCancelableError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun taskNotFoundError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static synthetic fun taskNotFoundError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static final fun unsupportedOperationError-_3ijHq0 (Ljava/lang/String;Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
+	public static synthetic fun unsupportedOperationError-_3ijHq0$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
 }
 
 public final class dev/mokksy/aimocks/a2a/model/FileContent {
@@ -1571,169 +1552,6 @@ public final synthetic class dev/mokksy/aimocks/a2a/model/HttpSecurityScheme$$se
 
 public final class dev/mokksy/aimocks/a2a/model/HttpSecurityScheme$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/InternalError : dev/mokksy/aimocks/a2a/model/JSONRPCError {
-	public static final field Companion Ldev/mokksy/aimocks/a2a/model/InternalError$Companion;
-	public fun <init> ()V
-	public synthetic fun <init> (Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy-a8Ttz3E (Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/InternalError;
-	public static synthetic fun copy-a8Ttz3E$default (Ldev/mokksy/aimocks/a2a/model/InternalError;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/InternalError;
-}
-
-public final synthetic class dev/mokksy/aimocks/a2a/model/InternalError$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Ldev/mokksy/aimocks/a2a/model/InternalError$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/a2a/model/InternalError;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/a2a/model/InternalError;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/InternalError$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/InternalErrorBuilder : dev/mokksy/aimocks/a2a/model/JSONRPCErrorBuilder {
-	public fun <init> ()V
-	public fun build ()Ldev/mokksy/aimocks/a2a/model/InternalError;
-	public synthetic fun build ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/InternalErrorBuilderKt {
-	public static final fun create (Ldev/mokksy/aimocks/a2a/model/InternalError$Companion;Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/a2a/model/InternalError;
-	public static final fun create (Ldev/mokksy/aimocks/a2a/model/InternalError$Companion;Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/InternalError;
-	public static final fun internalError (Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/a2a/model/InternalError;
-	public static final fun internalError (Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/InternalError;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/InvalidAgentResponseError : dev/mokksy/aimocks/a2a/model/JSONRPCError {
-	public static final field Companion Ldev/mokksy/aimocks/a2a/model/InvalidAgentResponseError$Companion;
-	public fun <init> ()V
-	public synthetic fun <init> (Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy-a8Ttz3E (Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/InvalidAgentResponseError;
-	public static synthetic fun copy-a8Ttz3E$default (Ldev/mokksy/aimocks/a2a/model/InvalidAgentResponseError;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/InvalidAgentResponseError;
-}
-
-public final synthetic class dev/mokksy/aimocks/a2a/model/InvalidAgentResponseError$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Ldev/mokksy/aimocks/a2a/model/InvalidAgentResponseError$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/a2a/model/InvalidAgentResponseError;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/a2a/model/InvalidAgentResponseError;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/InvalidAgentResponseError$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/InvalidParamsError : dev/mokksy/aimocks/a2a/model/JSONRPCError {
-	public fun <init> ()V
-	public synthetic fun <init> (Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy-a8Ttz3E (Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/InvalidParamsError;
-	public static synthetic fun copy-a8Ttz3E$default (Ldev/mokksy/aimocks/a2a/model/InvalidParamsError;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/InvalidParamsError;
-}
-
-public final synthetic class dev/mokksy/aimocks/a2a/model/InvalidParamsError$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Ldev/mokksy/aimocks/a2a/model/InvalidParamsError$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/a2a/model/InvalidParamsError;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/a2a/model/InvalidParamsError;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/InvalidParamsErrorBuilder : dev/mokksy/aimocks/a2a/model/JSONRPCErrorBuilder {
-	public fun <init> ()V
-	public fun build ()Ldev/mokksy/aimocks/a2a/model/InvalidParamsError;
-	public synthetic fun build ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/InvalidParamsErrorBuilderKt {
-	public static final fun invalidParamsError (Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/a2a/model/InvalidParamsError;
-	public static final fun invalidParamsError (Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/InvalidParamsError;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/InvalidRequestError : dev/mokksy/aimocks/a2a/model/JSONRPCError {
-	public static final field Companion Ldev/mokksy/aimocks/a2a/model/InvalidRequestError$Companion;
-	public fun <init> ()V
-	public synthetic fun <init> (Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy-a8Ttz3E (Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/InternalError;
-	public static synthetic fun copy-a8Ttz3E$default (Ldev/mokksy/aimocks/a2a/model/InvalidRequestError;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/InternalError;
-}
-
-public final synthetic class dev/mokksy/aimocks/a2a/model/InvalidRequestError$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Ldev/mokksy/aimocks/a2a/model/InvalidRequestError$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/a2a/model/InvalidRequestError;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/a2a/model/InvalidRequestError;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/InvalidRequestError$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/InvalidRequestErrorBuilder : dev/mokksy/aimocks/a2a/model/JSONRPCErrorBuilder {
-	public fun <init> ()V
-	public fun build ()Ldev/mokksy/aimocks/a2a/model/InvalidRequestError;
-	public synthetic fun build ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/InvalidRequestErrorBuilderKt {
-	public static final fun create (Ldev/mokksy/aimocks/a2a/model/InvalidRequestError$Companion;Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/a2a/model/InvalidRequestError;
-	public static final fun create (Ldev/mokksy/aimocks/a2a/model/InvalidRequestError$Companion;Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/InvalidRequestError;
-	public static final fun invalidRequestError (Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/a2a/model/InvalidRequestError;
-	public static final fun invalidRequestError (Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/InvalidRequestError;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/JSONParseError : dev/mokksy/aimocks/a2a/model/JSONRPCError {
-	public static final field Companion Ldev/mokksy/aimocks/a2a/model/JSONParseError$Companion;
-	public fun <init> ()V
-	public synthetic fun <init> (Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy-a8Ttz3E (Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/InternalError;
-	public static synthetic fun copy-a8Ttz3E$default (Ldev/mokksy/aimocks/a2a/model/JSONParseError;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/InternalError;
-}
-
-public final synthetic class dev/mokksy/aimocks/a2a/model/JSONParseError$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Ldev/mokksy/aimocks/a2a/model/JSONParseError$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/a2a/model/JSONParseError;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/a2a/model/JSONParseError;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/JSONParseError$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/JSONParseErrorBuilder : dev/mokksy/aimocks/a2a/model/JSONRPCErrorBuilder {
-	public fun <init> ()V
-	public fun build ()Ldev/mokksy/aimocks/a2a/model/JSONParseError;
-	public synthetic fun build ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/JSONParseErrorBuilderKt {
-	public static final fun jsonParseError (Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/a2a/model/JSONParseError;
-	public static final fun jsonParseError (Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/JSONParseError;
 }
 
 public class dev/mokksy/aimocks/a2a/model/JSONRPCError {
@@ -2245,41 +2063,6 @@ public final class dev/mokksy/aimocks/a2a/model/Metadata$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public final class dev/mokksy/aimocks/a2a/model/MethodNotFoundError : dev/mokksy/aimocks/a2a/model/JSONRPCError {
-	public static final field Companion Ldev/mokksy/aimocks/a2a/model/MethodNotFoundError$Companion;
-	public fun <init> ()V
-	public synthetic fun <init> (Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy-a8Ttz3E (Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/InternalError;
-	public static synthetic fun copy-a8Ttz3E$default (Ldev/mokksy/aimocks/a2a/model/MethodNotFoundError;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/InternalError;
-}
-
-public final synthetic class dev/mokksy/aimocks/a2a/model/MethodNotFoundError$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Ldev/mokksy/aimocks/a2a/model/MethodNotFoundError$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/a2a/model/MethodNotFoundError;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/a2a/model/MethodNotFoundError;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/MethodNotFoundError$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/MethodNotFoundErrorBuilder : dev/mokksy/aimocks/a2a/model/JSONRPCErrorBuilder {
-	public fun <init> ()V
-	public synthetic fun build ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
-	public fun build ()Ldev/mokksy/aimocks/a2a/model/MethodNotFoundError;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/MethodNotFoundErrorBuilderKt {
-	public static final fun methodNotFoundError (Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/a2a/model/MethodNotFoundError;
-	public static final fun methodNotFoundError (Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/MethodNotFoundError;
-}
-
 public final class dev/mokksy/aimocks/a2a/model/MutualTLSSecurityScheme : dev/mokksy/aimocks/a2a/model/SecurityScheme {
 	public static final field Companion Ldev/mokksy/aimocks/a2a/model/MutualTLSSecurityScheme$Companion;
 	public fun <init> ()V
@@ -2538,43 +2321,6 @@ public final class dev/mokksy/aimocks/a2a/model/PushNotificationConfigBuilderKt 
 	public static final fun create (Ldev/mokksy/aimocks/a2a/model/PushNotificationConfig$Companion;Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/PushNotificationConfig;
 	public static final fun pushNotificationConfig (Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/a2a/model/PushNotificationConfig;
 	public static final fun pushNotificationConfig (Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/PushNotificationConfig;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError : dev/mokksy/aimocks/a2a/model/JSONRPCError {
-	public static final field Companion Ldev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError$Companion;
-	public fun <init> ()V
-	public synthetic fun <init> (Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy-a8Ttz3E (Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError;
-	public static synthetic fun copy-a8Ttz3E$default (Ldev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError;
-}
-
-public final synthetic class dev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Ldev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedErrorBuilder : dev/mokksy/aimocks/a2a/model/JSONRPCErrorBuilder {
-	public fun <init> ()V
-	public synthetic fun build ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
-	public fun build ()Ldev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedErrorBuilderKt {
-	public static final fun create (Ldev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError$Companion;Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError;
-	public static final fun create (Ldev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError$Companion;Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError;
-	public static final fun pushNotificationNotSupportedError (Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError;
-	public static final fun pushNotificationNotSupportedError (Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/PushNotificationNotSupportedError;
 }
 
 public abstract interface class dev/mokksy/aimocks/a2a/model/SecurityScheme {
@@ -3121,78 +2867,6 @@ public final class dev/mokksy/aimocks/a2a/model/TaskIdParamsBuilderKt {
 	public static final fun taskIdParams (Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/TaskIdParams;
 }
 
-public final class dev/mokksy/aimocks/a2a/model/TaskNotCancelableError : dev/mokksy/aimocks/a2a/model/JSONRPCError {
-	public static final field Companion Ldev/mokksy/aimocks/a2a/model/TaskNotCancelableError$Companion;
-	public fun <init> ()V
-	public synthetic fun <init> (Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy-a8Ttz3E (Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/TaskNotCancelableError;
-	public static synthetic fun copy-a8Ttz3E$default (Ldev/mokksy/aimocks/a2a/model/TaskNotCancelableError;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/TaskNotCancelableError;
-}
-
-public final synthetic class dev/mokksy/aimocks/a2a/model/TaskNotCancelableError$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Ldev/mokksy/aimocks/a2a/model/TaskNotCancelableError$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/a2a/model/TaskNotCancelableError;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/a2a/model/TaskNotCancelableError;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/TaskNotCancelableError$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/TaskNotCancelableErrorBuilder : dev/mokksy/aimocks/a2a/model/JSONRPCErrorBuilder {
-	public fun <init> ()V
-	public synthetic fun build ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
-	public fun build ()Ldev/mokksy/aimocks/a2a/model/TaskNotCancelableError;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/TaskNotCancelableErrorBuilderKt {
-	public static final fun create (Ldev/mokksy/aimocks/a2a/model/TaskNotCancelableError$Companion;Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/a2a/model/TaskNotCancelableError;
-	public static final fun create (Ldev/mokksy/aimocks/a2a/model/TaskNotCancelableError$Companion;Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/TaskNotCancelableError;
-	public static final fun taskNotCancelableError (Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/a2a/model/TaskNotCancelableError;
-	public static final fun taskNotCancelableError (Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/TaskNotCancelableError;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/TaskNotFoundError : dev/mokksy/aimocks/a2a/model/JSONRPCError {
-	public static final field Companion Ldev/mokksy/aimocks/a2a/model/TaskNotFoundError$Companion;
-	public fun <init> ()V
-	public synthetic fun <init> (Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy-a8Ttz3E (Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/TaskNotFoundError;
-	public static synthetic fun copy-a8Ttz3E$default (Ldev/mokksy/aimocks/a2a/model/TaskNotFoundError;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/TaskNotFoundError;
-}
-
-public final synthetic class dev/mokksy/aimocks/a2a/model/TaskNotFoundError$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Ldev/mokksy/aimocks/a2a/model/TaskNotFoundError$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/a2a/model/TaskNotFoundError;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/a2a/model/TaskNotFoundError;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/TaskNotFoundError$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/TaskNotFoundErrorBuilder : dev/mokksy/aimocks/a2a/model/JSONRPCErrorBuilder {
-	public fun <init> ()V
-	public synthetic fun build ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
-	public fun build ()Ldev/mokksy/aimocks/a2a/model/TaskNotFoundError;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/TaskNotFoundErrorBuilderKt {
-	public static final fun taskNotFoundError (Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/a2a/model/TaskNotFoundError;
-	public static final fun taskNotFoundError (Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/TaskNotFoundError;
-}
-
 public final class dev/mokksy/aimocks/a2a/model/TaskPushNotificationConfig {
 	public static final field Companion Ldev/mokksy/aimocks/a2a/model/TaskPushNotificationConfig$Companion;
 	public fun <init> (Ljava/lang/String;Ldev/mokksy/aimocks/a2a/model/PushNotificationConfig;)V
@@ -3647,36 +3321,6 @@ public final class dev/mokksy/aimocks/a2a/model/Transport : java/lang/Enum {
 
 public final class dev/mokksy/aimocks/a2a/model/Transport$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/UnsupportedOperationError : dev/mokksy/aimocks/a2a/model/JSONRPCError {
-	public fun <init> ()V
-	public synthetic fun <init> (Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy-a8Ttz3E (Ljava/util/Map;)Ldev/mokksy/aimocks/a2a/model/UnsupportedOperationError;
-	public static synthetic fun copy-a8Ttz3E$default (Ldev/mokksy/aimocks/a2a/model/UnsupportedOperationError;Ljava/util/Map;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/model/UnsupportedOperationError;
-}
-
-public final synthetic class dev/mokksy/aimocks/a2a/model/UnsupportedOperationError$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Ldev/mokksy/aimocks/a2a/model/UnsupportedOperationError$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/a2a/model/UnsupportedOperationError;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/a2a/model/UnsupportedOperationError;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/UnsupportedOperationErrorBuilder : dev/mokksy/aimocks/a2a/model/JSONRPCErrorBuilder {
-	public fun <init> ()V
-	public synthetic fun build ()Ldev/mokksy/aimocks/a2a/model/JSONRPCError;
-	public fun build ()Ldev/mokksy/aimocks/a2a/model/UnsupportedOperationError;
-}
-
-public final class dev/mokksy/aimocks/a2a/model/UnsupportedOperationErrorBuilderKt {
-	public static final fun unsupportedOperationError (Ljava/util/function/Consumer;)Ldev/mokksy/aimocks/a2a/model/UnsupportedOperationError;
-	public static final fun unsupportedOperationError (Lkotlin/jvm/functions/Function1;)Ldev/mokksy/aimocks/a2a/model/UnsupportedOperationError;
 }
 
 public final class dev/mokksy/aimocks/a2a/model/serializers/ByteArrayAsBase64Serializer : kotlinx/serialization/KSerializer {

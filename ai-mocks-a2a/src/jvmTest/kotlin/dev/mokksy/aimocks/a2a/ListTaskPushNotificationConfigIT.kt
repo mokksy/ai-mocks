@@ -94,9 +94,7 @@ internal class ListTaskPushNotificationConfigIT : AbstractIT() {
         a2aServer.listTaskPushNotificationConfig() responds {
             id = 1
             error =
-                invalidParamsError {
-                    message = "Invalid parameters"
-                }
+                invalidParamsError(message = "Invalid parameters")
         }
 
         val response =
@@ -118,10 +116,7 @@ internal class ListTaskPushNotificationConfigIT : AbstractIT() {
         val expectedReply =
             ListTaskPushNotificationConfigResponse(
                 id = 1,
-                error =
-                    invalidParamsError {
-                        message = "Invalid parameters"
-                    },
+                error = invalidParamsError(message = "Invalid parameters"),
             )
         payload shouldBeEqualToComparingFields expectedReply
     }

@@ -274,9 +274,7 @@ val a2aServer = MockAgentServer(verbose = true)
 // Configure the mock server to respond with a task not found error
 a2aServer.getTask() responds {
     id = 1
-    error = taskNotFoundError {
-        message = "Task not found"
-    }
+    error = taskNotFoundError()
 }
 ```
 

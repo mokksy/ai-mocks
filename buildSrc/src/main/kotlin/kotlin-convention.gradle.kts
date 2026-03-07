@@ -87,3 +87,12 @@ tasks.named("detekt").configure {
         "detektTestJvm",
     )
 }
+
+// Gradle 9 compatibility: plugins (KGP, ABI validation) internally add artifacts to the deprecated
+// 'archives' configuration. Wire them directly to 'assemble' as Gradle 9 requires.
+afterEvaluate {
+    val archives = configurations.findByName("archives") ?: return@afterEvaluate
+    tasks.named("assemble") {
+        dependsOn(archives.allArtifacts.buildDependencies)
+    }
+}
