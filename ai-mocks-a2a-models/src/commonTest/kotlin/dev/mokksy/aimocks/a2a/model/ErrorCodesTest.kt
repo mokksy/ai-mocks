@@ -127,7 +127,7 @@ internal class ErrorCodesTest {
     }
 
     @Test
-    fun `should create authenticatedExtendedCardNotConfiguredError with default message and null data`() {
+    fun `should create authenticatedExtendedCardNotConfiguredError`() {
         val error = authenticatedExtendedCardNotConfiguredError()
 
         assertSoftly(error) {
@@ -144,7 +144,7 @@ internal class ErrorCodesTest {
         error.message shouldBe "Task 42 not found"
     }
 
-    `@Test`
+    @Test
     fun `should attach data to error`() {
         val expectedData = Data.of("taskId" to "42", "reason" to "expired")
 
@@ -156,7 +156,7 @@ internal class ErrorCodesTest {
         }
     }
 
-    `@Test`
+    @Test
     fun `should attach data and override message together`() {
         val expectedData = Data.of("detail" to "unsupported")
 
