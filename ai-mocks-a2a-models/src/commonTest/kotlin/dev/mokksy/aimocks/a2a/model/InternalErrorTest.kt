@@ -18,7 +18,11 @@ internal class InternalErrorTest {
     @Test
     fun `should create InternalError with data`() {
         // given
-        val data = Data.of("reason" to "Something went wrong", "details" to "Error details")
+        val data =
+            Data.of(
+                "reason" to "Something went wrong",
+                "details" to "Error details",
+            )
 
         // when
         val error = internalError(data = data)
