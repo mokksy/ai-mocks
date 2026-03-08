@@ -16,7 +16,10 @@ class OpenaiCompletionsMatchersTest {
             ChatCompletionRequest(
                 messages =
                     listOf(
-                        Message(role = ChatCompletionRole.SYSTEM, content = MessageContent.Text("actual content")),
+                        Message(
+                            role = ChatCompletionRole.SYSTEM,
+                            content = MessageContent.Text("actual content"),
+                        ),
                     ),
                 model = "gpt-4",
             )
@@ -62,7 +65,10 @@ class OpenaiCompletionsMatchersTest {
             ChatCompletionRequest(
                 messages =
                     listOf(
-                        Message(role = ChatCompletionRole.USER, content = MessageContent.Text("actual content")),
+                        Message(
+                            role = ChatCompletionRole.USER,
+                            content = MessageContent.Text("actual content"),
+                        ),
                     ),
                 model = "gpt-4",
             )

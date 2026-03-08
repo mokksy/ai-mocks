@@ -10,11 +10,14 @@ import com.openai.models.responses.ResponseInputText
 import dev.mokksy.aimocks.openai.openai
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.string.shouldContainIgnoringCase
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import java.util.UUID
 import kotlin.time.measureTimedValue
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class ResponsesFileInputTest : AbstractOpenaiResponsesTest() {
     private val imageResource = this.javaClass.getResource("/pipiro.jpg")!!
     private val filename = imageResource.file
@@ -126,5 +129,10 @@ internal class ResponsesFileInputTest : AbstractOpenaiResponsesTest() {
                 .input(input)
                 .build()
         return params
+    }
+
+    @AfterEach
+    override fun afterEach() {
+        // noop
     }
 }

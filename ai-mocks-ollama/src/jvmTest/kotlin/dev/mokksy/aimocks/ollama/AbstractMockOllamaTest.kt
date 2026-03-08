@@ -30,6 +30,6 @@ internal abstract class AbstractMockOllamaTest {
 
     @AfterEach
     fun verifyNoUnmatchedRequests() {
-        mockOllama.verifyNoUnmatchedRequests()
+        mockOllama.verifyNoUnexpectedRequests()
     }
 }

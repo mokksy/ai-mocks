@@ -29,7 +29,6 @@ sourceSets {
 }
 
 dependencies {
-    dokka(project(":mokksy"))
     dokka(project(":a2a-client"))
     dokka(project(":ai-mocks-a2a"))
     dokka(project(":ai-mocks-a2a-models"))
@@ -45,7 +44,7 @@ dependencies {
     testImplementation(project(":ai-mocks-gemini"))
     testImplementation(project(":ai-mocks-ollama"))
     testImplementation(project(":ai-mocks-openai"))
-    testImplementation(project(":mokksy"))
+    testImplementation(libs.mokksy)
 
     testImplementation(platform(libs.ktor.bom))
     testImplementation(libs.ktor.client.content.negotiation)

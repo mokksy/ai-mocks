@@ -5,6 +5,7 @@ import com.google.genai.types.GenerateContentConfig
 import dev.mokksy.aimocks.gemini.gemini
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.Test
@@ -80,5 +81,10 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
                 )
             }
         exception.code() shouldBe 404
+    }
+
+    @AfterEach
+    override fun afterEach() {
+        // noop
     }
 }

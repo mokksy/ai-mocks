@@ -181,7 +181,7 @@ public class AnthropicBuildingStep(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                logger.error("Failed to build streaming response", e)
+                logger.error(e) { "Failed to build streaming response" }
                 throw e
             }
         }

@@ -7,7 +7,7 @@ plugins {
 }
 
 dependencies {
-    dokka(project(":mokksy"))
+    dokka(libs.mokksy)
 }
 
 dokka {
@@ -22,8 +22,9 @@ kotlin {
             dependencies {
                 api(libs.kotlinx.serialization.json)
                 api(libs.kotlinx.schema.json)
-                api(project(":mokksy"))
+                api(libs.mokksy)
                 api(project.dependencies.platform(libs.ktor.bom))
+                api(libs.kotlinLogging)
             }
         }
         commonTest {

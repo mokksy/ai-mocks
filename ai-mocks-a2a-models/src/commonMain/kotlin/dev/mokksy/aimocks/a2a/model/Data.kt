@@ -3,6 +3,8 @@ package dev.mokksy.aimocks.a2a.model
 import dev.mokksy.aimocks.a2a.model.serializers.MapOrPrimitiveSerializer
 import kotlinx.serialization.Serializable
 
+private val EMPTY: Data = Data(emptyMap())
+
 @JvmInline
 @Serializable
 @Suppress("SERIALIZER_TYPE_INCOMPATIBLE")
@@ -18,8 +20,6 @@ public value class Data(
     public fun asMap(): Map<String, Any> = value
 
     public companion object {
-        private val EMPTY: Data = Data(emptyMap())
-
         @JvmStatic
         public fun empty(): Data = EMPTY
 

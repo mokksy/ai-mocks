@@ -50,7 +50,7 @@ internal abstract class AbstractMockGeminiTest {
     }
 
     @AfterEach
-    fun verifyNoUnmatchedRequests() {
-        gemini.verifyNoUnmatchedRequests()
+    open fun afterEach() {
+        gemini.verifyNoUnexpectedRequests()
     }
 }
