@@ -11,13 +11,14 @@
   "packageRules": [
     {
       "matchPackageNames": [
-        "me.kpavlov.project"
+        "dev.mokksy.aimocks"
       ],
       "enabled": false
     },
     {
       "description": "Automatically merge patch-level updates",
       "matchUpdateTypes": [
+        "minor",
         "patch",
         "digest"
       ],
