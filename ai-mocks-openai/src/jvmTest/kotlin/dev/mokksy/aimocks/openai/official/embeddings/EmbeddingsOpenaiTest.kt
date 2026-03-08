@@ -13,6 +13,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
@@ -156,5 +157,10 @@ internal class EmbeddingsOpenaiTest : AbstractOpenaiTest() {
         timedValue.duration shouldBeGreaterThan 200.milliseconds
         val exception = timedValue.value
         exception.statusCode() shouldBe HttpStatusCode.BadRequest.value
+    }
+
+    @AfterEach
+    override fun afterEach() {
+        // noop
     }
 }

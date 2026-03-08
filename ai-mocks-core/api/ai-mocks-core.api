@@ -1,7 +1,7 @@
 public abstract class dev/mokksy/aimocks/core/AbstractBuildingStep {
 	public fun <init> (Ldev/mokksy/mokksy/MokksyServer;Ldev/mokksy/mokksy/BuildingStep;)V
 	protected final fun getBuildingStep ()Ldev/mokksy/mokksy/BuildingStep;
-	protected final fun getLogger ()Lorg/slf4j/Logger;
+	protected final fun getLogger ()Lio/github/oshai/kotlinlogging/KLogger;
 	protected final fun getMokksy ()Ldev/mokksy/mokksy/MokksyServer;
 	public fun responds (Ljava/util/function/Consumer;)V
 	public abstract fun responds (Lkotlin/jvm/functions/Function2;)V
@@ -45,6 +45,7 @@ public abstract class dev/mokksy/aimocks/core/AbstractMockLlm {
 	public final fun shutdown (J)V
 	public final fun shutdown (JJ)V
 	public static synthetic fun shutdown$default (Ldev/mokksy/aimocks/core/AbstractMockLlm;JJILjava/lang/Object;)V
+	public final fun verifyNoUnexpectedRequests ()V
 	public final fun verifyNoUnmatchedRequests ()V
 }
 

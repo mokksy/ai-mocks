@@ -13,7 +13,6 @@ import dev.langchain4j.model.openai.OpenAiStreamingChatModel
 import dev.langchain4j.model.output.FinishReason
 import dev.mokksy.aimocks.openai.AbstractMockOpenaiTest
 import dev.mokksy.aimocks.openai.openai
-import io.kotest.assertions.failure
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -24,6 +23,7 @@ import org.awaitility.kotlin.await
 import org.junit.jupiter.api.Test
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.atomic.AtomicReference
+import kotlin.test.fail
 
 private const val FLOW_BUFFER_SIZE = 8096
 
@@ -105,7 +105,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
 
                 override fun onError(error: Throwable) {
                     logger.info { "Received error: $error" }
-                    failure("Unexpected error", error)
+                    fail("Unexpected error", error)
                 }
             },
         )

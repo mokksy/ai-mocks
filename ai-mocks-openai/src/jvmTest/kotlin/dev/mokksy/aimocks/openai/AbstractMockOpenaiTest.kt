@@ -29,7 +29,7 @@ internal abstract class AbstractMockOpenaiTest {
     }
 
     @AfterEach
-    fun verifyNoUnmatchedRequests() {
-        openai.verifyNoUnmatchedRequests()
+    open fun afterEach() {
+        openai.verifyNoUnexpectedRequests()
     }
 }
