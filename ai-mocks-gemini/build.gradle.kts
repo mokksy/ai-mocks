@@ -29,6 +29,7 @@ kotlin {
                 implementation(project(":test-utils"))
                 implementation(libs.assertk)
                 implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinLogging)
             }
         }
