@@ -37,7 +37,7 @@ class Lc4jChatModelAnthropicErrorsTest {
 
     @AfterEach
     void afterEach() {
-        MOCK.verifyNoUnmatchedRequests();
+        MOCK.verifyNoUnexpectedRequests();
     }
 
     /**

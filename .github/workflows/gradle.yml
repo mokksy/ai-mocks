@@ -21,6 +21,12 @@ env:
   JVM_VERSION: 25
   JVM_DISTRIBUTION: temurin
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  # Cancel only when the run is not on main or develop
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+
 jobs:
   build:
 
@@ -127,6 +133,7 @@ jobs:
   dependency-submission:
 
     runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
     permissions:
       contents: write
 

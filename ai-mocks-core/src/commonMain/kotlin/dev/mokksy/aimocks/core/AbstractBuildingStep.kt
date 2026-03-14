@@ -3,7 +3,8 @@ package dev.mokksy.aimocks.core
 import dev.mokksy.mokksy.BuildingStep
 import dev.mokksy.mokksy.MokksyServer
 import dev.mokksy.mokksy.response.ResponseDefinitionBuilder
-import io.ktor.util.logging.Logger
+import io.github.oshai.kotlinlogging.KLogger
+import io.github.oshai.kotlinlogging.KotlinLogging
 import java.util.function.Consumer
 import kotlin.reflect.KClass
 
@@ -26,7 +27,10 @@ public abstract class AbstractBuildingStep<P : Any, R : AbstractResponseSpecific
     protected val mokksy: MokksyServer,
     protected val buildingStep: BuildingStep<P>,
 ) {
-    protected val logger: Logger = mokksy.logger
+    protected val logger: KLogger =
+        KotlinLogging.logger(
+            name = requireNotNull(this::class.simpleName),
+        )
 
     public abstract infix fun responds(block: suspend R.() -> Unit)
 
@@ -89,4 +93,3 @@ public abstract class AbstractBuildingStep<P : Any, R : AbstractResponseSpecific
         }
     }
 }
-

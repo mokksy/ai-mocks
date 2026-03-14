@@ -13,5 +13,4 @@ include(
     ":ai-mocks-openai",
     ":test-utils",
     ":docs",
-    ":mokksy",
 )

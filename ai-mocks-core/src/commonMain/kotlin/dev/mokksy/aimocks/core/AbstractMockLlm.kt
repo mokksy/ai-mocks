@@ -3,6 +3,8 @@ package dev.mokksy.aimocks.core
 import dev.mokksy.mokksy.ApplicationConfigurer
 import dev.mokksy.mokksy.MokksyServer
 import dev.mokksy.mokksy.ServerConfiguration
+import dev.mokksy.mokksy.shutdown
+import dev.mokksy.mokksy.start
 import io.ktor.server.application.log
 
 /**
@@ -34,7 +36,7 @@ public abstract class AbstractMockLlm(
         ) {
             applicationConfigurer?.invoke(this)
             log.info("Running ${configuration.name} with $engine engine")
-        }
+        }.apply { start() }
 
     /**
      * Returns the port number on which the mock server is running.
@@ -60,9 +62,15 @@ public abstract class AbstractMockLlm(
         mokksy.shutdown(gracePeriodMillis, timeoutMillis)
     }
 
-    public fun verifyNoUnmatchedRequests() {
-        mokksy.checkForUnmatchedRequests()
+    public fun verifyNoUnexpectedRequests() {
+        mokksy.verifyNoUnexpectedRequests()
     }
+
+    @Deprecated(
+        "Use `verifyNoUnexpectedRequests` instead.",
+        ReplaceWith("verifyNoUnexpectedRequests()"),
+    )
+    public fun verifyNoUnmatchedRequests(): Unit = verifyNoUnexpectedRequests()
 
     /**
      * Provides the base URL of the mock server to be provided

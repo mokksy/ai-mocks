@@ -2,7 +2,7 @@
 build:
 	rm -rf ~/.m2/repository/me/kpavlov/aimocks ~/.m2/repository/me/kpavlov/mokksy && \
 	./gradlew checkLegacyAbi build && \
-	./gradlew koverVerify publishToMavenLocal && \
+	./gradlew koverHtmlReport koverVerify publishToMavenLocal && \
 	(cd ai-mocks-openai/samples/shadow && mvn test)
 
 .PHONY: clean

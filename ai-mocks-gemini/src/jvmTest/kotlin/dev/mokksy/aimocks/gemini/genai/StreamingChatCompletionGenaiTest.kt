@@ -7,6 +7,7 @@ import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.Test
@@ -102,5 +103,10 @@ internal class StreamingChatCompletionGenaiTest : AbstractGenaiTest() {
                     ).joinToString(separator = "") { it.text().orEmpty() }
             }
         exception.code() shouldBe 404
+    }
+
+    @AfterEach
+    override fun afterEach() {
+        // noop
     }
 }
