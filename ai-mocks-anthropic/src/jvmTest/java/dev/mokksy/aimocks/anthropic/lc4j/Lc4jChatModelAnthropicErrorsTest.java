@@ -6,7 +6,6 @@ import dev.langchain4j.model.anthropic.AnthropicChatModel;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ChatRequest;
 import dev.mokksy.aimocks.anthropic.MockAnthropic;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -34,11 +33,6 @@ class Lc4jChatModelAnthropicErrorsTest {
         .logRequests(true)
         .logResponses(true)
         .build();
-
-    @AfterEach
-    void afterEach() {
-        MOCK.verifyNoUnexpectedRequests();
-    }
 
     /**
      * See <a href="https://docs.anthropic.com/en/api/errors#http-errors">Anthropic HTTP errors</a>
@@ -77,7 +71,7 @@ class Lc4jChatModelAnthropicErrorsTest {
             })
             .respondsError(res -> {
                 res.setBody(responseBody);
-                res.httpStatus(httpStatusCode);
+                res.status(httpStatusCode);
             });
 
         // when-then

@@ -6,17 +6,14 @@ import dev.mokksy.aimocks.a2a.model.JSONRPCError
 import dev.mokksy.aimocks.a2a.model.JSONRPCErrorBuilder
 import dev.mokksy.aimocks.a2a.model.RequestId
 import dev.mokksy.aimocks.core.AbstractResponseSpecification
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
 
 /**
  * Response specification for configuring delete task push notification config responses.
  */
 public class DeleteTaskPushNotificationConfigResponseSpecification(
-    response: AbstractResponseDefinition<DeleteTaskPushNotificationConfigResponse>,
     delay: Duration = Duration.ZERO,
 ) : AbstractResponseSpecification<DeleteTaskPushNotificationConfigRequest, DeleteTaskPushNotificationConfigResponse>(
-        response = response,
         delay = delay,
     ) {
     public var id: RequestId? = null

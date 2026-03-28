@@ -27,8 +27,7 @@ public class TaskResubscriptionBuildingStep(
     ) {
         buildingStep.respondsWithStream {
             val requestBody = request.body()
-            val responseDefinition = this.build()
-            val responseSpecification = TaskResubscriptionResponseSpecification(responseDefinition)
+            val responseSpecification = TaskResubscriptionResponseSpecification()
             block.invoke(responseSpecification)
             flow =
                 responseSpecification.responseFlow

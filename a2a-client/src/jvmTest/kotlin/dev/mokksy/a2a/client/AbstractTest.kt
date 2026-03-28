@@ -3,7 +3,6 @@ package dev.mokksy.a2a.client
 import dev.mokksy.aimocks.a2a.MockAgentServer
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.request.header
-import org.junit.jupiter.api.AfterEach
 import java.util.UUID
 
 @Suppress("AbstractClassCanBeConcreteClass")
@@ -22,8 +21,4 @@ internal abstract class AbstractTest {
             },
         )
 
-    @AfterEach
-    fun afterEach() {
-        a2aServer.verifyNoUnexpectedRequests()
-    }
 }

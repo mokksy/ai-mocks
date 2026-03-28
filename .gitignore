@@ -212,3 +212,5 @@ gradle-app.setting
 ## Junie
 /test_*.*
 /debug_*.*
+
+*.local.json

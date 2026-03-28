@@ -9,7 +9,6 @@ import io.kotest.matchers.types.beOfType
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.reactor.awaitSingle
-import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.time.Duration.Companion.milliseconds
@@ -84,8 +83,4 @@ internal class OpenaiChatCompletionSpringAiTest : AbstractSpringAiTest() {
             .joinToString("") shouldBe "Ahoy there, matey! Hello!"
     }
 
-    @AfterAll
-    override fun afterEach() {
-        // noop
-    }
 }

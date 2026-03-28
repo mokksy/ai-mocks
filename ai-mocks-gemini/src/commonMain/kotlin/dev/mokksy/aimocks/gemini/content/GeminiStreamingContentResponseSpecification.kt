@@ -2,7 +2,6 @@ package dev.mokksy.aimocks.gemini.content
 
 import dev.mokksy.aimocks.core.AbstractStreamingResponseSpecification
 import dev.mokksy.aimocks.gemini.GenerateContentRequest
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlinx.coroutines.flow.Flow
 import kotlin.time.Duration
 
@@ -16,14 +15,12 @@ import kotlin.time.Duration
  * @property finishReason The reason why the model stopped generating tokens.
  */
 public class GeminiStreamingContentResponseSpecification(
-    response: AbstractResponseDefinition<String>,
     responseFlow: Flow<String>? = null,
     responseChunks: List<String>? = null,
     delayBetweenChunks: Duration = Duration.ZERO,
     delay: Duration = Duration.ZERO,
     public var finishReason: String = "STOP",
 ) : AbstractStreamingResponseSpecification<GenerateContentRequest, String, String>(
-        response,
         responseFlow,
         responseChunks,
         delayBetweenChunks,

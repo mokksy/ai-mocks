@@ -22,9 +22,8 @@ public class DeleteTaskPushNotificationConfigBuildingStep(
         block: suspend DeleteTaskPushNotificationConfigResponseSpecification.() -> Unit,
     ) {
         buildingStep.respondsWith {
-            val responseDefinition = this.build()
             val responseSpec =
-                DeleteTaskPushNotificationConfigResponseSpecification(responseDefinition)
+                DeleteTaskPushNotificationConfigResponseSpecification()
             block.invoke(responseSpec)
             delay = responseSpec.delay
             body = responseSpec.build()

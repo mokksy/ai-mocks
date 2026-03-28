@@ -554,8 +554,8 @@ public final class dev/mokksy/aimocks/openai/completions/OpenaiChatCompletionsBu
 }
 
 public final class dev/mokksy/aimocks/openai/completions/OpenaiChatResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun assistantContent (Ljava/lang/String;)Ldev/mokksy/aimocks/openai/completions/OpenaiChatResponseSpecification;
 	public final fun finishReason (Ljava/lang/String;)Ldev/mokksy/aimocks/openai/completions/OpenaiChatResponseSpecification;
 	public final fun getAssistantContent ()Ljava/lang/String;
@@ -571,8 +571,8 @@ public final class dev/mokksy/aimocks/openai/completions/OpenaiChatResponseSpeci
 }
 
 public final class dev/mokksy/aimocks/openai/completions/OpenaiStreamingChatResponseSpecification : dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getFinishReason ()Ljava/lang/String;
 	public final fun getSendDone ()Z
 	public final fun setFinishReason (Ljava/lang/String;)V
@@ -613,8 +613,8 @@ public final class dev/mokksy/aimocks/openai/embeddings/OpenaiEmbedRequestSpecif
 }
 
 public final class dev/mokksy/aimocks/openai/embeddings/OpenaiEmbedResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/util/List;Ljava/lang/Integer;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/util/List;Ljava/lang/Integer;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/Integer;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/Integer;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun embeddings (Ljava/util/List;)Ldev/mokksy/aimocks/openai/embeddings/OpenaiEmbedResponseSpecification;
 	public final fun embeddings ([Ljava/util/List;)Ldev/mokksy/aimocks/openai/embeddings/OpenaiEmbedResponseSpecification;
 	public final fun getEmbeddings ()Ljava/util/List;
@@ -3062,8 +3062,8 @@ public final class dev/mokksy/aimocks/openai/moderation/OpenaiModerationRequestS
 }
 
 public final class dev/mokksy/aimocks/openai/moderation/OpenaiModerationResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun appliedInputTypes-zAGQGUA (Ljava/lang/String;Ljava/util/List;)Ldev/mokksy/aimocks/openai/moderation/OpenaiModerationResponseSpecification;
 	public final fun category (Ljava/lang/String;DLjava/util/List;)Ldev/mokksy/aimocks/openai/moderation/OpenaiModerationResponseSpecification;
 	public final fun category (Ljava/lang/String;Z)Ldev/mokksy/aimocks/openai/moderation/OpenaiModerationResponseSpecification;
@@ -3106,8 +3106,8 @@ public class dev/mokksy/aimocks/openai/responses/OpenaiResponsesRequestSpecifica
 }
 
 public final class dev/mokksy/aimocks/openai/responses/OpenaiResponsesResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun assistantContent (Ljava/lang/String;)Ldev/mokksy/aimocks/openai/responses/OpenaiResponsesResponseSpecification;
 	public final fun finishReason (Ljava/lang/String;)Ldev/mokksy/aimocks/openai/responses/OpenaiResponsesResponseSpecification;
 	public final fun getAssistantContent ()Ljava/lang/String;

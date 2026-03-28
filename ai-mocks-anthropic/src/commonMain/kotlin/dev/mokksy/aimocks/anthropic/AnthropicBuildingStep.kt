@@ -7,7 +7,6 @@ import dev.mokksy.aimocks.anthropic.model.MessageCreateParams
 import dev.mokksy.aimocks.core.AbstractBuildingStep
 import dev.mokksy.mokksy.BuildingStep
 import dev.mokksy.mokksy.MokksyServer
-import dev.mokksy.mokksy.response.StreamResponseDefinition
 import io.ktor.http.ContentType
 import io.ktor.sse.TypedServerSentEvent
 import io.ktor.utils.io.InternalAPI
@@ -45,9 +44,8 @@ public class AnthropicBuildingStep(
     override infix fun responds(block: suspend AnthropicMessagesResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val request = this.request.body()
-            val responseDefinition = this.build()
             val chatResponseSpecification =
-                AnthropicMessagesResponseSpecification(responseDefinition)
+                AnthropicMessagesResponseSpecification()
             block.invoke(chatResponseSpecification)
             val assistantContent = chatResponseSpecification.assistantContent
             val stopReason = chatResponseSpecification.stopReason
@@ -98,12 +96,8 @@ public class AnthropicBuildingStep(
         block: suspend AnthropicStreamingChatResponseSpecification.() -> Unit,
     ) {
         buildingStep.respondsWithStream {
-            val responseDefinition: StreamResponseDefinition<MessageCreateParams, String> =
-                this.build()
             val responseSpec =
-                AnthropicStreamingChatResponseSpecification(
-                    responseDefinition,
-                )
+                AnthropicStreamingChatResponseSpecification()
             block.invoke(responseSpec)
 
             headers += "Content-Type" to "text/event-stream"

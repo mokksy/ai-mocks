@@ -41,6 +41,7 @@ public abstract class dev/mokksy/aimocks/core/AbstractMockLlm {
 	public fun baseUrl ()Ljava/lang/String;
 	protected final fun getMokksy ()Ldev/mokksy/mokksy/MokksyServer;
 	public final fun port ()I
+	public final fun resetMatchState ()V
 	public final fun shutdown ()V
 	public final fun shutdown (J)V
 	public final fun shutdown (JJ)V
@@ -50,10 +51,9 @@ public abstract class dev/mokksy/aimocks/core/AbstractMockLlm {
 }
 
 public abstract class dev/mokksy/aimocks/core/AbstractResponseSpecification : dev/mokksy/aimocks/core/ResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun delayMillis (J)V
 	public final fun getDelay-UwyO8pc ()J
-	protected final fun getResponse ()Ldev/mokksy/mokksy/response/AbstractResponseDefinition;
 	public final fun setDelay-LRDsOJo (J)V
 }
 
@@ -65,8 +65,8 @@ public abstract class dev/mokksy/aimocks/core/AbstractStreamingBuildingStep : de
 }
 
 public abstract class dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification, dev/mokksy/aimocks/core/StreamingResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun chunks (Ljava/util/List;)V
 	public fun chunks ([Ljava/lang/Object;)V
 	public final fun getDelayBetweenChunks-UwyO8pc ()J

@@ -1,10 +1,10 @@
 package dev.mokksy.aimocks.core
 
-import dev.mokksy.mokksy.ApplicationConfigurer
 import dev.mokksy.mokksy.MokksyServer
 import dev.mokksy.mokksy.ServerConfiguration
 import dev.mokksy.mokksy.shutdown
 import dev.mokksy.mokksy.start
+import io.ktor.server.application.Application
 import io.ktor.server.application.log
 
 /**
@@ -18,7 +18,7 @@ import io.ktor.server.application.log
  *             the system to select an available port automatically.
  * @param configuration The [ServerConfiguration] instance providing details such
  *                      as verbosity, server name, and content negotiation settings.
- * @param applicationConfigurer An optional [ApplicationConfigurer] function to further customize the
+ * @param applicationConfigurer An optional function to further customize the
  *                              server application configuration. Default is an
  *                              empty configuration.
  *  @author Konstantin Pavlov
@@ -27,7 +27,7 @@ import io.ktor.server.application.log
 public abstract class AbstractMockLlm(
     port: Int = 0,
     configuration: ServerConfiguration,
-    applicationConfigurer: ApplicationConfigurer? = {},
+    applicationConfigurer: (Application.() -> Unit)? = {},
 ) {
     protected val mokksy: MokksyServer =
         MokksyServer(
@@ -60,6 +60,16 @@ public abstract class AbstractMockLlm(
         timeoutMillis: Long = 1000,
     ) {
         mokksy.shutdown(gracePeriodMillis, timeoutMillis)
+    }
+
+    /**
+     * Resets the match state of all stubs and clears the request journal.
+     *
+     * Call this in test setup (e.g., `@BeforeEach`) when sharing a single mock
+     * server across multiple test classes to prevent cross-test contamination.
+     */
+    public fun resetMatchState() {
+        mokksy.resetMatchState()
     }
 
     public fun verifyNoUnexpectedRequests() {

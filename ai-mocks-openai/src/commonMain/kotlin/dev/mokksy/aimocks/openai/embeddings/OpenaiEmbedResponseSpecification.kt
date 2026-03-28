@@ -3,7 +3,6 @@ package dev.mokksy.aimocks.openai.embeddings
 import dev.mokksy.aimocks.core.AbstractResponseSpecification
 import dev.mokksy.aimocks.openai.model.embeddings.CreateEmbeddingsRequest
 import dev.mokksy.aimocks.openai.model.embeddings.EmbeddingsResponse
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -19,12 +18,10 @@ import kotlin.time.Duration.Companion.seconds
  * @see <a href="https://platform.openai.com/docs/api-reference/embeddings/object">OpenAI Embedding Object</a>
  */
 public class OpenaiEmbedResponseSpecification(
-    response: AbstractResponseDefinition<EmbeddingsResponse>,
     public var embeddings: List<List<Float>>? = null,
     public var index: Int? = null,
     delay: Duration = 0.seconds,
 ) : AbstractResponseSpecification<CreateEmbeddingsRequest, EmbeddingsResponse>(
-        response = response,
         delay = delay,
     ) {
     /**

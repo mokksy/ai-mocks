@@ -1,6 +1,5 @@
 package dev.mokksy.aimocks.core
 
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -21,7 +20,6 @@ public interface ResponseSpecification {
  */
 @Suppress("AbstractClassCanBeConcreteClass")
 public abstract class AbstractResponseSpecification<P : Any, T : Any>(
-    protected val response: AbstractResponseDefinition<T>,
     public var delay: Duration,
 ) : ResponseSpecification {
     /**

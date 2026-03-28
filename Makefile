@@ -1,6 +1,5 @@
 .PHONY: build
 build:
-	rm -rf ~/.m2/repository/me/kpavlov/aimocks ~/.m2/repository/me/kpavlov/mokksy && \
 	./gradlew checkLegacyAbi build && \
 	./gradlew koverHtmlReport koverVerify publishToMavenLocal && \
 	(cd ai-mocks-openai/samples/shadow && mvn test)
@@ -10,9 +9,14 @@ clean:
 	@echo "🧽 Cleaning..."
 	@./gradlew clean
 
+.PHONY: apidump
+apidump:
+	@echo "🪏 API dump..."
+	@./gradlew updateLegacyAbi
+
 .PHONY: test
 test:
-	./gradlew --rerun-tasks check
+	./gradlew check koverXmlReport
 
 .PHONY: apidocs
 apidocs:

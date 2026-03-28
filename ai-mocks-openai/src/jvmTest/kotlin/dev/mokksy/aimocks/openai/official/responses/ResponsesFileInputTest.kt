@@ -10,7 +10,6 @@ import com.openai.models.responses.ResponseInputText
 import dev.mokksy.aimocks.openai.openai
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.string.shouldContainIgnoringCase
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -131,8 +130,4 @@ internal class ResponsesFileInputTest : AbstractOpenaiResponsesTest() {
         return params
     }
 
-    @AfterEach
-    override fun afterEach() {
-        // noop
-    }
 }

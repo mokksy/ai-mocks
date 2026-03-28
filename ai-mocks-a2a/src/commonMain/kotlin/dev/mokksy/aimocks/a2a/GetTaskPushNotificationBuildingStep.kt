@@ -21,9 +21,8 @@ public class GetTaskPushNotificationBuildingStep(
     ) {
         buildingStep.respondsWith {
             val requestBody = request.body()
-            val responseDefinition = this.build()
             val responseSpecification =
-                GetTaskPushNotificationResponseSpecification(responseDefinition)
+                GetTaskPushNotificationResponseSpecification()
             block.invoke(responseSpecification)
             body =
                 GetTaskPushNotificationResponse(

@@ -7,7 +7,6 @@ import dev.mokksy.aimocks.gemini.GenerateContentRequest
 import dev.mokksy.aimocks.gemini.GenerateContentResponse
 import dev.mokksy.aimocks.gemini.Part
 import dev.mokksy.aimocks.gemini.PromptFeedback
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
 
 /**
@@ -20,13 +19,11 @@ import kotlin.time.Duration
  * @property finishReason The reason why the model stopped generating tokens.
  */
 public class GeminiContentResponseSpecification(
-    response: AbstractResponseDefinition<GenerateContentResponse>,
     public var content: String = "This is a mock response from Gemini API.",
     public var finishReason: String = "STOP",
     public var role: String = "model",
     delay: Duration = Duration.ZERO,
 ) : AbstractResponseSpecification<GenerateContentRequest, GenerateContentResponse>(
-        response = response,
         delay = delay,
     ) {
     public fun assistantContent(value: String): GeminiContentResponseSpecification = content(value)

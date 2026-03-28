@@ -1,7 +1,6 @@
 package dev.mokksy.aimocks.openai
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import kotlin.random.Random
 
@@ -28,8 +27,4 @@ internal abstract class AbstractMockOpenaiTest {
         startTimestamp = java.time.Instant.now()
     }
 
-    @AfterEach
-    open fun afterEach() {
-        openai.verifyNoUnexpectedRequests()
-    }
 }

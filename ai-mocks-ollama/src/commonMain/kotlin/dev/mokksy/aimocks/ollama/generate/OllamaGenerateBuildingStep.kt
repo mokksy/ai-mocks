@@ -3,7 +3,7 @@ package dev.mokksy.aimocks.ollama.generate
 import dev.mokksy.aimocks.core.AbstractBuildingStep
 import dev.mokksy.mokksy.BuildingStep
 import dev.mokksy.mokksy.MokksyServer
-import dev.mokksy.mokksy.response.StreamResponseDefinition
+
 import io.ktor.http.ContentType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -49,9 +49,8 @@ public class OllamaGenerateBuildingStep(
     override infix fun responds(block: suspend OllamaGenerateResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val request = this.request.body()
-            val responseDefinition = this.build()
             val generateResponseSpecification =
-                OllamaGenerateResponseSpecification(responseDefinition)
+                OllamaGenerateResponseSpecification()
             block.invoke(generateResponseSpecification)
             val responseContent = generateResponseSpecification.responseContent
             val doneReason = generateResponseSpecification.doneReason
@@ -91,12 +90,8 @@ public class OllamaGenerateBuildingStep(
         block: OllamaStreamingGenerateResponseSpecification.() -> Unit,
     ) {
         buildingStep.respondsWithStream {
-            val responseDefinition: StreamResponseDefinition<GenerateRequest, String> =
-                this.build()
             val responseSpec =
-                OllamaStreamingGenerateResponseSpecification(
-                    responseDefinition,
-                )
+                OllamaStreamingGenerateResponseSpecification()
             block.invoke(responseSpec)
 
             headers += "Content-Type" to "text/event-stream"

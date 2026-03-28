@@ -11,8 +11,7 @@ public class AgentCardBuildingStep(
 ) : AbstractBuildingStep<Nothing, AgentCardResponseSpecification>(mokksy, buildingStep) {
     override infix fun responds(block: suspend AgentCardResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
-            val responseDefinition = this.build()
-            val responseSpecification = AgentCardResponseSpecification(responseDefinition)
+            val responseSpecification = AgentCardResponseSpecification()
             block.invoke(responseSpecification)
             contentType = ContentType.Application.Json
             body = requireNotNull(responseSpecification.card) { "Card must be defined" }

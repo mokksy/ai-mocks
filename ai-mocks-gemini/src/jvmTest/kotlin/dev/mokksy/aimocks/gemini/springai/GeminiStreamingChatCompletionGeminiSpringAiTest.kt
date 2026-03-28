@@ -54,7 +54,4 @@ internal class GeminiStreamingChatCompletionGeminiSpringAiTest : AbstractGeminiS
             )
     }
 
-    override fun afterEach() {
-        // noop
-    }
 }
