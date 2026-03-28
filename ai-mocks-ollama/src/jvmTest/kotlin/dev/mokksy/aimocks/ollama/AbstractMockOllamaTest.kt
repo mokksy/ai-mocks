@@ -1,6 +1,7 @@
 package dev.mokksy.aimocks.ollama
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import kotlin.random.Random
 
@@ -27,4 +28,8 @@ internal abstract class AbstractMockOllamaTest {
         startTimestamp = java.time.Instant.now()
     }
 
+    @AfterEach
+    fun afterEach() {
+        mockOllama.verifyNoUnexpectedRequests()
+    }
 }

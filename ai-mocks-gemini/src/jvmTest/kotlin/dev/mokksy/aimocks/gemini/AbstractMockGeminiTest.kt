@@ -1,6 +1,7 @@
 package dev.mokksy.aimocks.gemini
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
 import java.time.Instant
@@ -48,4 +49,8 @@ internal abstract class AbstractMockGeminiTest {
         startTimestamp = Instant.now()
     }
 
+    @AfterEach
+    fun afterEach() {
+        gemini.verifyNoUnexpectedRequests()
+    }
 }

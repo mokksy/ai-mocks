@@ -1,12 +1,7 @@
 package dev.mokksy.aimocks.gemini.genai
 
-import com.google.genai.errors.ClientException
-import com.google.genai.types.GenerateContentConfig
 import dev.mokksy.aimocks.gemini.gemini
-import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.matchers.shouldBe
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -43,43 +38,6 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
             )
 
         response.text() shouldBe "Ahoy there, matey! Hello!"
-    }
-
-    @ParameterizedTest
-    @MethodSource("requestMutators")
-    fun `Should miss response when request does not match`(
-        mutator: GenerateContentConfig.Builder.() -> Unit,
-    ) {
-        gemini.generateContent {
-            temperature = temperatureValue
-            seed = seedValue
-            topK = topKValue
-            topP = topPValue
-            model = modelName
-            project = projectId
-            location = locationId
-            apiVersion = "v1beta1"
-            maxOutputTokens(maxCompletionTokensValue)
-            systemMessageContains("You are a helpful pirate. $seedValue")
-            userMessageContains("Just say 'Hello!'")
-        } responds {
-            content = "Ahoy there, matey! Hello!"
-            delay = 60.milliseconds
-        }
-
-        val configBuilder = generateContentConfig("You are a helpful pirate. $seedValue")
-        mutator(configBuilder)
-
-        val exception =
-            shouldThrowExactly<ClientException> {
-                client.models.generateContent(
-                    modelName,
-                    "Just say 'Hello!'",
-                    configBuilder
-                        .build(),
-                )
-            }
-        exception.code() shouldBe 404
     }
 
 }

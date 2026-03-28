@@ -1,6 +1,7 @@
 package dev.mokksy.a2a.client;
 
 import dev.mokksy.aimocks.a2a.MockAgentServer;
+import org.junit.jupiter.api.AfterEach;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,4 +16,8 @@ abstract class AbstractJavaTest {
     // Create the client with the baseUrl parameter set to the mock server's URL
     protected final A2AClient client = A2AClientFactory.create(a2aServer.baseUrl());
 
+    @AfterEach
+    public void afterEach() {
+        a2aServer.verifyNoUnexpectedRequests();
+    }
 }

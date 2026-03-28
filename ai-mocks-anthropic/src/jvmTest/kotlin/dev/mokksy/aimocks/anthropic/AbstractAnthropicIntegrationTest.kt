@@ -2,6 +2,7 @@ package dev.mokksy.aimocks.anthropic
 
 import com.anthropic.models.messages.Model
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import java.util.UUID
 import kotlin.random.Random
@@ -33,4 +34,8 @@ internal abstract class AbstractAnthropicIntegrationTest {
         maxTokensValue = Random.nextLong(100, 500)
     }
 
+    @AfterEach
+    fun afterEach() {
+        anthropic.verifyNoUnexpectedRequests()
+    }
 }
