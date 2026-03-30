@@ -13,7 +13,6 @@ import dev.mokksy.aimocks.openai.model.ChatCompletionRole
 import dev.mokksy.aimocks.openai.model.chat.MessageContent
 import dev.mokksy.mokksy.BuildingStep
 import dev.mokksy.mokksy.MokksyServer
-import dev.mokksy.mokksy.response.StreamResponseDefinition
 import io.ktor.http.ContentType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -59,8 +58,7 @@ public class OpenaiChatCompletionsBuildingStep(
     override infix fun responds(block: suspend OpenaiChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val request = this.request.body()
-            val responseDefinition = this.build()
-            val chatResponseSpecification = OpenaiChatResponseSpecification(responseDefinition)
+            val chatResponseSpecification = OpenaiChatResponseSpecification()
             block.invoke(chatResponseSpecification)
             val assistantContent = chatResponseSpecification.assistantContent
             val finishReason = chatResponseSpecification.finishReason
@@ -125,12 +123,8 @@ public class OpenaiChatCompletionsBuildingStep(
     @OptIn(ExperimentalCoroutinesApi::class)
     public infix fun respondsStream(block: OpenaiStreamingChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWithStream {
-            val responseDefinition: StreamResponseDefinition<ChatCompletionRequest, String> =
-                this.build()
             val responseSpec =
-                OpenaiStreamingChatResponseSpecification(
-                    responseDefinition,
-                )
+                OpenaiStreamingChatResponseSpecification()
             block.invoke(responseSpec)
 
             headers += "Content-Type" to "text/event-stream"

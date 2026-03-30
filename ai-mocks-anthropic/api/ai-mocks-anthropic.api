@@ -16,8 +16,8 @@ public class dev/mokksy/aimocks/anthropic/AnthropicMessagesRequestSpecification 
 }
 
 public final class dev/mokksy/aimocks/anthropic/AnthropicMessagesResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun assistantContent (Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/AnthropicMessagesResponseSpecification;
 	public final fun finishReason (Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/AnthropicMessagesResponseSpecification;
 	public final fun getAssistantContent ()Ljava/lang/String;
@@ -35,8 +35,8 @@ public final class dev/mokksy/aimocks/anthropic/AnthropicMessagesResponseSpecifi
 }
 
 public final class dev/mokksy/aimocks/anthropic/AnthropicStreamingChatResponseSpecification : dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getSendDone ()Z
 	public final fun getStopReason ()Ljava/lang/String;
 	public final fun setSendDone (Z)V

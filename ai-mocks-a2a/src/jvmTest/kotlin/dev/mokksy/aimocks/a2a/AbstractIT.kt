@@ -12,6 +12,6 @@ internal abstract class AbstractIT {
 
     @AfterEach
     fun afterEach() {
-        a2aServer.verifyNoUnmatchedRequests()
+        a2aServer.verifyNoUnexpectedRequests()
     }
 }

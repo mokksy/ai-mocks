@@ -1,6 +1,5 @@
 package dev.mokksy.aimocks.core
 
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.stream.consumeAsFlow
 import java.util.stream.Stream
@@ -32,12 +31,11 @@ public interface StreamingResponseSpecification<T : Any> {
  */
 @Suppress("AbstractClassCanBeConcreteClass")
 public abstract class AbstractStreamingResponseSpecification<P : Any, T : Any, R : Any>(
-    response: AbstractResponseDefinition<R>,
     public var responseFlow: Flow<T>?,
     public var responseChunks: List<T>?,
     public var delayBetweenChunks: Duration = Duration.ZERO,
     delay: Duration = Duration.ZERO,
-) : AbstractResponseSpecification<P, R>(response = response, delay = delay),
+) : AbstractResponseSpecification<P, R>(delay = delay),
     StreamingResponseSpecification<T> {
     public override fun chunks(chunks: List<T>) {
         this.responseChunks = chunks

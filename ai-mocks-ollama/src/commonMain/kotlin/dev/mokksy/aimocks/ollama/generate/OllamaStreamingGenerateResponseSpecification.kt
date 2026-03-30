@@ -1,7 +1,6 @@
 package dev.mokksy.aimocks.ollama.generate
 
 import dev.mokksy.aimocks.core.AbstractStreamingResponseSpecification
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlinx.coroutines.flow.Flow
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -15,14 +14,12 @@ import kotlin.time.Duration.Companion.seconds
  * @property doneReason The reason why the generation completed (e.g., "stop", "length")
  */
 public class OllamaStreamingGenerateResponseSpecification(
-    response: AbstractResponseDefinition<String>,
     responseFlow: Flow<String>? = null,
     responseChunks: List<String>? = null,
     delayBetweenChunks: Duration = 0.1.seconds,
     delay: Duration = 0.seconds,
     public var doneReason: String? = "stop",
 ) : AbstractStreamingResponseSpecification<GenerateRequest, String, String>(
-        response = response,
         responseFlow = responseFlow,
         responseChunks = responseChunks,
         delayBetweenChunks = delayBetweenChunks,

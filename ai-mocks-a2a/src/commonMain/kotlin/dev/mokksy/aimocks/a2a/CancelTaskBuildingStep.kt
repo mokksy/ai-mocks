@@ -16,8 +16,7 @@ public class CancelTaskBuildingStep(
     override infix fun responds(block: suspend CancelTaskResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val requestBody = request.body()
-            val responseDefinition = this.build()
-            val responseSpecification = CancelTaskResponseSpecification(responseDefinition)
+            val responseSpecification = CancelTaskResponseSpecification()
             block.invoke(responseSpecification)
             body =
                 CancelTaskResponse(

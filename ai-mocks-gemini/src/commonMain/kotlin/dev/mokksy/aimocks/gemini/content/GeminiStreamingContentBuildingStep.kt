@@ -5,7 +5,7 @@ import dev.mokksy.aimocks.gemini.GenerateContentRequest
 import dev.mokksy.aimocks.gemini.GenerateContentResponse
 import dev.mokksy.mokksy.BuildingStep
 import dev.mokksy.mokksy.MokksyServer
-import dev.mokksy.mokksy.response.StreamResponseDefinition
+
 import io.ktor.sse.TypedServerSentEvent
 import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.flow.Flow
@@ -47,12 +47,8 @@ public class GeminiStreamingContentBuildingStep(
         block: suspend GeminiStreamingContentResponseSpecification.() -> Unit,
     ) {
         buildingStep.respondsWithStream {
-            val responseDefinition: StreamResponseDefinition<GenerateContentRequest, String> =
-                this.build()
             val responseSpec =
-                GeminiStreamingContentResponseSpecification(
-                    responseDefinition,
-                )
+                GeminiStreamingContentResponseSpecification()
             block.invoke(responseSpec)
 
             headers += "Content-Type" to "text/event-stream"

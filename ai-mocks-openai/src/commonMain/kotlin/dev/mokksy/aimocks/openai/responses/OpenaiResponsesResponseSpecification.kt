@@ -3,7 +3,6 @@ package dev.mokksy.aimocks.openai.responses
 import dev.mokksy.aimocks.core.AbstractResponseSpecification
 import dev.mokksy.aimocks.openai.model.responses.CreateResponseRequest
 import dev.mokksy.aimocks.openai.model.responses.Response
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlinx.coroutines.flow.Flow
 import kotlin.time.Duration
 
@@ -14,7 +13,6 @@ import kotlin.time.Duration
  * with additional properties and methods specific to the OpenAI API.
  *
  * @constructor
- * @param response The base definition of the response configuration.
  * @param assistantContent The textual content of the assistant's response. Defaults to an empty string.
  * @param responseFlow A flow of strings representing incremental response content. Defaults to `null`.
  * @param responseChunks A list of response content chunks for streaming scenarios. Defaults to `null`.
@@ -26,7 +24,6 @@ import kotlin.time.Duration
  */
 @Suppress("LongParameterList")
 public class OpenaiResponsesResponseSpecification(
-    response: AbstractResponseDefinition<Response>,
     public var assistantContent: String = "",
     public var responseFlow: Flow<String>? = null,
     public var responseChunks: List<String>? = null,
@@ -34,7 +31,6 @@ public class OpenaiResponsesResponseSpecification(
     delay: Duration = Duration.ZERO,
     public var finishReason: String = "stop",
 ) : AbstractResponseSpecification<CreateResponseRequest, Response>(
-        response = response,
         delay = delay,
     ) {
     public fun assistantContent(content: String): OpenaiResponsesResponseSpecification =

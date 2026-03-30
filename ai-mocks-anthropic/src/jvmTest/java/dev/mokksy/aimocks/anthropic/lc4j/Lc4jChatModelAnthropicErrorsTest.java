@@ -37,7 +37,7 @@ class Lc4jChatModelAnthropicErrorsTest {
 
     @AfterEach
     void afterEach() {
-        MOCK.verifyNoUnmatchedRequests();
+        MOCK.verifyNoUnexpectedRequests();
     }
 
     /**
@@ -77,7 +77,7 @@ class Lc4jChatModelAnthropicErrorsTest {
             })
             .respondsError(res -> {
                 res.setBody(responseBody);
-                res.httpStatus(httpStatusCode);
+                res.status(httpStatusCode);
             });
 
         // when-then

@@ -1,7 +1,6 @@
 package dev.mokksy.aimocks.ollama.generate
 
 import dev.mokksy.aimocks.core.AbstractResponseSpecification
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -15,12 +14,10 @@ import kotlin.time.Duration.Companion.seconds
  * @property doneReason The reason why the generation completed (e.g., "stop", "length")
  */
 public class OllamaGenerateResponseSpecification(
-    response: AbstractResponseDefinition<GenerateResponse>,
     public var responseContent: String = "This is a mock response from Ollama.",
     public var doneReason: String? = "stop",
     delay: Duration = 0.seconds,
 ) : AbstractResponseSpecification<GenerateRequest, GenerateResponse>(
-        response = response,
         delay = delay,
     ) {
     /**

@@ -22,8 +22,7 @@ public class GetAuthenticatedExtendedCardBuildingStep(
         block: suspend GetAuthenticatedExtendedCardResponseSpecification.() -> Unit,
     ) {
         buildingStep.respondsWith {
-            val responseDefinition = this.build()
-            val responseSpec = GetAuthenticatedExtendedCardResponseSpecification(responseDefinition)
+            val responseSpec = GetAuthenticatedExtendedCardResponseSpecification()
             block.invoke(responseSpec)
             delay = responseSpec.delay
             body = responseSpec.build()

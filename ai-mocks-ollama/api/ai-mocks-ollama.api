@@ -237,8 +237,8 @@ public final class dev/mokksy/aimocks/ollama/chat/OllamaChatRequestSpecification
 }
 
 public final class dev/mokksy/aimocks/ollama/chat/OllamaChatResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun content (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/chat/OllamaChatResponseSpecification;
 	public final fun getAssistantContent ()Ljava/lang/String;
 	public final fun getFinishReason ()Ljava/lang/String;
@@ -253,8 +253,8 @@ public final class dev/mokksy/aimocks/ollama/chat/OllamaChatResponseSpecificatio
 }
 
 public final class dev/mokksy/aimocks/ollama/chat/OllamaStreamingChatResponseSpecification : dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
 public final class dev/mokksy/aimocks/ollama/chat/Tool {
@@ -428,8 +428,8 @@ public final class dev/mokksy/aimocks/ollama/embed/OllamaEmbedRequestSpecificati
 }
 
 public final class dev/mokksy/aimocks/ollama/embed/OllamaEmbedResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/util/List;Ljava/lang/String;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/util/List;Ljava/lang/String;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun embeddings (Ljava/util/List;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedResponseSpecification;
 	public final fun embeddings ([Ljava/util/List;)Ldev/mokksy/aimocks/ollama/embed/OllamaEmbedResponseSpecification;
 	public final fun getEmbeddings ()Ljava/util/List;
@@ -560,8 +560,8 @@ public final class dev/mokksy/aimocks/ollama/generate/OllamaGenerateRequestSpeci
 }
 
 public final class dev/mokksy/aimocks/ollama/generate/OllamaGenerateResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun content (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/generate/OllamaGenerateResponseSpecification;
 	public final fun doneReason (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/generate/OllamaGenerateResponseSpecification;
 	public final fun getDoneReason ()Ljava/lang/String;
@@ -571,8 +571,8 @@ public final class dev/mokksy/aimocks/ollama/generate/OllamaGenerateResponseSpec
 }
 
 public final class dev/mokksy/aimocks/ollama/generate/OllamaStreamingGenerateResponseSpecification : dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun doneReason (Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/generate/OllamaStreamingGenerateResponseSpecification;
 	public final fun getDoneReason ()Ljava/lang/String;
 	public final fun setDoneReason (Ljava/lang/String;)V

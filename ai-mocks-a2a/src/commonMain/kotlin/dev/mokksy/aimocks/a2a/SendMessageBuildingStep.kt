@@ -16,8 +16,7 @@ public class SendMessageBuildingStep(
     override infix fun responds(block: suspend SendMessageResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val requestBody = request.body()
-            val responseDefinition = this.build()
-            val responseSpecification = SendMessageResponseSpecification(responseDefinition)
+            val responseSpecification = SendMessageResponseSpecification()
             block.invoke(responseSpecification)
             body =
                 SendMessageResponse(

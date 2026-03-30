@@ -54,6 +54,7 @@ testImplementation("dev.mokksy:mokksy:$latestVersion")
 <!--- CLEAR -->
 <!--- INCLUDE
 import dev.mokksy.mokksy.Mokksy
+import dev.mokksy.mokksy.shutdown
 fun main() {
 -->
 ```kotlin
@@ -313,7 +314,7 @@ Mokksy provides two complementary verification methods that check opposite sides
 
 ### Verify all stubs were triggered
 
-`checkForUnmatchedStubs()` fails if any registered stub was never matched by an incoming request. Use this to catch
+`verifyNoUnmatchedStubs()` fails if any registered stub was never matched by an incoming request. Use this to catch
 stubs you set up but that were never actually called — a sign the code under test took a different path than expected.
 
 <!--- INCLUDE
@@ -323,19 +324,20 @@ fun main() {
 -->
 ```kotlin
 // Fails if any stub has matchCount == 0
-mokksy.checkForUnmatchedStubs()
+mokksy.verifyNoUnmatchedStubs()
 ```
+
 Be careful if you are running tests in parallel against a single MokksyServer instance.
 Some stubs might be unmatched after one test is completed. Don't verify in `@AfterEach`/`@AfterTest`.
 
 ### Verify no unexpected requests arrived
 
-`checkForUnmatchedRequests()` fails if any HTTP request arrived at the server but no stub matched it. These requests are
+`verifyNoUnexpectedRequests()` fails if any HTTP request arrived at the server but no stub matched it. These requests are
 recorded in the `RequestJournal` and reported together.
 
 ```kotlin
 // Fails if any request arrived with no matching stub (unexpected request)
-mokksy.checkForUnmatchedRequests()
+mokksy.verifyNoUnexpectedRequests()
 ```
 
 <!--- SUFFIX
@@ -361,7 +363,7 @@ class MyTest {
 
     @AfterTest
     fun afterEach() {
-      mokksy.checkForUnmatchedRequests() // no unexpected HTTP calls
+      mokksy.verifyNoUnexpectedRequests() // no unexpected HTTP calls
     }
 
     @Test

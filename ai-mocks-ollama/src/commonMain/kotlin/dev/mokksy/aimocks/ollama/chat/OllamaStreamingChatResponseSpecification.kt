@@ -1,7 +1,6 @@
 package dev.mokksy.aimocks.ollama.chat
 
 import dev.mokksy.aimocks.core.AbstractStreamingResponseSpecification
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlinx.coroutines.flow.Flow
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -13,13 +12,11 @@ import kotlin.time.Duration.Companion.seconds
  * It allows specifying the response chunks, response flow, and delay between chunks.
  */
 public class OllamaStreamingChatResponseSpecification(
-    response: AbstractResponseDefinition<String>,
     responseFlow: Flow<String>? = null,
     responseChunks: List<String>? = null,
     delayBetweenChunks: Duration = 0.1.seconds,
     delay: Duration = 0.seconds,
 ) : AbstractStreamingResponseSpecification<ChatRequest, String, String>(
-        response = response,
         responseFlow = responseFlow,
         responseChunks = responseChunks,
         delayBetweenChunks = delayBetweenChunks,

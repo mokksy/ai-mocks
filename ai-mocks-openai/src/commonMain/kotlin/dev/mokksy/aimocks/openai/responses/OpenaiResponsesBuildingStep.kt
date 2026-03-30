@@ -42,8 +42,7 @@ public class OpenaiResponsesBuildingStep(
     ) {
         buildingStep.respondsWith {
             val request = this.request.body()
-            val responseDefinition = this.build()
-            val chatResponseSpecification = OpenaiResponsesResponseSpecification(responseDefinition)
+            val chatResponseSpecification = OpenaiResponsesResponseSpecification()
             block.invoke(chatResponseSpecification)
             val assistantContent = chatResponseSpecification.assistantContent
             delay = chatResponseSpecification.delay

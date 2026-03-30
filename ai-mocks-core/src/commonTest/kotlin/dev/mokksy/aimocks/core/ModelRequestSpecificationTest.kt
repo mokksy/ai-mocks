@@ -109,4 +109,18 @@ class ModelRequestSpecificationTest {
             }
         }
     }
+
+    @Test
+    fun requestBodyEqualsJson() {
+        subject.requestBodyEqualsJson("""{"key": "value"}""")
+
+        subject.requestBodyString.first().let {
+            it.test("""{"key":"value"}""") shouldNotBeNull {
+                passed() shouldBe true
+            }
+            it.test("""{"key":"other"}""") shouldNotBeNull {
+                passed() shouldBe false
+            }
+        }
+    }
 }

@@ -18,6 +18,6 @@ abstract class AbstractJavaTest {
 
     @AfterEach
     public void afterEach() {
-        a2aServer.verifyNoUnmatchedRequests();
+        a2aServer.verifyNoUnexpectedRequests();
     }
 }

@@ -14,6 +14,7 @@ plugins {
 allprojects {
     repositories {
         mavenCentral()
+        mavenLocal()
     }
 }
 
@@ -41,7 +42,6 @@ dependencies {
     kover(project(":ai-mocks-gemini"))
     kover(project(":ai-mocks-ollama"))
     kover(project(":ai-mocks-openai"))
-    kover(project(":mokksy"))
 }
 
 kover {
@@ -73,7 +73,6 @@ kover {
 rewrite {
     activeRecipe(
 //        "org.openrewrite.kotlin.format.AutoFormat",
-        "org.openrewrite.gradle.MigrateToGradle8",
         "org.openrewrite.gradle.RemoveRedundantDependencyVersions",
         "org.openrewrite.kotlin.cleanup.RemoveLambdaArgumentParentheses",
         "org.openrewrite.kotlin.cleanup.UnnecessaryTypeParentheses",

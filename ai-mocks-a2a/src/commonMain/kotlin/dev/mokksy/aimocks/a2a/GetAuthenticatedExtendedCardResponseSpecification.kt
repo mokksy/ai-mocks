@@ -7,17 +7,14 @@ import dev.mokksy.aimocks.a2a.model.GetAuthenticatedExtendedCardResponse
 import dev.mokksy.aimocks.a2a.model.JSONRPCError
 import dev.mokksy.aimocks.a2a.model.RequestId
 import dev.mokksy.aimocks.core.AbstractResponseSpecification
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
 
 /**
  * Response specification for configuring get authenticated extended card responses.
  */
 public class GetAuthenticatedExtendedCardResponseSpecification(
-    response: AbstractResponseDefinition<GetAuthenticatedExtendedCardResponse>,
     delay: Duration = Duration.ZERO,
 ) : AbstractResponseSpecification<GetAuthenticatedExtendedCardRequest, GetAuthenticatedExtendedCardResponse>(
-        response = response,
         delay = delay,
     ) {
     public var id: RequestId? = null

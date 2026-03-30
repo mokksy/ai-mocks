@@ -7,7 +7,6 @@ import dev.mokksy.aimocks.openai.model.moderation.InputType.TEXT
 import dev.mokksy.aimocks.openai.model.moderation.Moderation
 import dev.mokksy.aimocks.openai.model.moderation.ModerationCategory
 import dev.mokksy.aimocks.openai.model.moderation.ModerationResult
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
 
 /**
@@ -16,10 +15,8 @@ import kotlin.time.Duration
  * @see <a href="https://platform.openai.com/docs/api-reference/moderations/object">Moderation Object</a>
  */
 public class OpenaiModerationResponseSpecification(
-    response: AbstractResponseDefinition<Moderation>,
     delay: Duration = Duration.ZERO,
 ) : AbstractResponseSpecification<CreateModerationRequest, Moderation>(
-        response = response,
         delay = delay,
     ) {
     public var id: String? = null

@@ -44,9 +44,8 @@ public class OllamaEmbedBuildingStep(
     override infix fun responds(block: suspend OllamaEmbedResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val request = this.request.body()
-            val responseDefinition = this.build()
             val embedResponseSpecification =
-                OllamaEmbedResponseSpecification(responseDefinition)
+                OllamaEmbedResponseSpecification()
             block.invoke(embedResponseSpecification)
             val embeddings =
                 embedResponseSpecification.embeddings

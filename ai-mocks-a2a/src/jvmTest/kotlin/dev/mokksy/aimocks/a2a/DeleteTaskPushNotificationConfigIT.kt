@@ -6,6 +6,7 @@ import dev.mokksy.aimocks.a2a.model.TaskId
 import dev.mokksy.aimocks.a2a.model.deleteTaskPushNotificationConfigRequest
 import dev.mokksy.aimocks.a2a.model.invalidParamsError
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.ktor.client.call.body
 import io.ktor.client.request.post
@@ -85,9 +86,15 @@ internal class DeleteTaskPushNotificationConfigIT : AbstractIT() {
                 id = 1,
                 error =
                     invalidParamsError(
-                        message = "Invalid parameters"
+                        message = "Invalid parameters",
                     ),
             )
-        payload shouldBeEqualToComparingFields expectedReply
+        payload.id shouldBe expectedReply.id
+        payload.jsonrpc shouldBe expectedReply.jsonrpc
+        payload.error shouldNotBeNull {
+            code shouldBe expectedReply.error?.code
+            message shouldBe expectedReply.error?.message
+            data shouldBe expectedReply.error?.data
+        }
     }
 }

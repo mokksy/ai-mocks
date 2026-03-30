@@ -27,8 +27,7 @@ public class OpenaiModerationBuildingStep(
 
     override infix fun responds(block: suspend OpenaiModerationResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
-            val responseDefinition = this.build()
-            val spec = OpenaiModerationResponseSpecification(responseDefinition)
+            val spec = OpenaiModerationResponseSpecification()
             block.invoke(spec)
             delay = spec.delay
             contentType = ContentType.Application.Json
