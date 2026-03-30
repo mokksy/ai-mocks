@@ -326,6 +326,7 @@ fun main() {
 // Fails if any stub has matchCount == 0
 mokksy.verifyNoUnmatchedStubs()
 ```
+
 Be careful if you are running tests in parallel against a single MokksyServer instance.
 Some stubs might be unmatched after one test is completed. Don't verify in `@AfterEach`/`@AfterTest`.
 

@@ -72,6 +72,10 @@ public abstract class AbstractMockLlm(
         mokksy.resetMatchState()
     }
 
+    /**
+     * Verifies that all requests received by the mock server were expected.
+     * Throws an exception if any unexpected requests were made.
+     */
     public fun verifyNoUnexpectedRequests() {
         mokksy.verifyNoUnexpectedRequests()
     }

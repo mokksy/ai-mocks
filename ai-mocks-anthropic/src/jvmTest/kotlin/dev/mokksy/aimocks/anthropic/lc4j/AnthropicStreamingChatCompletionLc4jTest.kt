@@ -56,7 +56,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
     }
 
     @Test
-    suspend fun `Should respond to Streaming Chat Completion with Flow`() {
+    fun `Should respond to Streaming Chat Completion with Flow`() {
         val userMessage = "What is in the sea? $seedValue"
         anthropic.messages {
             systemMessageContains(systemMessage)
@@ -77,7 +77,9 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
         expectedResponse: String,
     ) {
         val partialResults = ConcurrentLinkedQueue<String>()
+        val errorRef = AtomicReference<Throwable?>()
         val responseRef = AtomicReference<ChatResponse>()
+
         model.chat(
             ChatRequest
                 .builder()
@@ -104,6 +106,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
         )
 
         await.untilAsserted {
+            errorRef.get()?.let { throw AssertionError("Unexpected error", it) }
             responseRef.get().shouldNotBeNull()
         }
         val chatResponse = responseRef.get()
