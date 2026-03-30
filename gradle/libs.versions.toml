@@ -33,7 +33,7 @@ slf4j = "2.0.17"
 spring = "6.2.17"
 spring-ai = "1.1.4"
 system-stubs = "2.1.8"
-jansi = "2.4.2"
+jansi = "2.4.3"
 knit = "0.5.1"
 vanniktechMavenPublish = "0.36.0"
 
