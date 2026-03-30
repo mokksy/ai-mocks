@@ -4,7 +4,6 @@ import dev.mokksy.aimocks.core.AbstractResponseSpecification
 import dev.mokksy.aimocks.core.ResponseSpecification
 import dev.mokksy.aimocks.openai.ChatCompletionRequest
 import dev.mokksy.aimocks.openai.ChatResponse
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlinx.coroutines.flow.Flow
 import kotlin.time.Duration
 
@@ -18,7 +17,6 @@ import kotlin.time.Duration
  *
  * @constructor Creates an instance of OpenaiChatResponseSpecification.
  *
- * @param response The base response definition of type [AbstractResponseDefinition] for the chat response.
  * @param assistantContent The initial assistant response content.
  * @param responseFlow A flow of string-based response chunks to be emitted sequentially.
  * @param responseChunks A list of pre-defined response content chunks.
@@ -30,7 +28,6 @@ import kotlin.time.Duration
  */
 @Suppress("LongParameterList")
 public class OpenaiChatResponseSpecification(
-    response: AbstractResponseDefinition<ChatResponse>,
     public var assistantContent: String = "",
     public var responseFlow: Flow<String>? = null,
     public var responseChunks: List<String>? = null,
@@ -38,7 +35,6 @@ public class OpenaiChatResponseSpecification(
     delay: Duration = Duration.ZERO,
     public var finishReason: String = "stop",
 ) : AbstractResponseSpecification<ChatCompletionRequest, ChatResponse>(
-        response = response,
         delay = delay,
     ) {
     public fun assistantContent(content: String): OpenaiChatResponseSpecification =

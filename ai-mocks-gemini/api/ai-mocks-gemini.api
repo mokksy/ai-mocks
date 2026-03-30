@@ -682,8 +682,8 @@ public class dev/mokksy/aimocks/gemini/content/GeminiContentRequestSpecification
 }
 
 public final class dev/mokksy/aimocks/gemini/content/GeminiContentResponseSpecification : dev/mokksy/aimocks/core/AbstractResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun assistantContent (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/content/GeminiContentResponseSpecification;
 	public final fun build ()Ldev/mokksy/aimocks/gemini/GenerateContentResponse;
 	public final fun content (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/content/GeminiContentResponseSpecification;
@@ -705,8 +705,8 @@ public final class dev/mokksy/aimocks/gemini/content/GeminiStreamingContentBuild
 }
 
 public final class dev/mokksy/aimocks/gemini/content/GeminiStreamingContentResponseSpecification : dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification {
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/mokksy/mokksy/response/AbstractResponseDefinition;Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/flow/Flow;Ljava/util/List;JJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun finishReason (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/content/GeminiStreamingContentResponseSpecification;
 	public final fun getFinishReason ()Ljava/lang/String;
 	public final fun setFinishReason (Ljava/lang/String;)V

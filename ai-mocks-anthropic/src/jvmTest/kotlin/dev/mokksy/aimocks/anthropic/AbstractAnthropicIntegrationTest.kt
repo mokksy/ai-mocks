@@ -35,7 +35,7 @@ internal abstract class AbstractAnthropicIntegrationTest {
     }
 
     @AfterEach
-    fun verifyNoUnmatchedRequests() {
-        anthropic.verifyNoUnmatchedRequests()
+    fun afterEach() {
+        anthropic.verifyNoUnexpectedRequests()
     }
 }

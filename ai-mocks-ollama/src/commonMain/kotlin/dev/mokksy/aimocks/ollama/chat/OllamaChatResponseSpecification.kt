@@ -1,7 +1,6 @@
 package dev.mokksy.aimocks.ollama.chat
 
 import dev.mokksy.aimocks.core.AbstractResponseSpecification
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -16,14 +15,12 @@ import kotlin.time.Duration.Companion.seconds
  * @property toolCalls The tool calls to include in the response
  */
 public class OllamaChatResponseSpecification(
-    response: AbstractResponseDefinition<ChatResponse>,
     public var assistantContent: String = "This is a mock response from Ollama.",
     public var thinking: String? = null,
     public var toolCalls: List<Map<String, Any>>? = null,
     public var finishReason: String? = "stop",
     delay: Duration = 0.seconds,
 ) : AbstractResponseSpecification<ChatRequest, ChatResponse>(
-        response = response,
         delay = delay,
     ) {
     /**

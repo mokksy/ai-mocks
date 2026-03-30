@@ -1,7 +1,6 @@
 package dev.mokksy.aimocks.ollama.embed
 
 import dev.mokksy.aimocks.core.AbstractResponseSpecification
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -15,12 +14,10 @@ import kotlin.time.Duration.Companion.seconds
  * @property model The model name to include in the response
  */
 public class OllamaEmbedResponseSpecification(
-    response: AbstractResponseDefinition<EmbeddingsResponse>,
     public var embeddings: List<List<Float>>? = null,
     public var model: String? = null,
     delay: Duration = 0.seconds,
 ) : AbstractResponseSpecification<EmbeddingsRequest, EmbeddingsResponse>(
-        response = response,
         delay = delay,
     ) {
     /**

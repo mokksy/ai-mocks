@@ -1,8 +1,10 @@
 package dev.mokksy.aimocks.core
 
-import dev.mokksy.mokksy.ApplicationConfigurer
 import dev.mokksy.mokksy.MokksyServer
 import dev.mokksy.mokksy.ServerConfiguration
+import dev.mokksy.mokksy.shutdown
+import dev.mokksy.mokksy.start
+import io.ktor.server.application.Application
 import io.ktor.server.application.log
 
 /**
@@ -16,7 +18,7 @@ import io.ktor.server.application.log
  *             the system to select an available port automatically.
  * @param configuration The [ServerConfiguration] instance providing details such
  *                      as verbosity, server name, and content negotiation settings.
- * @param applicationConfigurer An optional [ApplicationConfigurer] function to further customize the
+ * @param applicationConfigurer An optional function to further customize the
  *                              server application configuration. Default is an
  *                              empty configuration.
  *  @author Konstantin Pavlov
@@ -25,7 +27,7 @@ import io.ktor.server.application.log
 public abstract class AbstractMockLlm(
     port: Int = 0,
     configuration: ServerConfiguration,
-    applicationConfigurer: ApplicationConfigurer? = {},
+    applicationConfigurer: (Application.() -> Unit)? = {},
 ) {
     protected val mokksy: MokksyServer =
         MokksyServer(
@@ -34,7 +36,7 @@ public abstract class AbstractMockLlm(
         ) {
             applicationConfigurer?.invoke(this)
             log.info("Running ${configuration.name} with $engine engine")
-        }
+        }.apply { start() }
 
     /**
      * Returns the port number on which the mock server is running.
@@ -60,9 +62,29 @@ public abstract class AbstractMockLlm(
         mokksy.shutdown(gracePeriodMillis, timeoutMillis)
     }
 
-    public fun verifyNoUnmatchedRequests() {
-        mokksy.checkForUnmatchedRequests()
+    /**
+     * Resets the match state of all stubs and clears the request journal.
+     *
+     * Call this in test setup (e.g., `@BeforeEach`) when sharing a single mock
+     * server across multiple test classes to prevent cross-test contamination.
+     */
+    public fun resetMatchState() {
+        mokksy.resetMatchState()
     }
+
+    /**
+     * Verifies that all requests received by the mock server were expected.
+     * Throws an exception if any unexpected requests were made.
+     */
+    public fun verifyNoUnexpectedRequests() {
+        mokksy.verifyNoUnexpectedRequests()
+    }
+
+    @Deprecated(
+        "Use `verifyNoUnexpectedRequests` instead.",
+        ReplaceWith("verifyNoUnexpectedRequests()"),
+    )
+    public fun verifyNoUnmatchedRequests(): Unit = verifyNoUnexpectedRequests()
 
     /**
      * Provides the base URL of the mock server to be provided

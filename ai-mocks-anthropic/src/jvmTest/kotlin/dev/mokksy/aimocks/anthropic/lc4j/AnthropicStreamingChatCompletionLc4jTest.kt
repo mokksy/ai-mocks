@@ -11,7 +11,6 @@ import dev.langchain4j.model.chat.response.StreamingChatResponseHandler
 import dev.langchain4j.model.output.FinishReason
 import dev.mokksy.aimocks.anthropic.AbstractAnthropicIntegrationTest
 import dev.mokksy.aimocks.anthropic.anthropic
-import io.kotest.assertions.failure
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -20,6 +19,7 @@ import kotlinx.coroutines.flow.flow
 import org.awaitility.kotlin.await
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.fail
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.atomic.AtomicReference
 
@@ -56,7 +56,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
     }
 
     @Test
-    suspend fun `Should respond to Streaming Chat Completion with Flow`() {
+    fun `Should respond to Streaming Chat Completion with Flow`() {
         val userMessage = "What is in the sea? $seedValue"
         anthropic.messages {
             systemMessageContains(systemMessage)
@@ -77,7 +77,9 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
         expectedResponse: String,
     ) {
         val partialResults = ConcurrentLinkedQueue<String>()
+        val errorRef = AtomicReference<Throwable?>()
         val responseRef = AtomicReference<ChatResponse>()
+
         model.chat(
             ChatRequest
                 .builder()
@@ -98,12 +100,13 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
 
                 override fun onError(error: Throwable) {
                     logger.info { "Received error: $error" }
-                    failure("Unexpected error", error)
+                    fail("Unexpected error", error)
                 }
             },
         )
 
         await.untilAsserted {
+            errorRef.get()?.let { throw AssertionError("Unexpected error", it) }
             responseRef.get().shouldNotBeNull()
         }
         val chatResponse = responseRef.get()

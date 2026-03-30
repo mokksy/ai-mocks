@@ -15,7 +15,7 @@ import java.time.Duration;
 
 import static dev.langchain4j.data.message.SystemMessage.systemMessage;
 import static dev.langchain4j.data.message.UserMessage.userMessage;
-import static dev.langchain4j.model.anthropic.AnthropicChatModelName.CLAUDE_3_5_HAIKU_20241022;
+import static dev.langchain4j.model.anthropic.AnthropicChatModelName.CLAUDE_HAIKU_4_5_20251001;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
@@ -28,7 +28,7 @@ class Lc4jChatModelAnthropicErrorsTest {
     private static final ChatModel model = AnthropicChatModel.builder()
         .apiKey("dummy-key")
         .baseUrl(MOCK.baseUrl() + "/v1")
-        .modelName(CLAUDE_3_5_HAIKU_20241022)
+        .modelName(CLAUDE_HAIKU_4_5_20251001)
         .maxTokens(20)
         .timeout(TIMEOUT)
         .logRequests(true)
@@ -37,7 +37,7 @@ class Lc4jChatModelAnthropicErrorsTest {
 
     @AfterEach
     void afterEach() {
-        MOCK.verifyNoUnmatchedRequests();
+        MOCK.verifyNoUnexpectedRequests();
     }
 
     /**
@@ -77,7 +77,7 @@ class Lc4jChatModelAnthropicErrorsTest {
             })
             .respondsError(res -> {
                 res.setBody(responseBody);
-                res.httpStatus(httpStatusCode);
+                res.status(httpStatusCode);
             });
 
         // when-then
@@ -91,10 +91,16 @@ class Lc4jChatModelAnthropicErrorsTest {
             // when
             .isThrownBy(() -> model.chat(chatRequest))
             .satisfies(ex -> {
-                assertThat(ex.getMessage()).as("message").isEqualTo(responseBody);
-                assertThat(ex.getCause()).isInstanceOf(HttpException.class).satisfies(cause -> {
-                    assertThat(((HttpException) cause).statusCode()).as("statusCode").isEqualTo(httpStatusCode);
-                });
+                assertThat(ex.getMessage())
+                    .as("message")
+                    .isEqualTo(responseBody);
+                assertThat(ex.getCause())
+                    .isInstanceOf(HttpException.class)
+                    .satisfies(cause ->
+                        assertThat(((HttpException) cause).statusCode())
+                            .as("statusCode")
+                            .isEqualTo(httpStatusCode)
+                    );
             });
     }
 

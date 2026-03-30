@@ -21,6 +21,12 @@ env:
   JVM_VERSION: 25
   JVM_DISTRIBUTION: temurin
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  # Cancel only when the run is not on main or develop
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+
 jobs:
   build:
 
@@ -45,7 +51,7 @@ jobs:
       # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
       # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
       - name: 🐘Setup Gradle
-        uses: gradle/actions/setup-gradle@a5a91d4119488fe451516271ab40e3d5d914efdb
+        uses: gradle/actions/setup-gradle@263d8fe18eb54ae581bcdc2e263c5a49173958a3
         with:
           add-job-summary-as-pr-comment: on-failure # Valid values are 'never' (default), 'always', and 'on-failure'
           cache-disabled: false
@@ -89,6 +95,7 @@ jobs:
           coverage-reports: "/home/runner/work/ai-mocks/ai-mocks/build/reports/kover/report.xml"
 
       - name: Upload coverage reports to Codecov
+        if: ${{ !cancelled() }}
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -96,6 +103,11 @@ jobs:
           directory: ./build/reports/kover
           files: report.xml
 
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   knit:
 
@@ -113,7 +125,7 @@ jobs:
           distribution: ${{ env.JVM_DISTRIBUTION }}
 
       - name: 🐘Setup Gradle
-        uses: gradle/actions/setup-gradle@a5a91d4119488fe451516271ab40e3d5d914efdb
+        uses: gradle/actions/setup-gradle@263d8fe18eb54ae581bcdc2e263c5a49173958a3
 
       - name: 🪡🧶Knit
         run: make knit
@@ -121,6 +133,7 @@ jobs:
   dependency-submission:
 
     runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
     permissions:
       contents: write
 
@@ -135,4 +148,4 @@ jobs:
       # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
       # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
       - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@a5a91d4119488fe451516271ab40e3d5d914efdb
+        uses: gradle/actions/dependency-submission@263d8fe18eb54ae581bcdc2e263c5a49173958a3

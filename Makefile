@@ -1,8 +1,7 @@
 .PHONY: build
 build:
-	rm -rf ~/.m2/repository/me/kpavlov/aimocks ~/.m2/repository/me/kpavlov/mokksy && \
 	./gradlew checkLegacyAbi build && \
-	./gradlew koverVerify publishToMavenLocal && \
+	./gradlew koverHtmlReport koverVerify publishToMavenLocal && \
 	(cd ai-mocks-openai/samples/shadow && mvn test)
 
 .PHONY: clean
@@ -10,9 +9,14 @@ clean:
 	@echo "🧽 Cleaning..."
 	@./gradlew clean
 
+.PHONY: apidump
+apidump:
+	@echo "🪏 API dump..."
+	@./gradlew updateLegacyAbi
+
 .PHONY: test
 test:
-	./gradlew --rerun-tasks check
+	./gradlew check koverXmlReport koverVerify koverLog
 
 .PHONY: apidocs
 apidocs:
@@ -40,7 +44,7 @@ lint:
 # https://docs.openrewrite.org/recipes/maven/bestpractices
 .PHONY: format
 format:
-	@./gradlew rewriteRun detekt --auto-correct
+	@./gradlew detekt --auto-correct
 
 .PHONY: all
 all: format lint build

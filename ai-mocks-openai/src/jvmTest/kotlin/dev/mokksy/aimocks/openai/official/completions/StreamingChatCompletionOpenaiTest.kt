@@ -106,4 +106,5 @@ internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
         // then
         assertThat(result.toString()).isEqualTo("All we need is Love")
     }
+
 }

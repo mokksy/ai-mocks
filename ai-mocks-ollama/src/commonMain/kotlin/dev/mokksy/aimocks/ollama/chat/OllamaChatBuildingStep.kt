@@ -3,7 +3,7 @@ package dev.mokksy.aimocks.ollama.chat
 import dev.mokksy.aimocks.core.AbstractBuildingStep
 import dev.mokksy.mokksy.BuildingStep
 import dev.mokksy.mokksy.MokksyServer
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
+
 import io.ktor.http.ContentType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -51,11 +51,8 @@ public class OllamaChatBuildingStep(
     override infix fun responds(block: suspend OllamaChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val request = this.request.body()
-            val responseDefinition = this.build()
             val chatResponseSpecification =
-                OllamaChatResponseSpecification(
-                    response = responseDefinition as AbstractResponseDefinition<ChatResponse>,
-                )
+                OllamaChatResponseSpecification()
             block.invoke(chatResponseSpecification)
             delay = chatResponseSpecification.delay
             contentType = ContentType.Application.Json
@@ -96,11 +93,8 @@ public class OllamaChatBuildingStep(
     @OptIn(ExperimentalCoroutinesApi::class)
     public infix fun respondsStream(block: OllamaStreamingChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWithStream {
-            val responseDefinition = this.build()
             val responseSpec =
-                OllamaStreamingChatResponseSpecification(
-                    response = responseDefinition as AbstractResponseDefinition<String>,
-                )
+                OllamaStreamingChatResponseSpecification()
             block.invoke(responseSpec)
 
             headers += "Content-Type" to "application/x-ndjson"

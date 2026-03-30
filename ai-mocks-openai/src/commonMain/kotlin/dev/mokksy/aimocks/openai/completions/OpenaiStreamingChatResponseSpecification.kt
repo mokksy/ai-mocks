@@ -3,7 +3,6 @@ package dev.mokksy.aimocks.openai.completions
 import dev.mokksy.aimocks.core.AbstractStreamingResponseSpecification
 import dev.mokksy.aimocks.core.ResponseSpecification
 import dev.mokksy.aimocks.openai.ChatCompletionRequest
-import dev.mokksy.mokksy.response.AbstractResponseDefinition
 import kotlinx.coroutines.flow.Flow
 import kotlin.time.Duration
 
@@ -17,7 +16,6 @@ import kotlin.time.Duration
  *
  * @constructor Creates an instance of OpenaiStreamingChatResponseSpecification.
  *
- * @param response The base response definition of type [AbstractResponseDefinition] for the streaming response.
  * @param responseFlow A flow of string-based response chunks to be emitted sequentially
  * as part of the streaming behavior.
  * @param responseChunks A predefined list of response content chunks to be used in the streaming response.
@@ -31,7 +29,6 @@ import kotlin.time.Duration
  */
 @Suppress("LongParameterList")
 public class OpenaiStreamingChatResponseSpecification(
-    response: AbstractResponseDefinition<String>,
     responseFlow: Flow<String>? = null,
     responseChunks: List<String>? = null,
     delayBetweenChunks: Duration = Duration.ZERO,
@@ -42,7 +39,6 @@ public class OpenaiStreamingChatResponseSpecification(
      */
     public var sendDone: Boolean = false,
 ) : AbstractStreamingResponseSpecification<ChatCompletionRequest, String, String>(
-        response = response,
         responseFlow = responseFlow,
         responseChunks = responseChunks,
         delayBetweenChunks = delayBetweenChunks,

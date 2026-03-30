@@ -94,9 +94,9 @@ internal class SendMessageIT : AbstractIT() {
         a2aServer.sendMessage() responds {
             id = 1
             error =
-                invalidRequestError {
-                    message = "Invalid request"
-                }
+                invalidRequestError(
+                    message = "Invalid request",
+                )
         }
 
         val response =
@@ -125,9 +125,7 @@ internal class SendMessageIT : AbstractIT() {
             SendMessageResponse.create {
                 id = 1
                 error =
-                    invalidRequestError {
-                        message = "Invalid request"
-                    }
+                    invalidRequestError(message = "Invalid request")
             }
         payload shouldBeEqualToComparingFields expectedReply
     }

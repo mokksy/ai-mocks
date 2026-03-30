@@ -33,8 +33,7 @@ public class GeminiContentBuildingStep(
     ) {
         buildingStep.respondsWith {
             val generateContentRequest = this.request.body()
-            val responseDefinition = this.build()
-            val chatResponseSpecification = GeminiContentResponseSpecification(responseDefinition)
+            val chatResponseSpecification = GeminiContentResponseSpecification()
             block.invoke(chatResponseSpecification)
             val assistantContent = chatResponseSpecification.content
             delay = chatResponseSpecification.delay

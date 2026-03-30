@@ -21,9 +21,8 @@ public class SendStreamingMessageBuildingStep(
     ) {
         buildingStep.respondsWithStream {
             val requestBody = request.body()
-            val responseDefinition = this.build()
             val responseSpecification =
-                SendStreamingMessageResponseSpecification(responseDefinition)
+                SendStreamingMessageResponseSpecification()
             block.invoke(responseSpecification)
             flow =
                 responseSpecification.responseFlow

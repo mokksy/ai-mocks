@@ -53,4 +53,5 @@ internal class GeminiStreamingChatCompletionGeminiSpringAiTest : AbstractGeminiS
                 "",
             )
     }
+
 }
