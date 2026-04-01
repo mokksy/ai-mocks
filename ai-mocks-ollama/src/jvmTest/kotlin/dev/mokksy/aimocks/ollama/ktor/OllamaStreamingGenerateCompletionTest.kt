@@ -51,6 +51,7 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
 
         mockOllama.generate {
             model = modelName
+            userMessageContains("Any prompt")
         } respondsStream {
             responseFlow =
                 flow {
@@ -76,6 +77,7 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
     suspend fun `Should include model name in all chunks`() {
         mockOllama.generate {
             model = modelName
+            userMessageContains("prompt")
         } respondsStream {
             responseChunks = listOf("test chunk")
         }
