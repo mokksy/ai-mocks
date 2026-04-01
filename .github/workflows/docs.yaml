@@ -41,27 +41,17 @@ jobs:
       - name: 🐘Setup Gradle
         uses: gradle/actions/setup-gradle@39e147cb9de83bb9910b8ef8bd7fff0ee20fcd6f # v6.0.1
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v3
-        with:
-          hugo-version: '0.145.0'
-          extended: true
-
       - name: Generate Dokka Site
         run: |-
           ./gradlew clean
           make knit
           ./gradlew :docs:dokkaGenerate
 
-      - name: Build Hugo Site
-        run: |-
-          cd docs && \
-          hugo --minify
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: docs/public
+          path: docs/public/apidocs
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
