@@ -73,6 +73,15 @@ public open class MockAgentServer private constructor(
         notificationSender = NotificationSender(),
     )
 
+    override fun shutdown(
+        gracePeriodMillis: Long,
+        timeoutMillis: Long,
+    ) {
+        notificationSender.use { _ ->
+            super.shutdown(gracePeriodMillis, timeoutMillis)
+        }
+    }
+
     public fun notificationUrl(): String = baseUrl() + notificationsUri
 
     /**

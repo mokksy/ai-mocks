@@ -7,7 +7,8 @@ import dev.mokksy.aimocks.openai.model.moderation.ModerationResult
 import dev.mokksy.mokksy.BuildingStep
 import dev.mokksy.mokksy.MokksyServer
 import io.ktor.http.ContentType
-import java.util.concurrent.atomic.AtomicInteger
+import kotlin.concurrent.atomics.AtomicLong
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
 
 /**
  * Builder step for configuring mock responses to OpenAI moderation requests.
@@ -23,15 +24,18 @@ public class OpenaiModerationBuildingStep(
         mokksy,
         buildingStep,
     ) {
-    private val counter: AtomicInteger = AtomicInteger(1)
+    @OptIn(ExperimentalAtomicApi::class)
+    private val counter: AtomicLong = AtomicLong(0)
 
+    @OptIn(ExperimentalAtomicApi::class)
+    @Suppress("MagicNumber")
     override infix fun responds(block: suspend OpenaiModerationResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
             val spec = OpenaiModerationResponseSpecification()
             block.invoke(spec)
             delay = spec.delay
             contentType = ContentType.Application.Json
-            val id = spec.id ?: "modr-${Integer.toHexString(counter.addAndGet(1))}"
+            val id = spec.id ?: "modr-${counter.addAndFetch(1).toString(16)}"
             val createdModel = spec.model
             val result: ModerationResult = spec.toResult()
 

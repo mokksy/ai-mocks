@@ -25,9 +25,16 @@ public class AnthropicMessagesResponseSpecification(
                 content
         }
 
-    public fun finishReason(finishReason: String): AnthropicMessagesResponseSpecification =
+    public fun stopReason(stopReason: String): AnthropicMessagesResponseSpecification =
         apply {
             this.stopReason =
-                finishReason
+                stopReason
         }
+
+    @Deprecated(
+        "Use `stopReason` instead, which matches the Anthropic API naming.",
+        ReplaceWith("stopReason(finishReason)"),
+    )
+    public fun finishReason(finishReason: String): AnthropicMessagesResponseSpecification =
+        stopReason(finishReason)
 }

@@ -11,8 +11,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-
-internal class NotificationSender {
+internal class NotificationSender : AutoCloseable {
     private val notificationClient: HttpClient =
         HttpClient {
             val json =
@@ -24,6 +23,10 @@ internal class NotificationSender {
                 json(json)
             }
         }
+
+    override fun close() {
+        notificationClient.close()
+    }
 
     internal suspend fun sendPushNotification(
         config: PushNotificationConfig,

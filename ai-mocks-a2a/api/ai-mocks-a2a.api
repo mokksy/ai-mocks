@@ -163,6 +163,7 @@ public class dev/mokksy/aimocks/a2a/MockAgentServer : dev/mokksy/aimocks/core/Ab
 	public final fun setTaskPushNotification ()Ldev/mokksy/aimocks/a2a/SetTaskPushNotificationBuildingStep;
 	public final fun setTaskPushNotification (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/SetTaskPushNotificationBuildingStep;
 	public static synthetic fun setTaskPushNotification$default (Ldev/mokksy/aimocks/a2a/MockAgentServer;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/SetTaskPushNotificationBuildingStep;
+	public fun shutdown (JJ)V
 	public final fun taskResubscription ()Ldev/mokksy/aimocks/a2a/TaskResubscriptionBuildingStep;
 	public final fun taskResubscription (Ljava/lang/String;)Ldev/mokksy/aimocks/a2a/TaskResubscriptionBuildingStep;
 	public static synthetic fun taskResubscription$default (Ldev/mokksy/aimocks/a2a/MockAgentServer;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/a2a/TaskResubscriptionBuildingStep;

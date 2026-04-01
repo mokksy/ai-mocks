@@ -28,11 +28,9 @@ public class TaskNotificationHistory(
         events.find(predicate)
 
     internal fun extract(predicate: (TaskUpdateEvent) -> Boolean): List<TaskUpdateEvent> {
-        events.filter(predicate).also { found ->
-            for (event in found) {
-                events.remove(event)
-            }
-            return found.toList()
-        }
+        val snapshot = events.toList()
+        val found = snapshot.filter(predicate)
+        events.removeAll(found.toSet())
+        return found
     }
 }

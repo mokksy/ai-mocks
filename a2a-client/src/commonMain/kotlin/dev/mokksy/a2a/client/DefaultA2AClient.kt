@@ -34,9 +34,8 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.serialization.json.Json
-import java.util.UUID
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -119,7 +118,7 @@ public open class DefaultA2AClient(
     override suspend fun cancelTask(id: TaskId): CancelTaskResponse {
         val request =
             CancelTaskRequest(
-                id = UUID.randomUUID().toString(),
+                id = generateRequestId(),
                 params =
                     TaskIdParams(
                         id = id,
@@ -225,7 +224,7 @@ public open class DefaultA2AClient(
         request: T,
         crossinline configurer: HttpRequestBuilder.() -> Unit,
     ): Flow<TaskUpdateEvent> =
-        flow {
+        channelFlow {
             httpClient.sse(
                 request = {
                     url { baseUrl }
@@ -235,19 +234,17 @@ public open class DefaultA2AClient(
                     configurer.invoke(this)
                 },
             ) {
-                var reading = true
-                while (reading) {
-                    incoming.collect { event ->
-                        event.data?.let { data ->
-                            val taskEvent = json.decodeFromString<TaskUpdateEvent>(data)
-                            emit(taskEvent)
+                incoming.collect { event ->
+                    event.data?.let { data ->
+                        val taskEvent = json.decodeFromString<TaskUpdateEvent>(data)
+                        send(taskEvent)
 
-                            // Check if this is the final event
-                            if (taskEvent is TaskStatusUpdateEvent &&
-                                taskEvent.final
-                            ) {
-                                reading = false
-                            }
+                        // Stop collecting when the final event is received
+                        if (taskEvent is TaskStatusUpdateEvent &&
+                            taskEvent.final
+                        ) {
+                            this@channelFlow.close()
+                            return@collect
                         }
                     }
                 }

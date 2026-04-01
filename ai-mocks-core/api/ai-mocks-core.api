@@ -44,7 +44,7 @@ public abstract class dev/mokksy/aimocks/core/AbstractMockLlm {
 	public final fun resetMatchState ()V
 	public final fun shutdown ()V
 	public final fun shutdown (J)V
-	public final fun shutdown (JJ)V
+	public fun shutdown (JJ)V
 	public static synthetic fun shutdown$default (Ldev/mokksy/aimocks/core/AbstractMockLlm;JJILjava/lang/Object;)V
 	public final fun verifyNoUnexpectedRequests ()V
 	public final fun verifyNoUnmatchedRequests ()V
