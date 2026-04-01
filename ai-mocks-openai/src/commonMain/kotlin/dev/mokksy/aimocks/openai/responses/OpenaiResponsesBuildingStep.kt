@@ -11,10 +11,11 @@ import dev.mokksy.aimocks.openai.model.responses.Usage
 import dev.mokksy.mokksy.BuildingStep
 import dev.mokksy.mokksy.MokksyServer
 import io.ktor.http.ContentType
-import java.time.Instant
-import java.util.concurrent.atomic.AtomicInteger
+import kotlin.concurrent.atomics.AtomicLong
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
 import kotlin.math.roundToInt
 import kotlin.random.Random
+import kotlin.time.Clock
 
 /**
  * Represents a building step in the MokksyServer framework for configuring OpenAI responses.
@@ -34,8 +35,10 @@ public class OpenaiResponsesBuildingStep(
         mokksy,
         buildingStep,
     ) {
-    private val counter: AtomicInteger = AtomicInteger(1)
+    @OptIn(ExperimentalAtomicApi::class)
+    private val counter: AtomicLong = AtomicLong(1)
 
+    @OptIn(ExperimentalAtomicApi::class)
     @Suppress("MagicNumber", "LongMethod")
     public override infix fun responds(
         block: suspend OpenaiResponsesResponseSpecification.() -> Unit,
@@ -54,13 +57,13 @@ public class OpenaiResponsesBuildingStep(
 
             body =
                 Response(
-                    id = "resp_${Integer.toHexString(counter.addAndGet(1))}",
+                    id = "resp_${counter.addAndFetch(1).toString(16)}",
                     model = request.model,
                     metadata = null,
                     instructions = null,
                     tools = emptyList(),
                     toolChoice = "auto",
-                    createdAt = Instant.now().epochSecond,
+                    createdAt = Clock.System.now().epochSeconds,
                     temperature = request.temperature,
                     maxOutputTokens = request.maxOutputTokens,
                     error = null,

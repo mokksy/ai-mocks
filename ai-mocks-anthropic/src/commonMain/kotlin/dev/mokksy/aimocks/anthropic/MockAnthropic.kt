@@ -95,8 +95,6 @@ public open class MockAnthropic(
                     body += AnthropicAiMatchers.modelEquals(it)
                 }
 
-                body += chatRequestSpec.requestBody
-
                 chatRequestSpec.requestBodyString.forEach {
                     bodyString += it
                 }

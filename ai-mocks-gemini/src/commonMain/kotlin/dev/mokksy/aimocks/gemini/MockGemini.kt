@@ -14,15 +14,18 @@ import kotlin.math.abs
 private const val EPSILON = 0.00000005
 
 /**
- * Mock implementation of an OpenAI-compatible service for testing purposes.
+ * Mock implementation of Google Gemini API for testing purposes.
  *
- * This class provides an HTTP mock server to simulate OpenAI APIs, specifically for chat
- * completions and response generation. It is designed to mimic the behavior of the OpenAI APIs
- * locally and facilitate integration testing and development.
+ * This class provides an HTTP mock server to simulate the Google Gemini API,
+ * specifically for content generation and streaming. It is designed to mimic the behavior
+ * of the Gemini API locally and facilitate integration testing and development.
+ *
+ * Extends [AbstractMockLlm] to provide Gemini-specific functionality.
  *
  * @param port The port on which the mock server will run. Defaults to 0, which allows the server to select
  *             an available port.
  * @param verbose Controls whether the mock server's operations are logged in detail. Defaults to true.
+ * @see <a href="https://ai.google.dev/api">Google Gemini API Reference</a>
  * @author Konstantin Pavlov
  */
 public open class MockGemini(

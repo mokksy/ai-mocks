@@ -21,12 +21,12 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
-import java.time.Instant
-import java.util.concurrent.atomic.AtomicInteger
+import kotlin.concurrent.atomics.AtomicLong
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
 import kotlin.random.Random.Default.nextInt
+import kotlin.time.Clock
 
 private const val LINE_SEPARATOR = "\n\n"
-private val counter: AtomicInteger = AtomicInteger(1)
 
 /**
  * OpenaiChatCompletionsBuildingStep is a specialized implementation of [AbstractBuildingStep]
@@ -54,6 +54,10 @@ public class OpenaiChatCompletionsBuildingStep(
         mokksy,
         buildingStep,
     ) {
+    @OptIn(ExperimentalAtomicApi::class)
+    private val counter: AtomicLong = AtomicLong(1)
+
+    @OptIn(ExperimentalAtomicApi::class)
     @Suppress("MagicNumber")
     override infix fun responds(block: suspend OpenaiChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWith {
@@ -74,9 +78,9 @@ public class OpenaiChatCompletionsBuildingStep(
 
             body =
                 ChatResponse(
-                    id = "chatcmpl-abc${counter.addAndGet(1)}",
+                    id = "chatcmpl-abc${counter.addAndFetch(1)}",
                     objectType = "chat.completion",
-                    created = Instant.now().epochSecond,
+                    created = Clock.System.now().epochSeconds,
                     model = request.model,
                     usage =
                         Usage(
@@ -120,7 +124,7 @@ public class OpenaiChatCompletionsBuildingStep(
      *              to an instance of [OpenaiChatResponseSpecification].
      * @link
      */
-    @OptIn(ExperimentalCoroutinesApi::class)
+    @OptIn(ExperimentalCoroutinesApi::class, ExperimentalAtomicApi::class)
     public infix fun respondsStream(block: OpenaiStreamingChatResponseSpecification.() -> Unit) {
         buildingStep.respondsWithStream {
             val responseSpec =
@@ -130,7 +134,7 @@ public class OpenaiChatCompletionsBuildingStep(
             headers += "Content-Type" to "text/event-stream"
             headers += "Connection" to "keep-alive"
 
-            val id = counter.addAndGet(1)
+            val id = counter.addAndFetch(1)
 
             val chunkFlow = responseSpec.responseFlow ?: responseSpec.responseChunks?.asFlow()
 
@@ -150,13 +154,13 @@ public class OpenaiChatCompletionsBuildingStep(
     }
 
     private fun prepareFlow(
-        id: Int,
+        id: Long,
         model: String,
         chunksFlow: Flow<String>,
         finishReason: String,
         sendDone: Boolean,
     ): Flow<String> {
-        val timestamp = Instant.now().epochSecond
+        val timestamp = Clock.System.now().epochSeconds
         return flow {
             emit(
                 createChunk(
@@ -193,7 +197,7 @@ public class OpenaiChatCompletionsBuildingStep(
 
     @Suppress("LongParameterList")
     private fun createChunk(
-        id: Int,
+        id: Long,
         created: Long,
         content: String? = null,
         role: ChatCompletionRole? = null,

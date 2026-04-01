@@ -15,7 +15,8 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.serialization.json.Json
-import java.util.UUID
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Building step for configuring responses to Gemini content generation requests.
@@ -42,6 +43,7 @@ public class GeminiStreamingContentBuildingStep(
         respondsStream(sse = true, block)
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     public fun respondsStream(
         sse: Boolean = true,
         block: suspend GeminiStreamingContentResponseSpecification.() -> Unit,
@@ -60,7 +62,7 @@ public class GeminiStreamingContentBuildingStep(
                 error("Either responseChunks or responseFlow must be defined")
             }
             val request = this.request.body()
-            val responseId = UUID.randomUUID().toString().replace("-", "")
+            val responseId = Uuid.random().toHexString()
             flow =
                 prepareFlow(
                     responseId = responseId,

@@ -55,7 +55,7 @@ public abstract class AbstractMockLlm(
      * to wait for the shutdown process to complete. Default is 1000 milliseconds.
      */
     @JvmOverloads
-    public fun shutdown(
+    public open fun shutdown(
         gracePeriodMillis: Long = 500,
         timeoutMillis: Long = 1000,
     ) {

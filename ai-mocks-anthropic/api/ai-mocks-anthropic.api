@@ -32,6 +32,7 @@ public final class dev/mokksy/aimocks/anthropic/AnthropicMessagesResponseSpecifi
 	public final fun setResponseChunks (Ljava/util/List;)V
 	public final fun setResponseFlow (Lkotlinx/coroutines/flow/Flow;)V
 	public final fun setStopReason (Ljava/lang/String;)V
+	public final fun stopReason (Ljava/lang/String;)Ldev/mokksy/aimocks/anthropic/AnthropicMessagesResponseSpecification;
 }
 
 public final class dev/mokksy/aimocks/anthropic/AnthropicStreamingChatResponseSpecification : dev/mokksy/aimocks/core/AbstractStreamingResponseSpecification {
