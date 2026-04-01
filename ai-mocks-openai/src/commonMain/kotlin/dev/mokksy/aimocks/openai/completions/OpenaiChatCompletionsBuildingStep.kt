@@ -55,7 +55,7 @@ public class OpenaiChatCompletionsBuildingStep(
         buildingStep,
     ) {
     @OptIn(ExperimentalAtomicApi::class)
-    private val counter: AtomicLong = AtomicLong(1)
+    private val counter: AtomicLong = AtomicLong(0)
 
     @OptIn(ExperimentalAtomicApi::class)
     @Suppress("MagicNumber")
@@ -78,7 +78,7 @@ public class OpenaiChatCompletionsBuildingStep(
 
             body =
                 ChatResponse(
-                    id = "chatcmpl-abc${counter.addAndFetch(1)}",
+                    id = "chatcmpl-${counter.addAndFetch(1).toString(16)}",
                     objectType = "chat.completion",
                     created = Clock.System.now().epochSeconds,
                     model = request.model,

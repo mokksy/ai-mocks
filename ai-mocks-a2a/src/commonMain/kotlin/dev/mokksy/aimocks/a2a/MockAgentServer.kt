@@ -77,8 +77,9 @@ public open class MockAgentServer private constructor(
         gracePeriodMillis: Long,
         timeoutMillis: Long,
     ) {
-        notificationSender.close()
-        super.shutdown(gracePeriodMillis, timeoutMillis)
+        notificationSender.use { _ ->
+            super.shutdown(gracePeriodMillis, timeoutMillis)
+        }
     }
 
     public fun notificationUrl(): String = baseUrl() + notificationsUri

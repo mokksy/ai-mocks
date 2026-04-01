@@ -25,7 +25,7 @@ public class OpenaiModerationBuildingStep(
         buildingStep,
     ) {
     @OptIn(ExperimentalAtomicApi::class)
-    private val counter: AtomicLong = AtomicLong(1)
+    private val counter: AtomicLong = AtomicLong(0)
 
     @OptIn(ExperimentalAtomicApi::class)
     @Suppress("MagicNumber")
