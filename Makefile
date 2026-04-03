@@ -23,13 +23,6 @@ apidocs:
 	rm -rf docs/public/apidocs && \
 	./gradlew clean :docs:dokkaGenerate
 
-.PHONY: docs
-docs:apidocs
-	git submodule sync && \
-  git submodule update --init --depth=1 && \
-	cd docs && \
-	hugo server -D --watch
-
 .PHONY: knit
 knit:
 	@echo "🪡🧶 Running Knit..."
@@ -47,7 +40,7 @@ format:
 	@./gradlew detekt --auto-correct
 
 .PHONY: all
-all: format lint build
+all: format lint build knit apidocs
 
 .PHONY: pom
 pom:

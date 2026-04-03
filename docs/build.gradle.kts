@@ -112,7 +112,6 @@ knit {
     files =
         fileTree(project.rootDir) {
             include("README.md")
-            include("docs/content/**/*.md")
             exclude("**/build/**")
         }
     siteRoot = "https://mokksy.dev/"
