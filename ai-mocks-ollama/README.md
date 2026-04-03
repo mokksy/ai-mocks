@@ -5,6 +5,8 @@ of Mokksy.
 
 See [Ollama API reference](https://github.com/ollama/ollama/blob/main/docs/api.md)
 
+Read the documentation at https://mokksy.dev/docs/ai-mocks/ollama/
+
 ## Overview
 
 AI-Mocks-Ollama provides a mock server that simulates the Ollama API for testing purposes. It supports the main
