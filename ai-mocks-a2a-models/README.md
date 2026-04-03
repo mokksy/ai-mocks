@@ -2,6 +2,8 @@
 
 This module contains the models for the [A2A Protocol](https://a2a-protocol.org/).
 
+Read full documentation at https://mokksy.dev/docs/ai-mocks/a2a/
+
 ## Resources:
 
 * [A2A Protocol - Protocol Specification](https://github.com/a2aproject/A2A/blob/main/docs/specification.md) ([local copy](a2a-specification-0.3.0.md))

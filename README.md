@@ -1,6 +1,6 @@
 # AI-Mocks
 
-[![Maven Central](https://img.shields.io/maven-central/v/dev.mokksy.aimocks/ai-mocks-core)](https://repo1.maven.org/maven2/dev/mokksy/aimocks/ai-mocks-core/)
+[![Maven Central](https://img.shields.io/maven-central/v/dev.mokksy.aimocks/ai-mocks-core.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/dev.mokksy.aimocks/ai-mocks-core)
 [![Kotlin CI](https://github.com/mokksy/ai-mocks/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/mokksy/ai-mocks/actions/workflows/gradle.yml)
 ![GitHub branch status](https://img.shields.io/github/checks-status/mokksy/ai-mocks/main)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/100bb4b0f6744188b86f38464a48da93)](https://app.codacy.com/gh/mokksy/ai-mocks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
