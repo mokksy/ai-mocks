@@ -26,6 +26,7 @@ dokka {
 
             register("mokksy") {
                 url("https://mokksy.github.io/mokksy/")
+                packageListUrl("https://mokksy.github.io/mokksy/-mokksy/package-list")
             }
             register("ktor") {
                 url("https://api.ktor.io/")
