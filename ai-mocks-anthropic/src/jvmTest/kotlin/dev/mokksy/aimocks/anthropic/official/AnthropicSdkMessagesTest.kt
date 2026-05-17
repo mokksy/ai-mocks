@@ -29,6 +29,7 @@ internal class AnthropicSdkMessagesTest : AbstractAnthropicTest() {
         }
 
         val params =
+            @Suppress("DEPRECATION")
             MessageCreateParams
                 .builder()
                 .model(modelName)
