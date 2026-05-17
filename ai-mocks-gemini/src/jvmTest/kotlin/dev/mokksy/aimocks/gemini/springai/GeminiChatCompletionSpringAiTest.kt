@@ -11,6 +11,7 @@ internal class GeminiChatCompletionSpringAiTest : AbstractGeminiSpringAiTest() {
     @Test
     fun `Should respond to generateContent`() {
         val systemMessage = "You are a helpful pirate. $seedValue"
+        val systemInstruction = "Follow these rules: $systemMessage"
         gemini.generateContent {
             temperature = temperatureValue
             model = modelName
@@ -25,7 +26,7 @@ internal class GeminiChatCompletionSpringAiTest : AbstractGeminiSpringAiTest() {
         }
 
         val response: ChatResponse? =
-            prepareClientRequest(systemMessage)
+            prepareClientRequest(systemInstruction)
                 .call()
                 .chatResponse()
 

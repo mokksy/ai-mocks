@@ -17,23 +17,27 @@ import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
 
 internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() {
-    private val json = Json { ignoreUnknownKeys = true }
+    private val json =
+        Json {
+            ignoreUnknownKeys = false
+            prettyPrint = true
+        }
 
     @Test
     suspend fun `Should respond to Streaming Generate Completion with chunks`() {
         val chunks = listOf("Hello", ", ", "World", "!")
 
-        mockOllama.generate {
+        mockOllama.generate("ollama-streaming-chunks-$seedValue") {
             model = modelName
             seed(seedValue)
             stream(true)
-            userMessageContains("Tell me a story")
+            userMessageContains("tell me a story")
         } respondsStream {
             responseChunks = chunks
             doneReason("stop")
         }
 
-        val responses = collectStreamingResponses("Tell me a story")
+        val responses = collectStreamingResponses("Please tell me a story")
 
         val contentChunks = responses.filter { !it.done }
         val finalChunk = responses.last()
@@ -52,8 +56,10 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
     suspend fun `Should respond to Streaming Generate Completion with Flow`() {
         val words = listOf("Streaming", "with", "flow")
 
-        mockOllama.generate {
+        mockOllama.generate("ollama-streaming-flow-$seedValue") {
             model = modelName
+            seed(seedValue)
+            stream(true)
             userMessageContains("Flow streaming test")
         } respondsStream {
             responseFlow =
@@ -63,7 +69,7 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
             doneReason("stop")
         }
 
-        val responses = collectStreamingResponses("Flow streaming test")
+        val responses = collectStreamingResponses("Run the Flow streaming test")
 
         val contentChunks = responses.filter { !it.done }
         val finalChunk = responses.last()
@@ -78,14 +84,16 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
 
     @Test
     suspend fun `Should include model name in all chunks`() {
-        mockOllama.generate {
+        mockOllama.generate("ollama-model-name-check-$seedValue") {
             model = modelName
+            seed(seedValue)
+            stream(true)
             userMessageContains("model name check")
         } respondsStream {
             responseChunks = listOf("test chunk")
         }
 
-        val responses = collectStreamingResponses("model name check")
+        val responses = collectStreamingResponses("Please run the model name check")
 
         responses.forEach { chunk ->
             chunk.model shouldBe modelName

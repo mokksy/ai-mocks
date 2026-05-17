@@ -22,9 +22,9 @@ internal class ResponsesFileInputTest : AbstractOpenaiResponsesTest() {
 
     @BeforeEach
     fun setupMock() {
-        modelName = "gpt-4o-mini" // cheap model
         openai.responses {
             temperature = temperatureValue
+            seed = seedValue
             model = modelName
 
             containsInputFileWithNamed(filename)
