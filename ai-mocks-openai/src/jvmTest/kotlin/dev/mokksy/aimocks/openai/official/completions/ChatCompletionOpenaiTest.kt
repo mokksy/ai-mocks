@@ -17,21 +17,22 @@ import io.kotest.matchers.optional.shouldBePresent
 import io.kotest.matchers.shouldBe
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.measureTimedValue
 
 internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
     @Test
     fun `Should respond to Chat Completion`() {
+        val testSeed = seedValue
         openai.completion {
             temperature = temperatureValue
-            seed = seedValue
+            seed = testSeed
             model = modelName
             topP = topPValue
             maxTokens = maxCompletionTokensValue
-            systemMessageContains("helpful assistant")
-            userMessageContains("say 'Hello!'")
+            systemMessageContains("OpenAI official")
+            userMessageContains("Just say 'Hello!' and nothing else")
         } responds {
             assistantContent = "Hello"
             finishReason = "stop"
@@ -39,7 +40,7 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
         }
 
         val params =
-            createChatCompletionRequestParams()
+            createChatCompletionRequestParams(testSeed)
 
         val timedValue =
             measureTimedValue {
@@ -65,6 +66,7 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
 
     @Test
     fun `Should respond with unexpected error`() {
+        val testSeed = seedValue
         val carambaResponse =
             // language=json
             """
@@ -78,11 +80,11 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
         openai
             .completion {
                 temperature = temperatureValue
-                seed = seedValue
+                seed = testSeed
                 model = modelName
                 maxTokens = maxCompletionTokensValue
-                systemMessageContains("helpful assistant")
-                userMessageContains("say 'Hello!'")
+                systemMessageContains("OpenAI official")
+                userMessageContains("Just say 'Hello!' and nothing else")
             }.respondsError(String::class) {
                 body = carambaResponse
                 contentType = ContentType.Text.Plain
@@ -91,7 +93,7 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
             }
 
         val params =
-            createChatCompletionRequestParams()
+            createChatCompletionRequestParams(testSeed)
 
         val timedValue =
             measureTimedValue {
@@ -110,6 +112,7 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
 
     @Test
     fun `Should respond with error 500`() {
+        val testSeed = seedValue
         val errorResponse =
             // language=json
             """
@@ -125,11 +128,11 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
         openai
             .completion {
                 temperature = temperatureValue
-                seed = seedValue
+                seed = testSeed
                 model = modelName
                 maxTokens = maxCompletionTokensValue
-                systemMessageContains("helpful assistant")
-                userMessageContains("say 'Hello!'")
+                systemMessageContains("OpenAI official")
+                userMessageContains("Just say 'Hello!' and nothing else")
             }.respondsError(String::class) {
                 body = errorResponse
                 delay = 150.milliseconds
@@ -138,7 +141,7 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
             }
 
         val params =
-            createChatCompletionRequestParams()
+            createChatCompletionRequestParams(testSeed)
 
         val timedValue =
             measureTimedValue {
@@ -169,15 +172,15 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
         }
     }
 
-    private fun createChatCompletionRequestParams(): ChatCompletionCreateParams {
+    private fun createChatCompletionRequestParams(testSeed: Int): ChatCompletionCreateParams {
         val params =
-            @Suppress("deprecation")
+            @Suppress("DEPRECATION")
             ChatCompletionCreateParams
                 .builder()
                 .temperature(temperatureValue)
                 .topP(topPValue)
                 .maxCompletionTokens(maxCompletionTokensValue)
-                .seed(seedValue.toLong())
+                .seed(testSeed.toLong())
                 .responseFormat(
                     ResponseFormatJsonSchema
                         .builder()
@@ -199,7 +202,7 @@ internal class ChatCompletionOpenaiTest : AbstractOpenaiTest() {
                             ChatCompletionSystemMessageParam
                                 .builder()
                                 .content(
-                                    "You are a helpful assistant.",
+                                    "You are a helpful assistant. OpenAI official",
                                 ).build(),
                         ),
                         ChatCompletionMessageParam.ofUser(

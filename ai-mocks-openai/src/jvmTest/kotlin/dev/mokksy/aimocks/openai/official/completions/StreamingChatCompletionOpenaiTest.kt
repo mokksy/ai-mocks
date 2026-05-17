@@ -22,6 +22,7 @@ internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
             temperature = temperatureValue
             model = modelName
             topP = topPValue
+            userMessageContains("OpenAI streaming list test")
         } respondsStream {
             responseChunks = listOf("All", " we", " need", " is", " Love")
             delay = 50.milliseconds
@@ -29,7 +30,7 @@ internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
             finishReason = "stop"
         }
 
-        verifyStreamingCall()
+        verifyStreamingCall("OpenAI streaming list test")
     }
 
     @Test
@@ -37,6 +38,7 @@ internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
         openai.completion("openai-completions-flow") {
             temperature = temperatureValue
             model = modelName
+            userMessageContains("OpenAI streaming flow test")
         } respondsStream {
             responseFlow =
                 flow {
@@ -51,10 +53,10 @@ internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
             finishReason = "stop"
         }
 
-        verifyStreamingCall()
+        verifyStreamingCall("OpenAI streaming flow test")
     }
 
-    private fun verifyStreamingCall() {
+    private fun verifyStreamingCall(userMessage: String) {
         val params =
             @Suppress("deprecation")
             ChatCompletionCreateParams
@@ -72,7 +74,7 @@ internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
                                 .role(JsonValue.from("user"))
                                 .content(
                                     ChatCompletionUserMessageParam.Content.ofText(
-                                        "What do we need?",
+                                        userMessage,
                                     ),
                                 ).build(),
                         ),

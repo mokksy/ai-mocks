@@ -22,7 +22,7 @@ internal class OpenaiChatCompletionSpringAiTest : AbstractSpringAiTest() {
             seed = seedValue
             model = modelName
             maxTokens = maxCompletionTokensValue
-            systemMessageContains("helpful merchant")
+            systemMessageContains("SpringAI chat merchant")
             userMessageContains("say 'Hello!'")
             requestMatchesPredicate {
                 !it.stream
@@ -33,7 +33,7 @@ internal class OpenaiChatCompletionSpringAiTest : AbstractSpringAiTest() {
         }
 
         val response =
-            prepareClientRequest("You are a helpful merchant")
+            prepareClientRequest("You are a SpringAI chat merchant")
                 .call()
                 .chatResponse()
 
@@ -50,7 +50,7 @@ internal class OpenaiChatCompletionSpringAiTest : AbstractSpringAiTest() {
             seed = seedValue
             model = modelName
             maxTokens = maxCompletionTokensValue
-            systemMessageContains("helpful pirate")
+            systemMessageContains("SpringAI streaming pirate")
             userMessageContains("say 'Hello!'")
             requestMatches(beOfType(ChatCompletionRequest::class))
             requestSatisfies("Should be streamed") {
@@ -71,7 +71,7 @@ internal class OpenaiChatCompletionSpringAiTest : AbstractSpringAiTest() {
         }
 
         val chunks =
-            prepareClientRequest("You are a helpful pirate")
+            prepareClientRequest("You are a SpringAI streaming pirate")
                 .stream()
                 .chatResponse()
                 .collectList()

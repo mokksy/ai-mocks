@@ -17,7 +17,7 @@ internal class OpenaiStreamingChatCompletionSpringAiTest : AbstractSpringAiTest(
             seed = seedValue
             model = modelName
             maxTokens = maxCompletionTokensValue
-            systemMessageContains("helpful pirate")
+            systemMessageContains("SpringAI streaming standalone")
             userMessageContains("say 'Hello!'")
         } respondsStream {
             responseFlow =
@@ -34,7 +34,7 @@ internal class OpenaiStreamingChatCompletionSpringAiTest : AbstractSpringAiTest(
         }
 
         val chunks =
-            prepareClientRequest("You are a helpful pirate")
+            prepareClientRequest("You are a SpringAI streaming standalone")
                 .stream()
                 .chatResponse()
                 .collectList()

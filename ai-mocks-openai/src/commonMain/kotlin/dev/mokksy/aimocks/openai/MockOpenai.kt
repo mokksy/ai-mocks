@@ -107,6 +107,10 @@ public open class MockOpenai(
                 requestSpec.model?.let {
                     bodyString += containJsonKeyValue("model", it)
                 }
+
+                requestSpec.topP?.let {
+                    bodyString += containJsonKeyValue("top_p", it)
+                }
             }
 
         return OpenaiChatCompletionsBuildingStep(
@@ -152,6 +156,10 @@ public open class MockOpenai(
 
                 chatRequestSpec.model?.let {
                     bodyString += containJsonKeyValue("model", it)
+                }
+
+                chatRequestSpec.topP?.let {
+                    bodyString += containJsonKeyValue("top_p", it)
                 }
 
                 chatRequestSpec.requestBodyString.forEach {

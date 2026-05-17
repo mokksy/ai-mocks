@@ -9,8 +9,7 @@ import dev.mokksy.aimocks.openai.AbstractMockOpenaiTest
 import dev.mokksy.aimocks.openai.openai
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import kotlinx.coroutines.runBlocking
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class OpenaiChatCompletionLc4jTest : AbstractMockOpenaiTest() {
@@ -22,36 +21,36 @@ internal class OpenaiChatCompletionLc4jTest : AbstractMockOpenaiTest() {
             .build()
 
     @Test
-    fun `Should respond to Chat Completion`(): Unit =
-        runBlocking {
-            openai.completion {
-                temperature = temperatureValue
-                seed = seedValue
-                model = modelName
-                maxTokens = maxCompletionTokensValue
-            } responds {
-                assistantContent = "Hello"
-                finishReason = "stop"
-                delay = 42.milliseconds
-            }
-
-            val result =
-                model.chat {
-                    parameters =
-                        OpenAiChatRequestParameters
-                            .builder()
-                            .maxCompletionTokens(maxCompletionTokensValue.toInt())
-                            .temperature(temperatureValue)
-                            .modelName(modelName)
-                            .seed(seedValue)
-                            .build()
-                    messages += userMessage("Say Hello")
-                }
-
-            result.apply {
-                finishReason() shouldBe FinishReason.STOP
-                tokenUsage() shouldNotBe null
-                aiMessage().text() shouldBe "Hello"
-            }
+    suspend fun `Should respond to Chat Completion`() {
+        openai.completion {
+            temperature = temperatureValue
+            seed = seedValue
+            model = modelName
+            maxTokens = maxCompletionTokensValue
+            userMessageContains("Lc4j chat test")
+        } responds {
+            assistantContent = "Hello"
+            finishReason = "stop"
+            delay = 42.milliseconds
         }
+
+        val result =
+            model.chat {
+                parameters =
+                    OpenAiChatRequestParameters
+                        .builder()
+                        .maxCompletionTokens(maxCompletionTokensValue.toInt())
+                        .temperature(temperatureValue)
+                        .modelName(modelName)
+                        .seed(seedValue)
+                        .build()
+                messages += userMessage("Lc4j chat test")
+            }
+
+        result.apply {
+            finishReason() shouldBe FinishReason.STOP
+            tokenUsage() shouldNotBe null
+            aiMessage().text() shouldBe "Hello"
+        }
+    }
 }
