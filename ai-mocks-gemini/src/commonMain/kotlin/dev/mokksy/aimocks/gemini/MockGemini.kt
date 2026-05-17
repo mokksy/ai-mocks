@@ -166,6 +166,14 @@ public open class MockGemini(
             }
         }
 
+        chatRequestSpec.model?.let { expectedModel ->
+            builder.bodyMatchesPredicate(
+                description = "Model in body should be '$expectedModel' if present.",
+            ) {
+                it?.model == null || it.model == expectedModel
+            }
+        }
+
         chatRequestSpec.requestBodyString.forEach {
             builder.bodyString += it
         }
