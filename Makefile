@@ -21,7 +21,7 @@ test:
 .PHONY: apidocs
 apidocs:
 	rm -rf docs/public/apidocs && \
-	./gradlew clean :docs:dokkaGenerate
+	./gradlew :docs:dokkaGenerate
 
 .PHONY: knit
 knit:

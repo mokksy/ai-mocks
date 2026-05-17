@@ -45,9 +45,8 @@ jobs:
 
       - name: Generate Dokka Site
         run: |-
-          ./gradlew clean
-          make knit
-          ./gradlew :docs:dokkaGenerate
+          make clean
+          make knit apidocs
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
