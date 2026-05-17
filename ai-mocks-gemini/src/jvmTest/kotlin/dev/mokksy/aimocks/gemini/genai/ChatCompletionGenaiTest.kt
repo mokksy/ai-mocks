@@ -22,7 +22,7 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
             topK = topKValue
             topP = topPValue
             maxOutputTokens(maxCompletionTokensValue)
-            systemMessageContains("You are a helpful pirate. $seedValue")
+            systemMessageContains("You are a helpful pirate.")
             userMessageContains("Just say 'Hello!'")
         } responds {
             content = "Ahoy there, matey! Hello!"
@@ -33,7 +33,7 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
             client.models.generateContent(
                 modelName,
                 "Just say 'Hello!'",
-                generateContentConfig("You are a helpful pirate. $seedValue")
+                generateContentConfig("You are a helpful pirate.")
                     .build(),
             )
 

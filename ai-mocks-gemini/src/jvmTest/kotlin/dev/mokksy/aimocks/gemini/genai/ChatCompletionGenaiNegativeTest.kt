@@ -74,7 +74,7 @@ internal class ChatCompletionGenaiNegativeTest {
             location = locationId
             apiVersion = "v1beta1"
             maxOutputTokens(maxCompletionTokensValue)
-            systemMessageContains("You are a helpful pirate. $seedValue")
+            systemMessageContains("You are a helpful pirate.")
             userMessageContains("Just say 'Hello!'")
         } responds {
             content = "Ahoy there, matey! Hello!"
@@ -93,7 +93,7 @@ internal class ChatCompletionGenaiNegativeTest {
                     Content
                         .builder()
                         .role("system")
-                        .parts(Part.fromText("You are a helpful pirate. $seedValue"))
+                        .parts(Part.fromText("You are a helpful pirate."))
                         .build(),
                 )
         mutator(configBuilder)
