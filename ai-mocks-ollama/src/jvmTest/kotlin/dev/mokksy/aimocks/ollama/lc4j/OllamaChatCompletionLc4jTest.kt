@@ -26,7 +26,7 @@ internal class OllamaChatCompletionLc4jTest : AbstractMockOllamaTest() {
         // Configure mock response
         mockOllama.chat {
             model = modelName
-            userMessageContains("Hello")
+            userMessageContains("Lc4j chat test")
             temperature = temperatureValue
             topP = topPValue
             requestMatchesPredicate { !it.stream }
@@ -39,7 +39,7 @@ internal class OllamaChatCompletionLc4jTest : AbstractMockOllamaTest() {
         val startTime = TimeSource.Monotonic.markNow()
         val result =
             model.chat {
-                messages += userMessage("Hello")
+                messages += userMessage("Lc4j chat test")
                 parameters {
                     temperature = temperatureValue
                 }
