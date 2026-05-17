@@ -47,7 +47,7 @@ development purposes.
 ## Development Guidelines
 
 - Use `git mv` command when renaming files to preserve git history, if possible
-- Never commit or push changes to git automatically. It should be done manually.
+- Never commit or push changes to git automatically. Always confirm.
 - Ensure new code follows existing code style and design patterns.
 - Use MCP servers, if available, to edit code and run tests. Run terminal commands directly.
 
@@ -72,6 +72,7 @@ development purposes.
 ### Testing
 
 - Write comprehensive tests for new features
+- Prioritize test readability
 - Use function `Names with backticks` for test methods in Kotlin, e.g. "fun `should return 200 OK`()"
 - Avoid writing KDocs for tests, keep code self-documenting
 - Write Kotlin tests with [kotlin-test](https://github.com/JetBrains/kotlin/tree/master/libraries/kotlin.test),
@@ -83,10 +84,9 @@ development purposes.
   `params shouldNotBeNull { params.id shouldBe 1 }`
 - For testing json serialization use [Kotest-assertions-json](https://kotest.io/docs/assertions/json/json-overview.html)
   assertions, e.g. `shouldEqualJson` and never compare substrings.
-- Use `assertSoftly(subject) { ... }` to perform multiple assertions. Never use `assertSoftly { }` to verify properties
-  of different subjects, or when there is only one assertion per subject. Avoid using `assertSoftly(this) { ... }`
-  - Prioritize test readability
-  - When asked to write tests in Java: use JUnit5, Mockito, AssertJ core
+- Prefer `assertSoftly(subject) { }` over `assertSoftly { }`. Use the no-subject form only when asserting 
+  the same invariant across multiple related objects, or when the assertions are tightly coupled.
+- When asked to write tests in Java: use JUnit6, Mockito, AssertJ core
 
 #### Parallel Test Execution and Shared Mock Servers
 
