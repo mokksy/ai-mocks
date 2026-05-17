@@ -63,6 +63,8 @@ public class GeminiStreamingContentBuildingStep(
             }
             val request = this.request.body()
             val responseId = Uuid.random().toHexString()
+            delayBetweenChunks = responseSpec.delayBetweenChunks
+            delay = responseSpec.delay
             flow =
                 prepareFlow(
                     responseId = responseId,
