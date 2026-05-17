@@ -48,7 +48,6 @@ public open class MockOllama(
                 )
             },
     ) {
-
     /**
      * Sets up a mock handler for the Ollama `/api/generate` completion endpoint.
      *
@@ -80,23 +79,23 @@ public open class MockOllama(
                 }
 
                 generateRequestSpec.seed?.let {
-                    bodyString += containJsonKeyValue("options.seed", it)
+                    bodyString += containJsonKeyValue("$.options.seed", it)
                 }
 
                 generateRequestSpec.temperature?.let {
-                    bodyString += containJsonKeyValue("options.temperature", it)
+                    bodyString += containJsonKeyValue("$.options.temperature", it)
                 }
 
                 generateRequestSpec.topP?.let {
-                    bodyString += containJsonKeyValue("options.top_p", it)
+                    bodyString += containJsonKeyValue("$.options.top_p", it)
                 }
 
                 generateRequestSpec.topK?.let {
-                    bodyString += containJsonKeyValue("options.top_k", it)
+                    bodyString += containJsonKeyValue("$.options.top_k", it)
                 }
 
                 generateRequestSpec.maxTokens?.let {
-                    bodyString += containJsonKeyValue("options.num_predict", it)
+                    bodyString += containJsonKeyValue("$.options.num_predict", it)
                 }
 
                 generateRequestSpec.template?.let {
@@ -149,23 +148,23 @@ public open class MockOllama(
                 }
 
                 chatRequestSpec.seed?.let {
-                    bodyString += containJsonKeyValue("options.seed", it)
+                    bodyString += containJsonKeyValue("$.options.seed", it)
                 }
 
                 chatRequestSpec.temperature?.let {
-                    bodyString += containJsonKeyValue("options.temperature", it)
+                    bodyString += containJsonKeyValue("$.options.temperature", it)
                 }
 
                 chatRequestSpec.topP?.let {
-                    bodyString += containJsonKeyValue("options.top_p", it)
+                    bodyString += containJsonKeyValue("$.options.top_p", it)
                 }
 
                 chatRequestSpec.topK?.let {
-                    bodyString += containJsonKeyValue("options.top_k", it)
+                    bodyString += containJsonKeyValue("$.options.top_k", it)
                 }
 
                 chatRequestSpec.maxTokens?.let {
-                    bodyString += containJsonKeyValue("options.num_predict", it)
+                    bodyString += containJsonKeyValue("$.options.num_predict", it)
                 }
 
                 body += chatRequestSpec.requestBody
@@ -226,7 +225,7 @@ public open class MockOllama(
 
                 embedRequestSpec.options?.let { options ->
                     options.forEach { (key, value) ->
-                        bodyString += containJsonKeyValue("options.$key", value)
+                        bodyString += containJsonKeyValue("$.options.$key", value)
                     }
                 }
 

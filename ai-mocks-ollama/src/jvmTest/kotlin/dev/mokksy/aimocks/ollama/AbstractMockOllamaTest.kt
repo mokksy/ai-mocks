@@ -25,7 +25,7 @@ internal abstract class AbstractMockOllamaTest {
         topPValue = Random.nextDouble(0.1, 1.0)
         topKValue = Random.nextLong(1, 999)
         temperatureValue = Random.nextDouble(0.0, 1.0)
-        maxTokensValue = Random.nextLong(1, 4096)
+        maxTokensValue = Random.nextLong(512, 8000)
         seedValue = Random.nextInt(1, 100500)
         startTimestamp = java.time.Instant.now()
     }

@@ -27,7 +27,7 @@ internal class OllamaChatCompletionTest : AbstractOllamaKtorTest() {
             temperature = temperatureValue
             maxTokens = maxTokensValue
             requestBodyContains(userMessage)
-            stream = false
+            stream(false)
         } responds {
             content(assistantMessage)
             delay = 42.milliseconds

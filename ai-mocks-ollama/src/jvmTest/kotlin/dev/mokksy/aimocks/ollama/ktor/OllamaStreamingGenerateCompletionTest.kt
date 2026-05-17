@@ -3,6 +3,7 @@ package dev.mokksy.aimocks.ollama.ktor
 import dev.mokksy.aimocks.ollama.generate.GenerateRequest
 import dev.mokksy.aimocks.ollama.generate.GenerateResponse
 import dev.mokksy.aimocks.ollama.mockOllama
+import dev.mokksy.aimocks.ollama.model.ModelOptions
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.preparePost
@@ -24,6 +25,8 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
 
         mockOllama.generate {
             model = modelName
+            seed(seedValue)
+            stream(true)
             userMessageContains("Tell me a story")
         } respondsStream {
             responseChunks = chunks
@@ -95,6 +98,7 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
                 model = modelName,
                 prompt = prompt,
                 stream = true,
+                options = ModelOptions(seed = seedValue),
             )
 
         val responses = mutableListOf<GenerateResponse>()

@@ -64,6 +64,7 @@ internal class ChatCompletionGenaiNegativeTest {
     fun `Should miss response when request does not match`(
         mutator: GenerateContentConfig.Builder.() -> Unit,
     ) {
+        val systemMessage = "You are a helpful pirate."
         mock.generateContent {
             temperature = temperatureValue
             seed = seedValue
@@ -74,7 +75,7 @@ internal class ChatCompletionGenaiNegativeTest {
             location = locationId
             apiVersion = "v1beta1"
             maxOutputTokens(maxCompletionTokensValue)
-            systemMessageContains("You are a helpful pirate.")
+            systemMessageContains(systemMessage)
             userMessageContains("Just say 'Hello!'")
         } responds {
             content = "Ahoy there, matey! Hello!"
@@ -93,7 +94,7 @@ internal class ChatCompletionGenaiNegativeTest {
                     Content
                         .builder()
                         .role("system")
-                        .parts(Part.fromText("You are a helpful pirate."))
+                        .parts(Part.fromText(systemMessage))
                         .build(),
                 )
         mutator(configBuilder)
