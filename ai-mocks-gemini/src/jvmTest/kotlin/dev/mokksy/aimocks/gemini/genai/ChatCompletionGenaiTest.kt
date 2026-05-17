@@ -12,6 +12,7 @@ import kotlin.time.Duration.Companion.milliseconds
 internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
     @Test
     fun `Should respond with stream to generateContent`() {
+        val systemMessage = "You are a helpful pirate."
         gemini.generateContent {
             temperature = temperatureValue
             model = modelName
@@ -22,7 +23,7 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
             topK = topKValue
             topP = topPValue
             maxOutputTokens(maxCompletionTokensValue)
-            systemMessageContains("You are a helpful pirate.")
+            systemMessageContains(systemMessage)
             userMessageContains("Just say 'Hello!'")
         } responds {
             content = "Ahoy there, matey! Hello!"
@@ -32,12 +33,11 @@ internal class ChatCompletionGenaiTest : AbstractGenaiTest() {
         val response =
             client.models.generateContent(
                 modelName,
-                "Just say 'Hello!'",
-                generateContentConfig("You are a helpful pirate.")
+                "Just say 'Hello!' as you do it",
+                generateContentConfig(systemMessage)
                     .build(),
             )
 
         response.text() shouldBe "Ahoy there, matey! Hello!"
     }
-
 }
