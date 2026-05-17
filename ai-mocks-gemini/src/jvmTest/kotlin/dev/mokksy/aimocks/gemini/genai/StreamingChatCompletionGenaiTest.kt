@@ -1,11 +1,14 @@
 package dev.mokksy.aimocks.gemini.genai
 
 import dev.mokksy.aimocks.gemini.gemini
+import io.kotest.assertions.assertSoftly
+import io.kotest.matchers.comparables.shouldBeGreaterThanOrEqualTo
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.measureTimedValue
 
 /**
  * Some examples:
@@ -15,6 +18,10 @@ internal class StreamingChatCompletionGenaiTest : AbstractGenaiTest() {
     @Test
     fun `Should respond with stream to generateContentStream`() {
         val systemMessage = "You are a helpful pirate."
+        val initialDelay = 60.milliseconds
+        val flowDelay = 100.milliseconds
+        val delayBetweenChunks = 15.milliseconds
+        val tokens = listOf("Ahoy", " there,", " matey!", " Hello!")
         gemini.generateContentStream {
             temperature = temperatureValue
             apiVersion = "v1beta1"
@@ -30,27 +37,36 @@ internal class StreamingChatCompletionGenaiTest : AbstractGenaiTest() {
         } respondsStream {
             responseFlow =
                 flow {
-                    emit("Ahoy")
-                    emit(" there,")
-                    delay(100.milliseconds)
-                    emit(" matey!")
-                    emit(" Hello!")
+                    tokens.forEachIndexed { index, token ->
+                        if (index > 0 && index == 2) {
+                            delay(flowDelay)
+                        }
+                        emit(token)
+                    }
                 }
-            delay = 60.milliseconds
-            delayBetweenChunks = 15.milliseconds
+            delay = initialDelay
+            this.delayBetweenChunks = delayBetweenChunks
         }
 
-        val response =
-            client.models.generateContentStream(
-                modelName,
-                "Just say 'Hello!'",
-                generateContentConfig(systemMessage)
-                    .build(),
-            )
+        val timedValue =
+            measureTimedValue {
+                client.models
+                    .generateContentStream(
+                        modelName,
+                        "Just say 'Hello!'",
+                        generateContentConfig(systemMessage)
+                            .build(),
+                    ).joinToString(separator = "") {
+                        it.text().orEmpty()
+                    }
+            }
 
-        response.joinToString(separator = "") {
-            it.text().orEmpty()
-        } shouldBe "Ahoy there, matey! Hello!"
+        timedValue.value shouldBe "Ahoy there, matey! Hello!"
+
+        val expectedMinDuration = initialDelay + flowDelay + delayBetweenChunks * (tokens.size - 1)
+        assertSoftly(timedValue) {
+            value shouldBe "Ahoy there, matey! Hello!"
+            duration shouldBeGreaterThanOrEqualTo expectedMinDuration
+        }
     }
-
 }
