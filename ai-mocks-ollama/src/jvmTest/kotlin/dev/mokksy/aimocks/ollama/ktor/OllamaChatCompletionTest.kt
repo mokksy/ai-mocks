@@ -25,6 +25,7 @@ internal class OllamaChatCompletionTest : AbstractOllamaKtorTest() {
             seed = seedValue
             topP = topPValue
             temperature = temperatureValue
+            maxTokens = maxTokensValue
             requestBodyContains(userMessage)
             stream = false
         } responds {
@@ -49,6 +50,7 @@ internal class OllamaChatCompletionTest : AbstractOllamaKtorTest() {
                         temperature = temperatureValue,
                         topP = topPValue,
                         seed = seedValue,
+                        numPredict = maxTokensValue.toInt(),
                     ),
             )
 

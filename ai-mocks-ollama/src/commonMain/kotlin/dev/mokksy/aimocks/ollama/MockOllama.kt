@@ -79,6 +79,26 @@ public open class MockOllama(
                     bodyString += containJsonKeyValue("model", it)
                 }
 
+                generateRequestSpec.seed?.let {
+                    bodyString += containJsonKeyValue("options.seed", it)
+                }
+
+                generateRequestSpec.temperature?.let {
+                    bodyString += containJsonKeyValue("options.temperature", it)
+                }
+
+                generateRequestSpec.topP?.let {
+                    bodyString += containJsonKeyValue("options.top_p", it)
+                }
+
+                generateRequestSpec.topK?.let {
+                    bodyString += containJsonKeyValue("options.top_k", it)
+                }
+
+                generateRequestSpec.maxTokens?.let {
+                    bodyString += containJsonKeyValue("options.num_predict", it)
+                }
+
                 generateRequestSpec.template?.let {
                     bodyString += containJsonKeyValue("template", it)
                 }
@@ -142,6 +162,10 @@ public open class MockOllama(
 
                 chatRequestSpec.topK?.let {
                     bodyString += containJsonKeyValue("options.top_k", it)
+                }
+
+                chatRequestSpec.maxTokens?.let {
+                    bodyString += containJsonKeyValue("options.num_predict", it)
                 }
 
                 body += chatRequestSpec.requestBody

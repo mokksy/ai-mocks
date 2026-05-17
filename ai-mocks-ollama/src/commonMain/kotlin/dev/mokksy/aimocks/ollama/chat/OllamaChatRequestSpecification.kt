@@ -47,6 +47,16 @@ public class OllamaChatRequestSpecification : AbstractInferenceRequestSpecificat
     }
 
     /**
+     * Sets the seed value for deterministic behavior in chat completions.
+     *
+     * @param seed The seed value to use for reproducible results.
+     * @return This specification instance for method chaining.
+     * @see <a href="https://docs.ollama.com/api/generate-a-chat-completion#request-reproducible-outputs">Reproducible outputs</a>
+     */
+    public fun seed(seed: Int): OllamaChatRequestSpecification =
+        apply { this.seed = seed }
+
+    /**
      * Sets the list of messages to match in the chat request.
      *
      * @param messages The messages to use as matching criteria.
