@@ -24,7 +24,6 @@ internal class ResponsesFileInputTest : AbstractOpenaiResponsesTest() {
     fun setupMock() {
         openai.responses {
             temperature = temperatureValue
-            seed = seedValue
             model = modelName
 
             containsInputFileWithNamed(filename)
@@ -109,5 +108,4 @@ internal class ResponsesFileInputTest : AbstractOpenaiResponsesTest() {
                 .build()
         return params
     }
-
 }
