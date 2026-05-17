@@ -1,6 +1,7 @@
 public final class dev/mokksy/aimocks/gemini/BlockReason : java/lang/Enum {
 	public static final field BLOCKLIST Ldev/mokksy/aimocks/gemini/BlockReason;
 	public static final field BLOCK_REASON_UNSPECIFIED Ldev/mokksy/aimocks/gemini/BlockReason;
+	public static final field Companion Ldev/mokksy/aimocks/gemini/BlockReason$Companion;
 	public static final field IMAGE_SAFETY Ldev/mokksy/aimocks/gemini/BlockReason;
 	public static final field OTHER Ldev/mokksy/aimocks/gemini/BlockReason;
 	public static final field PROHIBITED_CONTENT Ldev/mokksy/aimocks/gemini/BlockReason;
@@ -8,6 +9,10 @@ public final class dev/mokksy/aimocks/gemini/BlockReason : java/lang/Enum {
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Ldev/mokksy/aimocks/gemini/BlockReason;
 	public static fun values ()[Ldev/mokksy/aimocks/gemini/BlockReason;
+}
+
+public final class dev/mokksy/aimocks/gemini/BlockReason$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/mokksy/aimocks/gemini/Candidate {
