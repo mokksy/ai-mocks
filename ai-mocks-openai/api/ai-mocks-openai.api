@@ -1535,10 +1535,8 @@ public final class dev/mokksy/aimocks/openai/model/chat/CompletionTokensDetails$
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public abstract class dev/mokksy/aimocks/openai/model/chat/ContentPart {
+public abstract interface class dev/mokksy/aimocks/openai/model/chat/ContentPart {
 	public static final field Companion Ldev/mokksy/aimocks/openai/model/chat/ContentPart$Companion;
-	public synthetic fun <init> (ILkotlinx/serialization/internal/SerializationConstructorMarker;)V
-	public static final synthetic fun write$Self (Ldev/mokksy/aimocks/openai/model/chat/ContentPart;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
 }
 
 public final class dev/mokksy/aimocks/openai/model/chat/ContentPart$Companion {
@@ -1996,7 +1994,7 @@ public final class dev/mokksy/aimocks/openai/model/chat/ToolCall$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public abstract class dev/mokksy/aimocks/openai/model/chat/ToolChoice {
+public abstract interface class dev/mokksy/aimocks/openai/model/chat/ToolChoice {
 	public static final field Companion Ldev/mokksy/aimocks/openai/model/chat/ToolChoice$Companion;
 }
 
