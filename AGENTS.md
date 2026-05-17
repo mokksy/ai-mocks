@@ -90,15 +90,12 @@ development purposes.
 
 #### Parallel Test Execution and Shared Mock Servers
 
+- Apply the `integration-testing` skill when writing or modifying integration tests.
 - Tests **must** be safe to run in parallel. Do not disable parallel execution as a workaround for test failures.
-- All tests within a module share a single top-level mock server instance (e.g. `val gemini = MockGemini(verbose = true)` in `AbstractMockGeminiTest`).
-  Do not create per-test or per-class isolated mock instances unless specifically testing negative scenarios where the mock must not match.
-- Mock stubs are **immutable** once registered. A stub registered by one test must never be modified, removed, or reconfigured by another test.
-- To ensure parallel safety, make each test's stub uniquely identifiable by including all variable parameters in the match criteria:
-  - Use randomized but distinct values for `model`, `seed`, `temperature`, `topK`, `topP`, `maxOutputTokens`, etc. in `@BeforeEach`.
-  - Include these values in both the mock stub registration and the client request configuration.
-  - Use unique substrings in message content (e.g. append `$seedValue` to system/user messages) to prevent cross-test matching.
-- When adding new matchers to any mock implementation (`MockGemini`, `MockOpenAI`, `MockAnthropic`, `MockOllama`, etc.), ensure they cover all fields that could differ between parallel tests, including the `model` field in both the URL path and the request body.
+- All tests within a module share a single top-level mock server instance. Do not create per-test or per-class isolated mock instances unless specifically testing negative scenarios.
+- Mock stubs are **immutable** once registered.
+- Use randomized but distinct values for `model`, `seed`, `temperature`, `topK`, `topP`, `maxOutputTokens`, etc. in `@BeforeEach` to ensure parallel safety.
+- For each LLM use their native SDK as primary test client. Add smoke-level tests using LangChain4j and SpringAI.
 
 ### Documentation
 
