@@ -278,33 +278,40 @@ public enum class HarmProbability {
     HIGH,
 }
 
+@Serializable
 public enum class BlockReason {
     /**
      * Default value. This value is unused.
      */
+    @SerialName("BLOCK_REASON_UNSPECIFIED")
     BLOCK_REASON_UNSPECIFIED,
 
     /**
      * Prompt was blocked due to safety reasons. Inspect safetyRatings to understand which safety category blocked it.
      */
+    @SerialName("SAFETY")
     SAFETY,
 
     /**Prompt was blocked due to unknown reasons.*/
+    @SerialName("OTHER")
     OTHER,
 
     /**
      * Prompt was blocked due to the terms which are included from the terminology blocklist.
      */
+    @SerialName("BLOCKLIST")
     BLOCKLIST,
 
     /**
      * Prompt was blocked due to prohibited content.
      */
+    @SerialName("PROHIBITED_CONTENT")
     PROHIBITED_CONTENT,
 
     /**
      * Candidates blocked due to unsafe image generation content.
      */
+    @SerialName("IMAGE_SAFETY")
     IMAGE_SAFETY,
 }
 
