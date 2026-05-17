@@ -20,8 +20,10 @@ internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
     fun `Should respond to Streaming Chat Completion`() {
         openai.completion("openai-completions-list") {
             temperature = temperatureValue
+            seed = seedValue
             model = modelName
             topP = topPValue
+            maxTokens = maxCompletionTokensValue
             userMessageContains("OpenAI streaming list test")
         } respondsStream {
             responseChunks = listOf("All", " we", " need", " is", " Love")
@@ -30,14 +32,16 @@ internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
             finishReason = "stop"
         }
 
-        verifyStreamingCall("OpenAI streaming list test")
+        verifyStreamingCall("Please run the OpenAI streaming list test")
     }
 
     @Test
     fun `Should respond to Streaming Chat Completion with Flow`() {
         openai.completion("openai-completions-flow") {
             temperature = temperatureValue
+            seed = seedValue
             model = modelName
+            maxTokens = maxCompletionTokensValue
             userMessageContains("OpenAI streaming flow test")
         } respondsStream {
             responseFlow =
@@ -53,18 +57,19 @@ internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
             finishReason = "stop"
         }
 
-        verifyStreamingCall("OpenAI streaming flow test")
+        verifyStreamingCall("Please run the OpenAI streaming flow test")
     }
 
     private fun verifyStreamingCall(userMessage: String) {
         val params =
-            @Suppress("deprecation")
+            @Suppress("DEPRECATION")
             ChatCompletionCreateParams
                 .builder()
                 .streamOptions(
                     ChatCompletionStreamOptions.builder().includeUsage(true).build(),
                 ).temperature(temperatureValue)
                 .topP(topPValue)
+                .maxCompletionTokens(maxCompletionTokensValue)
                 .seed(seedValue.toLong())
                 .messages(
                     listOf(
@@ -108,5 +113,4 @@ internal class StreamingChatCompletionOpenaiTest : AbstractOpenaiTest() {
         // then
         assertThat(result.toString()).isEqualTo("All we need is Love")
     }
-
 }

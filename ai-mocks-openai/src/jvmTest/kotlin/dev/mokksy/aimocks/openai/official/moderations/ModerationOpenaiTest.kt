@@ -24,8 +24,10 @@ internal class ModerationOpenaiTest : AbstractOpenaiTest() {
     @Test
     @Suppress("LongMethod")
     fun `Should respond to Moderation`() {
+        val inputModel = "omni-moderation-latest"
+        val inputText = "Hello world, this is a test"
         openai.moderation {
-            model = "omni-moderation-latest"
+            model = inputModel
             inputContains("Hello world")
         } responds {
             // simple flagged result
@@ -46,8 +48,8 @@ internal class ModerationOpenaiTest : AbstractOpenaiTest() {
         val params =
             ModerationCreateParams
                 .builder()
-                .model("omni-moderation-latest")
-                .input("Hello world")
+                .model(inputModel)
+                .input(inputText)
                 .build()
 
         val timedValue =
@@ -60,7 +62,7 @@ internal class ModerationOpenaiTest : AbstractOpenaiTest() {
         timedValue.duration shouldBeGreaterThanOrEqualTo 200.milliseconds
         val result = timedValue.value
 
-        result.model() shouldBe "omni-moderation-latest"
+        result.model() shouldBe inputModel
         result.results() shouldHaveSize 1
         val res = result.results().first()
         res.flagged().shouldBeTrue()
@@ -137,7 +139,7 @@ internal class ModerationOpenaiTest : AbstractOpenaiTest() {
             ModerationCreateParams
                 .builder()
                 .model(modelName)
-                .input("boom")
+                .input("boom goes the dynamite")
                 .build()
 
         val timedValue =

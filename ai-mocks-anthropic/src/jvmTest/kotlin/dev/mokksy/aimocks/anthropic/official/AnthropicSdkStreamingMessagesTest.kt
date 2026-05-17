@@ -19,6 +19,8 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
             temperature = temperatureValue
             model = modelName
             userId = userIdValue
+            systemMessageContains("You are a person from 60s $seedValue")
+            userMessageContains("do all need")
         } respondsStream {
             responseChunks = tokens
             delay = 50.milliseconds
@@ -68,13 +70,14 @@ internal class AnthropicSdkStreamingMessagesTest : AbstractAnthropicTest() {
 
     private fun verifyStreamingCall(tokens: List<String>) {
         val params =
+            @Suppress("DEPRECATION")
             MessageCreateParams
                 .builder()
                 .temperature(temperatureValue)
                 .maxTokens(maxTokensValue)
                 .metadata(Metadata.builder().userId(userIdValue).build())
                 .system("You are a person from 60s $seedValue")
-                .addUserMessage("What do we need?")
+                .addUserMessage("What do all need?")
                 .model(modelName)
                 .build()
 

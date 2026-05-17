@@ -22,7 +22,6 @@ internal class ResponsesFileInputTest : AbstractOpenaiResponsesTest() {
 
     @BeforeEach
     fun setupMock() {
-        modelName = "gpt-4o-mini" // cheap model
         openai.responses {
             temperature = temperatureValue
             model = modelName
@@ -109,5 +108,4 @@ internal class ResponsesFileInputTest : AbstractOpenaiResponsesTest() {
                 .build()
         return params
     }
-
 }

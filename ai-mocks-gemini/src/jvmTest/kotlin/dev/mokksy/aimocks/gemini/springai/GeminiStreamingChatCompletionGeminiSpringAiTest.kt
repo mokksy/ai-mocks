@@ -16,6 +16,7 @@ internal class GeminiStreamingChatCompletionGeminiSpringAiTest : AbstractGeminiS
     @Test
     suspend fun `Should respond with stream to generateContentStream`() {
         val systemMessage = "You are a helpful pirate. $seedValue"
+        val systemInstruction = "Follow these rules: $systemMessage"
         gemini
             .generateContentStream {
                 temperature = temperatureValue
@@ -37,7 +38,7 @@ internal class GeminiStreamingChatCompletionGeminiSpringAiTest : AbstractGeminiS
             }
 
         val chunks =
-            prepareClientRequest(systemMessage)
+            prepareClientRequest(systemInstruction)
                 .stream()
                 .chatResponse()
                 .collectList()

@@ -16,13 +16,16 @@ import java.net.URL
  * @author Konstantin Pavlov
  */
 public open class OpenaiResponsesRequestSpecification(
+    @Deprecated("Responses API does not support seed")
     public var seed: Int? = null,
 ) : AbstractInferenceRequestSpecification<CreateResponseRequest>() {
-    public fun seed(value: Int): OpenaiResponsesRequestSpecification =
-        apply {
-            this.seed =
-                value
-        }
+    @Deprecated("Responses API does not support seed")
+    public fun seed(
+        @Suppress("unused") value: Int,
+    ): OpenaiResponsesRequestSpecification {
+        // noop
+        return this
+    }
 
     override fun systemMessageContains(substring: String) {
         instructionsContains(substring)

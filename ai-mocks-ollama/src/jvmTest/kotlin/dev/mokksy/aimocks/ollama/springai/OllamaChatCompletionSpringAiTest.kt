@@ -8,7 +8,7 @@ import kotlin.test.Test
 internal class OllamaChatCompletionSpringAiTest : AbstractSpringAiTest() {
     @Test
     fun `Should respond to Chat Completion`() {
-        mockOllama.chat {
+        mockOllama.chat("ollama-spring-ai-chat-$seedValue") {
             temperature = temperatureValue
             seed = seedValue
             model = modelName

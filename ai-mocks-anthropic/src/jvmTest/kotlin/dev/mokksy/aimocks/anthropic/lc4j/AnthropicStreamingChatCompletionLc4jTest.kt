@@ -1,6 +1,5 @@
 package dev.mokksy.aimocks.anthropic.lc4j
 
-import dev.langchain4j.data.message.SystemMessage.systemMessage
 import dev.langchain4j.data.message.UserMessage.userMessage
 import dev.langchain4j.kotlin.model.chat.StreamingChatModelReply
 import dev.langchain4j.kotlin.model.chat.chatFlow
@@ -28,26 +27,23 @@ private const val FLOW_BUFFER_SIZE = 8096
 internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTest() {
     private lateinit var model: AnthropicStreamingChatModel
 
-    private lateinit var systemMessage: String
-
     @BeforeEach
     fun setupModel() {
-        systemMessage = "You are a person of 60s $seedValue"
         model =
             AnthropicStreamingChatModel
                 .builder()
                 .apiKey("foo")
                 .baseUrl(anthropic.baseUrl() + "/v1")
-                .modelName(requireNotNull(modelName))
+                .modelName(modelName)
                 .build()
     }
 
     @Test
     suspend fun `Should respond to Streaming Chat Completion`() {
-        val userMessage = "What do we need? $seedValue"
+        val userMessage = "Please tell me what we need"
         anthropic.messages {
-            systemMessageContains(systemMessage)
-            userMessageContains(userMessage)
+            model = modelName
+            userMessageContains("what we need")
         } respondsStream {
             responseChunks = listOf("All", " we", " need", " is", " Love")
         }
@@ -57,10 +53,10 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
 
     @Test
     fun `Should respond to Streaming Chat Completion with Flow`() {
-        val userMessage = "What is in the sea? $seedValue"
+        val userMessage = "Please tell me what's you see in the sea"
         anthropic.messages {
-            systemMessageContains(systemMessage)
-            userMessageContains(userMessage)
+            model = modelName
+            userMessageContains("what's you see")
         } respondsStream {
             responseFlow =
                 flow {
@@ -83,10 +79,8 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
         model.chat(
             ChatRequest
                 .builder()
-                .messages(
-                    systemMessage(systemMessage),
-                    userMessage(userMessage),
-                ).build(),
+                .messages(userMessage(userMessage))
+                .build(),
             object : StreamingChatResponseHandler {
                 override fun onCompleteResponse(completeResponse: ChatResponse) {
                     logger.info { "Received CompleteResponse: $completeResponse" }
@@ -122,7 +116,6 @@ internal class StreamingChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
         val finishReason = AtomicReference<FinishReason>()
         model
             .chatFlow {
-                messages += systemMessage(systemMessage)
                 messages += userMessage(userMessage)
             }.buffer(capacity = FLOW_BUFFER_SIZE)
             .collect {

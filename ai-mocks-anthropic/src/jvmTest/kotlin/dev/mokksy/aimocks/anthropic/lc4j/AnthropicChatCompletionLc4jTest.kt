@@ -13,12 +13,10 @@ import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class AnthropicChatCompletionLc4jTest : AbstractAnthropicIntegrationTest() {
-    private lateinit var systemMessage: String
     private lateinit var model: AnthropicChatModel
 
     @BeforeEach
     fun setupModel() {
-        systemMessage = "You are a person of 60s $seedValue"
         model =
             AnthropicChatModel
                 .builder()
@@ -30,8 +28,10 @@ internal class AnthropicChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
 
     @Test
     suspend fun `Should respond to Chat Completion`() {
+        val userMessage = "Please say Hello"
         anthropic.messages {
-            userMessageContains("Hello")
+            model = modelName
+            userMessageContains("say Hello")
         } responds {
             assistantContent = "Hello"
             delay = 42.milliseconds
@@ -39,7 +39,7 @@ internal class AnthropicChatCompletionLc4jTest : AbstractAnthropicIntegrationTes
 
         val result =
             model.chat {
-                messages += userMessage("Say Hello")
+                messages += userMessage(userMessage)
             }
 
         result.apply {
