@@ -33,6 +33,7 @@ internal class ResponsesImageInputTest : AbstractOpenaiResponsesTest() {
         val userInput = "what's in this image?"
         openai.responses {
             temperature = temperatureValue
+            seed = seedValue
             model = modelName
             instructionsContains(instructions)
             userMessageContains(userInput)

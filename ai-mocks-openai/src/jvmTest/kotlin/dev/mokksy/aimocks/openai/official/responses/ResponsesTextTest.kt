@@ -16,6 +16,7 @@ internal class ResponsesTextTest : AbstractOpenaiResponsesTest() {
         val userInput = "How to start business?"
         openai.responses {
             temperature = temperatureValue
+            seed = seedValue
             model = modelName
             maxTokens = maxCompletionTokensValue
             systemMessageContains(expectedInstructions)

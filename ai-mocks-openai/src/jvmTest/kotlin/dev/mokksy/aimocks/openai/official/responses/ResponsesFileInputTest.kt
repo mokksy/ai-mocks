@@ -24,6 +24,7 @@ internal class ResponsesFileInputTest : AbstractOpenaiResponsesTest() {
     fun setupMock() {
         openai.responses {
             temperature = temperatureValue
+            seed = seedValue
             model = modelName
 
             containsInputFileWithNamed(filename)
