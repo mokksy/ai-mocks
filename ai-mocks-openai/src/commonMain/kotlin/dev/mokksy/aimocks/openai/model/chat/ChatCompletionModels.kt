@@ -100,7 +100,7 @@ public data class ChatCompletionRequest(
  * @see <a href="https://platform.openai.com/docs/api-reference/chat/create">OpenAI Chat API</a>
  */
 @Serializable
-public sealed class ContentPart {
+public sealed interface ContentPart {
     /**
      * Text content part.
      *
@@ -113,7 +113,7 @@ public sealed class ContentPart {
         @EncodeDefault(ALWAYS)
         val type: String = "text",
         val text: String,
-    ) : ContentPart()
+    ) : ContentPart
 
     /**
      * Output text content part (used in assistant responses).
@@ -129,7 +129,7 @@ public sealed class ContentPart {
         val type: String = "output_text",
         val text: String,
         val annotations: List<String> = emptyList(),
-    ) : ContentPart()
+    ) : ContentPart
 
     /**
      * Image URL content part.
@@ -144,7 +144,7 @@ public sealed class ContentPart {
         val type: String = "image_url",
         @SerialName("image_url")
         val imageUrl: ImageUrlObject,
-    ) : ContentPart()
+    ) : ContentPart
 
     /**
      * Input audio content part.
@@ -159,7 +159,7 @@ public sealed class ContentPart {
         val type: String = "input_audio",
         @SerialName("input_audio")
         val inputAudio: AudioInputObject,
-    ) : ContentPart()
+    ) : ContentPart
 }
 
 /**
@@ -369,20 +369,20 @@ public typealias ResponseFormat = dev.mokksy.aimocks.openai.ResponseFormat
  * - [Function]: Represents a specific tool choice based on a [ToolChoiceFunction].
  */
 @Serializable(with = ToolChoiceSerializer::class)
-public sealed class ToolChoice {
+public sealed interface ToolChoice {
     @Serializable
     @SerialName("auto")
-    public object Auto : ToolChoice()
+    public object Auto : ToolChoice
 
     @Serializable
     @SerialName("none")
-    public object None : ToolChoice()
+    public object None : ToolChoice
 
     @Serializable
     @SerialName("function")
     public data class Function(
         val function: ToolChoiceFunction,
-    ) : ToolChoice()
+    ) : ToolChoice
 }
 
 /**

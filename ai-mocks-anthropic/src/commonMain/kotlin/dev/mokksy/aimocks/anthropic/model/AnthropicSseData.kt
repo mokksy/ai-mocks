@@ -134,19 +134,19 @@ public sealed interface AnthropicSseData {
      */
     @Serializable
     @JsonClassDiscriminator("type")
-    public sealed class ContentBlock {
+    public sealed interface ContentBlock {
         @Serializable
         @SerialName("text")
         public data class Text(
             val text: String,
-        ) : ContentBlock()
+        ) : ContentBlock
 
         @Serializable
         @SerialName("image")
         public data class Image(
             val type: String = "image",
             val source: ImageSource,
-        ) : ContentBlock()
+        ) : ContentBlock
     }
 
     /**
@@ -165,12 +165,12 @@ public sealed interface AnthropicSseData {
     @OptIn(ExperimentalSerializationApi::class)
     @Serializable
     @JsonClassDiscriminator("type")
-    public sealed class ContentDelta {
+    public sealed interface ContentDelta {
         @Serializable
         @SerialName("text_delta")
         public data class TextDelta(
             val text: String,
-        ) : ContentDelta()
+        ) : ContentDelta
     }
 
     /**

@@ -64,10 +64,8 @@ public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$Companion
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public abstract class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock {
+public abstract interface class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock {
 	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Companion;
-	public synthetic fun <init> (ILkotlinx/serialization/internal/SerializationConstructorMarker;)V
-	public static final synthetic fun write$Self (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
 }
 
 public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBlock$Companion {
@@ -216,10 +214,8 @@ public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentBl
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public abstract class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta {
+public abstract interface class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta {
 	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta$Companion;
-	public synthetic fun <init> (ILkotlinx/serialization/internal/SerializationConstructorMarker;)V
-	public static final synthetic fun write$Self (Ldev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
 }
 
 public final class dev/mokksy/aimocks/anthropic/model/AnthropicSseData$ContentDelta$Companion {
@@ -522,10 +518,8 @@ public final class dev/mokksy/aimocks/anthropic/model/Citation$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public abstract class dev/mokksy/aimocks/anthropic/model/ContentBlock {
+public abstract interface class dev/mokksy/aimocks/anthropic/model/ContentBlock {
 	public static final field Companion Ldev/mokksy/aimocks/anthropic/model/ContentBlock$Companion;
-	public synthetic fun <init> (ILkotlinx/serialization/internal/SerializationConstructorMarker;)V
-	public static final synthetic fun write$Self (Ldev/mokksy/aimocks/anthropic/model/ContentBlock;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
 }
 
 public final class dev/mokksy/aimocks/anthropic/model/ContentBlock$Companion {

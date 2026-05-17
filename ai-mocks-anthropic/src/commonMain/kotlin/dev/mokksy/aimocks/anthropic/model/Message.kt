@@ -27,14 +27,14 @@ public data class Message(
 
 @Serializable
 @JsonClassDiscriminator("type")
-public sealed class ContentBlock
+public sealed interface ContentBlock
 
 @Serializable
 @SerialName("text")
 public data class TextBlock(
     val text: String,
     val citations: List<Citation>? = null,
-) : ContentBlock()
+) : ContentBlock
 
 @Serializable
 @SerialName("tool_use")
@@ -42,19 +42,19 @@ public data class ToolUseBlock(
     val id: String,
     val name: String,
     val input: Map<String, String>,
-) : ContentBlock()
+) : ContentBlock
 
 @Serializable
 @SerialName("thinking")
 public data class ThinkingBlock(
     val thinking: String,
-) : ContentBlock()
+) : ContentBlock
 
 @Serializable
 @SerialName("redacted_thinking")
 public data class RedactedThinkingBlock(
     val data: String,
-) : ContentBlock()
+) : ContentBlock
 
 @Serializable
 public data class Citation(
