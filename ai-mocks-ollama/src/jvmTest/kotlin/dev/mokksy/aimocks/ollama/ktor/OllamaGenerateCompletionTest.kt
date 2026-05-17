@@ -17,7 +17,7 @@ internal class OllamaGenerateCompletionTest : AbstractOllamaKtorTest() {
     @Test
     suspend fun `Should respond to Generate Completion`() {
         // Configure mock response
-        mockOllama.generate {
+        mockOllama.generate("ollama-generate-$seedValue") {
             model = modelName
             temperature = temperatureValue
             topP = topPValue
@@ -25,7 +25,7 @@ internal class OllamaGenerateCompletionTest : AbstractOllamaKtorTest() {
             seed(seedValue)
             maxTokens = maxTokensValue
             stream(false)
-            userMessageContains("Tell me a joke")
+            userMessageContains("tell me a joke")
         } responds {
             content("Why did the chicken cross the road? To get to the other side!")
             doneReason("stop")
@@ -36,7 +36,7 @@ internal class OllamaGenerateCompletionTest : AbstractOllamaKtorTest() {
         val request =
             GenerateRequest(
                 model = modelName,
-                prompt = "Tell me a joke",
+                prompt = "Please, tell me a joke",
                 stream = false,
                 options =
                     ModelOptions(

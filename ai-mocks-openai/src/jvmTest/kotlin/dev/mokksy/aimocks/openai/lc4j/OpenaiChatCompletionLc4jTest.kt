@@ -9,25 +9,34 @@ import dev.mokksy.aimocks.openai.AbstractMockOpenaiTest
 import dev.mokksy.aimocks.openai.openai
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class OpenaiChatCompletionLc4jTest : AbstractMockOpenaiTest() {
-    private val model: OpenAiChatModel =
-        OpenAiChatModel
-            .builder()
-            .apiKey("foo")
-            .baseUrl(openai.baseUrl())
-            .build()
+    private lateinit var model: OpenAiChatModel
+
+    @BeforeEach
+    fun setupModel() {
+        model =
+            OpenAiChatModel
+                .builder()
+                .apiKey("foo")
+                .baseUrl(openai.baseUrl())
+                .modelName(modelName)
+                .build()
+    }
 
     @Test
     suspend fun `Should respond to Chat Completion`() {
+        val userMessage = "Please run the Lc4j chat test"
+        val expectedSubstring = "Lc4j chat test"
         openai.completion {
             temperature = temperatureValue
             seed = seedValue
             model = modelName
             maxTokens = maxCompletionTokensValue
-            userMessageContains("Lc4j chat test")
+            userMessageContains(expectedSubstring)
         } responds {
             assistantContent = "Hello"
             finishReason = "stop"
@@ -44,7 +53,7 @@ internal class OpenaiChatCompletionLc4jTest : AbstractMockOpenaiTest() {
                         .modelName(modelName)
                         .seed(seedValue)
                         .build()
-                messages += userMessage("Lc4j chat test")
+                messages += userMessage(userMessage)
             }
 
         result.apply {

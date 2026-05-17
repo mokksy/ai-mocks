@@ -11,12 +11,16 @@ import kotlin.time.measureTimedValue
 internal class ResponsesTextTest : AbstractOpenaiResponsesTest() {
     @Test
     fun `Should respond to Responses`() {
+        val instructions = "Please be ultra-brief in your response."
+        val expectedInstructions = "be ultra-brief"
+        val userInput = "How to start business?"
         openai.responses {
             temperature = temperatureValue
+            seed = seedValue
             model = modelName
             maxTokens = maxCompletionTokensValue
-            systemMessageContains("Be ultra-brief.")
-            userMessageContains("How to start business?")
+            systemMessageContains(expectedInstructions)
+            userMessageContains(userInput)
         } responds {
             assistantContent = "Find. Create. Sell."
             finishReason = "stop"
@@ -24,7 +28,7 @@ internal class ResponsesTextTest : AbstractOpenaiResponsesTest() {
         }
 
         val params =
-            createResponseCreateRequestParams()
+            createResponseCreateRequestParams(instructions, userInput)
 
         val timedValue =
             measureTimedValue {
@@ -47,16 +51,18 @@ internal class ResponsesTextTest : AbstractOpenaiResponsesTest() {
         verifyResponse(response)
     }
 
-    private fun createResponseCreateRequestParams(): ResponseCreateParams {
+    private fun createResponseCreateRequestParams(
+        instructions: String,
+        userInput: String,
+    ): ResponseCreateParams {
         val params =
             ResponseCreateParams
                 .builder()
                 .temperature(temperatureValue)
                 .maxOutputTokens(maxCompletionTokensValue)
                 .model(modelName)
-                // .model("gpt-4o-mini")
-                .instructions("Be ultra-brief.")
-                .input("How to start business?")
+                .instructions(instructions)
+                .input(userInput)
                 .build()
         return params
     }

@@ -7,29 +7,36 @@ import dev.mokksy.aimocks.ollama.AbstractMockOllamaTest
 import dev.mokksy.aimocks.ollama.mockOllama
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.TimeSource
 
 internal class OllamaChatCompletionLc4jTest : AbstractMockOllamaTest() {
-    private val model by lazy {
-        OllamaChatModel
-            .builder()
-            .baseUrl(mockOllama.baseUrl())
-            .modelName(modelName)
-            .topP(topPValue)
-            .build()
+    private lateinit var model: OllamaChatModel
+
+    @BeforeEach
+    fun setupModel() {
+        model =
+            OllamaChatModel
+                .builder()
+                .baseUrl(mockOllama.baseUrl())
+                .modelName(modelName)
+                .temperature(temperatureValue)
+                .topP(topPValue)
+                .seed(seedValue)
+                .build()
     }
 
     @Test
     suspend fun `Should respond to Chat Completion`() {
         // Configure mock response
-        mockOllama.chat {
+        mockOllama.chat("ollama-lc4j-chat-$seedValue") {
             model = modelName
-            userMessageContains("Lc4j chat test")
+            seed = seedValue
             temperature = temperatureValue
             topP = topPValue
-            requestMatchesPredicate { !it.stream }
+            userMessageContains("Lc4j chat test")
         } responds {
             content("Hello, how can I help you today?")
             delay = 152.milliseconds
@@ -39,9 +46,10 @@ internal class OllamaChatCompletionLc4jTest : AbstractMockOllamaTest() {
         val startTime = TimeSource.Monotonic.markNow()
         val result =
             model.chat {
-                messages += userMessage("Lc4j chat test")
+                messages += userMessage("Run the Lc4j chat test")
                 parameters {
                     temperature = temperatureValue
+                    topP = topPValue
                 }
             }
         val elapsed = startTime.elapsedNow()

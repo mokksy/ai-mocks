@@ -28,14 +28,15 @@ internal class ResponsesImageInputTest : AbstractOpenaiResponsesTest() {
     private val base64ImageUrl = "data:image/jpeg;base64,$base64Image"
 
     @Test
-    @Suppress("LongMethod")
     fun `Should describe image input`() {
-        modelName = "gpt-4o-mini" // cheap model
+        val instructions = "You are an art expert"
+        val userInput = "what's in this image?"
         openai.responses {
             temperature = temperatureValue
+            seed = seedValue
             model = modelName
-            instructionsContains("You are an art expert")
-            userMessageContains("what's in this image?")
+            instructionsContains(instructions)
+            userMessageContains(userInput)
             containsInputImageWithUrl(base64ImageUrl)
             containsInputImageWithUrl(WIKIPEDIA_IMAGE_URL)
             containsInputImageWithUrl(imageResource)
@@ -91,7 +92,7 @@ internal class ResponsesImageInputTest : AbstractOpenaiResponsesTest() {
                 .temperature(temperatureValue)
                 .maxOutputTokens(maxCompletionTokensValue)
                 .model(modelName)
-                .instructions("You are an art expert")
+                .instructions(instructions)
                 .input(input)
                 .build()
 

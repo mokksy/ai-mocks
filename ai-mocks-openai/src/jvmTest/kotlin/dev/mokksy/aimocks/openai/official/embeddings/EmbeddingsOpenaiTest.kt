@@ -18,10 +18,10 @@ import kotlin.time.measureTimedValue
 internal class EmbeddingsOpenaiTest : AbstractOpenaiTest() {
     @Test
     fun `Should respond to embeddings request with single string input`() {
+        val inputModel = "text-embedding-3-small"
         val input = "Hello world $seedValue"
         openai.embeddings {
-            model = "text-embedding-3-small"
-            inputContains("Hello")
+            model = inputModel
             inputContains(input)
             stringInput(input)
         } responds {
@@ -33,7 +33,7 @@ internal class EmbeddingsOpenaiTest : AbstractOpenaiTest() {
         val params =
             EmbeddingCreateParams
                 .builder()
-                .model("text-embedding-3-small")
+                .model(inputModel)
                 .input(EmbeddingCreateParams.Input.ofString(input))
                 .build()
 
@@ -56,9 +56,10 @@ internal class EmbeddingsOpenaiTest : AbstractOpenaiTest() {
 
     @Test
     fun `Should respond to embeddings request with list of strings`() {
+        val inputModel = "text-embedding-3-small"
         val inputs = listOf("Hello", "world", "$seedValue")
         openai.embeddings {
-            model = "text-embedding-3-small"
+            model = inputModel
             stringListInput(inputs)
         } responds {
             delay = 100.milliseconds
@@ -71,7 +72,7 @@ internal class EmbeddingsOpenaiTest : AbstractOpenaiTest() {
         val params =
             EmbeddingCreateParams
                 .builder()
-                .model("text-embedding-3-small")
+                .model(inputModel)
                 .input(EmbeddingCreateParams.Input.ofArrayOfStrings(inputs))
                 .build()
 
@@ -85,7 +86,7 @@ internal class EmbeddingsOpenaiTest : AbstractOpenaiTest() {
         timedValue.duration shouldBeGreaterThanOrEqualTo 100.milliseconds
         val result = timedValue.value
 
-        result.model() shouldBe "text-embedding-3-small"
+        result.model() shouldBe inputModel
         result.data() shouldHaveSize 2
         result.data()[0].embedding() shouldBe listOf(0.1f, 0.2f, 0.3f)
         result.data()[0].index() shouldBe 0

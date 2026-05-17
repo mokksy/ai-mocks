@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.awaitility.kotlin.await
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.atomic.AtomicReference
@@ -28,21 +29,29 @@ import kotlin.test.fail
 private const val FLOW_BUFFER_SIZE = 8096
 
 internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
-    private val model: OpenAiStreamingChatModel =
-        OpenAiStreamingChatModel
-            .builder()
-            .apiKey("foo")
-            .baseUrl("http://127.0.0.1:${openai.port()}/v1")
-            .build()
+    private lateinit var model: OpenAiStreamingChatModel
+
+    @BeforeEach
+    fun setupModel() {
+        model =
+            OpenAiStreamingChatModel
+                .builder()
+                .apiKey("foo")
+                .baseUrl(openai.baseUrl())
+                .modelName(modelName)
+                .build()
+    }
 
     @Test
     fun `Should respond to Streaming Chat Completion`() =
         runBlocking {
+            val userMessage = "Please run the Lc4j streaming test"
             openai.completion("lc4j-openai-completions-list") {
                 temperature = temperatureValue
                 model = modelName
                 seed = seedValue
-                userMessageContains("What do we need?")
+                maxTokens = maxCompletionTokensValue
+                userMessageContains("Lc4j streaming test")
             } respondsStream {
                 responseChunks = listOf("Lc4j", " All", " we", " need", " is", " Love")
                 finishReason = "stop"
@@ -51,17 +60,19 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
                 sendDone = true
             }
 
-            verifyStreamingKotlinFlow("What do we need?", "Lc4j All we need is Love")
+            verifyStreamingKotlinFlow(userMessage, "Lc4j All we need is Love")
         }
 
     @Test
     fun `Should respond to Streaming Chat Completion with Flow`() =
         runBlocking {
+            val userMessage = "Please run the Lc4j sea test"
             openai.completion("lc4j-openai-completions-flow") {
                 temperature = temperatureValue
                 model = modelName
                 seed = seedValue
-                userMessageContains("What is in the sea?")
+                maxTokens = maxCompletionTokensValue
+                userMessageContains("Lc4j sea test")
             } respondsStream {
                 responseFlow =
                     flow {
@@ -71,7 +82,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
                 finishReason = "stop"
             }
 
-            verifyLC4JStreamingCall("What is in the sea?", "Yellow submarine")
+            verifyLC4JStreamingCall(userMessage, "Yellow submarine")
         }
 
     private fun verifyLC4JStreamingCall(
@@ -89,6 +100,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
                         .temperature(temperatureValue)
                         .modelName(modelName)
                         .seed(seedValue)
+                        .maxCompletionTokens(maxCompletionTokensValue.toInt())
                         .build(),
                 ).messages(userMessage(userMessage))
                 .build(),
@@ -132,6 +144,7 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
                         .temperature(temperatureValue)
                         .modelName(modelName)
                         .seed(seedValue)
+                        .maxCompletionTokens(maxCompletionTokensValue.toInt())
                         .build()
                 messages += userMessage(userMessage)
             }.buffer(capacity = FLOW_BUFFER_SIZE)

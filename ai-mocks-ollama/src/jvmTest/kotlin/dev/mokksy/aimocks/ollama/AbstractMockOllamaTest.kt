@@ -20,13 +20,13 @@ internal abstract class AbstractMockOllamaTest {
 
     @BeforeEach
     fun beforeEach() {
-        modelName = arrayOf("llama3", "llama3.1", "llama3.2", "mistral", "gemma").random()
-        embeddingModelName = arrayOf("llama3", "llama3.1", "llama3.2", "all-minilm").random()
+        seedValue = Random.nextInt(1, 100500)
+        modelName = "llama3-$seedValue"
+        embeddingModelName = "all-minilm-$seedValue"
         topPValue = Random.nextDouble(0.1, 1.0)
         topKValue = Random.nextLong(1, 999)
         temperatureValue = Random.nextDouble(0.0, 1.0)
         maxTokensValue = Random.nextLong(512, 8000)
-        seedValue = Random.nextInt(1, 100500)
         startTimestamp = java.time.Instant.now()
     }
 

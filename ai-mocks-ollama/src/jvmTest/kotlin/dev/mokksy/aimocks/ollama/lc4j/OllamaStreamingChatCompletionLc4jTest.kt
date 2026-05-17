@@ -11,28 +11,33 @@ import dev.mokksy.aimocks.ollama.mockOllama
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.fail
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.measureTime
 
 internal class OllamaStreamingChatCompletionLc4jTest : AbstractMockOllamaTest() {
-    private val model by lazy {
-        OllamaStreamingChatModel
-            .builder()
-            .customHeaders(
-                mapOf(
-                    "Content-Type" to "application/json", // add lost header
-                ),
-            ).baseUrl(mockOllama.baseUrl())
-            .modelName(modelName)
-            .temperature(temperatureValue)
-            .logRequests(true)
-            .logResponses(true)
-            .topP(topPValue)
-            .seed(seedValue)
-            .topK(topKValue.toInt())
-            .build()
+    private lateinit var model: OllamaStreamingChatModel
+
+    @BeforeEach
+    fun setupModel() {
+        model =
+            OllamaStreamingChatModel
+                .builder()
+                .customHeaders(
+                    mapOf(
+                        "Content-Type" to "application/json", // add lost header
+                    ),
+                ).baseUrl(mockOllama.baseUrl())
+                .modelName(modelName)
+                .temperature(temperatureValue)
+                .logRequests(true)
+                .logResponses(true)
+                .topP(topPValue)
+                .seed(seedValue)
+                .topK(topKValue.toInt())
+                .build()
     }
 
     @Test
@@ -43,7 +48,7 @@ internal class OllamaStreamingChatCompletionLc4jTest : AbstractMockOllamaTest() 
         val delayBetweenChunks = 100.milliseconds
         val initialDelay = 500.milliseconds
 
-        mockOllama.chat {
+        mockOllama.chat("ollama-lc4j-streaming-chat-$seedValue") {
             model = modelName
             seed = seedValue
             temperature = temperatureValue
@@ -67,7 +72,7 @@ internal class OllamaStreamingChatCompletionLc4jTest : AbstractMockOllamaTest() 
             measureTime {
                 model
                     .chatFlow {
-                        messages += userMessage("Lc4j streaming test")
+                        messages += userMessage("Run the Lc4j streaming test")
                     }.collect { reply ->
                         when (reply) {
                             is StreamingChatModelReply.PartialResponse -> {
