@@ -228,6 +228,7 @@ public final class dev/mokksy/aimocks/ollama/chat/OllamaChatRequestSpecification
 	public final fun getSeed ()Ljava/lang/Integer;
 	public final fun getStream ()Ljava/lang/Boolean;
 	public final fun messages (Ljava/util/List;)Ldev/mokksy/aimocks/ollama/chat/OllamaChatRequestSpecification;
+	public final fun seed (I)Ldev/mokksy/aimocks/ollama/chat/OllamaChatRequestSpecification;
 	public final fun setMessages (Ljava/util/List;)V
 	public final fun setSeed (Ljava/lang/Integer;)V
 	public final fun setStream (Ljava/lang/Boolean;)V
@@ -549,8 +550,11 @@ public final class dev/mokksy/aimocks/ollama/generate/OllamaGenerateBuildingStep
 
 public final class dev/mokksy/aimocks/ollama/generate/OllamaGenerateRequestSpecification : dev/mokksy/aimocks/core/AbstractInferenceRequestSpecification {
 	public fun <init> ()V
+	public final fun getSeed ()Ljava/lang/Integer;
 	public final fun getStream ()Ljava/lang/Boolean;
 	public final fun getTemplate ()Ljava/lang/String;
+	public final fun seed (I)Ldev/mokksy/aimocks/ollama/generate/OllamaGenerateRequestSpecification;
+	public final fun setSeed (Ljava/lang/Integer;)V
 	public final fun setStream (Ljava/lang/Boolean;)V
 	public final fun setTemplate (Ljava/lang/String;)V
 	public final fun stream (Z)Ldev/mokksy/aimocks/ollama/generate/OllamaGenerateRequestSpecification;

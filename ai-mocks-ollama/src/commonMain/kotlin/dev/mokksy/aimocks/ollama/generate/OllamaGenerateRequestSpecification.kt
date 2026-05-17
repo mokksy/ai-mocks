@@ -14,7 +14,9 @@ import dev.mokksy.aimocks.core.AbstractInferenceRequestSpecification
  * @property requestBody The request body to match
  * @property requestBodyString Additional string matchers for the request body
  */
-public class OllamaGenerateRequestSpecification : AbstractInferenceRequestSpecification<GenerateRequest>() {
+public class OllamaGenerateRequestSpecification :
+    AbstractInferenceRequestSpecification<GenerateRequest>() {
+    public var seed: Int? = null
     public var template: String? = null
     public var stream: Boolean? = null
 
@@ -26,6 +28,15 @@ public class OllamaGenerateRequestSpecification : AbstractInferenceRequestSpecif
     override fun systemMessageContains(substring: String) {
         requestMatchesPredicate { it.system?.contains(substring) == true }
     }
+
+    /**
+     * Sets the seed value for deterministic behavior in generate completions.
+     *
+     * @param seed The seed value to use for reproducible results.
+     * @return This specification instance for method chaining.
+     * @see <a href="https://docs.ollama.com/api/generate-a-completion#request-reproducible-outputs">Reproducible outputs</a>
+     */
+    public fun seed(seed: Int): OllamaGenerateRequestSpecification = apply { this.seed = seed }
 
     /**
      * Specifies that the request's prompt must contain the given substring.

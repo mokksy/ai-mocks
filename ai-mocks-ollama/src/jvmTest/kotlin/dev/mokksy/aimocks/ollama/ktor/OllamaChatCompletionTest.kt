@@ -25,8 +25,9 @@ internal class OllamaChatCompletionTest : AbstractOllamaKtorTest() {
             seed = seedValue
             topP = topPValue
             temperature = temperatureValue
+            maxTokens = maxTokensValue
             requestBodyContains(userMessage)
-            stream = false
+            stream(false)
         } responds {
             content(assistantMessage)
             delay = 42.milliseconds
@@ -49,6 +50,7 @@ internal class OllamaChatCompletionTest : AbstractOllamaKtorTest() {
                         temperature = temperatureValue,
                         topP = topPValue,
                         seed = seedValue,
+                        numPredict = maxTokensValue.toInt(),
                     ),
             )
 

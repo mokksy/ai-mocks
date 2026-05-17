@@ -44,14 +44,14 @@ internal class StreamingChatCompletionLc4jTest : AbstractMockOpenaiTest() {
                 seed = seedValue
                 userMessageContains("What do we need?")
             } respondsStream {
-                responseChunks = listOf("All", " we", " need", " is", " Love")
+                responseChunks = listOf("Lc4j", " All", " we", " need", " is", " Love")
                 finishReason = "stop"
 
                 // send "[DONE]" as last message to finish the stream in openai4j
                 sendDone = true
             }
 
-            verifyStreamingKotlinFlow("What do we need?", "All we need is Love")
+            verifyStreamingKotlinFlow("What do we need?", "Lc4j All we need is Love")
         }
 
     @Test

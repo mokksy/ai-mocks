@@ -47,7 +47,7 @@ internal class OllamaStreamingChatCompletionLc4jTest : AbstractMockOllamaTest() 
             model = modelName
             seed = seedValue
             temperature = temperatureValue
-            userMessageContains("Hello")
+            userMessageContains("Lc4j streaming test")
             topP = topPValue
             topK = topKValue
             stream = true
@@ -67,7 +67,7 @@ internal class OllamaStreamingChatCompletionLc4jTest : AbstractMockOllamaTest() 
             measureTime {
                 model
                     .chatFlow {
-                        messages += userMessage("Hello")
+                        messages += userMessage("Lc4j streaming test")
                     }.collect { reply ->
                         when (reply) {
                             is StreamingChatModelReply.PartialResponse -> {

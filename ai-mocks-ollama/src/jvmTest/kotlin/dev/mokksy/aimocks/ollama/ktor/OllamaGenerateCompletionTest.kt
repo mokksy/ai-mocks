@@ -21,6 +21,10 @@ internal class OllamaGenerateCompletionTest : AbstractOllamaKtorTest() {
             model = modelName
             temperature = temperatureValue
             topP = topPValue
+            topK = topKValue
+            seed(seedValue)
+            maxTokens = maxTokensValue
+            stream(false)
             userMessageContains("Tell me a joke")
         } responds {
             content("Why did the chicken cross the road? To get to the other side!")
@@ -38,6 +42,9 @@ internal class OllamaGenerateCompletionTest : AbstractOllamaKtorTest() {
                     ModelOptions(
                         temperature = temperatureValue,
                         topP = topPValue,
+                        topK = topKValue.toInt(),
+                        seed = seedValue,
+                        numPredict = maxTokensValue.toInt(),
                     ),
             )
 

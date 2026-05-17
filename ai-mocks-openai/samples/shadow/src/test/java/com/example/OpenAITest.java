@@ -3,12 +3,13 @@ package com.example;
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
 import com.openai.core.JsonValue;
-import com.openai.errors.OpenAIInvalidDataException;
+import com.openai.errors.InternalServerException;
 import com.openai.models.ChatModel;
 import com.openai.models.chat.completions.ChatCompletionCreateParams;
 import com.openai.models.chat.completions.ChatCompletionMessageParam;
 import com.openai.models.chat.completions.ChatCompletionUserMessageParam;
 import dev.mokksy.aimocks.openai.MockOpenai;
+import dev.mokksy.relocated.io.ktor.http.HttpStatusCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -74,7 +75,7 @@ class OpenAITest {
             req.maxTokens(maxTokens);
         }).respondsError(response -> {
             response.setBody("Ahh, ohh!");
-            response.setHttpStatusCode(500);
+            response.setHttpStatus(HttpStatusCode.Companion.getInternalServerError());
         });
 
         final ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
@@ -88,7 +89,7 @@ class OpenAITest {
             .model(ChatModel.GPT_4O_MINI)
             .build();
 
-        assertThatExceptionOfType(OpenAIInvalidDataException.class)
+        assertThatExceptionOfType(InternalServerException.class)
             .isThrownBy(() -> CLIENT.chat().completions().create(params));
     }
 }

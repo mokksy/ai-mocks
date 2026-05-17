@@ -3,6 +3,7 @@ package dev.mokksy.aimocks.ollama.ktor
 import dev.mokksy.aimocks.ollama.generate.GenerateRequest
 import dev.mokksy.aimocks.ollama.generate.GenerateResponse
 import dev.mokksy.aimocks.ollama.mockOllama
+import dev.mokksy.aimocks.ollama.model.ModelOptions
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.preparePost
@@ -24,6 +25,8 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
 
         mockOllama.generate {
             model = modelName
+            seed(seedValue)
+            stream(true)
             userMessageContains("Tell me a story")
         } respondsStream {
             responseChunks = chunks
@@ -51,7 +54,7 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
 
         mockOllama.generate {
             model = modelName
-            userMessageContains("Any prompt")
+            userMessageContains("Flow streaming test")
         } respondsStream {
             responseFlow =
                 flow {
@@ -60,7 +63,7 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
             doneReason("stop")
         }
 
-        val responses = collectStreamingResponses("Any prompt")
+        val responses = collectStreamingResponses("Flow streaming test")
 
         val contentChunks = responses.filter { !it.done }
         val finalChunk = responses.last()
@@ -77,12 +80,12 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
     suspend fun `Should include model name in all chunks`() {
         mockOllama.generate {
             model = modelName
-            userMessageContains("prompt")
+            userMessageContains("model name check")
         } respondsStream {
             responseChunks = listOf("test chunk")
         }
 
-        val responses = collectStreamingResponses("prompt")
+        val responses = collectStreamingResponses("model name check")
 
         responses.forEach { chunk ->
             chunk.model shouldBe modelName
@@ -95,6 +98,7 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
                 model = modelName,
                 prompt = prompt,
                 stream = true,
+                options = ModelOptions(seed = seedValue),
             )
 
         val responses = mutableListOf<GenerateResponse>()
