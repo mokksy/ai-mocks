@@ -31,7 +31,17 @@ val dokkaHtmlForJavadoc by tasks.registering(Sync::class) {
 }
 
 mavenPublishing {
-    signAllPublications()
+    // Local publishing is used for development and sample builds; do not wire signing into that task graph.
+    // Keep signing enabled for any non-local publish invocation.
+    val shouldSignPublications =
+        gradle.startParameter.taskNames.any { taskName ->
+            val requestedTask = taskName.substringAfterLast(':')
+            requestedTask.startsWith("publish", ignoreCase = true) &&
+                !requestedTask.endsWith("ToMavenLocal", ignoreCase = true)
+        }
+    if (shouldSignPublications) {
+        signAllPublications()
+    }
     publishToMavenCentral()
 
     coordinates(project.group.toString(), project.name, project.version.toString())
