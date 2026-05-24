@@ -10,6 +10,7 @@ import io.ktor.client.request.preparePost
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import io.ktor.utils.io.readUTF8Line
 import kotlinx.coroutines.flow.flow
@@ -37,12 +38,14 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
             doneReason("stop")
         }
 
-        val responses = collectStreamingResponses("Please tell me a story")
+        val streamResult = collectStreamingResponses("Please tell me a story")
+        val responses = streamResult.responses
 
         val contentChunks = responses.filter { !it.done }
         val finalChunk = responses.last()
 
         assertSoftly {
+            streamResult.contentType shouldBe ContentType.parse("application/x-ndjson")
             // First content chunk is the initial empty chunk, followed by real chunks
             contentChunks.drop(1).map { it.response } shouldBe chunks
             finalChunk.done shouldBe true
@@ -69,7 +72,7 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
             doneReason("stop")
         }
 
-        val responses = collectStreamingResponses("Run the Flow streaming test")
+        val responses = collectStreamingResponses("Run the Flow streaming test").responses
 
         val contentChunks = responses.filter { !it.done }
         val finalChunk = responses.last()
@@ -93,14 +96,14 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
             responseChunks = listOf("test chunk")
         }
 
-        val responses = collectStreamingResponses("Please run the model name check")
+        val responses = collectStreamingResponses("Please run the model name check").responses
 
         responses.forEach { chunk ->
             chunk.model shouldBe modelName
         }
     }
 
-    private suspend fun collectStreamingResponses(prompt: String): List<GenerateResponse> {
+    private suspend fun collectStreamingResponses(prompt: String): StreamResult {
         val request =
             GenerateRequest(
                 model = modelName,
@@ -110,11 +113,16 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
             )
 
         val responses = mutableListOf<GenerateResponse>()
+        var responseContentType: ContentType? = null
         client
             .preparePost("${mockOllama.baseUrl()}/api/generate") {
                 contentType(ContentType.Application.Json)
                 setBody(request)
             }.execute { response ->
+                responseContentType =
+                    response.headers[HttpHeaders.ContentType]
+                        ?.let(ContentType.Companion::parse)
+                        ?.withoutParameters()
                 val channel = response.bodyAsChannel()
                 while (!channel.isClosedForRead) {
                     val line = channel.readUTF8Line() ?: break
@@ -123,6 +131,11 @@ internal class OllamaStreamingGenerateCompletionTest : AbstractOllamaKtorTest() 
                     }
                 }
             }
-        return responses
+        return StreamResult(responses, requireNotNull(responseContentType))
     }
+
+    private data class StreamResult(
+        val responses: List<GenerateResponse>,
+        val contentType: ContentType,
+    )
 }

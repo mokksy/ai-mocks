@@ -81,7 +81,7 @@ public class OllamaGenerateBuildingStep(
     /**
      * Configures a streaming mock response for a generate completion request using the provided specification block.
      *
-     * Sets up a chunked server-sent event (SSE) response, streaming JSON-encoded completion chunks as defined by the configuration. The response stream includes initial, content, and final chunks, and requires either a flow or a list of response chunks to be specified.
+     * Sets up a chunked newline-delimited JSON (NDJSON) response, streaming JSON-encoded completion chunks as defined by the configuration. The response stream includes initial, content, and final chunks, and requires either a flow or a list of response chunks to be specified.
      *
      * @param block Configuration block for customizing the streaming response via [OllamaStreamingGenerateResponseSpecification].
      */
@@ -94,7 +94,7 @@ public class OllamaGenerateBuildingStep(
                 OllamaStreamingGenerateResponseSpecification()
             block.invoke(responseSpec)
 
-            headers += "Content-Type" to "text/event-stream"
+            headers += "Content-Type" to "application/x-ndjson"
             headers += "Connection" to "keep-alive"
 
             val chunkFlow = responseSpec.responseFlow ?: responseSpec.responseChunks?.asFlow()
@@ -117,7 +117,7 @@ public class OllamaGenerateBuildingStep(
      *
      * The flow starts with an initial empty chunk, followed by content chunks for each string in [chunksFlow],
      * and ends with a final chunk indicating completion and an optional done reason. Each emitted value is a JSON string
-     * followed by two newlines.
+     * followed by a newline.
      *
      * @param model The model identifier to include in each response chunk.
      * @param chunksFlow A flow of string content chunks to be included in the response.
@@ -157,7 +157,7 @@ public class OllamaGenerateBuildingStep(
                     doneReason = doneReason,
                 ),
             )
-        }.map { chunk -> Json.encodeToString(chunk) + "\n\n" }
+        }.map { chunk -> Json.encodeToString(chunk) + "\n" }
     }
 
     /**
