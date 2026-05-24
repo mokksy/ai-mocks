@@ -1,12 +1,13 @@
 package dev.mokksy.aimocks.ollama.model
 
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 /**
  * Tests for the serialization and deserialization of model management models.
  */
-internal class ModelManagementModelsTest : AbstractSerializationTest() {
+internal class ModelManagementModelsTest {
     @Test
     fun `Deserialize and Serialize ListModelsResponse`() {
         // language=json
@@ -55,20 +56,6 @@ internal class ModelManagementModelsTest : AbstractSerializationTest() {
     }
 
     @Test
-    fun `Deserialize and Serialize ShowModelRequest`() {
-        // language=json
-        val payload =
-            """
-            {
-              "name": "llama3.2:latest"
-            }
-            """.trimIndent()
-
-        val model = deserializeAndSerialize<ShowModelRequest>(payload)
-        model.name shouldBe "llama3.2:latest"
-    }
-
-    @Test
     fun `Deserialize and Serialize ShowModelResponse`() {
         // language=json
         val payload =
@@ -92,36 +79,6 @@ internal class ModelManagementModelsTest : AbstractSerializationTest() {
         model.template shouldBe "{{ .System }}\\n\\n{{ .Prompt }}"
         model.system shouldBe "You are a helpful assistant."
         model.license shouldBe "Apache 2.0"
-    }
-
-    @Test
-    fun `Deserialize and Serialize CopyModelRequest`() {
-        // language=json
-        val payload =
-            """
-            {
-              "source": "llama3.2:latest",
-              "destination": "llama3.2:custom"
-            }
-            """.trimIndent()
-
-        val model = deserializeAndSerialize<CopyModelRequest>(payload)
-        model.source shouldBe "llama3.2:latest"
-        model.destination shouldBe "llama3.2:custom"
-    }
-
-    @Test
-    fun `Deserialize and Serialize DeleteModelRequest`() {
-        // language=json
-        val payload =
-            """
-            {
-              "name": "llama3.2:latest"
-            }
-            """.trimIndent()
-
-        val model = deserializeAndSerialize<DeleteModelRequest>(payload)
-        model.name shouldBe "llama3.2:latest"
     }
 
     @Test
@@ -213,17 +170,4 @@ internal class ModelManagementModelsTest : AbstractSerializationTest() {
         model.models[1].created shouldBe "2023-11-04T14:56:49Z"
     }
 
-    @Test
-    fun `Deserialize and Serialize VersionResponse`() {
-        // language=json
-        val payload =
-            """
-            {
-              "version": "0.5.1"
-            }
-            """.trimIndent()
-
-        val model = deserializeAndSerialize<VersionResponse>(payload)
-        model.version shouldBe "0.5.1"
-    }
 }

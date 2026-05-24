@@ -1,12 +1,15 @@
 package dev.mokksy.aimocks.ollama.lc4j
 
+import dev.langchain4j.agent.tool.ToolExecutionRequest
 import dev.langchain4j.data.message.UserMessage.userMessage
 import dev.langchain4j.kotlin.model.chat.chat
 import dev.langchain4j.model.ollama.OllamaChatModel
 import dev.mokksy.aimocks.ollama.AbstractMockOllamaTest
 import dev.mokksy.aimocks.ollama.mockOllama
 import io.kotest.matchers.comparables.shouldBeGreaterThan
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds
@@ -57,5 +60,55 @@ internal class OllamaChatCompletionLc4jTest : AbstractMockOllamaTest() {
 
         // Verify response
         result.aiMessage().text() shouldBe "Hello, how can I help you today?"
+    }
+
+    @Test
+    suspend fun `Should respond to Chat Completion with tool calls`() {
+        val userMessage = "Check weather for $seedValue"
+        val toolCallId = "call_$seedValue"
+        val arguments = """{"city":"Tokyo"}"""
+
+        mockOllama.chat("ollama-lc4j-chat-tools-$seedValue") {
+            model = modelName
+            seed = seedValue
+            temperature = temperatureValue
+            topP = topPValue
+            userMessageContains(userMessage)
+        } responds {
+            content("")
+            toolCalls(
+                listOf(
+                    mapOf(
+                        "id" to toolCallId,
+                        "type" to "function",
+                        "function" to
+                            mapOf(
+                                "name" to "get_weather",
+                                "arguments" to mapOf("city" to "Tokyo"),
+                            ),
+                    ),
+                ),
+            )
+        }
+
+        val result =
+            model.chat {
+                messages += userMessage(userMessage)
+                parameters {
+                    temperature = temperatureValue
+                    topP = topPValue
+                }
+            }
+
+        val toolRequest =
+            result.aiMessage()
+                .toolExecutionRequests()
+                .shouldNotBeNull()
+                .single()
+                .shouldBeInstanceOf<ToolExecutionRequest>()
+
+        toolRequest.id() shouldBe toolCallId
+        toolRequest.name() shouldBe "get_weather"
+        toolRequest.arguments() shouldBe arguments
     }
 }
