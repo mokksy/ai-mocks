@@ -2,8 +2,8 @@ package dev.mokksy.aimocks.gemini.genai
 
 import dev.mokksy.aimocks.gemini.gemini
 import io.kotest.assertions.assertSoftly
+import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.comparables.shouldBeGreaterThanOrEqualTo
-import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlin.test.Test
@@ -56,16 +56,13 @@ internal class StreamingChatCompletionGenaiTest : AbstractGenaiTest() {
                         "Just say 'Hello!'",
                         generateContentConfig(systemMessage)
                             .build(),
-                    ).joinToString(separator = "") {
-                        it.text().orEmpty()
-                    }
+                    ).toList()
             }
-
-        timedValue.value shouldBe "Ahoy there, matey! Hello!"
 
         val expectedMinDuration = initialDelay + flowDelay + delayBetweenChunks * (tokens.size - 1)
         assertSoftly(timedValue) {
-            value shouldBe "Ahoy there, matey! Hello!"
+            val chunkTexts = value.mapNotNull { chunk -> chunk.text() }
+            chunkTexts shouldContainExactly listOf("Ahoy", " there,", " matey!", " Hello!", "")
             duration shouldBeGreaterThanOrEqualTo expectedMinDuration
         }
     }

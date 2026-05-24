@@ -102,7 +102,7 @@ public class GeminiStreamingContentBuildingStep(
                 data = chunk,
             ).toString {
                 Json.encodeToString(it)
-            }
+            } + "\r\n"
         } else if (lastChunk) {
             Json.encodeToString(value = chunk)
         } else {
