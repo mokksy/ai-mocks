@@ -1,20 +1,19 @@
 package dev.mokksy.aimocks.ollama.chat
 
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.doubles.plusOrMinus
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import kotlin.test.Test
 
-internal class OllamaChatRequestDeserializationTest {
+internal class OllamaChatRequestSerializationTest {
     private val json = Json { ignoreUnknownKeys = false }
 
     // MockOllama's exact JSON configuration
-    private val mockOllamaJson =
-        Json {
-            ignoreUnknownKeys = false
-        }
 
     @Test
     fun `Should parse SpringAI format correctly`() {
@@ -107,7 +106,7 @@ internal class OllamaChatRequestDeserializationTest {
             }
             """.trimIndent()
 
-        val request = mockOllamaJson.decodeFromString<ChatRequest>(langchain4jJson)
+        val request = json.decodeFromString<ChatRequest>(langchain4jJson)
         request shouldNotBe null
         request.model shouldBe "llama3.1"
         request.messages.size shouldBe 1
@@ -118,5 +117,45 @@ internal class OllamaChatRequestDeserializationTest {
             topP shouldBe (0.4836426825417919 plusOrMinus 1e-12)
             stop shouldBe emptyList()
         }
+    }
+
+    @Test
+    fun `Should parse tool call arguments as JSON object`() {
+        val responseJson =
+            """
+            {
+              "model": "llama3.2",
+              "created_at": "2025-07-07T20:32:53.844124Z",
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "tool_calls": [
+                  {
+                    "function": {
+                      "name": "get_weather",
+                      "arguments": {
+                        "city": "Tokyo"
+                      }
+                    }
+                  }
+                ]
+              },
+              "done_reason": "stop",
+              "done": true
+            }
+            """.trimIndent()
+
+        val response = deserializeAndSerialize<ChatResponse>(responseJson, json)
+        val toolCall =
+            response.message.toolCalls
+                .shouldNotBeNull()
+                .single()
+
+        toolCall.id shouldBe null
+        toolCall.function.name shouldBe "get_weather"
+        toolCall.function.arguments shouldBe
+            buildJsonObject {
+                put("city", "Tokyo")
+            }
     }
 }
