@@ -2,18 +2,21 @@ package dev.mokksy.aimocks.ollama.model
 
 import dev.mokksy.aimocks.ollama.chat.ChatRequest
 import dev.mokksy.aimocks.ollama.chat.ChatResponse
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import kotlinx.schema.json.StringPropertyDefinition
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import kotlin.test.Test
 import kotlin.time.Instant
 
 /**
  * Tests for the serialization and deserialization of chat models.
  */
-internal class ChatModelsTest : AbstractSerializationTest() {
+internal class ChatModelsTest {
     @Test
     fun `Deserialize and Serialize ChatRequest`() {
         // language=json
@@ -53,40 +56,6 @@ internal class ChatModelsTest : AbstractSerializationTest() {
         model.options?.topP shouldBe 0.9
         model.stream shouldBe false
         model.keepAlive shouldBe "10m"
-    }
-
-    @Test
-    fun `Deserialize and Serialize ChatRequest 2`() {
-        // language=json
-        val payload =
-            """
-            {
-              "model" : "mistral",
-              "messages" : [ {
-                "role" : "user",
-                "content" : "Hello"
-              } ],
-              "options" : {
-                "temperature" : 0.40528726585876296,
-                "top_p" : 0.40024988370637504,
-                "top_k" : 123,
-                "stop" : [ ]
-              },
-              "stream" : true,
-              "tools" : [ ]
-            }
-            """.trimIndent()
-
-        val model = deserializeAndSerialize<ChatRequest>(payload)
-        model shouldNotBeNull {
-            stream shouldBe true
-            options shouldNotBeNull {
-                stop?.shouldHaveSize(0)
-                temperature shouldBe 0.40528726585876296
-                topP shouldBe 0.40024988370637504
-                topK shouldBe 123
-            }
-        }
     }
 
     @Test
@@ -247,7 +216,7 @@ internal class ChatModelsTest : AbstractSerializationTest() {
                     "type": "function",
                     "function": {
                       "name": "get_weather",
-                      "arguments": "{\"city\":\"Tokyo\"}"
+                      "arguments": {"city":"Tokyo"}
                     }
                   }
                 ]
@@ -281,7 +250,60 @@ internal class ChatModelsTest : AbstractSerializationTest() {
         model.message.toolCalls
             ?.get(0)
             ?.function
-            ?.arguments shouldBe "{\"city\":\"Tokyo\"}"
+            ?.arguments shouldBe """{"city":"Tokyo"}"""
+        model.message.toolCalls
+            ?.get(0)
+            ?.function
+            ?.argumentsJson shouldBe
+            buildJsonObject {
+                put("city", "Tokyo")
+            }
         model.done shouldBe true
+    }
+
+    @Test
+    fun `Deserialize and Serialize ChatResponse with tool calls without type`() {
+        // language=json
+        val payload =
+            """
+            {
+              "model": "llama3.2",
+              "created_at": "2025-07-07T20:22:19.184789Z",
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "tool_calls": [
+                  {
+                    "function": {
+                      "name": "get_weather",
+                      "arguments": {"city":"Tokyo"}
+                    }
+                  }
+                ]
+              },
+              "done": true,
+              "total_duration": 4883583458,
+              "load_duration": 1334875,
+              "prompt_eval_count": 26,
+              "prompt_eval_duration": 342546000,
+              "eval_count": 282,
+              "eval_duration": 4535599000
+            }
+            """.trimIndent()
+
+        val model = deserializeAndSerialize<ChatResponse>(payload)
+        model.message.toolCalls?.get(0)?.id shouldBe null
+        model.message.toolCalls?.get(0)?.type shouldBe null
+        model.message.toolCalls
+            ?.get(0)
+            ?.function
+            ?.arguments shouldBe """{"city":"Tokyo"}"""
+        model.message.toolCalls
+            ?.get(0)
+            ?.function
+            ?.argumentsJson shouldBe
+            buildJsonObject {
+                put("city", "Tokyo")
+            }
     }
 }

@@ -2,6 +2,7 @@ package dev.mokksy.aimocks.ollama.model
 
 import dev.mokksy.aimocks.ollama.generate.GenerateRequest
 import dev.mokksy.aimocks.ollama.generate.GenerateResponse
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -14,7 +15,7 @@ import kotlin.time.Instant
 /**
  * Tests for the serialization and deserialization of generate models.
  */
-internal class GenerateModelsTest : AbstractSerializationTest() {
+internal class GenerateModelsTest {
     @Test
     fun `Deserialize and Serialize GenerateRequest`() {
         // language=json

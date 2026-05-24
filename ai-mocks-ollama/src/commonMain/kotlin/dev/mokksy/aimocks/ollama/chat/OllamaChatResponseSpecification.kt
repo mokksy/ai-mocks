@@ -1,6 +1,11 @@
 package dev.mokksy.aimocks.ollama.chat
 
 import dev.mokksy.aimocks.core.AbstractResponseSpecification
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -67,8 +72,58 @@ public class OllamaChatResponseSpecification(
                 role = "assistant",
                 content = assistantContent,
                 thinking = thinking,
+                toolCalls = toolCalls?.map(::toToolCall),
             )
 
         return message
     }
+
+    private fun toToolCall(definition: Map<String, Any>): ToolCall =
+        ToolCall(
+            id =
+                definition["id"]?.let {
+                    it as? String ?: error("tool call id must be a string")
+                },
+            type =
+                definition["type"]?.let {
+                    it as? String ?: error("tool call type must be a string")
+                },
+            function =
+                (definition["function"] as? Map<*, *>)
+                    ?.let { function ->
+                        FunctionCall(
+                            name =
+                                function["name"] as? String
+                                    ?: error("tool call function.name must be a string"),
+                            arguments =
+                                when (val arguments = function["arguments"]) {
+                                    is JsonObject -> arguments
+                                    is Map<*, *> -> arguments.toJsonObject()
+                                    else -> error("tool call function.arguments must be an object")
+                                },
+                        )
+                    } ?: error("tool call function must be an object"),
+        )
+
+    private fun Map<*, *>.toJsonObject(): JsonObject =
+        JsonObject(
+            entries.associate { (key, value) ->
+                (
+                    key as? String
+                        ?: error("tool call object keys must be strings")
+                ) to value.toJsonElement()
+            },
+        )
+
+    private fun Any?.toJsonElement(): JsonElement =
+        when (this) {
+            null -> JsonNull
+            is JsonElement -> this
+            is String -> JsonPrimitive(this)
+            is Number -> JsonPrimitive(this)
+            is Boolean -> JsonPrimitive(this)
+            is Map<*, *> -> toJsonObject()
+            is List<*> -> JsonArray(map { it.toJsonElement() })
+            else -> error("unsupported tool call argument value: $this")
+        }
 }

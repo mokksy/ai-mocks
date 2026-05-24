@@ -124,7 +124,7 @@ public class OllamaChatBuildingStep(
      *  - An initial empty chunk with `done = false`.
      *  - Each content chunk from the input flow, wrapped as a [ChatResponse] with `done = false`.
      *  - A final empty chunk with `done = true`.
-     * Each chunk is serialized to JSON and followed by two newlines.
+     * Each chunk is serialized to JSON and followed by a line break.
      *
      * @param model The model name to include in each response chunk.
      * @param chunksFlow A flow of content strings to be included as response chunks.

@@ -106,7 +106,6 @@ public open class MockOllama(
                     bodyString += containJsonKeyValue("stream", it)
                 }
 
-                body += generateRequestSpec.requestBody
                 bodyString += generateRequestSpec.requestBodyString
             }
 

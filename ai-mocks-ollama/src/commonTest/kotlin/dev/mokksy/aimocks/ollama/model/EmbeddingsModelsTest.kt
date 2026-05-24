@@ -2,16 +2,16 @@ package dev.mokksy.aimocks.ollama.model
 
 import dev.mokksy.aimocks.ollama.embed.EmbeddingsRequest
 import dev.mokksy.aimocks.ollama.embed.EmbeddingsResponse
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.time.Instant
 
 /**
  * Tests for the serialization and deserialization of embeddings models.
  */
-internal class EmbeddingsModelsTest : AbstractSerializationTest() {
+internal class EmbeddingsModelsTest {
     @Test
     fun `Deserialize and Serialize StringEmbeddingsRequest`() {
         // language=json
@@ -49,19 +49,14 @@ internal class EmbeddingsModelsTest : AbstractSerializationTest() {
             {
               "model": "llama3.2",
               "input": ["The sky is blue", "The grass is green"],
+              "truncate": true,
               "options": {
                 "temperature": 0.7
               }
             }
             """.trimIndent()
 
-        // For this test, we'll just verify that the deserialized object has the expected values
-        // without comparing the serialized output with the original JSON
-        val json =
-            Json {
-                ignoreUnknownKeys = true
-            }
-        val model: EmbeddingsRequest = json.decodeFromString(payload)
+        val model = deserializeAndSerialize<EmbeddingsRequest>(payload)
 
         model.shouldNotBeNull()
         model.model shouldBe "llama3.2"

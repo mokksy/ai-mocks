@@ -1,21 +1,13 @@
 package dev.mokksy.aimocks.ollama.chat
 
+import dev.mokksy.test.utils.deserializeAndSerialize
 import io.kotest.matchers.doubles.plusOrMinus
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import kotlinx.serialization.json.Json
 import kotlin.test.Test
 
-internal class OllamaChatRequestDeserializationTest {
-    private val json = Json { ignoreUnknownKeys = false }
-
-    // MockOllama's exact JSON configuration
-    private val mockOllamaJson =
-        Json {
-            ignoreUnknownKeys = false
-        }
-
+internal class OllamaChatRequestSerializationTest {
     @Test
     fun `Should parse SpringAI format correctly`() {
         val springAiJson =
@@ -40,7 +32,7 @@ internal class OllamaChatRequestDeserializationTest {
             }
             """.trimIndent()
 
-        val request = json.decodeFromString<ChatRequest>(springAiJson)
+        val request = deserializeAndSerialize<ChatRequest>(springAiJson)
         request shouldNotBe null
         request.model shouldBe "llama3.2"
         request.messages.size shouldBe 2
@@ -73,41 +65,7 @@ internal class OllamaChatRequestDeserializationTest {
             }
             """.trimIndent()
 
-        val request = json.decodeFromString<ChatRequest>(langchain4jJson)
-        request shouldNotBe null
-        request.model shouldBe "llama3.1"
-        request.messages.size shouldBe 1
-        request.stream shouldBe true
-        request.options shouldNotBeNull {
-            temperature shouldBe (0.015273115109424307 plusOrMinus 1e-12)
-            topK shouldBe 721
-            topP shouldBe (0.4836426825417919 plusOrMinus 1e-12)
-            stop shouldBe emptyList()
-        }
-    }
-
-    @Test
-    fun `Should parse Langchain4j format with MockOllama JSON config`() {
-        val langchain4jJson =
-            """
-            {
-              "model": "llama3.1",
-              "messages": [{
-                "role": "user",
-                "content": "Hello"
-              }],
-              "options": {
-                "temperature": 0.015273115109424307,
-                "top_k": 721,
-                "top_p": 0.4836426825417919,
-                "stop": []
-              },
-              "stream": true,
-              "tools": []
-            }
-            """.trimIndent()
-
-        val request = mockOllamaJson.decodeFromString<ChatRequest>(langchain4jJson)
+        val request = deserializeAndSerialize<ChatRequest>(langchain4jJson)
         request shouldNotBe null
         request.model shouldBe "llama3.1"
         request.messages.size shouldBe 1

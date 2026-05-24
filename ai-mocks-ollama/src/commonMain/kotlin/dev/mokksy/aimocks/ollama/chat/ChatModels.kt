@@ -6,10 +6,24 @@ import dev.mokksy.aimocks.ollama.model.Format
 import dev.mokksy.aimocks.ollama.model.ModelOptions
 import kotlinx.schema.json.JsonSchema
 import kotlinx.schema.json.JsonSchemaBuilder
+import kotlinx.schema.json.jsonSchema
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.JsonEncoder
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.jsonObject
 import kotlin.time.Instant
 
 /**
@@ -108,22 +122,21 @@ public data class FunctionDefinition
         ) : this(
             name = name,
             description = description,
-            parameters = JsonSchemaBuilder().apply { block(this) }.build(),
+            parameters = jsonSchema(block),
         )
     }
 
 /**
  * Represents a tool call made by the model.
  *
- * @property id The unique identifier for this tool call
- * @property type The type of the tool call, always "function" for now
+ * @property id The optional identifier for this tool call
+ * @property type The optional type of the tool call, typically "function"
  * @property function The function that was called
  */
 @Serializable
 public data class ToolCall(
-    val id: String,
-    @EncodeDefault
-    val type: String = "function",
+    val id: String? = null,
+    val type: String? = null,
     val function: FunctionCall,
 )
 
@@ -131,13 +144,83 @@ public data class ToolCall(
  * Represents a function call made by the model.
  *
  * @property name The name of the function
- * @property arguments The arguments to call the function with, in JSON format
+ * @property arguments The arguments to call the function with in JSON format
  */
-@Serializable
+@Serializable(with = FunctionCallSerializer::class)
 public data class FunctionCall(
     val name: String,
     val arguments: String,
-)
+) {
+    /**
+     * Convenience constructor for building a function call from a JSON object.
+     */
+    public constructor(
+        name: String,
+        arguments: JsonObject,
+    ) : this(
+        name = name,
+        arguments = arguments.toString(),
+    )
+
+    /**
+     * Returns the arguments parsed as a JSON object.
+     */
+    public val argumentsJson: JsonObject
+        get() = parseArguments(arguments)
+}
+
+@Suppress("ThrowsCount")
+internal object FunctionCallSerializer : KSerializer<FunctionCall> {
+    override val descriptor: SerialDescriptor =
+        buildClassSerialDescriptor("FunctionCall")
+
+    override fun deserialize(decoder: Decoder): FunctionCall {
+        val jsonDecoder =
+            decoder as? JsonDecoder
+                ?: throw SerializationException("FunctionCallSerializer requires JsonDecoder")
+
+        val element = jsonDecoder.decodeJsonElement().jsonObject
+        val name =
+            element["name"]?.let { jsonDecoder.json.decodeFromJsonElement(String.serializer(), it) }
+                ?: throw SerializationException("FunctionCall.name is required")
+        val arguments =
+            element["arguments"]?.jsonObject
+                ?: throw SerializationException("FunctionCall.arguments must be an object")
+
+        return FunctionCall(
+            name = name,
+            arguments = arguments.toString(),
+        )
+    }
+
+    override fun serialize(
+        encoder: Encoder,
+        value: FunctionCall,
+    ) {
+        val jsonEncoder =
+            encoder as? JsonEncoder
+                ?: throw SerializationException("FunctionCallSerializer requires JsonEncoder")
+
+        val payload =
+            JsonObject(
+                mapOf(
+                    "name" to JsonPrimitive(value.name),
+                    "arguments" to value.argumentsJson,
+                ),
+            )
+
+        jsonEncoder.encodeJsonElement(payload)
+    }
+}
+
+private fun parseArguments(arguments: String): JsonObject =
+    when (val json = Json.parseToJsonElement(arguments)) {
+        is JsonObject -> json
+
+        else -> throw SerializationException(
+            "FunctionCall.arguments must contain a JSON object, but was: $json",
+        )
+    }
 
 /**
  * Represents a response from the chat completion endpoint.

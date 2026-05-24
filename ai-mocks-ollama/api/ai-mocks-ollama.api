@@ -116,26 +116,17 @@ public final class dev/mokksy/aimocks/ollama/chat/ChatResponse$Companion {
 public final class dev/mokksy/aimocks/ollama/chat/FunctionCall {
 	public static final field Companion Ldev/mokksy/aimocks/ollama/chat/FunctionCall$Companion;
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;Lkotlinx/serialization/json/JsonObject;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
 	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Ldev/mokksy/aimocks/ollama/chat/FunctionCall;
 	public static synthetic fun copy$default (Ldev/mokksy/aimocks/ollama/chat/FunctionCall;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mokksy/aimocks/ollama/chat/FunctionCall;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getArguments ()Ljava/lang/String;
+	public final fun getArgumentsJson ()Lkotlinx/serialization/json/JsonObject;
 	public final fun getName ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-}
-
-public final synthetic class dev/mokksy/aimocks/ollama/chat/FunctionCall$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Ldev/mokksy/aimocks/ollama/chat/FunctionCall$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mokksy/aimocks/ollama/chat/FunctionCall;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mokksy/aimocks/ollama/chat/FunctionCall;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class dev/mokksy/aimocks/ollama/chat/FunctionCall$Companion {
