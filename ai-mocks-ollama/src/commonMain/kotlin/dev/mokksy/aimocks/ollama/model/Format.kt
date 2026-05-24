@@ -1,6 +1,7 @@
 package dev.mokksy.aimocks.ollama.model
 
 import kotlinx.schema.json.JsonSchema
+import kotlinx.schema.json.encodeToJsonObject
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
@@ -66,12 +67,12 @@ internal class FormatSerializer : KSerializer<Format> {
 
         val element = jsonDecoder.decodeJsonElement()
 
-        return when {
-            element is JsonPrimitive && element.jsonPrimitive.content == "json" -> {
+        return when (element) {
+            is JsonPrimitive if element.jsonPrimitive.content == "json" -> {
                 Format.Json
             }
 
-            element is JsonObject -> {
+            is JsonObject -> {
                 if (element.containsKey("schema")) {
                     // Wrapper format with "name" and "schema" fields
                     jsonDecoder.json.decodeFromJsonElement(Format.Schema.serializer(), element)
@@ -114,14 +115,15 @@ internal class FormatSerializer : KSerializer<Format> {
             is Format.Schema -> {
                 if (value.name != null) {
                     // Wrapper format with "name" and "schema" fields
-                    val jsonElement =
-                        jsonEncoder.json.encodeToJsonElement(Format.Schema.serializer(), value)
-                    jsonEncoder.encodeJsonElement(jsonElement)
+                    jsonEncoder.encodeJsonElement(
+                        jsonEncoder.json.encodeToJsonElement(
+                            Format.Schema.serializer(),
+                            value,
+                        ),
+                    )
                 } else {
                     // Raw JSON Schema object
-                    val jsonElement =
-                        jsonEncoder.json.encodeToJsonElement(JsonSchema.serializer(), value.schema)
-                    jsonEncoder.encodeJsonElement(jsonElement)
+                    jsonEncoder.encodeJsonElement(value.schema.encodeToJsonObject(jsonEncoder.json))
                 }
             }
         }

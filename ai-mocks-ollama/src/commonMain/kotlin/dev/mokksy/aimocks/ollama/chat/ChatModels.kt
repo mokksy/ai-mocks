@@ -6,6 +6,7 @@ import dev.mokksy.aimocks.ollama.model.Format
 import dev.mokksy.aimocks.ollama.model.ModelOptions
 import kotlinx.schema.json.JsonSchema
 import kotlinx.schema.json.JsonSchemaBuilder
+import kotlinx.schema.json.jsonSchema
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
@@ -121,7 +122,7 @@ public data class FunctionDefinition
         ) : this(
             name = name,
             description = description,
-            parameters = JsonSchemaBuilder().apply { block(this) }.build(),
+            parameters = jsonSchema(block),
         )
     }
 
