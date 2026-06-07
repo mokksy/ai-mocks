@@ -20,11 +20,12 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api(libs.kotlinx.serialization.json)
+                api(libs.kotest.assertions.json)
+                api(libs.kotlinLogging)
                 api(libs.kotlinx.schema.json)
+                api(libs.kotlinx.serialization.json)
                 api(libs.mokksy)
                 api(project.dependencies.platform(libs.ktor.bom))
-                api(libs.kotlinLogging)
             }
         }
         commonTest {
