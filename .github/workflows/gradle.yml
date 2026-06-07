@@ -16,13 +16,15 @@ on:
     branches: [ "main" ]
     paths-ignore:
       - AGENTS.md
+  merge_group:
+    branches: [ "main" ]
 
 env:
   JVM_VERSION: 25
   JVM_DISTRIBUTION: temurin
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.merge_group.head_sha || github.ref }}
   # Cancel only when the run is not on main or develop
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
