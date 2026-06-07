@@ -20,7 +20,7 @@ on:
     branches: [ "main" ]
 
 env:
-  JVM_VERSION: 25
+  JVM_VERSION: 17
   JVM_DISTRIBUTION: temurin
 
 concurrency:
