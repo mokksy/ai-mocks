@@ -8,56 +8,99 @@
 [![codecov](https://codecov.io/github/mokksy/ai-mocks/graph/badge.svg?token=449G80QY5S)](https://codecov.io/github/mokksy/ai-mocks)
 ![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/mokksy/ai-mocks?utm_source=oss&utm_medium=github&utm_campaign=mokksy%2Fai-mocks&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
-[![Documentation](https://img.shields.io/badge/docs-website-blue)](https://mokksy.dev/)
-[![API Reference](https://img.shields.io/badge/api-reference-blue)](https://mokksy.dev/apidocs/)
+[![Documentation](https://img.shields.io/badge/docs-website-blue)](https://mokksy.dev/docs/ai-mocks/)
+[![API Reference](https://img.shields.io/badge/api-reference-blue)](https://mokksy.github.io/ai-mocks/)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mokksy/ai-mocks)
 
 ![Kotlin API](https://img.shields.io/badge/Kotlin-2.2-%237F52FF.svg?logo=kotlin&logoColor=white)
 ![Java](https://img.shields.io/badge/JVM-17-%23ED8B00.svg)
 
-_AI-Mocks_ are mock LLM (Large Language Model) servers built on [Mokksy](https://github.com/mokksy/mokksy/), a mock server inspired by WireMock, with support for
-response streaming and Server-Side Events (SSE). They are designed to build, test, and mock LLM responses for development purposes.
+**AI-Mocks** provides provider-compatible mock servers for AI integration testing in Kotlin and Java. Test clients for OpenAI, Anthropic, Gemini, Ollama, and the Agent-to-Agent (A2A) protocol through real HTTP and streaming behavior, without sending requests to live provider APIs.
 
+AI-Mocks is built on [Mokksy](https://github.com/mokksy/mokksy), the HTTP and SSE mock server for deterministic integration testing.
+Use [Mokksy](https://mokksy.dev/docs/mokksy/) for general HTTP APIs, streaming APIs, and failure simulation.
+Use AI-Mocks when the service under test exposes an AI provider-compatible or A2A API.
+
+- Documentation: [mokksy.dev/docs/ai-mocks](https://mokksy.dev/docs/ai-mocks/)
+- Integration guides: [mokksy.dev/docs/integrations](https://mokksy.dev/docs/integrations/)
+- API reference: [mokksy.github.io/ai-mocks](https://mokksy.github.io/ai-mocks/)
+- Core HTTP/SSE mock server: [github.com/mokksy/mokksy](https://github.com/mokksy/mokksy)
 
 [![Buy me a Coffee](https://cdn.buymeacoffee.com/buttons/default-orange.png)](https://buymeacoffee.com/mailsk)
 
-## Mokksy
+## Choose the right layer
 
-**[Mokksy](https://github.com/mokksy/mokksy)** is a mock HTTP server built with [Kotlin](https://kotlinlang.org/)
-and [Ktor](https://ktor.io/). It addresses the limitations of WireMock by supporting true SSE and streaming responses,
-making it extreamly useful for integration testing LLM clients.
+| What you need to test | Start with |
+|-----------------------|------------|
+| General HTTP endpoints, Server-Sent Events (SSE), streamed responses, delays, or status/error scenarios | [Mokksy](https://mokksy.dev/docs/mokksy/) |
+| Provider- or protocol-shaped AI requests and responses using SDKs or frameworks | [AI-Mocks](https://mokksy.dev/docs/ai-mocks/) |
+| An application that combines business HTTP integrations with AI providers | Mokksy for general dependencies and AI-Mocks for provider APIs |
 
-# AI-Mocks
+## Supported providers and protocols
 
-**AI-Mocks** is a set of specialized mock server implementations (e.g., mocking OpenAI API) built using Mokksy.
+| Provider or protocol | Module | Supported surface | Documentation |
+|----------------------|--------|-------------------|---------------|
+| OpenAI | `ai-mocks-openai` | Chat Completions, Responses, streaming, embeddings, moderation | [OpenAI](https://mokksy.dev/docs/ai-mocks/openai/) |
+| Anthropic | `ai-mocks-anthropic` | Messages and streaming | [Anthropic](https://mokksy.dev/docs/ai-mocks/anthropic/) |
+| Google Gemini | `ai-mocks-gemini` | Generate Content and streaming | [Gemini](https://mokksy.dev/docs/ai-mocks/gemini/) |
+| Ollama | `ai-mocks-ollama` | Chat, generate, streaming, embeddings | [Ollama](https://mokksy.dev/docs/ai-mocks/ollama/) |
+| Agent-to-Agent (A2A) | `ai-mocks-a2a` | A2A protocol behavior and streaming | [A2A](https://mokksy.dev/docs/ai-mocks/a2a/) |
 
-It supports mocking following AI services:
-1. [OpenAI](https://platform.openai.com/docs/api-reference/) - [ai-mocks-openai](https://mokksy.dev/docs/ai-mocks/openai/)
-2. [Anthropic](https://docs.anthropic.com/en/api) - [ai-mocks-anthropic](https://mokksy.dev/docs/ai-mocks/anthropic/)
-3. [Google VertexAI Gemini](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference) - [ai-mocks-gemini](https://mokksy.dev/docs/ai-mocks/gemini/)
-4. [Ollama](https://github.com/ollama/ollama/blob/main/docs/api.md) - [ai-mocks-ollama](https://mokksy.dev/docs/ai-mocks/ollama/)
-5. [Agent-to-Agent (A2A) Protocol](https://a2a-protocol.org/latest/specification/) - [ai-mocks-a2a](https://mokksy.dev/docs/ai-mocks/a2a/)
+## Tested integrations
 
-## Feature Support Matrix
+The repository integration tests exercise these client and framework combinations:
 
-| Feature              | OpenAI    | Anthropic | Gemini | Ollama   | A2A                                  |
-|----------------------|-----------|-----------|--------|----------|--------------------------------------|
-| **Chat Completions** | ✅         | ✅         | ✅      | ✅        | ✅                                    |
-| **Streaming**        | ✅         | ✅         | ✅      | ✅        | ✅                                    |
-| **Embeddings**       | ✅         | ❌         | ❌      | ✅        | ❌                                    |
-| **Moderation**       | ✅         | ❌         | ❌      | ❌        | ❌                                    |
-| **Additional APIs**  | Responses | -         | -      | Generate | Full A2A Protocol<br/>(11 endpoints) |
+| AI-Mocks module | Tested clients and frameworks |
+|-----------------|-------------------------------|
+| OpenAI | Official OpenAI Java SDK, LangChain4j, Spring AI |
+| Anthropic | Official Anthropic Java SDK, LangChain4j |
+| Gemini | Google Gen AI Java SDK, LangChain4j, Spring AI |
+| Ollama | LangChain4j, Spring AI |
 
+## Quick start with OpenAI
 
-## How to build
+Add the OpenAI test dependency:
 
-Building project locally:
+```kotlin
+dependencies {
+    testImplementation("dev.mokksy.aimocks:ai-mocks-openai-jvm:$latestVersion")
+}
+```
+
+Declare a deterministic completion response and point the client under test to `openai.baseUrl()`:
+
+```kotlin
+import dev.mokksy.aimocks.openai.MockOpenai
+
+val openai = MockOpenai(verbose = true)
+
+openai.completion {
+    model = "gpt-4o-mini"
+    userMessageContains("Hello")
+} responds {
+    assistantContent = "Hello from the mock"
+    finishReason = "stop"
+}
+
+// Configure the OpenAI SDK or framework under test to use openai.baseUrl().
+```
+
+The DSL and `baseUrl()` configuration pattern are exercised by the official OpenAI SDK integration tests in this repository. For complete SDK and framework examples, see the [AI-Mocks documentation](https://mokksy.dev/docs/ai-mocks/) and [integration guides](https://mokksy.dev/docs/integrations/).
+
+## Why AI-Mocks?
+
+- Exercise provider-compatible requests and responses with the real HTTP client configuration used by your application.
+- Test streaming responses deterministically in CI without live provider credentials, network dependence, quotas, or provider rate limits.
+- Verify application behavior for provider responses and streamed events before relying on live external services.
+- Keep provider-specific behavior in AI-Mocks while using [Mokksy](https://mokksy.dev/docs/mokksy/) for other HTTP dependencies and failure scenarios.
+
+## Build locally
 
 ```shell
 ./gradlew build
 ```
 
-or using Make:
+or:
 
 ```shell
 make
@@ -65,5 +108,4 @@ make
 
 ## Contributing
 
-I do welcome contributions! Please see the [Contributing Guidelines](CONTRIBUTING.md) for details.
-
+Contributions are welcome. See the [Contributing Guidelines](CONTRIBUTING.md) for details.
