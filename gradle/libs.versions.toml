@@ -1,5 +1,5 @@
 [versions]
-anthropic-java = "2.49.1"
+anthropic-java = "2.52.0"
 assertj = "3.27.7"
 atomicfu = "0.33.0"
 assertk = "0.28.1"
