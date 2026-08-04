@@ -35,7 +35,7 @@ spring-ai = "1.1.8"
 system-stubs = "2.1.8"
 jansi = "2.4.3"
 knit = "0.5.1"
-vanniktechMavenPublish = "0.36.0"
+vanniktechMavenPublish = "0.37.0"
 
 [libraries]
 # buildSrc dependencies
