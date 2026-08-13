@@ -10,7 +10,9 @@ import dev.mokksy.aimocks.ollama.embed.OllamaEmbedRequestSpecification
 import dev.mokksy.aimocks.ollama.generate.GenerateRequest
 import dev.mokksy.aimocks.ollama.generate.OllamaGenerateBuildingStep
 import dev.mokksy.aimocks.ollama.generate.OllamaGenerateRequestSpecification
+import dev.mokksy.mokksy.InternalMokksyApi
 import dev.mokksy.mokksy.ServerConfiguration
+import dev.mokksy.mokksy.utils.highlight.Highlighting
 import io.kotest.assertions.json.containJsonKeyValue
 import io.kotest.matchers.string.contain
 import io.ktor.serialization.kotlinx.json.json
@@ -30,6 +32,7 @@ import kotlinx.serialization.json.Json
  * @param verbose Controls whether the mock server's operations are logged in detail. Defaults to true.
  * @author Konstantin Pavlov
  */
+@OptIn(InternalMokksyApi::class)
 public open class MockOllama(
     port: Int = 0,
     verbose: Boolean = true,
@@ -48,6 +51,10 @@ public open class MockOllama(
                 )
             },
     ) {
+    init {
+        Highlighting.registerJsonContentType("application/x-ndjson")
+    }
+
     /**
      * Sets up a mock handler for the Ollama `/api/generate` completion endpoint.
      *
@@ -246,7 +253,7 @@ public open class MockOllama(
     /**
      * Returns the base URL of the mock Ollama server.
      *
-     * @return The server URL in the format `http://localhost:<port>`.
+     * @return The server base URL.
      */
-    override fun baseUrl(): String = "http://localhost:${port()}"
+    override fun baseUrl(): String = mokksy.baseUrl()
 }
